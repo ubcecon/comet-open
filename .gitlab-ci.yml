@@ -1,12 +1,31 @@
 image: ruby:2.7
 
+workflow:
+    rules:
+        - if: '$CI_COMMIT_BRANCH'
+
+before_script:
+    - gem install bundler
+    - bundle install
+
 pages:  
+    stage: deploy
     script:
-        - gem install bundler
-        - bundle install
         - bundle exec jekyll build -d public
     artifacts:
         paths:
             - public
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "pages"'
+
+test:
+    stage: test
+    script:
+        - bundle exect jekyll -d public
+    artifacts:
+        paths:
+            - public
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "pages"'
     
 
