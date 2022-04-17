@@ -21,7 +21,7 @@ pages:
 test:
     stage: test
     script:
-        - bundle exect jekyll -d public
+        - bundle exec jekyll -d public
     artifacts:
         paths:
             - public
