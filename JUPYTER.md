@@ -32,13 +32,25 @@ When you are working on the hub, we use the following kernels:
 
 # Quick-Start Guide
 
+The quickest way to get started is to use the integrations built into the JupyterHub here at UBC.
+
 ## Git and JupyterLab
 
 
 
 # Home Jupyter Set-up
 
-It is also possible to develop locally, if you do not wish to use the server.  To do use, you should ensure you have the same kernel version, and the following standard libraries installed:
+It is also possible to develop locally, if you do not wish to use the server (e.g. you don't have an internet connection).  To do use, you should ensure you have the same kernel version, and the following standard libraries installed:
 
 * (To be confirmed with CTLT/IT)
+
+We strongly recommend installing Python and Jupyter via the Anaconda distribution (or its lightweight cousin, Miniconda).  You can find some tutorials for this process here:
+
+* Installing Anaconda: 
+* Installing Miniconda: 
+* Installing the `irkernel`: 
+
+After you have installed Jupyter, install the associated packages (above).  You will need administrator access on your computer to do this successfully.  
+
+
 
