@@ -36,17 +36,5 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 16. [Workflow Guideline]()
 
 
-<div class="admonition important">
-<p class="admonition-title">
-::before
-"Troubleshooting"
-</p>
-<p>"If you encounter any issue with one of this lectures, please write a new issue at the following link."</p>
-</div>
-
-
-<div class="alert alert-info">
-
-**Note:** Please contact some_person in case you run into any issue with these lectures.
-
-</div>
+> **Troubleshooting**
+> If you encounter any issue with one of this lectures, please write a new issue at the following link.
