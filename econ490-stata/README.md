@@ -11,7 +11,7 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 3. [Stata Essentials](3_Stata_Essentials.ipynb)
 4. [Locals and Globals](4_Locals_and_Globals.ipynb)
 
- ## Data Managemen
+ ## Data Management
 
 5. [Opening Datasets](1_Stata_Basics.ipynb)
 6. [Creating New Variables]()
