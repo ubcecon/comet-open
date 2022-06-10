@@ -6,12 +6,12 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 
 ## Stata Basics
 
-1. [Setting up Stata Environment with Jupyter](1_Stata_Basics.ipynb)
-2. [Working with Do-files]()
-3. [Stata Essentials]()
-4. [Locals and Globals]()
+1. [Setting up Stata Environment with Jupyter](1_Setting_Up.ipynb)
+2. [Working with Do-files](2_Working_Dofiles.ipynb)
+3. [Stata Essentials](3_Stata_Essentials.ipynb)
+4. [Locals and Globals](4_Locals_and_Globals.ipynb)
 
- ## Data Management 
+ ## Data Managemen
 
 5. [Opening Datasets](1_Stata_Basics.ipynb)
 6. [Creating New Variables]()
