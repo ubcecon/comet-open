@@ -1,12 +1,12 @@
 
 documentation/example_module/.ipynb_checkpoints/ex_worksheet-checkpoint.ipynb
-<<<<<<< Updated upstream
 notebook_materials/pwt100.dta
 visualization/.ipynb_checkpoints/*
 intro_jupyter/.ipynb_checkpoints/ECON_intro_to_jupyter-checkpoint.ipynb
 intro_jupyter/.ipynb_checkpoints/testing_intro_to_jupyter-checkpoint.r
-=======
 ECON_325_Introduction_to_R/.ipynb_checkpoints/Introduction_to_R-checkpoint.ipynb
 ECON_325_Introduction_to_R/.ipynb_checkpoints/Introduction_to_R-checkpoint.ipynb
->>>>>>> Stashed changes
 econ_intro/intro_jupyter/.ipynb_checkpoints/ECON_intro_to_jupyter-checkpoint.ipynb
+econ_intro/intro_jupyter/.ipynb_checkpoints/ECON_intro_to_jupyter-checkpoint.ipynb
+econ_325/central_tendency/.ipynb_checkpoints/ECON325_central_tendency-checkpoint.ipynb
+econ_325/central_tendency/.ipynb_checkpoints/testing_central_tendency-checkpoint.r
