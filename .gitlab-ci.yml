@@ -17,6 +17,9 @@ pages:
             - public
     rules:
         - if: '$CI_COMMIT_BRANCH == "pages"'
+    environment:
+        name: production
+        url: https://comet.arts.ubc.ca
 
 test:
     stage: test
