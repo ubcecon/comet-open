@@ -13,27 +13,27 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 
  ## Data Management
 
-5. [Opening Datasets](1_Stata_Basics.ipynb)
-6. [Creating New Variables]()
-7. [Within-Group Analysis]()
-8. [Combining Datasets: Merge & Append]()
+5. [Opening Datasets](5_Opening_Datasets.ipynb)
+6. [Creating New Variables](6_Creating_Variables.ipynb)
+7. [Within-Group Analysis](7_Within_Group.ipynb)
+8. [Combining Datasets: Merge & Append](8_Merge_Append.ipynb)
 
  ## Creating and Exporting Graphs
 
-9. [Types of Graphs](1_Stata_Basics.ipynb)
-10. [Twoway Graphs]()
-11. [Combining Saved Stata Graphs]()
+9. [Types of Graphs](9_Stata_Graphs.ipynb)
+10. [Twoway Graphs](10_Twoway_Graphs.ipynb)
+11. [Combining Saved Stata Graphs](11_Combining_Graphs.ipyn)
 
  ## Doing Econometric Analysis
 
-12. [Types of Graphs](1_Stata_Basics.ipynb)
-13. [Twoway Graphs]()
-14. [Combining Saved Stata Graphs]()
+12. [Linear Regression](12_Linear_Reg.ipynb)
+13. [Dummy Variables and Interactions](13_Dummy.ipynb)
+14. [Post Regression Practice](14_PostReg.ipynb)
 
 ## Workflow Guideline on your ECON490 Project
 
-15. [Template Project - Stata Version]()
-16. [Workflow Guideline]()
+15. [Template Project - Stata Version](15_Wf_Guide.ipynb)
+16. [Workflow Guideline](15_Wf_Guide.ipynb)
 
 
 > **Troubleshooting**
