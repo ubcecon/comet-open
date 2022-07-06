@@ -2,7 +2,7 @@
 
 ---
 
-This repository presents a set of lectures on econometric analysis for an ECON490 project at UBC. The programming language of choice is Stata.
+This repository presents a set of lectures on econometric analysis for an ECON490 project at UBC. The programming language of choice is Stata which is available for free to UBC students in the Faculty of Arts.
 
 ## Stata Basics
 
