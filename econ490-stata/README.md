@@ -36,8 +36,8 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 16. [Workflow Guideline](15_Wf_Guide.ipynb)
 
 ## Special Topics
-17. [Panel Data Regressions]
-18. [Difference in Difference Regressions]
+17. [Panel Data Regressions](17_Panel_Data.ipynb)
+18. [Difference in Difference Regressions](18_Diff_in_Diff.ipynb)
 
 
 > **Troubleshooting**
