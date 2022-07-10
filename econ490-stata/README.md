@@ -35,6 +35,10 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 15. [Template Project - Stata Version](15_Wf_Guide.ipynb)
 16. [Workflow Guideline](15_Wf_Guide.ipynb)
 
+## Special Topics
+17. [Panel Data Regressions]
+18. [Difference in Difference Regressions]
+
 
 > **Troubleshooting**
 > If you encounter any issue with one of this lectures, please write a new issue at the following link.
