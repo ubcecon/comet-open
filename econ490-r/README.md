@@ -7,8 +7,8 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 ## R Basics
 
 1. [Setting up R Environment with Jupyter](1_Setting_Up.ipynb)
-2. [Working with R-scripts](2_Working_Dofiles.ipynb)
-3. [R Essentials](3_Stata_Essentials.ipynb)
+2. [Working with R-scripts](2_Working_Rscripts.ipynb)
+3. [R Essentials](3_R_Essentials.ipynb)
 
  ## Data Management
 
