@@ -15,7 +15,7 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 4. [Opening Datasets](4_Opening_Datasets.ipynb)
 5. [Creating Variables](5_Creating_Variables.ipynb)
 6. [Within Group Analysis](6_Within_Group.ipynb)
-7. [Combining Datasets](7_Merge_Append.ipynb)
+7. [Combining Datasets](7_Combining_Datasets.ipynb)
 
  ## Creating and Exporting Graphs
 
