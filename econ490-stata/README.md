@@ -20,20 +20,19 @@ This repository presents a set of lectures on econometric analysis for an ECON49
 
  ## Creating and Exporting Graphs
 
-9. [Types of Graphs](9_Stata_Graphs.ipynb)
-10. [Twoway Graphs](10_Twoway_Graphs.ipynb)
-11. [Combining Saved Stata Graphs](11_Combining_Graphs.ipyn)
+9. [Creating Graphs](9_Stata_Graphs.ipynb)
+10. [Combining Saved Stata Graphs](11_Combining_Graphs.ipyn)
 
  ## Doing Econometric Analysis
 
-12. [Linear Regression](12_Linear_Reg.ipynb)
-13. [Dummy Variables and Interactions](13_Dummy.ipynb)
-14. [Post Regression Practice](14_PostReg.ipynb)
+11. [Linear Regression](12_Linear_Reg.ipynb)
+12. [Dummy Variables and Interactions](13_Dummy.ipynb)
+13. [Post Regression Practice](14_PostReg.ipynb)
 
 ## Workflow Guideline on your ECON490 Project
 
-15. [Template Project - Stata Version](15_Wf_Guide.ipynb)
-16. [Workflow Guideline](15_Wf_Guide.ipynb)
+14. [Template Project - Stata Version](15_Wf_Guide.ipynb)
+15. [Workflow Guideline](15_Wf_Guide.ipynb)
 
 ## Special Topics
 17. [Panel Data Regressions](17_Panel_Data.ipynb)
