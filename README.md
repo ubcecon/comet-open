@@ -1,6 +1,6 @@
-# TLEF Project: Developing interactive learning modules for hands-on-econometrics skills
+![COMET Banner](media/banner_1.png)
 
-_(We need a cooler title)_
+# COMET Project: Creating Online Materials for Econometrics Teaching
 
 Welcome to the repository for our large TLEF project.  This site stores our materials for developing Jupyter-based notebooks to support teaching introductory and intermediate econometrics courses.  This project is funded by the University of British Columbia.  The motivating "pitch" is as follows:
 
