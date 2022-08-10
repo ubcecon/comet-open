@@ -11,8 +11,8 @@ parts:
   - caption: Introduction to Jupyter and R 
     chapters:
     - file: docs/econ_intro/intro_jupyter/intro_to_jupyter
-    - file: docs/econ_intro/intro_jupyter/introduction_to_R
-    - file: docs/econ_intro/intro_jupyter/intro_to_data
+    - file: docs/econ_intro/intro_r/introduction_to_R
+    - file: docs/econ_intro/intro_to_data/intro_to_data
 #    - file: docs/econ325/02_intro_r/01_Introduction_to_R
 #  - caption: ECON 326 Methods of Empirical Research in Economics
 #    chapters:
