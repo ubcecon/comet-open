@@ -1,34 +1,42 @@
-image: ruby:2.7
+stages:
+  - build
+  - test
+  - deploy
 
-workflow:
-    rules:
-        - if: '$CI_COMMIT_BRANCH'
+jupyter-build:
+  stage: build
+  image: python:slim
+  script:
+    - pip install -U jupyter-book
+    - jupyter-book clean comet-home/
+    - jupyter-book build comet-home/
+  artifacts:
+    paths:
+      - comet-home/_build/
 
-before_script:
-    - gem install bundler
-    - bundle install
+pages:
+  stage: deploy
+  image: busybox:latest
+  script:
+    - mv comet-home/_build/html public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "pages"'
+  environment:
+    name: production
+    url: https://comet.arts.ubc.ca
 
-pages:  
-    stage: deploy
-    script:
-        - bundle exec jekyll build -d public
-    artifacts:
-        paths:
-            - public
-    rules:
-        - if: '$CI_COMMIT_BRANCH == "pages"'
-    environment:
-        name: production
-        url: https://comet.arts.ubc.ca
+
 
 test:
     stage: test
+    image: busybox:latest
     script:
-        - bundle exec jekyll build -d public
+        - mv comet-home/_build/html public
     artifacts:
         paths:
             - public
     rules:
         - if: '$CI_COMMIT_BRANCH == "pages"'
-    
-

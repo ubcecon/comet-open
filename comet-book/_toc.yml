@@ -1,0 +1,20 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: docs/index
+parts:
+  - caption: Introduction to Jupyter and R 
+    chapters:
+    - file: docs/econ_intro/intro_jupyter/ECON_intro_to_jupyter
+#    - file: docs/econ325/02_intro_r/01_Introduction_to_R
+#  - caption: ECON 326 Methods of Empirical Research in Economics
+#    chapters:
+#    - file: docs/econ326/index
+#    - file: docs/econ326/Module_2/Module_2questions
+#  - caption: ECON 490 Seminar in Applied Economics
+#    chapters:
+#    - file: docs/econ490-stata/index
+#    - file: docs/econ490-stata/1_Setting_Up
+#    - file: docs/econ490-stata/2_Working_Dofiles
+#    - file: docs/econ490-stata/3_Stata_Essentials
