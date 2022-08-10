@@ -4,6 +4,10 @@
 format: jb-book
 root: docs/index
 parts:
+  - caption: Project Information
+    chapters:
+    - file: docs/team
+    - file: docs/copyright
   - caption: Introduction to Jupyter and R 
     chapters:
     - file: docs/econ_intro/intro_jupyter/ECON_intro_to_jupyter

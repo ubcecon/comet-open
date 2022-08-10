@@ -2,6 +2,10 @@
 
 ![logo](media/logo_1.png)
 
+```{warning}
+This is current a **draft** of our final project site.  It is subject to frequent and large changes.  Some functionality may not be present, or may be broken in the future.
+```
+
 Welcome to the website for our large TLEF project: COMET.  This site stores our materials to support teaching introductory and intermediate econometrics courses.  This project is funded by the University of British Columbia.  The motivating "pitch" is as follows:
 
 > Currently, all economics students take several courses in the application of economic theory and models to data using statistical methods (econometrics).  Many students struggle to engage with this material, particularly when it comes to practical applications and hands-on experience – putting them at a disadvantage following graduation or in more advanced courses.
