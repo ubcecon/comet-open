@@ -15,7 +15,6 @@ latex:
   latex_documents:
     targetname: econometrics.tex
 
-###########################################
 # References 
 bibtex_bibfiles:
   - docs/references.bib
@@ -23,48 +22,24 @@ bibtex_bibfiles:
 
 # HTML settings
 html:
-  use_issues_button: false
+  use_issues_button: true
   use_repository_button: true
   use_multitoc_numbering: false
   extra_navbar              : Powered by <a href="https://jupyterbook.org">Jupyter Book</a>  # Will be displayed underneath the left navbar.
   baseurl                   : https://comet.arts.ubc.ca/
-
-# sphinx configuration
-#sphinx:
-#  config:
-#    html_theme: quantecon_book_theme
-#    html_theme_options:
-#      header_organisation_url: https://economics.ubc.ca
-#      header_organisation: VSE
-#      repository_url: https://repo.code.ubc.ca/arshiy04/jb-test.git  # Online location of your book
-#      repository_branch: main  # Which branch of the repository should be used when creating links (optional)
-#      nb_repository_url: https://repo.code.ubc.ca/arshiy04/jb-test.git
-#      launch buttons:
-#        binderhub_url: https://mybinder.org
-#        notebook_interface: "jupyterlab"
-#        thebe: true
-#        jupyterhub_url: https://ubc.syzygy.ca
-#        colab_url: https://colab.research.google.com
-#      persistent_sidebar: true
-
-
-
-
-
-# Launch button settings
-launch buttons:
-  binder:
-    binderhub_url   : "https://mybinder.org"
-    text            : "Launch binder"
-  notebook_interface: "jupyterlab"
-  thebe             : false
-  jupyterhub_url    : "https://open.jupyter.ubc.ca/jupyter"
-  colab_url         : "https://colab.research.google.com"
+  
 
 # Repo
 repository:
-  url: https://repo.code.ubc.ca/arts-isit/tlef/econometrics.git  # Online location of your book
+  url: https://github.com/jlgraves-ubc/jlgraves-ubc.git  # Online location of your book
   path_to_book: comet-home  # Optional path to your book, relative to the repository root
   branch: pages  # Which branch of the repository should be used when creating links (optional)
 
+  
+launch_buttons:
+  notebook_interface: "classic" # The interface interactive links will activate ["classic", "jupyterlab"]
+  binderhub_url: "https://mybinder.org"
+  colab_url: "https://colab.research.google.com"
+  jupyterhub_url: "https://open.jupyter.ubc.ca/jupyter/"
+  thebe: true
   

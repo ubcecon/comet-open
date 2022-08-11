@@ -8,11 +8,21 @@ parts:
     chapters:
     - file: docs/team
     - file: docs/copyright
+    - file: docs/using_comet
   - caption: Introduction to Jupyter and R 
     chapters:
     - file: docs/econ_intro/intro_jupyter/intro_to_jupyter
     - file: docs/econ_intro/intro_r/introduction_to_R
     - file: docs/econ_intro/intro_to_data/intro_to_data
+  - caption: ECON 325 - Introduction to Empirical Economics
+    chapters:
+    - file: docs/econ_325/index
+  - caption: ECON 326 - Methods of Empirical Research in Economics
+    chapters:
+    - file: docs/econ_325/index
+  - caption: ECON 490 - Seminar in Applied Economics
+    chapters:
+    - file: docs/econ_490/index
 #    - file: docs/econ325/02_intro_r/01_Introduction_to_R
 #  - caption: ECON 326 Methods of Empirical Research in Economics
 #    chapters:
