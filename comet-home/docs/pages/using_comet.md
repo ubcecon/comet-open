@@ -1,3 +1,5 @@
+![COMET Banner](../media/banner_1.png)
+
 # Using COMET for Teaching
 
 The COMET modules can be used for teaching in a variety of ways.  While we designed most of them to work as a 1-hour (or two 1-hour) labs, they can also be used in a classroom or as a pre-reading/self-study for more advanced students.

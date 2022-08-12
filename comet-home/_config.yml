@@ -35,11 +35,18 @@ repository:
   path_to_book: comet-home  # Optional path to your book, relative to the repository root
   branch: pages  # Which branch of the repository should be used when creating links (optional)
 
-  
+# Launch  
 launch_buttons:
-  notebook_interface: "classic" # The interface interactive links will activate ["classic", "jupyterlab"]
+  notebook_interface: "jupyterlab" # The interface interactive links will activate ["classic", "jupyterlab"]
   binderhub_url: "https://mybinder.org"
   colab_url: "https://colab.research.google.com"
   jupyterhub_url: "https://open.jupyter.ubc.ca/jupyter/"
   thebe: true
+
+
+# Sphinx
+
+sphinx:
+  config:
+    language: en
   

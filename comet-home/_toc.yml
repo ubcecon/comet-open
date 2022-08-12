@@ -6,18 +6,26 @@ root: docs/index
 parts:
   - caption: Project Information
     chapters:
-    - file: docs/team
-    - file: docs/copyright
-    - file: docs/using_comet
+    - file: docs/pages/team
+    - file: docs/pages/copyright
+    - file: docs/pages/using_comet
+    - file: docs/pages/get_involved
   - caption: Introduction to Jupyter and R 
     chapters:
-    - file: docs/econ_intro/intro_jupyter/index_intro
+    - file: docs/econ_intro/index_intro
     - file: docs/econ_intro/intro_jupyter/intro_to_jupyter
     - file: docs/econ_intro/intro_r/introduction_to_R
     - file: docs/econ_intro/intro_to_data/intro_to_data
   - caption: ECON 325 - Introduction to Empirical Economics
     chapters:
     - file: docs/econ_325/index_325
+    - file: docs/econ_325/01_central_tendency/central_tendency
+    - file: docs/econ_325/02_dispersion_and_dependence/dispersion_and_dependence
+    - file: docs/econ_325/03_confidence_intervals/confidence_intervals
+    - file: docs/econ_325/04_hypothesis_testing/hypothesis_testing
+    - file: docs/econ_325/06_visualization_1/intro_to_visualization1
+    - file: docs/econ_325/07_visualization_2/intro_to_visualization2
+    - file: docs/econ_325/08_distribution/distribution
   - caption: ECON 326 - Methods of Empirical Research in Economics
     chapters:
     - file: docs/econ_326/index_326

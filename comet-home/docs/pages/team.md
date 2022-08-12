@@ -1,4 +1,4 @@
-![COMET Banner](media/banner_1.png)
+![COMET Banner](../media/banner_1.png)
 
 # COMET Team
 
