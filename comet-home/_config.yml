@@ -1,7 +1,7 @@
 # Book settings
 title: COMET Project Homepage
 author: The VSE COMET Community
-logo: docs/media/logo_1.png
+logo: docs/media/logo_no_tiny_text.png
 only_build_toc_files: true
 
 
@@ -22,6 +22,7 @@ bibtex_bibfiles:
 
 # HTML settings
 html:
+  favicon: docs/media/comet_favicon.ico
   use_issues_button: true
   use_repository_button: true
   use_multitoc_numbering: false
@@ -31,9 +32,9 @@ html:
 
 # Repo
 repository:
-  url: https://github.com/jlgraves-ubc/jlgraves-ubc.git  # Online location of your book
-  path_to_book: comet-home  # Optional path to your book, relative to the repository root
-  branch: pages  # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/ubcecon/comet-project  # Online location of your book
+#  path_to_book: comet-home  # Optional path to your book, relative to the repository root
+  branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Launch  
 launch_buttons:
