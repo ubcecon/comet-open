@@ -48,6 +48,8 @@ launch_buttons:
 # Sphinx
 
 sphinx:
+  extra_extensions:
+    - sphinx_thebe
   config:
     language: en
   
