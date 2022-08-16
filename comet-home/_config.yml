@@ -52,4 +52,12 @@ sphinx:
     - sphinx_thebe
   config:
     language: en
+    myst_enable_extensions: 
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_image
+    - linkify
+    - substitution
   
