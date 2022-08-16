@@ -1,1 +1,2 @@
 kernelName = 'ir'
+language = 'ir'
