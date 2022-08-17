@@ -35,10 +35,10 @@ test:
     stage: test
     image: busybox:latest
     script:
-        - mv comet-home/_build/html public
+        - mv comet-home/_build/html test
     artifacts:
         paths:
-            - public
+            - test
     when: manual
     environment:
       name: testing
