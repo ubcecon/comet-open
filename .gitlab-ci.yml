@@ -41,5 +41,5 @@ test:
             - public
     when: manual
     environment:
-      name: testing
+      name: production
       url: https://testing-comet.arts.ubc.ca
