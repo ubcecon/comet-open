@@ -3,7 +3,7 @@
 ![logo](media/logo_1.png)
 
 ```{warning}
-This is current a **draft** of our final project site.  It is subject to frequent and large changes.  Some functionality may not be present, or may be broken in the future.
+This is current a **draft** of our final project site.  It is subject to frequent and large changes.  Some functionality may not be present, or may be broken in the future.  This lives on our testing repository.
 ```
 
 Welcome to the website for our large UBC Teaching and Learning Enhancement Fund (TLEF) project: **COMET**, which stands for _Creating Online Materials for Econometric Teaching_.  This site shares our materials to support teaching introductory and intermediate econometrics courses.  This project is funded by the University of British Columbia.  The motivating "pitch" is as follows:
