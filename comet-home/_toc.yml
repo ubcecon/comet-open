@@ -20,12 +20,19 @@ parts:
     chapters:
     - file: docs/econ_325/index_325
     - file: docs/econ_325/01_central_tendency/central_tendency
+      title: 1 - Central Tendency
     - file: docs/econ_325/02_dispersion_and_dependence/dispersion_and_dependence
+      title: 2 - Dispersion and Dependence
     - file: docs/econ_325/03_confidence_intervals/confidence_intervals
+      title: 3 - Confidence Intervals
     - file: docs/econ_325/04_hypothesis_testing/hypothesis_testing
+      title: 4 - Hypothesis Testing
     - file: docs/econ_325/06_visualization_1/intro_to_visualization1
+      title: 5 - Visualization I
     - file: docs/econ_325/07_visualization_2/intro_to_visualization2
+      title: 6 - Visualization II
     - file: docs/econ_325/08_distribution/distribution
+      title: 7 - Distributions
   - caption: ECON 326 - Methods of Empirical Research in Economics
     chapters:
     - file: docs/econ_326/index_326

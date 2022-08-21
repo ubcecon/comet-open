@@ -6,7 +6,7 @@ This project uses data from a variety of sources, most available under an open d
 
 ## ECON 325 Modules and Introduction Modules
 ​
-* The **2016 Census Data** was provided under the [Statistics Canada Open License (Public)]([statcan.gc.ca/en/reference/licence](https://www.statcan.gc.ca/en/reference/licence)).  
+* The **2016 Census Data** was provided under the [Statistics Canada Open License (Public)](https://www.statcan.gc.ca/en/reference/licence).  
   * Source: Statistics Canada, 2016 Census Public Use Microdata File (PUMF). Individuals File, 2019. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.
   * Adapted from Statistics Canada, 2016 Census Public Use Microdata File (PUMF). Individuals File, 2019. This does not constitute an endorsement by Statistics Canada of this product.
 ​
@@ -16,6 +16,11 @@ This project uses data from a variety of sources, most available under an open d
 
 ## ECON 326 Modules
 ​
-* The **2019 Survey of Financial Security** that was used in modules one through five, was provided under the [Statistics Canada Open License (Public)]([statcan.gc.ca/en/reference/licence](https://www.statcan.gc.ca/en/reference/licence)).       
+* The **2019 Survey of Financial Security** that was used in modules one through five, was provided under the [Statistics Canada Open License (Public)](https://www.statcan.gc.ca/en/reference/licence).       
   *  Source: Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.
   * Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
+
+
+## ECON 490 Modules
+
+* The data used in the ECON 490 modules is simulated, and was created for this project.  It falls under the license for the project in general (see above).

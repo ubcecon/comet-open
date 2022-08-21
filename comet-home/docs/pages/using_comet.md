@@ -4,7 +4,7 @@
 
 The COMET modules can be used for teaching in a variety of ways.  While we designed most of them to work as a 1-hour (or two 1-hour) labs, they can also be used in a classroom or as a pre-reading/self-study for more advanced students.
 * Most of the modules include _self tests_ which are designed to be [formative](https://www.cmu.edu/teaching/assessment/basics/formative-summative.html) in nature.  Some also include short writing exercises.
-  - We would not recommend using these for grades, except based on completion.
+  - We would _not_ recommend using these for grades, except if those grades are based on completion.
 * Generally, most modules should have someone "animating" them, such as a TA or Instructor, but they can absolutely be read ahead of time to prepare
 
 COMET modules can be launched interactively via a JupyterHub; there is an orientation in the introduction module to Jupyter.
@@ -13,7 +13,7 @@ COMET modules can be launched interactively via a JupyterHub; there is an orient
 
 ## Interactive Modules
 
-All of the Jupyter Notebooks on Canvas can be launched interactively; just select the appropriate hub from the top menu, from the notebook.  They can also be downloaded, for local use.
+As we mentioned, all of the Jupyter Notebooks can be launched interactively; just select the appropriate hub from the top menu, from the notebook.  They can also be downloaded, for local use.
 * The interactive element will redirect you to the JupyterHub of your choice, and then synch the modules over
 * This synching process uses [`nbgitpuller`](https://github.com/jupyterhub/nbgitpuller), a JupyterHub extension to perform this operation. 
 ```{tip}
@@ -23,7 +23,7 @@ There are also some other options (such as [Thebe](https://thebe.readthedocs.io/
 
 ## Using with Canvas
 
-To include a module in Canvas, there are two simple ways:
+To include a module in Canvas (or another LMS), there are two ways:
 
 1. Embed it in a Canvas page or assignment
 2. Include it as an external link
@@ -34,7 +34,7 @@ The advantage of option (1) is that you can include other material around the li
 
 You can see a visualization below:
 
-![GIF of Embedding](media/gif1.gif)
+![GIF of Embedding](../media/gif1.gif)
 
 * First, create the page (or assignment) that you want to embed the page in.
 * Then, edit the page, and switch the `HTML` edit mode
@@ -47,7 +47,7 @@ You can see a visualization below:
 * Optionally edit the `width` and `height` options to change the size of the embed
 * Save the page; you should see the embedded page
 
-You can now edit this page normally - for instance, by adding other material.  You could also just add a url instead of an embed normally.  It's up to you!
+You can now edit this page normally - for instance, by adding other material.  You could also just add a URL as hyperlink instead of an embed.  It's up to you!
 
 ```{tip}
 You can find more information [on this page](https://ucfsd.instructure.com/courses/17245/pages/embedding-a-webpage-in-a-canvas-page).
@@ -66,10 +66,11 @@ You can also just add a link directly to a Canvas module.
 
 If you run into issues with a COMET module (say, a bug) you can submit an issue to our GitHub directory using the button at the top.
 
-If you need other support, please contact jonathan.graves@ubc.ca
+If you need other support, please contact comet-project@ubc.ca
 
 ```{important}
 If the issue is about a JupyterHub, and not the notebook specifically, we cannot support this.  Contact your hub maintainer for information.
+* At UBC, this is the [LTHub](https://lthub.ubc.ca/)
 ```
 
 

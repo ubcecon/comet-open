@@ -35,11 +35,13 @@ test:
     stage: test
     image: busybox:latest
     script:
-        - mv comet-home/_build/html public
+        - mkdir public/$CI_COMMIT_BRANCH
+        - mv comet-home/_build/html public/$CI_COMMIT_BRANCH
     artifacts:
         paths:
             - public
+        expire_in: 1 days
     when: manual
     environment:
       name: testing
-      url: https://testing-comet.arts.ubc.ca
+      url: https://comet.arts.ubc.ca
