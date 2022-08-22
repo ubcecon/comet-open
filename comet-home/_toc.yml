@@ -37,27 +37,33 @@ parts:
     chapters:
     - file: docs/econ_326/index_326
     - file: docs/econ_326/Module_1/Module1_question
-      title: Review of Statistics in Jupyter
+      title: 1 - Review of Statistics in Jupyter
     - file: docs/econ_326/Module_2/Module2_question
-      title: Introduction to Regression using R
+      title: 2 - Introduction to Regression using R
     - file: docs/econ_326/Module_3/Module3_question
-      title: Multiple Regression using R
+      title: 3 - Multiple Regression using R
     - file: docs/econ_326/Module_4/Module4_question
-      title: Issues in Regressions using R
+      title: 4- Issues in Regressions using R
     - file: docs/econ_326/Module_5/Module5_question
-      title: Interactions and Non-linear terms in Regressions
+      title: 5- Interactions and Non-linear terms in Regressions
     
-  - caption: ECON 490 - Seminar in Applied Economics
+  - caption: ECON 490 - Seminar in Applied Economics (STATA Version)
     chapters:
     - file: docs/econ_490/index_490
-#    - file: docs/econ325/02_intro_r/01_Introduction_to_R
-#  - caption: ECON 326 Methods of Empirical Research in Economics
-#    chapters:
-#    - file: docs/econ326/index
-#    - file: docs/econ326/Module_2/Module_2questions
-#  - caption: ECON 490 Seminar in Applied Economics
-#    chapters:
-#    - file: docs/econ490-stata/index
-#    - file: docs/econ490-stata/1_Setting_Up
-#    - file: docs/econ490-stata/2_Working_Dofiles
-#    - file: docs/econ490-stata/3_Stata_Essentials
+    - file: docs/econ_490/econ490-stata/README
+    - file: docs/econ_490/econ490-stata/1_Setting_Up
+    - file: docs/econ_490/econ490-stata/2_Working_Dofiles
+    - file: docs/econ_490/econ490-stata/3_Stata_Essentials
+    - file: docs/econ_490/econ490-stata/4_Locals_and_Globals
+    - file: docs/econ_490/econ490-stata/5_Opening_Datasets
+    - file: docs/econ_490/econ490-stata/6_Creating_Variables
+    - file: docs/econ_490/econ490-stata/7_Within_Group
+    - file: docs/econ_490/econ490-stata/8_Merge_Append
+    - file: docs/econ_490/econ490-stata/11_Combining_Graphs
+    - file: docs/econ_490/econ490-stata/12_Linear_Reg
+    - file: docs/econ_490/econ490-stata/13_Dummy
+    - file: docs/econ_490/econ490-stata/14_PostReg
+    - file: docs/econ_490/econ490-stata/15_Wf_Guide2
+    - file: docs/econ_490/econ490-stata/17_Panel_Data
+    - file: docs/econ_490/econ490-stata/18_Diff_in_Diff
+    - file: docs/econ_490/econ490-stata/19_IV
