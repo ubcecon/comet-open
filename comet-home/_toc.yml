@@ -36,6 +36,12 @@ parts:
   - caption: ECON 326 - Methods of Empirical Research in Economics
     chapters:
     - file: docs/econ_326/index_326
+    - file: docs/econ_326/Module_1/Module1_question
+    - file: docs/econ_326/Module_2/Module2_question
+    - file: docs/econ_326/Module_3/Module3_question
+    - file: docs/econ_326/Module_4/Module4_question
+    - file: docs/econ_326/Module_5/Module5_question
+    
   - caption: ECON 490 - Seminar in Applied Economics
     chapters:
     - file: docs/econ_490/index_490

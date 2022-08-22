@@ -8,7 +8,7 @@ The COMET modules can be used for teaching in a variety of ways.  While we desig
 * Generally, most modules should have someone "animating" them, such as a TA or Instructor, but they can absolutely be read ahead of time to prepare
 
 COMET modules can be launched interactively via a JupyterHub; there is an orientation in the introduction module to Jupyter.
-* UBC offers an in-house JupyterHub called [JupyterOpen](open.jupyter.ubc.ca) for which these modules were designed.
+* UBC offers an in-house JupyterHub called [JupyterOpen](https://open.jupyter.ubc.ca/) for which these modules were designed.
 * PIMS offers a non-UBC specific JupyterHub called [Syzygy](https://syzygy.ca/) if you are at another institution or JupyterOpen goes down.
 
 ## Interactive Modules

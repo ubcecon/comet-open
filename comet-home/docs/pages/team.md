@@ -14,16 +14,33 @@ The COMET project is a true team effort; it has taken input from writers, coders
 
 ## Research Assistants
 
-* Colby Chambers
-* Paul Corcuera
-* Rathin Dharani
-* Anneke Dresselhuis
-* Colin Grimes
-* Jonah Heyl
-* Arshiya Malik
-* Shiming Wu
-* Oliver Xu
-* Valeria Zolla
+<ul>
+<li>
+<button class="njqaccordion">Colby Chambers - Biography</button>
+<div class="accpanel">
+  <p>Lorem ipsum...</p>
+</div>
+</li>
+
+<li> Paul Corcuera</li>
+
+<li>Rathin Dharani</li>
+
+
+<li>
+<button class="njqaccordion">Anneke Dresselhuis - Biography</button>
+<div class="accpanel">
+  <p>Lorem ipsum...</p>
+</div>
+</li>
+
+<li> Colin Grimes</li>
+<li> Jonah Heyl</li>
+<li> Arshiya Malik</li>
+<li> Shiming Wu</li>
+<li> Oliver Xu</li>
+<li> Valeria Zolla</li>
+</ul>
 
 
 ## Other Members and Reviewers
