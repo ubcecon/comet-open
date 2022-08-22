@@ -4,7 +4,7 @@
 
 The COMET project is a true team effort; it has taken input from writers, coders, editors, reviewers, and many more to create COMET.  
 
-> You can contact the COMET team at jonathan.graves@ubc.ca
+> You can contact the COMET team at comet-project@ubc.ca
 
 ## Principal Investigators
 

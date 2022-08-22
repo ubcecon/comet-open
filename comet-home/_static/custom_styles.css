@@ -3,7 +3,8 @@
 
 
 .njqaccordion {
-    background-color: #eee;
+    /*background-color: #eee;*/
+    background-color: #fff;
     color: #444;
     cursor: pointer;
     padding: 18px;

@@ -37,10 +37,15 @@ parts:
     chapters:
     - file: docs/econ_326/index_326
     - file: docs/econ_326/Module_1/Module1_question
+      title: Review of Statistics in Jupyter
     - file: docs/econ_326/Module_2/Module2_question
+      title: Introduction to Regression using R
     - file: docs/econ_326/Module_3/Module3_question
+      title: Multiple Regression using R
     - file: docs/econ_326/Module_4/Module4_question
+      title: Issues in Regressions using R
     - file: docs/econ_326/Module_5/Module5_question
+      title: Interactions and Non-linear terms in Regressions
     
   - caption: ECON 490 - Seminar in Applied Economics
     chapters:
