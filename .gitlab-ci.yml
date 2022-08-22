@@ -14,7 +14,7 @@ jupyter-build:
     paths:
       - comet-home/_build/
 
-production:
+pages:
   stage: deploy
   image: busybox:latest
   script:
@@ -35,13 +35,9 @@ test:
     stage: test
     image: busybox:latest
     script:
-        - mkdir public/$CI_COMMIT_BRANCH
-        - mv comet-home/_build/html public/$CI_COMMIT_BRANCH
+        - mv comet-home/_build/html public
     artifacts:
         paths:
             - public
-        expire_in: 1 days
-    when: manual
-    environment:
-      name: testing
-      url: https://comet.arts.ubc.ca
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "pages"'
