@@ -9,6 +9,9 @@ This project uses data from a variety of sources, most available under an open d
 * The **2016 Census Data** was provided under the [Statistics Canada Open License (Public)](https://www.statcan.gc.ca/en/reference/licence).  
   * Source: Statistics Canada, 2016 Census Public Use Microdata File (PUMF). Individuals File, 2019. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.
   * Adapted from Statistics Canada, 2016 Census Public Use Microdata File (PUMF). Individuals File, 2019. This does not constitute an endorsement by Statistics Canada of this product.
+* The **2019 Survey of Financial Security** that was used in the example project, was provided under the [Statistics Canada Open License (Public)](https://www.statcan.gc.ca/en/reference/licence).       
+  *  Source: Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.
+  * Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
 ​
 
 * The [**Penn World Table**](https://www.rug.nl/ggdc/productivity/pwt/?lang=en)  was provided by Feenstra, Robert C., Robert Inklaar and Marcel P. Timmer (2015), "The Next Generation of the Penn World Table" American Economic Review, 105(10), 3150-3182, available for download at [www.ggdc.net/pwt](https://www.rug.nl/ggdc/)
