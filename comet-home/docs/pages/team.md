@@ -14,34 +14,23 @@ The COMET project is a true team effort; it has taken input from writers, coders
 
 ## Research Assistants
 
-<ul>
-<li>
-<button class="njqaccordion">Colby Chambers - Biography</button>
-<div class="accpanel">
-  <p>Lorem ipsum...</p>
-</div>
-</li>
-
-<li> Paul Corcuera</li>
-
-<li>Rathin Dharani</li>
-
-
-<li>
-<button class="njqaccordion">Anneke Dresselhuis - Biography</button>
-<div class="accpanel">
-  <p>Lorem ipsum...</p>
-</div>
-</li>
-
-<li> Colin Grimes</li>
-<li> Jonah Heyl</li>
-<li> Arshiya Malik</li>
-<li> Shiming Wu</li>
-<li> Oliver Xu</li>
-<li> Valeria Zolla</li>
-</ul>
-
+```{dropdown} • Colby Chambers
+My name is Colby and I’m a fourth year undergraduate student in the honours economics program at the University of British Columbia. I joined this project out of an interest for course development stimulated through work as a TA in the mathematics department, as well as a desire to improve my R skills.  In the COMET project, I have contributed to a variety of notebooks for ECON 325. I have also helped adapt ECON 490 notebooks from Stata to R. During my time with the project, I have seen firsthand the value that graduate and undergraduate students can bring to providing informative, digestible material to students. I am delighted to know that undergraduate students will benefit from the material we have created.
+My economic interests include exploring how to promote group cohesion in the workplace and address discrimination more generally. On campus, I have been involved with the Science Peer Academic Coaches, the Iona Journal of Economics, and UBC Conservatives. Off campus, I volunteer for the Foundation Against Intolerance and Racism, a charity which promotes an open, non-partisan approach to the issues above. In my spare time, I enjoy reading and expanding my geographic knowledge through any platform I can find.
+```
+* Paul Corcuera
+* Rathin Dharani
+```{dropdown} • Anneke Dresselhuis
+Hi I’m Anneke (she/they) and I am a mixed Dutch and Scottish/Ukrainian-Canadian settler working and learning on unceded Musqueam, Squamish and Tsleil-Waututh lands. I’m currently a fifth year undergraduate studying Visual Art, Economics, Informatics and Business Management at the University of British Columbia. I join this project from my background in user experience design and from my research experience in data justice methodologies during my time with UBC’s Collective for Gender+ in Research.
+My contribution to the COMET project centres around beginner-level R learning materials for summary statistics and data visualization which will be used in UBC’s ECON 325: Introduction to Empirical Economics course. I’m interested in how data science can be used as a tool for a more just world and have enjoyed using my interdisciplinary perspective to invite econometrics learners to consider how socio-technical and socio-political dimensions complicate empirical processes.
+In my spare time I enjoy being with mountains and forests and can often be found making plant-based food or having a splashing time in aquafit classes at the UBC pool.
+```
+* Colin Grimes
+* Jonah Heyl
+* Arshiya Malik
+* Shiming Wu
+* Oliver Xu
+* Valeria Zolla
 
 ## Other Members and Reviewers
 

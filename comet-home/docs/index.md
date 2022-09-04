@@ -11,7 +11,7 @@ COMET is a Large Teaching and Learning Enhancement Fund (TLEF) project started i
 
 Based at UBC’s Vancouver School of Economics, our team consists of faculty, undergraduate, masters, and doctoral students working in partnership to develop hands-on learning modules that explore the real-world applications of economic theory using statistics. 
 
-```{dropdown} <span style="color:#CC7A00" > **For Educators** </span>**
+```{dropdown} <span style="color:#CC7A00" > **For Educators** </span>
 These modules, focused on economic questions, models, and data, use the interactive notebook software, [JupyterNotebooks](https://jupyter.org/) to synthesize theoretical learning, practice, and analysis into a single learning experience that is appropriate for either laboratory or flipped classroom instruction. 
 
 Our work adapts proven pedagogical strategies to integrate practical learning throughout economics curriculum in order to provide students with the opportunity to improve their technical data skills. 
@@ -23,7 +23,7 @@ We welcome any feedback on how our project might be more accessible. This can be
 For more information on integrating COMET resources into your instruction, check out our [Using COMET for Teaching](pages/using_comet.md) page.
 ```
 
-```{dropdown} <span style="color:#CC7A00" > **For Learners** </span>**
+```{dropdown} <span style="color:#CC7A00" > **For Learners** </span>
 These modules cover topics from beginner to advanced applications of statistical methods in economics. Topics include:
 * Descriptive statistics
 * Probability
