@@ -20,7 +20,7 @@ We are driven to champion accessibility in our creation of these modules by publ
 
 We welcome any feedback on how our project might be more accessible. This can be done by submitting an issue to our [GitHub directory](https://github.com/ubcecon/comet-project). 
 
-For more information on integrating COMET resources into your instruction, check out our [Using COMET for Teaching](docs:pages:using_comet.md) page.
+For more information on integrating COMET resources into your instruction, check out our [Using COMET for Teaching](pages/using_comet.md) page.
 ```
 
 ```{dropdown} <span style="color:#CC7A00" > **For Learners** </span>**
