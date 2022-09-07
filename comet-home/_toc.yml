@@ -14,7 +14,7 @@ parts:
     chapters:
     - file: docs/econ_intro/index_intro
     - file: docs/econ_intro/intro_jupyter/intro_to_jupyter
-    - file: docs/econ_intro/intro_r/Introduction_to_R
+    - file: docs/econ_intro/intro_r/introduction_to_R
     - file: docs/econ_intro/intro_to_data/intro_to_data
   - caption: ECON 325 - Introduction to Empirical Economics
     chapters:
