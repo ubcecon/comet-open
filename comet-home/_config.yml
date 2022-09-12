@@ -54,7 +54,6 @@ launch_buttons:
 sphinx:
   recursive_update: true
   config:
-    html_extra_path: ['_extra_html']
     #html_theme: quantecon_book_theme
     language: en
     myst_enable_extensions: 
