@@ -1,4 +1,5 @@
 ![logo](media/logo_1.png)
+<meta name="google-site-verification" content="5OgwamGPIxPDQvTfSIVPhFmqV_T_KROMmduudCSIAdc" />
 
 # Welcome to C.O.M.E.T.
 
