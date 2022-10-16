@@ -17,28 +17,21 @@ test_1 <- function() {
 
 test_2 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer2), "dd531643bffc240879f11278d7a360c1")
+    expect_equal(digest(answer2), "3116178fb6596b74db2d96267b5e7bb3")
   })
   print("Success!")
 }
 
 test_3 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer3), "e2d56c68572ad1cd17b74ef4aa424c88")
+    expect_equal(digest(answer3), "eb123648c8976514d74104f67d1200dc")
   })
   print("Success!")
 }
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer4), "eb123648c8976514d74104f67d1200dc")
-  })
-  print("Success!")
-}
-
-test_5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(answer5), "3b4dada5338837936059d916d01799cb")
+    expect_equal(digest(answer4), "53ccbf0bbf5fc8810c3131aa9c68fc30")
   })
   print("Success!")
 }
