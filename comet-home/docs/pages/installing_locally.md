@@ -1,0 +1,46 @@
+![COMET Banner](../media/banner_1.png)
+
+# Using COMET as a Student
+
+## Running via a JupyterHub
+
+## Installing on Your Own Computer
+
+Some students prefer to run these notebooks locally, on their own computer.  This has the advantage of not requiring an internet connection, and avoiding the problems associated with it.  However, it has the disadvantage of requiring you to install (and run) the software on your own computer.
+
+If you want to run it locally, you will need to choose which software you prefer.  We recommend either using JupyterLab, VSCode, or RStudio.
+
+```{note}
+If you are using RStudio, you will want to ensure that you use the `.rmd` (R Markdown) versions of the notebooks, not the `.ipynb` versions.
+```
+
+We _strongly_ recommend that students install the dependencies via an environment manager.
+
+### Step 1:  Install the Environment Manager
+
+Download the most recent version of `miniconda` for your computer operating system from:
+
+[https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links)
+
+```{tip}
+Pay attention to the the version.  Different processors will require different versions; you can check which processor you are using in your system information, or by looking up your computer's model.
+```
+
+### Step 2: Install the Environment
+
+We have create an environment file, which contains all of the necessary packages and installation files for `miniconda`.  Download this file and place it in a directory that you can easily find.
+
+Right-click on `comet-environment.yml` and write down the **file path**.  You will need this in a moment.  Next, launch your system's command prompt and enter:
+
+```
+conda env create -f "MYPATH/comet-environment.yml"
+```
+
+replacing `"MYPATH/` with the file path you noted earlier.  `miniconda` will run, and install all of the files.  This may take some time, so grab a sandwich, and don't turn-off your computer.
+
+### Step 3:  Install Your IDE of Choice
+
+### Step 4:  Configure the `IRkernel`
+
+### Step 5:  Associate your IDE with your Environment
+
