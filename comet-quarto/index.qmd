@@ -1,0 +1,111 @@
+---
+title: Welcome to COMET!
+bibliography: pages/references.bib
+title-block-banner: false
+filters:
+  - collapse-callout
+collapse-callout:
+  note: true
+#id: ab-heading
+about:
+  template: trestles
+  links: 
+  - icon: book
+    text: VSE 
+    href: https://economics.ubc.ca/
+  - icon: github
+    text: Repository
+    href: https://github.com/ubcecon/comet-project 
+#  - icon: twitter
+#    text: Twitter
+#    href: www.twitter.com
+  image: media/logo_1.png
+toc: false
+nocite: |
+  @comet-project
+---
+
+<!--![](media/logo_1.png){fig-alt="COMET Project Logo"}-->
+
+:::{.callout-warning}
+This is currently a **draft** of our final project site.  It is subject to frequent and large changes.  Some functionality may not be present, or may be broken in the future.
+:::
+
+## About COMET
+
+**COMET** (_Creating Online Materials for Econometric Teaching_) is a [Large Teaching and Learning Enhancement Fund (TLEF)](https://tlef.ubc.ca/) project started at the [University of British Columbia](https://www.ubc.ca/) in 2022 that seeks to provide fundamental econometrics learning resources for students and teachers alike. 
+
+Based at UBC’s [**Vancouver School of Economics**](https://economics.ubc.ca/), our team consists of **faculty** and **students** (at all levels) working in partnership to develop **hands-on learning modules** that explore the real-world applications of economic theory using statistics. 
+
+> Learn more about **our team** on our [about page!](pages/team.qmd)
+
+<!-- This project is **open-source** with a mixture of licenses: however, the most restrictive is **CC-BY-SA NC**.  This means that in general you can use and adapt this project for your own teaching or learning provided:-->
+
+This project will be **open-source** with a mixture of licenses: however, right now it's *still copyrighted*.  The most restrictive open license is **CC-BY-SA NC**.  If you want to use to adapt this project, please let us know.  A minimum requirement will be that you:
+
+1. You provide *attribution*.  Our suggested attribution is:
+
+::: {.callout-tip appearance="simple"}
+
+:::{#refs}
+:::
+
+:::
+
+2. You only use this material for *non-commercial purposes* (i.e. you cannot make money off it)
+3. If you produce derivative materials they *must share the CC-BY-SA NC license*
+
+Some of the data used in the project has different attribution requirements.  You can find details about the licensing on our [copyright page](pages/copyright.qmd).
+
+## Using COMET
+
+
+:::{.callout-note appearance="simple" icon="false" collapsed="false"}
+## <span style="color:#CC7A00" > For Educators </span>
+These modules, focused on economic questions, models, and data, use the interactive notebook software, [JupyterNotebooks](https://jupyter.org/) to synthesize theoretical learning, practice, and analysis into a single learning experience that is appropriate for either laboratory or flipped classroom instruction. 
+
+Our work adapts proven pedagogical strategies to integrate practical learning throughout economics curriculum in order to provide students with the opportunity to improve their technical data skills. 
+
+We are driven to champion accessibility in our creation of these modules by publishing an open-source library of educational resources for broad instructional needs with the hope of lowering software costs and hardware requirements for students and learning institutions.
+
+We welcome any feedback on how our project might be more accessible. This can be done by submitting an issue to our [GitHub directory](https://github.com/ubcecon/comet-project). 
+
+For more information on integrating COMET resources into your instruction, check out our [Using COMET for Teaching](pages/using_comet.qmd) page.
+:::
+
+:::{.callout-note appearance="simple" icon="false" collapsed="true"}
+## <span style="color:#CC7A00" > For Learners </span>
+These modules cover topics from beginner to advanced applications of statistical methods in economics. Topics include:
+
+* Descriptive statistics
+* Probability
+* Estimation
+* Hypothesis testing
+* Analysis of Variance
+* Simple and multiple regression
+* Time series analysis
+* Simultaneous equation estimation
+* Difference in Differences
+ 
+Modules can be accessed on the left-hand side of this page. They are written as [JupyterNotebooks](https://jupyter.org/) and can be viewed in their `.html` form via a browser, or by downloading them in `.ipynb` form and launching them in a [JupyterHub](https://jupyter.org/hub). If you are affiliated with UBC, you can do this directly from the website via UBC’s in-house JupyterHub called [JupyterOpen](https://open.jupyter.ubc.ca/) for which these modules were designed. PIMS offers a non-UBC specific JupyterHub called [Syzygy](https://syzygy.ca/) if you are at another institution or JupyterOpen goes down.
+
+Launching the notebooks in a JupyterHub will allow you to run the code for yourself, complete the exercises and get automatic feedback throughout your learning. Please let us know if you have any problems - you can submit an issue to our [GitHub directory](https://github.com/ubcecon/comet-project) if you find something that you think could be improved. Happy learning! 
+:::
+
+## Get Involved
+
+COMET is proudly and continually open-source and community driven.  We welcome and encourage contributions from students, educators, and the public regardless of what area or field you call home.
+
+> Learn how to [get involved](pages/get_involved.qmd) with COMET!
+
+Some partners from other fields have made substantial contributions to this project.  We call these people part of <font color="#CC7A00"> COMET+</font>.  These materials are particularly relevant for **interdisiciplinary** students in economics or other fields who need to combine insights from econometrics with other statistical approaches.
+
+### COMET+ Partners
+
+* **UBC's Department of Geography**: Nina Hewitt, Mike Sky, and Andrea Sze
+* **UBC's Department of Sociology** and the [**Center for Computational Social Science**](https://ccss.arts.ubc.ca/): Laura K. Nelson
+
+:::{.callout-tip icon="false" appearance="minimal"}
+## Land Acknowledgement
+The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) people who have stewarded this land, water and air for time immemorial.  We hope that this project will make learning more open, inclusive, and accessible for people whichever land they call home.
+:::

@@ -1,43 +1,47 @@
+
 stages:
   - build
-  - test
   - deploy
 
-jupyter-build:
+
+#python-prep:
+#  stage: prep
+#  image: python:latest
+#  script:
+#   - python --version
+#   - pip install requests
+#   - python setup.py $KEY $SECRET
+#  when: manual
+#  artifacts:
+#    paths:
+#      - comet-quarto
+
+quarto-build:
   stage: build
-  image: python:slim
+  image: ubuntu:latest
   script:
-    - pip install -U jupyter-book
-    - jupyter-book clean comet-home/
-    - jupyter-book build comet-home/
+  - apt-get update
+  - apt-get -y install curl
+  - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+  - apt-get -y install gdebi-core
+  - gdebi -n quarto-linux-amd64.deb
+# - /usr/local/bin/quarto check
+  - cd comet-quarto
+  - quarto render
   artifacts:
     paths:
-      - comet-home/_build/
+    - comet-quarto/_site/
 
 pages:
   stage: deploy
   image: busybox:latest
   script:
-    - mv comet-home/_build/html public
+  - mv comet-quarto/_site public
   artifacts:
     paths:
-      - public
-  when: manual
+    - public
   rules:
-    - if: '$CI_COMMIT_BRANCH == "pages"'
+  - if: '$CI_COMMIT_BRANCH == "pages"'
   environment:
     name: production
     url: https://comet.arts.ubc.ca
-
-
-
-test:
-    stage: test
-    image: busybox:latest
-    script:
-        - mv comet-home/_build/html public
-    artifacts:
-        paths:
-            - public
-    rules:
-        - if: '$CI_COMMIT_BRANCH == "pages"'

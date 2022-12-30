@@ -1,0 +1,17 @@
+---
+title: "Advanced Modules"
+listing:
+- id: "listing-r"
+  type: grid
+  image-placeholder: ../../media/logo_1.png
+  contents:
+    - "*/*.ipynb"
+---
+
+This section contains advanced materials and case studies to support a variety of classes.
+
+# Modules
+
+::: {#listing-r}
+:::
+

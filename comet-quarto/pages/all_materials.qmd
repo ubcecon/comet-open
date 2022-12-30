@@ -1,0 +1,15 @@
+---
+title: "All Modules"
+listing:
+  type: grid
+  image-placeholder: ../media/banner_1.png
+  filter-ui: true
+  contents:
+    - "../docs/econ_325/*/*.ipynb"
+    - "../docs/econ_intro/*/*.ipynb"
+    - "../docs/econ_326/*/*.ipynb"
+    - "../docs/econ_490/*/*.ipynb"
+---
+
+This page contains a summary of **all** our modules for this project, across all courses.  You can find, search, and filter them using the controls below.
+

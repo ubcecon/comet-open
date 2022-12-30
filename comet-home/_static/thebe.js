@@ -1,2 +1,0 @@
-kernelName = 'ir'
-language = 'ir'
