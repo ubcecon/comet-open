@@ -1,0 +1,260 @@
+project:
+  type: website
+  render: 
+  - "*.qmd"
+  - "*.ipynb"
+  - "*.r"
+  - "!econ_490/econ490-stata/11*"
+  - "!econ_490/econ490-stata/16*"
+  - "!econ_490/econ490-stata/17*"
+  - "!econ_490/econ490-stata/18*"
+  - "!econ_490/econ490-stata/19*"
+  - "!econ_490/econ490-r/8*"
+  - "!econ_490/econ490-r/10"
+  - "!econ_490/econ490-r/11*"
+  
+execute:
+    eval: false
+
+website:
+  title: "COMET"
+  search: true
+  page-navigation: true
+  reader-mode: false
+  repo-url: https://github.com/ubcecon/comet-project
+  #repo-actions: [edit, issue]
+  repo-actions: [issue]
+  favicon: media/comet_favicon.png
+  page-footer: 
+    left: 
+    - text: 2022 ©.  See details.
+      file: pages/copyright.qmd
+         #- text: "Proudly open source.  See license details." 
+    right: 
+      - text: "The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) people."
+  navbar:
+    background: primary
+    search: false
+    logo: media/logo_no_tiny_text.png
+    #tools: 
+    #  - icon: github
+    #    href: https://github.com/ubcecon/comet-project
+    left:
+      - icon: house-door
+        file: index.qmd
+        text: "Home"
+      - text: "Get Started"
+        menu:
+        - text: "Install and Use COMET"
+          file: pages/installing_locally.qmd
+        - text: "Learn about Jupyter"
+          file: docs/econ_intro/intro_jupyter/intro_to_jupyter.ipynb
+        - text: "Learn about R"
+          file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+      - text: "Basics"
+        menu:
+        - text: "Preliminary Material"
+          file: docs/econ_intro/index_intro.qmd
+        - text: "Introduction to Econometrics (ECON 325)"
+          file: docs/econ_325/index_325.qmd
+      - text: "Fundamentals"
+        menu:
+        - text: "Introduction to Empirical Models (ECON 326)"
+          file: docs/econ_326/index_326.qmd
+      - text: "Projects"
+        menu: 
+        - text: "Overview of ECON 490"
+          file: docs/econ_490/index_490.qmd
+        - text: "R Modules"
+          file: docs/econ_490/index_490_r.qmd
+        - text: "STATA Modules"
+          file: docs/econ_490/index_490_stata.qmd
+      - text: "Advanced"
+        menu:
+        - text: "Advanced Topics"
+          file: docs/econ_adv/index_adv.qmd
+      - icon: star
+        text: "Browse All"
+        file: pages/all_materials.qmd
+    right: 
+      - icon: play
+        text: Launch COMET
+        menu:
+          - text: Launch on JupyterOpen
+            href: "https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=tree%2Fcomet-project%2F&branch=main"
+            icon: cloud-check
+          - text: Launch on Syzygy
+            href: "https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=tree%2Fcomet-project%2F&branch=main"
+            icon: gear
+          - text: Launch on Collab
+            href: "https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"
+            icon: google
+          - text: Launch Locally
+            href: "https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"
+            icon: cloud-download
+      - text: " | "
+        href: "#"
+      - text: "About"
+        menu:
+         - pages/team.qmd
+         - text: Teach With COMET
+           file: pages/using_comet.qmd
+         - pages/get_involved.qmd
+         - pages/copyright.qmd
+      
+  
+  sidebar:
+    - title: "Get Started"
+      style: docked
+      contents:
+        - pages/installing_locally.qmd
+        - section: "Jupyter and R"
+          contents:
+          - text: "1 - Intro to Jupyter"
+            file: docs/econ_intro/intro_jupyter/intro_to_jupyter.ipynb
+          - text: "2 - Getting Started with R"
+            file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+
+    - title: "Basics"
+      style: "docked"
+      contents:
+        - text: "Overview"
+          file: docs/econ_intro/index_intro.qmd
+        - section: Preliminary Material
+          contents:
+          - text: 0 - Intro to R
+            file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+          - text: 1 - Intro to Data
+            file: docs/econ_intro/into_to_data/intro_to_data.ipynb
+        - text: "---"
+        - section: Introduction to Econometrics
+          contents: 
+          - text: "0 - Overview of ECON 325"
+            file: docs/econ_325/index_325.qmd
+          - text: 1 - Distribution
+            file: docs/econ_325/08_distribution/distribution.ipynb
+          - text: 2 - Visualization I
+            file: docs/econ_325/06_visualization_1/intro_to_visualization.ipynb
+          - text: 3 - Visualization II
+            file: docs/econ_325/08_visualization_2/intro_to_visualization2.ipynb
+          - text: 3 - Central Tendency
+            file: docs/econ_325/01_central_tendency/central_tendency.ipynb
+          - text: 4 - Dispersion and Dependence
+            file: docs/econ_325/02_dispersion_and_dependence/dispersion_and_dependence.ipynb
+          - text: 5 - Sampling Distributions
+            file: docs/econ_325/10_sampling_distributions/Sampling_distributions.ipynb
+          - text: 6 - Confidence Intervals
+            file: docs/econ_325/03_confidence_intervals/confidence_intervals.ipynb
+          - text: 7 - Hypothesis Testing
+            file: docs/econ_325/04_hypothesis_testing/hypothesis_testing.ipynb
+          - text: 8 - Simple Regression
+            file: docs/econ_325/09_regression/simple_regression.ipynb
+    
+    - title: "Fundamentals"
+      style: docked
+      contents: 
+        - docs/econ_326/index_326.qmd
+        - section: Method Modules
+          contents:
+          - text: Module 1
+            file: docs/econ_326/Module_1/Module1_question.ipynb
+          - text: Module 2
+            file: docs/econ_326/Module_2/Module2_question.ipynb
+          - text: Module 3
+            file: docs/econ_326/Module_3/Module3_question.ipynb
+          - text: Module 4
+            file: docs/econ_326/Module_4/Module4_question.ipynb
+          - text: Module 5
+            file: docs/econ_326/Module_5/Module5_question.ipynb
+    
+    - title: "Capstone"
+      style: docked
+      contents:
+        - docs/econ_490/index_490.qmd
+        - section: STATA Modules
+          contents:
+          - docs/econ_490/index_490_stata.qmd
+          - text: 1 - Setting Up
+            file: docs/econ_490/econ490-stata/1_Setting_Up.ipynb
+          - text: 2 - Working with DO-files
+            file: docs/econ_490/econ490-stata/2_Working_Dofiles.ipynb
+          - text: 3 - STATA Essentials
+            file: docs/econ_490/econ490-stata/3_Stata_Essentials.ipynb
+          - text: 4 - Locals and Globals
+            file: docs/econ_490/econ490-stata/4_Locals_and_Globals.ipynb
+          - text: 5 - Opening Datasets
+            file: docs/econ_490/econ490-stata/5_Opening_Datasets.ipynb
+          - text: 6 - Creating Variables
+            file: docs/econ_490/econ490-stata/6_Creating_Variables.ipynb
+          - text: 7 - Within Groups
+            file: docs/econ_490/econ490-stata/7_Within_Group.ipynb
+          - text: 8 - Merging and Appending
+            file: docs/econ_490/econ490-stata/8_Merge_Append.ipynb
+          - text: 9 - Graphing
+            file: docs/econ_490/econ490-stata/9_Stata_Graphs.ipynb
+          - text: 11 - Combining Graphs
+            file: docs/econ_490/econ490-stata/11_Combining_Graphs.ipynb
+          - text: 12 - Linear Regression
+            file: docs/econ_490/econ490-stata/12_Linear_Reg.ipynb
+          - text: 13 - Dummy Variables
+            file: docs/econ_490/econ490-stata/13_Dummy.ipynb
+          - text: 14 - Post Regression
+            file: docs/econ_490/econ490-stata/14_PostReg.ipynb
+          - text: 15 - STATA Workflow
+            file: docs/econ_490/econ490-stata/15_Wf_Guide2.ipynb
+          - text: 16 - Matching
+            file: docs/econ_490/econ490-stata/16_Matching.ipynb
+          - text: 17 - Panel Data
+            file: docs/econ_490/econ490-stata/17_Panel_Data.ipynb
+          - text: 18 - Diff in Diff
+            file: docs/econ_490/econ490-stata/18_Diff_in_Diff.ipynb
+          - text: 19 - Instrumental Variables
+            file: docs/econ_490/econ490-stata/19_IV.ipynb
+        - text: "---"
+        - section: R Modules
+          contents:
+          - docs/econ_490/index_490_r.qmd
+          - text: 1 - Setting Up
+            file: docs/econ_490/econ490-r/1_Setting_Up.ipynb
+          - text: 2 - Working with R-Scripts
+            file: docs/econ_490/econ490-r/2_Working_Rscripts.ipynb
+          - text: 3 - R Essentials
+            file: docs/econ_490/econ490-r/3_R_Essentials.ipynb
+          - text: 4 - Opening Datasets
+            file: docs/econ_490/econ490-r/4_Opening_Datasets.ipynb
+          - text: 5 - Creating Variables
+            file: docs/econ_490/econ490-r/5_Creating_Variables.ipynb
+          - text: 6 - Within Groups
+            file: docs/econ_490/econ490-r/6_Within_Group.ipynb
+          - text: 7 - Merging and Appending
+            file: docs/econ_490/econ490-r/7_Combining_Datasets.ipynb
+          - text: 9 - Graphing
+            file: docs/econ_490/econ490-r/9_ggplot_graphs.ipynb
+          - text: 12 - Linear Regression
+            file: docs/econ_490/econ490-r/12_Linear_Reg.ipynb
+          - text: 13 - Dummy Variables
+            file: docs/econ_490/econ490-r/13_Dummy.ipynb
+          - text: 14 - Post Regression
+            file: docs/econ_490/econ490-r/14_PostReg.ipynb
+          - text: 15 - R Workflow
+            file: docs/econ_490/econ490-r/15_Wf_Guide.ipynb
+
+format:
+  html:
+    theme:
+      light: 
+        - sandstone
+        - comet_theme.scss
+    css: styles.css
+    toc: true
+    anchor-sections: true
+    email-obfuscation: javascript
+    page-layout: full
+    link-external-newwindow: true
+    lang: en-GB
+    keywords: econometrics, R, data, machine learning, UBC, COMET, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial
+
+
+
+
+

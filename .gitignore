@@ -2,3 +2,6 @@
 **/*-checkpoint*
 *-checkpoint*
 notebook_materials/pwt100.dta
+
+/.luarc.json
+comet-quarto/_site/*
