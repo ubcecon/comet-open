@@ -1,6 +1,7 @@
 project:
   type: website
   render: 
+  - "files/*"
   - "*.qmd"
   - "*.ipynb"
   - "*.r"
