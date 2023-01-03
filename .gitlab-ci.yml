@@ -35,13 +35,14 @@ quarto-build:
   - apt install conda
   - source /opt/conda/etc/profile.d/conda.sh
   - conda -V
+  - conda update -n base -c defaults conda
   - conda create --prefix env 
   - conda activate ./env
   - conda install jupyter
   - conda install -c conda-forge r-base
   - conda install -c conda-forge r-irkernel
-  - R -e install.packages('IRkernel')
-  - R -e IRkernel::installspec()
+  - R -e "install.packages('IRkernel')""
+  - R -e "IRkernel::installspec()""
   - cd comet-quarto
   - quarto render
   artifacts:
