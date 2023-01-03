@@ -20,11 +20,11 @@ quarto-build:
   stage: build
   image: jupyter/r-notebook
   script:
-  - apt-get update
-  - apt-get -y install curl
-  - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
-  - apt-get -y install gdebi-core
-  - gdebi -n quarto-linux-amd64.deb
+  - sudo apt-get update
+  - sudo apt-get -y install curl
+  - sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+  - sudo apt-get -y install gdebi-core
+  - sudo gdebi -n quarto-linux-amd64.deb
 # - /usr/local/bin/quarto check
   - cd comet-quarto
   - quarto render
