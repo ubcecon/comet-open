@@ -43,6 +43,7 @@ quarto-build:
   - cd comet-quarto
   - quarto check
   - conda env list
+  - conda activate base
   - quarto render
   artifacts:
     paths:
