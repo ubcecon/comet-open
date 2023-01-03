@@ -39,11 +39,12 @@ quarto-build:
   - conda install -c conda-forge r-irkernel
   - R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')"
   - R -e "IRkernel::installspec()"
-  - conda env list
   - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
   - apt-get -y install gdebi-core
   - gdebi -n quarto-linux-amd64.deb
   - cd comet-quarto
+  - quarto check
+  - conda env list
   - quarto render
   artifacts:
     paths:
