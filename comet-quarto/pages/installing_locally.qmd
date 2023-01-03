@@ -132,7 +132,7 @@ If this doesn't work, open the Finder, then open the `/Applications/Utilities` f
 
 Once your command prompt is running, enter the following command:
 
-``` shell 
+``` powershell 
 conda env create -f "MYPATH/comet-environment.yml"
 ```
 
@@ -144,7 +144,7 @@ replacing `"MYPATH/` with the file path you noted earlier.  Hit enter to run it.
 
 The last major step is to set up the kernel properly.  Enter the following into the command prompt and hit enter:
 
-``` shell 
+``` powershell 
 conda activate comet
 ```
 
@@ -166,7 +166,7 @@ Next, you'll want to download the files. Select `launch COMET` from the top navi
 
 Test your Jupyter installation by opening a new command prompt, then entering the following two commands:
 
-``` shell 
+``` powershell 
 cd FILEPATH
 conda activate comet
 jupyter lab
@@ -209,8 +209,8 @@ Click the Launchpad icon in the Dock, type `TextEdit` in the search field, then 
 
 In the editor, enter:
 
-``` bash
-#!/bin/bash
+``` powershell
+#!/bin/powershell
 conda run -n comet --no-capture-output jupyter lab 
 read
 ```
@@ -219,13 +219,13 @@ Then save the file as `run_comet.sh` and place it in your `comet-project`.  When
 
 Finally, open your Terminal then enter:
 
-``` shell
+``` powershell
 cd FILEPATH
 ```
 
 where `FILEPATH` is the location of your `run_comet.sh` script.  Then, enter:
 
-``` bash
+``` powershell
 chmod 755 run_comet.sh
 ```
 

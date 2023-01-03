@@ -123,10 +123,10 @@ website:
           file: docs/econ_intro/index_intro.qmd
         - section: Preliminary Material
           contents:
-          - text: 0 - Intro to R
+          - text: "0 - Intro to R"
             file: docs/econ_intro/intro_r/introduction_to_R.ipynb
-          - text: 1 - Intro to Data
-            file: docs/econ_intro/into_to_data/intro_to_data.ipynb
+          - text: "1 - Intro to Data"
+            file: docs\econ_intro\intro_to_data\intro_to_data.ipynb
         - text: "---"
         - section: Introduction to Econometrics
           contents: 
@@ -135,9 +135,9 @@ website:
           - text: 1 - Distribution
             file: docs/econ_325/08_distribution/distribution.ipynb
           - text: 2 - Visualization I
-            file: docs/econ_325/06_visualization_1/intro_to_visualization.ipynb
+            file: docs/econ_325/06_visualization_1/intro_to_visualization1.ipynb
           - text: 3 - Visualization II
-            file: docs/econ_325/08_visualization_2/intro_to_visualization2.ipynb
+            file: docs/econ_325/07_visualization_2/intro_to_visualization2.ipynb
           - text: 3 - Central Tendency
             file: docs/econ_325/01_central_tendency/central_tendency.ipynb
           - text: 4 - Dispersion and Dependence

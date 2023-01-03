@@ -1,9 +1,8 @@
 ---
 title: "Advanced Modules"
 listing:
-- id: "listing-r"
   type: grid
-  image-placeholder: ../../media/logo_1.png
+  image-placeholder: "../../media/logo_1.png"
   contents:
     - "*/*.ipynb"
 ---
