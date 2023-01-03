@@ -41,7 +41,7 @@ quarto-build:
   - conda install jupyter
   - conda install -c conda-forge r-base
   - conda install -c conda-forge r-irkernel
-  - R -e "install.packages('IRkernel')"
+  - R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')"
   - R -e "IRkernel::installspec()"
   - cd comet-quarto
   - quarto render
