@@ -5,3 +5,5 @@ notebook_materials/pwt100.dta
 
 /.luarc.json
 comet-quarto/_site/*
+comet-quarto/.luarc.json
+comet-quarto/.quarto

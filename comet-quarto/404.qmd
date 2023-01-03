@@ -1,7 +1,10 @@
 ---
-title: File Not Found
+title: Page Not Found
 ---
 
-Oop!  This file has moved or is otherwise missing.  Sorry!
+Whoops!  The page you are looking for cannot be found.  This is likely for one of two reasons:
 
-* Try searching for it using the search bar on the top, instead.
+1.  We moved the page when we reorganized the website.
+2.  It corresponds to a unit which _exists_ but isn't currently on the website.
+
+Try searching for the page using the search bar at the top.  If you're sure this is a mistake, [contact us!](mailto:comet.project@ubc.ca)
