@@ -18,7 +18,7 @@ stages:
 
 quarto-build:
   stage: build
-  image: registry.gitlab.com/quarto-forge/docker/rstats
+  image: jupyter/r-notebook
   script:
   #- apt-get update
   #- apt-get -y install curl
