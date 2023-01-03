@@ -18,13 +18,13 @@ stages:
 
 quarto-build:
   stage: build
-  image: ubuntu:latest
+  image: registry.gitlab.com/quarto-forge/docker/rstats
   script:
-  - apt-get update
-  - apt-get -y install curl
-  - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
-  - apt-get -y install gdebi-core
-  - gdebi -n quarto-linux-amd64.deb
+  #- apt-get update
+  #- apt-get -y install curl
+  #- curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+  #- apt-get -y install gdebi-core
+  #- gdebi -n quarto-linux-amd64.deb
 # - /usr/local/bin/quarto check
   - cd comet-quarto
   - quarto render
