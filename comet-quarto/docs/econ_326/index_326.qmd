@@ -4,7 +4,10 @@ listing:
   type: grid
   image-placeholder: ../../media/logo_1.png
   contents:
-    - "*/*.ipynb"
+    - "*/*.qmd"
+  categories: true
+  fields: [image, title, date, description]
+  sort-ui: [title, date]
 ---
 
 This section contains material to support UBC's [ECON 326 Methods of Empirical Research in Economics](https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=ECON&course=326).  This course is a second course in econometrics, and focuses on econometric modeling - specifically using regression-based models

@@ -5,17 +5,19 @@ project:
   - "*.qmd"
   - "*.ipynb"
   - "*.r"
-  - "!econ_490/econ490-stata/11*"
-  - "!econ_490/econ490-stata/16*"
-  - "!econ_490/econ490-stata/17*"
-  - "!econ_490/econ490-stata/18*"
-  - "!econ_490/econ490-stata/19*"
-  - "!econ_490/econ490-r/8*"
-  - "!econ_490/econ490-r/10"
-  - "!econ_490/econ490-r/11*"
+  - "!docs/econ_490/econ490-stata/11*"
+  - "!docs/econ_490/econ490-stata/16*"
+  - "!docs/econ_490/econ490-stata/17*"
+  - "!docs/econ_490/econ490-stata/18*"
+  - "!docs/econ_490/econ490-stata/19*"
+  - "!docs/econ_490/econ490-r/8*"
+  - "!docs/econ_490/econ490-r/10"
+  - "!docs/econ_490/econ490-r/11*"
   
 execute:
     eval: false
+    keep-ipynb: false
+    cache: false
 
 website:
   title: "COMET"
@@ -158,15 +160,15 @@ website:
         - section: Method Modules
           contents:
           - text: Module 1
-            file: docs/econ_326/Module_1/Module1_question.ipynb
+            file: docs/econ_326/Module_1/Module1_question.qmd
           - text: Module 2
-            file: docs/econ_326/Module_2/Module2_question.ipynb
+            file: docs/econ_326/Module_2/Module2_question.qmd
           - text: Module 3
-            file: docs/econ_326/Module_3/Module3_question.ipynb
+            file: docs/econ_326/Module_3/Module3_question.qmd
           - text: Module 4
-            file: docs/econ_326/Module_4/Module4_question.ipynb
+            file: docs/econ_326/Module_4/Module4_question.qmd
           - text: Module 5
-            file: docs/econ_326/Module_5/Module5_question.ipynb
+            file: docs/econ_326/Module_5/Module5_question.qmd
     
     - title: "Capstone"
       style: docked
@@ -193,8 +195,8 @@ website:
             file: docs/econ_490/econ490-stata/8_Merge_Append.ipynb
           - text: 9 - Graphing
             file: docs/econ_490/econ490-stata/9_Stata_Graphs.ipynb
-          - text: 11 - Combining Graphs
-            file: docs/econ_490/econ490-stata/11_Combining_Graphs.ipynb
+          #- text: 11 - Combining Graphs
+          #  file: docs/econ_490/econ490-stata/11_Combining_Graphs.ipynb
           - text: 12 - Linear Regression
             file: docs/econ_490/econ490-stata/12_Linear_Reg.ipynb
           - text: 13 - Dummy Variables
@@ -203,14 +205,14 @@ website:
             file: docs/econ_490/econ490-stata/14_PostReg.ipynb
           - text: 15 - STATA Workflow
             file: docs/econ_490/econ490-stata/15_Wf_Guide2.ipynb
-          - text: 16 - Matching
-            file: docs/econ_490/econ490-stata/16_Matching.ipynb
-          - text: 17 - Panel Data
-            file: docs/econ_490/econ490-stata/17_Panel_Data.ipynb
-          - text: 18 - Diff in Diff
-            file: docs/econ_490/econ490-stata/18_Diff_in_Diff.ipynb
-          - text: 19 - Instrumental Variables
-            file: docs/econ_490/econ490-stata/19_IV.ipynb
+          #- text: 16 - Matching
+          #  file: docs/econ_490/econ490-stata/16_Matching.ipynb
+          #- text: 17 - Panel Data
+          #  file: docs/econ_490/econ490-stata/17_Panel_Data.ipynb
+          #- text: 18 - Diff in Diff
+          #  file: docs/econ_490/econ490-stata/18_Diff_in_Diff.ipynb
+          #- text: 19 - Instrumental Variables
+          #  file: docs/econ_490/econ490-stata/19_IV.ipynb
         - text: "---"
         - section: R Modules
           contents:
