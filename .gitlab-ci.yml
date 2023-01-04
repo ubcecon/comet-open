@@ -33,10 +33,14 @@ quarto-build:
   - conda -V
   - conda update -n base -c defaults conda
   - conda install jupyter
-  - conda install -c conda-forge r-base
+  - conda install -c conda-forge r-essentials
   - conda install -c conda-forge r-irkernel
+  - conda install -c conda-forge r-tidyverse
+  - conda install -c r r-testthat
   - conda run R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')" --no-save
   - conda run R -e "IRkernel::installspec()" --no-save
+  - conda run R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
+  - conda run R -e "install.packages('digest', repos = 'http://cran.us.r-project.org')" --no-save
   - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
   - apt-get -y install gdebi-core
   - gdebi -n quarto-linux-amd64.deb
