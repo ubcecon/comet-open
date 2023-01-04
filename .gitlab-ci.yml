@@ -28,13 +28,14 @@ quarto-build:
   - wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | gpg --dearmor -o /usr/share/keyrings/r-project.gpg
   - echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list.d/r-project.list
   - pip install jupyterlab 
-  - apt-get -y install r-base # R installation
-  - R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')" --no-save
+  - apt-get -y install r-recommended # R installation
+  - R -e "install.packages('jsonlite', dependencies=TRUE, repos='http://cran.rstudio.com/')" --no-save
+  - R -e "install.packages('IRkernel', repos='http://cran.rstudio.com/')" --no-save
   - R -e "IRkernel::installspec()" --no-save
   - R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
-  - R -e "install.packages('digest', repos = 'http://cran.us.r-project.org')" --no-save
-  - R -e "install.packages('tidyverse', repos = 'http://cran.us.r-project.org')" --no-save
-  - R -e "install.packages('testthat', repos = 'http://cran.us.r-project.org')" --no-save
+  - R -e "install.packages('digest', repos='http://cran.rstudio.com/')" --no-save
+  - R -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')" --no-save
+  - R -e "install.packages('testthat', repos='http://cran.rstudio.com/')" --no-save
   #- conda run R -e "update.packages(repos = 'http://cran.us.r-project.org')" --no-save
   - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
   - apt-get -y install gdebi-core
