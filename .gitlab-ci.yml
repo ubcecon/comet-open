@@ -25,15 +25,19 @@ quarto-build:
   - apt-get -y install gpg
   - apt update
   - apt -y upgrade
+  - apt-get install software-properties-common
+  - add-apt-repository ppa:deadsnakes/ppa
+  - apt-get update
+  - apt-get install python3.8
   - python3 -V
   - wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | gpg --dearmor -o /usr/share/keyrings/r-project.gpg
   - echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list.d/r-project.list
-  - pip install jupyterlab # R installation
-  - apt install r-base -y
+  - pip install jupyterlab 
+  - apt install r-base -y # R installation
   - R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')" --no-save
   - R -e "IRkernel::installspec()" --no-save
   - R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
-  - R -e "install.packages('digest', repos = 'http://cran.us.r-project.org')" --no-
+  - R -e "install.packages('digest', repos = 'http://cran.us.r-project.org')" --no-save
   - R -e "install.packages('tidyverse', repos = 'http://cran.us.r-project.org')" --no-save
   - R -e "install.packages('testthat', repos = 'http://cran.us.r-project.org')" --no-save
   #- conda run R -e "update.packages(repos = 'http://cran.us.r-project.org')" --no-save
