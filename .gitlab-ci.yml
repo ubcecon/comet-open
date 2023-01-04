@@ -25,10 +25,10 @@ quarto-build:
   - apt-get -y install gpg
   - apt update
   - apt -y upgrade
-  - apt-get install software-properties-common
-  - add-apt-repository ppa:deadsnakes/ppa
-  - apt-get update
-  - apt-get install python3.8
+  - apt-get install software-properties-common -y
+  - add-apt-repository ppa:deadsnakes/ppa -y
+  - apt-get update -y
+  - apt-get install python3.8 -y
   - python3 -V
   - wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | gpg --dearmor -o /usr/share/keyrings/r-project.gpg
   - echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list.d/r-project.list
@@ -45,8 +45,6 @@ quarto-build:
   - apt-get -y install gdebi-core
   - gdebi -n quarto-linux-amd64.deb
   - cd comet-quarto
-  - conda env list
-  - conda activate base
   - quarto check
   - quarto render
   artifacts:
