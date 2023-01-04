@@ -23,13 +23,12 @@ quarto-build:
   - apt-get update
   - apt-get -y install curl
   - apt-get -y install gpg
-  - apt update
-  - apt -y upgrade
+  - apt-get install wget
   - python3 -V
   - wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | gpg --dearmor -o /usr/share/keyrings/r-project.gpg
   - echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list.d/r-project.list
   - pip install jupyterlab 
-  - apt install r-base -y # R installation
+  - apt-get -y install r-base # R installation
   - R -e "install.packages('IRkernel', repos = 'http://cran.us.r-project.org')" --no-save
   - R -e "IRkernel::installspec()" --no-save
   - R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
