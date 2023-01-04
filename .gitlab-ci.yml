@@ -41,9 +41,9 @@ quarto-build:
   - apt-get -y install gdebi-core
   - gdebi -n quarto-linux-amd64.deb
   - cd comet-quarto
+  - quarto check
   - conda env list
   - conda activate base
-  - quarto check
   - quarto render
   artifacts:
     paths:
