@@ -243,6 +243,7 @@ website:
             file: docs/econ_490/econ490-r/15_Wf_Guide.ipynb
 
 format:
+  ipynb: default
   html:
     theme:
       light: 
