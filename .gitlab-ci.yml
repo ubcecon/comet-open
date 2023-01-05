@@ -20,7 +20,7 @@ quarto-build:
   stage: build
   image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
-  - conda run R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
+  - R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')" --no-save
   - cd comet-quarto
   - quarto check
   - conda env list
