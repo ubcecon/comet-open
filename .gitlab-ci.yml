@@ -18,8 +18,10 @@ stages:
 
 quarto-build:
   stage: build
-  image: registry.gitlab.com/quarto-forge/docker/polyglot:latest
+  image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
+  - micromamba env
+  - micromamba activate base
   - quarto check 
   - cd comet-quarto
   - quarto render
