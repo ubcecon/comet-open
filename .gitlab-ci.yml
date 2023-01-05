@@ -18,7 +18,7 @@ stages:
 
 quarto-build:
   stage: build
-  image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
+  image: registry.gitlab.com/quarto-forge/docker/polyglot:latest
   script:
   - quarto check 
   - cd comet-quarto
