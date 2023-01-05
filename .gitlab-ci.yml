@@ -20,7 +20,7 @@ quarto-build:
   stage: build
   image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
-  - quarto check
+  - quarto check 
   - cd comet-quarto
   - quarto render
   artifacts:
