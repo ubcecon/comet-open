@@ -1,16 +1,17 @@
 ---
-jupyter: ir
 title: "03 - ECON 326: Multiple Regression using R and Jupyter"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_
 date: 8 December 2022
 description: An introduction to multiple regression using Jupyter and R, connection simple and multiple regression.  We also discuss some important concepts, including control variables.
 categories: [introduction, econ 326, data, multiple regression, regression, ols, controls]
----
-
-# ECON 326: Multiple Regression using R and Jupyter
-
-* **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves)
-* **Last Update**: 8 December 2022
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 ## Outline

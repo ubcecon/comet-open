@@ -14,15 +14,6 @@ format:
         name: ir
 ---
 
-<!--
-::: {.content-hidden when-format="html"}
-# ECON 326: Introduction to Basic Statistics using Jupyter
-
-* **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co)
-* **Last Updated**: 8 December 2022
----
-:::-->
-
 ## Outline
 
 ### Prerequisites

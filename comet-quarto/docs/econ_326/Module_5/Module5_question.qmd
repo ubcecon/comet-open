@@ -11,16 +11,16 @@ categories:
   - collinearity
   - controls
   - heteroskedasticity
-jupyter: ir
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
-::: {.content-hidden when-format="html"}
-# ECON 326: Interactions and Non-linear Terms in Regressions
-* **Authors**: COMET Team (Emrul Hasan, Shiming Wu, Jonah Heyl, Colin Grimes, Jonathan Graves, William Co)
-* **Last Update**: 8 December 2022
-
----
-:::
 ## Outline
 
 ### Prerequisites

@@ -1,18 +1,19 @@
 ---
-jupyter: ir
 title: "04 - ECON 326: Issues in Regression using R"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_
 date: 8 December 2022
 description: What are the key issues with a regression model? This notebook discusses collinearity, heteroskedasticity, and model specification.
 categories: [introduction, econ 326, multiple regression, regression, collinearity, controls, heteroskedasticity]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
-::: {.content-hidden when-format="html"}
-# ECON 326: Issues in Regression using R
 
-* **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves)
-* **Last update**: 8 December 2022
----
-::::
 ## Outline
 
 ### Prerequisites
