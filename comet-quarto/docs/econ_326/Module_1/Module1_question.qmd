@@ -1,19 +1,27 @@
 ---
-jupyter: ir
 title: "01 - ECON 326: Introduction to Basic Statistics using Jupyter"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co_
 date: 8 December 2022
 description: This notebook is an introduction to basic statistics using Jupyter and R, and some fundamental data analysis.  It is a high-level review of the most important applied tools from earlier units.
 categories: [introduction, econ 326, data, descriptive statistics]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
+<!--
 ::: {.content-hidden when-format="html"}
 # ECON 326: Introduction to Basic Statistics using Jupyter
 
 * **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co)
 * **Last Updated**: 8 December 2022
 ---
-:::
+:::-->
 
 ## Outline
 
@@ -44,9 +52,6 @@ We can do this in a Jupyter notebook by selecting a cell and hitting `shift+ente
 Try loading some of the packages into memory by running the following cell.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 # Run this cell to evaluate the code
 library(tidyverse)
 library(haven)
@@ -84,9 +89,6 @@ Each of these formats has a special **function** associated with it. Functions a
 Let's start by importing our ```.dta``` file into memory, using the ```read_dta``` function.  When we read things into memory, we normally want to use them later, so we have to give them a name.  Let's call this ```SFS_data``` so we can refer to it later on.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 # read the file named "SFS_2019_Eng.dta" into memory, and assign it to the object SFS_data
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
 ```
@@ -102,23 +104,18 @@ We have now imported our data into R. To better understand our data, the natural
 Let's try these methods out to see what each one does!
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 head(SFS_data)
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 print(SFS_data)
 ```
 
 You can use the following commands to know the detailed information of variables.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+# | eval: false
+
 # If you want to know more about the variables, you can input the name in dictionary().
 dictionary('pefatinc')
 
@@ -153,9 +150,6 @@ One of the most important things to remember is that you can access the _variabl
 For example, if we wanted to get the `mean` of `pwnetwpg` (wealth) we could do it this way:
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 mean(SFS_data$pwnetwpg)
 ```
 
@@ -172,9 +166,6 @@ test_0()
 Often, we need to clean up data in order to use it.  One way is to _filter_ based on values
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc))  
 # here we filter out the observations where before tax income is missing (or is a NA)
 ```
@@ -182,9 +173,6 @@ SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc))
 We can also `rename` variables so that they have more sensible names (e.g. what is a `pgdrmie` anyways?):
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 SFS_data <- SFS_data %>%
     rename(income_before_tax = pefmtinc) %>% # finally, we can rename columns, to be more meaningfull names, this is not nessary but is generally a good practice
     rename(income_after_tax = pefatinc) %>%
@@ -233,9 +221,6 @@ At a high level, there are a few things that can cause this wealth gap:
 We'll be exploring this topic for the next three modules. In this module, we'll see if there is a significant wealth gap, and what causes it, which may involve investigating the income gap between male and female-led households. First off, we're going to compute the average family wealth. Then we compute the average family wealth conditional on being a female lead household vs a male lead households. Next we will do a $t$-test to see if the wealth gap is significant. Finally, we will briefly investigate what is causing the wealth gap.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 mean(SFS_data$wealth) 
 #this computes the sample mean of wealth from the SFS_data set
 #notice no more jargon! we just renamed it 
@@ -249,9 +234,7 @@ One important step in working with data is to tell R what type our variables R.
 This will also make them easier to read, and ensure they are handled properly.  Let's try that now using the `as.factor` and `as.numeric` functions. Compare the results above with the new dataset below.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
+
 SFS_data<-SFS_data[!(SFS_data$education=="9"),] #
 
 SFS_data <- SFS_data %>%
@@ -274,9 +257,7 @@ head(SFS_data)
 We will first describe the gender wealth gap. In R, there are many ways we could compute basic descriptive statistics.  The simplest way is to use ``summarize`` and ``group_by``:
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
+
 # Next we look at wealth for households with men and women as main earners
 
 results <- SFS_data %>% 
@@ -295,7 +276,7 @@ results #more information about the tibble can be found in the introduction to R
 We can also visualize this, using ``ggplot2``, which can create bar graphs and other visualizations.  Here's a bar graph and a boxplot.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 f <- ggplot(data = SFS_data, aes(x = gender, y = wealth)) + xlab("Gender of Main Earner") + ylab("Wealth")  #labels and defines our x and y axis
 f1 <- f + geom_bar(stat = "summary", fun = "mean", fill = "lightblue") # produce a summary statistic, the mean
 f1 <- f1 + coord_flip() # make a horizontal bar graph!
@@ -320,9 +301,7 @@ levels(SFS_data$gender)
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
+
 t1 = t.test(  #take not of this useful function
        x = filter(SFS_data, gender == "Male")$wealth,
        y = filter(SFS_data, gender == "Female")$wealth,
@@ -343,7 +322,7 @@ As we can see here, the `t.test()` command outputs the $p$-value and test statis
 The next step is to understand why or how the gender wealth gap might exist. The natural potential factors to study are education and income. For example, perhaps females are less likely to have a university degree in a high-paying field, or perhaps females earn less income.  These reasons could potentially create a gender wealth gap.  Let's take a look at education in the survey, then try to understand how it interacts with gender:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 # Next we look at wealth for households with different education
 results <- 
     SFS_data %>% #we define our dataset 
@@ -360,7 +339,7 @@ The results suggest average wealth increases with education of the main earner.
 We also see how this breaks down by gender.  Look at the following table - do you see a pattern?
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 results <- 
     SFS_data %>% #we define our dataset 
     group_by(education,gender) %>% #group variable of interest
@@ -398,7 +377,7 @@ You can create this in many ways - but a very useful command is the `case_when` 
 
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 SFS_data <- SFS_data %>% 
                mutate( # more information on mutate in introduction to r modules
                university = case_when( 
@@ -414,7 +393,7 @@ glimpse(SFS_data$university)
 Now, let's repeat the analysis we did above by education status; then we can perform a $t$-test on each of these sub-groups:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 results <- 
     SFS_data %>%
     group_by(university,gender) %>%
@@ -432,7 +411,7 @@ f
 Similarly, let's look at the difference in wealth gap in percent terms. We use `results` generated in previous cell (the $4\times 4$ table) as the inputs this time.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 percentage_table <- SFS_data %>%
     group_by(university) %>%
     group_modify(~ data.frame(wealth_gap = 
@@ -448,7 +427,7 @@ Without a university degree, male-lead households accumulate 18% more wealth tha
 Let's study gender wealth gap within subsamples of "university degree" and "no university degree" respectively by running formal two sample t-test in the 2 subsamples.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 university_data = filter(SFS_data, university == "Yes") # university only data 
 nuniversity_data = filter(SFS_data, university == "No") # non university data
 
@@ -490,7 +469,7 @@ At this point, we have started to explore the gender wealth gap.  Next, work on 
 First, examine ``SFS_data`` with a focus on before-tax income. Create a table that tabulates the average before-tax income by gender. A correct ``tab_income`` table will pass the test.  Try looking at how we generated some of the earlier tables for inspiration, if you need a hint.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 
 tab_income <- #fill in the code below; what goes before the %>%?
     ??? %>% 
@@ -515,9 +494,8 @@ What type of variable is ``gender``? Does it make sense to have ``gender`` as th
 The table that we got in the previous activity is fairly clear, but let's illustrate things with a chart. Construct a bar graph that charts the average income before tax by gender. ``income_graph`` will store this plot. You can see it by running the second code chunk below.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
+
 income_graph <- ggplot(data = SFS_data, aes(x = ???, y = ???)) + 
                 xlab("Gender") + ylab("Income before tax")  #what goes in the y = and x = spot? 
 
@@ -543,7 +521,7 @@ Examine the graph.  What do we observe when we compare the average before-tax in
 Now, create a table that tabulates average before-tax income by education level and gender. This table, labelled ``tab_income2``, will be tested for correctness.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 tab_income2 <- 
     SFS_data %>%
     group_by(???, ???) %>% 
@@ -570,7 +548,7 @@ Let's explore these two topics. First, test whether there are significant differ
 _Note_: You will perform the t-test's of gender income gap on each education group.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 less_than_high_school_data = filter(SFS_data, education == "Less than high school") #filter variables we need
 high_school_data = filter(SFS_data, education == "High school")
 post_secondary_data = filter(SFS_data, education == "Non-university post-secondary")
@@ -594,7 +572,7 @@ test_3_3()
 ```
 
 ```{r}
-
+#| eval: false
 
 #High school
 ths = t.test(
@@ -615,7 +593,7 @@ test_3()
 ```
 
 ```{r}
-
+#| eval: false
 
 # Non-uni post-seconary
 tsocol = t.test(
@@ -633,6 +611,7 @@ test_3_7()
 ```
 
 ```{r}
+#| eval: false
 
 #University
 
@@ -664,7 +643,7 @@ Run this test for the returns to education of:
 *The following t-test objects will be tested for correctness:* Returns to education of a high school diploma for males (``retHS``) and for females(``retHSF``), and returns to education of a university's degree for males (``retU``) and for females (``retUF``).
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 
 #Returns to education: High school diploma
 
@@ -689,7 +668,8 @@ test_5()
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
+
 #Returns to education: High school diploma
 #Females
 
@@ -707,7 +687,7 @@ test_6()
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 
 #Returns to education: University
 
@@ -728,7 +708,7 @@ test_7()
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 
 #Returns to education: University
 ##Females
@@ -760,7 +740,7 @@ test_8()
 Now, let's repeat Activity 3 with after-tax income, i.e., create a table that tabulates average after-tax income by education level and gender. This table, labelled ``tab_income3``, will be tested for correctness.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+#| eval: false
 tab_income3 <- 
     SFS_data %>%
     group_by(education, ???) %>% 
