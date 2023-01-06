@@ -5,7 +5,6 @@ project:
   - "*.qmd"
   - "*.ipynb"
   - "*.r"
-  - "*.png"
   - "!docs/econ_490/econ490-stata/11*"
   - "!docs/econ_490/econ490-stata/16*"
   - "!docs/econ_490/econ490-stata/17*"
@@ -244,7 +243,6 @@ website:
             file: docs/econ_490/econ490-r/15_Wf_Guide.ipynb
 
 format:
-  ipynb: default
   html:
     theme:
       light: 

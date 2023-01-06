@@ -3,15 +3,12 @@ title: "All Modules"
 listing:
   type: grid
   image-placeholder: ../media/banner_1.png
-  categories: true
-  fields: [image, title, date, description]
-  sort-ui: [title, date]
+  filter-ui: true
   contents:
     - "../docs/econ_325/*/*.ipynb"
     - "../docs/econ_intro/*/*.ipynb"
-    - "../docs/econ_326/*/*.qmd"
+    - "../docs/econ_326/*/*.ipynb"
     - "../docs/econ_490/*/*.ipynb"
-    - "../docs/econ_adv/*/*.qmd"
 ---
 
 This page contains a summary of **all** our modules for this project, across all courses.  You can find, search, and filter them using the controls below.

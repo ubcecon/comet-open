@@ -7,4 +7,3 @@ notebook_materials/pwt100.dta
 comet-quarto/_site/*
 comet-quarto/.luarc.json
 comet-quarto/.quarto
-clean_ipynb/*

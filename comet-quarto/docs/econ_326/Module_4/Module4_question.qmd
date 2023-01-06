@@ -1,4 +1,5 @@
 ---
+jupyter: ir
 title: "04 - ECON 326: Issues in Regression using R"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_
 date: 8 December 2022
@@ -10,7 +11,7 @@ categories: [introduction, econ 326, multiple regression, regression, collineari
 
 * **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves)
 * **Last update**: 8 December 2022
-
+---
 ::::
 ## Outline
 

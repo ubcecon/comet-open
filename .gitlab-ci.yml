@@ -23,7 +23,6 @@ quarto-build:
   - micromamba env
   - eval "$(micromamba shell hook --shell=bash)"
   - micromamba activate base
-  - R -e "install.packages('stargazer', repos='http://cran.us.r-project.org')"
   - quarto check 
   - cd comet-quarto
   - quarto render
