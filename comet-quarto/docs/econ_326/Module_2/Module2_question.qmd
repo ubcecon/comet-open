@@ -1,5 +1,4 @@
 ---
-jupyter: ir
 title: "02 - ECON 326: Introduction to Regression using R"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_
 date: 8 December 2022
@@ -11,7 +10,7 @@ categories: [introduction, econ 326, data, simple regression, regression, ols]
 
 * **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves)
 * **Last Update**: 8 December 2022
----
+
 :::
 
 ## Outline

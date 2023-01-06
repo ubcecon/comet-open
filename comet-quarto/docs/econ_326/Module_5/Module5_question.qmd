@@ -11,7 +11,6 @@ categories:
   - collinearity
   - controls
   - heteroskedasticity
-jupyter: ir
 ---
 
 ::: {.content-hidden when-format="html"}
@@ -19,7 +18,7 @@ jupyter: ir
 * **Authors**: COMET Team (Emrul Hasan, Shiming Wu, Jonah Heyl, Colin Grimes, Jonathan Graves, William Co)
 * **Last Update**: 8 December 2022
 
----
+
 :::
 ## Outline
 

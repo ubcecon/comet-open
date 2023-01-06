@@ -1,9 +1,8 @@
 ---
-jupyter: ir
 title: "01 - ECON 326: Introduction to Basic Statistics using Jupyter"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co_
 date: 8 December 2022
-description: This notebook is an introduction to basic statistics using Jupyter and R, and some fundamental data analysis.  It is a high-level review of the most important applied tools from earlier units.
+description: "This notebook is an introduction to basic statistics using Jupyter and R, and some fundamental data analysis.  It is a high-level review of the most important applied tools from earlier units."
 categories: [introduction, econ 326, data, descriptive statistics]
 ---
 
@@ -12,7 +11,7 @@ categories: [introduction, econ 326, data, descriptive statistics]
 
 * **Authors**: COMET Team (Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co)
 * **Last Updated**: 8 December 2022
----
+
 :::
 
 ## Outline
