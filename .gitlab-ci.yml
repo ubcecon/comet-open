@@ -1,6 +1,7 @@
 
 stages:
   - build
+  - render
   - deploy
 
 
@@ -21,10 +22,10 @@ quarto-build:
   image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
   - micromamba env
-  - eval "$(echo micromamba activate base)"
+  - eval "$(micromamba shell hook -s bash)" && micromamba activate base"
   - quarto check 
   - cd comet-quarto
-  - eval "$(echo quarto render)"
+  - quarto render
   artifacts:
     paths:
     - comet-quarto/_site/
