@@ -21,8 +21,9 @@ quarto-build:
   stage: build
   image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
+  - ps aux
   - micromamba env
-  - eval "$(micromamba shell hook -s bash) && micromamba activate base"
+  - eval '"$(micromamba shell hook -s bash)" && micromamba activate base'
   - quarto check 
   - cd comet-quarto
   - quarto render
