@@ -21,11 +21,10 @@ quarto-build:
   image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
   script:
   - micromamba env
-  - eval "$(micromamba shell hook --shell=bash)"
-  - conda activate base
+  - eval "$(echo micromamba activate base)"
   - quarto check 
   - cd comet-quarto
-  - quarto render
+  - eval "$(echo quarto render)"
   artifacts:
     paths:
     - comet-quarto/_site/
