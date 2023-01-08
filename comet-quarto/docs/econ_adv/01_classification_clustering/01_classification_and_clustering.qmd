@@ -6,6 +6,10 @@ description: "This notebook is an introduction to classification and clustering,
 categories: [advanced, clustering, classification, machine learning, algorithmic bias]
 image: ../../../media/comet_favicon.png
 
+execute: 
+  echo: true
+  eval: false
+
 format: 
   html: default
   ipynb:
@@ -48,8 +52,8 @@ Many statistical models deal exclusively with data that is quantitative (numeric
 To understand classification, it helps to first look at a numerical example with some simulated data. Run the code cell below to see an example.
 
 ```{r}
-# | eval: true
-# | warning: false
+#| eval: true
+#| warning: false
 
 set.seed(123)
 
@@ -65,7 +69,7 @@ ggplot(dataset, aes(x = x, y = y)) + geom_point()
 In this case, we can see that our observations can be roughly classified in terms of values of $y$ centered around 1, 2, and 3 (or potentially "low", "medium" and "high" if these can be categorized in this way). We can make this classification even clearer with appropriate colours and linear boundaries separating our clusters.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 # graphing our clusters with colour and linear demarcations
 ggplot(dataset, aes(x = x, y = y)) + geom_point(col = dataset$color) +
@@ -92,7 +96,7 @@ One very popular approach to clustering is called **$K$-means clustering**. This
 We can see the following steps in an example below by using the `kmeans` function available to us in base R. This time, to demonstrate the strength of the algorithm, we will use a set of observations which cannot be easily categorized from a simple glance.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 set.seed(123)
 
@@ -107,7 +111,7 @@ ggplot(dataset2, aes(x = x, y = y)) + geom_point(color = dataset2$color)
 We can see that the above data are not as easily classifiable as before. The `kmeans` function will now run the K-means clustering algorithm for us to cluster these 100 data points into $K$ groups. For now, we will choose to use $K = 2$ as our number of initial cluster points (number of eventual clusters). Remember, the algorithm will first choose the centers randomly within the dataset, then iterate.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 set.seed(123)
 
@@ -125,7 +129,7 @@ We used the `$cluster` access above to assign colour to our data points, since t
 From the above, we can look at some useful properties of the _basic_clusters_ object we have created through use of the `kmeans` function. Firstly, the algorithm's iterative process led to clusters of 51 and 49 observations respectively. We can also see the suggested location of the centers for the cluster. Let's visualize this as well:
 
 ```{r}
-# | eval: true
+#| eval: true
 
 # visualizing our same data with final cluster points indicated
 ggplot(dataset3, aes(x = x, y = y)) + geom_point(col = basic_clusters$cluster) + 
@@ -147,7 +151,7 @@ If you remember, we simulated this data - we actually know the answer for where 
 Pretty close!  We can also see which points matched and which ones didn't.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 ggplot(dataset3, aes(x = x, y = y)) + geom_point(col = basic_clusters$cluster - dataset2$cluster + 2)
 ```
@@ -177,7 +181,7 @@ One very common approach for finding an optimal value for $K$ is to graph what i
 Let's define a simple function below to create an Elbow Plot, then use it to find the optimal value of $K$ for our clustering of `dataset2` above.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 ## draw it!
 elbow_plot()
@@ -186,7 +190,7 @@ elbow_plot()
 Using an Elbow Plot to choose a value for $K$ is always highly subjective. However, we can approximate from the above graph that the optimal $K$ is likely one of 2, 3, or 4. Let's choose 4, since this is where it most clearly looks like the graph is beginning to take on diminishing marginal returns.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 set.seed(123)
 # running the kmeans function to cluster our data (now with k = 4)
@@ -207,7 +211,7 @@ As a side-note, we generated this Elbow Plot by adapting the code from Andrea Gu
 Another important issue in K-means clustering is standardizing distances. Often, a continuous variable will take on a range of values, some of which are very small and some of which are very large. These **outliers** can skew the calculation of our mean cluster point within each cluster. For this reason, we often standardize our data points to be distributed with a mean of 0 and standard deviation of 1 (the standard normal distribution) to reduce the impact of these outliers on calculations of our cluster points. This allows the algorithm to create clusters that are often more precise. Luckily for us, R has the `scale` function that we can invoke to achieve this. Let's use this function to standardize the data in our _dataset2_ dataframe, then use our `kmeans` function again with our new value of $K = 4$ to create some new clusters.
 
 ```{r}
-# | eval: true
+#| eval: true
 
 set.seed(123)
 
@@ -234,6 +238,7 @@ So far in this module, we've worked with simulated data. However, the $k$-means 
 Firstly, let's import and prepare the data.
 
 ```{r}
+#| eval: false
 
 # reading in the data
 raw_data <- read.csv("compas-scores-two-years.csv")
@@ -252,6 +257,7 @@ Let's do this by creating some dummies for the different categories, then creati
 > _Note_: Technically, we should probably use the $k$-medioids or $k$-modes algorithm here, but let's run with $k$-means since this is what we've learned!
 
 ```{r}
+#| eval: false
 
 set.seed(123)
 
@@ -281,7 +287,7 @@ As we can see, this has split the data into three groups, which differ in terms 
 The other variables reflect the differences.  We can see most of them are not very influential, except `age` (decreases as re-offense rate increases) and `priors_count` (increases and then decreases as re-offense rate increases!). However, look at the racial makeup of the three groups.
 
 ```{r}
-
+#| eval: false
 raw_data$cluster <- recidivism_clusters$cluster
 
 table <- raw_data %>%
@@ -298,6 +304,7 @@ table
 ```
 
 ```{r}
+#| eval: false
 
 ggplot(data = centers, aes(x = table$black, y = age, color = table$cluster_name)) + geom_point(size = 10) + 
 labs(x = "% Black", y = "Age", color = "Risk")
@@ -334,7 +341,7 @@ This is called **algorithmic bias**: the algorithm is innately biased against bl
 Moreover, it's highly dependent on the algorithm used. Let's try a different model (called _linear probability_):
 
 ```{r}
-
+#| eval: false
 model <- lm(is_recid ~ c_charge_degree + race + age + priors_count + sex, data = raw_data)
 stargazer(model, type = "text")
 ```
@@ -362,6 +369,7 @@ Some [food for thought](http://smbc-comics.com/comic/rise-of-the-machines).
 In this analysis, we only looked at black and white individuals (mainly to match the results).  However, the data _also_ contained information about other races.  Consider the table below, which shows the average of several of the key variables we clustered on.  Based on this table, hypothesize which groups would be _least_ likely to be classified as high-risk.
 
 ```{r}
+#| eval: false
 
 table <- raw_data %>%
     group_by(race) %>%
@@ -406,6 +414,7 @@ Assume that the distribution of points in our overall dataset looks roughly simi
 Which of the following choices of $K$ is most likely to create a classification that clusters our training data with poor accuracy?
 
 ```{r}
+#| eval: false
 answer_1 <- "X" # your answer of A, B, or C in place of X here
 
 test_1()
@@ -414,6 +423,7 @@ test_1()
 Which of the following choices of $K$ is most likely to create a classification that clusters our training data with high accuracy but our testing data with low accuracy?
 
 ```{r}
+#| eval: false
 answer_2 <- "X" # your answer of A, B, or C in place of X here
 
 test_2()
@@ -422,6 +432,7 @@ test_2()
 Which of the following choices of $K$ is most likely to create a classification that clusters our training data with high accuracy and has high external validity?
 
 ```{r}
+#| eval: false
 answer_3 <- "X" # your answer of A, B, or C in place of X here
 
 test_3()
