@@ -5,8 +5,7 @@ date: 18 October 2022
 description: "This notebook is an introduction to classification and clustering, two basic unsupervised learning models.  It also includes an introduction to algorithmic bias, using a real-world dataset on criminal recidivism."
 categories: [advanced, clustering, classification, machine learning, algorithmic bias]
 image: ../../../media/comet_favicon.png
-jupyter: ir
-keep-ipynb: true
+
 format: 
   html: default
   ipynb:
