@@ -1,20 +1,23 @@
 ---
-jupyter: ir
 title: "ECON 490: Classification and Clustering Models"
 author: COMET Team (Colby Chambers, Jonathan Graves)
 date: 18 October 2022
 description: "This notebook is an introduction to classification and clustering, two basic unsupervised learning models.  It also includes an introduction to algorithmic bias, using a real-world dataset on criminal recidivism."
 categories: [advanced, clustering, classification, machine learning, algorithmic bias]
 image: ../../../media/comet_favicon.png
+jupyter: ir
+keep-ipynb: true
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
-::: {.content-hidden when-format="html"}
-
-# ECON 490: Classification and Clustering Models 
-* **Authors**: COMET Team (Colby Chambers, Jonathan Graves)
-* **Last Update**: 18 October 2022 
-
-:::
+## Outline
 
 ### Prerequisites
 
@@ -32,11 +35,12 @@ After completing this notebook, you will be able to:
 
 ### References
 
-* James, G., Witten, D., Hastie, T., & Tibshirani, R. _An Introduction to Statistical Learning: With Applications in R._ (2nd Ed.), Springer Texts in Statistics, 2021. https://www.statlearning.com/ 
-* Angwin, J., Larson, S., Mattu, S., & Kirchner, L. (23 May 2016) Machine Bias.  _Propublica_. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.  Retrieved 18 October 2022. [Link to Propublica Data](https://github.com/propublica/compas-analysis)
-* StatQuest: K-means clustering. https://www.youtube.com/watch?v=4b5d3muPQmA&list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF&index=40
-* Cluster-then-predict for classification tasks. https://towardsdatascience.com/cluster-then-predict-for-classification-tasks-142fdfdc87d6
-* Ideal Choice for K. https://www.guru99.com/r-k-means-clustering.html
+* James, G., Witten, D., Hastie, T., & Tibshirani, R. _An Introduction to Statistical Learning: With Applications in R._ (2nd Ed.), Springer Texts in Statistics, 2021. 
+* Angwin, J., Larson, S., Mattu, S., & Kirchner, L. (23 May 2016) [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing).  _Propublica_.   Retrieved 18 October 2022. 
+  * [Link to Propublica Data](https://github.com/propublica/compas-analysis)
+* [StatQuest: K-means clustering.](https://www.youtube.com/watch?v=4b5d3muPQmA&list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF&index=40)
+* [Cluster-then-predict for classification tasks.](https://towardsdatascience.com/cluster-then-predict-for-classification-tasks-142fdfdc87d6)
+* [Ideal Choice for K.](https://www.guru99.com/r-k-means-clustering.html)
 
 ## Introduction 
 
@@ -45,9 +49,11 @@ Many statistical models deal exclusively with data that is quantitative (numeric
 To understand classification, it helps to first look at a numerical example with some simulated data. Run the code cell below to see an example.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+# | warning: false
+
 set.seed(123)
-setwd("C:/Users/Jonathan Graves/Documents/TLEF/Notebooks/econometrics/econ_adv/01_classification_clustering/")
+
 source('01_classification_and_clustering_source.r')
 
 # creating a random data set 
@@ -60,7 +66,8 @@ ggplot(dataset, aes(x = x, y = y)) + geom_point()
 In this case, we can see that our observations can be roughly classified in terms of values of $y$ centered around 1, 2, and 3 (or potentially "low", "medium" and "high" if these can be categorized in this way). We can make this classification even clearer with appropriate colours and linear boundaries separating our clusters.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 # graphing our clusters with colour and linear demarcations
 ggplot(dataset, aes(x = x, y = y)) + geom_point(col = dataset$color) +
  geom_segment(x = 2.5, y = 0.8, xend = 0.5, yend = 2, linetype = "dashed") +
@@ -86,7 +93,8 @@ One very popular approach to clustering is called **$K$-means clustering**. This
 We can see the following steps in an example below by using the `kmeans` function available to us in base R. This time, to demonstrate the strength of the algorithm, we will use a set of observations which cannot be easily categorized from a simple glance.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 set.seed(123)
 
 # creating a new and less easily classifiable set of data
@@ -100,7 +108,8 @@ ggplot(dataset2, aes(x = x, y = y)) + geom_point(color = dataset2$color)
 We can see that the above data are not as easily classifiable as before. The `kmeans` function will now run the K-means clustering algorithm for us to cluster these 100 data points into $K$ groups. For now, we will choose to use $K = 2$ as our number of initial cluster points (number of eventual clusters). Remember, the algorithm will first choose the centers randomly within the dataset, then iterate.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 set.seed(123)
 
 dataset3 <- within(dataset2, rm(color, cluster))
@@ -117,7 +126,8 @@ We used the `$cluster` access above to assign colour to our data points, since t
 From the above, we can look at some useful properties of the _basic_clusters_ object we have created through use of the `kmeans` function. Firstly, the algorithm's iterative process led to clusters of 51 and 49 observations respectively. We can also see the suggested location of the centers for the cluster. Let's visualize this as well:
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 # visualizing our same data with final cluster points indicated
 ggplot(dataset3, aes(x = x, y = y)) + geom_point(col = basic_clusters$cluster) + 
     geom_point(data = data.frame(basic_clusters$center), aes(x = x, y = y), col = c("black", "red"), size = 4) # new part for bolded points
@@ -138,7 +148,8 @@ If you remember, we simulated this data - we actually know the answer for where 
 Pretty close!  We can also see which points matched and which ones didn't.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 ggplot(dataset3, aes(x = x, y = y)) + geom_point(col = basic_clusters$cluster - dataset2$cluster + 2)
 ```
 
@@ -167,7 +178,8 @@ One very common approach for finding an optimal value for $K$ is to graph what i
 Let's define a simple function below to create an Elbow Plot, then use it to find the optimal value of $K$ for our clustering of `dataset2` above.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 ## draw it!
 elbow_plot()
 ```
@@ -175,7 +187,8 @@ elbow_plot()
 Using an Elbow Plot to choose a value for $K$ is always highly subjective. However, we can approximate from the above graph that the optimal $K$ is likely one of 2, 3, or 4. Let's choose 4, since this is where it most clearly looks like the graph is beginning to take on diminishing marginal returns.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 set.seed(123)
 # running the kmeans function to cluster our data (now with k = 4)
 basic_clusters <- kmeans(dataset3, 4)
@@ -195,7 +208,8 @@ As a side-note, we generated this Elbow Plot by adapting the code from Andrea Gu
 Another important issue in K-means clustering is standardizing distances. Often, a continuous variable will take on a range of values, some of which are very small and some of which are very large. These **outliers** can skew the calculation of our mean cluster point within each cluster. For this reason, we often standardize our data points to be distributed with a mean of 0 and standard deviation of 1 (the standard normal distribution) to reduce the impact of these outliers on calculations of our cluster points. This allows the algorithm to create clusters that are often more precise. Luckily for us, R has the `scale` function that we can invoke to achieve this. Let's use this function to standardize the data in our _dataset2_ dataframe, then use our `kmeans` function again with our new value of $K = 4$ to create some new clusters.
 
 ```{r}
-#| vscode: {languageId: r}
+# | eval: true
+
 set.seed(123)
 
 # standardizing all of our data points
@@ -221,7 +235,7 @@ So far in this module, we've worked with simulated data. However, the $k$-means 
 Firstly, let's import and prepare the data.
 
 ```{r}
-#| vscode: {languageId: r}
+
 # reading in the data
 raw_data <- read.csv("compas-scores-two-years.csv")
 
@@ -239,7 +253,7 @@ Let's do this by creating some dummies for the different categories, then creati
 > _Note_: Technically, we should probably use the $k$-medioids or $k$-modes algorithm here, but let's run with $k$-means since this is what we've learned!
 
 ```{r}
-#| vscode: {languageId: r}
+
 set.seed(123)
 
 # make dummies and select the variables to cluster on
@@ -268,7 +282,7 @@ As we can see, this has split the data into three groups, which differ in terms 
 The other variables reflect the differences.  We can see most of them are not very influential, except `age` (decreases as re-offense rate increases) and `priors_count` (increases and then decreases as re-offense rate increases!). However, look at the racial makeup of the three groups.
 
 ```{r}
-#| vscode: {languageId: r}
+
 raw_data$cluster <- recidivism_clusters$cluster
 
 table <- raw_data %>%
@@ -285,7 +299,7 @@ table
 ```
 
 ```{r}
-#| vscode: {languageId: r}
+
 ggplot(data = centers, aes(x = table$black, y = age, color = table$cluster_name)) + geom_point(size = 10) + 
 labs(x = "% Black", y = "Age", color = "Risk")
 
@@ -321,7 +335,7 @@ This is called **algorithmic bias**: the algorithm is innately biased against bl
 Moreover, it's highly dependent on the algorithm used. Let's try a different model (called _linear probability_):
 
 ```{r}
-#| vscode: {languageId: r}
+
 model <- lm(is_recid ~ c_charge_degree + race + age + priors_count + sex, data = raw_data)
 stargazer(model, type = "text")
 ```
@@ -349,7 +363,7 @@ Some [food for thought](http://smbc-comics.com/comic/rise-of-the-machines).
 In this analysis, we only looked at black and white individuals (mainly to match the results).  However, the data _also_ contained information about other races.  Consider the table below, which shows the average of several of the key variables we clustered on.  Based on this table, hypothesize which groups would be _least_ likely to be classified as high-risk.
 
 ```{r}
-#| vscode: {languageId: r}
+
 table <- raw_data %>%
     group_by(race) %>%
     summarize(
