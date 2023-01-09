@@ -19,11 +19,17 @@ stages:
 
 quarto-build:
   stage: build
-  image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:latest
+  image: repo.code.ubc.ca:5050/arts-isit/tlef/econometrics:2.0
   script:
-  - env
-  - micromamba env
-  - eval '"$(micromamba shell hook -s bash)" && micromamba activate base'
+  - apt-get update
+  - apt-get -y install --no-install-recommends libxtst6
+  - apt-get install -y --no-install-recommends libxt6
+  - R -e "install.packages('xfun', repos = 'https://mirror.rcg.sfu.ca/mirror/CRAN/')" --no-save
+  - R -e "install.packages('vctrs', repos = 'https://mirror.rcg.sfu.ca/mirror/CRAN/')" --no-save
+  - R -e "install.packages('rmarkdown', repos = 'https://mirror.rcg.sfu.ca/mirror/CRAN/')" --no-save
+  - R -e "install.packages('tidyverse', repos = 'https://mirror.rcg.sfu.ca/mirror/CRAN/')" --no-save
+  - apt-get -y install --no-install-recommends libxtst6
+  - apt-get install -y --no-install-recommends libxt6
   - quarto check 
   - cd comet-quarto
   - quarto render
