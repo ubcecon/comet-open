@@ -30,9 +30,7 @@ website:
   favicon: media/comet_favicon.png
   page-footer: 
     left: 
-    - text: 2022 ©.  See details.
-      file: pages/copyright.qmd
-         #- text: "Proudly open source.  See license details." 
+    - text: <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
     right: 
       - text: "The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) people."
   navbar:

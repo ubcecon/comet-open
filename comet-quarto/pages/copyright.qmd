@@ -1,10 +1,12 @@
 ---
 title: "Copyright Information"
-date: 2022-10-27
+date: 2023-1-11
 title-block-banner: true
 ---
 
-This project uses data from a variety of sources, most available under an open data license.  All other material is currently copyright © 2022 by the Comet Team.  Please do not republish without authorization
+This project uses data from a variety of sources, most available under an open data license.  All other material is published under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+<div text-align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></div>
 
 ## ECON 325 Modules and Introduction Modules
 

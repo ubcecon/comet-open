@@ -39,9 +39,11 @@ Based at UBC’s [**Vancouver School of Economics**](https://economics.ubc.ca/),
 
 > Learn more about **our team** on our [about page!](pages/team.qmd)
 
-<!-- This project is **open-source** with a mixture of licenses: however, the most restrictive is **CC-BY-SA NC**.  This means that in general you can use and adapt this project for your own teaching or learning provided:-->
+This project is **open-source** with a mixture of licenses for the data.  Our notebooks are all licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/). 
 
-This project will be **open-source** with a mixture of licenses: however, right now it's *still copyrighted*.  The most restrictive open license is **CC-BY-SA NC**.  If you want to use to adapt this project, please let us know.  A minimum requirement will be that you:
+<div text-align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></div>
+
+ **CC-BY-SA NC**.  This means that in general you can use and adapt this project for your own teaching or learning provided:
 
 1. You provide *attribution*.  Our suggested attribution is:
 
@@ -51,6 +53,8 @@ This project will be **open-source** with a mixture of licenses: however, right 
 :::
 
 :::
+
+But some notebooks have an additional suggested attribution.  Check the **authors** on the notebook page!
 
 2. You only use this material for *non-commercial purposes* (i.e. you cannot make money off it)
 3. If you produce derivative materials they *must share the CC-BY-SA NC license*
