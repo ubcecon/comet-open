@@ -5,7 +5,6 @@ project:
   - "*.qmd"
   - "*.ipynb"
   - "*.r"
-  - "!docs/econ_490/econ490-stata/11*"
   - "!docs/econ_490/econ490-stata/16*"
   - "!docs/econ_490/econ490-stata/17*"
   - "!docs/econ_490/econ490-stata/18*"
@@ -193,14 +192,16 @@ website:
             file: docs/econ_490/econ490-stata/8_Merge_Append.ipynb
           - text: 9 - Graphing
             file: docs/econ_490/econ490-stata/9_Stata_Graphs.ipynb
-          #- text: 11 - Combining Graphs
-          #  file: docs/econ_490/econ490-stata/11_Combining_Graphs.ipynb
-          - text: 12 - Linear Regression
-            file: docs/econ_490/econ490-stata/12_Linear_Reg.ipynb
-          - text: 13 - Dummy Variables
-            file: docs/econ_490/econ490-stata/13_Dummy.ipynb
-          - text: 14 - Post Regression
-            file: docs/econ_490/econ490-stata/14_PostReg.ipynb
+          - text: 10 - Combining Graphs
+            file: docs/econ_490/econ490-stata/10_Combining_Graphs.ipynb
+          - text: 11 - Linear Regression
+            file: docs/econ_490/econ490-stata/11_Linear_Reg.ipynb
+          - text: 12 - Dummy Variables
+            file: docs/econ_490/econ490-stata/12_Dummy.ipynb
+          - text: 13 - Post Regression
+            file: docs/econ_490/econ490-stata/13_PostReg.ipynb
+          - text: 15 - Panel Data
+            file: docs/econ_490/econ490-stata/14_Panel_Data.ipynb
           - text: 15 - STATA Workflow
             file: docs/econ_490/econ490-stata/15_Wf_Guide2.ipynb
           #- text: 16 - Matching
