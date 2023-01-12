@@ -48,9 +48,9 @@ website:
         - text: "Install and Use COMET"
           file: pages/installing_locally.qmd
         - text: "Learn about Jupyter"
-          file: docs/econ_intro/intro_jupyter/intro_to_jupyter.ipynb
+          file: docs/econ_intro/intro_jupyter/intro_to_jupyter.qmd
         - text: "Learn about R"
-          file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+          file: docs/econ_intro/intro_r/introduction_to_R.qmd
       - text: "Basics"
         menu:
         - text: "Preliminary Material"
@@ -111,9 +111,9 @@ website:
         - section: "Jupyter and R"
           contents:
           - text: "1 - Intro to Jupyter"
-            file: docs/econ_intro/intro_jupyter/intro_to_jupyter.ipynb
+            file: docs/econ_intro/intro_jupyter/intro_to_jupyter.qmd
           - text: "2 - Getting Started with R"
-            file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+            file: docs/econ_intro/intro_r/introduction_to_R.qmd
 
     - title: "Basics"
       style: "docked"
@@ -123,9 +123,9 @@ website:
         - section: Preliminary Material
           contents:
           - text: "0 - Intro to R"
-            file: docs/econ_intro/intro_r/introduction_to_R.ipynb
+            file: docs/econ_intro/intro_r/introduction_to_R.qmd
           - text: "1 - Intro to Data"
-            file: docs\econ_intro\intro_to_data\intro_to_data.ipynb
+            file: docs\econ_intro\intro_to_data\intro_to_data.qmd
         - text: "---"
         - section: Introduction to Econometrics
           contents: 
@@ -254,7 +254,7 @@ format:
     page-layout: full
     link-external-newwindow: true
     lang: en-GB
-    keywords: econometrics, R, data, machine learning, UBC, COMET, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial
+    keywords: economics, econometrics, R, data, machine learning, UBC, COMET, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial
 
 
 

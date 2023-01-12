@@ -4,7 +4,7 @@ listing:
   type: grid
   image-placeholder: ../../media/banner_1.png
   contents:
-    - "*/*.ipynb"
+    - "*/*.qmd"
 ---
 
 
