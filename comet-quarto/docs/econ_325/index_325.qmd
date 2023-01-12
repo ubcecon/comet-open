@@ -4,7 +4,7 @@ listing:
   type: grid
   image-placeholder: ../../media/logo_1.png
   contents:
-    - "*/*.ipynb"
+    - "*/*.qmd"
 ---
 
 # Outline - ECON 325

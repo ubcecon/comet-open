@@ -132,23 +132,23 @@ website:
           - text: "0 - Overview of ECON 325"
             file: docs/econ_325/index_325.qmd
           - text: 1 - Distribution
-            file: docs/econ_325/08_distribution/distribution.ipynb
+            file: docs/econ_325/08_distribution/distribution.qmd
           - text: 2 - Visualization I
-            file: docs/econ_325/06_visualization_1/intro_to_visualization1.ipynb
+            file: docs/econ_325/06_visualization_1/intro_to_visualization1.qmd
           - text: 3 - Visualization II
-            file: docs/econ_325/07_visualization_2/intro_to_visualization2.ipynb
-          - text: 3 - Central Tendency
-            file: docs/econ_325/01_central_tendency/central_tendency.ipynb
-          - text: 4 - Dispersion and Dependence
-            file: docs/econ_325/02_dispersion_and_dependence/dispersion_and_dependence.ipynb
-          - text: 5 - Sampling Distributions
-            file: docs/econ_325/10_sampling_distributions/Sampling_distributions.ipynb
-          - text: 6 - Confidence Intervals
-            file: docs/econ_325/03_confidence_intervals/confidence_intervals.ipynb
-          - text: 7 - Hypothesis Testing
-            file: docs/econ_325/04_hypothesis_testing/hypothesis_testing.ipynb
-          - text: 8 - Simple Regression
-            file: docs/econ_325/09_regression/simple_regression.ipynb
+            file: docs/econ_325/07_visualization_2/intro_to_visualization2.qmd
+          - text: 4 - Central Tendency
+            file: docs/econ_325/01_central_tendency/central_tendency.qmd
+          - text: 5 - Dispersion and Dependence
+            file: docs/econ_325/02_dispersion_and_dependence/dispersion_and_dependence.qmd
+          - text: 6 - Sampling Distributions
+            file: docs/econ_325/10_sampling_distributions/Sampling_distributions.qmd
+          - text: 7 - Confidence Intervals
+            file: docs/econ_325/03_confidence_intervals/confidence_intervals.qmd
+          - text: 8 - Hypothesis Testing
+            file: docs/econ_325/04_hypothesis_testing/hypothesis_testing.qmd
+          - text: 9 - Simple Regression
+            file: docs/econ_325/09_regression/simple_regression.qmd
     
     - title: "Fundamentals"
       style: docked
