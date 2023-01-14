@@ -1,5 +1,8 @@
 project:
   type: website
+  preview:
+    port: 4200
+    browser: true
   render: 
   - "files/*"
   - "*.qmd"
@@ -45,6 +48,8 @@ website:
         text: "Home"
       - text: "Get Started"
         menu:
+        - text: Quickstart Guide
+          file: pages/quickstart.qmd
         - text: "Install and Use COMET"
           file: pages/installing_locally.qmd
         - text: "Learn about Jupyter"
@@ -108,6 +113,7 @@ website:
       style: docked
       contents:
         - pages/installing_locally.qmd
+        - pages/quickstart.qmd
         - section: "Jupyter and R"
           contents:
           - text: "1 - Intro to Jupyter"
