@@ -1,10 +1,14 @@
 ---
 title: "Overview of Basic Modules"
+toc: false
 listing:
   type: grid
   image-placeholder: ../../media/banner_1.png
   contents:
     - "*/*.qmd"
+  categories: true
+  fields: [image, title, date, description]
+  sort-ui: [title, date]
 ---
 
 

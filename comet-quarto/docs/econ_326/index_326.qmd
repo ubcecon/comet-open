@@ -1,5 +1,6 @@
 ---
 title: "Methods Of Empirical Research In Economics (ECON 326)"
+toc: false
 listing:
   type: grid
   image-placeholder: ../../media/logo_1.png
