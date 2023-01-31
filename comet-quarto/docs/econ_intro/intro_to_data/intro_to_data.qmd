@@ -98,12 +98,12 @@ answer0 <- "..."
 test_0()
 ```
 
-Did you get it?  Okay, now replace the `...` in the code below with that function to load the data!
+Did you get it?  Okay, now replace the `???` in the code below with that function to load the data!
 
 ```{r}
-#| tags: []
+
 # reading in the data
-census_data <- ??(".../datasets/01_census2016.dta")  # change me!
+census_data <- ???("../datasets/01_census2016.dta")  # change me!
 
 # inspecting the data
 glimpse(census_data)

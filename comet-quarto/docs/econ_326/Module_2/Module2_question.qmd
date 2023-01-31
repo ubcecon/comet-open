@@ -26,6 +26,7 @@ format:
 ### Outcomes
 
 By the end of this notebook, you will be able to:
+
 * Learn how to run a simple linear regression using R
 * Create and understand regression outputs in R
 * Understand how to interpret coefficient estimates from simple linear regressions in terms of an econometric model

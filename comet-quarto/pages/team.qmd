@@ -35,6 +35,7 @@ My name is Colby and I’m a fourth year undergraduate student in the honours ec
 My economic interests include exploring how to promote group cohesion in the workplace and address discrimination more generally. On campus, I have been involved with the Science Peer Academic Coaches, the Iona Journal of Economics, and UBC Conservatives. Off campus, I volunteer for the Foundation Against Intolerance and Racism, a charity which promotes an open, non-partisan approach to the issues above. In my spare time, I enjoy reading and expanding my geographic knowledge through any platform I can find.
 :::
 </li>
+<li>William Co</li>
 <li>Paul Corcuera</li>
 <li> Rathin Dharani</li>
 <li>
@@ -49,6 +50,7 @@ In my spare time I enjoy being with mountains and forests and can often be found
 :::
 </li>
 <li> Colin Grimes</li>
+<li> Yeow Chong Goh</li>
 <li> Jonah Heyl</li>
 <li> Arshiya Malik</li>
 <li> Shiming Wu</li>

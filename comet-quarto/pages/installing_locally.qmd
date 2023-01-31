@@ -205,29 +205,35 @@ I haven't tested this yet!  Let me know if it's busted.
 
 Click the Launchpad icon in the Dock, type `TextEdit` in the search field, then click "TextEdit".
 
-* If this doesn't work, open the Finder, then open the `/Applications/Utilities` folder, and finally double-click "TextEdit".
-
-In the editor, enter:
+Launch the terminal, and type in `nano` to launch the (very old-school) nano text editor.  In the editor, enter:
 
 ``` powershell
-#!/bin/powershell
+#!/bin/zsh
 conda run -n comet --no-capture-output jupyter lab 
 read
 ```
 
-Then save the file as `run_comet.sh` and place it in your `comet-project`.  When you double-click on it, it should immediately launch Jupyter Lab for you in the associated folder.  However, there's one last step: making it executable.
+Then save the file by hitting `CTRL` and `X` on your keyboard together, and type in `run_comet.sh`, then hit `y` to save.  The file should now be saved to your computer as  `run_comet.sh`.  Make sure you place it in the `comet-project` folder.  There's one last step: making it executable.
 
-Finally, open your Terminal then enter:
+In your Terminal then enter:
 
 ``` powershell
 cd FILEPATH
 ```
-
 where `FILEPATH` is the location of your `run_comet.sh` script.  Then, enter:
 
 ``` powershell
 chmod 755 run_comet.sh
 ```
+
+Finally, to make it run on your computer:
+
+*  find the file in your Finder, and right-click, and select "Open with..." and select "Other...".
+*  toggle the dropdown to "All Applications" from "Recommended Applications"
+*  under "Utilities" select Terminal
+*  check the "always use this application" box, and hit OK.
+
+You should now be able to double-click the shortcut to launch Jupyter on your computer!
 
 All done!  No more command line stuff, hopefully!
 :::

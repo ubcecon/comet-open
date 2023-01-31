@@ -64,6 +64,7 @@ As an aside, in this course we try (as much as possible) to use R packages which
 The first step in an econometric project is to import, tidy, and examine your data.  For this project, we will be using data from the 2019 Survey of Financial Security (SFS), provided by Statistics Canada (see the license notes).  This is _real data_ on real Canadians.
 
 In this course, we will always work with data that is **tidy**.  This is a data-science term that refers to data with a particular format or shape.  Specifically, tidy data is rectangular data in which:
+
 * Each row represents one observation
 * Each column represents a single variable
 
@@ -176,7 +177,7 @@ You will notice that the code above looks a little different and uses the `%>%` 
 
 For example, the line `SFS_data <- SFS_data %>% rename(income_before_tax = pefmtinc)` is the same as writing:
 
-```
+``` r
 SFS_data <- rename(SFS_data, income_before_tax = pefmtinc)
 ```
 
@@ -190,11 +191,15 @@ In this analysis, we'll be exploring a few of the following questions:
 What factors contribute to the gender gap? Here we are going to explore the wealth gap between male-led households and female-led households 
 > In this context, a **male-led household** is a household in which a male earns the majority of the income and a **female-led household** is a household in which a female earns the majority of the income.
 
-<span style="color:#CC7A00" > 🔎 **Let's think critically** </span>
+::: {.callout-note}
+##  🔎 **Let's think critically** 
+
 > 🟠 Note that in this dataset, sex and gender are used synonymously to describe two binary classes. In real life, a person's gender may not correspond to the sex assigned to them at birth, or even to a classification of sexual identity that exists in the view of Western hegemonic gender and sexuality tradition; as such, notions of sexuality and gender are best understood to exist on a spectrum rather than as a binary class.\
 > 🟠 In the context of gender classification, what do you think are some ways that coding variables can reinforce exclusionary logics or dis/misrepresent certain people groups?\
 > 🟠 What _other_ kinds of economic gender income or wealth gap questions are overlooked when we only look at differences between people who identify as [cisgendered](https://en.wikipedia.org/wiki/Cisgender) men and women?\
 > 🟠 If you are interested in learning more about Statistics Canada's work in diversifying gender and sexual expression in the national census for 2021, you can read their [technical report on sex at birth and gender](https://www12.statcan.gc.ca/census-recensement/2021/ref/98-20-0002/982000022020002-eng.cfm) issued in July 2020.  
+
+:::
 
 With this in mind, we'll begin our analysis by asking ourselves: is there a significant gap between male-led household wealth and female-led household wealth? A different way to ask this is: given our data, what percent of the time would we except this gap to appear randomly? 
 
@@ -308,6 +313,7 @@ round(t1$estimate[1] - t1$estimate[2],2) # this just rounds our results
 As we can see here, the `t.test()` command outputs the $p$-value and test statistic immediately. This particular $t$-test was for a 95% confidence level. The gender-wealth gap is $235,285.60 dollars. As you can see, there is a significant gap in wealth between male and female lead households.
 
 ### Going Deeper:
+
 > ***What could be the potential causes of the gender-wealth gap in Canada?***
 
 The next step is to understand why or how the gender wealth gap might exist. The natural potential factors to study are education and income. For example, perhaps females are less likely to have a university degree in a high-paying field, or perhaps females earn less income.  These reasons could potentially create a gender wealth gap.  Let's take a look at education in the survey, then try to understand how it interacts with gender:
@@ -531,6 +537,7 @@ Examine the table. What do we observe when we compare the before-tax income gap 
 
 ### Activity 4
 Economists are often concerned with two aspects of the relationship between male and female lead households  and education:
+
 * Difference in average income between the two household groups
 * The difference in returns to education between the two household groups
 
@@ -628,6 +635,7 @@ Next, examine whether returns to education differ between genders. For our purpo
 > **Returns to Education**: The difference in average income before tax between two subsequent education levels.
 
 Run this test for the returns to education of: 
+
 * High school diploma (relative to less than high school) and 
 * University degree (relative to non-university post-secondary)
 

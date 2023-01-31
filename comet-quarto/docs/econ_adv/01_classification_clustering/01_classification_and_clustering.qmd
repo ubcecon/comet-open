@@ -9,6 +9,7 @@ image: ../../../media/comet_favicon.png
 execute: 
   echo: true
   eval: false
+  cache: false
 
 format: 
   html: default
