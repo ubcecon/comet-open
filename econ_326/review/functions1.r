@@ -1,6 +1,5 @@
 library(testthat)
 library(digest)
-library(dplyr)
 
 
 
@@ -165,3 +164,5 @@ test_9 <- function() {
   })
   print("Success!")
 }
+
+print("Loaded!")

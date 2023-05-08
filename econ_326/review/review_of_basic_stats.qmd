@@ -1,9 +1,10 @@
 ---
-title: "01 - ECON 326: Introduction to Basic Statistics using Jupyter"
+title: "01 - Review of Basic Statistics using R"
 author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, Anneke Dresselhuis, Jonathan Graves, William Co_
-date: 8 December 2022
+version: 0.1
+date: 2023-05-08
 description: This notebook is an introduction to basic statistics using Jupyter and R, and some fundamental data analysis.  It is a high-level review of the most important applied tools from earlier units.
-categories: [introduction, econ 326, data, descriptive statistics]
+categories: [introduction, review, econ 326, data, descriptive statistics]
 format: 
   html: default
   ipynb:
@@ -13,6 +14,18 @@ format:
         language: r
         name: ir
 ---
+
+```{.callout-warning}
+Key learning objectives should be:
+
+* Load data
+* Compute summary statistics
+* Compute basic summary statistics table
+* Do a t-test
+
+Cut everything else
+```
+
 
 ## Outline
 
@@ -28,17 +41,16 @@ After completing this worksheet, you will be able to
 * Compute and visualize descriptive statistics from data
 * Perform a t-test in R
 
-## Part 1: Introduction to R and Jupyter
+## Part 1: Review of Data in R and Jupyter
 
 
 In this tutorial, we will be working with some real-world data: the 2019 Survey of Financial Security, provided by Statistics Canada[<sup id="fn1s">1</sup>](#fn1). First, we will import data into our notebook. We are going to give a brief review of some of the features of R (feel free to skip this if you are already familiar with R or review the introduction notebooks if you are in need of a more comprehensive review).
+
 In R, we import data using different commands, which are stored in **libraries** that other developers of R have created for us.  Let's import some of the most important libraries now.  
 
 We can do this in a Jupyter notebook by selecting a cell and hitting `shift+enter` or by pressing the `play` button in the menu.
 
 > **Important**: information is stored in cells in a notebook.  However, cells run independently; so, if you run a later cell it doesn't re-evaluate previous cells.  You have to re-run them before you can use the results.  You can re-run all the cells in a notebook with the "fast forward" button.
-
-
 
 Try loading some of the packages into memory by running the following cell.
 
@@ -58,26 +70,28 @@ You have now imported the packages into memory, and they are available to use in
 As an aside, in this course we try (as much as possible) to use R packages which are part of the [tidyverse](https://www.tidyverse.org/) family of packages.  This is because they are well-supported, consistent, and commonly used in data sciences.  There are (usually) other packages that provide similar functions.
 
 
-
 ### Importing Data into R
 
 The first step in an econometric project is to import, tidy, and examine your data.  For this project, we will be using data from the 2019 Survey of Financial Security (SFS), provided by Statistics Canada (see the license notes).  This is _real data_ on real Canadians.
 
 In this course, we will always work with data that is **tidy**.  This is a data-science term that refers to data with a particular format or shape.  Specifically, tidy data is rectangular data in which:
+
 * Each row represents one observation
 * Each column represents a single variable
 
-You can imagine this as a spreadsheet in a program like Excel.  This is the way most statistical programs like to receive data - but it _isn't_ a property of the data itself.  It is only a representation; there can be other kinds of representations.  For example, a panel data set might have each row as a unit (e.g. country) and each column might represent a variable in a year (e.g. unemployment in 2016, unemployment in 2017, etc.).  Often, when we work with real-world data we have to reshape it in order for it to be usable - but in this course, we won't worry about that just yet.
+You can imagine this as a spreadsheet in a program like Excel.  This is the way most statistical programs like to receive data - but it _isn't_ a property of the data itself.  It is only a representation; there can be other kinds of representations.  
 
-Data can be stored in many different file formats (which encode how information is stored), which must be interpreted by our statistical programs. For example, data files with a `.dta` are formatted for Stata,  data files with a `.csv` suffix are formatted as comma-seperated values, and data files with an `.Rda` suffix are formatted for R. This is referred to as **importing** data. There are different methods for importing data in different formats; for example:
+> For example, a panel data set might have each row as a unit (e.g. country) and each column might represent a variable in a year (e.g. unemployment in 2016, unemployment in 2017, etc.).  Often, when we work with real-world data we have to reshape it in order for it to be usable.
 
-* `read_dta()`: Importing data from a ```.dta``` file: this is data that was created by the statistical software STATA and is commonly used in economics.
-* `read.csv()`: Importing data from a delimited text file: this is data which is in a text format, but where the columns are *delimited* or seperated by a special character.  For example, the ```.csv``` (comma-separated variable) format is text, but where the columns are separated by a comma.
-* `load()`: Importing data from an ```.Rda``` file: this is data that was created by the statistical software R and is commonly used in statistics.
+Data can be stored in many different file formats (which encode how information is stored), which must be interpreted by our statistical programs. For example, data files with a `.dta` are formatted for STATA,  data files with a `.csv` suffix are formatted as comma-separated values, and data files with an `.Rda` suffix are formatted for R. This is referred to as **importing** data. There are different methods for importing data in different formats; for example:
 
-Each of these formats has a special **function** associated with it. Functions are commands, stored in R packages, that tell R to do things.  In fact, you've already seen one!  The ```library(...)``` function imports whatever package is in the brackets into memory.
+* `read_dta()`: Importing data from a `.dta` file: this is data that was created by the statistical software STATA and is commonly used in economics.
+* `read.csv()`: Importing data from a delimited text file: this is data which is in a text format, but where the columns are *delimited* or separated by a special character.  For example, the `.csv` (comma-separated variable) format is text, but where the columns are separated by a comma.
+* `load()`: Importing data from an `.Rda` file: this is data that was created by the statistical software R and is commonly used in statistics.
 
-Let's start by importing our ```.dta``` file into memory, using the ```read_dta``` function.  When we read things into memory, we normally want to use them later, so we have to give them a name.  Let's call this ```SFS_data``` so we can refer to it later on.
+Each of these formats has a special **function** associated with it. Functions are commands, stored in R packages, that tell R to do things.  In fact, you've already seen one!  The `library(...)` function imports whatever package is in the brackets into memory.
+
+Let's start by importing our `.dta` file into memory, using the `read_dta` function.  When we read things into memory, we normally want to use them later, so we have to give them a name.  Let's call this `SFS_data` so we can refer to it later on.
 
 ```{r}
 # read the file named "SFS_2019_Eng.dta" into memory, and assign it to the object SFS_data
@@ -88,9 +102,9 @@ SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
 
 We have now imported our data into R. To better understand our data, the natural next step is to inspect and view it. We always do this immediately after loading in our data to make sure there are no unexpected features or problems with it. We will learn three of these commands:
 
-* ```head(...)```
-* ```print(...)```
-* ```glimpse(...)```
+* `head(...)`
+* `print(...)`
+* `glimpse(...)`
 
 Let's try these methods out to see what each one does!
 
@@ -105,7 +119,6 @@ print(SFS_data)
 You can use the following commands to know the detailed information of variables.
 
 ```{r}
-# | eval: false
 
 # If you want to know more about the variables, you can input the name in dictionary().
 dictionary('pefatinc')
@@ -116,18 +129,31 @@ str(SFS_data$pefatinc)
 Your turn! Try using the `glimpse()` function to check out the data. Store your answer in a variable called `answer00`
 
 ```{r}
-answer00 <- glimpse ??? #fill inthe code here.
+#| eval: false
+
+answer00 <- glimpse ??? #fill in the code here.
 
 test_00()
 ```
 
+```{r}
+#| eval: false
+#| tags: [answer]
+
+
+answer00 <- glimpse(SFS_data)
+
+test_00()
+
+```
+
 Some important variables in this dataset:
 
-* ```pefmtinc```: income_before_tax
-* ```pefatinc```: income_after_tax
-* ```pwnetwpg```: wealth
-* ```pgdrmie```: gender
-* ```peducmie```: education
+* `pefmtinc`: income_before_tax
+* `pefatinc`: income_after_tax
+* `pwnetwpg`: wealth
+* `pgdrmie`: gender
+* `peducmie`: education
 
 #### Accessing Variables and Data Frames
 
@@ -144,12 +170,23 @@ For example, if we wanted to get the `mean` of `pwnetwpg` (wealth) we could do i
 mean(SFS_data$pwnetwpg)
 ```
 
-This says: get the variable ``pwnetwpg`` from the dataframe ``SFS_data``, then compute the mean.  In a command like ``filter`` you can tell the command to work with the data, and then refer to the variables just by their name.  
+This says: get the variable `pwnetwpg` from the dataframe `SFS_data`, then compute the mean.  In a command like `filter` you can tell the command to work with the data, and then refer to the variables just by their name.  
 
 Try it our yourself! What is the maximum value for education in this data set? (hint, try  the `max()` function) 
 
 ```{r}
+#| eval: false
+
 answer0 <- max(...)???
+
+test_0() 
+```
+
+```{r}
+#| eval: false
+#| tags: [answer]
+
+answer0 <- max(SFS_data$peducmie)
 
 test_0() 
 ```
@@ -165,14 +202,15 @@ We can also `rename` variables so that they have more sensible names (e.g. what 
 
 ```{r}
 SFS_data <- SFS_data %>%
-    rename(income_before_tax = pefmtinc) %>% # finally, we can rename columns, to be more meaningfull names, this is not nessary but is generally a good practice
+    rename(income_before_tax = pefmtinc) %>% 
+#finally, we can rename columns, to be more meaningful names, this is not necessary but is generally a good practice
     rename(income_after_tax = pefatinc) %>%
     rename(wealth = pwnetwpg) %>%
     rename(gender = pgdrmie) %>%
     rename(education = peducmie) 
 ```
 
-You will notice that the code above looks a little different and uses the `%>%` operation.  This is called the **pipe operator**.  It is shorthard for "insert whatever comes before into the first argument of what comes afer" - kind of like a series a pipes, hence the name.  You can think of it as saying "and then do".
+You will notice that the code above looks a little different and uses the `%>%` operation.  This is called the **pipe operator**.  It is shorthand for "insert whatever comes before into the first argument of what comes after" - kind of like a series of pipes, hence the name.  You can think of it as saying "and then do..."
 
 For example, the line `SFS_data <- SFS_data %>% rename(income_before_tax = pefmtinc)` is the same as writing:
 
@@ -188,6 +226,7 @@ Now we can get started on our analysis. You may have heard people talk about the
 
 In this analysis, we'll be exploring a few of the following questions:
 What factors contribute to the gender gap? Here we are going to explore the wealth gap between male-led households and female-led households 
+
 > In this context, a **male-led household** is a household in which a male earns the majority of the income and a **female-led household** is a household in which a female earns the majority of the income.
 
 <span style="color:#CC7A00" > 🔎 **Let's think critically** </span>
@@ -219,8 +258,8 @@ mean(SFS_data$wealth)
 
 One important step in working with data is to tell R what type our variables R.
 
-* This means that for **quantiative** variables, we need to make sure they are numeric
-* And for **qualiative** variables that they are _factors_
+* This means that for **quantitative** variables, we need to make sure they are numeric
+* And for **qualitative** variables that they are _factors_
 
 This will also make them easier to read, and ensure they are handled properly.  Let's try that now using the `as.factor` and `as.numeric` functions. Compare the results above with the new dataset below.
 
@@ -236,8 +275,7 @@ SFS_data <- SFS_data %>%
                 education == "4" ~ "University",
                 TRUE ~ "NA" #otherwise
             )) %>%
-            #filter(education != "NA") %>%
-            mutate(education = as_factor(education)) %>% #education is now afactor
+            mutate(education = as_factor(education)) %>% #education is now a factor
             mutate(gender = as_factor(gender)) # gender is now a factor
 
 head(SFS_data)
@@ -513,6 +551,7 @@ Now, create a table that tabulates average before-tax income by education level 
 
 ```{r}
 #| eval: false
+
 tab_income2 <- 
     SFS_data %>%
     group_by(???, ???) %>% 
