@@ -228,6 +228,7 @@ summary(multiple_model_1)
 > **Test your knowledge:**  Based on the results above, how much more wealth do university graduates accumulate, relative to folks with non-university education levels, when we hold gender fixed?
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 # answer the question above by filling in the number 
@@ -443,6 +444,7 @@ Run a simple regression for the gender income gap (with a single regressor) for 
 <em>Tested objects:</em> ``reg_LESS`` (simple regression; less than high school), ``reg_HS`` (high school diploma), ``reg_NU`` (Non-university post-secondary), ``reg_U`` (university),  ``reg2`` (multiple regression).
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 
@@ -543,6 +545,7 @@ Add `agegr` to the given multiple regression and compare it with the model that 
 <em>Tested Objects:</em> `reg3` (the same multiple regression that we estimated before, but with age added as a control).
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 
@@ -570,6 +573,7 @@ Prompt: Suppose that one of your fellow researchers argues that `employment` (em
 Let's test this argument directly. Add `employment` as a control to the multiple regression with all previous controls. Estimate this new regression (`reg4`).
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 
@@ -610,12 +614,14 @@ Let's back up our argument with regression analysis. Estimate a regression that 
 What is "pasrbuyg"?
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 dictionary(???) #What goes in here?
 ```
 
 ```{r}
+#| eval: false
 #| pycharm: {name: "#%%\n"}
 #| vscode: {languageId: r}
 source("functions3.r")
