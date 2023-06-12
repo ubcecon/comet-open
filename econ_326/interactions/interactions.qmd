@@ -45,21 +45,18 @@ In this worksheet, you will learn:
  R package version 5.2.3. https://cran.r-project.org/web/packages/stargazer/index.html </span>
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| output: false
 library(tidyverse)
 library(haven)
 library(dplyr)
 library(scales)
 library(stargazer)
-
-install.packages("car")
 library(car)
 
 source("functions5.r")
 
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
-SFS_data <- clean_up_data()
+SFS_data <- clean_up_data(SFS_data)
 ```
 
 ## Part 1: Interactions in Regression Models
@@ -68,11 +65,15 @@ One of the most common extensions to multiple regression models is to include **
 
 For example, if we have a dummy variable for being a female ($F_i$) and a dummy variable for having a university degree ($D_i$), the _interaction_ of these two variables is the product $D_i \times F_i$.  This can seem complicated but it also has a simple interpretation: it is now a dummy for being _both_ a female and having a university degree.  You can see why this is true:
 
-$$ D_i \times F_i = 1 \iff D_i = 1 \text{ and } F_i = 1$$
+$$ 
+D_i \times F_i = 1 \iff D_i = 1 \text{ and } F_i = 1
+$$
 
 This is why these terms are so important for understanding regressions: they provide us with a simple way to describe and study how _combinations_ of our explanatory variables impact our model.  These variables enter into our regression models in exactly the same way as usual:
 
-$$Y_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 D_i \times F_i + \epsilon_i$$
+$$
+Y_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 D_i \times F_i + \epsilon_i
+$$
 
 At this point, you can see that this is just a multiple regression model - the only difference is that one of the variables is a combination of the other variables.  From an estimation perspective, there's no issue - you can use OLS to estimate a model with interaction terms, just like normal.  However, as we have seen, there are important differences when it comes to the _interpretation_ of these models.  Let's learn more about this in this worksheet.
 
@@ -120,11 +121,15 @@ There are a few important things to notice about this regression result.  First,
 
 You can see this interpretation in the regression model itself:
 
-$$W_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 F_i \times D_i + \epsilon_i$$
+$$
+W_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 F_i \times D_i + \epsilon_i
+$$
 
 Consider:
 
-$$\frac{\Delta W_i}{\Delta F_i} = \beta_1 + \beta_3 D_i$$
+$$
+\frac{\Delta W_i}{\Delta F_i} = \beta_1 + \beta_3 D_i
+$$
 
 The marginal effect of being a female-lead household _changes_ depending on what the value of $D_i$ is!  For non-university degree (the level where $D_i = 0$) it's $\beta_1$.  For university degree (the level where $D_i =1$), it's $\beta_1 + \beta_3$.  This is why, in an interaction model, it doesn't really make sense to talk about the "effect of female" - because there isn't a single, immutable effect.  It is different for different education degrees!
 
@@ -144,17 +149,19 @@ The format and syntax in R is similar, with some small exceptions to deal with c
 
 For example, let's look at the interaction of income and sex on wealth.  In a regression equation, this would be expressed like:
 
-$$W_i = \beta_0  + \beta_1 Income_i + \beta_2 F_i + \beta_3 Income_i \times F_i + \epsilon_i$$
+$$
+W_i = \beta_0  + \beta_1 Income_i + \beta_2 F_i + \beta_3 Income_i \times F_i + \epsilon_i
+$$
 
 Notice that, just like before:
 
-$$\frac{\partial W_i}{\partial Income_i} = \beta_1 + \beta_3 F_i$$
+$$
+\frac{\partial W_i}{\partial Income_i} = \beta_1 + \beta_3 F_i
+$$
 
 There are two _different_ "slope" coefficients; basically, male and female lead family can have a different return to wealth.  Let's see this in R:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression2 <- lm(wealth ~ income_before_tax + gender + income_before_tax:gender, data = SFS_data)
 
 summary(regression2)
@@ -186,9 +193,13 @@ summary(regression3)
 
 As you can see, we get regression results much like we would expect.  However, how do we interpret them?  The issue is that _income_ enters into two places.  We need to carefully interpret this model, using our knowledge of the equation:
 
-$$W_i = \beta_0 + \beta_1 Income_i + \beta_2 Income_i^2 + \epsilon_i$$
+$$
+W_i = \beta_0 + \beta_1 Income_i + \beta_2 Income_i^2 + \epsilon_i
+$$
 
-$$\implies \frac{\partial W_i}{\partial Income_i} = \beta_1 + 2 \beta_2 Income_i$$
+$$
+\implies \frac{\partial W_i}{\partial Income_i} = \beta_1 + 2 \beta_2 Income_i
+$$
 
 You will notice something special about this; the marginal effect is _non-linear_. As $Income_i$ changes, the effect of income on $W_i$ changes. This is because we have estimated a quadratic relationship; the slope of a quadratic changes as the explanatory variable changes. That's what we're seeing here!
 
@@ -197,8 +208,6 @@ This makes these models relatively difficult to interpret, since the marginal ef
 For example, let's test if the marginal effect of income is significant at $Income_i = \overline{Income}_i$.  This is the most frequently reported version of this effects, often called the "marginal effect at the means".
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 m <- mean(SFS_data$income_before_tax)
 
 linearHypothesis(regression3, hypothesis.matrix = c(0, 1, 2*m), rhs=0) 
@@ -210,11 +219,15 @@ As we can see, it is highly significant
 
 Let's see exactly what those values are.  Recall the formula:
 
-$$V(aX + bY) = a^2 V(X) + b^2 V(Y) + 2abCov(X,Y)$$
+$$
+V(aX + bY) = a^2 V(X) + b^2 V(Y) + 2abCov(X,Y)
+$$
 
 In our situation, $X = Y = W_i$, so this is:
 
-$$V(\beta_1 + 2\bar{W_i}\beta_2) = V(\beta_1) + 4\bar{W_i}^2V(\beta_2) + 2(2\bar{W_i})Cov(\beta_1,\beta_2)$$
+$$
+V(\beta_1 + 2\bar{W_i}\beta_2) = V(\beta_1) + 4\bar{W_i}^2V(\beta_2) + 2(2\bar{W_i})Cov(\beta_1,\beta_2)
+$$
 
 Fortunately, these are all things we have from the regression and its variance-covariance matrix:
 
@@ -244,23 +257,31 @@ You might be wondering why econometricians spend so much time talking about mode
 
 The reason is actually approximation.  Consider the following _non-linear_ model:
 
-$$Y_i = f(X_i) + e_i$$
+$$
+Y_i = f(X_i) + e_i
+$$
 
 This model is truly non-linear (and not just in terms of the parameters).  How can we estimate this model?  It's hard!  There are techniques to estimate complex models like this, but how far can we get with good-old OLS?  The answer is - provided that $f$ is "smooth" - pretty far.
 
 Think back to introductory calculus; you might remember a theorem called [Taylor's Theorem](https://en.wikipedia.org/wiki/Taylor%27s_theorem).  It says that a smoothly differentiable function can be arbitrarily well-approximated (about a point) by a polynomial expansion:
 
-$$f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots + \frac{f^{(k)}(a)}{k!}(x-a)^k + R_k(x)$$
+$$
+f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots + \frac{f^{(k)}(a)}{k!}(x-a)^k + R_k(x)
+$$
 
 and the error term $R_k(x) \to 0$ as $x \to a$ and $k \to \infty$.
 
 Look closely at this expression.  Most of the terms (like $f'(a)$) are constants.  In fact, you can show that this can be written like:
 
-$$f(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \cdots + \beta_k x^k + r$$
+$$
+f(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \cdots + \beta_k x^k + r
+$$
 
 Putting this into our expression above gives us the relationship:
 
-$$Y_i = \beta_0 + \beta_1 X_i + \beta_2 X_i^2 + \cdots + \beta_k X_i^k+ \epsilon_i$$
+$$
+Y_i = \beta_0 + \beta_1 X_i + \beta_2 X_i^2 + \cdots + \beta_k X_i^k+ \epsilon_i
+$$
 
 Which is a linear regression model!  What this say is actually very important: linear regression models can be viewed as _approximations_ to nonlinear regressions, provided we have enough polynomial terms.  This is one complication: the error term is definitely not uncorrelated.  You can learn more about how to address this issue in other courses, but at the most the omitted variable bias is relatively small as $k \to \infty$.
 
@@ -294,8 +315,8 @@ reg0 <- gender, education, province
 What are your interaction variables? (remember to follow the same order)
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| eval: false
+
 #Quiz 1
 reg1 <- lm(???, data = SFS_data)
 reg0 <- lm(???, data = SFS_data)
@@ -319,8 +340,8 @@ test_1() #quiz1
 Now let's test whether the returns to education increase if people are entrepreneurs. `business` is a factor variable which suggests whether the household owns a business. Please add terms to the regression equation that allow us to run this test. Then, estimate this new model. We don't need `province` and `gender` variables in this exercise. For education, please use `education` variable. And we will continue to study wealth accumulated in households.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| eval: false
+
 #Quiz 2
 SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; makes "not a business owner" the reference level for business
 
@@ -348,8 +369,7 @@ Estimate a regression model (with no additional control variables) that estimate
 Let's first simplify levels of age group using following codes.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 #Some Data cleaning, Just run this!
 SFS_data <- 
         SFS_data %>%
@@ -383,8 +403,8 @@ SFS_data2 <- subset(SFS_data, agegr == "20s" | agegr == "30s" | agegr == "40s" |
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| eval: false
+
 #Quiz 3
 SFS_data2$agegr <- relevel(SFS_data2$agegr, ref = "20s") #Do not change; makes "20s" the reference level for age
 
@@ -405,8 +425,8 @@ Estimate the relationship between wages and age for male-lead households and fem
 <em>Tested objects:</em> ``reg3M`` (for males), ``reg3F`` (for females).
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| eval: false
+
 #Quiz 4
 reg3M <- lm(..., data = filter(SFS_data2, gender == "Male"))
 reg3F <- lm(..., data = filter(SFS_data2, gender == "Female"))
@@ -428,8 +448,8 @@ Add one additional term to the multiple regression from Quiz 3 that accounts for
 <em>Tested Objects:</em> ``reg4``.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| eval: false
+
 #Quiz 5
 reg4 <- lm(???, data = SFS_data2)
 
@@ -449,7 +469,9 @@ Suppose that a team of researchers is interested in the relationship between the
 
 After they compile a dataset from the survey responses, the team estimates this model:
 
-$$Q_i^2 = \alpha_1 + \alpha_2 ln(P_i) + \alpha_3 H_i + \epsilon_i$$
+$$
+Q_i^2 = \alpha_1 + \alpha_2 ln(P_i) + \alpha_3 H_i + \epsilon_i
+$$
 
 $Q_i$ denotes the quantity of chocolate packs that household i purchased in a given quarter of a given year. That is, each quarter for a given household is a separate observation. $P_i$ is the price of the pack of chocolate in the given quarter, and $H_i$ is the household size (in number of people). Note that $\hat{\alpha_2}$ is <em>supposed to be</em> the estimated elasticity of demand.
 
