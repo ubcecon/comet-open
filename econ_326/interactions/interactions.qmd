@@ -56,7 +56,7 @@ library(car)
 source("functions5.r")
 
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
-SFS_data <- clean_up_data(SFS_data)
+SFS_data <- clean_up_data()
 ```
 
 ## Part 1: Interactions in Regression Models
@@ -302,7 +302,22 @@ $W_i$ denotes wealth, $F_i$ is a dummy variable for the gender of main earner in
 ### Short Answer 1
 <em>Prompt:</em> How should we interpret the coefficients $\beta_5$ and $\beta_6$? Why might these effects be important to estimate?
 
-<font color = "red">Answer here in red</font>
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_1 <- #fill in your short answer
+
+
+```
+
+
+:::{.answer}
+Answer: $\beta_5$ is the difference of 'value-added' of education between female-lead household and male-lead household. $\beta_6$ is the difference of province effects between female-lead household and male-lead household.
+
+These interaction terms provide us with a simple way to describe and study how _combinations_ of our explanatory variables impact our model. With these interaction terms, we can understand how education and geography affect wealth of male-lead and female-lead households differently.
+:::
+
 
 Now, let's estimate the model and interpret it concretely. (Please follow the order of variables in regression model: 
 
@@ -316,6 +331,7 @@ What are your interaction variables? (remember to follow the same order)
 
 ```{r}
 #| eval: false
+#| tags: [question]
 
 #Quiz 1
 reg1 <- lm(???, data = SFS_data)
@@ -327,20 +343,74 @@ summary(reg0)
 test_1() #quiz1
 ```
 
+
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+reg0 <- lm(wealth ~ gender+education+province+gender:education+gender:province, data = SFS_data)
+
+reg1 <- lm(wealth ~ gender+Education+province+gender:Education+gender:province, data = SFS_data)
+
+summary(reg0)
+summary(reg1)
+
+test_0()
+test_1()
+```
+:::
+
+
 ### Short Answer 2
 <em>Prompt:</em> How do we interpret the coefficient estimate on ``gender:Education``? What education level do female-lead households appear to be most discriminated in? How might we explain this intuitively?
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_2 <- #fill in your short answer
+
+```
+
+:::{.answer}
+Answer: It means if the main earner is a female with a university degree, the household accumulates 302,008 dollars less wealth, than the male counterpart.
+
+University degree holders are most discriminated, because $|\hat{\beta_5}|$ is higher than $|\hat{\beta_2}|$.
+
+One possible explanation is that males with university degree are more likely to become managers or other higher level employees than females. The inequality in incomes lead to the inequality in wealth.
+:::
 
 ### Short Answer 3
 <em>Prompt:</em> How do you interpret the coefficient estimate on ``genderFemale:provinceAlberta``? (Hint: Write out the average wealth equations for female, male in Alberta, and female in Alberta separately.)
 
 <font color = "red">Answer here in red</font>
 
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_3 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+Average wealth for female-lead family: $E[wealth|female]=\beta_{1}+\beta_{2}=455918-87277$
+
+Average wealth for male-lead family in Alberta: $E[wealth|male,Alberta]=\beta_{1}+\beta_{4,Alberta}=455918+502683$
+
+Average wealth for female-lead family in Alberta: $E[wealth|female,Alberta]=\beta_{1}+\beta_{2}+\beta_{4,Alberta}+\beta_{6,Alberta}=455918-87277+502683-105798$
+
+Thus $\beta_{6,Alberta}$ is the difference of wealth when living in Alberta between female-lead household and male-lead household.
+:::
+  
+
 Now let's test whether the returns to education increase if people are entrepreneurs. `business` is a factor variable which suggests whether the household owns a business. Please add terms to the regression equation that allow us to run this test. Then, estimate this new model. We don't need `province` and `gender` variables in this exercise. For education, please use `education` variable. And we will continue to study wealth accumulated in households.
 
 ```{r}
 #| eval: false
+#| tags: [question]
 
 #Quiz 2
 SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; makes "not a business owner" the reference level for business
@@ -348,13 +418,40 @@ SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; make
 reg2 <- lm(???, data = SFS_data)
 
 summary(reg2)
-test_1.5() #quiz1
+test_1.5()
 ```
+
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+#Quiz 2
+SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; makes "not a business owner" the reference level for business
+reg2 <- lm(wealth ~ education+business+education:business, data = SFS_data)
+
+summary(reg2)
+
+test_1.5()
+```
+:::
 
 ### Short Answer 4
 <em>Prompt:</em> Do returns to education increase when people are entrepreneurs? Explain why or why not with reference to the regression estimates.
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_4 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+From the above results of regression, owning a business increases 1.29 million dollars wealth on average. But the estimates of returns to education for being an entrepreneur or not is not significant. Thus we cannot conclude how education will affect the returns of entrepreneurs.
+:::
+
 
 ### Activity 2
 
@@ -404,6 +501,7 @@ SFS_data2 <- subset(SFS_data, agegr == "20s" | agegr == "30s" | agegr == "40s" |
 
 ```{r}
 #| eval: false
+#| tags: [question]
 
 #Quiz 3
 SFS_data2$agegr <- relevel(SFS_data2$agegr, ref = "20s") #Do not change; makes "20s" the reference level for age
@@ -415,10 +513,38 @@ summary(reg3A)
 test_2() #quiz3
 ```
 
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+SFS_data2$agegr <- relevel(SFS_data2$agegr, ref = "20s") #Do not change; makes "20s" the reference level for age
+
+reg3A <- lm(income_before_tax ~ gender+agegr, data = SFS_data2)
+
+summary(reg3A)
+
+test_2()
+```
+:::
+
+
 ### Short Answer 5
 <em>Prompt:</em> What is the relationship between age and wages? Between sex and earnings? Is there a significant wage gap? Why might the regression above not give us the "full picture" of the sex wage gap?
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_5 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+Income before tax of households increase as main earners become older, and the peak arrives at their 50s. Female-lead households generally earn 34,852 dollars less than male-lead households. This regression does not provide us the "full picture" of sex wage gap, because the gender gap may change when people age.
+:::
 
 Estimate the relationship between wages and age for male-lead households and female-lead households separately, then compare their returns to age. Let's continue to use `income_before_tax`
 
@@ -426,6 +552,7 @@ Estimate the relationship between wages and age for male-lead households and fem
 
 ```{r}
 #| eval: false
+#| tags: [question]
 
 #Quiz 4
 reg3M <- lm(..., data = filter(SFS_data2, gender == "Male"))
@@ -437,11 +564,39 @@ summary(reg3F)
 test_3()
 test_4() #quiz4
 ```
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+reg3M <- lm(income_before_tax ~ agegr, data = filter(SFS_data2, gender == "Male"))
+reg3F <- lm(income_before_tax ~ agegr, data = filter(SFS_data2, gender == "Female"))
+
+summary(reg3M)
+summary(reg3F)
+
+test_3()
+test_4() #quiz4
+```
+:::
 
 ### Short Answer 6
 <em>Prompt:</em> Do these regression estimates support your argument from Short Answer 5? Explain.
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_6 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+Yes, these regression estimates support my argument from question 5. First of all, for both male-lead and female-lead households, incomes increase as main earners become older, and the peak appears at their 50s. Second, there is a gender-wage gap in which female-lead households earn less. But the gap changes as age changes.
+:::
+
 
 Add one additional term to the multiple regression from Quiz 3 that accounts for the possibility that the sex wage gap can change as workers age. Please list gender before age.
 
@@ -449,6 +604,7 @@ Add one additional term to the multiple regression from Quiz 3 that accounts for
 
 ```{r}
 #| eval: false
+#| tags: [question]
 
 #Quiz 5
 reg4 <- lm(???, data = SFS_data2)
@@ -458,10 +614,36 @@ summary(reg4)
 test_5() #quiz5
 ```
 
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+#Quiz 5
+reg4 <- lm(income_before_tax ~ gender+agegr+gender:agegr, data = SFS_data2)
+
+summary(reg4)
+
+test_5() #quiz5
+```
+:::
+
 ### Short Answer 7
 <em>Prompt:</em> According to the regression you estimated above, what is the nature of the sex wage gap?
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_7 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+Generally speaking, the gender-income gap increases when workers become older. And the gender-income gap is widest at their 40s.
+:::
+
 
 ### Theoretical Activity 1
 
@@ -482,19 +664,70 @@ You join the team as a research advisor - in other words, you get to criticize t
 
 <font color = "red">Answer here in red</font>
 
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_8 <- #fill in your short answer
+```
+
+:::{.answer}  
+There are omitted variables, for example, age of kids and a dummy variable which represents Christmas and New Year. Omitting Christmas and New Year dummy will decrease $|\hat{\alpha}_{2}|$, because people buy more chocolates during Christmas, even if price of chocolate is high. Controlling Christmas dummy will recover the real elasticity of demand, which is a larger real $|\alpha_{2}|$.
+
+When kids are young, they tend to consume more chocolates. Thus parts of the variations of consumption come from ages of kids. Without controlling for ages, the estimated elasticity is not reliable.
+:::
+
 ### Short Answer 9
 <em>Prompt:</em> Is there anything wrong with the specification of the regression model? If so, explain how to correct it; if not, explain why the specification is correct.
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_9 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+The dependent variable should be $ln(Q_{i})$ instead of $Q_{i}^{2}$.
+:::
+
 
 ### Short Answer 10
 <em>Prompt:</em> Is there any potential for sample selection bias in this study? Explain by referencing specific aspects of the experiment. What effect might this bias have on the estimated elasticity of demand?
 
 <font color = "red">Answer here in red</font>
 
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_10 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+There is sample selection bias, because people could refuse to participate. This means people who responded might be households who like Jumbo Chocolate Egg brand, and the estimated elasticity $|\hat{\alpha}_{2}|$ is smaller than the real elasticity among general population.
+:::
+
+
 ### Short Answer 11
 
 <em>Prompt:</em> A member of your team writes in the research report that "this estimated elasticity of demand tells us about the preferences of consumers around Canada." Do you have an issue with this statement? Why or why not?
 
 <font color = "red">Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_11 <- #fill in your short answer
+```
+
+:::{.answer}  
+Answer:
+The result cannot represent the whole Canada, because participants were from a neighborhood in Vancouver.
+:::
 
