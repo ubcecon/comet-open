@@ -1,0 +1,16 @@
+---
+title: "11 - ECON 326: An Example of a Final Project"
+author: COMET Team <br> __
+date: July 2023
+description:   
+categories: [econ 326, regression, hypothesis testing, project]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
+---
+
