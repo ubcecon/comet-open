@@ -160,7 +160,7 @@ test_12 <- function() {
 
 test_16 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(round(rege4$coefficients,2)), "b9bbe179e78e372ac2de843cc951fa77")
+    expect_equal(digest(round(reg4$coefficients,2)), "b9bbe179e78e372ac2de843cc951fa77")
   })
   print("Success!")
 }

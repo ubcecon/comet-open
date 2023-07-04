@@ -217,6 +217,8 @@ Take a close look at the results.  Identify the following elements:
 Write the percentage in _decimal form_ and include all decimals given by the model (example, x.xxx - where x are numbers)
 
 ```{r}
+#| tags: [question]
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -225,6 +227,17 @@ answer1 <- ???   #answer goes here
 
 test_1()
 ```
+
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+answer1 <- 0.2139 #answer goes here
+answer1=round(answer1,2)
+test_1()
+```
+:::
 
 The underlying model and the parameters tells us about the relationship between the different values:
 
@@ -307,6 +320,8 @@ What do you see here?
 > **Test Your Knowledge**:  What is the difference in average wealth between male and female lead households?
 
 ```{r}
+#| tags: [question]
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -316,6 +331,18 @@ answer2 <-  ???  # your answer here
 
 test_2()
 ```
+
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+#input the answer (to 1 decimal place)
+answer2 <- -235286
+answer2=round(answer2,2)
+test_2()
+```
+:::
 
 The number  might seem familiar if you remember what we learned about a $t$-test from earlier.  Remember this result?
 
@@ -381,6 +408,8 @@ In other words, one of the dummies is redundant in helping us understand the qua
 * **D**: $k^2$
 
 ```{r}
+#| tags: [question]
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -389,6 +418,17 @@ answer2.5 <- ??? # type in your answer here
 
 test_2.5()
 ```
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+answer2.5 <- "B" # type in your answer here 
+
+test_2.5()
+```
+:::
+
 
 In general, in R, most commands will automatically handle this process of creating dummies from qualitative variables. As you saw with the simple regression, R created them for you. You can also create dummies using a variety of commands, if necessary - but in general, if you tell R that your variables are factors, it will automatically handle the creation of dummies properly.
 
@@ -404,6 +444,8 @@ Last week, we briefly explored the idea of the wealth gap and explored the idea 
 <em>Tested objects:</em> ``regm`` (the regression for males).<em>Tested objects:</em> ``regm`` (the regression for females).
 
 ```{r}
+#| tags: [question]
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -427,10 +469,42 @@ test_3() # Quiz1
 test_4() # Quiz2
 ```
 
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+#Quiz 1
+#Regression for males
+regm <- lm( wealth ~ income_before_tax, data = filter(SFS_data, gender == 'Male')) #what should you replace. notice this is a multiple reggression.
+
+#Regression for females
+regf <- lm(wealth ~ income_before_tax, data = filter(SFS_data, gender == 'Female')) ## copy the above, making the appropriate changes
+
+summary(regm) #Allow us to view regm's coefficient estimates
+summary(regf) #Same as above, but for regf\n",
+
+test_3() #Quiz1
+test_4() #Quiz2
+```
+:::
+
 #### Short Answer 1
 **Prompt:** How do we interpret the coefficient estimate on ``income`` in each of these regressions?
 
 <font style="color:red">Answer in red here!</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_1 <- #fill in your short answer
+
+```
+
+:::{.answer}
+Answer: In this case the coefficient on before tax income is how we expect wealth to change for a given change in income. So, for each new dollar of income we expect the male lead households to acquire 5.3 dollars of wealth, and female lead households to acquire 9.4 dollars of wealth. Also notice the intercepts are different. There may be some left-out factors or the relation is non-linear, which would mean $\beta_1$ is not really the instantaneous rate of change.
+:::
 
 ### Activity 2
 
@@ -457,6 +531,8 @@ Notice we don't need to do 4 regressions we could just do three.
 
 
 ```{r}
+#| tags: [question]
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -482,10 +558,34 @@ test_10()
 test_11() 
 test_12() 
 ```
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+reg1 <- lm(income_before_tax ~gender , data = filter(SFS_data, education == 'Less than high school')) #what should replace the ???
+
+reg2 <- lm(income_before_tax ~gender , data = filter(SFS_data, education == 'High school'))
+reg3 <- lm(income_before_tax ~gender , data = filter(SFS_data, education == 'Non-university post-secondary'))
+
+reg4 <- lm(income_before_tax ~gender, data = filter(SFS_data, education == 'University'))
+
+
+# store the summaries (but don't show them!  too many!)
+sum20 <- summary(reg1)
+sum30 <- summary(reg2)
+sum40 <- summary(reg3)
+sum50 <- summary(reg4)
+
+test_12() #Quiz3
+test_16() #Quiz4 
+```
+:::
 
 The code below will tabulate a brief summary of each regression:
 
 ```{r}
+#| eval: false
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -506,6 +606,20 @@ tibble(Educ_Group, Income_Gap, Std._Error, t_Value, p_Value) #it's like a table 
 
 <font style="color:red">Answer in red here!</font>
 
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_3 <- #fill in your short answer
+
+```
+
+:::{.answer}
+Answer: 
+The Income Gap appears to increase, however this is simply because income increases, in percent terms the income gap decreases (from module 1)
+
+:::
+
 ### Activity 3
 As we observed in last week's worksheet, the income gap could differ by education level. Since there are many education categories, however, we may not want to examine this by running a regression for each education level separately. 
 
@@ -518,6 +632,8 @@ This is actually a **multiple regression**, which we will learn about next week 
 <em>Tested objects:</em> ``reg2A`` (regression without controls), ``reg2B`` (regression with controls).
 
 ```{r}
+#| eval: false
+#| tags: [question]
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -536,11 +652,46 @@ test_7()
 test_8() 
 ```
 
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+
+#Naive regression (just gender)
+reg2A <- lm( income_before_tax~ gender, data = SFS_data) #this one works already
+
+#Regression with controls\n",
+reg2B <-  lm(income_before_tax~ gender + education, data = SFS_data) #what should replace the ??? think about the model
+
+
+summary(reg2A)
+summary(reg2B)
+#this will look ugly; try to look carefully at the output
+
+
+
+test_7()
+test_8() #Quiz 5
+```
+:::
 #### Short Answer 4
 
 Prompt: Compare the estimated income gap with and without $E_i$ in the regression. What happens to the gap when we add $E_i$?
 
 <font style="color:red">Answer in red here!</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_4 <- #fill in your short answer
+
+```
+
+:::{.answer}
+Answer: The gender-income gap has increased; notice the stand error's have increased. This means it's harder to have certainty what the income gap is once we control for education.
+:::
 
 ### Theoretical Activity 1
 When we deal with large quantitative variables, we often take the natural log of it:
@@ -583,6 +734,8 @@ SFS_data <- SFS_data %>%
 Notice warning message "NaNs produced". NaN means "Not a Number". This happens because we had negative income and negative wealth. No matter how low our incomes are, the more we work, wealth and income should increase. 
 
 ```{r}
+#| eval: false
+#| tags: [question]
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 #| pycharm: {name: "#%%\n"}
@@ -602,11 +755,48 @@ summary(lnreg)
 
 test_5() #Quiz7
 ```
+:::{.answer}
+```{r}
+#| eval: false
+#| tags: [answer]
+
+
+# fix NANs
+SFS_data_logged <- SFS_data %>%
+               filter(income_before_tax>0) %>% # what goes here?
+               filter(wealth>0) # what goes here?
+    
+# Log Regression 
+lnreg <- lm(lnwealth ~ lnincome, data = SFS_data_logged) # fill me in in
+
+
+summary(lnreg)
+
+test_5() #Quiz7
+
+```
+:::
 
 #### Short Answer 5
 Prompt: How do we interpret each of these estimates?  (Hint: what does a 1-unit change in the explanatory variable mean here?)
 
 <font style="color:red"> Answer here in red</font>
+
+```{r}
+#| eval: false
+#| tags: [question]
+
+answer_5 <- #fill in your short answer
+
+```
+
+:::{.answer}
+Answer: 
+Intercept: The intercept estimate represents the expected value of the response variable (lnwealth) when the predictor variable (lnincome) is zero. In this case, the estimated intercept is 6.17242. Since the logarithm of wealth (lnwealth) is being used, it means that when the logarithm of income (lnincome) is zero, the expected value of the logarithm of wealth is 6.17242.
+
+lnincome: The coefficient estimate for lnincome is 0.61532. It represents the estimated change in the response variable (lnwealth) for a one-unit increase in the predictor variable (lnincome). Therefore, for every one-unit increase in the logarithm of income, the estimated change in the logarithm of wealth is 0.61532.
+
+:::
 
 ### Optional: Bonus Activity 4 
 
