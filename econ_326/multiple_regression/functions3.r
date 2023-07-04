@@ -105,18 +105,14 @@ clean_up_sfs <- function(SFS_data) {
         employment == "3" ~ "Did not work",
         employment %in% c("6", "9") ~ NA,
         TRUE ~ as.character(employment)
-      ),
-      pasrbuyg = as.factor(ifelse(pasrbuyg == 96, NA, pasrbuyg)),
-      gender = as.factor(gender),
-      education = as.factor(education),
-      business = as.factor(business),
-      province = as.factor(province),
-      age = as.factor(age),
-      employment = as.factor(employment)
+      )
     ) %>%
     mutate(
+      srbuyg = ifelse(pasrbuyg == 96, NA, pasrbuyg),
       financial_asset = pwastbnd + pwastdep + pwastmui + pwastoin + pwaststk,
       risk_proxy = pwaststk / financial_asset
+    ) %>%
+    mutate_at(vars(pasrbuyg, gender, education, business, province, age, employment), as.factor
     ) %>%
     rename(
       stock = pwaststk,
@@ -131,50 +127,68 @@ clean_up_sfs <- function(SFS_data) {
 
 
 
-run_test <- function(test_num, expected_digest) {
+### Self-tests
+
+test_1 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(get(paste0("reg", test_num))), expected_digest)
+    expect_equal(digest(answer1), 'f7b0db1c9bc01deadcdde41033af1311')
   })
   print("Success!")
 }
 
-test_1 <- function() {
-  run_test(1, 'f7b0db1c9bc01deadcdde41033af1311')
+test_2 <- function() {
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg_LESS), 'cf1829ebfea06a34d670471c16367bc7')
+  })
+  print("Success!")
 }
 
-test_2 <- function() {
-  run_test(2, '52649dca2bbbc1c05fc087cc19dd4013')
-}
 
 test_2.5 <- function() {
-  run_test(2.5, '554580b1dbc1798d832d08bbe6b3b16b')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg_HS), 'ca0ef80393a482fe6a299b69ab9374f8')
+  })
+  print("Success!")
 }
 
 test_3 <- function() {
-  run_test(3, '698d8a99efd307d5d90037ded739b957')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg_NU), 'dfadec6bab303513637fdf70e319f5a1')
+  })
+  print("Success!")
 }
 
+
 test_3.5 <- function() {
-  run_test(3.5, 'c90781a518d90e15ebd258a072ce2f26')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg_U), '3d2023189710af9b7b6679f7ded2e880')
+  })
+  print("Success!")
 }
 
 test_4 <- function() {
-  run_test(4, '4009632ba32c42bb3bbfa19631d1afbd')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg2), '35884f5f525ea0144acc39d32ca88217')
+  })
+  print("Success!")
 }
 
 test_5 <- function() {
-  run_test(5, '4568b10660af4383a7fc8e205a3f1907')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg3), '217dd5c6670df0e3e21e143a181aa52d')
+  })
+  print("Success!")
 }
 
 test_5.5 <- function() {
-  run_test(5.5, '575a42efd960ee2f08f80f28fffb3b80')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg4), 'f779a169528a7262d60e11a4c212369a')
+  })
+  print("Success!")
 }
-
 test_6 <- function() {
-  run_test(6, '574dfb9f9e848820944dd4e8e4c3cd21')
+  test_that("Solution is incorrect", {
+    expect_equal(digest(reg5), '6b5828b36a805070e35646458c120410')
+  })
+  print("Success!")
 }
-
-
-
-
-
