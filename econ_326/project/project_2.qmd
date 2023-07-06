@@ -1,3 +1,28 @@
 ---
 title: project
 ---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+# Reading the Data
+
+gdp_data <- read.csv("../datasets/gdp_data.csv")
+pollution_data <- read.csv("../datasets/pollution_data.csv")
+```
+
+```{r}
+# Merged Data
+
+merged_data <- left_join(gdp_data, pollution_data, by = c('REF_DATE', 'GEO'))
+merged_data
+```
+
+```{r}
+# Preliminary Regressions Run
+
+reg1 <- lm(log(VALUE.y) ~ VALUE.x + (VALUE.x)^2, data = merged_data)
+summary(reg1)
+```
