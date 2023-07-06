@@ -14,7 +14,7 @@ format:
         name: ir
 ---
 
-# Outline
+## Outline
 
 If you are reviewing the materials from ECON 326, or self-studying it, this is a good self-test to see if you understand all of the material.  After completing this course, you should be able to:
 
@@ -32,16 +32,23 @@ library(ggplot2)
 
 ```
 
-# Introduction 
+## Introduction 
 >>>> INSERT /Introduction  
 
-# Building our Multiple Regression Model
+## Part 1: Building our Multiple Regression Model
 
 Now that we have our dataset ready and cleaned, let's start to think about building our model. What are the relationships that we're interested in investigating? For the dataset that we're working with, these would be : ___________________. 
 
 > _Think Deeper_: Why might we suspect that relationships exist between these variables? Is this consistent with economic theory? How would these relationships relate to your own experience? 
 
 Let's begin investigating these relationships by making some visualizations.
+
+```{r}
+
+
+
+
+```
 
 ```{r}
 
@@ -68,12 +75,58 @@ regression1 <- lm(data = _____, y ~ x1 + x2 +....)
 summary(regression1)
 ```
 
-# Addressing the Issues and Improving the Model
+## Part 2: Addressing the Issues and Improving the Model
+
+### Underlying Assumptions - Homoskedasticity 
+
+Homoskedasticity, or contasnt variance, is an underlying assumption of OLS Knowing that heteroskedasticity is another common issue in regression, we need to check our model to ensure that it meets this assumption. 
+
+```{r}
+
+#for variable 1 
+regh1 <- lm(y ~ x1, data = )
+
+ggplot(data = ________, aes(x = as.numeric(x1), y = as.numeric(regh1$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
+
+#for variable 2
+regh2 <- lm(y ~ x1, data = )
+
+ggplot(data = ________, aes(x = as.numeric(x2), y = as.numeric(regh2$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
+
+#for variable 3
+regh3 <- lm(y ~ x1, data =)
+
+ggplot(data = ________, aes(x = as.numeric(x3), y = as.numeric(regh3$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
+
+```
+
+As you can visually observe from the residuals plot, (variable name(s)) do(not) display homoskedasticity. We can test that formally with a  Bruesch-Pagan Test.
+
+```{r}
+
+data$resid_sqvar1 <- (regh1$residuals)^2 #get the residuals then square it
+
+residualsreg <- lm(resid_sq ~ income_after_tax, data = SFS_data) #make the residuals a function of X
+
+summary(residualsreg)
+```
+
+ We have passed/failed the Breusch-Pagan test, meaning that we .... As a result, our model is (not) (BLUE). 
+
+We can attempt to address this by transforming the problematic variable(s). 
+
+```{r}
+#insert log transformation + redo test/visualization 
+```
+
+
+
+
+## Multicolinearity 
 
 As we know, multicollinearity is a common issue that arises in developing a regression. Let's first investigate this by visually creating a correlation matrix.
 
 ```{r}
-
 #if ggally and plotly can't be added
 
 datasubset <- subset(dataframe, select=c(v1, v2, ...))
@@ -87,9 +140,19 @@ pairs(datasubset,
 p <- ggpairs(climatedata, title = "ggpairs", axisLabels = c("none"))
 ggplotly(p)
 
+```
 
+From these results, we can see that multicollinearity....(INSERT DESCRIPTION). To test how this shows up in our model, we will calculate variance inflation factors (VIF). 
+
+```{r}
+cat("Variance inflation factor of (variable 1) on CO2 Emissions: ",vif(regression,SFS_data$income_after_tax,SFS_data$wealth),'\n')
+cat("Variance inflation factor of (variable 2) on CO2 Emissions: ",vif(regression,SFS_data$income_before_tax,SFS_data$wealth),'\n')
+cat("Variance inflation factor of (variable 3) on CO2 Emissions: ",vif(regression,SFS_data$income_before_tax,SFS_data$income_after_tax),'\n')
 
 ```
+
+Notice that.... This means 
+
 
 
 
@@ -101,5 +164,18 @@ stargazer(regression1, regression2, regression3..., title="Comparison of Muliple
 
 ```
 
+```{r}
 
+Functions: 
+
+vif <- function(model,x_j,y){
+  #s_2=RMSE(model)^2
+  #var=var(x_j)
+  R_2j =cor(x_j,y)
+  v=1/(1-R_2j)
+  return(v)
+}
+
+
+```
 
