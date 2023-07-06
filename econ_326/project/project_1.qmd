@@ -2,7 +2,7 @@
 title: "11 - ECON 326: An Example of a Final Project"
 author: COMET Team <br> __
 date: July 2023
-description:   
+description: INSERT DESCRIPTION HERE  
 categories: [econ 326, regression, hypothesis testing, project]
 format: 
   html: default
@@ -13,4 +13,93 @@ format:
         language: r
         name: ir
 ---
+
+# Outline
+
+If you are reviewing the materials from ECON 326, or self-studying it, this is a good self-test to see if you understand all of the material.  After completing this course, you should be able to:
+
+* Read this notebook, and understand what the difference analyses are, and how they are being used
+* Critique the choices made, understanding their pros and cons
+* Understand what the R code is doing, and how it implements the analyses
+* Be able to describe how to adjust or change this to do other analysis or change the focus or assumptions made in the analysis so far
+
+You can also use this as a model of a project of your own, if you're interested in getting started with econometric analysis.
+
+```{r}
+
+library(stargazer)
+library(ggplot2)
+
+```
+
+# Introduction 
+>>>> INSERT /Introduction  
+
+# Building our Multiple Regression Model
+
+Now that we have our dataset ready and cleaned, let's start to think about building our model. What are the relationships that we're interested in investigating? For the dataset that we're working with, these would be : ___________________. 
+
+> _Think Deeper_: Why might we suspect that relationships exist between these variables? Is this consistent with economic theory? How would these relationships relate to your own experience? 
+
+Let's begin investigating these relationships by making some visualizations.
+
+```{r}
+
+f <- ggplot(data = ___ , xlim=c(0,INSERT NUMBER), ylim=c(0,INSERT NUMBER), aes(x = independent, y = dependent)) + 
+        xlab("") + 
+        ylab("") + scale_x_continuous()
+
+f + geom_point()
+
+f <- ggplot(data = ___ , xlim=c(0,INSERT NUMBER), ylim=c(0,INSERT NUMBER), aes(x = independent, y = dependent)) + 
+        xlab("") + 
+        ylab("") + scale_x_continuous()
+
+f + geom_point()
+
+
+```
+
+Now that we've established some of these relationships, let's build a first iteration of our model. 
+
+```{r}
+regression1 <- lm(data = _____, y ~ x1 + x2 +....)
+
+summary(regression1)
+```
+
+# Addressing the Issues and Improving the Model
+
+As we know, multicollinearity is a common issue that arises in developing a regression. Let's first investigate this by visually creating a correlation matrix.
+
+```{r}
+
+#if ggally and plotly can't be added
+
+datasubset <- subset(dataframe, select=c(v1, v2, ...))
+pairs(datasubset,
+      col = "blue"
+      pch = 19 
+      main = "Correlation Matrix Pairs")
+
+#if ggally can be added:
+
+p <- ggpairs(climatedata, title = "ggpairs", axisLabels = c("none"))
+ggplotly(p)
+
+
+
+```
+
+
+
+Now that we have a few different models, let's compare some of the results.
+```{r}
+
+stargazer(regression1, regression2, regression3..., title="Comparison of Muliple Regression Results",
+          align = TRUE, type="text", keep.stat = c("n","rsq"))
+
+```
+
+
 
