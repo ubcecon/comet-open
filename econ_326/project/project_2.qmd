@@ -1,28 +1,67 @@
 ---
-title: project
+title: "11 - ECON 326: An Example of a Final Project"
+author: COMET Team <br> __
+date: July 2023
+description: INSERT DESCRIPTION HERE  
+categories: [econ 326, regression, hypothesis testing, project]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
+
+## Introduction: 
+Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON325 and ECON326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. Let's get started!
+
 ```{r}
+library(haven)
 library(tidyverse)
 ```
 
+## Getting the Data:
+
+
+## Importing Data into R
+Once you have gathered data, R has great dependability and dexterity in the viewing and manipulation of that data. To do this, you will want to import your datasets into R, like you have observed in multiple other modules so far. The data that you have gathered could be in a host of different formats like,
+
+- .csv (Comma-Separated Values file), 
+- .dta (STATA data file), 
+- .xlsx (Excel file),
+- .sav (SPSS file) or, 
+- .sas (SAS file) 
+
+Fortunately, we will not be needing separate packages to import these files; `haven` is our jack-of-all-trades. We used the command `library(haven)` to load it at beginning of this module. 
+
 ```{r}
 # Reading the Data
-
 gdp_data <- read.csv("../datasets/gdp_data.csv")
 pollution_data <- read.csv("../datasets/pollution_data.csv")
 ```
 
 ```{r}
-# Merged Data
+can_gdp_data <- gdp_data %>% filter(GEO == 'Canada')
+can_gdp_data <- can_gdp_data %>% mutate(REF_DATE = substr(REF_DATE, 1, 4),
+         MONTH = substr(REF_DATE, 6, 7))
+        
+can_yearly_gdp <- can_gdp_data %>% group_by(REF_DATE) %>% summarize(VALUE = sum(VALUE))
+can_yearly_gdp <- can_yearly_gdp %>% mutate(REF_DATE = as.integer(REF_DATE))
+```
 
-merged_data <- left_join(gdp_data, pollution_data, by = c('REF_DATE', 'GEO'))
-merged_data
+```{r}
+can_poll_data <- pollution_data %>% filter(Sector == "Total, industries and households") %>% filter(GEO == 'Canada')
+```
+
+```{r}
+merged_data <- left_join(can_yearly_gdp, can_poll_data, by = 'REF_DATE')
 ```
 
 ```{r}
 # Preliminary Regressions Run
-
-reg1 <- lm(log(VALUE.y) ~ VALUE.x + (VALUE.x)^2, data = merged_data)
+reg1 <- lm(VALUE.y ~ VALUE.x, data = merged_data)
 summary(reg1)
 ```
