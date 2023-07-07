@@ -35,6 +35,76 @@ library(ggplot2)
 ## Introduction 
 >>>> INSERT /Introduction  
 
+```{r}
+#TEMPORARY DATA MANIPULATIONS
+
+gdp_data <- read.csv("C:/Data/CometData/gdp_data.csv")
+pollution_data <- read.csv("C:/Data/CometData/pollution_data.csv")
+
+view(gdp_data)
+view(pollution_data)
+
+
+merged_data <- left_join(gdp_data, pollution_data, by = c('REF_DATE', 'GEO'))
+view(merged_data)
+
+
+# Y(dependent) variable is going to be CO2 emissions
+# X(independents)can be:
+  # Year
+  # GDP
+  # Industry type?
+  # province
+
+trialdata1 <- merged_data
+
+trialdata1 <- trialdata1 %>%
+  rename(province = GEO) %>%
+  rename(year = REF_DATE) %>%
+  rename(industry = North.American.Industry.Classification.System..NAICS.)%>%
+  rename(gdp = VALUE.x) %>%
+  rename(CO2 = VALUE.y) %>%
+  rename(emissions_sector = Sector)
+
+view(trialdata1)
+
+#Now we need some factors. Province, industry, and emissions sector should all be factorized
+
+trialdata1 <- trialdata1 %>%
+  mutate(province = case_when(
+    province == "Newfoundland and Labrador" ~ "1",
+    province == "Prince Edward Island" ~ "2",
+    province == "Nova Scotia" ~ "3",
+    province == "New Brunswick" ~ "4",
+    province == "Quebec" ~ "5",
+    province == "Ontario" ~ "6",
+    province == "Manitoba" ~ "7",
+    province == "Saskatchewan" ~ "8",
+    province == "Alberta" ~ "9",
+    province == "British Columbia" ~ "10",
+    province == "Yukon" ~ "11",
+    province == "Northwest Territories" ~ "12",
+    province == "Nunavut" ~ "13",
+  )) %>%
+  mutate(province = as_factor(province))
+
+view(trialdata1)
+
+
+trialdata1 <- trialdata1 %>%
+  mutate(emissions_sector = case_when(
+    emissions_sector == "Total, industries and households" ~ "1",
+    emissions_sector == "Total, industries" ~ "2",
+    emissions_sector== "Total, households" ~ "3",
+    emissions_sector == "Total, United Nations Framework Convention on Climate Change (UNFCCC), Canada's submission" ~ "4",
+    emissions_sector == "Total, Reconciliation with Canada's submission to the United Nations Framework Convention on Climate Change (UNFCCC)" ~ "5",
+    ))
+
+
+trialdata2 <- subset(trialdata1, emissions_sector == "1")
+
+```
+
 ## Part 1: Building our Multiple Regression Model
 
 Now that we have our dataset ready and cleaned, let's start to think about building our model. What are the relationships that we're interested in investigating? For the dataset that we're working with, these would be : ___________________. 
@@ -51,26 +121,26 @@ Let's begin investigating these relationships by making some visualizations.
 ```
 
 ```{r}
+#(insert xlim and colour to finesse vizs as necessary)
 
-f <- ggplot(data = ___ , xlim=c(0,INSERT NUMBER), ylim=c(0,INSERT NUMBER), aes(x = independent, y = dependent)) + 
-        xlab("") + 
-        ylab("") + scale_x_continuous()
-
-f + geom_point()
-
-f <- ggplot(data = ___ , xlim=c(0,INSERT NUMBER), ylim=c(0,INSERT NUMBER), aes(x = independent, y = dependent)) + 
-        xlab("") + 
-        ylab("") + scale_x_continuous()
+f <- ggplot(data = trialdata2, aes(x = year, y = CO2))+
+  xlab("year")+
+  ylab("CO2 Emissions") + scale_x_continuous()
 
 f + geom_point()
 
+b <- ggplot(data = trialdata2, aes(x = gdp, y = CO2))+
+  xlab("GDP")+
+  ylab("CO2 Emissions") + scale_x_continuous()
+
+b + geom_point()
 
 ```
 
 Now that we've established some of these relationships, let's build a first iteration of our model. 
 
 ```{r}
-regression1 <- lm(data = _____, y ~ x1 + x2 +....)
+regression1 <- lm(data = , y ~ x1 + x2 +....)
 
 summary(regression1)
 ```
@@ -79,16 +149,23 @@ summary(regression1)
 
 ### Underlying Assumptions - Homoskedasticity 
 
-Homoskedasticity, or contasnt variance, is an underlying assumption of OLS Knowing that heteroskedasticity is another common issue in regression, we need to check our model to ensure that it meets this assumption. 
+Homoskedasticity, or constant variance, is an underlying assumption of OLS. Knowing that heteroskedasticity is another common issue in regression, we need to check our model to ensure that it meets this assumption. 
 
 ```{r}
 
-#for variable 1 
-regh1 <- lm(y ~ x1, data = )
 
-ggplot(data = ________, aes(x = as.numeric(x1), y = as.numeric(regh1$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
 
-#for variable 2
+```
+
+```{r}
+
+#for xvariable 1 - gdp 
+regh1 <- lm(CO2 ~ gdp, data = trialdata2)
+
+ggplot(data = trialdata2, aes(x = as.numeric(gdp), y = as.numeric(regh1$residuals))
+        )+geom_point()+labs(x = "gdp", y = "y name residuals")
+
+#for other variables (fill in as needed)
 regh2 <- lm(y ~ x1, data = )
 
 ggplot(data = ________, aes(x = as.numeric(x2), y = as.numeric(regh2$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
@@ -100,29 +177,49 @@ ggplot(data = ________, aes(x = as.numeric(x3), y = as.numeric(regh3$residuals))
 
 ```
 
-As you can visually observe from the residuals plot, (variable name(s)) do(not) display homoskedasticity. We can test that formally with a  Bruesch-Pagan Test.
+As you can visually observe from the residuals plot, the data for gdp do not display homoskedasticity. We can test that formally with a  Bruesch-Pagan Test.
 
 ```{r}
 
-data$resid_sqvar1 <- (regh1$residuals)^2 #get the residuals then square it
+trialdata2$resid_sqgdp <-  (regh1$residuals)^2
 
-residualsreg <- lm(resid_sq ~ income_after_tax, data = SFS_data) #make the residuals a function of X
+residualsreg <- lm(resid_sqgdp ~ gdp, data = trialdata2)
 
 summary(residualsreg)
 ```
 
- We have passed/failed the Breusch-Pagan test, meaning that we .... As a result, our model is (not) (BLUE). 
+ We have failed the Breusch-Pagan test, meaning that we ... As a result, our model is (not) (BLUE). 
 
-We can attempt to address this by transforming the problematic variable(s). 
+We can attempt to address this by transforming the problematic variable. Let's try a log transformation! 
 
 ```{r}
-#insert log transformation + redo test/visualization 
+#insert log transformation 
+
+trialdata2 <- trialdata2 %>%
+  mutate(lngdp = log(gdp))
+
+# visualize
+
+lnregh1 <- lm(CO2 ~ lngdp, data = trialdata2) 
+
+ggplot(data = trialdata2, aes(x = as.numeric(lngdp), y = as.numeric(lnregh1$residuals))
+)+geom_point()+labs(x = "lngdp", y = "y name residuals")
+
+#conduct another BP Test
+
+trialdata2$resid_sqlngdp <-  (lnregh1$residuals)^2
+
+residualsregln <- lm(resid_sqlngdp ~ gdp, data = trialdata2)
+
+summary(residualsregln)
+
+#(need to use White's test? HSKY was originally linear-looking, but the log transformed version seems to be more non-linear...)
 ```
 
+As this has not adequately 
 
 
-
-## Multicolinearity 
+## Multicollinearity 
 
 As we know, multicollinearity is a common issue that arises in developing a regression. Let's first investigate this by visually creating a correlation matrix.
 
