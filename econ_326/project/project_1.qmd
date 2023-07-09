@@ -120,6 +120,9 @@ Let's begin investigating these relationships by making some visualizations.
 
 ```
 
+Since our other variables are qualitative factor variables, we will need to create dummies to represent them.
+
+
 ```{r}
 #(insert xlim and colour to finesse vizs as necessary)
 
@@ -144,6 +147,8 @@ regression1 <- lm(data = , y ~ x1 + x2 +....)
 
 summary(regression1)
 ```
+
+
 
 ## Part 2: Addressing the Issues and Improving the Model
 
