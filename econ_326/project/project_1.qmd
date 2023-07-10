@@ -40,16 +40,19 @@ library(ggplot2)
 library(haven)
 library(stargazer)
 library(tidyverse)
+library(car)
+library(fastDummies)
+
 ```
 
 ## Note:
 Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
 R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
 
-## Getting the Data:
+## Part 1: Preparing our Data
 For the sake of our analysis today, we hope to observe whether factors like Electricity Generation, GDP, and Population, have had any impact on CO2 Emissions across all the Canadian Provinces. 
 
-## Importing Data into R
+### Importing Data into R
 Once you have gathered data, R has great dependability and dexterity in the viewing and manipulation of that data. To do this, you will want to import your datasets into R, like you have observed in multiple other modules so far. The data that you have gathered could be in a host of different formats like,
 
 - .csv (Comma-Separated Values file), 
@@ -72,7 +75,7 @@ pop_data <- read_csv("C:/GitHub/econometrics/econ_326/datasets/pop_data.csv")
 
 > NOTE: By default, some functions in the Haven package, like `read_csv()`, assume that the CSV file has a header row with variable names. If your file does not have a header, or you would like different headers for your columns, you can use the argument `col_names` to adjust the column names manually.
 
-## Viewing the Data
+### Viewing the Data
 Once you have imported your datasets in R, it is worthwhile to get an overview of the data. There are two main reasons for this:
 
 * Not every dataset will come formatted in a way that is suitable for your analysis, and therefore it is important to understand the structure of your dataset and its variables
@@ -92,7 +95,7 @@ view(pop_data)
 
 An overview of our data reveals a few interesting things. All of data has been collected for the years 2009 - 2020. However, while the GDP and CO2 Emissions data is Annual, the Electricity Generation Data is Monthly, and the Population Data is Quarterly. It is also interesting to note that the some of the values for Electricity Generation are missing for some years for the Provinces of Newfoundland and Labrador, and Prince Edward Island. 
 
-## Cleaning the Data
+### Cleaning the Data
 Having recognized these potential issues, getting rid of them is important, and it deems the name "Cleaning the Data" to this section of the project. An important rough structure to keep in mind while cleaning your data is called "Tidy Data", introduced by the statistician Hadley Wickham, where,
 
 * Each Variable has its own Column
@@ -213,12 +216,12 @@ CO2_data <- merged_data
 Now let's see how that's affected our data by taking a look at our structure. 
 
 ```{r}
-View(CO2_data)
+str(CO2_data)
 ```
 
 Great! We're ready to start building our model. 
 
-## Part 1: Building our Multiple Regression Model
+## Part 2: Building our Multiple Regression Model
 
 Now that we have our dataset ready and cleaned, let's start to think about building our model. What are the relationships that we're interested in investigating? For the dataset that we're working with, these would be : gross domestic product (GDP), electricity, and population. 
 
@@ -251,22 +254,208 @@ c + geom_point()
 
 ```
 
-## SARTHAK READ HERE: 
-I've checked the underlying assumptions, and both electricity and gdp display homoscedasticity. All versions which use those will need to use robust std. errors, so that can easily be worked around. VIF is huge on the base model (gdp + electricity + population), as well as anything which uses the province dummies (unsurprisingly). Below are some other iterations I've come up with, which we could compare and pick the best of, using some interactions (as given in module 5 of econ_326) which will need to be interpretted accordingly. 
-
-Since our other variables are qualitative factor variables, we will need to create dummies to represent them. We do this using the package `"fastDummies"`
+Now that we've established some of these relationships, let's build our multiple regression model. (MENTION SLRs?)
 
 ```{r}
-library(fastDummies)
-CO2_data <- dummy_cols(CO2_data, select_columns = 'province')
+
+slr_1 <- lm(CO2 ~ gdp, data = CO2_data)
+summary(slr_1)
+
+slr_2 <- lm(CO2 ~ electricity, data = CO2_data)
+summary(slr_2)
+
+slr_3<- lm(CO2 ~ population, data = CO2_data)
+summary(slr_3)
+
+mlr_1 <- lm(CO2 ~ gdp + electricity + population, data = CO2_data)
+summary(mlr_1)
+```
+
+As seen from the adjusted r-squared output, our multiple regression model has greater explanatory power than the any of the simple regressions alone, and all of the coefficients given are significant. 
+
+## Part 3: Addressing Issues and Improving the Model
+
+### Underlying Assumptions - Homoskedasticity 
+
+Homoskedasticity, or constant variance, is an underlying assumption of OLS. Knowing that heteroskedasticity is another common issue in regression, we need to check our model to ensure that it meets this requirement. We'll start by checking visually with a residual plot for our first variable, GDP. 
+
+```{r}
+slr_1 <- lm(CO2 ~ gdp, data = CO2_data)
+
+ggplot(data = CO2_data, aes(x = as.numeric(gdp), y = as.numeric(slr_1$residuals))
+        )+geom_point()+labs(x = "GDP", y = "Residuals")
+```
+
+From this "eyeball test", it looks like the data display heterskedasticity. We'll test for this formally now with a Breusch-Pagan test. 
+```{r}
+CO2_data$resid_sqgdp <-  (slr_1$residuals)^2
+residualsslr_1 <- lm(resid_sqgdp ~ gdp, data = CO2_data)
+summary(residualsslr_1)
+```
+
+We reject the null hypothesis and conclude that the GDP data are heteroskedastic. Let's try to fix address this with a log transformation. 
+```{r}
+#transform the data
+CO2_data <- CO2_data %>%
+  mutate(ln_gdp = log(gdp))
+
+#visualize the logged vlaue residuals
+slr_ln1 <- lm(CO2 ~ ln_gdp, data = CO2_data) 
+
+ggplot(data = CO2_data, aes(x = as.numeric(ln_gdp), y = as.numeric(slr_ln1$residuals))
+)+geom_point()+labs(x = "Log GDP", y = "Residuals")
+
+#conduct another Breusch-Pagan Test
+CO2_data$resid_sq_lngdp <-  (slr_ln1$residuals)^2
+residualsslr_ln1 <- lm(resid_sq_lngdp ~ ln_gdp, data = CO2_data)
+summary(residualsslr_ln1)
+```
+
+This doesn't seem to have fixed the problem of heteroskedasticity within the gdp data. We'll overcome this in our final model by using robust standard errors. We'll now go through a similar process with the remaining two variables, and conclude that the electricity data are also heteroskedastic.  
+
+```{r}
+#For `electricity`
+#Visualise the residuals
+slr_2 <- lm(CO2 ~ electricity, data = CO2_data)
+ggplot(data = CO2_data, aes(x = as.numeric(electricity), y = as.numeric(slr_2$residuals))
+        )+geom_point()+labs(x = "Electricity", y = "Residuals")
+
+#Fromally test the hypothesis
+CO2_data$resid_sqelec <-  (slr_2$residuals)^2
+residualsslr_2 <- lm(resid_sqelec ~ electricity, data = CO2_data)
+summary(residualsslr_2)
+
+#Log transform the data
+CO2_data <- CO2_data %>%
+  mutate(ln_electricity = log(electricity))
+
+# visualize the logged value residuals
+slr_ln2 <- lm(CO2 ~ ln_electricity, data = CO2_data)
+ggplot(data = CO2_data, aes(x = as.numeric(ln_electricity), y = as.numeric(slr_ln2$residuals))
+)+geom_point()+labs(x = "Log Electricity", y_ = "Residuals")
+
+#Formally test 
+CO2_data$resid_sq_lnelec <-  (slr_ln2$residuals)^2
+residualsslr_ln2  <- lm(resid_sq_lnelec ~ ln_electricity, data = CO2_data)
+summary(residualsslr_ln2)
+
+#We reject Ho, and conclude heteroskedasticity in this data. 
+```
+
+```{r}
+#For `population`
+#Visualise the residuals
+slr_3 <- lm(CO2 ~ population, data = CO2_data)
+ggplot(data = CO2_data, aes(x = as.numeric(population), y = as.numeric(slr_3$residuals))
+        )+geom_point()+labs(x = "Population", y = "Residuals")
+
+#Formal hypothesis testing
+CO2_data$resid_sqpop <- (slr_3$residuals)^2
+residualsslr_3 <- lm(resid_sqpop ~ population, data = CO2_data)
+summary(residualsslr_3)
+
+library(lmtest)
+lmtest::bptest(slr_3)
+
+#We cannot reject the null hypothesis, and therefore cannot conclude heteroscedasticity for the population data. 
+```
+
+### Multicollinearity 
+
+As we know, multicollinearity is a common issue that arises in developing a regression. To test how this shows up in our current model, we will calculate variance inflation factors (VIF), using the package `car`. 
+
+> _Think Deeper_: Do you suspect any variables in the model may be affected by multicollinearity? How come? 
+
+```{r}
+car::vif(mlr_1)
+
+coeftest(slr_3)
+summary(slr_3)
+
+slr_3.2$coefficients <- coeftest(slr_3)$coefficients
+summary(slr_3.2)
+```
+
+The high VIF indicate that there's a problem with collinearity in our data. We'll try to combat this by creating a model which combines the effects of `GDP` and `population` into a single variable of per capita GDP. 
+
+```{r}
+#Create a new variable and view how it fits in the structure. 
+CO2_data$per_capita_gdp <- CO2_data$gdp/CO2_data$population
 str(CO2_data)
 
-#(we'll use province_1 (Newfoundland and Labrador) as our reference province in regression. This means that interpreting the coefficients with respect to that).
+#Build a new model 
+mlr_2 <- lm(CO2 ~ per_capita_gdp + electricity, data = CO2_data)
+summary(mlr_2)
+
+#Calculate VIF on the new model
+car::vif(mlr_2)
+```
+
+This appears to have addressed out problems with multicollinearity in our model. 
+
+### Adding Other Variables
+
+There is still another variable that we haven't considered in our model. Let's take a look at how `province` affects CO2. Since our these variables are expressed qualitative factors, we will need to create dummies to represent them. We do this using the package `fastDummies`
+
+```{r}
+CO2_data <- dummy_cols(CO2_data, select_columns = 'province')
+str(CO2_data)
+```
+
+Now we'll incorporate them into the model with `province_1` (Newfoundland and Labrador) excluded from the model as the reference variable.  
+
+```{r}
+slr_4 <- lm( CO2 ~ province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+summary(slr_4)
+
+mlr_4 <- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+summary(mlr_4)
+```
+
+This model has great explnatory power, but not all coefficients are significant anymore. We'll remove electricity and see how this affects our model. 
+
+```{r}
+mlr_5 <- lm(CO2 ~ gdp + population + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+summary(mlr_5)
+
+car::vif(mlr_5)
+```
+
+Unsurprisingly, this model has high multicollinearity. Let's see what happens when we interact some of the terms. 
+
+```{r}
+
+#Province interacted with population 
+mlr_6 <- lm(CO2 ~ gdp + electricity + population*province_2 + population*province_3 + population*province_4 + population*province_5 + population*province_6 + population*province_7 + population*province_8 + population*province_9 + population*province_10 + population*province_11 + population*province_12 + population*province_13, data = CO2_data)
+summary(mlr_6)
+car::vif(mlr_6)
+
+#province dummies interacted with gdp
+mlr_7 <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_data)
+summary(mlr_7)
+car::vif(mlr_7)
+
+mlr_7.1 <- lm(CO2 ~ population + electricity + gdp*province_2 + gdp*province_3 + gdp*province_4 + gdp*province_5 + gdp*province_6 + gdp*province_7 + gdp*province_8 + gdp*province_9 + gdp*province_10 + gdp*province_11 + gdp*province_12 + gdp*province_13, data = CO2_data)
+
+summary(mlr_7.1)
+car::vif(mlr_7.1)
 
 ```
 
-Now that we've established some of these relationships, let's build a first iteration of our model. 
+Now that we have a few different models, let's compare some of our results. 
 
+```{r}
+stargazer(mlr_1, mlr_2, mlr_3, mlr_4, mlr_5, mlr_6, mlr_7, title="Comparison of Muliple Regression Results",
+          align = TRUE, type="text", keep.stat = c("n","rsq"))
+```
+
+## Interpretation: 
+
+## Summary 
+
+
+## READ HERE: 
+I've checked the underlying assumptions, and both electricity and gdp display homoscedasticity. All versions which use those will need to use robust std. errors, so that can easily be worked around. VIF is huge on the base model (gdp + electricity + population), as well as anything which uses the province dummies (unsurprisingly). Below are some other iterations I've come up with, which we could compare and pick the best of, using some interactions (as given in module 5 of econ_326) which will need to be interpretted accordingly. 
 
 ```{r}
 
@@ -316,474 +505,5 @@ install.packages("car")
 library(car)
 car::vif(reg_interact2)
 
-```
-
-All the R2 values are comparable for anything where multicollinearity is addressed. They're also all on equal footing in the robest se would need to be used in any case.
-
-## Part 2: Addressing the Issues and Improving the Model
-
-### Underlying Assumptions - Homoskedasticity 
-
-Homoskedasticity, or constant variance, is an underlying assumption of OLS. Knowing that heteroskedasticity is another common issue in regression, we need to check our model to ensure that it meets this assumption. 
-
-
-```{r}
-
-#for xvariable 1 - gdp 
-regh1 <- lm(CO2 ~ gdp, data = trialdata2)
-
-ggplot(data = trialdata2, aes(x = as.numeric(gdp), y = as.numeric(regh1$residuals))
-        )+geom_point()+labs(x = "gdp", y = "y name residuals")
-
-#for other variables (fill in as needed)
-regh2 <- lm(y ~ x1, data = )
-
-ggplot(data = ________, aes(x = as.numeric(x2), y = as.numeric(regh2$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
-
-#for variable 3
-regh3 <- lm(y ~ x1, data =)
-
-ggplot(data = ________, aes(x = as.numeric(x3), y = as.numeric(regh3$residuals))) +geom_point()+labs(x = "x1 name", y = "y name")
-
-```
-
-As you can visually observe from the residuals plot, the data for gdp do not display homoskedasticity. We can test that formally with a  Bruesch-Pagan Test.
-
-```{r}
-
-trialdata2$resid_sqgdp <-  (regh1$residuals)^2
-
-residualsreg <- lm(resid_sqgdp ~ gdp, data = trialdata2)
-
-summary(residualsreg)
-```
-
- We have failed the Breusch-Pagan test, meaning that we ... As a result, our model is (not) (BLUE). 
-
-We can attempt to address this by transforming the problematic variable. Let's try a log transformation! 
-
-```{r}
-#insert log transformation 
-
-trialdata2 <- trialdata2 %>%
-  mutate(lngdp = log(gdp))
-
-# visualize
-
-lnregh1 <- lm(CO2 ~ lngdp, data = trialdata2) 
-
-ggplot(data = trialdata2, aes(x = as.numeric(lngdp), y = as.numeric(lnregh1$residuals))
-)+geom_point()+labs(x = "lngdp", y = "y name residuals")
-
-#conduct another BP Test
-
-trialdata2$resid_sqlngdp <-  (lnregh1$residuals)^2
-
-residualsregln <- lm(resid_sqlngdp ~ gdp, data = trialdata2)
-
-summary(residualsregln)
-
-#(need to use White's test? HSKY was originally linear-looking, but the log transformed version seems to be more non-linear...)
-```
-
-As this has not adequately... 
-
-## Multicollinearity 
-
-As we know, multicollinearity is a common issue that arises in developing a regression. Let's first investigate this by visually creating a correlation matrix.
-
-```{r}
-#if ggally and plotly can't be added
-
-datasubset <- subset(dataframe, select=c(v1, v2, ...))
-pairs(datasubset,
-      col = "blue"
-      pch = 19 
-      main = "Correlation Matrix Pairs")
-
-#if ggally can be added:
-
-p <- ggpairs(climatedata, title = "ggpairs", axisLabels = c("none"))
-ggplotly(p)
-
-```
-
-From these results, we can see that multicollinearity....(INSERT DESCRIPTION). To test how this shows up in our model, we will calculate variance inflation factors (VIF). 
-
-```{r}
-cat("Variance inflation factor of (variable 1) on CO2 Emissions: ",vif(regression,SFS_data$income_after_tax,SFS_data$wealth),'\n')
-cat("Variance inflation factor of (variable 2) on CO2 Emissions: ",vif(regression,SFS_data$income_before_tax,SFS_data$wealth),'\n')
-cat("Variance inflation factor of (variable 3) on CO2 Emissions: ",vif(regression,SFS_data$income_before_tax,SFS_data$income_after_tax),'\n')
-
-```
-
-Notice that.... This means 
-
-
-Now that we have a few different models, let's compare some of the results.
-```{r}
-
-stargazer(regression1, regression2, regression3..., title="Comparison of Muliple Regression Results",
-          align = TRUE, type="text", keep.stat = c("n","rsq"))
-
-```
-
-```{r}
-
-Functions: 
-
-#this function was in the issues module, but I think it's wrong...
-vif <- function(model,x_j,y){
-  #s_2=RMSE(model)^2
-  #var=var(x_j)
-  R_2j =cor(x_j,y)
-  v=1/(1-R_2j)
-  return(v)
-}
-```
-
-CHECKING FOR NORMALITY 
-```{r}
-#Starting with GDP
-a = CO2_data$gdp
-qqnorm(a, main='Normal Q-Q Plot for GDP')
-qqline(a, col='steelblue')
-
-shapiro.test(CO2_data$gdp)
-
-ln_a = CO2_data$ln_gdp
-qqnorm(ln_a, main='Normal Q-Q Plot for GDP')
-qqline(ln_a, col='steelblue')
-
-shapiro.test(CO2_data$ln_gdp)
-
-CO2_data <- CO2_data %>%
-  mutate(sqrt_gdp = sqrt(gdp))
-
-sqrt_a = CO2_data$sqrt_gdp
-qqnorm(sqrt_a, main='Normal Q-Q Plot for SQRT GDP')
-qqline(sqrt_a, col='steelblue')
-
-shapiro.test(CO2_data$sqrt_gdp)
-
-CO2_data <- CO2_data %>%
-  mutate(cbrt_gdp = cbrt(CO2_data$gdp))
-
-#Not normally distributed! 
-```
-
-#Building some regressions
-
-```{r}
-#trying a regression using the dummy provinces variables
-regprov1 <- lm(CO2 ~ province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
-
-summary(regprov1)
-
-#province dummies as well as gdp, population, and electricity variables
-mlr_all <- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
-summary(mlr_all)
-
-mlr_noelec <- lm(CO2 ~ gdp + population + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
-summary(mlr_noelec)
-```
-```{r}
-
-reg1.1 <- lm(CO2 ~ gdp, data = CO2_data)
-summary(reg1.1)
-
-reg1.2 <- lm(CO2 ~ gdp + electricity, data = CO2_data)
-summary(reg1.2)
-
-reg1.3 <- lm(CO2 ~ gdp + population, data = CO2_data)
-summary(reg1.2)
-
-reg2.1 <- lm(CO2 ~ electricity, data = CO2_data)
-summary(reg1.2)
-
-reg2.2 <- lm(CO2 ~ electricity + population, data = CO2_data)
-summary(reg1.2)
-
-reg3.0 <- lm(CO2 ~ population, data = CO2_data)
-summary(reg1.3)
-
-reg_all <- lm(CO2 ~ gdp + electricity + population, data = CO2_data)
-summary(reg_all)
-
-
-#create a new variable --> `GDP_per_capita` 
-
-CO2_data$per_capita_gdp <- CO2_data$gdp/CO2_data$population
-str(CO2_data)
-
-reg4.0 <- lm(CO2 ~ per_capita_gdp + electricity, data = CO2_data)
-summary(reg4.0)
-
-#Using logs and interactions
-
-reg_log1 <- lm(CO2 ~ ln_gdp + electricity + population, data = CO2_data)
-summary(reg_log1)
-
-reg_log2 <- lm(CO2 ~ gdp + ln_electricity + population, data = CO2_data)
-summary(reg_log2)
-
-reg_log12 <- lm(CO2 ~ ln_gdp + ln_electricity + population, data = CO2_data)
-summary(reg_log12)
-
-```
-
-```{r}
-#possible regressions to use 
-summary(reg4.0) #2 terms uses per capita gdp
-  #acceptable vif, will need robust standard errors
-summary(reg_log1)  #3 terms, uses ln_gdp
-  #acceptable VIF, will need robust standard errors  
-summary(regbasicinteract) #2 terms, uses interaction of gdp and population
-  #acceptable VIF, will need robust standard errors
-summary(regbasicinteract_2) #2 terms, uses interaction of gdp and population and ln_electricity 
-  #acceptable VIF, maybe won't need robust std errors? 
-summary(mlr_interact2_all) #many terms, uses provinces interacted with gdp
-  #super high VIF
-
-#checking VIF
-library(car)
-car::vif()
-
-#robust standard errors
-
-library(sandwich)
-coeftest(reg4.0)
-
-#Comparing Regressions:
-library(stargazer)
-stargazer(reg4.0, reg_log1, regbasicinteract, regbasicinteract_2, mlr_interact2_all, title="Comparison of Muliple Regression Results", align = TRUE, type="text", keep.stat = c("n","rsq"))
-
-```
-
-MULTICOLLINEARITY 
-
-```{r}
-vif <- function(model,x_j,y){
-  #s_2=RMSE(model)^2
-  #var=var(x_j)
-  R_2j =cor(x_j,y)
-  v=1/(1-s_2j)
-  return(v)
-}
-
-R_2j = cor(CO2_data$gdp,CO2_data$CO2)
-1/(1- summary(reg_all)$r.squared)
-
-```
-
-```{r}
-cat("Variance inflation factor of (gdp) on CO2 Emissions: ",vif(reg_all, CO2_data$gdp,CO2_data$CO2),'\n')
-cat("Variance inflation factor of (population) on CO2 Emissions: ",vif(reg_all,CO2_data$population,CO2_data$CO2),'\n')
-cat("Variance inflation factor of (electricity) on CO2 Emissions: ",vif(reg,CO2_data$electricity,CO2_data$CO2),'\n')
-```
-
-VIF: car package
-
-```{r}
-install.packages("car")
-library(car)
-car::vif(reg_log12)
-#very different results? Conclusion --> the base function is incorrect? 
-#ways to fix --> combine GDP and population? 
-
-```
-
-Let's try some different interactions
-
-
-```{r}
-
-#province dummies interacted with population 
-mlr_interact_all <- lm(CO2 ~ gdp + electricity + population:province_2 + population:province_3 + population:province_4 + population:province_5 + population:province_6 + population:province_7 + population:province_8 + population:province_9 + population:province_10 + population:province_11 + population:province_12 + population:province_13, data = CO2_dummies)
-
-#province dummies interacted with gdp
-mlr_interact2_all <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_dummies)
-
-summary(mlr_interact2_all)
-
-
-mlr_all<- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_dummies)
-summary(mlr_all)
-
-mlr4.1_all <- lm(CO2 ~ electricity + population + province_2 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_dummies)
-summary(mlr4.1_all)
-
-regbasicinteract <- lm(CO2 ~ electricity + gdp:population, data = CO2_data)
-summary(regbasicinteract)
-
-regbasicinteract_2 <- lm(CO2 ~ ln_electricity + gdp:population, data = CO2_data)
-summary(regbasicinteract_2)
-
-car::vif(regbasicinteract_2)
-
-
-```
-
-HETEROSKEDASTICITY 
-
-```{r}
-
-regh1 <- lm(CO2 ~ gdp, data = CO2_data)
-
-CO2_data$resid_sqgdp <-  (regh1$residuals)^2
-
-residualsreg <- lm(resid_sqgdp ~ gdp, data = CO2_data)
-
-summary(residualsreg)
-
-#log transform
-
-CO2_dummies <- CO2_dummies %>%
-  mutate(lngdp = log(gdp))
-
-# visualize
-
-lnregh1 <- lm(CO2 ~ lngdp, data = CO2_dummies) 
-
-ggplot(data = CO2_dummies, aes(x = as.numeric(lngdp), y = as.numeric(lnregh1$residuals))
-)+geom_point()+labs(x = "lngdp", y = "y name residuals")
-
-#conduct another BP Test
-
-CO2_dummies$resid_sqlngdp <-  (lnregh1$residuals)^2
-
-residualsreglngdp <- lm(resid_sqlngdp ~ lngdp, data = CO2_dummies)
-
-summary(residualsreglngdp)
-```
-
-Electricity
-
-```{r}
-
-regh2 <- lm(CO2 ~ electricity, data = CO2_data)
-
-CO2_data$resid_sq_elec <-  (regh2$residuals)^2
-
-residualsreg2 <- lm(resid_sq_elec ~ electricity, data = CO2_data)
-
-summary(residualsreg2)
-
-#visualise
-
-ggplot(data = CO2_data, aes(x = as.numeric(electricity), y = as.numeric(regh2$residuals))
-        )+geom_point()+labs(x = "electricity", y = "y name residuals")
-
-#fix 
-
-CO2_dummies <- CO2_dummies %>%
-  mutate(ln_electricity = log(electricity))
-
-# visualize
-
-lnregh2 <- lm(CO2 ~ ln_electricity, data = CO2_dummies)
-
-ggplot(data = CO2_dummies, aes(x = as.numeric(ln_electricity), y = as.numeric(lnregh2$residuals))
-)+geom_point()+labs(x = "ln_electricity", y_ = "y name residuals")
-
-#test
-
-CO2_dummies$resid_sqln_electricity <-  (lnregh2$residuals)^2
-
-residualsreglnelectricity <- lm(resid_sqln_electricity ~ ln_electricity, data = CO2_dummies)
-
-summary(residualsreglnelectricity)
-
-#reject Ho, still heteroskedastic 
-```
-
-Population
-
-```{r}
-regh3 <- lm(CO2 ~ population, data = CO2_data)
-
-CO2_data$resid_sq_pop <-  (regh3$residuals)^2
-
-residualsreg3 <- lm(resid_sq_pop ~ population, data = CO2_data)
-
-summary(residualsreg3)
-
-library(lmtest)
-lmtest::bptest(regh3)
-
-#cannot conclude heteroscedasticity . 
-
-#visualise
-
-ggplot(data = CO2_data, aes(x = as.numeric(population), y = as.numeric(regh3$residuals))
-        )+geom_point()+labs(x = "population", y = "y name residuals")
-
-#fix 
-
-CO2_dummies <- CO2_dummies %>%
-  mutate(ln_electricity = log(electricity))
-
-# visualize
-
-lnregh2 <- lm(CO2 ~ ln_electricity, data = CO2_dummies)
-
-ggplot(data = CO2_dummies, aes(x = as.numeric(ln_electricity), y = as.numeric(lnregh2$residuals))
-)+geom_point()+labs(x = "ln_electricity", y_ = "y name residuals")
-
-#test
-
-CO2_dummies$resid_sqln_electricity <-  (lnregh2$residuals)^2
-
-residualsreglnelectricity <- lm(resid_sqln_electricity ~ ln_electricity, data = CO2_dummies)
-
-summary(residualsreglnelectricity)
-
-#reject Ho, still heteroskedastic 
-```
-
-Per Capita GDP
-
-```{r}
-regh4 <- lm(CO2 ~ per_capita_gdp, data = CO2_data)
-
-CO2_dummies$resid_sq_pcg <-  (regh4$residuals)^2
-
-residualsreg4 <- lm(resid_sq_pcg ~ per_capita_gdp, data = CO2_dummies)
-
-summary(residualsreg4)
-
-library(lmtest)
-lmtest::bptest(regh4)
-
-#conclude heteroscedasticity!
-
-#visualise
-
-ggplot(data = CO2_data, aes(x = as.numeric(per_capita_gdp), y = as.numeric(regh4$residuals))
-        )+geom_point()+labs(x = "Per Capita GDP", y = "y name residuals")
-
-#fix 
-
-CO2_dummies <- CO2_dummies %>%
-  mutate(ln_pcg = log(per_capita_gdp))
-
-# visualize
-
-lnregh4 <- lm(CO2 ~ ln_pcg, data = CO2_dummies)
-
-ggplot(data = CO2_dummies, aes(x = as.numeric(ln_pcg), y = as.numeric(lnregh4$residuals))
-)+geom_point()+labs(x = "ln_pcg", y_ = "y name residuals")
-
-#test
-
-CO2_dummies$resid_sqln_pcg <- (lnregh4$residuals)^2
-
-residualsreglnpcg <- lm(resid_sqln_pcg ~ ln_pcg, data = CO2_dummies)
-
-summary(residualsreglnpcg)
-
-bptest(lnregh4)
-
-#reject Ho, still heteroskedastic 
 ```
 
