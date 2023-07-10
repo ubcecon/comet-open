@@ -35,6 +35,10 @@ library(tidyverse)
 library(haven)
 library(ggplot2)
 library(stargazer)
+
+#install.packages("vtable") #run this line if you do not have "vtable" installed already. 
+library(vtable)
+
 ```
 
 ## Notes
@@ -124,13 +128,11 @@ SFS_data$agegr <- factor(SFS_data$agegr,levels = c("20s", "30s", "40s", "50s", "
 Before we begin our exploration, let's first describe variables of interest. Variables incomes and wealth are of the family unit. The wealth variable represents net worth of the family unit. Mean of income before tax of a family in 2019 is about \$124,804.5. The standard deviation of income after tax is smaller than income before tax, which suggests tax and government transfers reduce income inequality in Canada. Net wealth of a family unit is approximately 9.5 times of the income after tax of a family. Unlike income after tax, standard deviation of wealth is large, thus dispersion of wealth is larger than income, which conforms with economic literature.
 
 ```{r}
-df <- data.frame(variables=c('income before tax','income after tax','wealth'),
-                 mean=round(c(mean(SFS_data$income_before_tax),mean(SFS_data$income_after_tax),mean(SFS_data$wealth)),2),
-                 median=round(c(median(SFS_data$income_before_tax),median(SFS_data$income_after_tax),median(SFS_data$wealth)),2),
-                sd=round(c(sd(SFS_data$income_before_tax),sd(SFS_data$income_after_tax),sd(SFS_data$wealth)),2))
-
-df 
-# question: can you do this using summarize instead?
+sumtable(SFS_data, 
+      vars = c("income_before_tax", "income_after_tax", "wealth"),
+       summ = c('mean(x)','median(x)', 'sd(x)' ),
+       digits = 7,
+       out = 'return')
 ```
 
 Since `age` and `education` are factor variables, we can visualize them with histograms. As we can see from the graph below, many main earners are in their 50s, and most main earners have a post-secondary degree.
@@ -209,40 +211,21 @@ CI <- function(data) {
 ```{r}
 'Generate a Dataframe to Display Summary Statistics by Education Groups'
 
-#First, we create a table named `results` to store mean and standard deviations of incomes and wealth by education groups
-results <- 
-    SFS_data %>% 
-    group_by(education) %>%
-    summarize(m_income = mean(income_before_tax), sd_income = sd(income_before_tax),
-              m_wealth = mean(wealth), sd_wealth = sd(wealth))
+#We can start by creating a new data frame named `results` to store mean and standard deviations of incomes and wealth by education groups. We can include our calculated confidence interval by running function `CI` with each of our variables of interest (`income_before_tax` and `wealth`).
 
-#Next, we make a dataframe named `df_gr` to display mean, standard deviations and confidence intervals of incomes and wealth.
-#The first 3 columns of `df_gr` are from table `results`, which contain names of education groups, mean and standard deviations of incomes.
-#The 4th column of `df_gr` is lower bound of CI of incomes.
-#We obtain `CI_L_income` by running function `CI` with inputs of incomes of each group.
-#For example, we filter out people with `Less than high school` degree and input their `income_before_tax` in `CI` function.
-#The second element of output in `CI` function is lower bound, while the first element is upper bound.
-#Similarly, we perform the same procedure for `wealth`.
-df_gr <- data.frame(results[1],results[2],results[3],
-                 CI_L_income=c(CI(filter(SFS_data, education == "Less than high school")$income_before_tax)[2],
-                               CI(filter(SFS_data, education == "High school")$income_before_tax)[2],
-                               CI(filter(SFS_data, education == "Non-university post-secondary")$income_before_tax)[2],
-                               CI(filter(SFS_data, education == "University")$income_before_tax)[2]),
-                CI_U_income=c(CI(filter(SFS_data, education == "Less than high school")$income_before_tax)[1],
-                              CI(filter(SFS_data, education == "High school")$income_before_tax)[1],
-                              CI(filter(SFS_data, education == "Non-university post-secondary")$income_before_tax)[1],
-                              CI(filter(SFS_data, education == "University")$income_before_tax)[1]),
-                 results[4],results[5],
-                 CI_L_wealth=c(CI(filter(SFS_data, education == "Less than high school")$wealth)[2],
-                               CI(filter(SFS_data, education == "High school")$wealth)[2],
-                               CI(filter(SFS_data, education == "Non-university post-secondary")$wealth)[2],
-                               CI(filter(SFS_data, education == "University")$wealth)[2]),
-                CI_U_wealth=c(CI(filter(SFS_data, education == "Less than high school")$wealth)[1],
-                              CI(filter(SFS_data, education == "High school")$wealth)[1],
-                              CI(filter(SFS_data, education == "Non-university post-secondary")$wealth)[1],
-                              CI(filter(SFS_data, education == "University")$wealth)[1]))
+results <- data.frame(SFS_data %>%
+  group_by(education) %>%
+  summarize(m_income = mean(income_before_tax),
+            sd_income = sd(income_before_tax),
+            CI_L_income = c(CI(income_before_tax)[2]),
+            CI_U_income = c(CI(income_before_tax)[1]), #Calculate confidence interval for `income_before_tax` using the `CI` function 
+            m_wealth = mean(wealth),
+            sd_wealth = sd(wealth),
+            CI_L_wealth = c(CI(wealth)[2]), #Calculate confidence interval for `wealth` using the `CI` function 
+            CI_U_wealth = c(CI(wealth)[1])))
 
-df_gr
+results   
+
 ```
 
 ```{r}
