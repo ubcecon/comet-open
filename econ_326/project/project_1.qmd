@@ -25,52 +25,114 @@ If you are reviewing the materials from ECON 326, or self-studying it, this is a
 
 You can also use this as a model of a project of your own, if you're interested in getting started with econometric analysis.
 
+
+## Introduction: 
+Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON325 and ECON326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. Let's get started!
+
 ```{r}
 
+library(haven)
+library(tidyverse)
 library(stargazer)
 library(ggplot2)
+library(car)
+library(lmtest)
+library(sandwich)
 
 ```
 
-## Introduction 
->>>> INSERT /Introduction  
+
+## Getting the Data:
+
+
+## Importing Data into R
+Once you have gathered data, R has great dependability and dexterity in the viewing and manipulation of that data. To do this, you will want to import your datasets into R, like you have observed in multiple other modules so far. The data that you have gathered could be in a host of different formats like,
+
+- .csv (Comma-Separated Values file), 
+- .dta (STATA data file), 
+- .xlsx (Excel file),
+- .sav (SPSS file) or, 
+- .sas (SAS file) 
+
+Fortunately, we will not be needing separate packages to import these files; `haven` is our jack-of-all-trades. We used the command `library(haven)` to load it at beginning of this module. 
 
 ```{r}
-#TEMPORARY DATA MANIPULATIONS
+# Reading the Data
+gdp_data <- read.csv("C:/GitHub/econometrics/econ_326/datasets/gdp_data.csv")
+pollution_data <- read.csv("C:/GitHub/econometrics/econ_326/datasets/pollution_data.csv")
+elec_data <- read.csv("C:/GitHub/econometrics/econ_326/datasets/elec_data.csv")
+pop_data <- read.csv("C:/GitHub/econometrics/econ_326/datasets/pop_data.csv")
+```
 
-gdp_data <- read.csv("C:/Data/CometData/gdp_data.csv")
-pollution_data <- read.csv("C:/Data/CometData/pollution_data.csv")
+```{r}
+elec_data_grouped <- elec_data %>%
+  mutate(REF_DATE = substr(REF_DATE, 1, 4), MONTH = substr(REF_DATE, 6, 7))
 
-view(gdp_data)
-view(pollution_data)
+elec_data_grouped <- elec_data_grouped %>%
+  group_by(REF_DATE, GEO)
+
+elec_data_grouped <- elec_data_grouped %>%
+  filter(Type.of.electricity.generation == 'Total all types of electricity generation')
+# Change the Variable Names; that can be one of the Exercises
+
+elec_data_grouped <- elec_data_grouped %>%
+  summarise(electricity = sum(VALUE))
+```
+
+```{r}
+pop_data_grouped <- pop_data %>%
+  mutate(REF_DATE = substr(REF_DATE, 1, 4), MONTH = substr(REF_DATE, 6, 7))
+
+pop_data_grouped <- pop_data_grouped %>%
+  group_by(REF_DATE, GEO) %>%
+  filter(GEO != 'Canada')
+
+pop_data_final <- pop_data_grouped %>%
+  summarise(population = sum(VALUE))
+```
 
 
-merged_data <- left_join(gdp_data, pollution_data, by = c('REF_DATE', 'GEO'))
-view(merged_data)
+```{r}
+can_poll_data <- pollution_data %>% filter(Sector == "Total, industries and households") %>% filter(GEO != 'Canada')
+```
 
+```{r}
+merged_data_1 <- left_join(gdp_data, can_poll_data, by = c('REF_DATE', 'GEO'))
+merged_data_2 <- left_join(pop_data_final, elec_data_grouped, by = c('REF_DATE', 'GEO'))
+merged_data_2 <- merged_data_2 %>% mutate(REF_DATE = as.integer(REF_DATE))
+merged_data_3 <- left_join(merged_data_1, merged_data_2, by = c('REF_DATE', 'GEO'))
+```
+
+```{r}
+
+view(merged_data_3)
+
+# Preliminary Regressions Run
+reg1 <- lm(VALUE.y ~ VALUE.x + population + electricity, data = merged_data_3)
+summary(reg1)
+```
+
+```{r}
+ 
 
 # Y(dependent) variable is going to be CO2 emissions
 # X(independents)can be:
-  # Year
+  # electrcity usage
   # GDP
-  # Industry type?
+  # population
   # province
 
-trialdata1 <- merged_data
-
-trialdata1 <- trialdata1 %>%
+merged_data_3  <- merged_data_3  %>%
   rename(province = GEO) %>%
   rename(year = REF_DATE) %>%
-  rename(industry = North.American.Industry.Classification.System..NAICS.)%>%
   rename(gdp = VALUE.x) %>%
   rename(CO2 = VALUE.y) %>%
   rename(emissions_sector = Sector)
 
-view(trialdata1)
 
-#Now we need some factors. Province, industry, and emissions sector should all be factorized
+#Now we need some factors. `Province` should be a factor variable. 
 
-trialdata1 <- trialdata1 %>%
+merged_data_3  <- merged_data_3  %>%
   mutate(province = case_when(
     province == "Newfoundland and Labrador" ~ "1",
     province == "Prince Edward Island" ~ "2",
@@ -88,22 +150,19 @@ trialdata1 <- trialdata1 %>%
   )) %>%
   mutate(province = as_factor(province))
 
-view(trialdata1)
+#Now for clarity, we'll rename the dataset.
 
-
-trialdata1 <- trialdata1 %>%
-  mutate(emissions_sector = case_when(
-    emissions_sector == "Total, industries and households" ~ "1",
-    emissions_sector == "Total, industries" ~ "2",
-    emissions_sector== "Total, households" ~ "3",
-    emissions_sector == "Total, United Nations Framework Convention on Climate Change (UNFCCC), Canada's submission" ~ "4",
-    emissions_sector == "Total, Reconciliation with Canada's submission to the United Nations Framework Convention on Climate Change (UNFCCC)" ~ "5",
-    ))
-
-
-trialdata2 <- subset(trialdata1, emissions_sector == "1")
+CO2_data <- merged_data_3 
 
 ```
+
+Now let's see how that's affected our data by taking a look at our structure. 
+
+```{r}
+str(CO2_data)
+```
+
+Great! We're ready to start building our model. 
 
 ## Part 1: Building our Multiple Regression Model
 
@@ -114,31 +173,40 @@ Now that we have our dataset ready and cleaned, let's start to think about build
 Let's begin investigating these relationships by making some visualizations.
 
 ```{r}
-
-
-
-
-```
-
-Since our other variables are qualitative factor variables, we will need to create dummies to represent them.
-
-
-```{r}
 #(insert xlim and colour to finesse vizs as necessary)
 
-f <- ggplot(data = trialdata2, aes(x = year, y = CO2))+
+a.1 <- ggplot(data = CO2_data, aes(x = year, y = CO2))+
   xlab("year")+
   ylab("CO2 Emissions") + scale_x_continuous()
 
-f + geom_point()
+a.1 + geom_point()
 
-b <- ggplot(data = trialdata2, aes(x = gdp, y = CO2))+
+a <- ggplot(data = CO2_data, aes(x = gdp, y = CO2))+
   xlab("GDP")+
+  ylab("CO2 Emissions") + scale_x_continuous()
+
+a + geom_point()
+
+
+b <- ggplot(data = CO2_data, aes(x = population, y = CO2))+
+  xlab("Population")+
   ylab("CO2 Emissions") + scale_x_continuous()
 
 b + geom_point()
 
+c <- ggplot(data = CO2_data, aes(x = electricity, y = CO2))+
+  xlab("Electricity")+
+  ylab("CO2 Emissions") + scale_x_continuous()
+
+c + geom_point()
+
 ```
+
+We'll check for the underlying assumption of normal distribution by 
+
+
+
+Since our other variables are qualitative factor variables, we will need to create dummies to represent them.
 
 Now that we've established some of these relationships, let's build a first iteration of our model. 
 
@@ -277,7 +345,413 @@ vif <- function(model,x_j,y){
   v=1/(1-R_2j)
   return(v)
 }
+```
+
+# Y(dependent) variable is going to be CO2 emissions
+# X(independents)can be:
+  # electrcity usage
+  # GDP
+  # population
+  # province
+
+merged_data_3  <- merged_data_3  %>%
+  rename(province = GEO) %>%
+  rename(year = REF_DATE) %>%
+  rename(gdp = VALUE.x) %>%
+  rename(CO2 = VALUE.y) %>%
+  rename(emissions_sector = Sector)
 
 
+#Now we need some factors. `Province` should be a factor variable. 
+
+merged_data_3  <- merged_data_3  %>%
+  mutate(province = case_when(
+    province == "Newfoundland and Labrador" ~ "1",
+    province == "Prince Edward Island" ~ "2",
+    province == "Nova Scotia" ~ "3",
+    province == "New Brunswick" ~ "4",
+    province == "Quebec" ~ "5",
+    province == "Ontario" ~ "6",
+    province == "Manitoba" ~ "7",
+    province == "Saskatchewan" ~ "8",
+    province == "Alberta" ~ "9",
+    province == "British Columbia" ~ "10",
+    province == "Yukon" ~ "11",
+    province == "Northwest Territories" ~ "12",
+    province == "Nunavut" ~ "13",
+  )) %>%
+  mutate(province = as_factor(province))
+
+#Now for clarity, we'll rename the dataset.
+
+CO2_data <- merged_data_3 
+
+
+```
+
+Creating dummies:
+
+```{r}
+library(fastDummies)
+CO2_data <- dummy_cols(CO2_data, select_columns = 'province')
+View(CO2_data)
+```
+
+```{r}
+#GETTING THE DATA SORTED:
+
+CO2_data$per_capita_gdp <- CO2_data$gdp/CO2_data$population
+str(CO2_data)
+
+CO2_data <- CO2_data %>%
+  mutate(ln_gdp = log(gdp))
+
+CO2_data <- CO2_data %>%
+  mutate(ln_electricity = log(electricity))
+
+str(CO2_data)
+
+```
+
+CHECKING FOR NORMALITY 
+```{r}
+#Starting with GDP
+a = CO2_data$gdp
+qqnorm(a, main='Normal Q-Q Plot for GDP')
+qqline(a, col='steelblue')
+
+shapiro.test(CO2_data$gdp)
+
+ln_a = CO2_data$ln_gdp
+qqnorm(ln_a, main='Normal Q-Q Plot for GDP')
+qqline(ln_a, col='steelblue')
+
+shapiro.test(CO2_data$ln_gdp)
+
+CO2_data <- CO2_data %>%
+  mutate(sqrt_gdp = sqrt(gdp))
+
+sqrt_a = CO2_data$sqrt_gdp
+qqnorm(sqrt_a, main='Normal Q-Q Plot for SQRT GDP')
+qqline(sqrt_a, col='steelblue')
+
+shapiro.test(CO2_data$sqrt_gdp)
+
+CO2_data <- CO2_data %>%
+  mutate(cbrt_gdp = cbrt(CO2_data$gdp))
+
+#Not normally distributed! 
+```
+
+#Building some regressions
+
+```{r}
+regprov1 <- lm(CO2 ~ province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+
+summary(regprov1)
+
+mlr_all <- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+summary(mlr_all)
+
+mlr_noelec <- lm(CO2 ~ gdp + population + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+summary(mlr_noelec)
+```
+```{r}
+
+reg1.1 <- lm(CO2 ~ gdp, data = CO2_data)
+summary(reg1.1)
+
+reg1.2 <- lm(CO2 ~ gdp + electricity, data = CO2_data)
+summary(reg1.2)
+
+reg1.3 <- lm(CO2 ~ gdp + population, data = CO2_data)
+summary(reg1.2)
+
+reg2.1 <- lm(CO2 ~ electricity, data = CO2_data)
+summary(reg1.2)
+
+reg2.2 <- lm(CO2 ~ electricity + population, data = CO2_data)
+summary(reg1.2)
+
+reg3.0 <- lm(CO2 ~ population, data = CO2_data)
+summary(reg1.3)
+
+reg_all <- lm(CO2 ~ gdp + electricity + population, data = CO2_data)
+summary(reg_all)
+
+
+#create a new variable --> `GDP_per_capita` 
+
+CO2_data$per_capita_gdp <- CO2_data$gdp/CO2_data$population
+str(CO2_data)
+
+reg4.0 <- lm(CO2 ~ per_capita_gdp + electricity, data = CO2_data)
+summary(reg4.0)
+
+#Using logs and interactions
+
+reg_log1 <- lm(CO2 ~ ln_gdp + electricity + population, data = CO2_data)
+summary(reg_log1)
+
+reg_log2 <- lm(CO2 ~ gdp + ln_electricity + population, data = CO2_data)
+summary(reg_log2)
+
+reg_log12 <- lm(CO2 ~ ln_gdp + ln_electricity + population, data = CO2_data)
+summary(reg_log12)
+
+```
+
+```{r}
+#possible regressions to use 
+summary(reg4.0) #2 terms uses per capita gdp
+  #acceptable vif, will need robust standard errors
+summary(reg_log1)  #3 terms, uses ln_gdp
+  #acceptable VIF, will need robust standard errors  
+summary(regbasicinteract) #2 terms, uses interaction of gdp and population
+  #acceptable VIF, will need robust standard errors
+summary(regbasicinteract_2) #2 terms, uses interaction of gdp and population and ln_electricity 
+  #acceptable VIF, maybe won't need robust std errors? 
+summary(mlr_interact2_all) #many terms, uses provinces interacted with gdp
+  #super high VIF
+
+#checking VIF
+library(car)
+car::vif()
+
+#robust standard errors
+
+library(sandwich)
+coeftest(reg4.0)
+
+#Comparing Regressions:
+library(stargazer)
+stargazer(reg4.0, reg_log1, regbasicinteract, regbasicinteract_2, mlr_interact2_all, title="Comparison of Muliple Regression Results", align = TRUE, type="text", keep.stat = c("n","rsq"))
+
+```
+
+MULTICOLLINEARITY 
+
+```{r}
+vif <- function(model,x_j,y){
+  #s_2=RMSE(model)^2
+  #var=var(x_j)
+  R_2j =cor(x_j,y)
+  v=1/(1-s_2j)
+  return(v)
+}
+
+R_2j = cor(CO2_data$gdp,CO2_data$CO2)
+1/(1- summary(reg_all)$r.squared)
+
+```
+
+```{r}
+cat("Variance inflation factor of (gdp) on CO2 Emissions: ",vif(reg_all, CO2_data$gdp,CO2_data$CO2),'\n')
+cat("Variance inflation factor of (population) on CO2 Emissions: ",vif(reg_all,CO2_data$population,CO2_data$CO2),'\n')
+cat("Variance inflation factor of (electricity) on CO2 Emissions: ",vif(reg,CO2_data$electricity,CO2_data$CO2),'\n')
+```
+
+VIF: car package
+
+```{r}
+install.packages("car")
+library(car)
+car::vif(reg_log12)
+#very different results? Conclusion --> the base function is incorrect? 
+#ways to fix --> combine GDP and population? 
+
+```
+
+Let's try some different interactions
+
+
+```{r}
+
+mlr_interact_all <- lm(CO2 ~ gdp + electricity + population:province_2 + population:province_3 + population:province_4 + population:province_5 + population:province_6 + population:province_7 + population:province_8 + population:province_9 + population:province_10 + population:province_11 + population:province_12 + population:province_13, data = CO2_dummies)
+
+mlr_interact2_all <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_dummies)
+
+summary(mlr_interact2_all)
+
+
+mlr_all<- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_dummies)
+summary(mlr_all)
+
+
+mlr4.1_all <- lm(CO2 ~ electricity + population + province_2 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_dummies)
+summary(mlr4.1_all)
+
+regbasicinteract <- lm(CO2 ~ electricity + gdp:population, data = CO2_data)
+summary(regbasicinteract)
+
+regbasicinteract_2 <- lm(CO2 ~ ln_electricity + gdp:population, data = CO2_data)
+summary(regbasicinteract_2)
+
+car::vif(regbasicinteract_2)
+
+
+```
+
+HETEROSKEDASTICITY 
+
+```{r}
+
+regh1 <- lm(CO2 ~ gdp, data = CO2_data)
+
+CO2_data$resid_sqgdp <-  (regh1$residuals)^2
+
+residualsreg <- lm(resid_sqgdp ~ gdp, data = CO2_data)
+
+summary(residualsreg)
+
+#log transform
+
+CO2_dummies <- CO2_dummies %>%
+  mutate(lngdp = log(gdp))
+
+# visualize
+
+lnregh1 <- lm(CO2 ~ lngdp, data = CO2_dummies) 
+
+ggplot(data = CO2_dummies, aes(x = as.numeric(lngdp), y = as.numeric(lnregh1$residuals))
+)+geom_point()+labs(x = "lngdp", y = "y name residuals")
+
+#conduct another BP Test
+
+CO2_dummies$resid_sqlngdp <-  (lnregh1$residuals)^2
+
+residualsreglngdp <- lm(resid_sqlngdp ~ lngdp, data = CO2_dummies)
+
+summary(residualsreglngdp)
+```
+
+Electricity
+
+```{r}
+
+regh2 <- lm(CO2 ~ electricity, data = CO2_data)
+
+CO2_data$resid_sq_elec <-  (regh2$residuals)^2
+
+residualsreg2 <- lm(resid_sq_elec ~ electricity, data = CO2_data)
+
+summary(residualsreg2)
+
+#visualise
+
+ggplot(data = CO2_data, aes(x = as.numeric(electricity), y = as.numeric(regh2$residuals))
+        )+geom_point()+labs(x = "electricity", y = "y name residuals")
+
+#fix 
+
+CO2_dummies <- CO2_dummies %>%
+  mutate(ln_electricity = log(electricity))
+
+# visualize
+
+lnregh2 <- lm(CO2 ~ ln_electricity, data = CO2_dummies)
+
+ggplot(data = CO2_dummies, aes(x = as.numeric(ln_electricity), y = as.numeric(lnregh2$residuals))
+)+geom_point()+labs(x = "ln_electricity", y_ = "y name residuals")
+
+#test
+
+CO2_dummies$resid_sqln_electricity <-  (lnregh2$residuals)^2
+
+residualsreglnelectricity <- lm(resid_sqln_electricity ~ ln_electricity, data = CO2_dummies)
+
+summary(residualsreglnelectricity)
+
+#reject Ho, still heteroskedastic 
+```
+
+Population
+
+```{r}
+regh3 <- lm(CO2 ~ population, data = CO2_data)
+
+CO2_data$resid_sq_pop <-  (regh3$residuals)^2
+
+residualsreg3 <- lm(resid_sq_pop ~ population, data = CO2_data)
+
+summary(residualsreg3)
+
+library(lmtest)
+lmtest::bptest(regh3)
+
+#cannot conclude heteroscedasticity . 
+
+#visualise
+
+ggplot(data = CO2_data, aes(x = as.numeric(population), y = as.numeric(regh3$residuals))
+        )+geom_point()+labs(x = "population", y = "y name residuals")
+
+#fix 
+
+CO2_dummies <- CO2_dummies %>%
+  mutate(ln_electricity = log(electricity))
+
+# visualize
+
+lnregh2 <- lm(CO2 ~ ln_electricity, data = CO2_dummies)
+
+ggplot(data = CO2_dummies, aes(x = as.numeric(ln_electricity), y = as.numeric(lnregh2$residuals))
+)+geom_point()+labs(x = "ln_electricity", y_ = "y name residuals")
+
+#test
+
+CO2_dummies$resid_sqln_electricity <-  (lnregh2$residuals)^2
+
+residualsreglnelectricity <- lm(resid_sqln_electricity ~ ln_electricity, data = CO2_dummies)
+
+summary(residualsreglnelectricity)
+
+#reject Ho, still heteroskedastic 
+```
+
+Per Capita GDP
+
+```{r}
+regh4 <- lm(CO2 ~ per_capita_gdp, data = CO2_data)
+
+CO2_dummies$resid_sq_pcg <-  (regh4$residuals)^2
+
+residualsreg4 <- lm(resid_sq_pcg ~ per_capita_gdp, data = CO2_dummies)
+
+summary(residualsreg4)
+
+library(lmtest)
+lmtest::bptest(regh4)
+
+#conclude heteroscedasticity!
+
+#visualise
+
+ggplot(data = CO2_data, aes(x = as.numeric(per_capita_gdp), y = as.numeric(regh4$residuals))
+        )+geom_point()+labs(x = "Per Capita GDP", y = "y name residuals")
+
+#fix 
+
+CO2_dummies <- CO2_dummies %>%
+  mutate(ln_pcg = log(per_capita_gdp))
+
+# visualize
+
+lnregh4 <- lm(CO2 ~ ln_pcg, data = CO2_dummies)
+
+ggplot(data = CO2_dummies, aes(x = as.numeric(ln_pcg), y = as.numeric(lnregh4$residuals))
+)+geom_point()+labs(x = "ln_pcg", y_ = "y name residuals")
+
+#test
+
+CO2_dummies$resid_sqln_pcg <- (lnregh4$residuals)^2
+
+residualsreglnpcg <- lm(resid_sqln_pcg ~ ln_pcg, data = CO2_dummies)
+
+summary(residualsreglnpcg)
+
+bptest(lnregh4)
+
+#reject Ho, still heteroskedastic 
 ```
 
