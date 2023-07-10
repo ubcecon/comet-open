@@ -14,17 +14,40 @@ format:
         name: ir
 ---
 
+## Outline
+
+### Prerequisites
+
+* Introduction to Data in R
+* Introduction to Data Visualization - I and II
+* Simple Regression
+* Multiple Regression
+* Issues in Regression using R
+* Interactions and Non-Linear Terms in Regressions
+
+### Outcomes
 
 ## Introduction: 
-Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON325 and ECON326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. Let's get started!
+Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON325 and ECON326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. 
+
+It is important to note that while the more minute tasks in each of these big steps may vary according to the needs of the project, these steps remain mostly the same. Let's get started by importing all of the packages that we will use through out this module!
 
 ```{r}
+
+# If any of the packages happened to not be installed for you, use the command install.packages() with the name of the packages, like 'stargazer'
+
+library(ggplot2) 
 library(haven)
+library(stargazer)
 library(tidyverse)
 ```
 
-## Getting the Data:
+## Note:
+Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
 
+## Getting the Data:
+For the sake of our analysis today, we hope to observe whether factors like Electricity Generation, GDP, and Population, have had any impact on CO2 Emissions across all the Canadian Provinces. 
 
 ## Importing Data into R
 Once you have gathered data, R has great dependability and dexterity in the viewing and manipulation of that data. To do this, you will want to import your datasets into R, like you have observed in multiple other modules so far. The data that you have gathered could be in a host of different formats like,
@@ -35,57 +58,116 @@ Once you have gathered data, R has great dependability and dexterity in the view
 - .sav (SPSS file) or, 
 - .sas (SAS file) 
 
-Fortunately, we will not be needing separate packages to import these files; `haven` is our jack-of-all-trades. We used the command `library(haven)` to load it at beginning of this module. 
+All of these files correspond to different softwares, like Microsoft Excel, STATA, or SPSS, but can nonetheless be conveniently imported onto R. Fortunately, we will not be needing separate packages to import these files; `haven` is our jack-of-all-trades. We used the command `library(haven)` to load it at beginning of this module. In this case, since all of our data is in the .csv format, we use the function `read_csv`. The corresponding functions for the other formats are, `read_dta`, `read_spss`, and so on.
 
 ```{r}
-# Reading the Data
-gdp_data <- read.csv("../datasets/gdp_data.csv")
-pollution_data <- read.csv("../datasets/pollution_data.csv")
-elec_data <- read.csv("../datasets/elec_data.csv")
-pop_data <- read.csv("../datasets/pop_data.csv")
+
+# Loading the Data into R
+
+gdp_data <- read_csv("../datasets/gdp_data.csv")
+pollution_data <- read_csv("../datasets/pollution_data.csv")
+elec_data <- read_csv("../datasets/elec_data.csv")
+pop_data <- read_csv("../datasets/pop_data.csv")
 ```
+
+> NOTE: By default, some functions in the Haven package, like `read_csv()`, assume that the CSV file has a header row with variable names. If your file does not have a header, or you would like different headers for your columns, you can use the argument `col_names` to adjust the column names manually.
+
+## Viewing the Data
+Once you have imported your datasets in R, it is worthwhile to get an overview of the data. There are two main reasons for this:
+
+* Not every dataset will come formatted in a way that is suitable for your analysis, and therefore it is important to understand the structure of your dataset and its variables
+* An overview allows you to recognize any potential obvious issues that the data may have, like missing values, duplicates, or unnecessary variables, that would pose issues in your analysis at a later stage 
+
+Commands that can be used to view and understand the structure of your data include: `head()`, `str()`, `summary()`, and `view()`. These four functions can be used roughly interchangeably understand the structure of your data
+
+```{r}
+
+# Make sure to run these commands individually!
+
+head(gdp_data)
+summary(pollution_data)
+str(elec_data)
+view(pop_data)
+```
+
+An overview of our data reveals a few interesting things. All of data has been collected for the years 2009 - 2020. However, while the GDP and CO2 Emissions data is Annual, the Electricity Generation Data is Monthly, and the Population Data is Quarterly. It is also interesting to note that the some of the values for Electricity Generation are missing for some years for the Provinces of Newfoundland and Labrador, and Prince Edward Island. 
+
+## Cleaning the Data
+Having recognized these potential issues, getting rid of them is important, and it deems the name "Cleaning the Data" to this section of the project. An important rough structure to keep in mind while cleaning your data is called "Tidy Data", introduced by the statistician Hadley Wickham, where,
+
+* Each Variable has its own Column
+* Each Observation has its own Row, and,
+* Each Value has its own Cell
+
+To begin with, we try to keep the column names of our variables such that they are short and easy to manipulate, so let's change some of the column names in our datasets. 
+```{r}
+# Changing the Names across our Datasets
+
+pollution_data <- pollution_data %>% rename(c(year = REF_DATE, province = GEO, sector = Sector, CO2 = VALUE))
+
+gdp_data <- gdp_data %>% rename(c(year = REF_DATE, province = GEO, NAICS = `North American Industry Classification System (NAICS)`, GDP = VALUE))
+
+elec_data <- elec_data %>% rename(c(year = REF_DATE, province = GEO, type = `Type of electricity generation`, elec = VALUE))
+
+pop_data <- pop_data %>% rename(c(year = REF_DATE, province = GEO, pop = VALUE))
+```
+
+Next, note that across our Pollution and Population datasets, there are aggregations to a Canada-wide level, while our analysis is limited to the Provinces. Therefore, an inclusion of the Canada-wide aggregations will lead to a bias in our results. Let's get rid of that by filtering them out.
+
+```{r}
+# Filtering to keep every observation for which the GEO isn't equal to Canada
+
+pop_data <- pop_data %>% filter(province != 'Canada')
+pollution_data <- pollution_data %>% filter(province != 'Canada')
+```
+
+As noted before, there were some missing values in the Electricity Generation dataset. Although there are multiple ways of dealing with missing data, like using averages, or using advanced imputation techniques like multiple imputation, we choose to deal with missing values here by omitting them from our data.
+```{r}
+
+elec_data <- elec_data %>% filter(elec != is.na(elec))
+```
+
+Similar aggregations also exist in the Pollution dataset for "Total, industries and households", "Total, industries", and "Total, households". They also exist in the Electricity Generation dataset as "Total all types of electricity generation". Let's filter them, only this time, we will keep the aggregates across the categories of electricity generation and pollution, and get rid of the sub-categories. 
+
+```{r}
+
+pollution_data <- pollution_data %>% filter(sector == "Total, industries and households")
+elec_data <- elec_data %>% filter(type == 'Total all types of electricity generation')
+```
+
+Next, as we previously noted, while the GDP and CO2 Emissions data is Annual, the Electricity Generation Data is Monthly, and the Population Data is Quarterly. Therefore, let's group them both to Yearly levels. Before we do that, note that "REF_DATE" contains the variables **Month** and **Year**. Therefore, satisfying our principles Tidy Data, let's use the Substring function to break it down into Month and Year. 
+
+```{r}
+elec_data <- elec_data %>%
+  mutate(year = substr(year, 1, 4), month = substr(year, 6, 7))
+
+pop_data <- pop_data %>%
+  mutate(year = substr(year, 1, 4), month = substr(year, 6, 7))
+```
+
+Now, let's work on making both the Electricity and Population datasets annual. 
 
 ```{r}
 elec_data_grouped <- elec_data %>%
-  mutate(REF_DATE = substr(REF_DATE, 1, 4), MONTH = substr(REF_DATE, 6, 7))
+  group_by(year, province) %>%
+  summarise(electricity = sum(elec))
 
-elec_data_grouped <- elec_data_grouped %>%
-  group_by(REF_DATE, GEO)
-
-elec_data_grouped <- elec_data_grouped %>%
-  filter(Type.of.electricity.generation == 'Total all types of electricity generation')
-# Change the Variable Names; that can be one of the Exercises
-
-elec_data_grouped <- elec_data_grouped %>%
-  summarise(electricity = sum(VALUE))
-```
-
-```{r}
 pop_data_grouped <- pop_data %>%
-  mutate(REF_DATE = substr(REF_DATE, 1, 4), MONTH = substr(REF_DATE, 6, 7))
-
-pop_data_grouped <- pop_data_grouped %>%
-  group_by(REF_DATE, GEO) %>%
-  filter(GEO != 'Canada')
-
-pop_data_final <- pop_data_grouped %>%
-  summarise(population = sum(VALUE))
+  group_by(year, province) %>%
+  summarise(population = sum(pop))
 ```
 
+Our next step will be to merge our datasets, so that we can smoothly run the analysis from one clean reference.  
 
 ```{r}
-can_poll_data <- pollution_data %>% filter(Sector == "Total, industries and households") %>% filter(GEO != 'Canada')
-```
+# Making the Data types compatible for joining
+pop_data_grouped <- pop_data_grouped %>% mutate(year = as.double(year))
+elec_data_grouped <- elec_data_grouped %>% mutate(year = as.double(year))
 
-```{r}
-merged_data_1 <- left_join(gdp_data, can_poll_data, by = c('REF_DATE', 'GEO'))
-merged_data_2 <- left_join(pop_data_final, elec_data_grouped, by = c('REF_DATE', 'GEO'))
-merged_data_2 <- merged_data_2 %>% mutate(REF_DATE = as.integer(REF_DATE))
-merged_data_3 <- left_join(merged_data_1, merged_data_2, by = c('REF_DATE', 'GEO'))
-```
+# Merging the four datasets into two
+merged_data_1 <- left_join(gdp_data, pop_data_grouped, by = c('year', 'province'))
+merged_data_2 <- left_join(pollution_data, elec_data_grouped, by = c('year', 'province'))
 
-```{r}
-# Preliminary Regressions Run
-reg1 <- lm(VALUE.y ~ VALUE.x + population + electricity, data = merged_data_3)
-summary(reg1)
+# Performing the Final Merge
+merged_data <- left_join(merged_data_1, merged_data_2, by = c('year', 'province'))
 ```
