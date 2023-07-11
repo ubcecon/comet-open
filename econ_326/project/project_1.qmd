@@ -1,6 +1,6 @@
 ---
-title: "11 - ECON 326: An Example of a Final Project"
-author: COMET Team <br> __
+title: "ECON 326: An Example of a Final Project"
+author: COMET Team <br> _Sarthak Kwatra, Charlotte White_
 date: July 2023
 description: INSERT DESCRIPTION HERE  
 categories: [econ 326, regression, hypothesis testing, project]
@@ -28,7 +28,7 @@ format:
 ### Outcomes
 
 ## Introduction: 
-Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON325 and ECON326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. 
+Now that you are well armored with a statistical toolkit and experience with R, you are well on your way to embark on your own economic research adventure! This project serves as a sample to give you some intuition into the broad steps to a successful research project. It synthesizes the knowledge you have gained in your study of the ECON 325 and ECON 326 modules, and allows you to apply it to your own research project. It explains the steps involved in cleaning your data and preparing it for analysis, the actual analysis itself, and the careful interpretation and visualization of that analysis. 
 
 It is important to note that while the more minute tasks in each of these big steps may vary according to the needs of the project, these steps remain mostly the same. Let's get started by importing all of the packages that we will use through out this module!
 
@@ -41,13 +41,22 @@ library(haven)
 library(stargazer)
 library(tidyverse)
 library(car)
-library(fastDummies)
+library(vtable)
 
 ```
 
 ## Note:
 Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
 R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
+
+### Development and the Planet
+Following a 2019 scientific report which revealed an alarming rate of climate change in the country, the [Government of Canada declared a national climate emergency.] (https://globalnews.ca/news/5401586/canada-national-climate-emergency/) Canada has been far from the only one to take notice and when it comes to the environment; threat of climate change continues to take priority at an international level. All over the world, people are seeking to better understand the causes and impacts of climate change, and looking for ways to mitigate and adapt to how these changes will affect our lives. In particular, the greenhouse gas carbon dioxide [$CO_2$] gets a lot of attention. While there are many other gasses that contribute to to the atmospheric greenhouse effect, [$CO_2$] is one of the most immediate concerns because of its role in industrialization and energy use. 
+
+Gross domestic product (GDP), is a measure that you're likely very familiar with at this point. As a measure production, GDP is often used to infer the health of an economy or to some degree, the prosperity of the people operating within it. In general, a rising GDP is a desirable outcome. However, we might wonder whether all other outcomes associated with a higher GDP are desirable. In this project, we will be examining the connection between the production of [$CO_2$] and GDP in Canada.
+
+<span style="color:#CC7A00" >  ****🔎 Let’s think critically**** </span>
+> 🟠  GDP is commonly considered to *not* be a zero-sum measure, meaning that a rising GDP in one country does not mean another country's GDP has to fall. What are the limitations on GDP growth, then? 
+> 🟠  What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about growth? 
 
 ## Part 1: Preparing our Data
 For the sake of our analysis today, we hope to observe whether factors like Electricity Generation, GDP, and Population, have had any impact on CO2 Emissions across all the Canadian Provinces. 
@@ -68,6 +77,7 @@ All of these files correspond to different softwares, like Microsoft Excel, STAT
 # Loading the Data into R
 
 gdp_data <- read_csv("C:/GitHub/econometrics/econ_326/datasets/gdp_data.csv")
+view(elec_data)
 pollution_data <- read_csv("C:/GitHub/econometrics/econ_326/datasets/pollution_data.csv")
 elec_data <- read_csv("C:/GitHub/econometrics/econ_326/datasets/elec_data.csv")
 pop_data <- read_csv("C:/GitHub/econometrics/econ_326/datasets/pop_data.csv")
@@ -176,9 +186,7 @@ merged_data <- left_join(merged_data_1, merged_data_2, by = c('year', 'province'
 ```
 
 ```{r}
-
-View(merged_data)
-
+str(merged_data)
 ```
 
 ```{r}
@@ -189,7 +197,7 @@ merged_data <- merged_data  %>%
 
 #Now we need some factors. `Province` should be a factor variable. 
 
-merged_data  <- merged_data_3  %>%
+merged_data  <- merged_data  %>%
   mutate(province = case_when(
     province == "Newfoundland and Labrador" ~ "1",
     province == "Prince Edward Island" ~ "2",
@@ -213,7 +221,7 @@ CO2_data <- merged_data
 
 ```
 
-Now let's see how that's affected our data by taking a look at our structure. 
+Now let's see how that's changed our data structure. 
 
 ```{r}
 str(CO2_data)
@@ -231,30 +239,30 @@ Let's begin investigating these relationships by making some visualizations.
 
 ```{r}
 #(insert xlim and colour to finesse vizs as necessary)
-a.1 + geom_point()
 
 a <- ggplot(data = CO2_data, aes(x = gdp, y = CO2))+
-  xlab("GDP")+
-  ylab("CO2 Emissions") + scale_x_continuous()
+  xlab("GDP in millions of dollars")+
+  ylab("CO2 Emissions in kilotonnes") + scale_x_continuous()
 
 a + geom_point()
 
 
 b <- ggplot(data = CO2_data, aes(x = population, y = CO2))+
   xlab("Population")+
-  ylab("CO2 Emissions") + scale_x_continuous()
+  ylab("CO2 Emissions in kilotonnes") + scale_x_continuous()
 
 b + geom_point()
 
 c <- ggplot(data = CO2_data, aes(x = electricity, y = CO2))+
-  xlab("Electricity")+
-  ylab("CO2 Emissions") + scale_x_continuous()
+  xlab("Electricity in megawatt hours)")+
+  ylab("CO2 Emissions in kilotonnes") + scale_x_continuous()
 
 c + geom_point()
 
+view(gdp_data)
 ```
 
-Now that we've established some of these relationships, let's build our multiple regression model. (MENTION SLRs?)
+From these plots, we can see visually that there appears to be an approximate linear realtionship between the continuous independent variables and `CO2`. Now that we've established some of these relationships, let's build our multiple regression model.
 
 ```{r}
 
@@ -293,7 +301,7 @@ residualsslr_1 <- lm(resid_sqgdp ~ gdp, data = CO2_data)
 summary(residualsslr_1)
 ```
 
-We reject the null hypothesis and conclude that the GDP data are heteroskedastic. Let's try to fix address this with a log transformation. 
+We reject the null hypothesis and conclude that the GDP data are heteroskedastic. Let's try to address this with a log transformation. 
 ```{r}
 #transform the data
 CO2_data <- CO2_data %>%
@@ -339,7 +347,7 @@ CO2_data$resid_sq_lnelec <-  (slr_ln2$residuals)^2
 residualsslr_ln2  <- lm(resid_sq_lnelec ~ ln_electricity, data = CO2_data)
 summary(residualsslr_ln2)
 
-#We reject Ho, and conclude heteroskedasticity in this data. 
+#We reject the null hypothesis, and conclude heteroskedasticity in this data. 
 ```
 
 ```{r}
@@ -353,9 +361,6 @@ ggplot(data = CO2_data, aes(x = as.numeric(population), y = as.numeric(slr_3$res
 CO2_data$resid_sqpop <- (slr_3$residuals)^2
 residualsslr_3 <- lm(resid_sqpop ~ population, data = CO2_data)
 summary(residualsslr_3)
-
-library(lmtest)
-lmtest::bptest(slr_3)
 
 #We cannot reject the null hypothesis, and therefore cannot conclude heteroscedasticity for the population data. 
 ```
@@ -395,63 +400,79 @@ This appears to have addressed out problems with multicollinearity in our model.
 
 ### Adding Other Variables
 
-There is still another variable that we haven't considered in our model. Let's take a look at how `province` affects CO2. Since our these variables are expressed qualitative factors, we will need to create dummies to represent them. We do this using the package `fastDummies`
+There is still another variable that we haven't considered in our model. Let's take a look at how `province` affects CO2. Since our these variables are expressed qualitative factors, they need to be represented by dummy variables. R does this automatically when a dummy is used in regression, and excludes the first category (in our case Newfoundland and Labrador) as the reference variable.  
 
 ```{r}
-CO2_data <- dummy_cols(CO2_data, select_columns = 'province')
-str(CO2_data)
-```
-
-Now we'll incorporate them into the model with `province_1` (Newfoundland and Labrador) excluded from the model as the reference variable.  
-
-```{r}
-slr_4 <- lm( CO2 ~ province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
+slr_4 <- lm(CO2 ~ province, data = CO2_data)
 summary(slr_4)
 
-mlr_4 <- lm(CO2 ~ gdp + population + electricity + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
-summary(mlr_4)
+mlr_3 <- lm(CO2 ~ gdp + population + electricity + province, data = CO2_data)
+summary(mlr_3)
 ```
 
 This model has great explnatory power, but not all coefficients are significant anymore. We'll remove electricity and see how this affects our model. 
 
 ```{r}
-mlr_5 <- lm(CO2 ~ gdp + population + province_2 + province_3 + province_4 + province_5 + province_6 + province_7 + province_8 + province_9 + province_10 + province_11 + province_12 + province_13, data = CO2_data)
-summary(mlr_5)
+mlr_4 <- lm(CO2 ~ gdp + population + province, data = CO2_data)
+summary(mlr_4)
+car::vif(mlr_4)
 
-car::vif(mlr_5)
+#GVIF stands for Generalized Variance Inflation Factors, and appears here to show the combined VIF of all the province coefficients. 
 ```
 
-Unsurprisingly, this model has high multicollinearity. Let's see what happens when we interact some of the terms. 
+Unsurprisingly, this model has high multicollinearity. We expect this because we understand that things like population and gdp vary significantly with province. Recall how the data points were clustered around different centers in the original visualizations we made? If we summarize these mean values in a table, we can clearly see just how variable 
+
+```{r}
+a + geom_point()
+
+b + geom_point()
+
+c + geom_point()
+
+#create a summary table organized by province
+sumtable(CO2_data, 
+      vars = c("gdp", "population", "electricity"),
+       summ = c('mean(x)'),
+       group = 'province',
+       digits = 6,
+       out = 'return')
+```
+
+Let's see what happens when we interact some of the terms. 
 
 ```{r}
 
 #Province interacted with population 
-mlr_6 <- lm(CO2 ~ gdp + electricity + population*province_2 + population*province_3 + population*province_4 + population*province_5 + population*province_6 + population*province_7 + population*province_8 + population*province_9 + population*province_10 + population*province_11 + population*province_12 + population*province_13, data = CO2_data)
+mlr_5 <- lm(CO2 ~ gdp + electricity + population*province, data = CO2_data)
 summary(mlr_6)
-car::vif(mlr_6)
 
-#province dummies interacted with gdp
-mlr_7 <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_data)
+#Province interacted with gdp
+mlr_6 <- lm(CO2 ~ population + electricity + gdp*province, data = CO2_data)
 summary(mlr_7)
-car::vif(mlr_7)
 
-mlr_7.1 <- lm(CO2 ~ population + electricity + gdp*province_2 + gdp*province_3 + gdp*province_4 + gdp*province_5 + gdp*province_6 + gdp*province_7 + gdp*province_8 + gdp*province_9 + gdp*province_10 + gdp*province_11 + gdp*province_12 + gdp*province_13, data = CO2_data)
+mlr_7 <- lm(CO2 ~ population + electricity + gdp:province, data = CO2_data)
+summary(mlr_8)
 
-summary(mlr_7.1)
-car::vif(mlr_7.1)
+vif(mlr_8)
 
 ```
+
+In the final model the relationships appear to be significant. We would interpret... However this model is still severly affected by multicollinearity. 
 
 Now that we have a few different models, let's compare some of our results. 
 
 ```{r}
-stargazer(mlr_1, mlr_2, mlr_3, mlr_4, mlr_5, mlr_6, mlr_7, title="Comparison of Muliple Regression Results",
+stargazer(mlr_1, mlr_2, mlr_3, mlr_4, mlr_5, mlr_8, title="Comparison of Muliple Regression Results",
           align = TRUE, type="text", keep.stat = c("n","rsq"))
 ```
 
-## Interpretation: 
+## Interpretation:
 
-## Summary 
+From the results of our simple regression, we know that there is a strong relationship between between province and [$CO_2$] emissions. 
+
+Recall that to overcome heteroskedasticity, we will need to use robust standard errors. This means that the coefficients on our final model are (INSERT) 
+
+## Summary:
 
 
 ## READ HERE: 
@@ -496,7 +517,7 @@ summary(reg_interact)
 reg_interact2 <- lm(CO2 ~ ln_electricity + gdp:population, data = CO2_data)
 summary(reg_interact2) 
 #acceptable VIF, maybe won't need robust std errors? omits provinces
-interact_all2 <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_dummies)
+interact_all2 <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_data)
 summary(interact_all2) #many terms, uses provinces interacted with gdp
   #super high VIF, but only way I've been able to incorporate the province dummies into the model with signifcant relationships
 
@@ -507,3 +528,10 @@ car::vif(reg_interact2)
 
 ```
 
+```{r}
+
+reg_allofit <- lm(CO2 ~ gdp + electricity + population + ln_gdp + per_capita_gdp + ln_electricity + province + gdp:province + population:province,  data = CO2_data )
+summary(reg_allofit)
+
+step(reg_allofit)
+```
