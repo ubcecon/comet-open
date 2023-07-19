@@ -171,3 +171,70 @@ merged_data_2 <- left_join(pollution_data, elec_data_grouped, by = c('year', 'pr
 # Performing the Final Merge
 merged_data <- left_join(merged_data_1, merged_data_2, by = c('year', 'province'))
 ```
+
+
+
+
+## READ HERE: 
+I've checked the underlying assumptions, and both electricity and gdp display homoscedasticity. All versions which use those will need to use robust std. errors, so that can easily be worked around. VIF is huge on the base model (gdp + electricity + population), as well as anything which uses the province dummies (unsurprisingly). Below are some other iterations I've come up with, which we could compare and pick the best of, using some interactions (as given in module 5 of econ_326) which will need to be interpretted accordingly. 
+
+```{r}
+
+#GETTING THE DATA SORTED:
+
+CO2_data$per_capita_gdp <- CO2_data$gdp/CO2_data$population
+
+CO2_data <- CO2_data %>%
+  mutate(ln_gdp = log(gdp))
+
+CO2_data <- CO2_data %>%
+  mutate(ln_electricity = log(electricity))
+
+str(CO2_data)
+```
+
+```{r}
+#(I will rename all of these as appropriate. The work to getting to them is all toward the bottom of the document)
+#Option 1: standard 3 variables
+reg_all <- lm(CO2 ~ gdp + electricity + population, data = CO2_data)
+summary(reg_all)
+    #problems: very high multicollinearity, omits provinces 
+#Option 2: 2 terms, uses per capita gdp and electricity
+reg4.0 <- lm(CO2 ~ per_capita_gdp + electricity, data = CO2_data)
+summary(reg4.0) 
+  #acceptable vif, will need robust standard errors, omits provinces
+#Option 3: 3 terms, uses log(gdp) to help combat common issues which reduces multicollinearity
+reg_log1 <- lm(CO2 ~ ln_gdp + electricity + population, data = CO2_data)
+summary(reg_log1)  
+  #acceptable VIF, will need robust standard errors , omits provinces 
+#Option 4: 2 terms, uses interaction of gdp and population
+reg_interact <- lm(CO2 ~ electricity + gdp:population, data = CO2_data)
+summary(reg_interact) 
+  #acceptable VIF, will need robust standard errors, omits provinces
+#Option 5: uses interaction of gdp and population, and ln_electricity,
+reg_interact2 <- lm(CO2 ~ ln_electricity + gdp:population, data = CO2_data)
+summary(reg_interact2) 
+#acceptable VIF, maybe won't need robust std errors? omits provinces
+interact_all2 <- lm(CO2 ~ population + electricity + gdp:province_2 + gdp:province_3 + gdp:province_4 + gdp:province_5 + gdp:province_6 + gdp:province_7 + gdp:province_8 + gdp:province_9 + gdp:province_10 + gdp:province_11 + gdp:province_12 + gdp:province_13, data = CO2_data)
+summary(interact_all2) #many terms, uses provinces interacted with gdp
+  #super high VIF, but only way I've been able to incorporate the province dummies into the model with signifcant relationships
+
+#to view the VIF (for multicollinearity) run the below code with whatever model
+install.packages("car")
+library(car)
+car::vif(reg_interact2)
+
+```
+
+```{r}
+
+reg_allofit <- lm(CO2 ~ gdp + electricity + population + ln_gdp + per_capita_gdp + ln_electricity + province + gdp:province + population:province,  data = CO2_data )
+summary(reg_allofit)
+
+step(reg_allofit)
+```
+
+
+
+
+```
