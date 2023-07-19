@@ -14,8 +14,6 @@ format:
         name: ir
 ---
 
-## Outline
-
 ### Prerequisites
 
 * Introduction to Data in R
