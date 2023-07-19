@@ -39,12 +39,12 @@ test_2 <- function() {
 
 test_3 <- function() {
     answer_3 <- case_when(
-        digest(answer_3) == "75f1160e72554f4270c809f041c7a776" ~ list(0, ""),
-        digest(answer_3) == "127a2ec00989b9f7faf671ed470be7f8" ~ list(0, ""),
-        digest(answer_3) == "ddf100612805359cd81fdc5ce3b9fbba" ~ list(0, ""),
-        digest(answer_3) == "3a5505c06543876fe45598b5e5e5195d" ~ list(0, ""),
-        digest(answer_3) == "475bf9280aab63a82af60791302736f6" ~ list(0, ""),
-        digest(answer_3) == "6e7a8c1c098e8817e3df3fd1b21149d1" ~ list(0, ""),
+        digest(answer_3) == "75f1160e72554f4270c809f041c7a776" ~ list(0, "Not quite. Heteroskedasticity in the data must be detected in other ways."),
+        digest(answer_3) == "127a2ec00989b9f7faf671ed470be7f8" ~ list(0, "Not quite. Heteroskedasticity in the data must be detected in other ways."),
+        digest(answer_3) == "ddf100612805359cd81fdc5ce3b9fbba" ~ list(1, ""),
+        digest(answer_3) == "3a5505c06543876fe45598b5e5e5195d" ~ list(1, ""),
+        digest(answer_3) == "475bf9280aab63a82af60791302736f6" ~ list(0, "sort of... but is there a 'hard and fast' rule about determining multicollinearity from VIF?"),
+        digest(answer_3) == "6e7a8c1c098e8817e3df3fd1b21149d1" ~ list(0, "sort of... but is there a 'hard and fast' rule about determining multicollinearity from VIF?"),
         digest(answer_3) == "c1f86f7430df7ddb256980ea6a3b57a4" ~ list(0, ""),
         digest(answer_3) == "d110f00cfb1b248e835137025804a23b" ~ list(0, ""),
         TRUE ~ list(0, ""),
@@ -56,14 +56,14 @@ test_3 <- function() {
 }
 
 
-test_1 <- function() {
+test_4 <- function() {
     answer_4 <- case_when(
-        digest(answer_4) == "75f1160e72554f4270c809f041c7a776" ~ list(0, ""),
-        digest(answer_4) == "127a2ec00989b9f7faf671ed470be7f8" ~ list(0, ""),
+        digest(answer_4) == "75f1160e72554f4270c809f041c7a776" ~ list(1, ""),
+        digest(answer_4) == "127a2ec00989b9f7faf671ed470be7f8" ~ list(1, ""),
         digest(answer_4) == "ddf100612805359cd81fdc5ce3b9fbba" ~ list(0, "Is it consistent with economic theory to assume that interactions only occur between continuous variables?"),
         digest(answer_4) == "3a5505c06543876fe45598b5e5e5195d" ~ list(0, "Is it consistent with economic theory to assume that interactions only occur between continuous variables?"),
-        digest(answer_4) == "475bf9280aab63a82af60791302736f6" ~ list(0, ""),
-        digest(answer_4) == "6e7a8c1c098e8817e3df3fd1b21149d1" ~ list(0, ""),
+        digest(answer_4) == "475bf9280aab63a82af60791302736f6" ~ list(0, "Think about what an interaction can tell us. Would it be particularly useful if your model displayed multicollinearity?"),
+        digest(answer_4) == "6e7a8c1c098e8817e3df3fd1b21149d1" ~ list(0, "Think about what an interaction can tell us. Would it be particularly useful if your model displayed multicollinearity?"),
         digest(answer_4) == "c1f86f7430df7ddb256980ea6a3b57a4" ~ list(0, "Fruitful data exploration is often driven by interest, so there's no problem in wanting to tease out interesting relationships from the data! Just remember that a 'boring' model is not necessarily a bad one."),
         digest(answer_4) == "d110f00cfb1b248e835137025804a23b" ~ list(0, "Fruitful data exploration is often driven by interest, so there's no problem in wanting to tease out interesting relationships from the data! Just remember that a 'boring' model is not necessarily a bad one."),
         TRUE ~ list(0, ""),

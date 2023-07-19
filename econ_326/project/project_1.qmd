@@ -42,6 +42,8 @@ library(sandwich)
 library(corrplot)
 library(lmtest)
 library(clubSandwich)
+source("Ctest6.r")
+
 ```
 
 ## Note:
@@ -484,3 +486,79 @@ From the results of our simple regression, we know that there is a strong relati
 
 ## Summary:
 In conclusion, we note that CO2 Emissions in the Canadian Economy are severely impacted by the variables of our consideration: GDP, Electricity Generation, and Population. It is also important to note that we ought to explore our data by running multiple regressions, and clean it appropriately before running our analysis. This exploratory practice may lead us relationships that we expect, or something completely contrasting. Therefore, use this as a sample for your own project, and keep researching! 
+
+
+## Exercises:
+
+The below exercises are intended to help you check your conceptual understanding of the content. 
+
+### Exercise 1:
+What is an advantage of a multiple regression model over a simple regression model? Pick the best answer. 
+
+A: Multiple regression models often exhibit multicollinearity, which gives them better explanatory power compared to simple regressions. 
+
+B: Multiple regression models improve the predictive properties of a model by adding multiple regressors that play a role in the relationship. 
+
+C: Multiple regression models can display complicated relationships, but simple regression models are too simple to ever be useful.
+
+D: By having multiple variables, multiple regressions allow us to see the interactions between different variables in a relationship. 
+
+```{r}
+answer_1 <- '' # your answer here ('A', 'B', 'C', or 'D')
+
+test_1()
+```
+
+### Exercise 2:
+Which of the below would *not* be a way of resolving heteroskedasticity within a regression model? 
+
+A: Performing a log transformation on the outcome variable
+
+B: Using the appropriate code to generate HC1 standard errors
+
+C: Searching for a different dataset to use
+
+D: Adding more explanatory variables to the model (so long as all of the individual relationships remain significant)
+
+```{r}
+answer_2 <- '' # your answer here ('A', 'B', 'C', or 'D')
+
+test_2()
+```
+
+### Exercise 3:
+What does a variance inflation factor of variable tell us? 
+
+A: The magnitude of the heteroskedasticity (variance of error terms) in the data for a given variable.
+
+B: The extent to which the variability of a dependent variable is inflated by multicollinearity in the model.
+
+C: Whether or not there is multicollinearity in our model.
+
+D: The extent to which the model is inflated by ommitted variable bias.
+
+```{r}
+answer_3 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
+
+test_3()
+```
+
+
+### Exercise 4:
+In what situation would it be appropriate to incorporate an interaction into your model? Pick the best answer. 
+
+A: There is reason to believe that the combined effect of two or more variables has an impact on the outcome variable.
+
+B: There is reason to believe that the combined effect of two or more continous variables has an impact on the outcome variable.
+
+C: Your model is displaying multicollinearity with two variables. 
+
+D: Your model is boring, and you want to make it more interesting. 
+
+```{r}
+answer_4 <- '' # your answer here ('A', 'B', 'C', or 'D')
+
+test_4()
+```
+
+
