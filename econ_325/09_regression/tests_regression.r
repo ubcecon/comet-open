@@ -12,12 +12,12 @@ checker <- function(ans_given,hash,response,haser=TRUE){
 }
 
 count1=0
-test_1 <- function(ans1) {
-  count1<<-count1+1
+test_1 <- function() {
+  count1 <<- count1 + 1
   print(count1)
-  checker(round(ans1,2),'b7f1a38d90f2e72b218dbbb0b8a7626f',"Success!")
-  checker(round(ans1,2),'908d1fd10b357ed0ceaaec823abf81bc',"No that's the p-value")
-  checker(round(ans1,2),'1a3af4cddebd90c0e9d1a54816bee00a',"No that's the F-value")
+  checker(ans1,'927ba249f1c5afcf283b8d24174a8570',"Success!")
+  checker(ans1,'908d1fd10b357ed0ceaaec823abf81bc',"No that's the p-value")
+  checker(ans1,'1a3af4cddebd90c0e9d1a54816bee00a',"No that's the F-value")
   if (count1>5){
     print("It's either the r-squared or the adjusted r-squared")
   }

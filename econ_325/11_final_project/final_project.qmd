@@ -419,162 +419,162 @@ To sum up, from a personal point of view, in order to have a successful career, 
 ## List of R Commands
 
 ```{r}
-'Commands about Dataframe'
-
-read_dta(file) #read dta files
-
-!is.na(data) #return not NA data
-
-filter(dataframe, conditions) #return dataframe that satisfies conditions, e.g.
-SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc)) #return dataframe that variable pefmtinc is not NA
-
-subset(dataframe, conditions) #select subset of dataframe that satisfies conditions, e.g.
-SFS_data <- subset(SFS_data, pefmjsif == "02" | pefmjsif == "03") #select subset of dataframe that major income sources are salary or self-employment incomes
-
-rename(dataframe, new name = old name) #rename variables in dataframe, e.g.
-SFS_data <- rename(SFS_data, income_after_tax = pefatinc)
-
-dataframe[order(data),] #sort dataframe according to a variable, e.g.
-SFS_data <- SFS_data[order(SFS_data$education),]
-
-mutate(new variable = [operation] existing variables) #adds new variables and preserves existing ones
-
-case_when(conditions) #vectorise multiple if_else() statements
-
-#e.g.
-SFS_data <- 
-        SFS_data %>%
-        mutate(agegr = case_when(
-              age == "01" ~ "Under 30", #under 20
-              age == "02" ~ "Under 30", #20-24
-              age == "03" ~ "20s", #25-29
-              age == "04" ~ "30s",
-            age == "05" ~ "30s",
-              age == "06" ~ "40s",
-              age == "07" ~ "40s",
-              age == "08" ~ "50s",
-              age == "09" ~ "50s",
-              age == "10" ~ "60s", #60-64
-              age == "11" ~ "Above 65", #65-69
-              age == "12" ~ "Above 65", #70-74
-              age == "13" ~ "Above 75", #75-79
-              age == "14" ~ "Above 75", #80 and above
-              )) %>% 
-#create a new variable named `agegr` based on variable `age`. If age=="01", agegr will be "Under 30".
-
-data.frame(variable=c(...),...) #create dataframe which contains variable, and we can define what's in the column with c()
-#e.g.
-df <- data.frame(variables=c('income before tax','income after tax','wealth'),
-                 mean=round(c(mean(SFS_data$income_before_tax),mean(SFS_data$income_after_tax),mean(SFS_data$wealth)),2),
-                 median=round(c(median(SFS_data$income_before_tax),median(SFS_data$income_after_tax),median(SFS_data$wealth)),2),
-                sd=round(c(sd(SFS_data$income_before_tax),sd(SFS_data$income_after_tax),sd(SFS_data$wealth)),2))
-#create a dataframe to contain variable names, means, medians and standard deviations.
-
-select(dataframe, variables) #select columns from a dataframe, e.g.
-cor_data<-select(SFS_data, c('education','income_before_tax','income_after_tax','wealth'))
-
-length(data) #length of the vector
-
-group_by(variable) #takes an existing tbl and converts it into a grouped tbl where operations are performed "by group"
-
-summarize(variables) #creates a new data frame
-
-#e.g.
-results <- 
-    SFS_data %>% 
-    group_by(education) %>%
-    summarize(m_income = mean(income_before_tax), sd_income = sd(income_before_tax),
-              m_wealth = mean(wealth), sd_wealth = sd(wealth))
+# 'Commands about Dataframe'
+# 
+# read_dta(file) #read dta files
+# 
+# !is.na(data) #return not NA data
+# 
+# filter(dataframe, conditions) #return dataframe that satisfies conditions, e.g.
+# SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc)) #return dataframe that variable pefmtinc is not NA
+# 
+# subset(dataframe, conditions) #select subset of dataframe that satisfies conditions, e.g.
+# SFS_data <- subset(SFS_data, pefmjsif == "02" | pefmjsif == "03") #select subset of dataframe that major income sources are salary or self-employment incomes
+# 
+# rename(dataframe, new name = old name) #rename variables in dataframe, e.g.
+# SFS_data <- rename(SFS_data, income_after_tax = pefatinc)
+# 
+# dataframe[order(data),] #sort dataframe according to a variable, e.g.
+# SFS_data <- SFS_data[order(SFS_data$education),]
+# 
+# mutate(new variable = [operation] existing variables) #adds new variables and preserves existing ones
+# 
+# case_when(conditions) #vectorise multiple if_else() statements
+# 
+# #e.g.
+# SFS_data <- 
+#         SFS_data %>%
+#         mutate(agegr = case_when(
+#               age == "01" ~ "Under 30", #under 20
+#               age == "02" ~ "Under 30", #20-24
+#               age == "03" ~ "20s", #25-29
+#               age == "04" ~ "30s",
+#             age == "05" ~ "30s",
+#               age == "06" ~ "40s",
+#               age == "07" ~ "40s",
+#               age == "08" ~ "50s",
+#               age == "09" ~ "50s",
+#               age == "10" ~ "60s", #60-64
+#               age == "11" ~ "Above 65", #65-69
+#               age == "12" ~ "Above 65", #70-74
+#               age == "13" ~ "Above 75", #75-79
+#               age == "14" ~ "Above 75", #80 and above
+#               )) %>% 
+# #create a new variable named `agegr` based on variable `age`. If age=="01", agegr will be "Under 30".
+# 
+# data.frame(variable=c(...),...) #create dataframe which contains variable, and we can define what's in the column with c()
+# #e.g.
+# df <- data.frame(variables=c('income before tax','income after tax','wealth'),
+#                  mean=round(c(mean(SFS_data$income_before_tax),mean(SFS_data$income_after_tax),mean(SFS_data$wealth)),2),
+#                  median=round(c(median(SFS_data$income_before_tax),median(SFS_data$income_after_tax),median(SFS_data$wealth)),2),
+#                 sd=round(c(sd(SFS_data$income_before_tax),sd(SFS_data$income_after_tax),sd(SFS_data$wealth)),2))
+# #create a dataframe to contain variable names, means, medians and standard deviations.
+# 
+# select(dataframe, variables) #select columns from a dataframe, e.g.
+# cor_data<-select(SFS_data, c('education','income_before_tax','income_after_tax','wealth'))
+# 
+# length(data) #length of the vector
+# 
+# group_by(variable) #takes an existing tbl and converts it into a grouped tbl where operations are performed "by group"
+# 
+# summarize(variables) #creates a new data frame
+# 
+# #e.g.
+# results <- 
+#     SFS_data %>% 
+#     group_by(education) %>%
+#     summarize(m_income = mean(income_before_tax), sd_income = sd(income_before_tax),
+#               m_wealth = mean(wealth), sd_wealth = sd(wealth))
 #convert SFS_data to a grouped table, grouped by `education`. make a new table with means, standard deviations of each group
 ```
 
 ```{r}
 'Commands about Types'
 
-as.numeric(data) #transform strings to numbers, e.g.
-SFS_data$education <- as.numeric(SFS_data$education)
-
-as.character(data) #transform numbers to strings, e.g.
-SFS_data$education <- as.character(SFS_data$education)
-
-as_factor(data) #transform strings to factor variables, e.g.
-SFS_data$gender <- as_factor(SFS_data$gender)
-
-factor(factor variable,levels = c("A", "B", "C", "D", "E")) #order factor variable, e.g.
-SFS_data$agegr <- factor(SFS_data$agegr,levels = c("20s", "30s", "40s", "50s", "60s"))
+# as.numeric(data) #transform strings to numbers, e.g.
+# SFS_data$education <- as.numeric(SFS_data$education)
+# 
+# as.character(data) #transform numbers to strings, e.g.
+# SFS_data$education <- as.character(SFS_data$education)
+# 
+# as_factor(data) #transform strings to factor variables, e.g.
+# SFS_data$gender <- as_factor(SFS_data$gender)
+# 
+# factor(factor variable,levels = c("A", "B", "C", "D", "E")) #order factor variable, e.g.
+# SFS_data$agegr <- factor(SFS_data$agegr,levels = c("20s", "30s", "40s", "50s", "60s"))
 ```
 
 ```{r}
 'Commands about Calculation'
 
-round(data, number of digits) #round numbers to have certain number of digits
-
-sqrt(n) #square root of n
+# round(data, number of digits) #round numbers to have certain number of digits
+# 
+# sqrt(n) #square root of n
 ```
 
 ```{r}
 'Commands about Summary Statistics'
 
-mean(data) #mean of data
-
-median(data) #median of data
-
-sd(data) #standard deviation of data 
-
-quantile(data, vector of probabilities) #produces sample quantiles corresponding to the given probabilities, e.g.
-pct2_income_before <- quantile(SFS_data$income_before_tax,c(0.02,0.98),type=1)
-#sample quantiles of 0.02 and 0.98 of income_before_tax
-
-cor(data) #correlations of variables
-
-qt(p = 0.05, df = df) #return t statistics with confidence level of 95% and degree of freedom of df
+# mean(data) #mean of data
+# 
+# median(data) #median of data
+# 
+# sd(data) #standard deviation of data 
+# 
+# quantile(data, vector of probabilities) #produces sample quantiles corresponding to the given probabilities, e.g.
+# pct2_income_before <- quantile(SFS_data$income_before_tax,c(0.02,0.98),type=1)
+# #sample quantiles of 0.02 and 0.98 of income_before_tax
+# 
+# cor(data) #correlations of variables
+# 
+# qt(p = 0.05, df = df) #return t statistics with confidence level of 95% and degree of freedom of df
 ```
 
 ```{r}
-'Commands about Plots'
+#'Commands about Plots'
 
-ggplot(data,options) #create plots, e.g.
-
-age_plot<-ggplot(SFS_data, aes(x=factor(agegr))) + geom_bar(fill="lightblue") + xlab("Age Groups") + theme(axis.text.x = element_text(angle = 90))
-#create bar plot for factor varible `agegr`, with color lightblue, with texts display vertically
-
-income_before_tax_plot<-ggplot(SFS_data, aes(x=income_before_tax)) + geom_histogram()  + xlab("Income before Tax") + ylab("Number of Observations")
-#create histogram for `income_before_tax`, with labels of x-axis and y-axis
-
-before_after_tax<-ggplot(SFS_data, aes(x = income_before_tax, y = income_after_tax)) + geom_point(shape = 1) + geom_smooth(method = lm)
-#create scatter plot with a regression line
-
-ggarrange(plots, ncol=number of columns, nrow = number of rows) #arrange plots, e.g
-ggarrange(income_before_tax_plot,income_after_tax_plot,  ncol = 2, nrow = 1) # arrange 2 plots in the same row
-
-corrplot(mydata.cor) #plot correlations
+# ggplot(data,options) #create plots, e.g.
+# 
+# age_plot<-ggplot(SFS_data, aes(x=factor(agegr))) + geom_bar(fill="lightblue") + xlab("Age Groups") + theme(axis.text.x = element_text(angle = 90))
+# #create bar plot for factor varible `agegr`, with color lightblue, with texts display vertically
+# 
+# income_before_tax_plot<-ggplot(SFS_data, aes(x=income_before_tax)) + geom_histogram()  + xlab("Income before Tax") + ylab("Number of Observations")
+# #create histogram for `income_before_tax`, with labels of x-axis and y-axis
+# 
+# before_after_tax<-ggplot(SFS_data, aes(x = income_before_tax, y = income_after_tax)) + geom_point(shape = 1) + geom_smooth(method = lm)
+# #create scatter plot with a regression line
+# 
+# ggarrange(plots, ncol=number of columns, nrow = number of rows) #arrange plots, e.g
+# ggarrange(income_before_tax_plot,income_after_tax_plot,  ncol = 2, nrow = 1) # arrange 2 plots in the same row
+# 
+# corrplot(mydata.cor) #plot correlations
 ```
 
 ```{r}
-'define a function named `CI`, input `data`, output `bound`'
+#'define a function named `CI`, input `data`, output `bound`'
 
-CI <- function(data) {
-    ...
-    return(bound)
-}
+# CI <- function(data) {
+#     ...
+#     return(bound)
+# }
 ```
 
 ```{r}
-'Commands about Tests'
+#'Commands about Tests'
 
-t.test(x, y, alternative = c("two.sided", "less", "greater"),
-       mu = 0, paired = FALSE, var.equal = FALSE,
-       conf.level = 0.95, …) #Performs one and two sample t-tests on vectors of data.
-
-cor.test(x, y, use="complete.obs") #Test for association between paired samples, using one of Pearson's product moment correlation coefficient
+# t.test(x, y, alternative = c("two.sided", "less", "greater"),
+#        mu = 0, paired = FALSE, var.equal = FALSE,
+#        conf.level = 0.95, …) #Performs one and two sample t-tests on vectors of data.
+# 
+# cor.test(x, y, use="complete.obs") #Test for association between paired samples, using one of Pearson's product moment correlation coefficient
 ```
 
 ```{r}
-'Commands about Regressions'
+#'Commands about Regressions'
 
-lm(dependent variable ~ independent variable, data) #run a regression
-
-stargazer(regression1, regression2, regression3, ...) #show several regression results in a table
+# lm(dependent variable ~ independent variable, data) #run a regression
+# 
+# stargazer(regression1, regression2, regression3, ...) #show several regression results in a table
 ```
 
 ## Quick Note on Commands
