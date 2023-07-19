@@ -8,3 +8,4 @@ comet-quarto/_site/
 econometrics.Rproj
 */*/*/figure-html/
 .Rhistory
+*.DS_Store*
