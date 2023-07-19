@@ -42,7 +42,7 @@ library(sandwich)
 library(corrplot)
 library(lmtest)
 library(clubSandwich)
-source("Ctest6.r")
+source("test6.r")
 
 ```
 
@@ -375,16 +375,16 @@ To run our regressions with heteroskedasticity-robust standard errors, we use th
 
 ```{r}
 # The initial regression that we ran
-mlr_3 <- lm(CO2 ~ gdp + population + electricity, data = CO2_data)
+mlr_1 <- lm(CO2 ~ gdp + population + electricity, data = CO2_data)
 
 # Obtain robust standard errors
-robust_se <- sqrt(diag(vcovHC(mlr_3, type = "HC1")))  # "HC1" is one of the robust variance estimators
+robust_se <- sqrt(diag(vcovHC(mlr_1, type = "HC1")))  # "HC1" is one of the robust variance estimators
 
 # Print the robust standard errors
 print(robust_se)
 
 # Usiing Coeftest to print the Hetetrokedasticity-Robust Standard Errors
-coeftest(mlr_3)
+coeftest(mlr_1)
 ```
 
 ### Multicollinearity 
@@ -437,7 +437,7 @@ car::vif(mlr_4)
 #GVIF stands for Generalized Variance Inflation Factors, and appears here to show the combined VIF of all the province coefficients. 
 ```
 
-Unsurprisingly, this model has high multicollinearity. We expect this because we understand that things like population and gdp vary significantly with province. Recall how the data points were clustered around different centers in the original visualizations we made? If we summarize these mean values in a table, we can clearly see just how variable 
+Unsurprisingly, this model has high multicollinearity. We expect this because we understand that things like population and gdp vary significantly with province. Recall how the data points were clustered around different centers in the original visualizations we made? If we summarize these mean values in a table, we can clearly see just how variable they are. 
 
 ```{r}
 a + geom_point()
@@ -473,7 +473,7 @@ summary(mlr_7)
 vif(mlr_7)
 ```
 
-In the final model the relationships appear to be significant. We would interpret... However this model is still severely affected by multicollinearity. 
+In the final model the relationships appear to be significant. We would interpret the coefficients of the interacted terms as the *combined* effect of gdp and province- or how the effect of gdp on CO2 emissions changes by province. However this model is still severely affected by multicollinearity. 
 
 Now that we have a few different models, let's compare some of our results.
 
@@ -482,11 +482,10 @@ stargazer(mlr_1, mlr_2, mlr_3, mlr_4, mlr_5, mlr_6, mlr_7, title="Comparison of 
           align = TRUE, type="text", keep.stat = c("n","rsq"))
 ```
 
-From the results of our simple regression, we know that there is a strong relationship between between province and [$CO_2$] emissions. 
+From the results of our simple regression, we know that there is a strong relationship between between province and [$CO_2$] emissions. But to choose the best model based on the data we have, we need to consider the models holistically, paying attention to the common issues that arise in regression, and not just the explanatory power alone. 
 
 ## Summary:
 In conclusion, we note that CO2 Emissions in the Canadian Economy are severely impacted by the variables of our consideration: GDP, Electricity Generation, and Population. It is also important to note that we ought to explore our data by running multiple regressions, and clean it appropriately before running our analysis. This exploratory practice may lead us relationships that we expect, or something completely contrasting. Therefore, use this as a sample for your own project, and keep researching! 
-
 
 ## Exercises:
 
