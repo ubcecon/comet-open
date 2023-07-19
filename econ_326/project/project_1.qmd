@@ -41,7 +41,6 @@ library(vtable)
 library(sandwich)
 library(corrplot)
 library(lmtest)
-library(clubSandwich)
 source("test6.r")
 
 ```
@@ -503,7 +502,19 @@ C: Multiple regression models can display complicated relationships, but simple 
 D: By having multiple variables, multiple regressions allow us to see the interactions between different variables in a relationship. 
 
 ```{r}
-answer_1 <- '' # your answer here ('A', 'B', 'C', or 'D')
+#| tags: [question]
+#| eval: false
+
+answer_1 <- '...' # your answer here ('A', 'B', 'C', or 'D')
+
+test_1()
+```
+
+```{r}
+#| tags: [answer]
+#| eval: true
+
+answer_1 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
 
 test_1()
 ```
@@ -520,7 +531,19 @@ C: Searching for a different dataset to use
 D: Adding more explanatory variables to the model (so long as all of the individual relationships remain significant)
 
 ```{r}
-answer_2 <- '' # your answer here ('A', 'B', 'C', or 'D')
+#| tags: [question]
+#| eval: false
+
+answer_2 <- '...' # your answer here ('A', 'B', 'C', or 'D')
+
+test_2()
+```
+
+```{r}
+#| tags: [answer]
+#| eval: true
+
+answer_2 <- 'D' # your answer here ('A', 'B', 'C', or 'D')
 
 test_2()
 ```
@@ -537,6 +560,18 @@ C: Whether or not there is multicollinearity in our model.
 D: The extent to which the model is inflated by ommitted variable bias.
 
 ```{r}
+#| tags: [question]
+#| eval: false
+
+answer_3 <- '...' # your answer here ('A', 'B', 'C', or 'D')
+
+test_3()
+```
+
+```{r}
+#| tags: [answer]
+#| eval: true
+
 answer_3 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
 
 test_3()
@@ -555,9 +590,19 @@ C: Your model is displaying multicollinearity with two variables.
 D: Your model is boring, and you want to make it more interesting. 
 
 ```{r}
-answer_4 <- '' # your answer here ('A', 'B', 'C', or 'D')
+#| tags: [question]
+#| eval: false
+
+answer_4 <- '...' # your answer here ('A', 'B', 'C', or 'D')
 
 test_4()
 ```
 
+```{r}
+#| tags: [answer]
+#| eval: true
 
+answer_4 <- 'A' # your answer here ('A', 'B', 'C', or 'D')
+
+test_4()
+```
