@@ -38,7 +38,7 @@ test_5 <- function() {
 
 test_6 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_6), "b4f5e8891b19a71cd98e3e688e75ea02")
+    expect_equal(digest(answer_6), "2235dfebe1fb0889a73dbed98a5fcbbd")
   })
   print("Success!")
 }
