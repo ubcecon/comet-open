@@ -57,6 +57,7 @@ Timbers, T., Campbell, T., Lee, M. (2022). [_Data Science: A First Introduction_
 In econometrics, good data visualizations should always answer a well-thought-out and relevant economic research question. A good data visualization should also exist as a standalone explanation - that is, it should provide readers with a clear understanding of both the research question at hand and its answer in a way that doesn't require further explanation.
 
 As we learn the iterative practice of making data visualizations, it's helpful to keep the following questions in mind as we make decisions about what to include/exclude in our graphic:
+
 * _Who is our audience?_
 * _What do they know?_
 * _What is the question we're trying to answer?_
@@ -68,7 +69,7 @@ Not only are data visualizations incredibly important as narrative outputs from 
 **DO** remember that a visualization's accuracy is only as good as the data is \
 **DO** label your axes in font sizes that are readable and use descriptive titles
 
-> **DON'T** choose colours that are very similar each other when trying to distinguish 2 variables (eg, choose red and blue rather than red and orange) \
+> **DON'T** choose colours that are very similar to each other when trying to distinguish 2 variables (eg, choose red and blue rather than red and orange) \
 **DON'T** use design features (eg, exaggerated scaling) to manipulate readers into believing a particular narrative of the data
 
 ### Types of Visualizations:
@@ -99,6 +100,7 @@ In this tutorial, we will be working with the Penn World Table 10.0.  This data 
 * Feenstra, Robert C., Robert Inklaar and Marcel P. Timmer (2015), "The Next Generation of the Penn World Table" American Economic Review, 105(10), 3150-3182, available for download at https://www.rug.nl/ggdc/productivity/pwt/
 
 To download the dataset we will be using for this notebook:
+
 1. Click the link provided above. The PWT page should appear
 2. Scroll down until three access options appear
 3. Click Stata and a Stata file (`.dta`) should immediately download. Now move that file to your media directory and we can start the analysis!
@@ -128,20 +130,32 @@ pwt_data <- pwt_data %>%
     mutate(currency_unit = as.factor(currency_unit))
 
 # check that it looks OK
-glimpse(pwt_data)
 # there will be a lot of missing data
+glimpse(pwt_data)
 ```
 
 As you can see, this data set includes 12,810 observations and many different variables.
 
-> Question time: **How many variables are included in this data set?** \
+Question time: **How many variables are included in this data set?** \
 _Hint: variables are stored in columns_
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-# Fill in the ... below with your answer to the above question
+#| eval: false
+#| tags: [question] 
+#pycharm: {name: "#%%\n"}
+#Fill in the ... below with your answer to the above question
 
 answer_1 <- ...
+
+test_1()
+```
+```{r}
+#| eval: true
+#| tags: [answer]
+#pycharm: {name: "#%%\n"}
+#Fill in the ... below with your answer to the above question
+
+answer_1 <- 52
 
 test_1()
 ```
@@ -184,7 +198,7 @@ Let's say we are interested in creating a visualization that answers the followi
 # First, filter the dataset to only include data on North American countries
 NA_data <- filter(pwt_data, (countrycode == "CAN")|(countrycode == "USA")|(countrycode == "MEX"))
 
-# We can take a look at our the rgdpe/pop variable will distributed by making a quick histogram here
+# We can take a look at our the rgdpe/pop variable by making a quick histogram here
 histogram <- ggplot(data = NA_data, aes(x = rgdpe/pop)) + 
              geom_histogram(colour = "black", bins = 20)
 histogram
@@ -193,22 +207,22 @@ histogram
 It looks like a solid number of GDP per capita measurements are under 20,000 - what might be driving this? Let's get back to our main chart to find out!
 
 ```{r}
-# Second, input data frame for the graphic (this case NA_data) and specify the set of plot aesthetics (which variables will be included) using the command ggplot
+# Use the ggplot command and specify the data frame that is to be used (NA_data in this case) and the set of plot aesthetics (which variables will be included) 
 plot <- ggplot(data = NA_data,  # this declares the data for the chart; all variable names are in this data
                 aes(# this is a list of the aesthetic features of the chart
                     x = year,   # for example, the x-axis will be "year" (a continuous variable)
                     y = rgdpe/pop, # the y-axis will be expenditure-based real GDP per capita
-                    fill = country, # the colour fill will be country
-                    color = country # so will the outline
+                    fill = country, # this means that the country variable in our dataset will determine the colour of the bars
+                    color = country # country variable will also determine the color of the borders or outline
                 ),
                 )
 
-# Third, input the labels to the aesthetic features added above
+# Now, input the labels to the aesthetic features added above
 plot <- plot + labs( # add human-readable, aesthetic labels
                     x = "Year",  # label for the x aesthetic (x-axis title)
                     y = "Real GDP per capita (expenditure-based)", #y-axis title
-                    color = "Country", # the meaning of color
-                    fill = "Country", # ...etc.
+                    color = "Country", # adds the label "Country" to the legend and tells us which colour is used to represent which country
+                    fill = "Country", # similarly, tells us about the colours used to fill
                     title = "North American Real GDP per Capita over Time") # and title of plot
 
 # Because the variable "country" is expressed by colours, we are able to change the colours used in the chart using the commands below. Try playing with different palettes. To display other palettes use the command display.brewer.all()
@@ -217,17 +231,13 @@ plot <- plot + scale_color_brewer(palette="Accent") #set the colour palette for 
 options(repr.plot.width = 15, repr.plot.height = 9) #adjusts plot size: try playing around with the dimensions, and then return the values to width = 15 and height = 9
 
 # Finally, input the type of vizualisation of the chart
-plot1 <- plot + geom_col( # now we add the visualization (geom)col() produces a bar graph)
+plot1 <- plot + geom_col( # now we add the visualization geom_col() produces a bar graph)
                     position = "dodge") # this places the visualizations side-by-side
                                         # if you change position to "stack" it will be a stacked graph!
 plot1
 ```
 
-```{r}
-get_alt_text(plot1, ...)
-```
-
-Beautiful!  It's also very easy for use to quickly change the visualization.  For instance, if we wanted to make this a line graph instead of a bar chart, we could do the following:
+Beautiful!  It's also very easy to quickly change the visualization. For instance, if we wanted to make this a line graph instead of a bar chart, we could do the following:
 
 ```{r}
 #| pycharm: {name: "#%%\n"}
@@ -238,7 +248,7 @@ plot2 <- plot + geom_line()
 plot2 # show the plot
 ```
 
-Nice! Don't worry if any or all of this feels confusing right now - we're going to work through a few more examples together. If you're having troubling reading the text on your graphic outputs, we'll walk through how to adjust text size in the next section as well!
+Nice! Don't worry if any or all of this feels confusing right now - we're going to work through a few more examples together. If you're having trouble reading the text on your graphic outputs, we'll walk through how to adjust text size in the next section as well!
 
 ## Part 2: Building a Visualization
 
@@ -248,6 +258,7 @@ Let's say we are interested in creating a visualization that answers the followi
 **What is the relationship between GDP per capita and human capital in the world today?**
 
 The first thing we want to do is identify what data we need:
+
 * We will need GDP, which we can get using either ```rdgpe``` or ```rdgpo``` (Quiz: what's the difference?)
 * We will need population, which we can get using ```pop```
 * We will need human capital, which is the variable ```hc```
@@ -268,6 +279,7 @@ Nice, it looks like we've got all the 2019 data!  Next we need to start creating
 * We are interested in understanding how they move together
 
 While there are a couple of options, we'll start with a **scatterplot**.  If we consult our [cheat-sheet](https://www.rstudio.com/resources/cheatsheets/), we can see that scatterplots are the ```geom_point()``` command.  This _requires_ the aesthetic properties:
+
 * ```x```, the $x$-axis
 * ```y```, the $y$-axis
 
@@ -292,7 +304,7 @@ figure <- figure + labs(x = "Human Capital",
                         title = "Global GDP per Capita and Human Capital in 2019") +
                         theme(
                             text = element_text(
-                                size = 20)) #increases text size: try playing around with this number!
+                                size = 15)) #increases text size: try playing around with this number!
 
 # note: you can set aethestics to be simple functions of variables!
 ```
@@ -343,7 +355,7 @@ options(repr.plot.width = 15, repr.plot.height = 9)
 
 You might have noticed that we used `color_brewer` earlier and `color_distiller` here. `color_brewer` is for visualizations with discrete variables  while `color_distiller` is for continuous. It doesn't really matter why this is, but watch out for it; R will complain.
 
-Good work!  We now have a publication quality visualization, ready to go.  This is a good example of the process we go through when we build visualizations: a lot of experimenting, a lot of trial and error.  Always ask yourself: "is this effective? Is this what I want it to do?"
+Good work!  We now have a publication quality visualization, ready to go.  This is a good example of the process we go through when we build visualizations: a lot of experimenting, a lot of trial and error.  Always ask yourself: "Is this effective? Is this what I want it to do?"
 
 ### Exporting Visualizations
 Once we've decided that our graph can successfully answer our economic question, we'd like to export it from Jupyter. Once again, the `ggplot` package comes to our rescue with the following command:
@@ -358,6 +370,7 @@ Once we've decided that our graph can successfully answer our economic question,
 **Raster images** are represented as a 2-D grid of square pixels, each with its own color. Raster images are often compressed before storing so they take up less space. A compressed format is "lossy" if the image cannot be perfectly re-created when loading and displaying, with the hope that the change is not noticeable. "Lossless" formats, on the other hand, allow a perfect display of the original image.
 
 Common raster file types:
+
 * JPEG (.jpg, .jpeg): lossy, usually used for photographs
 * PNG (.png): lossless, usually used for plots / line drawings
 * BMP (.bmp): lossless, raw image data, no compression (rarely used)
@@ -367,6 +380,7 @@ Common raster file types:
 **Vector images** are represented as a collection of mathematical objects (lines, surfaces, shapes, curves). When the computer displays the image, it redraws all of the elements using their mathematical formulas.
 
 Common vector file types:
+
 * SVG (.svg): general-purpose use
 * EPS (.eps): general-purpose use (rarely used)
 * Open-source software: Inkscape
@@ -443,6 +457,7 @@ Try to see if you can piece together a decent graph using your learning from thi
 ![Total Factor Productivity Plot](media/TFP_plot.png)
 
 This visualization was made using the following features:
+
 * `y = year`, `x = rtfpna` 
 * `geom_line()` function with argument: `size = 3` in between the parentheses to make the lines a bit more visible
 * `color = country` to create two unique lines on the graph for China and the US
