@@ -2,8 +2,8 @@
 title: "ECON 326: An Example of a Final Project"
 author: COMET Team <br> _Sarthak Kwatra, Charlotte White_
 date: July 2023
-description: INSERT DESCRIPTION HERE  
-categories: [econ 326, regression, hypothesis testing, project]
+description: Let's put it all together!  This notebook is an example of what a "final project" might look like in ECON 326.  It summarizes and uses all many of the empirical skills and R commands present in the other notebooks.  
+categories: [econ 326, regression, project]
 format: 
   html: default
   ipynb:
@@ -56,7 +56,7 @@ Gross domestic product (GDP), is a measure that you're likely very familiar with
 
 <span style="color:#CC7A00" >  ****🔎 Let’s think critically**** </span>
 > 🟠  GDP is commonly considered to *not* be a zero-sum measure, meaning that a rising GDP in one country does not mean another country's GDP has to fall. What are the limitations on GDP growth, then? 
-> 🟠  What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about growth? 
+> 🟠  What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about economic growth in general? 
 
 ## Part 1: Preparing our Data
 For the sake of our analysis today, we hope to observe whether factors like Electricity Generation, GDP, and Population, have had any impact on CO2 Emissions across all the Canadian Provinces. 
@@ -549,7 +549,7 @@ test_2()
 ```
 
 ### Exercise 3:
-What does a variance inflation factor of variable tell us? 
+What does a variance inflation factor of a variable tell us? 
 
 A: The magnitude of the heteroskedasticity (variance of error terms) in the data for a given variable.
 
@@ -583,7 +583,7 @@ In what situation would it be appropriate to incorporate an interaction into you
 
 A: There is reason to believe that the combined effect of two or more variables has an impact on the outcome variable.
 
-B: There is reason to believe that the combined effect of two or more continous variables has an impact on the outcome variable.
+B: There is reason to believe that the combined effect of two or more continuous variables has an impact on the outcome variable.
 
 C: Your model is displaying multicollinearity with two variables. 
 
