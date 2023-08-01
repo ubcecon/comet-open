@@ -221,7 +221,7 @@ test_2()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 census_data <- filter(census_data, !is.na(census_data$wages))
@@ -254,7 +254,7 @@ test_3()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 answer_3 <- "B" # replace X with your answer of A, B, or C here
@@ -280,7 +280,7 @@ test_4()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 # your code here
@@ -426,7 +426,7 @@ test_5()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 # your code here
@@ -493,7 +493,7 @@ digest(answer_6)
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # KEY
 #1 0 to 4 years
@@ -564,7 +564,7 @@ test_7()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 answer_7 <- "ACAB" #your answer here

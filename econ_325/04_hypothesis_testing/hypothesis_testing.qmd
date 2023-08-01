@@ -158,7 +158,7 @@ test_0()
 ```
 
 ```{r}
-#| eval: true 
+#| eval: false 
 #| tags: [answer]
 answer_0 <- 2  # fill in th e.. with your answer of either 1, 2 or 3 
 test_0()
@@ -309,7 +309,7 @@ answer_1 <- "x" # your answer of "yes" or "no" in place of "x" here
 test_1()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_1 <- "no" # your answer of "yes" or "no" in place of "x" here
 test_1()
@@ -435,7 +435,7 @@ answer_2 <- "" # your answer for "you" or "your friend" in place of "x" here
 test_2()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_2 <- "your friend" # your answer for "you" or "your friend" in place of "x" here
 test_2()
@@ -449,7 +449,7 @@ answer_3 <- "x" # your answer for "yes" or "no" in place of "x" here
 test_3()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_3 <- "yes" # your answer for "yes" or "no" in place of "x" here
 test_3()
@@ -507,7 +507,7 @@ answer_4 <- "x" # your answer of "type 1" or "type 2" in place of "x" here
 test_4()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_4 <- "type 2" # your answer of "type 1" or "type 2" in place of "x" here
 test_4()

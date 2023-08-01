@@ -512,7 +512,7 @@ test_1()
 
 ```{r}
 #| tags: [answer]
-#| eval: true
+#| eval: false
 
 answer_1 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
 
@@ -541,7 +541,7 @@ test_2()
 
 ```{r}
 #| tags: [answer]
-#| eval: true
+#| eval: false
 
 answer_2 <- 'D' # your answer here ('A', 'B', 'C', or 'D')
 
@@ -570,7 +570,7 @@ test_3()
 
 ```{r}
 #| tags: [answer]
-#| eval: true
+#| eval: false
 
 answer_3 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
 
@@ -600,7 +600,7 @@ test_4()
 
 ```{r}
 #| tags: [answer]
-#| eval: true
+#| eval: false
 
 answer_4 <- 'A' # your answer here ('A', 'B', 'C', or 'D')
 

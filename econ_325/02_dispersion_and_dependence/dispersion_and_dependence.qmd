@@ -264,7 +264,7 @@ answer_5 <-  "..." # enter True or False
 test_5()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_5 <-  "False" # enter True or False
 
@@ -356,7 +356,7 @@ test_2()
 test_3()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # calculate the mean, standard deviation and variance of the weights of packages
 # round all answers to 2 decimal places
@@ -386,7 +386,7 @@ test_4()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 answer_4 <- "B"    # enter your choice here (ex, "F")
 

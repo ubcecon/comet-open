@@ -150,7 +150,7 @@ answer_1 <- ...
 test_1()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 #pycharm: {name: "#%%\n"}
 #Fill in the ... below with your answer to the above question

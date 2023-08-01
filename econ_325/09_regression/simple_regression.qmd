@@ -295,7 +295,7 @@ test_1()
 ```
 
 ```{r}
-#| eval: true 
+#| eval: false 
 #| tags: [answer]
 
 #Hint: Convert the Multiple-R squared value into a percentage
@@ -409,7 +409,7 @@ test_2()
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 
 # input the answer (to 1 decimal place)
@@ -475,7 +475,7 @@ test_3() # Quiz1
 test_4() # Quiz2
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Activity 1
 
@@ -510,7 +510,7 @@ answer20 <- "..."
 test_20(answer20)
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Enter your answer below as "A", "B", "C", or "D"
 
@@ -533,7 +533,7 @@ answer21 <- ""
 test_21(answer21)
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Enter your answer below as "A", "B", "C", or "D"
 
@@ -582,7 +582,7 @@ test_16() # Quiz4
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 reg5_20 <- lm(wages ~ immstat, data = filter(census_data, agegrp == '20 to 24 years')) 
 
@@ -637,7 +637,7 @@ test_22(answer22)
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Enter your answer below as "A", "B", or "C"
 
@@ -676,7 +676,7 @@ test_8() # Quiz 5
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Naive regression (just immstat)
 reg2A <- lm(wages ~ immstat , data = census_data)  #this one works already
@@ -708,7 +708,7 @@ answer23 <- "..."
 test_23(answer23)
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Enter your answer below as "A", "B", or "C"
 
@@ -739,7 +739,7 @@ summary(reg_race)
 test_10() #Quiz6
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Do not modify this line (sets "not a visible minority" as the reference level):
 census_data$vismin <- relevel(census_data$vismin, ref = "not a visible minority")
@@ -770,7 +770,7 @@ answer24 <- "..."
 test_24(answer24)
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [answer]
 # Enter your answer below as "A", "B", or "C"
 
@@ -795,7 +795,7 @@ test_25(answer25)
 ```
 
 ```{r}
-#| eval: true
+#| eval: false
 #| tags: [aswer]
 # Enter your answer below as "A", "B", or "C"
 
