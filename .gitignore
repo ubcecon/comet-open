@@ -5,7 +5,7 @@ notebook_materials/pwt100.dta
 comet-quarto/.quarto/
 comet-quarto/_site/
 .Rproj.user
-econometrics.Rproj
+*.Rproj
 */*/*/figure-html/
 .Rhistory
 *.DS_Store*
