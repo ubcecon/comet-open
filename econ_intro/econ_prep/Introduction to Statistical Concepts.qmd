@@ -1179,7 +1179,7 @@ Where $n$ is the number of 'successes' for the proportion of interest (in our ca
 
 Suppose we want to better understand the reasons that the entire population of BC residents harbours concerns for salmon stocks. To determine this, we poll 100 randomly selected British Columbians and arrive at the following dataset:
 
-![A table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_1_data.svg.svg) {fig-alt="Not concerned = 13, ecosystem/environmental = 44, livelihood = 15, consumption = 28, total = 100"}
+![A table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_1_data.svg) {fig-alt="Not concerned = 13, ecosystem/environmental = 44, livelihood = 15, consumption = 28, total = 100"}
 
 **Question 20:** What is the proportion of this sample who are concerned about salmon stocks for reasons related to ecosystem health? Please provide your answer as a decimal value (e.g. 50% = 0.5).
 ```{r}
