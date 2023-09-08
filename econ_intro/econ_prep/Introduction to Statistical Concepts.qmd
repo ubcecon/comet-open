@@ -5,6 +5,9 @@ date: 10 August 2023
 description: "This notebook introduces you to some fundamental statistics and basic probability concepts. It is designed to cover introductory statistics material taught in Foundations of Mathematics 12 and ECON 226: Making Sense of Economic Data for students who either haven’t taken these courses or who would like a refresher before going into ECON 325."
 categories: [introduction, econ intro, probability, data, descriptive statistics, visualizations, inferential statistics]
 toc: true
+
+execute:
+  eval: false
 format: 
   html: default
   ipynb:
@@ -215,11 +218,11 @@ We’ll consider catching a salmon we can take home event $A$ (Chum, Pink), and 
 
 In this case, $A$ and $B$ are **mutually exclusive events**, meaning that they have no common outcomes. In any of the possible outcomes of what salmon you catch, either event $A$ _or_ event $B$ will occur, but never both $A$ and $B$ at the same time. This is the case with all sets of events which are complementary events, as there are no common outcomes. 
 
-![A chart displaying the outcomes included in events A and B.](media/diagrams/events_outcomes1.svg) {fig-alt="A chart displaying the outcomes included in event A (Chum, Pink) and event B(Chinook, Sockeye, Coho)"}
+![A chart displaying the outcomes included in events A and B.](media/diagrams/events_outcomes1.png){fig-alt="A chart displaying the outcomes included in event A (Chum, Pink) and event B(Chinook, Sockeye, Coho)"}
 
 Suppose you’re allowed to take home Chum and Pink salmon, but you only enjoy eating Sockeye, Coho, and Pink salmon. We’ll consider catching a salmon you are allowed to take home as event $A$, and catching a salmon you _want_ to take home event $B$. These events are not mutually exclusive. They each have an individual probability of occurring, as well as a joint probability of both events occurring. 
 
-![A chart displaying the outcomes included in events A and B.](media/diagrams/events_outcomes2.svg){fig-alt="A chart displaying the outcomes included in event A (Chum , Pink) and event B(Sockeye, Coho, Pink)"}
+![A chart displaying the outcomes included in events A and B.](media/diagrams/events_outcomes2.png){fig-alt="A chart displaying the outcomes included in event A (Chum , Pink) and event B(Sockeye, Coho, Pink)"}
 
 We can use probability notation when exploring the joint-probability of two events ($A$,$B$). In probability notation, the symbol $\cup$ is used to express an **intersection** as follows:
 $$
@@ -228,7 +231,7 @@ $$
 
 This intersection is the joint-probability, or the probability of both event $A$ _and_ $B$ occuring. The event $(A\cap B)$ occurs only when both $A$ and $B$ occur simultaneously. There is only an intersection when the events are not mutually exclusive.
 
-![A venn diagram to help visualize the concept of joint-probability.](media/diagrams/joint_probability.svg){fig-alt="A venn diagram of circles A and B, which shows that the joint-probability of events A and B can be visualized as the area of overlap."}
+![A venn diagram to help visualize the concept of joint-probability.](media/diagrams/joint_probability.png){fig-alt="A venn diagram of circles A and B, which shows that the joint-probability of events A and B can be visualized as the area of overlap."}
 
 To calculate the probability of the intersection, we need to calculate and combine the probability of all outcomes that are included in both events. 
 
@@ -258,7 +261,7 @@ $$
 
 Event $(A \cup B)$ occurs if either $A$ _or_ $B$ _or_ both occur. This can happen regardless of whether $A$ and $B$ are mutually exclusive.  
 
-![A pair of venn diagrams to help visualize types of unions.](media/diagrams/types_of_unions.svg) {fig-alt="A pair of venn diagrams representing relationships between events A and B; mutually exclusive events have no area of overlap, whereas non-mutually exclusive events do"}
+![A pair of venn diagrams to help visualize types of unions.](media/diagrams/types_of_unions.png){fig-alt="A pair of venn diagrams representing relationships between events A and B; mutually exclusive events have no area of overlap, whereas non-mutually exclusive events do"}
 
 In calculating the probability of a union, however, it does matter if the events are mutually exclusive. If $A$ and $B$ are mutually exclusive, then:
 $$
@@ -273,7 +276,7 @@ $$
 
 The joint probability is subtracted to avoid "double-counting" the area of overlap between $A$ and $B$.
 
-![A pair of venn diagrams to help visualize probability calculations.](media/diagrams/calculating_unions.svg) {fig-alt="A pair of venn diagrams visualizing the calculation of the probability for union."}
+![A pair of venn diagrams to help visualize probability calculations.](media/diagrams/calculating_unions.png){fig-alt="A pair of venn diagrams visualizing the calculation of the probability for union."}
 
 **Question 6:** If catching a Pink or Chum salmon is event $A$, and catching a Pink, Sockeye, or Coho salmon is event $B$, what is $P(A\cup B)$? Assume that your sample space includes all five species of salmon, and that each is equally likely to be caught. Please give your answer to one decimal place. 
 ```{r}
@@ -302,7 +305,7 @@ Let’s return to our fishing example. Say you cast out your line once and catch
 
 It might be challenging to conceptualize how these events would impact each other in such a large body of water like the ocean. Think about how this would work if instead we had a pond, with only a few salmon. 
 
-![A diagram of fish in a pond, showing how probability changes as the number of a certain type of fish decreases](media/diagrams/fishing_pond.svg) {fig-alt="A visual of a pond with ten salmon, and the resulting pond of nine salmon after one salmon as been removed."}
+![A diagram of fish in a pond, showing how probability changes as the number of a certain type of fish decreases](media/diagrams/fishing_pond.png){fig-alt="A visual of a pond with ten salmon, and the resulting pond of nine salmon after one salmon as been removed."}
 
 You can easily see now how removing a fish from the pond after you catch it would affect the probability of the next fish you catch. In this case, the succession of trials would _not_ be independent. 
 
@@ -310,7 +313,7 @@ You can easily see now how removing a fish from the pond after you catch it woul
 
 See the below contingency table showing some sample data that could have been collected about salmon caught in a certain region. 
 
-![A contingency table showing a possible configuration of hatchery and wild salmon caught for two different species](media/diagrams/contingency_table.svg) {fig-alt="A contingency table; wild Coho = 32, hatchery Coho = 60, total Coho = 92, wild Sockeye = 15, hatchery Sockeye = 50, total Sockeye = 65, total salmon = 157"}
+![A contingency table showing a possible configuration of hatchery and wild salmon caught for two different species](media/diagrams/contingency_table.png){fig-alt="A contingency table; wild Coho = 32, hatchery Coho = 60, total Coho = 92, wild Sockeye = 15, hatchery Sockeye = 50, total Sockeye = 65, total salmon = 157"}
 
 Take a minute to familiarize yourself with the table. In total there were 157 salmon caught in the sampling period. One hundred and ten of them were hatchery salmon, forty-seven were wild. Sixty-five of them were Sockeye, ninety-two of them were Coho, and wild and hatchery fish were represented for both species in different amounts, as you can see from the values in the middle of the table. 
 
@@ -462,7 +465,7 @@ Imagine you're preparing to go on a fishing trip. This could look different for 
 
 How many different ways could we go about this fishing trip if we have to choose just one method at each level? To illustrate this, we'll draw out our options as a decision tree. 
 
-![A tree diagram of the possible ways to go on a fishing trip based on the above table.](media/diagrams/tree_diagram1.svg) {fig-alt="A tree diagram summarizing all 12 possible outcomes fishing trips from the list of options."}
+![A tree diagram of the possible ways to go on a fishing trip based on the above table.](media/diagrams/tree_diagram1.png){fig-alt="A tree diagram summarizing all 12 possible outcomes fishing trips from the list of options."}
 
 When it's drawn in a tree format like this, we can simply count up the total number of outcomes. When we don't want to take the time to draw a diagram, or the numbers are too large to do so, we can also calculate the total outcomes using the **fundamental counting principle**. By this principle, we know that if there are _m_ choices at the first stage, and _n_ choices at the second stage, then the total number of outcomes is $m \cdot n$. 
 
@@ -472,7 +475,7 @@ $$
 
 We'll continue to illustrate this with the example of salmon. If we were to catch any five salmon, we can create several different arrangements based on the species of salmon we have caught. 
 
-![A table showing the possible outcomes for each "spot"](media/diagrams/possible_outcomes.svg) {fig-alt="A table showing the five possible options of species (Pink, Coho, Sockeye, Chinook, Chum) for each of the five fish caught"}
+![A table showing the possible outcomes for each "spot"](media/diagrams/possible_outcomes.png){fig-alt="A table showing the five possible options of species (Pink, Coho, Sockeye, Chinook, Chum) for each of the five fish caught"}
 
 **Question 7:** Use the fundamental counting principle to calculate how many arrangements you can make using all five fish. Give your answer as a whole number, with no decimals. _Hint: the total number of "levels" you have is five, and each species of fish represents a possibility at each level._
 ```{r}
@@ -494,7 +497,7 @@ test_7()
 
 Now what if our salmon were in a small pond again, and there is only one of each species? This means that at each level, we would have one less possible species to draw than the previous level. 
 
-**Question 8:**If we start with five possible species, how many total arrangements of salmon will we have? 
+**Question 8:** If we start with five possible species, how many total arrangements of salmon will we have? 
 
 ```{r}
 #| tags: [question]
@@ -522,7 +525,7 @@ This provides us with a way to simplify equations, and becomes important as we c
 
 In our previous examples, we were using the fundamental counting rule to calculate the number of arrangements we could generate from a given set of elements (salmon species). In these examples, the order of the elements matters. Catching a Pink salmon as your first fish brings you to a whole new branch of the decision tree than drawing it after catching another fish, and will therefore lead to different outcomes. 
 
-![A tree digram showing all the possible outcomes for a pond with a Pink, Coho, and Chum salmon"](media/diagrams/tree_diagram2.svg) {fig-alt="A tree diagram showing that there are sie possible outcomes from a pond with this combination of fish"}
+![A tree digram showing all the possible outcomes for a pond with a Pink, Coho, and Chum salmon"](media/diagrams/tree_diagram2.png){fig-alt="A tree diagram showing that there are sie possible outcomes from a pond with this combination of fish"}
 
 When order is important to the arrangement of elements, it is called a **permutation**. When you're using _all_ the possible elements at a time, the number of permutations in a set of $n$ elements is equal to $n!$. We can see this in the above decision tree. If we were to only have the option of catching _Pink_, _Coho_, or _Chum_ salmon ($n = 3$), then our number of permutations would be:
 $$
@@ -570,7 +573,7 @@ $$
 
 In calculating permutations, we assume we will not repeat elements. There is only one Pink salmon in the pond, therefore it can only show up once in our equation. The equation for permutations changes, however, when the number the list of elements contains repetitions. 
 
-![A comparison of two ponds, displaying how the number of permutations changes when there are repetitions in the dataset"](media/diagrams/permutations_repetitions.svg) {fig-alt="A visualisation showing how the number of permutations was is reduced when a repeat of the element (two of the same salmon species) are introduced"}
+![A comparison of two ponds, displaying how the number of permutations changes when there are repetitions in the dataset"](media/diagrams/permutations_repetitions.png){fig-alt="A visualisation showing how the number of permutations was is reduced when a repeat of the element (two of the same salmon species) are introduced"}
 
 Above are two fish ponds containing different fish, and the associated permutations of three using all the fish in the pond. On the left, there are no repeated species, but on the right, there are two pink salmon. Using our equation without accounting for the repeated species, we would see the same number of permutations for both ponds. Visually, though, we can tell that some of the permutations on the left side have repeated. 
 
@@ -750,7 +753,7 @@ There are many different types of data, which depend on the kinds of values stor
 
 **Cross-sectional data** are data which present information on multiple observations at a single moment in time. 
 
-![A table of sample cross sectional data.](media/diagrams/cross_sectional_data.svg) {fig-alt="Sample data recording information about participants' age, height, city of residence, etc."}
+![A table of sample cross sectional data.](media/diagrams/cross_sectional_data.png){fig-alt="Sample data recording information about participants' age, height, city of residence, etc."}
 
 **Time series data** are data which contain values for a single individual over time. For example, the below table shows the changes over time to a single salmon stock.
 
@@ -760,7 +763,7 @@ head(population_data)
 
 **Panel data** are data which contain values for multiple observations over time.
 
-![A table of sample panel data.](media/diagrams/panel_data.svg) {fig-alt="Sample data recording information about voting turnout and population for two different cities, for multiple years."}
+![A table of sample panel data.](media/diagrams/panel_data.png){fig-alt="Sample data recording information about voting turnout and population for two different cities, for multiple years."}
 
 >_Think Deeper_: There are lots of data being collected, made available, and strategically presented from a variety of different sources. When interpreting data, you'll need to be exercising your information literacy skills, and making sure that you’re critically examining the source of the dataset. You may want to ask yourself questions like: who created this dataset, what interest do they have in this information, and how was this information collected?  
 
@@ -898,14 +901,14 @@ view(salmon_data) #run this cell to call the table of data from before
 
  **Question 15:** What is the mean length of the first 10 salmon in this dataset? Please round your answer to two decimal places.
 
- ```{r}
+```{r}
 #| tags: [question]
 #| eval: false
 
 answer_15 <- # your answer here 
 
 test_15()
- ```
+```
 
 ```{r}
 #| tags: [answer]
@@ -1165,7 +1168,7 @@ For example, we might want to know how many BC residents are concerned about the
 
 As we’ve established, a parameter may be challenging or impossible to compute directly. We don’t have the resources to ask every BC resident to answer this question. Instead, we can estimate this information by taking the measurements from a representative **sample** of the population. A sample is a subset of individuals which have been selected from the population. When we use a sample to summarize a characteristic of the data, it is called a **statistic**. We understand that this sample can be used to make conclusions about the larger population, and this is the basis of **statistical inference**. 
 
-![A diagram which shows that the sample is a representation of the population.](media/diagrams/population_sample.svg) {fig-alt="A diagram displaying how sample data is taken from a larger populuation"}
+![A diagram which shows that the sample is a representation of the population.](media/diagrams/population_sample.png){fig-alt="A diagram displaying how sample data is taken from a larger populuation"}
 
 The above statistic is given as a **proportion**, and expresses the share of an outcome of a variable in relation to the whole. We formally use $\pi$ to denote a proportion when we're talking about a proportion of the population, and $\hat{p}$ when we're talking about the proportion of a sample. We can calculate proportions using: 
 
@@ -1179,7 +1182,7 @@ Where $n$ is the number of 'successes' for the proportion of interest (in our ca
 
 Suppose we want to better understand the reasons that the entire population of BC residents harbours concerns for salmon stocks. To determine this, we poll 100 randomly selected British Columbians and arrive at the following dataset:
 
-![A table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_1_data.svg) {fig-alt="Not concerned = 13, ecosystem/environmental = 44, livelihood = 15, consumption = 28, total = 100"}
+![A table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_1_data.png){fig-alt="Not concerned = 13, ecosystem/environmental = 44, livelihood = 15, consumption = 28, total = 100"}
 
 **Question 20:** What is the proportion of this sample who are concerned about salmon stocks for reasons related to ecosystem health? Please provide your answer as a decimal value (e.g. 50% = 0.5).
 ```{r}
@@ -1200,7 +1203,7 @@ test_20()
 
 Because we used a sample to arrive at this number and not the entire population, this calculation is only a **point estimate** of the population parameter, meaning it's out best guess at a single value. Say we repeat this poll on a new group of British Columbians, and obtain the following dataset:
 
-![Another table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_2_data.svg) {fig-alt="For the polled participants, not concerned = 17, ecosystem/environmental = 47, livelihood = 23, consumption = 13, total = 100"}
+![Another table of sample data of the primary reason the polled participants feel concerned about salmon stocks.](media/diagrams/sample_2_data.png){fig-alt="For the polled participants, not concerned = 17, ecosystem/environmental = 47, livelihood = 23, consumption = 13, total = 100"}
 
 **Question 21:** What is the proportion of _this_ sample who are concerned about salmon stocks for reasons related to ecosystem health? Please provide your answer as a decimal value (e.g. 50% = 0.5).
 ```{r}
@@ -1268,7 +1271,7 @@ If we were to continue polling until we included all possible samples of a given
 
 Knowing that this is the case does not necessarily mean that the proportion we calculate from our sample will always be very close to the true parameter of the population. Sampled values have the potential to actually be quite different from their corresponding parameters. 
 
-![An example of a sampled value which is very different from the majority of other samples](media/diagrams/histogram_100.jpg) {fig-alt="A bin in the histogram records a value much higher than most of the other values"}
+![An example of a sampled value which is very different from the majority of other samples](media/diagrams/histogram_100.jpg){fig-alt="A bin in the histogram records a value much higher than most of the other values"}
 
 Nevertheless, knowing how these values are distributed around the population parameter allows us to make strong conclusions about how accurate our statistics are. Our sample statistic could be very different from the true value of $\sigma$. But is it likely? How likely? Conversely, what is the likelihood that it is very close? With enough information about our sample, these questions can be answered through calculation!
 

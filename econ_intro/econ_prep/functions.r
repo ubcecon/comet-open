@@ -13,9 +13,11 @@ sample_data <- read.csv("datasets/sample_proportions.csv")
 
 # Central Tendency - Median
 
-df2 <- data.frame (variable_1, variable_1)
+
 variable_1 <- c(1.1, 0.8, 1.6, 2.1, 2.0, 2.2, 1.7, 1.8, 2.1)
 variable_2 <- c(1.8, 1.8, 1.7, 1.7, 1.5, 2.6, 2.4, 3.3, 2.3)
+df2 <- data.frame(variable_1, variable_2)
+
 
 #Regression
 
