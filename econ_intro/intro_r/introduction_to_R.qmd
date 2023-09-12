@@ -19,6 +19,7 @@ format:
 ## Outline
 
 ### Prerequisites: 
+
 * Introduction to Jupyter
 
 ### Learning Objectives
@@ -125,12 +126,26 @@ The output of `str(countries)` begins by acknowledging that the contained data i
 Let's see if you understand how to create new vectors!  In the block below:
 
 1. Create an object named `my_vector` which is a vector and which contains the numbers from 10 to 15. 
-2. Extract the 4th element of `vect` and store it in the object `answer1`
+2. Extract the 4th element of `my_vector` and store it in the object `answer1`
 
 ```{r}
+#| eval: false
+#| tags: [question]
+
 my_vector <- c(...) # replace ... with the appropriate code
 
 answer1 <- my_vector[...] # replace ... with the appropriate code
+
+test_1()
+```
+
+```{r}
+#| eval: false
+#| tags: [answer]
+
+my_vector <- c(10,11,12,13,14,15) # replace ... with the appropriate code
+
+answer1 <- my_vector[4] # replace ... with the appropriate code
 
 test_1()
 ```
