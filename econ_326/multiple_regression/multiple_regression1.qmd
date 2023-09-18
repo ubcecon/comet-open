@@ -14,12 +14,6 @@ format:
         name: ir
 ---
 
-```{.callout-warning}
-Subdivide
-* Part 1: running a regression, interpreting coefficients include dummies
-* Part 2: stargazer, tables, control variables
-```
-
 ## Outline
 
 ### Prerequisites
@@ -43,8 +37,6 @@ Subdivide
  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer </span>
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 library(tidyverse) 
 library(haven)
 library(dplyr)
@@ -54,8 +46,6 @@ source("functions3.r")
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
 
 ## massive data clean-up
@@ -78,8 +68,6 @@ Let's look at the following plot, which depict the relationships between `wealth
 Let's first summarize education into "university" and "non-university". Since it's easier to see the pattern from log wealth, we will calculate log wealth and filter out NaN values.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- SFS_data %>% 
                mutate( 
                Education = case_when(
@@ -93,8 +81,6 @@ glimpse(SFS_data$Education) #we have now data that only considers if someone has
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- SFS_data %>%
                mutate(lnwealth = log(SFS_data$wealth)) # calculate log
 ```
@@ -108,8 +94,6 @@ SFS_data_logged <- SFS_data %>%
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 options(repr.plot.width=6,repr.plot.height=4) #controls the image size
 
 f <- ggplot(data = SFS_data_logged, aes(x = gender, y = Education)) + xlab("Gender") + ylab("Education") #defines x and y
@@ -128,8 +112,6 @@ You can see immediately that there are *three* relationships happening at the sa
 A simple regression can analyze any _one_ of these relationships in isolation, but it cannot assess more than one of them at a time.  For instance, let's look at these regressions.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression1 <- lm(data = SFS_data, wealth ~ gender) #the effect of gender on wealth
 regression2 <- lm(data = SFS_data, wealth ~ Education) #the effect of education on wealth
 
@@ -185,8 +167,6 @@ Adding variables to a regression is easy in R; you use the same command as in si
 Let's see it in action:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 multiple_model_1 <- lm(data = SFS_data, wealth ~ gender + Education)
 
 summary(multiple_model_1)
@@ -195,8 +175,6 @@ summary(multiple_model_1)
 As you can see, there are now three coefficients: one for ``genderFemale``, one for ``EducationUniversity`` and one for the intercept.  The important thing to remember is that these relationships are being calculated *jointly*.  Compare the result above to the two simple regressions we saw earlier:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 stargazer(regression1, regression2, multiple_model_1, title="Comparison of Muliple and Simple Regression Results",
           align = TRUE, type="text", keep.stat = c("n","rsq"))
 
@@ -227,18 +205,14 @@ However, there is an important difference: we are *holding constant* the other e
 
 ```{r}
 
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 summary(multiple_model_1)
 ```
 
 > **Test your knowledge:**  Based on the results above, how much more wealth do university graduates accumulate, relative to folks with non-university education levels, when we hold gender fixed?
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 # answer the question above by filling in the number 
 
 answer1 <- ???       # your answer here
@@ -249,7 +223,7 @@ test_1()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 # answer the question above by filling in the number 
 answer1 <- 729837
@@ -287,8 +261,6 @@ This has effectively "isolated" the variation in the data which has to do with `
 Let's see this in action:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression1 <- lm(wealth ~ Education, data = SFS_data)
 # regress wealth on education
 
@@ -300,8 +272,6 @@ temp_data <-  tibble(wealth_leftovers = regression1$residual, gender_leftovers =
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression3 <- lm(wealth_leftovers ~ gender_leftovers, data = temp_data)
 # regress the leftovers on immigration status
 
@@ -328,8 +298,6 @@ For example, risky investments usually generate more returns and men are typical
 Let's try that now:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 risk_regression1 <- lm(data = SFS_data, wealth ~ gender + Education + risk_proxy) 
 #don't worry about what risk proxy is for now
 
@@ -341,8 +309,6 @@ Once we control for risky investments, what do you see?  How has the gender-weal
 Another way is to study financial assets and stocks at the same time, so that we can understand how different categories of assets affect wealth.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 risk_regression2 <- lm(wealth ~ financial_asset + stock + bond + bank_deposits + mutual_funds + other_investments, data = SFS_data)
 
 summary(risk_regression2)
@@ -357,8 +323,6 @@ In other words, once we control for the other variables, there's nothing left to
 Let's dig deeper to see here:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 risk_reg1 <- lm(wealth ~ Education + stock + bond + bank_deposits + mutual_funds + other_investments, data = SFS_data)
 
 
@@ -398,8 +362,6 @@ For example, a *better* way to do this would be to just include `stock` and the 
 You can also include different sets of controls in your model; often adding different "layers" of controls is a very good way to understand how different variables interact and affect your conclusions.  Here's an example, adding on several different "layers" of controls:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression1 <- lm(wealth ~ gender, data = SFS_data)
 regression2 <- lm(wealth ~ gender + Education, data = SFS_data)
 regression3 <- lm(wealth ~ gender + Education + risk_proxy, data = SFS_data)
@@ -412,8 +374,6 @@ stargazer(regression1, regression2, regression3, regression4, title="Comparison 
 A pretty big table!  Often, when we want to focus on just a single variable, we will simplify the table by just explaining which controls are included.  Here's an example which is much easier to read; it uses some formatting tricks which you don't need to worry about right now:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 var_omit = c("(province)\\w+","(Education)\\w+") #don't worry about this right now!
 
 stargazer(regression1, regression2, regression3, regression4, title="Comparison of Controls",
@@ -457,7 +417,7 @@ Where $D_i$ is a dummy variable.  Recall that Assumption 1 implies that $E[\epsi
 **TA 1 Answer**: <font color="red">Answer in red here</font>
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_0 <- #fill in your short answer
 
@@ -490,10 +450,8 @@ Run a simple regression for the gender income gap (with a single regressor) for 
 <em>Tested objects:</em> ``reg_LESS`` (simple regression; less than high school), ``reg_HS`` (high school diploma), ``reg_NU`` (Non-university post-secondary), ``reg_U`` (university),  ``reg2`` (multiple regression).
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 
 #Less than high school
@@ -528,7 +486,7 @@ summary(reg2)
 
 :::{.answer}
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 
 #Less than high school
 reg_LESS <- lm(income_before_tax ~ gender, data = filter(SFS_data, education == 'Less than high school'))
@@ -566,7 +524,7 @@ test_4() #For reg2
  
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_1 <- #fill in your short answer
 
@@ -585,7 +543,7 @@ Prompt: Compare the coefficient estimates for `gender` across each of the simple
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_2 <- #fill in your short answer
 
@@ -599,9 +557,10 @@ Answer: The gender income gap becomes larger as education increases. The gender-
 Prompt: Compare the simple regressions' estimates with those of the multiple regression. How does the multiple regression's coefficient estimate on `gender` compare to those estimates in the simple regressions? How can we interpret this? Further, how do we interpret the coefficient estimates on the other regressors in the multiple regression?
 
 <font color="red">Answer in red here</font>
+
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_3 <- #fill in your short answer
 
@@ -614,6 +573,7 @@ In multiple regression, the coefficient means female-lead households on average 
 
 In multiple regression, the intercept means male-lead households with less than high school degree earn 52,358 dollars on average. For the coefficient of `educationHigh school`, it means if male with high school degree is the main earner, then the average incomes they will earn are $52,358+31,811=84,169$ dollars. Then for female with high school degree, the average before-tax income is $84,169-37,638=46,531$ dollars. We can interpret coefficient estimates of `educationNon-university post-secondary` and `educationUniversity` in a similar way.
 :::
+
 ### Activity 2
 Consider the multiple regression that we estimated in the previous activity:
 
@@ -625,9 +585,10 @@ Note that $Gender_i$ is `gender` and $S_i$ is `education`.
 Prompt: Why might we be skeptical of the argument that $\beta_1$ captures the gender income gap (i.e., the effect of having female as the main earner on household's income, all else being equal)? What can we do to address these concerns?
 
  <font color="red">Answer in red here</font>
+
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_4 <- #fill in your short answer
 
@@ -645,7 +606,7 @@ Prompt: Suppose that a member of your research team suggests that we should add 
  
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_5 <- #fill in your short answer
 
@@ -657,8 +618,6 @@ Answer: Answer: `age` is a good control, because age can affect incomes, and age
 Let's first simplify levels of age group using following codes.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Just run this!
 SFS_data <- 
         SFS_data %>%
@@ -688,10 +647,8 @@ Add `agegr` to the given multiple regression and compare it with the model that 
 <em>Tested Objects:</em> `reg3` (the same multiple regression that we estimated before, but with age added as a control).
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 #Add Age as Control
 #Add them in the order: gender, education, age
@@ -706,7 +663,7 @@ test_5() #For reg3
 
 :::{.answer}
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 
 #Add Age as Control
 #Add them in the order: gender, education, age
@@ -727,7 +684,7 @@ Prompt: Compare the two regressions in the table above. What happens to the esti
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_6 <- #fill in your short answer
 
@@ -746,7 +703,7 @@ Prompt: Suppose that one of your fellow researchers argues that `employment` (em
 <font color="red">Answer in red here</font>
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_7 <- #fill in your short answer
 
@@ -759,10 +716,8 @@ Answer: I agree with this reasoning. Because some of the "gender gap" may by dil
 Let's test this argument directly. Add `employment` as a control to the multiple regression with all previous controls. Estimate this new regression (`reg4`).
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 # Add in the order before, with employment last
 reg4 <- lm(???, data = SFS_data)
@@ -774,7 +729,7 @@ test_5.5()
 
 :::{.answer}
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 
 reg4 <- lm(income_before_tax ~ gender + education + agegr + employment, data = SFS_data)
 
@@ -790,7 +745,7 @@ Prompt: What happened when we tried to run the regression with `employment`? Doe
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_8 <- #fill in your short answer
 
@@ -809,8 +764,6 @@ In the middle of your team's discussion of which controls they should add to the
 Recall: Below are all of the variables in the dataset.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 glimpse(SFS_data) #Run Me!
 ```
 
@@ -818,9 +771,10 @@ glimpse(SFS_data) #Run Me!
 Prompt: Do you agree with your roommate's argument? Why or why not?
 
 <font color="red">Answer in red here</font>
+
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_9 <- #fill in your short answer
 
@@ -838,14 +792,12 @@ What is "pasrbuyg"?
 
 ```{r}
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 dictionary(???) #What goes in here?
 ```
 
 :::{.answer}
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 
 dictionary("pasrbuyg") #run me
 
@@ -853,10 +805,8 @@ dictionary("pasrbuyg") #run me
 :::
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 source("functions3.r")
 #Add pasrbuyg to regression
 #Keep the order (gender, education, agegr, pasrbuyg)
@@ -871,7 +821,7 @@ test_6() #For reg5
 
 :::{.answer}
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 
 #Add pasrbuyg to regression
 #Keep the order (gender, education, agegr, pasrbuyg)
@@ -892,7 +842,7 @@ Prompt: Does the table above suggest that we should add `pasrbuyg` as a control?
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_10 <- #fill in your short answer
 
@@ -909,7 +859,7 @@ Prompt: What other variables can be added as controls?
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_11 <- #fill in your short answer
 

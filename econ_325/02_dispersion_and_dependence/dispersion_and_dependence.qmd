@@ -111,14 +111,14 @@ We can see the relationship between the standard deviation and the variance by t
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # fill in the ... with your code below to find the sd of wages
 answer_6 <- ...(var(census_data$wages, na.rm = TRUE))
 test_6()
 ```
 ```{r}
 #| eval : true
-#| tags: [answer]
+#| classes: "answer"
 # fill in the ... with your code below to find the sd of wages
 answer_6 <- sqrt(var(census_data$wages, na.rm = TRUE))
 test_6()
@@ -258,14 +258,14 @@ True or False? The correlation can measure linear relationship but the covarianc
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_5 <-  "..." # enter True or False
 
 test_5()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_5 <-  "False" # enter True or False
 
 test_5()
@@ -343,7 +343,7 @@ package_data <- c(95, 130, 148, 183, 100, 98, 137, 110, 188, 166)
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # calculate the mean, standard deviation and variance of the weights of packages
 # round all answers to 2 decimal places
 
@@ -357,7 +357,7 @@ test_3()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # calculate the mean, standard deviation and variance of the weights of packages
 # round all answers to 2 decimal places
 
@@ -379,7 +379,7 @@ Use the example above to answer: 68% of packages at the post office weigh how mu
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_4 <- "..."    # enter your choice here (ex, "F")
 
 test_4()
@@ -387,7 +387,7 @@ test_4()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_4 <- "B"    # enter your choice here (ex, "F")
 
 test_4()

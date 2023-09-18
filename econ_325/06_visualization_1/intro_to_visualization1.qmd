@@ -108,12 +108,12 @@ To download the dataset we will be using for this notebook:
 We can now get started by importing the packages and data into our notebook, so that we can use it.  You should also check out the documentation on the link above, if you're not sure what a variable does or represents.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 source("testing_intro_to_visualization.r")
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 # import packages
 library(tidyverse) # contains ggplot2, which is what we'll be using!
 library(haven)
@@ -141,8 +141,8 @@ _Hint: variables are stored in columns_
 
 ```{r}
 #| eval: false
-#| tags: [question] 
-#pycharm: {name: "#%%\n"}
+#| classes: "question"
+
 #Fill in the ... below with your answer to the above question
 
 answer_1 <- ...
@@ -151,8 +151,8 @@ test_1()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
-#pycharm: {name: "#%%\n"}
+#| classes: "answer"
+
 #Fill in the ... below with your answer to the above question
 
 answer_1 <- 52
@@ -240,8 +240,7 @@ plot1
 Beautiful!  It's also very easy to quickly change the visualization. For instance, if we wanted to make this a line graph instead of a bar chart, we could do the following:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| tags: []
+
 # fig.width = 40
 plot2 <- plot + geom_line()
 
@@ -267,7 +266,7 @@ The first thing we want to do is identify what data we need:
 Let's start out by ```filter```-ing the data to just get 2019 data.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure_data <- filter(pwt_data, year == 2019)
 
 head(figure_data$year)
@@ -292,7 +291,7 @@ Notice an important fact: you can assign aesthetics on _either_ the ```ggplot```
 Let's start simple, and make ```x``` represent human capital, and ```y``` represent real GDP per capita.  We can start our visualization by creating our ```ggplot``` object and assigning all these properties:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure <- ggplot(data = figure_data, # associate the data we chose
                  aes(
                      x = hc,  # x is human capital
@@ -312,14 +311,14 @@ figure <- figure + labs(x = "Human Capital",
 After running the previous cell, nothing was printed in our notebook; this is because we need to assign our visualization!  Right now, it's just data and properties.  Let's test it our by adding our ```geom_point()``` layer:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure + geom_point()
 ```
 
 Nice!  Already looking pretty good.  But, there's still some work to do to make this graph more readable and tell the story of the dataset.  How about if we made the size of each point relative to the population?  That way, bigger countries would be more prominent on the graph.  We can do this by assigning the aesthetic again:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure + geom_point(aes(
                     size = pop,)) # assigns the size of the point to be relative to the population values
 ```
@@ -327,7 +326,7 @@ figure + geom_point(aes(
 Now, let's make it more colourful.  How about if we make colour of each point change as the employment (```emp```) rate changes?   So, darker colors would represent higher labour force utilization.  Again, we can do this by assigning the aesthetic:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure <- figure + geom_point(aes(
                     size = pop,
                     colour = 100*emp/pop))
@@ -338,14 +337,14 @@ figure
 Great work!  We now have a solid visualization.  Say we're not the biggest fan of the colour blue and want to change it. The easiest way to set colours in R is using palettes.  The list of all the palette options are:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 RColorBrewer::display.brewer.all() 
 ```
 
 Let's choose ```YlOrRed```.  We can apply this using the following (somewhat cryptic) command:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 figure <- figure + scale_color_distiller(palette="YlOrRd")
 
 figure
@@ -394,15 +393,15 @@ Raster and vector images have opposing advantages and disadvantages. A raster im
 Try uncommenting the code section below and saving our "Global GDP per capita and Human Capital in 2019" graph in the Jupyter directory that this notebook is stored in.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| tags: []
+
+
 # ggsave("gdp_hc_plot.png", figure, width = 15, height = 9)
 ```
 
 Did you see file appear in the directory? Now try saving the same graph as an `.svg` in the code cell below.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 # ggsave("gdp_hc_plot. ...", figure, width = ..., height = ...)
 ```
 
@@ -432,7 +431,7 @@ To be clear: you don't need to use _all_ of these variables in your visualizatio
 A good idea is to create it in layers, like we did before - updating as you go.  We'll start you off with some of the data and code scaffolding:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
+
 # my_data <- filter(pwt_data, (countrycode == "USA")|(countrycode == "CHN"))
 
 # my_figure # give your plot a descriptive title

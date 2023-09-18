@@ -38,10 +38,6 @@ Note that the data in this exercise is provided under the Statistics Canada Open
 > <span id="fn1">[<sup>1</sup>](#fn1s)Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</span>
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 library(tidyverse)
 library(haven)
 library(dplyr)
@@ -49,10 +45,6 @@ source("test2.r")
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")  #this code is discussed in module 1
 
 SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc))
@@ -85,10 +77,6 @@ We'll begin our analysis by exploring the relationship between wealth and income
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 options(repr.plot.width=8,repr.plot.height=8) #controls the image size
 f <- ggplot(data = SFS_data, xlim=c(0,2.4*10^6), ylim=c(0,3.4*10^7), aes(x = income_after_tax, y = wealth)) + 
         xlab("Income After Tax") + 
@@ -144,10 +132,6 @@ If we think about the residuals as a gauge of error in our model (remember we wa
 Try to get the best fit you can by playing around with the following example.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #set the value of B_0 and B_1 with these values
 
 B_0 <- 10000  #change me
@@ -196,10 +180,6 @@ Below are a few of the most important elements of a linear model. Let's say, for
 Enough talk! Let's see our model in action here.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression1 = lm(wealth ~ income_after_tax, data = SFS_data) # take note this is very important!
 
 summary(regression1)
@@ -217,12 +197,8 @@ Take a close look at the results.  Identify the following elements:
 Write the percentage in _decimal form_ and include all decimals given by the model (example, x.xxx - where x are numbers)
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 answer1 <- ???   #answer goes here
 
 test_1()
@@ -231,7 +207,7 @@ test_1()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer1 <- 0.2139 #answer goes here
 answer1=round(answer1,2)
@@ -252,10 +228,6 @@ In other words, when incomes goes up by 1 dollar, we would expect that the wealt
 Finally, let's visualize our fitted model on the scatterplot from before.  How does it compare to your original model?
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 options(repr.plot.width=10,repr.plot.height=8) #style preferences
 
 fitted_line2 = data.frame(income_before_tax = SFS_data$income_before_tax, wealth = regression1$coefficients[1] + regression1$coefficients[2]*SFS_data$income_before_tax)
@@ -306,10 +278,6 @@ What this tells us:
 We can estimate this relationship of gender and wealth using R. As we investigate the wealth gap between male and female lead households, we might expect to see a negative sign on the coefficient - that is, if we anticipate that female lead households will have less wealth than male lead households.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression2 <- lm(wealth ~ gender, data = SFS_data)
 
 summary(regression2)
@@ -320,12 +288,8 @@ What do you see here?
 > **Test Your Knowledge**:  What is the difference in average wealth between male and female lead households?
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 # input the answer (to 1 decimal place, don't forget to add a negative sign, if relevant)
 answer2 <-  ???  # your answer here
 
@@ -335,7 +299,7 @@ test_2()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #input the answer (to 1 decimal place)
 answer2 <- -235286
@@ -347,10 +311,6 @@ test_2()
 The number  might seem familiar if you remember what we learned about a $t$-test from earlier.  Remember this result?
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 t1 = t.test(
        x = filter(SFS_data, gender == "Male")$wealth,
        y = filter(SFS_data, gender == "Female")$wealth,
@@ -378,10 +338,6 @@ In other words, another way of thinking about a regression is as a `super` compa
 Okay, but what if you have a qualitative variable that takes on _more_ than two levels?  For example, the `education` variable includes four different education classes.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data %>%
 group_by(education) %>%
 summarize(number_of_observations = n())
@@ -408,12 +364,8 @@ In other words, one of the dummies is redundant in helping us understand the qua
 * **D**: $k^2$
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 answer2.5 <- ??? # type in your answer here 
 
 test_2.5()
@@ -421,7 +373,7 @@ test_2.5()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer2.5 <- "B" # type in your answer here 
 
@@ -444,12 +396,8 @@ Last week, we briefly explored the idea of the wealth gap and explored the idea 
 <em>Tested objects:</em> ``regm`` (the regression for males).<em>Tested objects:</em> ``regm`` (the regression for females).
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 # Quiz 1
 
 # Regression for males
@@ -472,7 +420,7 @@ test_4() # Quiz2
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 1
 #Regression for males
@@ -496,7 +444,7 @@ test_4() #Quiz2
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_1 <- #fill in your short answer
 
@@ -511,10 +459,6 @@ Answer: In this case the coefficient on before tax income is how we expect wealt
 We might think that income inequality between females and males might depend on the educational gaps between these two groups. In this activity, we will explore how the income gap varies by education. First, let's see the factor levels of the `education`:
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 levels(SFS_data$education) # Run this
 ```
 
@@ -531,12 +475,8 @@ Notice we don't need to do 4 regressions we could just do three.
 
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 #reg1 is a regression performed on people, with a less than high scchool education
 reg1 <- lm(??? ~ ???, data = filter(SFS_data, education == "Less than high school")) #what should replace the ...
@@ -561,7 +501,7 @@ test_12()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 reg1 <- lm(income_before_tax ~gender , data = filter(SFS_data, education == 'Less than high school')) #what should replace the ???
 
@@ -586,10 +526,6 @@ The code below will tabulate a brief summary of each regression:
 
 ```{r}
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 # just run me.  You don't need to edit this
 
 Educ_Group <- c("Less than high school", "High School", "Non-university post-secondary", "University") #defines column 1
@@ -608,7 +544,7 @@ tibble(Educ_Group, Income_Gap, Std._Error, t_Value, p_Value) #it's like a table 
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_3 <- #fill in your short answer
 
@@ -633,11 +569,7 @@ This is actually a **multiple regression**, which we will learn about next week 
 
 ```{r}
 #| eval: false
-#| tags: [question]
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| classes: "question"
 # Simple regression (just gender)
 reg2A <- lm(income_before_tax ~ gender, data = SFS_data) # this one works already
 
@@ -655,7 +587,7 @@ test_8()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 
 #Naive regression (just gender)
@@ -683,7 +615,7 @@ Prompt: Compare the estimated income gap with and without $E_i$ in the regressio
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_4 <- #fill in your short answer
 
@@ -697,10 +629,6 @@ Answer: The gender-income gap has increased; notice the stand error's have incre
 When we deal with large quantitative variables, we often take the natural log of it:
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 W = log(SFS_data$wealth[SFS_data$wealth>0]) 
 ```
 
@@ -721,10 +649,6 @@ Let's generate two variables that take the natural log of the wealth <em>and</em
 <em>Tested Objects:</em> ``lnreg``
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Generate log wage variable
 SFS_data <- SFS_data %>%
                mutate(lnincome = log(SFS_data$income_before_tax)) %>% # what goes here?
@@ -735,11 +659,7 @@ Notice warning message "NaNs produced". NaN means "Not a Number". This happens b
 
 ```{r}
 #| eval: false
-#| tags: [question]
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+#| classes: "question"
 
 
 # fix NANs
@@ -758,7 +678,7 @@ test_5() #Quiz7
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 
 # fix NANs
@@ -784,7 +704,7 @@ Prompt: How do we interpret each of these estimates?  (Hint: what does a 1-unit 
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_5 <- #fill in your short answer
 
@@ -812,11 +732,7 @@ Now we can just make a function in r and optimize over it which performs essenti
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
 #| scrolled: true
-#| vscode: {languageId: r}
 x=filter(SFS_data,gender=='Female')
 x <- filter(x, is.numeric(income_before_tax))
 x <- x$income_before_tax
@@ -824,10 +740,6 @@ x <- x$income_before_tax
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 calc <- function (x){
     q=0
 for (i in x){
@@ -841,18 +753,10 @@ return (q)
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 calc(x)
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 ell <- function(a,q,xm,n) { # we use the log function of the pareto distrubtion instead
     d=(n*log(a))
     b=(-1)*(a+1)*q
@@ -862,20 +766,12 @@ ell <- function(a,q,xm,n) { # we use the log function of the pareto distrubtion 
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 a = optimize(ell,c(2,50),maximum=TRUE,q=43074.1853103325,xm=40000,n=length(x))
 a
 a_women=a$maximum 
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 y=filter(SFS_data,gender=='Male')
 y <- filter(y, is.numeric(income_before_tax))
 y <- y$income_before_tax
@@ -890,13 +786,9 @@ $$ \frac{\alpha x_m}{\alpha -1} $$
 Can you calculate the expected income gap with the Pareto distribution assumption?
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 xmw=40000
 xmm=65000
 income_gap =((a_women* xmw )/ (a_women-1)) - ((a_men* xmm )/ (a_men-1))
-income_gap #note we set xm oursleves (I did this by playing around with xm, and doing a bit of research) see if you can get a better xm.
+income_gap #note we set xm ourselves (I did this by playing around with xm, and doing a bit of research) see if you can get a better xm.
 ```
 

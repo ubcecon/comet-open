@@ -286,7 +286,7 @@ Take a close look at the results.  Identify the following elements:
 
 ```{r}
 #| eval: false 
-#| tags: [question]
+#| classes: "question"
 
 #Hint: Convert the Multiple-R squared value into a percentage 
 ans1 <- ...  # answer goes here
@@ -296,7 +296,7 @@ test_1()
 
 ```{r}
 #| eval: false 
-#| tags: [answer]
+#| classes: "answer"
 
 #Hint: Convert the Multiple-R squared value into a percentage
 ans1 <- 79.19  # answer goes here
@@ -400,8 +400,7 @@ What do you see here?
 
 ```{r}
 #| eval: false
-#| tags: [question]
-
+#| classes: "question"
 # input the answer (to 1 decimal place)
 answer2 <- ...  
 
@@ -410,7 +409,7 @@ test_2()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 # input the answer (to 1 decimal place)
 answer2 <- 2552.9  
@@ -458,7 +457,8 @@ Estimate the immigrant wage gap for males and for females using regressions.
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
+
 # Activity 1
 
 # Regression for males
@@ -476,7 +476,7 @@ test_4() # Quiz2
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Activity 1
 
 # Regression for males
@@ -503,7 +503,7 @@ test_4()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", "C", or "D"
 
 answer20 <- "..."
@@ -511,7 +511,7 @@ test_20(answer20)
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Enter your answer below as "A", "B", "C", or "D"
 
 answer20 <- "A"
@@ -526,7 +526,7 @@ test_20(answer20)
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", or "C"
 
 answer21 <- ""
@@ -534,7 +534,7 @@ test_21(answer21)
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Enter your answer below as "A", "B", "C", or "D"
 
 answer21 <- "B"
@@ -559,7 +559,7 @@ As we can see, there are several age groups in this dataframe, including ones th
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 reg5_20 <- lm(wages ~ immstat, data = filter(census_data, agegrp == '20 to 24 years')) 
 
 reg5_30 <- ... # what should go here? Use the code above as a template
@@ -583,7 +583,7 @@ test_16() # Quiz4
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 reg5_20 <- lm(wages ~ immstat, data = filter(census_data, agegrp == '20 to 24 years')) 
 
 reg5_30 <- lm(wages ~ immstat, data = filter(census_data, agegrp == '30 to 34 years')) # what should go here? Use the code above as a template
@@ -629,7 +629,7 @@ tibble(Age_Group, Wage_Gap, Std._Error, t_Value, p_Value) # it's like a table bu
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", or "C"
 
 answer22 <- ""
@@ -638,7 +638,7 @@ test_22(answer22)
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Enter your answer below as "A", "B", or "C"
 
 answer22 <- "C"
@@ -660,7 +660,7 @@ This is actually a **multiple regression**, which we will learn about later - bu
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Naive regression (just immstat)
 reg2A <- lm(... ~ ..., data = census_data) #this one works already
 
@@ -677,7 +677,7 @@ test_8() # Quiz 5
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Naive regression (just immstat)
 reg2A <- lm(wages ~ immstat , data = census_data)  #this one works already
 
@@ -701,7 +701,7 @@ test_8() # Quiz 5
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", or "C"
 
 answer23 <- "..."
@@ -709,7 +709,7 @@ test_23(answer23)
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Enter your answer below as "A", "B", or "C"
 
 answer23 <- "A"
@@ -725,8 +725,9 @@ Let's suppose that we want to estimate this racial wage gap. Run a regression (w
 
 ```{r}
 #| eval: false
-#| tags: [question]
-# Do not modify this line (sets "not a visible minority" as the reference level):
+#| classes: "question"
+
+# Do not modify this l#| ine (sets "not a visible minority" as the reference level):
 census_data$vismin <- relevel(census_data$vismin, ref = "not a visible minority")
 # this is also how you set a different base level for a factor (handy!)
 
@@ -740,7 +741,7 @@ test_10() #Quiz6
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Do not modify this line (sets "not a visible minority" as the reference level):
 census_data$vismin <- relevel(census_data$vismin, ref = "not a visible minority")
 # this is also how you set a different base level for a factor (handy!)
@@ -763,7 +764,7 @@ test_10() #Quiz6
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", or "C"
 
 answer24 <- "..."
@@ -771,7 +772,7 @@ test_24(answer24)
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # Enter your answer below as "A", "B", or "C"
 
 answer24 <- "B"
@@ -787,7 +788,7 @@ test_24(answer24)
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # Enter your answer below as "A", "B", or "C"
 
 answer25 <- "..."

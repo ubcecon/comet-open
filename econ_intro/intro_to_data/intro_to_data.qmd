@@ -1,5 +1,5 @@
 ---
-title: "03.1 - Introduction to Data in R - Part 1"
+title: "3.1 - Introduction to Data in R - Part 1"
 author: COMET Team <br> _Manas Mridul, Valeria Zolla, Colby Chamber, Colin Grimes, Jonathan Graves_
 date: 12 January 2023
 description: This notebook introduces you to data in R, primarily using the `tidyverse` set of packages.  It includes basic data curation and cleaning, including table-based inspection and missing data.
@@ -80,6 +80,8 @@ Also take note of the following functions used to import data of different file 
 In this notebook, we will be working with data from the Canadian census which is stored as `01_census2016.dta`. Which function should we use to load this file? Write the name of the function just before the brackets (e.g. `read_table`)
 
 ```{r}
+#| eval: false
+#| classes: "question"
 # which function should we use?
 
 answer0 <- "..."
@@ -89,17 +91,7 @@ test_0()
 
 ```{r}
 #| eval: false
-#| tags: [question]
-# which function should we use?
-
-answer0 <- "..."
-
-test_0()
-```
-
-```{r}
-#| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # which function should we use?
 
 answer0 <- "read_dta"
@@ -111,7 +103,7 @@ Did you get it? Okay, now replace the `???` in the code below with that function
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # reading in the data
 census_data <- ???("../datasets/01_census2016.dta")  # change me!
 
@@ -248,6 +240,9 @@ Notice that `has_kids` is not a factor variable. We must add on the appropriate 
 Create an object, stored in `answer1`, in which the `census_data` data frame is identical to the one above but in which the `has_kids` variable is also in factor form.
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 answer1 <- census_data %>% 
                 ... # fill me in!
 
@@ -256,17 +251,7 @@ test_1()
 
 ```{r}
 #| eval: false
-#| tags: [question]
-
-answer1 <- census_data %>% 
-                ... # fill me in!
-
-test_1()
-```
-
-```{r}
-#| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer1 <- census_data %>% 
                 mutate(has_kids = as.factor(has_kids)) # fill me in!
@@ -318,6 +303,9 @@ levels(census_data$kol)
 ```
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 answer2 <- ... # fill me in!
 
 test_2()
@@ -325,16 +313,7 @@ test_2()
 
 ```{r}
 #| eval: false
-#| tags: [question]
-
-answer2 <- ... # fill me in!
-
-test_2()
-```
-
-```{r}
-#| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer2 <- census_data %>% 
     mutate(knows_english = case_when((kol == "english only")|(kol == "both english and french") ~ 1, 

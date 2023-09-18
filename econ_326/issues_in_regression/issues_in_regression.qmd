@@ -42,9 +42,6 @@ Note that the data in this exercise is provided under the Statistics Canada Open
 
 ```{r}
 #| output: false
-#| pycharm: {name: "#%%\n"}
-#| tags: []
-#| vscode: {languageId: r}
 #load the data and set it up
 library(car)
 library(tidyverse)
@@ -55,16 +52,12 @@ library(sandwich)
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 source("functions4.r")
 SFS_data <- read_dta("../datasets/SFS_2019_Eng.dta")
 SFS_data <- clean_up_data(SFS_data) #this function is explained in module 1
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 glimpse(SFS_data)
 ```
 
@@ -98,8 +91,6 @@ You can see this in the following example, which fits an OLS estimate of ``wealt
 > **Note**: Make sure to understand what the example below is doing. Notice how the results are exactly the same, no matter what the value of ``k`` is?
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 reg <- lm(wealth ~ income_before_tax, data = SFS_data)
 
 b_0 <- reg$coef[[1]]
@@ -166,8 +157,6 @@ In all of these cases, you need to go back to your original regression model and
 Consider the following regression model, in which we want to study whether or not there is a penalty for families led by someone who is younger is the SFS Data:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- SFS_data %>%
     mutate(ya = case_when(
         education == "Less than high school"  ~ "Yes",
@@ -218,8 +207,6 @@ $$\implies Var(X_i) = 25[k(1-k)^2 + (1-k)k^2]$$
 Okay, that looks awful - so let's plot a graph of $s_b$ versus $k$ (when $n = 1000$):
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 options(repr.plot.width=6,repr.plot.height=4)
 
 r = 0.01 
@@ -243,8 +230,6 @@ When you estimate a regression, you are using the variation in the data to estim
 We can calculate this directly in R by using the ``vif`` function.  Let's look at the collinearity in our model:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression2 <- lm(wealth ~  income_before_tax +income_after_tax, data = SFS_data)
 
 summary(regression2)
@@ -252,8 +237,6 @@ summary(regression2)
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 cat("Variance inflation factor of income after tax on wealth: ",vif(regression2,SFS_data$income_after_tax,SFS_data$wealth),'\n')
 cat("Variance inflation factor of income before tax on wealth: ",vif(regression2,SFS_data$income_before_tax,SFS_data$wealth),'\n')
 cat("Variance inflation factor of income before tax on income after tax: ",vif(regression2,SFS_data$income_before_tax,SFS_data$income_after_tax),'\n')
@@ -270,8 +253,6 @@ There are no "hard" rules for what makes a VIF too large - you should think abou
 **Heteroskedasticity** (Het-er-o-sked-as-ti-city) is another common problem in many economic models.  It refers to the situation in which the distribution of the residuals changes as the explanatory variables change. Usually, we could visualize this problem by drawing a residual plot and a fan or cone shape indicates the presence of heteroskedasticity. For example, consider this regression:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression3 <- lm(income_before_tax ~ income_after_tax, data = SFS_data)
 
 ggplot(data = SFS_data, aes(x = as.numeric(income_after_tax), y = as.numeric(regression3$residuals))) + geom_point() + labs(x = "After-tax income", y = "Residuals")
@@ -288,8 +269,6 @@ This obviously does not look like a distribution which is unchanging as market i
 Whatever the reason it exists, you need to correct for it - if you don't, while your coefficients will be OK, your standard errors will be incorrect.  You can do this in a few ways.  The first way is to try to change your variables that the "transformed" model (a) makes economic sense, and (b) no longer suffers from heteroskedasticity.  For example, perhaps a _log-log_ style model might work here:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- SFS_data %>%
                filter(income_before_tax > 0) %>% #getting rid of NAs
                mutate(lnincome_before_tax = log(income_before_tax))
@@ -315,8 +294,6 @@ The most robust (no pun intended) way is to simply use standard errors which are
 This is relatively easy to do in R.  Basically, you run your model, as normal, and then re-test the coefficients to get the correct error using the ``coeftest`` command, but specifying which kind of errors you want to use.  Here is an example:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression5 <- lm(income_before_tax ~ income_after_tax, data = SFS_data)
 
 summary(regression5)
@@ -336,8 +313,6 @@ You can also perform some formal tests for heteroskedasticity.  We learned about
 Both of them are, conceptually, very similar.  Let's try (2) for the above regression:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 regression2 <- lm(income_before_tax ~ income_after_tax, data = SFS_data) 
 
 SFS_data$resid_sq <- (regression2$residuals)^2 #get the residuals then square it
@@ -367,8 +342,6 @@ These model are quite useful because the coefficients have the interpretation as
 However, _nothing_ in the OLS model forces this to be true.  If you estimate a value for $\beta_1$, if you have an $X_{1,i}$ that is high or low enough, the fitted values will be above or below 1 or 0 (respectively).  This implies that _mechanically_ you have heteroskedasticity because high or low values of the explanatory variables will ALWAYS fit worse than intermediate values.  For example, let's look at the fitted values from this regression:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data <- SFS_data %>%
     mutate(M_F = case_when(
         gender == "Male"  ~ 0,
@@ -416,7 +389,7 @@ $M_F$ denotes the dummy variable for whether the person is male or female, $I_{a
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_1 <- #fill in your short answer
 
@@ -430,8 +403,6 @@ These two variables, being before tax and after tax income, may be close to co-l
 Before we continue, let's reduce the sample size of our data set to 200 observations. We will also revert ``gender`` into a numeric variable:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Run this!
 SFS_data200 <- head(SFS_data, 200) %>%
     mutate(M_F = as.numeric(gender)) #everyone in the first 200 observations as, male or female
@@ -444,10 +415,8 @@ Run the regression described above.
 <em>Tested Objects:</em> ``reg1``.
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 #Quiz 1
 
@@ -462,7 +431,7 @@ test_1()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 1
 
@@ -482,7 +451,7 @@ test_1()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_2 <- #fill in your short answer
 
@@ -496,8 +465,6 @@ The main concern is that there is not alot of data here only 200 observations.Al
 Now, let's suppose we drop 50 more observations:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Run this!
 SFS_data150 <- head(SFS_data200, 150)
 ```
@@ -507,10 +474,8 @@ Run the regression model again and compare it with the previous regression.
 <em>Tested Objects:</em> ``reg2``.
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Quiz 2
 
 
@@ -525,7 +490,7 @@ test_2()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 2
 
@@ -544,7 +509,7 @@ test_2()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_3 <- #fill in your short answer
 
@@ -560,10 +525,8 @@ Next, increase the sample size back to its full size and run the regression once
 <em>Tested Objects:</em> ``reg3``
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Quiz 3
 SFS_data <- SFS_data[complete.cases(SFS_data$income_after_tax), ] #do not modify this code
 SFS_data$income_after_tax <- as.numeric(SFS_data$income_after_tax) #do not modify this code
@@ -578,7 +541,7 @@ test_3()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 3
 SFS_data <- SFS_data[complete.cases(SFS_data$income_after_tax), ] #do not modify this code
@@ -600,7 +563,7 @@ test_3()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_5 <- #fill in your short answer
 
@@ -625,7 +588,7 @@ $I_i$ denotes before tax income, $E_i$ is level of education, $D_i$ is a dummy v
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_6 <- #fill in your short answer
 
@@ -645,7 +608,7 @@ The distribution of residuals will likely change relative to education. This bec
 #short answer template
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_7 <- #fill in your short answer
 
@@ -660,8 +623,6 @@ Run the regression below, and graph the residuals against the level of schooling
 
 <em>Tested Objects:</em> ``reg5``. The graph will be graded manually.
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 #Run the regression
 reg5 <- lm(income_before_tax ~ education, data = SFS_data)
@@ -669,10 +630,8 @@ reg5 <- lm(income_before_tax ~ education, data = SFS_data)
 ```
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Quiz 5
 
 resiplot <- ggplot(reg5, aes(x = ???, y = .resid)) + xlab("Education Level") + ylab("Income (Residuals)")
@@ -682,7 +641,7 @@ x <- ???
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 5
 
@@ -706,7 +665,7 @@ test_5()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_8 <- #fill in your short answer
 
@@ -722,10 +681,8 @@ To test for heteroskedasticity formally, let's perform the White Test. First, st
 <em> Tested Objects: ``SFS_data`` (checks to see that residuals were added properly).
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 #Quiz 6
 
 SFS_data <- mutate(SFS_data, resid = ???)
@@ -738,7 +695,7 @@ test_6()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 #Quiz 6
 
@@ -754,9 +711,7 @@ Next, generate a variable for the squared residuals, then run the required auxil
 <em>Tested Objects:</em> ``WT`` (the auxiliary regression).
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
 #| scrolled: true
-#| vscode: {languageId: r}
 #Quiz 7
 model=lm(income_before_tax~gender^2 + gender + education^2 +education+ education*gender, data = SFS_data) # fill me in
 resid = reg5$residuals
@@ -765,10 +720,8 @@ rsq=(resid)^2
 ```
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 SFS_data$rsq=rsq
 
 WT <- lm(rsq~ ???, data =SFS_data) # fill me in
@@ -782,7 +735,7 @@ test_7()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 SFS_data$rsq=rsq
 

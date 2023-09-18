@@ -152,14 +152,14 @@ Suppose that you are investigating the mean years of education among all citizen
 
 ```{r}
 #| eval: false 
-#| tags: [question]
+#| classes: "question"
 answer_0 <- ...  # fill in th e.. with your answer of either 1, 2 or 3 
 test_0()
 ```
 
 ```{r}
 #| eval: false 
-#| tags: [answer]
+#| classes: "answer"
 answer_0 <- 2  # fill in th e.. with your answer of either 1, 2 or 3 
 test_0()
 ```
@@ -304,13 +304,13 @@ Let's say that you choose a 5% significance level and conduct a one sample $t$-t
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_1 <- "x" # your answer of "yes" or "no" in place of "x" here
 test_1()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_1 <- "no" # your answer of "yes" or "no" in place of "x" here
 test_1()
 ```
@@ -430,13 +430,13 @@ Assuming the null hypothesis, significance level, sample data and type of test u
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_2 <- "" # your answer for "you" or "your friend" in place of "x" here
 test_2()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_2 <- "your friend" # your answer for "you" or "your friend" in place of "x" here
 test_2()
 ```
@@ -444,13 +444,13 @@ Moving forward with your two-sided hypothesis test, you find a sample mean stati
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_3 <- "x" # your answer for "yes" or "no" in place of "x" here
 test_3()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_3 <- "yes" # your answer for "yes" or "no" in place of "x" here
 test_3()
 ```
@@ -502,13 +502,13 @@ Suppose you choose a 5% significance level and conduct a one sample t-test with 
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 answer_4 <- "x" # your answer of "type 1" or "type 2" in place of "x" here
 test_4()
 ```
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 answer_4 <- "type 2" # your answer of "type 1" or "type 2" in place of "x" here
 test_4()
 ```

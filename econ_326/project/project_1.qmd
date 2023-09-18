@@ -502,7 +502,7 @@ C: Multiple regression models can display complicated relationships, but simple 
 D: By having multiple variables, multiple regressions allow us to see the interactions between different variables in a relationship. 
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
 
 answer_1 <- '...' # your answer here ('A', 'B', 'C', or 'D')
@@ -511,7 +511,7 @@ test_1()
 ```
 
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 #| eval: false
 
 answer_1 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
@@ -531,7 +531,7 @@ C: Searching for a different dataset to use
 D: Adding more explanatory variables to the model (so long as all of the individual relationships remain significant)
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
 
 answer_2 <- '...' # your answer here ('A', 'B', 'C', or 'D')
@@ -540,7 +540,7 @@ test_2()
 ```
 
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 #| eval: false
 
 answer_2 <- 'D' # your answer here ('A', 'B', 'C', or 'D')
@@ -560,7 +560,7 @@ C: Whether or not there is multicollinearity in our model.
 D: The extent to which the model is inflated by ommitted variable bias.
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
 
 answer_3 <- '...' # your answer here ('A', 'B', 'C', or 'D')
@@ -569,7 +569,7 @@ test_3()
 ```
 
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 #| eval: false
 
 answer_3 <- 'B' # your answer here ('A', 'B', 'C', or 'D')
@@ -590,7 +590,7 @@ C: Your model is displaying multicollinearity with two variables.
 D: Your model is boring, and you want to make it more interesting. 
 
 ```{r}
-#| tags: [question]
+#| classes: "question"
 #| eval: false
 
 answer_4 <- '...' # your answer here ('A', 'B', 'C', or 'D')
@@ -599,7 +599,7 @@ test_4()
 ```
 
 ```{r}
-#| tags: [answer]
+#| classes: "answer"
 #| eval: false
 
 answer_4 <- 'A' # your answer here ('A', 'B', 'C', or 'D')

@@ -49,10 +49,6 @@ The following code simulates a data set of $5000$ observations that resembles an
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 library(tidyverse)
 ```
 
@@ -63,10 +59,6 @@ library(tidyverse)
 To ensure replicable results when working with random synthetic data, one needs to set the seed for the [pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator). With a specified seed, the following code will always produce the same data set. I begin with four basic variables, namely gender, age, years of education, and years of work tenure.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 set.seed(999)
 sim.data = matrix(rnorm(20000, 0, 1), 5000, 4, FALSE)
 sim.data <- sim.data %*% chol(matrix(
@@ -86,10 +78,6 @@ I shift the data by the desired means, round them to resemble how these variable
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 sim.data <- sim.data %>% mutate(
         sex = if_else(sex < 0, 'male', 'female'),
         age = round(age + 40, 0),
@@ -120,10 +108,6 @@ sim.data <- sim.data %>% mutate(
 Here I specify a "true" data generating process for log-hourly wages.
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 sim.data <- sim.data %>% mutate(
         lnhrly = 1.5 + .39 * (sex=='female')
                     + .06 * age - .0007 * age ^ 2
@@ -144,10 +128,6 @@ The following lets me see the summary measures of this data set to ensure that t
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 summary(sim.data)
 ```
 
@@ -184,10 +164,6 @@ We can then replace $\mathbb{E}[X]$ with any arbitrary variable name, $\alpha$ s
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -260,10 +236,6 @@ As should be intuitive, each $\alpha_{j}$ corresponds to the conditional mean of
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -308,10 +280,6 @@ To see why this correction is needed, a mathematical exposition is given in Anne
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -355,10 +323,6 @@ This is the variance estimator applied to the subset satisfying the condition $Z
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -395,10 +359,6 @@ If it is not clear why this is not an unbiased estimator of the true standard de
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -434,10 +394,6 @@ There is however another way to confirm this computation. The syntax `lm(X ~ 1, 
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -477,10 +433,6 @@ The proof that this is the unbiased estimator follows exactly the same steps as 
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -519,10 +471,6 @@ The conditional correlation and estimator replaces the appropriate expectations 
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -558,10 +506,6 @@ Confidence intervals for conditional means use the conditional variance and the 
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     matrix(
@@ -629,10 +573,6 @@ In `R`, use `t.test` to run a $t$-test (both variants). For the $1$-sample versi
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     t.test(sim.data$lnhrly, mu = 3)
@@ -647,10 +587,6 @@ The default formatting is not the nicest. We can use a helper library `broom` to
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 library(broom)
 ```
@@ -659,10 +595,6 @@ library(broom)
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 map_df(list(t.test(sim.data$lnhrly, mu = 3)), tidy)
 ```
@@ -707,10 +639,6 @@ Instead of specifying a counterfactual parameter value using `mu`, specify a sec
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     t.test(
@@ -729,10 +657,6 @@ The syntax to reformat the results into a table is the same as in the $1$-sample
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 map_df(
     list(
@@ -792,10 +716,6 @@ In `R`, use the function `quantile` to report the desired quantiles in your data
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     quantile(sim.data$lnhrly, .5)
@@ -810,10 +730,6 @@ Similarly, quartiles are $X_{25}$ and $X_{75}$.
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     quantile(sim.data$lnhrly, c(.25, .5, .75))
@@ -829,10 +745,6 @@ Sometimes, when people talk about quartiles they also include the minimum ($0$-t
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     quantile(sim.data$lnhrly, seq(0, 1, .25))
@@ -846,10 +758,6 @@ Another popular set of percentiles to use are the deciles.
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     quantile(sim.data$lnhrly, seq(0, 1, .1))
@@ -872,10 +780,6 @@ In `R`, use the `IQR` function to compute the interquartile range from an array.
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 print(
     list(
@@ -895,19 +799,11 @@ Most professional research papers will report summary statistic tables with a st
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 library(stargazer)
 ```
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 stargazer(data.frame(sim.data), type = 'text')
 ```
@@ -919,10 +815,6 @@ You will notice that factor variables like sex have not been summarised. This is
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 sim.data %>% 
     mutate(
@@ -940,10 +832,6 @@ Imagine that our data as a dozen categorical variables, each with $5$ levels on 
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 sim.data %>% 
     model.matrix(
@@ -962,10 +850,6 @@ For example, I am first going to randomly set some genders to missing to demonst
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 sim.data <- sim.data %>% mutate(sex = case_when(runif(5000,0,1) < .98 ~ sex))
 sim.data %>%
@@ -981,10 +865,6 @@ Now I show how to do the relabelling trick mentioned before.
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 sim.data <- sim.data %>%
     mutate(
@@ -1008,10 +888,6 @@ The course project will get you practicing what you have hopefully learnt from t
 
 
 ```{r}
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 library(haven)
 ```
@@ -1021,10 +897,6 @@ library(haven)
 
 ```{r}
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 my.data <- 'load your data'
 my.data <- 'do any necessary data cleaning'
@@ -1043,10 +915,6 @@ Have a `glimpse` of your data and refer to any outside material (e.g., data user
 
 ```{r}
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 
 glimpse(my.data)
@@ -1067,10 +935,6 @@ Because we would like a written report and in general the text-format output of 
 
 ```{r}
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 
 my.data %>%
@@ -1092,10 +956,6 @@ This gets you started on thinking about the analyses you are about to do. Before
 
 ```{r}
 #| eval: false
-#| collapsed: false
-#| jupyter: {outputs_hidden: false}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
 
 
 map_df(

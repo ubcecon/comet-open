@@ -92,8 +92,7 @@ Even better: if you are interacting two qualitative (factor) variables, it will 
 For example, let's look at a regression model which interacts gender and education. Before we run regression, let's first summarize education into 'university' and 'non-university'.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 SFS_data <- SFS_data %>% #cretes a Education dummy variable
                mutate( 
                Education = case_when(
@@ -105,8 +104,7 @@ SFS_data <- SFS_data %>% #cretes a Education dummy variable
 ```
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 regression1 <- lm(wealth ~ gender + Education + gender:Education, data = SFS_data)
 
 #regression1 <- lm(wealth ~ gender*Education, data = SFS_data) #an alternative way to run the same regression
@@ -184,8 +182,7 @@ In R, there is one small complication: when you want to include mathematical exp
 For example, let's consider a quadratic regression - that is, including both $Income_i$ and $Income_i^2$ (income squared) in our model.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 regression3 <- lm(wealth ~ income_before_tax + I(income_before_tax^2), data = SFS_data)
 
 summary(regression3)
@@ -232,8 +229,7 @@ $$
 Fortunately, these are all things we have from the regression and its variance-covariance matrix:
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 v <- vcov(regression3)
 coefs <- regression3$coefficients
 v
@@ -304,7 +300,7 @@ $W_i$ denotes wealth, $F_i$ is a dummy variable for the gender of main earner in
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_1 <- #fill in your short answer
 
@@ -331,7 +327,7 @@ What are your interaction variables? (remember to follow the same order)
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 #Quiz 1
 reg1 <- lm(???, data = SFS_data)
@@ -347,7 +343,7 @@ test_1() #quiz1
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 reg0 <- lm(wealth ~ gender+education+province+gender:education+gender:province, data = SFS_data)
 
 reg1 <- lm(wealth ~ gender+Education+province+gender:Education+gender:province, data = SFS_data)
@@ -368,7 +364,7 @@ test_1()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_2 <- #fill in your short answer
 
@@ -389,7 +385,7 @@ One possible explanation is that males with university degree are more likely to
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_3 <- #fill in your short answer
 ```
@@ -410,7 +406,7 @@ Now let's test whether the returns to education increase if people are entrepren
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 #Quiz 2
 SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; makes "not a business owner" the reference level for business
@@ -424,7 +420,7 @@ test_1.5()
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 #Quiz 2
 SFS_data$business <- relevel(SFS_data$business, ref = "No") #Do not change; makes "not a business owner" the reference level for business
 reg2 <- lm(wealth ~ education+business+education:business, data = SFS_data)
@@ -442,7 +438,7 @@ test_1.5()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_4 <- #fill in your short answer
 ```
@@ -494,14 +490,13 @@ SFS_data$agegr <- relevel(SFS_data$agegr, ref = "Under 30") #Set "Under 30" as d
 Let's restrict the sample to main working groups. Just run the following line.
 
 ```{r}
-#| pycharm: {name: "#%%\n"}
-#| vscode: {languageId: r}
+
 SFS_data2 <- subset(SFS_data, agegr == "20s" | agegr == "30s" | agegr == "40s" | agegr == "50s" | agegr == "60s" )
 ```
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 #Quiz 3
 SFS_data2$agegr <- relevel(SFS_data2$agegr, ref = "20s") #Do not change; makes "20s" the reference level for age
@@ -516,7 +511,7 @@ test_2() #quiz3
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 SFS_data2$agegr <- relevel(SFS_data2$agegr, ref = "20s") #Do not change; makes "20s" the reference level for age
 
@@ -536,7 +531,7 @@ test_2()
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_5 <- #fill in your short answer
 ```
@@ -552,7 +547,7 @@ Estimate the relationship between wages and age for male-lead households and fem
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 #Quiz 4
 reg3M <- lm(..., data = filter(SFS_data2, gender == "Male"))
@@ -567,7 +562,7 @@ test_4() #quiz4
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 reg3M <- lm(income_before_tax ~ agegr, data = filter(SFS_data2, gender == "Male"))
 reg3F <- lm(income_before_tax ~ agegr, data = filter(SFS_data2, gender == "Female"))
@@ -587,7 +582,7 @@ test_4() #quiz4
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_6 <- #fill in your short answer
 ```
@@ -604,7 +599,7 @@ Add one additional term to the multiple regression from Quiz 3 that accounts for
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 #Quiz 5
 reg4 <- lm(???, data = SFS_data2)
@@ -617,7 +612,7 @@ test_5() #quiz5
 :::{.answer}
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 #Quiz 5
 reg4 <- lm(income_before_tax ~ gender+agegr+gender:agegr, data = SFS_data2)
 
@@ -634,7 +629,7 @@ test_5() #quiz5
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_7 <- #fill in your short answer
 ```
@@ -666,7 +661,7 @@ You join the team as a research advisor - in other words, you get to criticize t
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_8 <- #fill in your short answer
 ```
@@ -684,7 +679,7 @@ When kids are young, they tend to consume more chocolates. Thus parts of the var
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_9 <- #fill in your short answer
 ```
@@ -702,7 +697,7 @@ The dependent variable should be $ln(Q_{i})$ instead of $Q_{i}^{2}$.
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_10 <- #fill in your short answer
 ```
@@ -721,7 +716,7 @@ There is sample selection bias, because people could refuse to participate. This
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_11 <- #fill in your short answer
 ```

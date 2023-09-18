@@ -209,7 +209,7 @@ Find the mean and median values of `wages`, to 2 decimal places if necessary. Be
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 # your code here
 
@@ -222,7 +222,7 @@ test_2()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 census_data <- filter(census_data, !is.na(census_data$wages))
 
@@ -246,7 +246,7 @@ Using what we've learned so far, graph the distribution of values of the `wages`
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_3 <- "X" # replace X with your answer of A, B, or C here
 
@@ -255,7 +255,7 @@ test_3()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer_3 <- "B" # replace X with your answer of A, B, or C here
 
@@ -270,7 +270,7 @@ What is the interquartile range of the `wages` variable?
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 # your code here
 
@@ -281,7 +281,7 @@ test_4()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 # your code here
 
@@ -405,7 +405,7 @@ Use the `glimpse()` function to inspect the newly created `bilingual` dummy vari
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 # your code here
 
@@ -427,7 +427,7 @@ test_5()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 # your code here
 
@@ -452,7 +452,7 @@ With the help of the variable `agegrp`, use a graph to answer the following ques
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 # KEY
 #1 0 to 4 years
 #2 5 to 6 years
@@ -494,7 +494,7 @@ digest(answer_6)
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 # KEY
 #1 0 to 4 years
 #2 5 to 6 years
@@ -554,7 +554,7 @@ tendency that would fit each of the aforementioned variables. Example: "AAAA"
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 answer_7 <- "" #your answer here
 
@@ -565,7 +565,7 @@ test_7()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 answer_7 <- "ACAB" #your answer here
 

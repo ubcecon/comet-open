@@ -130,7 +130,7 @@ Let's see if you understand how to create new vectors!  In the block below:
 
 ```{r}
 #| eval: false
-#| tags: [question]
+#| classes: "question"
 
 my_vector <- c(...) # replace ... with the appropriate code
 
@@ -141,7 +141,7 @@ test_1()
 
 ```{r}
 #| eval: false
-#| tags: [answer]
+#| classes: "answer"
 
 my_vector <- c(10,11,12,13,14,15) # replace ... with the appropriate code
 

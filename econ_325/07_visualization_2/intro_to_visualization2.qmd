@@ -448,7 +448,6 @@ test_2()
 > **Source**: Boston Consulting Group
 
 ```{r}
-#| tags: []
 
 # filter our data for a subset of African and South American Countires
 casestudy2_data <- filter(pwt_data, year == 2014, country == "Ethiopia" | country == "South Africa" | country == "Kenya" | country == "Rwanda" | country == "Botswana" | country == "Nigeria" | country == "Mali" | country == "Peru" | country == "Brazil" | country == "Chile" | country == "Paraguay" | country == "Colombia" | country == "Argentina") %>%
