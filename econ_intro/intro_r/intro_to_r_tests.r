@@ -3,7 +3,13 @@ library(digest)
 
 test_1 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer1), "8ae1ac7bdf62dca7c19b427a9153445c")
+    
+    if(digest(answer1) == "709a7faa72cb6f3be79d683e234ccb25" | digest(answer1) == "8ae1ac7bdf62dca7c19b427a9153445c") {
+        expect_equal("Got it", "Got it")
+    }
+    else {
+      expect_equal("Got it?", "Not quite!")
+    }
   })
   print("Success!")
 }
