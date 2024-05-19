@@ -16,15 +16,14 @@ format:
 
 # Outline
 
-If you are reviewing the materials from ECON 325, or self-studying it, this is a good self-test to see if you understand all of the material.  After completing this course, you should be able to:
+If you are reviewing the materials from ECON 325, or self-studying it, this is a good self-test to see if you understand all of the material. After completing this course, you should be able to:
 
-* Read this notebook, and understand what the difference analyses are, and how they are being used
-* Critique the choices made, understanding their pros and cons
-* Understand what the R code is doing, and how it implements the analyses
-* Be able to describe how to adjust or change this to do other analysis or change the focus or assumptions made in the analysis so far
+-   Read this notebook, and understand what the difference analyses are, and how they are being used
+-   Critique the choices made, understanding their pros and cons
+-   Understand what the R code is doing, and how it implements the analyses
+-   Be able to describe how to adjust or change this to do other analysis or change the focus or assumptions made in the analysis so far
 
-You can also use this as a model of a project of your own, if you're interested in getting started with econometric analysis.
-
+If you're interested in getting started with econometric analysis, you may also use this as a model to guide your own project.
 
 # Education, Career and Inequality
 
@@ -43,13 +42,13 @@ library(vtable)
 
 ## Notes
 
-<span id="fn2">[<sup>1</sup>](#fn2s)Stargazer package is due to: Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
- R package version 5.2.3. https://CRAN.R-project.org/package=stargazer </span>
+[[<sup>1</sup>](#fn2s)Stargazer package is due to: Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://CRAN.R-project.org/package=stargazer ]{#fn2}
 
 # Introduction
+
 Getting a university degree can be tough. We may wonder whether higher education level can help us to achieve a more successful career. Besides, is education the only factor that impacts our career? In this project, we are going to answer these questions. Since one of the important proxies for a successful career is income, we are going to study the relationship between education, income, and wealth.
 
-Now, let's first import our data and clean our dataset. For this project, we will be using data from the 2019 Survey of Financial Security (SFS), provided by Statistics Canada (see the license notes). This is real Canadian data in 2019. The survey was conducted by household unit, so income and wealth variables represent total income and wealth from a family, and household characteristics are usually the characteristics of main earners in the household. The main earner is the person who has highest income in a family. In order to study career outcomes, we restrict our samples to be households whose major sources of incomes are wages, salaries and self-employment incomes.
+Now, let's first import our data and clean our dataset. For this project, we will be using data from the 2019 Survey of Financial Security (SFS), provided by Statistics Canada (see the license notes). The survey was conducted by household unit, so income and wealth variables represent total income and wealth from a family, and household characteristics are usually the characteristics of main earners in the household. The main earner is the person who has highest income in a family. In order to study career outcomes, we restrict our samples to be households whose major sources of incomes are wages, salaries and self-employment incomes.
 
 ```{r}
 # READING IN DATA
@@ -125,7 +124,16 @@ SFS_data$agegr <- factor(SFS_data$agegr,levels = c("20s", "30s", "40s", "50s", "
 ```
 
 # Summary Statistics
-Before we begin our exploration, let's first describe variables of interest. Variables incomes and wealth are of the family unit. The wealth variable represents net worth of the family unit. Mean of income before tax of a family in 2019 is about \$124,804.5. The standard deviation of income after tax is smaller than income before tax, which suggests tax and government transfers reduce income inequality in Canada. Net wealth of a family unit is approximately 9.5 times of the income after tax of a family. Unlike income after tax, standard deviation of wealth is large, thus dispersion of wealth is larger than income, which conforms with economic literature.
+
+Before we begin our exploration, let's first describe variables of interest.
+
+-   Variables incomes and wealth are of the family unit. The wealth variable represents net worth of the family unit.
+
+-   Mean of income before tax of a family in 2019 is about \$124,804.5.
+
+-   The standard deviation of income after tax is smaller than income before tax, which suggests tax and government transfers reduce income inequality in Canada.
+
+-   Net wealth of a family unit is approximately 9.5 times of the income after tax of a family. Unlike income after tax, standard deviation of wealth is large, thus dispersion of wealth is larger than income, which conforms with economic literature.
 
 ```{r}
 sumtable(SFS_data, 
@@ -153,7 +161,7 @@ age_plot
 edu_plot
 ```
 
-Now let's remove outliers to preclude effects of extreme values. We remove observations which lies in highest 2% and lowest 2% of incomes and wealth. Both incomes and wealth are right-skewed: they have long right tails.
+In order to preclude effects of extreme values, let's remove observations that lie in highest 2% and lowest 2% of incomes and wealth. We see that both incomes and wealth are right-skewed: they have long right tails.
 
 ```{r}
 # FINDS THE LOWER AND UPPER BOUND SPECIFIED 
@@ -187,9 +195,18 @@ wealth_plot
 ```
 
 # Education and Career
-Now let's study the relationship between education, income and wealth. First we create a function `CI` to calculate confidence interval. And then we store the mean of income and wealth by groups of education in table `results`. We use the `CI` function to calculate confidence intervals and combine results in table `df_gr`. We also display results in graphs.
 
-From table `df_gr`, we notice that incomes and wealth increase as education increases. Thus education does help us to achieve a more successful career. Meanwhile, standard deviations also increase as education increases. This implies income and wealth inequality increase as education increases. From a personal point of view, in order to have a successful career, obtaining a degree is just a starting point. Career development is also crucial for a successful career. From a policy perspective, policies that only target pre-labor market skill accumulation will be less effective. We will need policies that foster career progression to reduce inequality.
+Now let's study the relationship between education, income and wealth.
+
+1.  Create a function `CI` to calculate confidence interval.
+2.  Store the mean of income and wealth by groups of education in table `results`.
+3.  Use the `CI` function to calculate confidence intervals and combine results in table `df_gr`. We also display results in graphs.
+
+From table `df_gr`, we notice that incomes and wealth increase as education increases. Thus education does help us to achieve a more successful career.
+
+Meanwhile, standard deviations also increase as education increases. This implies income and wealth inequality increase as education increases.
+
+From a personal point of view, in order to have a successful career, obtaining a degree is just a starting point as career development is also crucial for a successful career. From a policy perspective, policies that only target pre-labor market skill accumulation will be less effective than policies that foster career progression in reducing inequality.
 
 ```{r}
 CI <- function(data) {
@@ -242,7 +259,7 @@ g1
 f1
 ```
 
-From table and graphs above, we know incomes and wealth of different education groups are different. But is the difference statistically significant? We use two sample t-test to verify the results. 
+From table and graphs above, we know incomes and wealth of different education groups are different. But is the difference statistically significant? We use two sample t-test to verify the results.
 
 The t-tests for income and wealth are significant. The results suggest people who obtain university degrees will have higher wages and wealth than people who own non-university post-secondary degrees.
 
@@ -272,9 +289,9 @@ t2
 round(t2$estimate[1] - t2$estimate[2],2) 
 ```
 
-Next, we study correlations between education, incomes and wealth. 
+Next, we study correlations between education, incomes and wealth.
 
-We first draw graphs to depict correlations between education, incomes, and wealth. From graphs below, we find that they have positive correlations. 
+We first draw graphs to depict correlations between education, incomes, and wealth. From graphs below, we find that they have positive correlations.
 
 ```{r}
 options(repr.plot.width=7,repr.plot.height=7)
@@ -297,7 +314,7 @@ edu_before_tax
 edu_wealth
 ```
 
-Let's find out how large the correlations are between variables. We first transform `education` to be a numeric variable which increases as education increases. 
+Let's find out how large the correlations are between variables. We first transform `education` to be a numeric variable which increases as education increases.
 
 From table below, we know the correlations of education and incomes, and education and wealth are 0.26 and 0.21 respectively. This conforms with our previous results that incomes and wealth increase as education increases. But since correlations are not very close to 1, that means education is not the only factor to a successful career.
 
@@ -308,9 +325,7 @@ mydata.cor = cor(cor_data)
 mydata.cor
 ```
 
-From the table and graphs above, we know there is positive correlations between education and incomes, as well as wealth. Are the correlations significantly different from 0? We will need hypothesis testing.
-
-We perform Pearson correlation tests, and results suggest that correlations are significantly different from 0.
+From the table and graphs above, we know there is positive correlations between education and incomes, as well as wealth. Are the correlations significantly different from 0? To test our hypothesis we can perform Pearson correlation tests. The results suggest that correlations are significantly different from 0.
 
 ```{r}
 # Pearson correlation test
@@ -318,7 +333,7 @@ cor.test(SFS_data$education, SFS_data$income_before_tax, use="complete.obs")
 cor.test(SFS_data$education, SFS_data$wealth, use="complete.obs") 
 ```
 
-So far, we know that incomes and wealth increase as education increases. But there is one question which is not clear yet: is there another factor A that affects education and income at the same time, so that the real "force" that drives up income is factor A, rather than education? In order to answer this question, we can run regressions. Let's first change `education` back to a factor variable. 
+So far, we know that incomes and wealth increase as education increases. But there is one question which is not clear yet: is there another factor A that affects education and income at the same time, so that the real "force" that drives up income is factor A, rather than education? In order to answer this question, we can run regressions. Let's first change `education` back to a factor variable.
 
 ```{r}
 SFS_data$education <- as.character(SFS_data$education)
@@ -338,9 +353,26 @@ stargazer(regression1, regression2, regression3, title="Comparison of Controls",
           align = TRUE, type="text", keep.stat = c("n","rsq"))
 ```
 
-The table above displays results of 3 regressions. Column (1) shows the regression with education and incomes. The average income of households whose education is less than high school is CAD 81239.44. Average income of family with high school degree is CAD 81239.44 + CAD 13550.36 = CAD 94789.8. Similarly, we can calculate the average incomes of households with non-university post-secondary degree and university degree. They are exactly the same as what we have seen in two sample t-tests. So the first column suggests incomes increase as education increases. The second column includes education and gender in the regression. Compared with male-lead family, a family that has female as the main earner has less incomes. But the coefficient of `education` is still positive, significant and monotonically increasing, which means after controlling effects of gender, incomes still increase as education increases. Similarly, in the last column, we control gender and age group. We can see that people tend to earn more as they move on to later stages of their career. But again, the positive and monotonically increasing coefficients of education show the positive correlation between education and incomes. Since after we include other factors that may affect incomes, the coefficients of education are still positive and stable, we have stronger evidence that incomes increase as education increases.
+The table above displays results of 3 regressions.
+
+Column (1) shows the regression with education and incomes.
+
+-   The average income of households whose education is less than high school is CAD 81239.44. Average income of family with high school degree is CAD 81239.44 + CAD 13550.36 = CAD 94789.8.
+-   Similarly, we can calculate the average incomes of households with non-university post-secondary degree and university degree (as seen in the two sample t-tests).
+-   So the first column suggests incomes increase as education increases.
+
+Column (2) includes education and gender in the regression.
+
+-   Compared with male-lead family, a family with a female primary earner has a lower income.
+-   However, the coefficient of `education` is still positive, significant and monotonically increasing, which means after controlling effects of gender, income still increases as education increases.
+
+Column (3) shows regression with gender and age group.
+
+-   We can see that people tend to earn more as they move on to later stages of their career.
+-   Once again, the positive and monotonically increasing coefficients of education show the positive correlation between education and incomes. Since after we include other factors that may affect incomes, the coefficients of education are still positive and stable, we have stronger evidence that income increase as education increases.
 
 # Going Further: Long-term Effect of Education
+
 From previous results, we find that incomes and wealth increase as education increases. The next interesting question is whether there is long-term effects of education on career outcomes. In order to study this question, we explore returns to education for different age groups. It will be great that if we can study this question via panel data, but since we do not observe the same person across time periods, we study returns to education from different age groups.
 
 We perform Welch two sample t-test for each age group. We study the difference between university degree holders and non-university post-secondary degree holders. We compare outcomes of age group 30s and 50s, which represents early stage and mature stage of career respectively.
@@ -406,15 +438,16 @@ round(retUF$estimate[2] - retUF$estimate[1],2)
 ```
 
 # Summary
-In this project, we study relationship between education and career. We use incomes and wealth as proxies for labor market outcomes. 
 
-We first describe income and wealth distribution in Canadian households, and we find that there are income inequality and wealth inequality in Canada. 
+In this project, we study relationship between education and career. We use incomes and wealth as proxies for labor market outcomes.
 
-Next, we study relationship between education and career outcomes via exploration of correlations, two sample t-test and regressions. Our results suggest that there are significant and positive correlation of education, incomes and wealth. We find that incomes and wealth increase as education increases. Thus education does help us to achieve a more successful career. Meanwhile, standard deviations of incomes and wealth also increase as education increases. This implies income and wealth inequality increase as education increases. 
+We first describe income and wealth distribution in Canadian households, and we find that there are income inequality and wealth inequality in Canada.
+
+Next, we study relationship between education and career outcomes via exploration of correlations, two sample t-test and regressions. Our results suggest that there are significant and positive correlation of education, incomes and wealth. We find that incomes and wealth increase as education increases. Thus education does help us to achieve a more successful career. Meanwhile, standard deviations of incomes and wealth also increase as education increases. This implies income and wealth inequality increase as education increases.
 
 Finally, we explore the long-term effects of education via studying return to education of different age groups. We find that income and wealth gaps increase dramatically for university degree holders and non-university degree counterparts when they enter later stage of career. This result implies that there is long-term effect of education on incomes and wealth.
 
-To sum up, from a personal point of view, in order to have a successful career, obtaining a degree is important. But at the same time, career development is also crucial because education is not the only contributor to incomes. From a policy perspective, we need policies that target pre-labor market skill accumulation, as well as policies that foster career progression to reduce inequality.
+To sum up, from a personal point of view, not only is obtaining a degree important in order to have a successful career, but career development is also crucial. From a policy perspective, we need policies that target pre-labor market skill accumulation, as well as policies that foster career progression to effectively reduce inequality.
 
 ## List of R Commands
 
@@ -579,7 +612,6 @@ To sum up, from a personal point of view, in order to have a successful career, 
 
 ## Quick Note on Commands
 
-It's important to remember that you may need to use these commands in ways that aren't specified above. For example, you may want to use the `t_test` function with a different confidence level, so you may set `conf.level = 0.99`. You may also have to add new parameters depending on what you are trying to accomplish. For example, to run a linear regression with a subset of the data, you would need to add a `subset` parameter to the `lm` function. To discover what each of the functions can do, check out the R documentation for the functions to get a detailed list of the different parameters and default values you can use for function. 
+It's important to remember that you may need to use these commands in ways that aren't specified above. For example, you may want to use the `t_test` function with a different confidence level, so you may set `conf.level = 0.99`. You may also have to add new parameters depending on what you are trying to accomplish. For example, to run a linear regression with a subset of the data, you would need to add a `subset` parameter to the `lm` function. To discover what each of the functions can do, check out the R documentation for the functions to get a detailed list of the different parameters and default values you can use for function.
 
 https://www.rdocumentation.org/
-
