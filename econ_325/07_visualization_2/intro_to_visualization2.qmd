@@ -18,29 +18,34 @@ format:
 
 ### Prerequisites
 
-* Introduction to Jupyter
-* Introduction to R
-* Introduction to Data Visualization 1
+-   Introduction to Jupyter
+-   Introduction to R
+-   Introduction to Data Visualization 1
 
 ### Outcomes
 
 By the end of this notebook, you will be able to:
-* Customize aesthetic labels on a graph to communicate the key message of a visualization
-* Use faceted graphs to visually represent complex data
-* Identify best practices for creating effective visualizations
-* Recognize ways in which visualizations can be used nefariously
+
+-   Customize aesthetic labels on a graph to communicate the key message of a visualization
+-   Use faceted graphs to visually represent complex data
+-   Identify best practices for creating effective visualizations
+-   Recognize ways in which visualizations can be used nefariously
 
 ### References
 
-* Deeb, Sameer. 2005. “The Molecular Basis of Variation in Human Color Vision.” _Clinical Genetics_ 67: 369–77. 
+-   Deeb, Sameer. 2005. "The Molecular Basis of Variation in Human Color Vision." *Clinical Genetics* 67: 369--77.
 
 # Introduction
-In the notebook "Introduction to Visualization 1," we learned about scatter, line and bar charts, as well as histograms. This notebook expands on the concepts introduced in Introduction to Data Visualization 1 and offers a more in depth and granular toolkit for creating visualizations. Because we're already familiar with the theoretical concepts of `ggplot2`, this notebook serves as more of a resource guide with practical case study examples than as a learning module.
 
-The concept of layers is fundamental to `ggplot2` - in this notebook we'll explore a few more layering customizations that can help make our visualizations look extra polished. We'll also see how our new tools perform in a few case study examples.
+This notebook expands on the concepts introduced in Introduction to Data Visualization 1 and explores ways to create more layering customizations that can help make our visualizations look extra polished.
+We'll also see how our new tools perform in a few case study examples.
+
+Because we're already familiar with the theoretical concepts of `ggplot2`, **this notebook serves as more of a** **resource guide with practical case study examples than as a learning module.**
 
 ## Loading the data
-In this notebook, we'll be working with the Penn World Tables data set again. Let's load it now.
+
+In this notebook, we'll be working with the Penn World Tables data set again.
+Let's load it now.
 
 ```{r}
 
@@ -78,29 +83,37 @@ tail(pwt_data,10)
 # Part 1: Adding Techniques to our Data Visualization Toolkit
 
 ## Adding and Adjusting Labels
+
 In notebook 1 we introduced the `labs()` function which allows us to specify the aesthetic outputs of different labels on our chart, such as the x and y axis titles, the legend title and main graph title.
 
 Here are a few best practices to keep in mind when crafting and adding labels to charts (pulled from [FusionCharts 2022](https://www.fusioncharts.com/resources/charting-best-practices/5-tips-for-writing-chart-captions)):
-* Graph title: should summarize the graph in short, understandable language that is as objective as possible - avoid using unnecessary words such as "the", "a", or "an", as well as adjectives like "amazing" or "poor" which can manipulate your reader's perception of the graphic.
-  * Example: _"Online Grocery Order Growth 2018 vs 2020"_ (a better title)  vs _"The Significant Growth in Online Grocery Orders in the years 2018 and 2020"_ (a worse title)
-* Graph subtitle: should be used to add helpful supplemental information that will help your audience understand the graph.
-  * Example: Units of measurement, time frames (if this is secondary information)
-* Axis Labels: units of measurement should always be made known! If the data is labeled inside the visualization, sometimes axis labels are not necessary - we should always ask ourselves: what does our audience need to know?
-  
-Here, we explore a few tips and tricks for customizing labels to suit the needs of our graph. 
+
+-   Graph title: should summarize the graph in short, understandable language that is as objective as possible - avoid using unnecessary words such as "the", "a", or "an", as well as adjectives like "amazing" or "poor" which can manipulate your reader's perception of the graphic.
+
+    -   Example: *"Online Grocery Order Growth 2018 vs 2020"* (a better title) vs *"The Significant Growth in Online Grocery Orders in the years 2018 and 2020"* (a worse title)
+
+-   Graph subtitle: should be used to add helpful supplemental information that will help your audience understand the graph.
+
+    -   Example: Units of measurement, time frames (if this is secondary information)
+
+-   Axis Labels: units of measurement should always be made known!
+    If the data is labeled inside the visualization, sometimes axis labels are not necessary - we should always ask ourselves: what does our audience need to know?
+
+Here, we explore a few tips and tricks for customizing labels to suit the needs of our graph.
 
 ## The `labs()` function
+
 As a refresher, a few `labs()` arguments we've already covered are:
 
-`x =` specifies x-axis title. \
-`y =` specifies y-axis title. \
-`color =` specifies meaning of color outline. \
-`fill =` specifies meaning of color fill. \
-`title =` specifies title of plot. 
+`x =` specifies x-axis title.\
+`y =` specifies y-axis title.\
+`color =` specifies meaning of color outline.\
+`fill =` specifies meaning of color fill.\
+`title =` specifies title of plot.
 
-> **NEW ARGUMENTS** \
->`subtitle =` specifies a subtitle for the graph (positioned below title). \
->`caption =` specifies a caption at the bottom of graph, which can be great for listing the source of our data. 
+> **NEW ARGUMENTS**\
+> `subtitle =` specifies a subtitle for the graph (positioned below title).\
+> `caption =` specifies a caption at the bottom of graph, which can be great for listing the source of our data.
 
 These arguments give us a basic infrastructure for a plot - we can demonstrate these features using a simple bar chart.
 
@@ -123,10 +136,12 @@ basic_plot <- ggplot(data = NA_data,
 basic_plot
 ```
 
-### Exercise 1 
-Fix the typo from the graph above (in the code below!) so that the two legends on the righthand side are merged into one.
+### Exercise 1
 
-> **Hint**: remember that arguments in the `ggplot()` contain aesthetic mappings, while arguments in the `labs()` function contain labels and other specifications that are set by us and not the data. What might be going on here that would create two legends on this graph?
+Fix the typo from the graph above (in the code below!) so that the two legends on the right hand side are merged into one.
+
+> **Hint**: remember that arguments in the `ggplot()` contain aesthetic mappings, while arguments in the `labs()` function contain labels and other specifications that are set by us and not the data.
+> What might be going on here that would create two legends on this graph?
 
 ```{r}
 
@@ -157,41 +172,45 @@ test_1()
 ```
 
 ## The `theme()` function
-We also learned about the `theme()` function, which allows us to modify components of a theme such as text. \
+
+We also learned about the `theme()` function, which allows us to modify components of a theme such as text.\
 As a refresher, one `theme()` argument we've already covered is:
 
-`text = element_text()`  specifies text attributes that broadly apply to all text components in a graph
-* Example: title, labels, caption, etc.
+`text = element_text()` specifies text attributes that broadly apply to all text components in a graph
 
->**NEW ARGUMENTS** \
->`plot.title = element_text()` allows specifications for the title text. \
->`plot.subtitle.title = element_text()` allows specifications for the subtitle text. \
->`plot.caption = element_text()` allows specifications for the caption text. \
->`axis.text.x = element_text()` allows specifications for x axis text \
->`axis.text.y = element_text()` allows specifications for y axis text. \
->`legend.position =` allows specifications for legend position.
- >* example, `"top"`, `"bottom"` or as a vector: `c(x-coordinate, y-coordinate)`
+-   Example: title, labels, caption, etc.
 
-When considering text size, we always want to ensure that our text is readable to an audience with a range of seeing abilities - we might ask ourselves: _could a grandparent or older person I know read this at first glance?_ 
+> **NEW ARGUMENTS**\
+> `plot.title = element_text()` allows specifications for the title text.\
+> `plot.subtitle.title = element_text()` allows specifications for the subtitle text.\
+> `plot.caption = element_text()` allows specifications for the caption text.\
+> `axis.text.x = element_text()` allows specifications for x axis text\
+> `axis.text.y = element_text()` allows specifications for y axis text.\
+> `legend.position =` allows specifications for legend position.
+> \* example, `"top"`, `"bottom"` or as a vector: `c(x-coordinate, y-coordinate)`
 
-As we'll explore below, adjusting label size and boldness, for example, can help us emphasize important information about a graph that we'd like our audience to focus on. In effect, this means leveraging the power of the size and thickness of text to encode visual cues that signal a hierarchy of importance. You can check out an extensive list of `theme()` arguments in [this documentation resource created by R Studio](https://ggplot2.tidyverse.org/reference/theme.html).
+-   Always ensure that the text is readable to an audience with a range of seeing abilities.
+
+-   Adjusting label size and boldness can help us emphasize important information about a graph that we'd like our audience to focus on.
+    Check out more `theme()` arguments in [this documentation resource created by R Studio](https://ggplot2.tidyverse.org/reference/theme.html).
 
 ## The `element_text()` function
+
 There are also a quite a few things we can specify using the `element_text()` function:
 
 `size =` specifies x-axis title (default in R is set at size 11)
 
->**NEW ARGUMENTS** \
->`hjust =` specifies the position of the plot titles (default is left).
->* `0.5`: centre, `1`: right, `0`: left 
+> **NEW ARGUMENTS**\
+> `hjust =` specifies the position of the plot titles (default is left).
+> \* `0.5`: centre, `1`: right, `0`: left
 >
->`color =` specifies the text color. \
->`face =` specifies typographical emphasis.
->* example: `"bold"`, `"italic"`, `"bold.italic"` 
+> `color =` specifies the text color.\
+> `face =` specifies typographical emphasis.
+> \* example: `"bold"`, `"italic"`, `"bold.italic"`
 >
->`angle =` specifies angular rotation of text. \
->`vjust =` specifies the vertical adjustment. 
->* example: higher number is up, lower number is down from the graph (default is 0)
+> `angle =` specifies angular rotation of text.\
+> `vjust =` specifies the vertical adjustment.
+> \* example: higher number is up, lower number is down from the graph (default is 0)
 
 Let's use some of these new functions and arguments to improve our earlier visualization!
 
@@ -224,11 +243,21 @@ intermediate_plot
 ## Formatting Graphs
 
 ## Scales
-At times, we may wish to visualize only a subsection of our data. To do this, we can use the following commands which manipulate the scale of our graphs: 
-* `xlim()` specifies scale adjustments on the x-axis.
-* `ylim()` specifies scale adjustments on the y-axis.
 
-Both of these functions take two arguments - one lower bound limit and one upper bound limit, like this: `xlim(lowerbound,upperbound)` . We can use the `xlim()` and `ylim()` functions to examine subsections of our axis variables. In the GDP per capita over time plot that we've been working with, use `xlim()` to view a subsection of data from 2000-2019 below. This will make the power of changing the scale of our graph much more obvious.
+To visualize only a subsection of our data we can use the following commands which manipulate the scale of our graphs:
+
+-   `xlim()` specifies scale adjustments on the x-axis.
+
+-   `ylim()` specifies scale adjustments on the y-axis.
+
+Both of these functions take two arguments - one lower bound limit and one upper bound limit:
+
+-   `xlim(lowerbound,upperbound)` .
+
+-   We can use the `xlim()` and `ylim()` functions to examine subsections of our axis variables.
+
+-   In the GDP per capita over time plot that we've been working with, use `xlim()` to view a subsection of data from 2000-2019 below.
+    This will make the power of changing the scale of our graph much more obvious.
 
 **Note**: scaling can occur on any quantitative attribute, that is, we can scale variables other than year.
 
@@ -260,29 +289,38 @@ scaled_plot <- ggplot(data = NA_data,
 scaled_plot
 ```
 
-_What do you notice about this graph? How do the oscillations (ups and downs) appear different when zoomed in here versus in the large view in the other visualization?_ 
+*What do you notice about this graph? How do the oscillations (ups and downs) appear different when zoomed in here versus in the large view in the other visualization?*
 
-::: {.callout-note}
+::: callout-note
+## 🔎 **Let's think critically**
 
-## 🔎 **Let's think critically** 
-> 🟠 What are some good reasons why we might want to adjust the scale limits of our axis? \
-> 🟠 Is there a subsection of data that would be of interest? Why? \
-> 🟠 Are we trying to make our oscillations seem less volatile (as seen above) to prove a point? What point? \
-> 🟠 Are our scale choices helping our audience gain an understanding of the data that is as objective and accurate as possible? 
-
+> 🟠 What are some good reasons why we might want to adjust the scale limits of our axis?\
+> 🟠 Is there a subsection of data that would be of interest?
+> Why?\
+> 🟠 Are we trying to make our oscillations seem less volatile (as seen above) to prove a point?
+> What point?\
+> 🟠 Are our scale choices helping our audience gain an understanding of the data that is as objective and accurate as possible?
 :::
 
-The points above are all important to consider in any data visualization project. This is because scaling in particular can communicate a variety of different messages depending on how it is used. This example provides just one demonstration of this idea.
+Scaling is important because it can communicate a variety of different messages depending on how it is used.
 
 ## Faceting
-So far, we've only been creating one plot at a time; we may, however, be interested in piecing together a visualization that takes on a more dashboard-like effect to display multiple plots in a grid simultaneously. A function we can use to achieve this is `facet_grid()`. To _facet_ something simply means to split - in data visualization, faceting helps us arrange graphs into multiple views or layers which can help us explore multidimensionality and visualize complexity in a dataset. 
 
->**NEW ARGUMENTS** \
->`facet_grid(rows = vars(variable))` creates a grid of plots using a variable or variables split into rows (horizontal split) or columns (vertical split). The `vars()` function allows our variable(s) of choice to be correctly evaluated in the context of the data frame. \
-> `geom_hline()` creates a _horizontal_ line across our plot(s) at a y value of our choosing. \
-> `geom_vline()` creates a _vertical_ line across our plot(s) at an x value of our choosing.
+Let's say instead of creating one plot at a time, we're interested in piecing together a visualization that takes on a more dashboard-like effect to display multiple plots in a grid simultaneously.
 
-Both `geom_hline()` and `geom_vline()` can be used on single plots and subplots to emphasize particular thresholds, values or time periods. In the graph below, we'll add a horizontal line to our faceted plot to help us see when the GDP from each G7 country rose above 40,000.
+-   A function we can use to achieve this is `facet_grid()`.
+    To *facet* something simply means to split
+
+-   Faceting allows us to arrange graphs into multiple views or layers which can help us explore multidimensionality and visualize complexity in a dataset.
+
+> **NEW ARGUMENTS**\
+> `facet_grid(rows = vars(variable))` creates a grid of plots using a variable or variables split into rows (horizontal split) or columns (vertical split).
+> The `vars()` function allows our variable(s) of choice to be correctly evaluated in the context of the data frame.\
+> `geom_hline()` creates a *horizontal* line across our plot(s) at a y value of our choosing.\
+> `geom_vline()` creates a *vertical* line across our plot(s) at an x value of our choosing.
+
+Both `geom_hline()` and `geom_vline()` can be used on single plots and subplots to emphasize particular thresholds, values or time periods.
+In the graph below, we'll add a horizontal line to our faceted plot to help us see when the GDP from each G7 country rose above 40,000.
 
 ```{r}
 
@@ -317,7 +355,8 @@ facet_plot <- ggplot(data = g7_data,
 facet_plot
 ```
 
-Faceting allows us to arrange charts to make comparisons while leveraging the power of white space to handle visual complexity. Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded and create challenges in observing the nuances between countries.
+Faceting allows us to arrange charts to make comparisons clearly.
+Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded difficult to observe the nuances between countries.
 
 ```{r}
 
@@ -349,24 +388,33 @@ line_plot
 We can see that this graph above, while it is quite consolidated, does not present the specific patterns of each country as clearly as does our faceted graph immediately before it.
 
 ## Confidence Bands
-When creating visualizations which use a predictive element like a regression line, we can summon graph features that visualize how accurate our model is at predicting a variable (or variables) with 95% confidence. By using this feature, we can visualize prediction error and invite our viewer to understand and take into account the possible error that our visualization holds.
 
->**NEW ARGUMENTS** \
->`geom_smooth()` creates a trendline that aids the eye in spotting patterns in the data. \
+When creating visualizations that use a predictive element like a regression line, we can summon graph features that visualize how accurate our model is at predicting a variable(s) with 95% confidence.
+
+> **NEW ARGUMENTS**\
+> `geom_smooth()` creates a trendline that aids the eye in spotting patterns in the data.\
 > Arguments within this function include:
-> * `method =` specifies the type of smoothing we want to use - in this notebook, we'll use linear regression using the `lm` function.
-> * `se =` uses a logical argument to specify the presence of a standard error/confidence band (default is `TRUE`).
-> * `colour =` specifies the colour of the trendline.
-> * `fill =` specifies the colour of the confidence band. 
+>
+> -    `method =` specifies the type of smoothing we want to use - in this notebook, we'll use linear regression using the `lm` function.
+>
+> -    `se =` uses a logical argument to specify the presence of a standard error/confidence band (default is `TRUE`).
+>
+> -   `colour =` specifies the colour of the trendline.
+>
+> -    `fill =` specifies the colour of the confidence band.
 
 ## Design
-Before we move into some case studies, we'll examine a few more design tips and tricks that we can add to our visualization toolkit to make our visualizations look extra polished from an aesthetic standpoint! ✨
+
+Before we move into some case studies, we'll examine a few more design tips and tricks that we can add to our visualization toolkit to make our visualizations look extra polished ✨
 
 ## Shapes
-When working with scatterplots, we can change the shape of the data points using the `pch =` argument. Changing the shape of data points should be done when the icon of choice can provide a useful visual code that supports the audience's understanding of the graph.
-* For example, in the image below, option 2 (the upwards triangle icon) might be useful to visualize growth or movement upwards, whereas option 6 (the downwards triangle icon) might be useful to visualize decline or movement downwards
 
-The shape options are listed in the chart below - the default, as we've seen before, is 19, a simple circle. Note that numbers 21-25 are shapes that have both fill and outline colour options which can be helpful if we are trying to make our data points stand out better. This is particularly useful if we are working with a large data set. 
+-   `pch =` Allows us to change the shape of the data points using the argument on scatter plot to distinguish sets of data.
+    -   E.g., Option 2 (the upwards triangle icon) could indicate growth or movement upwards, whereas option 6 (the downwards triangle icon) could indicate decline or movement downwards.
+
+The shape options are listed in the chart below - the default, as we've seen before, is 19, a simple circle.
+Note that numbers 21-25 are shapes that have both fill and outline colour options which can be helpful if we are trying to make our data points stand out better.
+This is particularly useful if we are working with a large data set.
 
 ![Geom point shape options](media/pch_options.png)
 
@@ -398,26 +446,32 @@ intermediate_scatterplot
 ```
 
 ## Colour
-In our last notebook, we introduced the `RColorBrewer` theme options in which colour themes could be specified using character strings that include text like `"blue"` or `"Set3"`. Colours can also be set using hexadecimal colour codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
-> ex. "#FF0000" (red), "#FF6347" (orange), "#FFD700" (yellow) 
 
-When encoding colours into a visualization, choose diverse colours when making comparisons, and where appropriate, use colour hue (i.e. the lightness or darkness of a colour) when demonstrating concentration or other quantitative measures. Be sure to not pick too many colours (no more than a dozen is recommended) that may distract your audience from the main message of the visualization. Also be sure not to choose colours which can signal a helpful semantic (semantics is a domain of philosophy concerned with _meaning_) association; for example, in the West, green might be used to indicate growth, while red might be used to indicate loss or warning. Colour semantics vary from place to place and culture to culture.
+In our last notebook, we introduced the `RColorBrewer` theme options and specifications such as `"blue"` or `"Set3"`.
+Colours can also be set using hexadecimal colour codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
+\> ex.
+"#FF0000" (red), "#FF6347" (orange), "#FFD700" (yellow)
 
-You may have noticed that the default background colour for visualization in R is a pale grey colour. This is fine for quick visualizations, but there may be cases where we would like our visualization to have a more intentional aesthetic. Using a white background, for example, can make a visualization look a bit cleaner and allow colours to stand out better.
+Key points to remember:
 
-To change our background colour, we can add layers to our ggplot visualizations using the following functions which invoke pre-designed themes from the `ggthemes()` package we imported at the beginning of our notebook:
->`theme_bw()` white background, grey gridlines, black graph border \
->`theme_minimal()` white background, grey gridlines, no graph border \
->`theme_classic()` white background, no gridlines, no graph border \
->`theme_economist()`: a theme based on the plots in the [The Economist magazine](https://www.economist.com/) \
-> `theme_hc()`: a theme based on [Highcharts JS](https://www.highcharts.com/) \
->`theme_wsj()`: a theme based on the plots in the [The Wall Street Journal](https://www.wsj.com/)
+-   Choose diverse colours when making comparisons
+-   Use colour hue (i.e. the lightness or darkness of a colour) when demonstrating concentration or other quantitative measures.
+-   Too many colours may distract your audience from the main message of the visualization (\<10 is recommended).
+-   Be aware of colour semantics which can vary depending on culture. For example, in the West, green might be used to indicate growth, while red might be used to indicate loss or warning.
+-   While the default background colour for visualization in R is a pale grey colour though a white background can make a visualization look a bit cleaner and allow colours to stand out better.
+
+To change our background colour, we can add layers to our ggplot visualizations using the following functions which invoke pre-designed themes from the `ggthemes()` package we imported at the beginning of our notebook: \>`theme_bw()` white background, grey gridlines, black graph border\
+\>`theme_minimal()` white background, grey gridlines, no graph border\
+\>`theme_classic()` white background, no gridlines, no graph border\
+\>`theme_economist()`: a theme based on the plots in the [The Economist magazine](https://www.economist.com/)\
+\> `theme_hc()`: a theme based on [Highcharts JS](https://www.highcharts.com/)\
+\>`theme_wsj()`: a theme based on the plots in the [The Wall Street Journal](https://www.wsj.com/)
 
 You can read more about [ggthemes](https://mran.microsoft.com/snapshot/2016-12-28/web/packages/ggthemes/vignettes/ggthemes.html) here.
 
-When working with colours, it's important use colours that are "understandable by those with colorblindness (a surprisingly large fraction of the overall population — from about 1% to 10%, depending on sex and ancestry (Deeb 2005)) ([Timbers, T., Campbell, T., Lee, M. 2022](https://datasciencebook.ca/viz.html)).
+When working with colours, it's important use colours that accommodate those who are colourblind.
 
-We can view a list of colorblind friendly palettes using the following command:
+We can view a list of colourblind friendly palettes using the following command:
 
 ```{r}
 
@@ -428,10 +482,12 @@ Alternatively, once we have completed and exported a visualization, we can run i
 
 # Part 2: Case Studies
 
-Let's now apply what we've learned with a few case studies. In them, we will try to recreate a few different types of graphs with our PWT dataset!
+Let's now apply what we've learned with a few case studies.
+In them, we will try to recreate a few different types of graphs with our PWT dataset!
 
 ## Case Study 1: Labeled Scatterplots
-Let's see if we can use our tools to recreate a graph similar to the one below using our PWT data set. 
+
+Let's see if we can use our tools to recreate a graph similar to the one below using our PWT data set.
 
 What type of plot will we want to specify using the `geom_X` command?
 
@@ -475,6 +531,7 @@ labeled_scatter
 ```
 
 ## Case Study 2: Confidence Bands
+
 Now, let's see if we can make our own visualization that uses a confidence band!
 
 ![2010 Line Graph with Probabilistic Population Projects for China](media/un_population_graphs.png)
@@ -504,7 +561,11 @@ confidence_plot
 ```
 
 ## Exercise 2
-Use the `pwt_data` dataframe to create a graph which looks similar to the one below. Store your object in answer_3. (**Hint**: all relevant styling options are identical to those used in the Real GDP per capita comparison across G7 countries we worked through earlier, except `options()`, which specifies a plot width and height of 10 each).
+
+Use the `pwt_data` dataframe to create a graph which looks similar to the one below.
+Store your object in answer_3.
+
+(**Hint**: all relevant styling options are identical to those used in the Real GDP per capita comparison across G7 countries we worked through earlier, except `options()`, which specifies a plot width and height of 10 each).
 
 ![Answer3](media/answer3.PNG)
 
@@ -517,5 +578,5 @@ answer_3 <-
 test_3()
 ```
 
-We've covered a lot of content in this notebook. For further reading or exploration, we recommend visiting the hyperlinks attached throughout this module, as all of them are valuable resources for deepening your understanding of visualization in R!
-
+We've covered a lot of content in this notebook.
+For further reading or exploration, we recommend visiting the hyperlinks attached throughout this module, as all of them are valuable resources for deepening your understanding of visualization in R!
