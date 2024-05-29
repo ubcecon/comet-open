@@ -1,0 +1,274 @@
+---
+title: "3.2 - Advanced - Instrumental Variables"
+categories: [advanced, R, instrumental variable, 2SLS, two-stage least-squares regression, regression]
+jupyter:
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+---
+
+
+
+## Prerequisites
+- Introduction to Jupyter
+- Introduction to R
+- Linear regression
+
+## Learning Outcomes
+After completing this notebook, you will be able to:
+
+- Refresh the concept of linear regression model and learn the concept related to IV models such as: instrumental variables, Two-stage least-squares regression (2SLS).
+- Understand the IV models and apply it in the context of undergraduate research using R.  
+
+## An Introduction to Instrumental Variables 
+Instrumental variables (IVs) are used to control for confounding and measurement error in observational studies. They allow for the possibility of making causal inferences with observational data. Like propensity scores, IVs can adjust for both observed and unobserved confounding effects. 
+
+Consider the linear regression model:  
+$$
+Y_i = b_0 + b_1 \cdot X_{1i} + b_2 \cdot X_{2i} + \ldots + b_k \cdot X_{ki} + \epsilon_i
+$$
+
+Where:
+- $Y_i$ is the outcome for the $i$th individual; 
+- $X_{mi}$ is the $m$th explanatory variable ($m = 1, \ldots, k$) for the $i$th individual; 
+- $b_m$ is the parameter associated with the $m$th explanatory variable; $ \epsilon_i $ is the random error term for the $i$th individual.
+
+Let $Z$ denote a randomization assignment indicator variable in this regression model, such that $Z = 1$ when a treatment is received and $Z = 0$ when the control or placebo is received, and let $X_1$ be the treatment. $Z$ is referred to as the instrumental variable because it satisfies **following conditions**: 
+
+- $Z$ has a causal effect on $X$.
+-  $Z$ affects the outcome variable $Y$ only through $X$ ($Z$ does not have a direct influence on $Y$ which is referred to as the exclusion restriction).
+- There is no confounding for the effect of $Z$ on $Y$. 
+
+
+To help understand the conditions of the instrumental variable, we need to know that there are two main criteria for defining an instrumental variable: 
+1.  It causes variation in the treatment variable;  
+2.  It does not have a direct effect on the outcome variable, only indirectly through the treatment variable.
+   
+![(Toyama, 2019)](attachment:6e081050-55dc-4783-866c-82011063ef7a.png)
+
+## Two-stage least-squares regression (2SLS)
+
+**Two-stage least-squares regression (2SLS)** is very useful in the instrumental variables analysis. Then some of you might ask: Why don't we use Standard linear regression models? We know that standard linear regression models assume that errors in the dependent variable are uncorrelated with the independent variable(s). When this is not the case (for example, when relationships between variables are bidirectional), linear regression using ordinary least squares (OLS) no longer provides optimal model estimates. 
+
+Two-stage least-squares regression uses instrumental variables that are uncorrelated with the error terms to compute estimated values of the problematic predictor(s) (the first stage), and then uses those computed values to estimate a linear regression model of the dependent variable (the second stage). Since the computed values are based on variables that are uncorrelated with the errors, the results of the two-stage model are optimal.
+
+Here is an example of a Two-stage least-squares regression in the instrumental variables analysis:
+
+
+## Example 1:  Demand For Cigarettes
+First, let's see and example with one regressor.
+
+The relation between the demand for and the price of commodities is a simple yet widespread problem in economics. Health economics is concerned with the study of how the health-affecting behavior of individuals is influenced by the health-care system and regulation policy. Probably the most prominent example in public policy debates is smoking as it is related to many illnesses and negative externalities.
+
+It is plausible that cigarette consumption can be reduced by taxing cigarettes more heavily. The question is by how much taxes must be increased to reach a certain reduction in cigarette consumption. Economists use elasticities to answer this kind of question. Since the price elasticity for the demand for cigarettes is unknown, it must be estimated. 
+
+It helps to first look at a numerical example with some real-world data. We will use the data set `CigarettesSW` which comes with the package `AER`. `AER` is a comprehensive package for applied econometrics, covering various methods, including instrumental variable estimation. `CigarettesSW` is a panel data set that contains observations on cigarette consumption and several economic indicators for all 48 continental federal states of the U.S. from 1985 to 1995. In this example, we will consider data for the cross-section of states in 1995 only. 
+
+Run the code cell below to download the AER package, attach the data set and get an overview of the data set.
+
+```{r}
+# Install the package
+#install.packages("AER")
+
+# Load the package
+library("AER")
+```
+
+```{r}
+# load the data set and get an overview
+library(AER)
+data("CigarettesSW")
+summary(CigarettesSW)
+```
+
+```{r}
+#uncomment the cell below to get a detailed description of the variables
+# ?CigarettesSW 
+```
+
+### Choosing IV
+
+We are interested in estimating $β₁$ in 
+
+$$
+\log(Q_i{^\text{cigarettes}}) = \beta_0 + \beta_1 \log(P_i{^\text{cigarettes}}) + u_i, 
+$$
+
+where $Q_i{^\text{cigarettes}}$ is the number of cigarette packs per capita sold and $P_i{^\text{cigarettes}}$ is the after-tax average real price per pack of cigarettes in state $i$.
+
+The instrumental variable we are going to use for instrumenting the endogenous regressor $\log(P_i{^\text{cigarettes}})$ is `SalesTax`, the portion of taxes on cigarettes arising from the general sales tax. `SalesTax` is measured in dollars per pack. 
+
+Why it is plausible to select `SalesTax` as an instrumental variable? The idea is that `SalesTax` is a relevant instrument as it is included in the after-tax average price per pack. Also, `SalesTax` is exogenous since the sales tax does not influence the quantity sold directly but indirectly through the price. 
+
+```{r}
+# compute real per capita prices
+CigarettesSW$rprice <- with(CigarettesSW, price / cpi)
+
+#  compute the sales tax
+CigarettesSW$salestax <- with(CigarettesSW, (taxs - tax) / cpi)
+
+# check the correlation between sales tax and price
+cor(CigarettesSW$salestax, CigarettesSW$price)
+#> [1] 0.6141228
+
+# generate a subset for the year 1995
+c1995 <- subset(CigarettesSW, year == "1995")
+```
+
+We perform some transformations to obtain deflated cross-section data for the year 1995 in the cell above. We also compute the sample correlation between the sales tax and price per pack. The sample correlation is a consistent estimator of the population correlation. The estimate of approximately 0.614 indicates that `SalesTax` and $P_i{^\text{cigarettes}}$ exhibit a positive correlation which meets our expectations: higher sales taxes lead to higher prices.
+
+### The first stage regression
+Now, we perform the first stage regression. The first stage regression is $$\log(P_i{^\text{cigarettes}})= π_0 + π_1SalesTax_i + ν_i.$$ We estimate this model in R using `lm()`. 
+
+```{r}
+# perform the first stage regression
+cig_s1 <- lm(log(rprice) ~ salestax, data = c1995)
+
+coeftest(cig_s1, vcov = vcovHC, type = "HC1")
+```
+
+Thus, the first stage regression result is: $$\widehat{\log(P_{i}^{\text{cigarettes}})}= 4.62 + 0.031 SalesTax_i,$$ which predicts the relation between sales tax price per cigarette to be positive. How much of the observed variation in $\log(P_i{^\text{cigarettes}})$ is explained by the instrument `SalesTax`? This can be answered by looking at the regression’s **$R^2$**, the goodness-of-fit measure for linear regression models. It indicates the percentage of the variance in the dependent variable that the independent variables explain collectively. 
+
+```{r}
+# inspect the R^2 of the first stage regression
+summary(cig_s1)$r.squared
+```
+
+The result shows that about 47\% of the variation in after-tax prices is explained by the variation of the sales tax across states.
+
+Next we store $\widehat{\log(P_{i}^{\text{cigarettes}})}$, the fitted values obtained by the first stage regression `cig_s1,` in the variable `lcigp_pred`.
+
+```{r}
+# store the predicted values
+lcigp_pred <- cig_s1$fitted.values
+```
+
+### The second stage regression
+
+In the second stage, we run a regression of $\log(Q_i{^\text{cigarettes}})$ on $\widehat{\log(P_{i}^{\text{cigarettes}})}$ to obtain $\hat{β_0}$ and $\hat{β_1}$:
+
+$$
+\log(Q_i{^\text{cigarettes}}) = \beta_0 + \beta_1 \widehat{\log(P_{i}^{\text{cigarettes}})}+ u_i.
+$$
+
+```{r}
+# run the stage 2 regression
+cig_s2 <- lm(log(c1995$packs) ~ lcigp_pred)
+coeftest(cig_s2, vcov = vcovHC)
+```
+
+Thus, the second stage regression result is:
+$$
+\widehat{\log(Q_i{^\text{cigarettes}})} = 9.72 + 1.08\log(P_{i}^{\text{cigarettes}}).
+$$
+
+Here we write $\log(P_{i}^{\text{cigarettes}})$ instead of $\widehat{\log(P_{i}^{\text{cigarettes}})}$ for consistency.
+
+### Carrying TSLS using `ivreg()`
+The function `ivreg()` from the package `AER` carries out TSLS procedure automatically. It is used similarly as `lm()`. Instruments can be added to the usual specification of the regression formula using a vertical bar separating the model equation from the instruments. 
+
+```{r}
+# perform TSLS using 'ivreg()'
+cig_ivreg <- ivreg(log(packs) ~ log(rprice) | salestax, data = c1995)
+
+coeftest(cig_ivreg, vcov = vcovHC, type = "HC1")
+```
+
+We can see that it gives the same result for both approaches.
+
+### Notes on TSLS estimate result
+
+The TSLS estimate for $β_1$ suggests that an increase in cigarette prices by one percent reduces cigarette consumption by roughly 1.08 percentage points, which is fairly elastic. However, we should keep in mind that this estimate might not be trustworthy even though we used IV estimation: there still might be a bias due to omitted variables. Thus a multiple IV regression approach is needed.
+
+## Example 2:  Demand For Cigarettes continued
+
+In the previous example. we choose price of the cigarettes as the regressor. However, there are other economic factors, such as state income, which also impact the demand for cigarettes and correlate with the sales tax. This is not surprising to us: States with high personal income tend to generate tax revenues by income taxes and less by sales taxes. Now, we fit the model again by adding state income in the regression model. 
+
+$$
+\log(Q_i{^\text{cigarettes}}) = \beta_0 + \beta_1 \log(P_i{^\text{cigarettes}}) + \beta_2 \log(income_i) + u_i, 
+$$
+
+
+First we define `income`   as real per capita income `rincome` and append it to the data set `CigarettesSW`.
+
+```{r}
+# add rincome to the dataset
+CigarettesSW$rincome <- with(CigarettesSW, income / population / cpi)
+
+c1995 <- subset(CigarettesSW, year == "1995")
+# estimate the model
+cig_ivreg2 <- ivreg(log(packs) ~ log(rprice) + log(rincome) | log(rincome) + 
+                    salestax, data = c1995)
+
+coeftest(cig_ivreg2, vcov = vcovHC, type = "HC1")
+```
+
+Following the book we add the cigarette-specific taxes `cigtax_i` as a further instrumental variable and estimate again using TSLS.
+
+```{r}
+# add cigtax to the data set
+CigarettesSW$cigtax <- with(CigarettesSW, tax/cpi)
+
+c1995 <- subset(CigarettesSW, year == "1995")
+
+# estimate the model
+cig_ivreg3 <- ivreg(log(packs) ~ log(rprice) + log(rincome) | 
+                    log(rincome) + salestax + cigtax, data = c1995)
+
+coeftest(cig_ivreg3, vcov = vcovHC, type = "HC1")
+```
+
+## Exercise
+### Exercise  1: College Distance 
+There are many studies in labor economics which deal with the issue of estimating human capital earnings functions which state how wage income is determined by education and working experience. A prominent example is Card (1993) who investigates the economic return to schooling and uses college proximity as an instrumental variable.
+
+The exercises in this chapter deal with the dataset CollegeDistance which is similar to the data used by Card (1993). It stems from a survey of high school graduates with variables coded for wages, education, average tuition and a number of socio-economic measures. The data set also includes the distance from a college while the survey participants were in high school. `CollegeDistance` comes with the `AER package`.
+
+Hint:
+
+Attach the AER package and load the CollegeDistance data.
+
+Get an overview over the data set.
+
+The variable distance (the distance to the closest 4-year college in 10 miles) will serve as an instrument in later exercises. Use a histogram to visualize the distribution of distance.
+
+```{r}
+# attach the package `AER`
+
+# load the `CollegeDistance` data set
+
+# get an overview over the data set
+
+# generate a histogram of `distance`
+```
+
+### Exercise 2: The Selection Problem
+Regressing `wage` on `education` and control variables to estimate the human capital earnings function is problematic because education is not randomly assigned across the surveyed: individuals make their own education choices and so measured differences in earnings between individuals with different levels of education depend on how these choices are made. In the literature this is referred to as a selection problem. This selection problem implies that `education` is endogenous so the OLS estimate will be biased and we cannot make valid inference regarding the true coefficient.
+
+In this exercise you are asked to estimate two regressions which both do not yield trustworthy estimates of the coefficient on education due to the issue sketched above. Later you will compare the results to those obtained using the instrumental variables approach applied by Card (1993).
+
+Instructions:
+
+Regress the logarithm of `wage` on `education`:
+
+$$
+\log(wage_i) = \beta_0 + \beta_1 education_i + u_i, 
+$$
+
+
+ 
+Save the result to `wage_mod_1`.
+
+Augment the model by including the regressors `unemp`, `ethnicity`, `gender` and `urban`. Save the result to `wage_mod_2`
+
+Obtain summaries on the estimated coefficients in both models.
+
+```{r}
+# regress the log `wage` on `education` and save the result to `wage_mod_1`
+
+# regress the log of `wage` on `education` and controls and save the result to `wage_mod_2`
+
+# obtain robust coefficient summaries on both models
+```
+
