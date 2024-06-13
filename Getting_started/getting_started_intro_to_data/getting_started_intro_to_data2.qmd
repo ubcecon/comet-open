@@ -1,5 +1,5 @@
 ---
-title: "03.2 - Introduction to Data in R - Part 2"
+title: "0.3.2 - Introduction to Data in R - Part 2"
 author: COMET Team <br> _Colby Grimes, Colby Chamber, Jonathan Graves, Manas Mridul, Valeria Zolla_
 date: 9 July 2023
 description: An introduction to analyzing data using tidyverse and dplyr in R including workflows for loading, merging, cleaning and visualizing data. 
@@ -60,7 +60,7 @@ library(tidyr)
 library(stringr)
 
 #Loading the CSV file using the URL 
-file_path <- "WB_Data/WDI_raw.csv"
+file_path <- "datasets/WDI_raw.csv"
 wdi <- read_csv(file_path) %>%
   rename(Series_Code = "Series Code", Series_Name = "Series Name",
          Country = "Country Name", Country_Code = "Country Code")

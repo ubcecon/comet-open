@@ -1,5 +1,3 @@
-print("You did it! Way to go!")
-
 library(testthat)
 library(digest)
 
@@ -29,7 +27,7 @@ test_3 <- function() {
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_4), "127a2ec00989b9f7faf671ed470be7f8")
+    expect_equal(digest(answer_4), "75f1160e72554f4270c809f041c7a776")
   })
   print("Success!")
 }

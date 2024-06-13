@@ -1,5 +1,5 @@
 ---
-title: "03.1 - Introduction to Data in R - Part 1"
+title: "0.3.1 - Introduction to Data in R - Part 1"
 author: COMET Team <br> _Manas Mridul, Valeria Zolla, Colby Chamber, Colin Grimes, Jonathan Graves_
 date: 12 January 2023
 description: This notebook introduces you to data in R, primarily using the `tidyverse` set of packages.  It includes basic data curation and cleaning, including table-based inspection and missing data.
@@ -135,6 +135,11 @@ The `pr` variable in the Census data stands for province. Do these look much lik
 There are three similar ways to change variables into factor variables.
 
 1.  We can change a specific variable inside a dataframe to a factor by using the `as_factor` command
+
+```{r}
+#| echo: false
+census_data <- read_dta("../datasets_getting_started/01_census2016.dta")
+```
 
 ```{r}
 census_data <- census_data %>%  #we start by saying we want to update the data, AND THEN... (%>%)

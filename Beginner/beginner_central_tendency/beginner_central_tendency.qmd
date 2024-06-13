@@ -39,8 +39,9 @@ After completing this notebook, you will be able to:
 
 In this notebook, we will introduce the idea of **central tendency**. In statistics, central tendency refers to the idea of how different interpretations of the term "middle" can be used to describe a probability distribution or dataset. In this notebook, we'll think about central tendency in terms of numerical values which describe a given subset of dataset. This concept is important because we often deal with incredibly large datasets that are too big to describe in their entirety. In this light, it's crucial to have summary statistics that we can use to describe the general behavior of variables. Before we continue, let's import our familiar Canadian census dataset using the tools we've learned already.
 
-```{r}
-# install.packages("tidyverse") only run these three commands if you have not already installed these packages
+```{r, message = FALSE}
+# only run the following three commands if you have not already installed these packages
+# install.packages("tidyverse")
 # install.packages("haven")
 # install.packages("ggplot2")
 
