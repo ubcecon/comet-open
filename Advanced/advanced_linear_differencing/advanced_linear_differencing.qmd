@@ -2,8 +2,14 @@
 title: "3.4 - Advanced - Linear Differencing"
 author: "Uddhav Kalra"
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
-format: html
-editor: visual
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 ## Prerequisites

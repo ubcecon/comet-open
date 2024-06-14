@@ -1,11 +1,14 @@
 ---
 title: '3.9 - Advanced - Frisch-Waugh-Lovell Theorem'
 categories: [advanced, econ 398, Frisch-Waugh-Lovell theorem, regression, residuals, linear regression, R]
-jupyter:
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: R
+                language: r
+                name: ir
 ---
 
 
