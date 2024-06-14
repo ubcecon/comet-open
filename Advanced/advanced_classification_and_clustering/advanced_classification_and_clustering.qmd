@@ -1,11 +1,14 @@
 ---
 title: '3.3 - Advanced - Classification and Clustering'
 categories: [advanced, R, k-means clustering, elbow plot, stargazer]
-jupyter:
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 * **Authors**: COMET Team (Colby Chambers, Jonathan Graves)
