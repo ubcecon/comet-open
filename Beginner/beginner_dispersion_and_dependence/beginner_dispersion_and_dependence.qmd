@@ -2,10 +2,8 @@
 title: "1.2 - Beginner - Dispersion and Dependence"
 author: COMET Team <br> _Oliver (Junye) Xu, Anneke Dresselhuis, Jonathan Graves_
 date: 12 January 2023
-description: This notebook is to how data is spread out, and what that means for its interpretation.  This includes both how individual values may vary, and how values may _co-vary_ with one another.
+description: In this notebook we explore how data is spread out, and what that means for its interpretation.  This includes both how individual values may vary, and how values may _co-vary_ with one another.
 categories: [econ 325, central tendency, descriptive statistics, variance, covariance, standard deviation, correlation, beginner, R, interquartile range, beginner]
-execute: 
-  eval: false
 format: 
   html: default
   ipynb:
@@ -44,15 +42,15 @@ This notebook explains the concepts of dispersion and dependence. After completi
 
 In this notebook, we will continue learning about how to use descriptive statistics to represent sets of data. We've already seen how to compute measures of central tendency and determine which measures are appropriate for given situations. We'll now focus on computing measures of dispersion and dependence in order to better understand both the variation of variables, as well as relationships between variables in a data set. We'll dedicate time to both measures, but we'll look at dispersion first. Let's first import our familiar 2016 Census data set from Statistics Canada.
 
-```{r}
-source("beginner_dispersion_and_dependence_tests.r")
-
+```{r, message = FALSE}
 # load packages
 library(tidyverse)
 library(haven)
 library(ggplot2)
-
+```
+```{r}
 # Reading in the data
+source("beginner_dispersion_and_dependence_tests.r")
 census_data <- read_dta("../datasets_beginner/01_census2016.dta")
 ```
 
@@ -73,7 +71,6 @@ Measures of dispersion describe the spread of data, that is, the possible values
 The **variance** is the average of the squared differences from the mean.
 
 -   Small variance: observations tend to fall close to the mean
-
 -   High variance: observations are very spread out from the mean.
 
 The formula for the sample variance is:
@@ -118,50 +115,53 @@ We usually use standard deviation rather than variance.  This is because varianc
 In R, we use the `var()` function to calculate the variance of a variable, and the `sd()` function for the standard deviation.
 
 ```{r}
-#| tags: []
 # calculate the variance of wage
-variance <- var(census_data$wages, na.rm = TRUE)
+variance <- var(census_data$wages, na.rm = TRUE) # remember that we need to remove all NA values otherwise R won't let us compute our summary statistics!
 ```
 
-We can illustrate the relationship between standard deviation and variance by taking the `sqrt()` of the variance:
+### Exercise 1
+
+Calculate the standard deviation of wages by filling in the code on the cell below.
 
 ```{r}
 #| eval: false
 #| classes: "question"
+
 # fill in the ... with your code below to find the sd of wages
-answer_6 <- ...(var(census_data$wages, na.rm = TRUE))
-test_6()
+answer_1 <- ...()
+test_1()
 ```
 
 ```{r}
-#| eval : true
+#| eval: false
 #| classes: "answer"
+
 # fill in the ... with your code below to find the sd of wages
-answer_6 <- sqrt(var(census_data$wages, na.rm = TRUE))
-test_6()
-```
-
-```{r}
-# recall the mean of wages
-mean(census_data$wages, na.rm = TRUE) # remember that we need to remove all NA values otherwise R won't let us compute our summary statistics!
-
-# calculate the standard deviation of wages
-sd(census_data$wages, na.rm = TRUE) 
+answer_1 <- sqrt(var(census_data$wages, na.rm = TRUE))
+test_1()
 ```
 
 ## Interpreting Variation
 
 Let's say we're interested in understanding how the `wages` variable was dispersed around the mean.
 
+```{r}
+# recall the mean of wages
+mean(census_data$wages, na.rm = TRUE) 
+
+# calculate the standard deviation of wages
+sd(census_data$wages, na.rm = TRUE) 
+```
+
 In the example above, we have a pretty large standard deviation, even larger than our mean! This tells us that most of the Canadians in the data set have a wage which lies approximately \$64275.27 away from the mean of \$54482.52.
 
-This large standard deviation tells us that there is high variation in wages and that some of them are very far from the mean.  This can be for many reasons, but one possibility is that we **outliers** in the data set: extreme variables of wages.  This is common for wage distributions in the presence of income inequality.
+This large standard deviation tells us that there is high variation in wages and that some of them are very far from the mean. This can be for many reasons, but one possibility is that we have **outliers** in the data set: extreme variables of wages. This is common for wage distributions in the presence of income inequality.
 
-> _General rule_: the standard deviation is small when the data are all concentrated close to the mean, while the standard deviation is large when the data are spread out away from the mean.
+> *General rule*: the standard deviation is small when the data are all concentrated close to the mean, while the standard deviation is large when the data are spread out away from the mean.
 
 # Empirical Rule
 
-Recall, from the *Central Tendency* notebook, that some data often approximately follows a **normal distribution**. For a variable with values distributed in this way, there is a rule used when discussing their standard deviation. This is called **68-95-99.7 rule** or **Empirical Rule**:
+Recall, from the *Central Tendency* notebook, that a very important distribution in econometrics is the **normal distribution**. For a variable with values distributed in this way, there is a quick way to estimate the density of the distribution with the standard deviation. This is called **68-95-99.7 rule** or **Empirical Rule**:
 
 -   68% of the values are within 1 standard deviation of the mean
 -   95% are within 2 standard deviations of the mean.
@@ -170,13 +170,37 @@ Recall, from the *Central Tendency* notebook, that some data often approximately
 
 <img src="media/standard_deviation_examples.png"/>
 
-This gives us a helpful frame of reference when discussing the standard deviation of a variable. Although we already saw that the `wages` variable follows a relatively skewed distribution, imagine a variable that doesn't.
+This gives us a helpful frame of reference when discussing the standard deviation of a variable.
 
-For example: test scores. If the mean score on a test is 70 and the standard deviation is 10, this tells us that approximately 68% of students who wrote that test earned a score between 60 and 80 (1 standard deviation), approximately 95% earned a score between 50 and 90 (2 standard deviations) and virtually everyone earned a score between 40 and 100 (3 standard deviations).
+For example: let's take test scores. If the mean score on a test is 70 and the standard deviation is 10, this tells us that approximately 68% of students who wrote that test earned a score between 60 and 80 (1 standard deviation), approximately 95% earned a score between 50 and 90 (2 standard deviations) and virtually everyone earned a score between 40 and 100 (3 standard deviations).
+
+### Exercise 2
+
+Let's suppose the mean test score of my ECON 325 exam was 70 and the standard deviation was 5. If test scores are normally distributed and my grade was 85, what percentage of students got a grade higher than mine?
+
+> **Hint**: The area under the normal distribution has to sum to 1.
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+# write your answer in decimal form and don't round
+
+answer_2 <- ...
+test_2()
+```
+
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_2 <- 0.0015 # 1 - (0.997/2 + 0.5)
+test_2()
+```
 
 # Understanding Measures of Dependence
 
-Measures of **dependence** calculate relationships between variables. The two most common are _covariance_ and _correlation_.
+Measures of **dependence** calculate relationships between variables. The two most common are *covariance* and *correlation*.
 
 # Covariance
 
@@ -218,11 +242,17 @@ y <- c(25, 100, 125)
 ```
 
 ```{r}
-# Difference of each value and the mean for the variables
-# Product of the above differences
-# Sum the products
-# Denominator is one less than the sample size
-sum((x - mean(x))*(y - mean(y)))/(3-1)
+# find the average values of x and y
+avg_x <- mean(x)
+avg_y <- mean(y)
+
+# Sum the products of the differences between the observations and the average
+numerator <- {(x[1] - avg_x)*(y[1] - avg_y) + (x[2] - avg_x)*(y[2] - avg_y) + (x[3] - avg_x)*(y[3] - avg_y)}
+
+# The denominator is the sample size minus 1
+denominator <- 3-1
+
+print(numerator/denominator)
 ```
 
 ```{r}
@@ -287,34 +317,36 @@ Now we have the number 0.8898687 $\approx$ 0.89 as our correlation coefficient. 
 A correlation coefficient ranges from -1 to 1, which tells us two things:
 
 1.  The direction of the relationship between the 2 variables.
-
--   A negative correlation coefficient means that two variables evolve in opposite directions. If a variable increases the other decreases and vice versa.
-
--   A positive correlation implies that the two variables evolve in the same direction, that is, if one variable increases the other also increases and vice versa.
+  -   A negative correlation coefficient means that two variables evolve in opposite directions. If a variable increases the other decreases and vice versa.
+  -   A positive correlation implies that the two variables evolve in the same direction, that is, if one variable increases the other also increases and vice versa.
 
 2.  The strength of the relationship between the 2 variables.
 
 -   The more extreme the correlation coefficient (the closer to -1 or 1), the stronger the relationship. The less extreme the correlation coefficient (the closer to 0), the weaker the relationship. 
 -   Two variables are uncorrelated if the correlation coefficient is close to 0.  As one variable increases, there is no tendency in the other variable to either decrease or increase.
 
-> **Test your knowledge**:
->
-> True or False? The correlation can measure linear relationships but the covariance can't.
+### Exercise 3
+
+Is the following statement True or False?
+
+The correlation coefficient adjusts the measure of covariance so that it can measure linear relatinoships.
 
 ```{r}
 #| eval: false
 #| classes: "question"
-answer_5 <-  "..." # enter True or False
 
-test_5()
+answer_3 <-  "..." # enter "True" or "False"
+
+test_3()
 ```
 
 ```{r}
 #| eval: false
 #| classes: "answer"
-answer_5 <-  "False" # enter True or False
 
-test_5()
+answer_3 <- "False" # enter "True" or "False"
+
+test_3()
 ```
 
 We can also easily visualize correlation by plotting scatter plot with a trend line via `ggplot()` function.
@@ -336,14 +368,15 @@ Now we can see the apparent positive correlation!
 
 <img src="media/correlation_examples.png" alt="three scatter plots are shown demonstrating positive, negative and no correlation"/>
 
-> **Try it yourself!**\
-> Brainstorm some real-world examples that best demonstrate the correlation relationships below. The first one is already done for you!
->
-> -   zero or near zero: the number of forks in your house vs the average rainfall where you live
-> -   weak negative: *\[your text here\]*
-> -   strong positive: *\[your text here\]*
-> -   weak positive: *\[your text here\]*
-> -   strong negative: *\[your text here\]*
+## Try it yourself!
+
+Brainstorm some real-world examples that best demonstrate the correlation relationships below. The first one is already done for you!
+
+ -   zero or near zero: the number of forks in your house vs the average rainfall where you live
+ -   weak negative: *your text here*
+ -   strong positive: *your text here*
+ -   weak positive: *your text here*
+ -   strong negative: *your text here*
 
 # Making Tables: Visualizing Results
 
@@ -355,11 +388,9 @@ census_data <- census_data %>% drop_na(wages)
 
 ```{r}
 table2 <- census_data %>%
-          group_by(immstat) %>%
-  # we're intereseted in calculating different statistics based on immigration status 
+          group_by(immstat) %>% # we're intereseted in calculating different statistics based on immigration status 
   # (1 or 2: 1 = immigrant, 2 = non-immigrant)
-          summarize(avg_wage = mean(wages),
-  # this will calulate all statistics twice, once for each group
+          summarize(avg_wage = mean(wages), # this will calculate all statistics twice, once for each group
           sd_wage = sd(wages),
           median_wage = quantile(wages,0.5),
           r_wm = cor(wages, mrkinc))
@@ -367,10 +398,7 @@ table2 <- census_data %>%
 table2
 ```
 
-> **A Note on Reshaping Tables**\
-> These tables can be tough to read. Fortunately, R has a nice set of reshaping commands which allow you to reorganize these tables:\
-> `pivot_wider`: turn selected row-values into columns (usually what you want to do)\
-> `pivot_longer`: turn selected columns into rows
+> **Note**: Automatically generated tables can be tough to read. Fortunately, R has a nice set of reshaping commands which allow you to reorganize these tables: (1) `pivot_wider` turns selected row-values into columns (usually what you want to do) and (2) `pivot_longer`: turn selected columns into rows.
 
 You do this by specifying what the new names and rows should looks like. Here's an example, using the above table:
 
@@ -381,11 +409,9 @@ pivot_wider(table2,
             names_sep = ".") #the divider for new variable names
 ```
 
-# Practice Exercises
+### Exercises 4, 5, and 6
 
-## Exercise 1
-
-Suppose the weights of packages(in lbs) at a particular post office are recorded as below. Assuming the weights follow a normal distribution.
+Suppose the weights of packages(in lbs) at a particular post office are recorded as below.
 
 ```{r}
 package_data <- c(95, 130, 148, 183, 100, 98, 137, 110, 188, 166)
@@ -398,13 +424,13 @@ package_data <- c(95, 130, 148, 183, 100, 98, 137, 110, 188, 166)
 # and variance of the weights of packages
 # round all answers to 2 decimal places
 
-answer_1 <- # enter your answer here for mean
-answer_2 <- # enter your answer here for standard deviation 
-answer_3 <- # enter your answer here for variance
+answer_4 <- # enter your answer here for mean
+answer_5 <- # enter your answer here for standard deviation 
+answer_6 <- # enter your answer here for variance
 
-test_1()
-test_2()
-test_3()
+test_4()
+test_5()
+test_6()
 ```
 
 ```{r}
@@ -414,35 +440,36 @@ test_3()
 # and variance of the weights of packages
 # round all answers to 2 decimal places
 
-answer_1 <- 135.5 # enter your answer here for mean
-answer_2 <- 35.1 # enter your answer here for standard deviation 
-answer_3 <- 1232.06 # enter your answer here for variance
+answer_4 <- 135.5 # enter your answer here for mean
+answer_5 <- 35.1 # enter your answer here for standard deviation 
+answer_6 <- 1232.06 # enter your answer here for variance
 
-test_1()
-test_2()
-test_3()
+test_4()
+test_5()
+test_6()
 ```
 
-## Exercise 2
+## Exercise 7
 
-Use the example above to answer: 68% of packages at the post office weigh how much?
+Use the example above to answer: Assuming the weights follow a normal distribution, 68% of packages at the post office weigh how much?
 
--   A - 68% of packages weigh between 65.30 and 150.70 lbs
--   B - 68% of packages weigh between 100.40 and 170.60 lbs
--   C - 68% of packages weigh between 120.40 and 150.60 lbs 4. D - 68% of packages weigh between 80.56 and 120.60 lbs
+(A) 68% of packages weigh between 65.30 and 150.70 lbs
+(B) 68% of packages weigh between 100.40 and 170.60 lbs
+(C) 68% of packages weigh between 120.40 and 150.60 lbs 
+(D) 68% of packages weigh between 80.56 and 120.60 lbs
 
 ```{r}
 #| eval: false
 #| classes: "question"
-answer_4 <- "..."    # enter your choice here (ex, "F")
+answer_7 <- "..."    # enter your choice here (ex, "F")
 
-test_4()
+test_7()
 ```
 
 ```{r}
 #| eval: false
 #| classes: "answer"
-answer_4 <- "B"    # enter your choice here (ex, "F")
+answer_7 <- "B"    # enter your choice here (ex, "F")
 
-test_4()
+test_7()
 ```

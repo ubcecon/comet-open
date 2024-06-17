@@ -39,14 +39,11 @@ After completing this notebook, you will be able:
 
 # Introduction
 
-This notebook will explore the concept of distributions, both in terms
-of their functional forms for probability and how they represent
-different sets of data.
+This notebook will explore the concept of distributions, both in terms of their functional forms for probability and how they represent different sets of data.
 
-Let's first load the 2016 Census from Statistics Canada, which we will
-consult throughout this lesson.
+Let's first load the 2016 Census from Statistics Canada, which we will consult throughout this lesson.
 
-```{r}
+```{r, message = FALSE}
 # loading in our packages
 library(tidyverse)
 library(haven)
@@ -71,104 +68,64 @@ census_data <- filter(census_data, !is.na(census_data$mrkinc))
 glimpse(census_data)
 ```
 
-Now that we have our data set ready on stand-by for analysis, let's
-start looking at distributions as a concept more generally.
+Now that we have our data set ready on stand-by for analysis, let's start looking at distributions as a concept more generally.
 
 # Part 1: Distribution Functions - The Basics
 
 ## What is a Probability?
 
-The probability of an event is a number that indicates the likelihood of
-that event happening.
+The probability of an event is a number that indicates the likelihood of that event happening.
 
-When the possible values of a certain event are discrete (e.g. `1,2,3`
-or `adult, child`), we refer to this as the **frequency**.
+When the possible values of a certain event are discrete (e.g. `1,2,3` or `adult, child`), we refer to this as the **frequency**.
 
-When the possible values are continuous (e.g. any number between `0.5`
-and `3.75`), we refer to this as the **density**.
+When the possible values are continuous (e.g. any number between `0.5` and `3.75`), we refer to this as the **density**.
 
-There is a difference between *population* probabilities and *empirical*
-or *sample* probabilities. Generally, when we talk about distributions
-we will be referring to *population* objects: but there are also sample
-versions as well, which are often easier to think about.
+There is a difference between *population* probabilities and *empirical* or *sample* probabilities. Generally, when we talk about distributions we will be referring to *population* objects: but there are also sample versions as well, which are often easier to think about.
 
-For instance, let's say we have a dataset with 5,000 observations and a
-variable called `birthmonth` which records the month of birth of every
-participant captured in the dataset. If 500 people in the data were born
-in October, then `birthmonth=="October`" would have an *empirical*
-probability of occurring in an observation 10% of the time. We can't be
-sure what the population probability would be, unless we knew more about
-the population.
+For instance, let's say we have a dataset with 5,000 observations and a variable called `birthmonth` which records the month of birth of every participant captured in the dataset. If 500 people in the data were born in October, then `birthmonth=="October`" would have an *empirical* probability of occurring in an observation 10% of the time. We can't be sure what the population probability would be, unless we knew more about the population.
 
 ## What is a Random Variable?
 
-A **random variable** is a variable whose possible values are numerical
-outcomes of a random phenomenon, such as rolling a dice. A random
-variable can be either discrete or continuous.
+A **random variable** is a variable whose possible values are numerical outcomes of a random phenomenon, such as rolling a dice. A random variable can be either discrete or continuous.
 
--   A **discrete random variable** is one which may take on only a
-    finite number of distinct values (e.g the number of children in a
-    family).
+-   A **discrete random variable** is one which may take on only a finite number of distinct values (e.g., the number of children in a family).
 
-    -   In this notebook we see that (`agegrp` in the data) is an
-        example of that.
+    -   In this notebook we see that (`agegrp` in the data) is an example of that.
 
--   A **continuous random variable** is one which takes an infinite
-    number of possible values and can be *measured* rather than merely
-    *categorized*. (e.g height, weight, or how much people earn).
+-   A **continuous random variable** is one which takes an infinite number of possible values and can be *measured* rather than merely *categorized* (e.g., height, weight, or how much people earn).
 
-    -    In the data, we can see that `wages` and `mrkinc` are great
-        examples of continuous random variables.
+    -    In the data, we can see that `wages` and `mrkinc` are great examples of continuous random variables.
 
 ## What is the Probability Distribution?
 
-A **probability distribution** refers to the pattern or arrangement of
-probabilities in a population. These are usually described as
-*functions*: to indicate the probability of that event occurring. As we
-explained above, there is a difference between *population* and *sample*
-distributions:
+A **probability distribution** refers to the pattern or arrangement of probabilities in a population. These are usually described as *functions*: to indicate the probability of that event occurring. As we explained above, there is a difference between *population* and *sample* distributions:
 
--   A *population* distribution (which is the typical way we describe
-    these) describes population probabilities
+-   A *population* distribution (which is the typical way we describe these) describes population probabilities
 
--   An *empirical* or *sample* distribution reports describes empirical
-    probabilities from within a particular sample
+-   An *empirical* or *sample* distribution reports describes empirical probabilities from within a particular sample
 
-Note: we typically use *empirical* distribution as a way to learn about
-the *population* distribution, which is what we're primarily interested
-in.
+Note: we typically use *empirical* distribution as a way to learn about the *population* distribution, which is what we're primarily interested in.
 
-Distribution functions come in several standard forms; let's learn about
-them.
+Distribution functions come in several standard forms; let's learn about them.
 
 # Probability Density Functions (PDFs)
 
-**Probability Density Functions** are also sometimes referred to as PDFs
-or probability mass functions. We usually use lower case letters like
-$f$ or $p$ to describe these functions.
+**Probability Density Functions** are also sometimes referred to as PDFs or probability mass functions. We usually use lower case letters like $f$ or $p$ to describe these functions.
 
 ## 1. Discrete PDF:
 
-> " The probability distribution of a discrete random variable is the
-> list of all possible values of the variable and their probabilities
-> which sum to 1."
->
+> "The probability distribution of a discrete random variable is the list of all possible values of the variable and their probabilities which sum to 1."
 > \- Econometrics with R
 
-**Probability Density Function (PDF)**, also referred to as **density**
-or **frequency**, is the probability of occurrence of all the different
-values of a variable.
+**Probability Density Function (PDF)**, also referred to as **density** or **frequency**, is the probability of occurrence of all the different values of a variable.
 
-Suppose a random variable X may take k different values, with the
-probability that $X = x_{i}$ defined to be $P(X = x_{i}) = p_{i}$. The
-probabilities $p_{i}$ must satisfy the following:
+Suppose a random variable X may take k different values, with the probability that $X = x_{i}$ defined to be $P(X = x_{i}) = p_{i}$. The probabilities $p_{i}$ must satisfy the following:
 
 1.  For each i: $0<p_{i}<1$
 
 2.  $p_{1} + p_{2} + ... + p_{k} = 1$
 
-We can view the empirical PDF of a discrete variable by creating either
-a frequency table or a graph.
+We can view the empirical PDF of a discrete variable by creating either a frequency table or a graph.
 
 Let's start by creating a frequency table.
 
@@ -183,9 +140,9 @@ table2 <- census_data0 %>%
 table2
 ```
 
-Now let's try creating a graph. Since a PDF has a finite number of
-distinct values of which we measure their frequency, we can use a bar
-graph (See *Introduction to Visualization* for instruction).
+Now let's try creating a graph. Since a PDF has a finite number of distinct values of which we measure their frequency, we can use a bar graph 
+
+> Refer to *Introduction to Visualization* for a refresher.
 
 ```{r}
 plot <- ggplot(data = table2,  # this declares the data for the chart; all variable names are in this data
@@ -202,48 +159,33 @@ plot1
 
 # 2. Continuous PDF:
 
-> "Since a continuous random variable takes on a continuum of possible
-> values, we cannot use the concept of a probability distribution as
-> used for discrete random variables."
->
+> "Since a continuous random variable takes on a continuum of possible values, we cannot use the concept of a probability distribution as used for discrete random variables."
 > \- Econometrics with R
 
-Unlike a discrete variable, a continuous random variable is not defined
-in specific values. Instead, it is defined over intervals of values, and
-is represented by the area under a curve (in calculus, this is the
-integral).
+Unlike a discrete variable, a continuous random variable is not defined in specific values. Instead, it is defined over intervals of values, and is represented by the area under a curve (in calculus, this is the integral).
 
-The curve, which represents the probability function is also called a
-**density** curve and it must satisfy the following:
+The curve, which represents the probability function is also called a **density** curve and it must satisfy the following:
 
-1\. The curve has no negative values $p(x) > 0$ for all $x$ (the
-probability of observing a value can't be negative)
+1. The curve has no negative values $p(x) > 0$ for all $x$ (the probability of observing a value can't be negative)
+2. The total area under the curve is equal to 1
 
-2\. The total area under the curve is equal to 1
-
-Let's imagine a random variable that can take any value over an interval
-of real numbers. The probability of observing values between $a$ and $b$
-is the area between the density curve and the area between $a$ and $b$:
+Let's imagine a random variable that can take any value over an interval of real numbers. The probability of observing values between $a$ and $b$ is the area between the density curve and the area between $a$ and $b$:
 
 $$
 \mathrm{P}(a \le X \le b) = \left(\int_{a}^{b} f(x) \; dx\right)
 $$
 
-Since the number of values which may be assumed by the random variable
-is infinite, the probability of observing any single value is equal to
-0.
+Since the number of values which may be assumed by the random variable is infinite, the probability of observing any single value is equal to 0.
+
+> **Example**: If we take hegiht as a continuous random variables, the probability of observing an exact height (e.g., exactly 173.4827 or exactly 187.19283 centimeters) is zero because the the number of values which may be assumed by the random variable is infinite.
 
 To visualize a continuous PDF:
 
--   We will use graphs rather than tables as we need to visualize the
-    entire continuum of possible values to be represented in the graph.
+-   We will use graphs rather than tables as we need to visualize the entire continuum of possible values to be represented in the graph.
 
--   Since the probability of observing values between $a$ and $b$ is the
-    area underneath the curve, therefore a continuous PDF should be
-    visualized as a line graph instead of a bar graphs or scatterplots.
+-   Since the probability of observing values between $a$ and $b$ is the area underneath the curve, a continuous PDF should be visualized as a line graph instead of a bar graphs or scatterplots.
 
-Suppose we would like to visualize a continuous empirical PDF for all
-wages between 25000 and 75000:
+Suppose we would like to visualize a continuous empirical PDF for all wages between 25000 and 75000:
 
 ```{r}
 density <- density(census_data$wages)
@@ -261,52 +203,34 @@ polygon(c(density$x[c(l, l:h, h)]),
 
 # Cumulative Density Function (CDF)
 
-When we have a variable which is rankable, we can define a related
-object: the **Cumulative Density Function (CDF)**.
+When we have a variable which is rankable, we can define a related object: the **Cumulative Density Function (CDF)**.
 
--   The CDF for both discrete and continuous random variables is the
-    probability that the random variable is less than or equal to a
-    particular value.
--   Hence, the CDF must necessarily be an increasing function. Think of
-    the example of rolling a dice:
+-   The CDF for both discrete and continuous random variables is the probability that the random variable is less than or equal to a particular value.
+-   Hence, the CDF must necessarily be an increasing function. Think of the example of rolling a dice:
     -    $F(1)$ would indicate the the probability that a 1 was rolled.
-
     -    $F(2)$ would indicate the probability that a 2 **or lower** was
         rolled.
-
     -   Evidently, $F(2)$ would be greater than $F(1)$.
 -   A CDF can only take values between 0 and 1.
-    -   0 or (0%) is the probability that the random variable is less or
-        equal to the smallest value of the variable.
-    -   1 or (100%) is the total probability that the random variable is
-        less or equal to the biggest value of the variable
--   Therefore, if we have a variable $X$ that can have take the value of
-    $x$ the CDF is is the probability that $X$ will take a value less
-    than or equal to $x$.
+    -   0 or (0%) is the probability that the random variable is less or equal to the smallest value of the variable.
+    -   1 or (100%) is the total probability that the random variable is less or equal to the biggest value of the variable
+-   Therefore, if we have a variable $X$ that can take the value of $x$, the CDF is is the probability that $X$ will take a value less than or equal to $x$.
 
-Since we use the lowercase $f(y)$ to represent the PDF of $y$, we use
-the uppercase $F(y)$ to represent the CDF of $y$.
+Since we use the lowercase $f(y)$ to represent the PDF of $y$, we use the uppercase $F(y)$ to represent the CDF of $y$.
 
-Mathematically, since $f_{X}(x)$ denotes the probability density
-function of $X$, then the probability that $X$ falls between $a$ and $b$
-where $a \leq b$ is:
+Mathematically, since $f_{X}(x)$ denotes the probability density function of $X$, then the probability that $X$ falls between $a$ and $b$ where $a \leq b$ is:
 
 $$
 \mathrm{P}(a \leq X \leq b) = \left(\int_{a}^{b} f_{X}(x) \; dx\right)
 $$
 
-We know that the entire X variable falls between 2 values if the
-probability of x falling in between them is 1. Therefore $X$'s CDF curve
-is:
+We know that the entire X variable falls between 2 values if the probability of x falling in between them is 1. Therefore $X$'s CDF curve is:
 
 $$
 \mathrm{P}(−∞ \le X \le ∞) = \left(\int_{−∞}^{∞} f_{X}(x) \; dx\right) = 1
 $$
 
-Below we've used a scatter plot to visualize empirical CDF of the
-continuous variable `wages`. From the graph below we can tell that most
-people earn between 0-200000 as the probability of people's wages being
-less than or equal to 200000 is over 80%.
+Below we've used a scatter plot to visualize empirical CDF of the continuous variable `wages`. From the graph below we can tell that most people earn between 0-200000 as the probability of people's wages being less than or equal to 200000 is over 80%.
 
 ```{r}
 p <- ecdf(census_data$wages)
@@ -317,170 +241,116 @@ plot(p)
 
 # Joint Probability Distribution
 
-So far, we've looked at distributions for single random variables.
-However, we can also use **joint distributions** to analyze the
-probability of multiple random variables taking on certain values.
+So far, we've looked at distributions for single random variables. However, we can also use **joint distributions** to analyze the probability of multiple random variables taking on certain values.
 
-In this case, the **joint distribution** is the probability distribution
-on all possible values that $X$ and $Y$, can take on.
+In this case, the **joint distribution** is the probability distribution on all possible values that $X$ and $Y$, can take on.
 
-Lets suppose both $X$ and $Y$ are discrete random variable which can
-take on values from 1-3, with the following joint probability table (X
-on vertical axis, and Y on horizontal):
+Lets suppose both $X$ and $Y$ are discrete random variable which can take on values from 1-3. Let's imagine that $X$ and $Y$ stand for `immstat` and `kol` with the following joint probability table (X on vertical axis, and Y on horizontal):
 
-|     | 1   | 2   | 3   |
+|     | $1$   | $2$   | $3$   |
 |-----|-----|-----|-----|
-| 1   | 0   | 1/6 | 1/6 |
-| 2   | 1/6 | 0   | 1/6 |
-| 3   | 1/6 | 1/6 | 0   |
+| $1$   | 0   | 1/6 | 1/6 |
+| $2$   | 1/6 | 0   | 1/6 |
+| $3$   | 1/6 | 1/6 | 0   |
 
-Above, we've created a joint distribution for the two discrete random
-variables, $X$ and $Y$, with the total probability adding up to 1.
+Above, we've created a joint distribution for the two discrete random variables, $X$ and $Y$, with the total probability adding up to 1.
 
-Every joint distribution can be represented by a PDF and CDF, just like
-single random variables. The formal notation of a PDF for two jointly
-distributed random variables is below.
+Every joint distribution can be represented by a PDF and CDF, just like single random variables. The formal notation of a PDF for two jointly distributed random variables is below.
 
 $$f(x, y) = Prob (X = x, Y = y)$$
 
-where $f(x, y)$ is the joint probability density that the random
-variable $X$ takes on a value of $x$, and the random variable $Y$ takes
-on a value of $y$.
+where $f(x, y)$ is the joint probability density that the random variable $X$ takes on a value of $x$, and the random variable $Y$ takes on a value of $y$.
 
-The PDF for jointly distributed random variables are the values recorded
-in the example table above. For example the PDF of an immigrant only
-speaking french $Prob(X=1, Y =2) = 1/6$.
+The PDF for jointly distributed random variables are the values recorded in the example table above. For example the PDF of an immigrant only speaking french $Prob(X=1, Y =2) = 1/6$.
 
-The CDF for jointly distributed random variables follows the same logic
-as with single variables though this time it represents the probability
-of multiple variables taking on values less than those specified all at
-once.
+The CDF for jointly distributed random variables follows the same logic as with single variables though this time it represents the probability of multiple variables taking on values less than those specified all at once.
 
-This might not make sense for two discrete random variables such as
-`immstat` and `kol`, but this would be much more useful if both of those
-variables are continuous (i.e. `wages` and `mrkinc`). The formal
-notation of a CDF for two jointly distributed random variables is below.
+This might not make sense for two discrete random variables such as `immstat` and `kol`, but this would be much more useful if both of those variables are continuous (i.e. `wages` and `mrkinc`). The formal notation of a CDF for two jointly distributed random variables is below.
 
 $$
 F(x, y) = Prob({X \leq x}, {Y \leq y})
 $$
 
-where $F(x, y)$ is the joint cumulative probability that the random
-variable $X$ takes on a value less than or equal to $x$ and the random
-variable $Y$ takes on a value less than or equal to $y$ simultaneously.
+where $F(x, y)$ is the joint cumulative probability that the random variable $X$ takes on a value less than or equal to $x$ and the random variable $Y$ takes on a value less than or equal to $y$ simultaneously.
 
 # Marginal Probability Distribution
 
-The **marginal distribution** is the probability density function for
-each individual random variable. If we add up all of the joint
-probabilities from the same row or the same column, we get the
-probability of one random variable taking on a series of different
-values. We can represent the marginal probability density function as
-follows:
+The **marginal distribution** is the probability density function for each individual random variable. If we add up all of the joint probabilities from the same row or the same column, we get the probability of one random variable taking on a series of different values. We can represent the marginal probability density function as follows:
 
 $$
 f_{x}(x) = \sum_{y} Prob(X = x, Y = y)
 $$
 
-where we sum across all possible joint probabilities of $X$ and $Y$ for
-a given value of $X$ and $Y$.
+where we sum across all possible joint probabilities of $X$ and $Y$ for a given value of $X$ and $Y$.
 
-If we wanted the marginal empirical probability distribution function of
-$X$,we would need to find the marginal probability for all possible
-values of $X$.
+If we wanted the marginal empirical probability distribution function of $X$, we would need to find the marginal probability for all possible values of $X$.
 
-For $X=1$, the marginal probability is the sum of all joint
-probabilities in that corresponding row: 1/6 + 1/6 = 1/3
+For $X=1$, the marginal probability is the sum of all joint probabilities in that corresponding row: 1/6 + 1/6 = 1/3.
 
 # Conditional Probability Distribution
 
-The **conditional distribution** function indicates the probability of
-seeing a host of values for one random variable conditional on a
-specified value of another random variable, provided that the two random
-variables are jointly distributed.
+The **conditional distribution** function indicates the probability of seeing a host of values for one random variable conditional on a specified value of another random variable, provided that the two random variables are jointly distributed.
 
-Below is the formula to find the conditional probability density
-function:
+Below is the formula to find the conditional probability density function:
 
 $$
 f(x | y) = \frac {Prob ((X = x) \bigcap (Y = y))} {Prob(Y = y)}
 $$
 
--   Where $f(x | y)$ represents the conditional probability that the
-    random variable $X$ will take on a value of $x$ when the random
-    variable of $Y$ takes on a value of $y$.
+-   Where $f(x | y)$ represents the conditional probability that the random variable $X$ will take on a value of $x$ when the random variable of $Y$ takes on a value of $y$.
 
 ```{=html}
 <!-- -->
 ```
--   The $\bigcap$ symbol simply represents the case that both $X$ = $x$
-    and $Y$ = $y$ simultaneously (a joint probability) - we can read
-    this symbol as "given that".
+-   The $\bigcap$ symbol simply represents the case that both $X$ = $x$ and $Y$ = $y$ simultaneously (a joint probability).
 
--   Note that the marginal probability that $Y = y$ must not be 0 as
-    that would make the conditional probability undefined.
+-   Note that the marginal probability that $Y = y$ must not be 0 as that would make the conditional probability undefined.
 
-Let's say we want to find the conditional probability of $X=1$ given
-$Y=2$. Recall the unconditional probability that $Y=1$ = 1/3. The
-conditional probability, given $Y=1$ will therefore be the probability
-of $X=1$ AND $Y=2$ divided by the probability that $Y=2$: (1/6) / (1/3)
-= 1/2.
+Let's say we want to find the conditional probability of $X=1$ given $Y=2$. Recall the unconditional probability that $Y=1$ = 1/3. The conditional probability, given $Y=1$ will therefore be the probability of $X=1$ AND $Y=2$ divided by the probability that $Y=2$: (1/6) / (1/3) = 1/2.
 
-One important point to consider is that of **statistical independence of
-random variables**.
+One important point to consider is that of **statistical independence of random variables**.
 
--   Two random variables are independent if and only if their joint
-    probability of occurrence equals the product of their marginal
-    probabilities for all possible combinations of values of the random
-    variables.
--   In mathematical notation, this means that two random variables are
-    statistically independent if and only if:
+-   Two random variables are independent if and only if their joint probability of occurrence equals the product of their marginal probabilities for all possible combinations of values of the random variables.
+-   In mathematical notation, this means that two random variables are statistically independent if and only if:
 
 $$
 f(x, y) = f_{x}(x) f_{y}(y)
 $$
 
--   We can check for statistical independence of our jointly distributed
-    random variables, $X$ and $Y$, referring to our table up above.
--   We can determine whether these variables are independent by
-    multiplying combinations of marginal probabilities to see if they
-    match the joint probability in the corresponding cell.
+-   We can check for statistical independence of our jointly distributed random variables, $X$ and $Y$, referring to our table up above.
+-   We can determine whether these variables are independent by multiplying combinations of marginal probabilities to see if they match the joint probability in the corresponding cell.
 
-Until now, we have referred to the joint, marginal and conditional
-distribution of two discrete random variables; however, ***one or both
-of these variables can be continuous***.
+Until now, we have referred to the joint, marginal and conditional distribution of two discrete random variables; however, ***one or both of these variables can be continuous***.
 
-We focused on discrete random variables since they are much easier to
-represent in table format. (Creating a table of joint probabilities for
-two jointly distributed continuous random variables would produce near
-infinite cells, each with a joint probability of about 0!)
+We focused on discrete random variables since they are much easier to represent in table format. (Creating a table of joint probabilities for two jointly distributed continuous random variables would produce near infinite cells, each with a joint probability of about 0!)
 
-While the same logic for discrete variables applies to continuous random
-variables, we often refer to mathematical formulas when finding the
-marginal and conditional probability functions for continuous random
-variables, since their PDFs and CDFs can be represented by mathematical
-functions.
+While the same logic for discrete variables applies to continuous random variables, we often refer to mathematical formulas when finding the marginal and conditional probability functions for continuous random variables, since their PDFs and CDFs can be represented by mathematical functions.
 
-Note: ***we can have more than two jointly distributed random
-variables***. While it is possible to represent the probability of 3 or
-more variables taking on certain values at once, it is hard to represent
-that graphically or in table format. That is why we have stuck to
-investigating two jointly distributed random variables in this notebook.
+Note: ***we can have more than two jointly distributed random variables***. While it is possible to represent the probability of 3 or more variables taking on certain values at once, it is hard to represent that graphically or in table format. That is why we have stuck to investigating two jointly distributed random variables in this notebook.
 
-Now is your turn to work on some exercises which will test your
-understanding of the material presented in this notebook!
+Now is your turn to work on some exercises which will test your understanding of the material presented in this notebook!
 
 # Exercise 1
 
-Let the random variable $X$ denote the time (in hours) a person waits
-for their flight. This person can wait up to 2 hours for this flight.
+Let the random variable $X$ denote the time (in hours) a person waits for their flight. This person can wait up to 2 hours for this flight.
 
 ## Question 1
 
 Is $X$ a discrete or continuous random variable?
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 answer_1 <- "..." # your answer of "discrete" or "continuous" in place of ...
+
+test_1()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_1 <- "continuous" 
 
 test_1()
 ```
@@ -489,8 +359,7 @@ test_1()
 
 ## Question 2
 
-Say a potential probability density function representing this random
-variable (from the above flight example) is the following:
+Say a potential probability density function representing this random variable (from the above flight example) is the following:
 
 $$ 
 f(x) = \begin{cases}
@@ -503,7 +372,18 @@ $$
 Is this a valid PDF?
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 answer_2 <- "..." # your answer of "yes" or "no" in place of ...
+
+test_2()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_2 <- "yes"
 
 test_2()
 ```
@@ -512,97 +392,155 @@ test_2()
 
 ## Question 3
 
-What is the probability of a person waiting up to 1.5 hours for their
-flight? Answer to 3 decimal places. **Hint**: this is not the same as
-the probability of waiting precisely 1.5 hours.
+What is the probability of a person waiting up to 1.5 hours for their flight? Answer to 3 decimal places. 
+
+> **Hint**: this is not the same as the probability of waiting precisely 1.5 hours.
 
 ```{r}
 # your code here
+```
+```{r}
+#| eval: false
+#| classes: "question"
 
 answer_3 <- ... # your answer for the cumulative probability (in decimal format, i.e. 95% = 0.95) here
+
+test_3()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_3 <- 0.875 # your answer for the cumulative probability (in decimal format, i.e. 95% = 0.95) here
 
 test_3()
 ```
 
 # Exercise 2
 
-Let's return to our `joint_table` for the joint distribution of discrete
-random variables `immstat` and `kol`.
+Let's return to our joint table for the joint distribution of discrete random variables `immstat` (rows) and `kol` (columns). 
 
-```{r}
-joint_table
-```
+|     | $1$   | $2$   | $3$   |
+|-----|-----|-----|-----|
+| $1$   | 1/4   | 1/6 | 1/6 |
+| $2$   | 1/5 | 1/5   | 1/60 |
+| $3$   | 0 | 0 | 0   |
+
+Use the following legend to answer the questions below:
+
+- `immstat` takes values 1 == non-immigrant; 2 == immigrant; 3 == NA
+- `kol` takes values 1 == english only; 2 == french only; 3 == both french and english
 
 ## Question 1
 
-What is the probability that someone is both an immigrant and knows both
-English and French? Answer to 3 decimal places.
+What is the probability that someone is both an immigrant and knows both English and French? Answer in fractional from.
 
 ```{r}
-answer_4 <- ... # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+#| eval: false
+#| classes: "question"
+
+answer_4 <- ... # your answer for the probability (in fractional format, i.e. 25% = 1/4) here
+test_4()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_4 <- 1/60 
 
 test_4()
 ```
 
 ## Question 2
 
-What is the probability that someone is an immigrant given that they
-know only English? Answer to 3 decimal places.
+What is the probability that someone is an immigrant given that they know only English? Answer in fractional from.
 
 ```{r}
-# your code here
+#| eval: false
+#| classes: "question"
 
-answer_5 <- ... # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+answer_5 <- ... # your answer for the probability (in fractional format, i.e. 25% = 1/4) here
+test_5()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_5 <- (1/5)/(1/4 + 1/5)
 
 test_5()
 ```
 
 ## Question 3
 
-Why is it difficult to graph a joint probability distribution function
-(either density or cumulative) for these two variables in Jupyter? Which
-type of probability density function can we easily graph for jointly
-distributed random variables?
+Why is it difficult to graph a joint probability distribution function (either density or cumulative) for these two variables in Jupyter? Which type of probability density function can we easily graph for jointly distributed random variables?
 
 <span style="color:red">Explain your reasoning here:
 
 # Exercise 3
 
-Let the random variable $Y$ be uniformly distributed on the range of
-values \[20, 80\].
+Let $Y$ be a continuous random variable uniformly distributed on the range of values \[20, 80\].
 
 ## Question 1
 
-What is the probability of $Y$ taking on the value of 30? Answer to 3
-decimal places. You may use a graph to help you.
-
+What is the probability of $Y$ taking on the value of 30? You may use a graph to help you.
 ```{r}
 # your code here
+```
+```{r}
+#| eval: false
+#| classes: "question"
 
-answer_6 <- ... # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+answer_6 <- ... # your answer for the probability (in fractional format, i.e. 25% = 1/4) here
+test_6()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_6 <- 0
 
 test_6()
 ```
 
 ## Question 2
 
-What is the probability of $Y$ taking on a value of 60 or more? Answer
-to 3 decimal places.
+What is the probability of $Y$ taking on a value of 60 or more?
 
 ```{r}
+#| eval: false
+#| classes: "question"
 
-answer_7 <- ... # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+answer_7 <- ... # your answer for the probability (in fractional format, i.e. 25% = 1/4) here
+
+test_7()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_7 <- 1/3 
 
 test_7()
 ```
 
 ## Question 3
 
-What would happen to this probability if $Y$ was expanded to be
-uniformly distributed on the range of values \[20, 100\]?
+If the range of $Y$ expanded \[20, 100\], would the probability calculated above increase or decrease?
 
 ```{r}
-answer_8 <- "..." # your answer of "it would increase" or "it would decrease" in place of "..."
+#| eval: false
+#| classes: "question"
+
+answer_8 <- "..." # your answer of "increase" or "decrease" in place of "..."
+
+test_8()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_8 <- "increase" # your answer of "increase" or "decrease" in place of "..."
 
 test_8()
 ```
@@ -611,31 +549,52 @@ test_8()
 
 # Exercise 4
 
-Now let $Z$ be a normally distributed random variable representing the
-length of a piece of classical music (in minutes), with a mean of 5 and
-standard deviation of 1.5.
+Now let $Z$ be a normally distributed random variable representing the length of a piece of classical music (in minutes), with a mean of 5 and standard deviation of 1.5.
 
 ## Question 1
 
-What is the probability that a given piece will last between 3 and 7
-minutes? Answer to 3 decimal places. You may use code to help you.
+What is the probability that a given piece will last between 3 and 7 minutes? Answer to 4 decimal places. You may use code to help you.
 
 ```{r}
 # your code here
+```
 
-answer_9 <- ... # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+```{r}
+#| eval: false
+#| classes: "question"
+
+answer_9 <- ..., # your answer for the probability (in decimal format, i.e. 95% = 0.95) here
+
+test_9()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+pnorm(7, 5, 1.5) - pnorm(3, 5, 1.5) 
+
+answer_9 <- 0.8176
 
 test_9()
 ```
 
 ## Question 2
 
-If $Z$ were to remain normally distributed and have the same standard
-deviation, but the mean piece length was changed to 3 minutes, how would
-this probability change?
+If $Z$ were to remain normally distributed and have the same standard deviation, but the mean piece length was changed to 3 minutes, how would this probability change?
 
 ```{r}
-answer_10 <- "..." # your answer of "it would increase" or "it would decrease" in place of "..."
+#| eval: false
+#| classes: "question"
+
+answer_10 <- "..." # your answer of "increase" or "decrease" in place of "..."
+
+test_10()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_10 <- "decrease" # your answer of "increase" or "would decrease" in place of "..."
 
 test_10()
 ```
@@ -644,11 +603,21 @@ test_10()
 
 ## Question 3
 
-Returning to our original $Z$ variable (with mean 5), if the standard
-deviation were to decrease to 1, how would this probability change?
+Returning to our original $Z$ variable (with mean 5), if the standard deviation were to decrease to 1, how would the original probability change?
 
 ```{r}
-answer_11 <- "..." # your answer of "it would increase" or "it would decrease" in place of "..."
+#| eval: false
+#| classes: "question"
+
+answer_11 <- "..." # your answer of "ncrease" or "decrease" in place of "..."
+
+test_11()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_11 <- "decrease" # your answer of "increase" or "decrease" in place of "..."
 
 test_11()
 ```
@@ -657,10 +626,7 @@ test_11()
 
 # Part 2: Parametric Distributions
 
-While all of the examples we used were for *empirical* distributions as
-we don't know what the *population* distributions are. However, many
-statistics *do* have known distributions which are very important to
-understand.
+All of the examples we used so far were for *empirical* distributions since we don't know what the *population* distributions are. However, many statistics *do* have known distributions which are very important to understand.
 
 Let's look at the three most famous examples of distributions:
 
@@ -668,48 +634,31 @@ Let's look at the three most famous examples of distributions:
 -   normal (or Gaussian) distribution
 -   student $t$-distribution
 
-These are called **parametric** distributions because they can be
-described by a set of numbers called *parameters*. For instance, the
-normal distribution's two *parameters* are the mean and standard
-deviation.
+These are called **parametric** distributions because they can be described by a set of numbers called *parameters*. For instance, the normal distribution's two *parameters* are the mean and standard deviation.
 
-All the parametric distributions explained in this module are analyzed
-using four R commands. The four commands will start with the prefixes:
+All the parametric distributions explained in this module are analyzed using four R commands. The four commands will start with the prefixes:
 
--    `d` for "density": it produces the probability density function
-    (PDF)
--   `p` for "probability": it produces the cumulative distribution
-    function (CDF)
--    `q` for "quantile": it produces the inverse cumulative distribution
-    function, also called the quantile function
--    `r` for "random": generates random numbers from a particular
-    parametric distribution
+-    `d` for "density": it produces the probability density function (PDF)
+-   `p` for "probability": it produces the cumulative distribution function (CDF)
+-    `q` for "quantile": it produces the inverse cumulative distribution function, also called the quantile function
+-    `r` for "random": generates random numbers from a particular parametric distribution
 
 ## Uniform Distribution
 
-A continuous variable has a **uniform distribution** if all values have
-the same likelihood of occurring.
+A continuous variable has a **uniform distribution** if all values have the same likelihood of occurring.
 
--   An example of a random event with a uniform distribution is rolling
-    a dice as it equally likely to roll any of the six numbers.
+-   An example of a random event with a uniform distribution is rolling a dice: it is equally likely to roll any of the six numbers.
 
 ```{=html}
 <!-- -->
 ```
--   The variable's density curve is therefore a rectangle, with constant
-    height across the interval and 0 height elsewhere.
+-   The variable's density curve is therefore a rectangle, with constant height across the interval and 0 height elsewhere.
+-   Since the area under the curve must be equal to 1, the length of the interval determines the height of the curve.
 
--   Since the area under the curve must be equal to 1, the length of the
-    interval determines the height of the curve.
+Let's see with a variable what this kind of distribution might look like.
 
-Let's see with a variable what this kind of distribution might look
-like.
-
--   First, we will generate random values from this distribution using
-    the function `runif()`.
--   This command is written as `runif(n, min = , max = )`, where `n` is
-    the number of observations, and `max` and `min` provide the interval
-    between which the random variables are picked from.
+-   First, we will generate random values from this distribution using the function `runif()`.
+-   This command is written as `runif(n, min = , max = )`, where `n` is the number of observations, and `max` and `min` provide the interval between which the random variables are picked from.
 
 ### Simulation
 
@@ -718,54 +667,41 @@ example_unif <- runif(10000, min = 10, max = 100)
 hist(example_unif, freq = FALSE, xlab = 'x', xlim = c(0,100), main = "Empirical PDF for uniform random values on [0,100]")
 ```
 
--   While each number within the specified range is equally likely to be
-    drawn, by random chance, some ranges of numbers are drawn more
-    frequently others, hence the bars are not all the exact same height.
-
--   The shape of the distribution will change each time you re-run the
-    previous code cell.
+-   While each number within the specified range is equally likely to be drawn, by random chance, some ranges of numbers are drawn more frequently others, hence the bars are not all the exact same height.
+-   The shape of the distribution will change each time you re-run the previous code cell.
 
 Knowing the distribution, we can now plot and visualize the data!
 
-For instance, suppose we have a uniform random variable $X$ defined on
-the interval $(10,50)$.
+For instance, suppose we have a uniform random variable $X$ defined on the interval $(10,50)$.
 
--   Since the interval has a width of 40, the curve must have a height
-    of $\frac{1}{40} = 0.024$ over the interval and 0 elsewhere.
+-   Since the interval has a width of 40, the curve must have a height of $\frac{1}{40} = 0.025$ over the interval and 0 elsewhere.
 
--   The probability that $X \leq 25$ is the area between 10 and 25, or
-    $(25-10)\cdot 0.025 = 0.375$.
+-   The probability that $X \leq 25$ is the area between 10 and 25, or $(25-10)\cdot 0.025 = 0.375$.
 
 ### PDF
 
-The `dunif()` function calculates the uniform probability density
-function for a variable and can also calculate a specific value's
-density.
+The `dunif()` function calculates the uniform probability density function for a variable and can also calculate a specific value's density.
 
 ```{r}
 range <- seq(0, 100, by = 1) # creating a variable with a uniform distribution
-ex.dunif <- dunif(range, min = 10, max = 60) # calculating the PDF of the variable "range"
+ex.dunif <- dunif(range, min = 10, max = 50) # calculating the PDF of the variable "range"
 plot(ex.dunif, type = "o") # plotting the PDF
 ```
 
 ### CDF
 
-The `punif()` function calculates the uniform cumulative distribution
-function for the set of values.
+The `punif()` function calculates the uniform cumulative distribution function for the set of values.
 
 ```{r}
 x_cdf <- punif(range,      # Vector of quantiles
       min = 10,            # Lower limit of the distribution (a)
       max = 50,            # Upper limit of the distribution (b)
-      lower.tail = TRUE,   # If TRUE, probabilities are P(X <= x), or P(X > x) otherwise
+      lower.tail = TRUE,   # If TRUE, probabilities are P(X <= x); if FALSE P(X > x)
       log.p = FALSE)       # If TRUE, probabilities are given as log
 plot(x_cdf, type = "l")
 ```
 
-The `qunif()` function calculates, based on the cumulative probability,
-where a specific value is located in the distribution of density and
-helps us access the quantile distribution probability values from the
-data.
+The `qunif()` function calculates, based on the cumulative probability, where a specific value is located in the distribution of density and helps us access the quantile distribution probability values from the data.
 
 ```{r}
 quantiles <- seq(0, 1, by = 0.01)
@@ -775,17 +711,9 @@ plot(y_qunif, type = "l")
 
 ## Normal (Gaussian) Distribution
 
-We first saw the normal distribution in the *Central Tendency notebook*.
-The normal distribution is fundamental to many statistic processes as
-many random variables in natural and social sciences are normally
-distributed (e.g, Height, SAT scores all follow a normal distribution).
-We refer to this type of distribution as "normal" because it's
-distribution is symmetrical and bell-shaped.
+We first saw the normal distribution in the *Central Tendency notebook*. The normal distribution is fundamental to many statistic processes as many random variables in natural and social sciences are normally distributed (e.g, height and SAT scores both follow a normal distribution). We refer to this type of distribution as "normal" because it is symmetrical and bell-shaped.
 
-A normal distribution is **parameterized** by its mean $\mu$ and its
-standard deviation $\sigma$, and it is expressed as $N(\mu,\sigma)$. We
-cannot calculate the normal distribution without knowing the mean and
-the standard deviation.
+A normal distribution is **parameterized** by its mean $\mu$ and its standard deviation $\sigma$, and it is expressed as $N(\mu,\sigma)$. We cannot calculate the normal distribution without knowing the mean and the standard deviation.
 
 The PDF has a complex equation, which can be written as:
 
@@ -793,18 +721,14 @@ $$
 f(x; \mu, \sigma) = \displaystyle \frac{x^{-(x-\mu)^{2}/(2\sigma^{2})}}{\sigma\sqrt{2\pi}}
 $$
 
--   A **standard normal distribution** is a special normal distribution
-    since it has a mean equal to zero and a standard deviation equal to
-    1 ($\mu=0$ and $\sigma=1$), hence, $N(0,1)$:
+
+A **standard normal distribution** is a special normal distribution: it has a mean equal to zero and a standard deviation equal to 1 ($\mu=0$ and $\sigma=1$), hence, $N(0,1)$:
 
 -   Standard normal variables are often denoted by $Z$
-
 -   Standard normal PDF is denoted by $\phi$
-
 -   Standard normal CDF is denoted by $\Phi$
 
-To generate simulated normal random variables, we can use the
-`rnorm()`function, which is similar to the `runif()` function.
+To generate simulated normal random variables, we can use the `rnorm()`function, which is similar to the `runif()` function.
 
 ### Simulation
 
@@ -819,8 +743,7 @@ To generate simulated normal random variables, we can use the
 
 ### PDF
 
-As with the uniform distribution, we can use `dnorm` to plot the
-standard normal pdf.
+As with the uniform distribution, we can use `dnorm` to plot the standard normal pdf.
 
 ```{r}
  # create a sequence of 100 equally spaced numbers between -4 and 4
@@ -836,19 +759,13 @@ standard normal pdf.
  axis(1, at = -3:3, labels = c("-3s", "-2s", "-1s", "mean", "1s", "2s", "3s"))
 ```
 
-We have used the random values generated to observe its bell shaped
-distribution. This is a standard normal PDF because the mean is zero and
-the standard deviation is one.
+We have used the random values generated to observe its bell shaped distribution. This is a standard normal PDF because the mean is zero and the standard deviation is one.
 
-We can also change the numbers of mean and sd in the `rnorm()` command
-to make the distribution not standard.
+We can also change the numbers of mean and sd in the `rnorm()` command to make the distribution not standard.
 
 ### CDF
 
--   The `pnorm()` function can 1) give the entire CDF curve of a
-    normally distributed random *variable* 2) give the probability of a
-    normally distributed random *number* to be less than the value of a
-    given number.
+The `pnorm()` function can (1) give the entire CDF curve of a normally distributed random *variable* (2) give the probability of a normally distributed random *number* to be less than the value of a given number.
 
 ```{r}
  curve(pnorm(x), 
@@ -862,17 +779,12 @@ to make the distribution not standard.
  pnorm(27.4, 50, 20)
 ```
 
--   The `qnorm()` function can create a percent point function (ppf),
-    which is the inverse curve of the cumulative distribution function.
-    The `qnorm()` function gives the inverse of the CDF by taking the
-    density value and giving a number with a matching cumulative value.
-    -   The CDF of a specific value is the probability of a normally
-        distributed value of a random variable to be less than the value
-        of a **given number**.
-    -   To create the ppf, we start with that probability and use the
-        `qnorm()` function to compute the corresponding **given number**
-        for the cumulative distribution. Hence, `qnorm()` will calculate
-        the area before it is X% of the sample.
+### `qnorm()`
+
+The `qnorm()` function can create a percent point function (ppf), which is the inverse curve of the cumulative distribution function. The `qnorm()` function gives the inverse of the CDF by taking the density value and giving a number with a matching cumulative value.
+       
+- The CDF of a specific value is the probability of a normally distributed value of a random variable to be less than the value of a **given number**.
+- To create the ppf, we start with that probability and use the `qnorm()` function to compute the corresponding **given number** for the cumulative distribution. Hence, `qnorm()` will calculate the area before it is X% of the sample.
 
 ```{r}
   curve(qnorm(x), 
@@ -883,15 +795,14 @@ to make the distribution not standard.
 ```
 
 ```{r}
- qnorm(0.95, mean=100, sd=15)
+ qnorm(0.84, mean=100, sd=25)
 ```
 
--   Finally, the function `dnorm()` gives the height of the probability
-    distribution at each point for a given mean and standard deviation.
+> The output of the function above shows that the 84th quantile is approximately 1 standard deviation to the right of the mean. Do you recognize this property?
 
-    -   Since the height of the pdf curve is the density, `dnorm()` can
-        also be used to calculate the entire density curve, as observed
-        in the command *lines(xx, dnorm(xx, mean=0, sd=1))*
+### `dnorm()`
+
+`dnorm()` gives the height of the probability distribution at each point for a given mean and standard deviation. Since the height of the pdf curve is the density, `dnorm()` can also be used to calculate the entire density curve, as observed in the command *lines(xx, dnorm(xx, mean=0, sd=1))*.
 
 ```{r}
  dnorm(100, mean=100, sd=15)
@@ -899,35 +810,17 @@ to make the distribution not standard.
 
 ## Student's $t$-Distribution
 
-The **Student's** $t$-distribution is a continuous distribution that
-occurs when we estimate the sampling distribution of a normally
-distributed population with a small sample size and an uknown standard
-deviation. This is an important concept that we will explore in a later
-module.
+The **Student's** $t$-distribution is a continuous distribution that occurs when we estimate the sampling distribution of a normally distributed population with a small sample size and an uknown standard deviation. This is an important concept that we will explore in a later module.
 
--   The $t$-distribution is based on the number of observations and the
-    degrees of freedom.
+The $t$-distribution is based on the number of observations and the degrees of freedom.
 
--   A degree of freedom ($\nu$) is the maximum number of logically
-    independent values, which is the number of values that need to be
-    known in order to know all of the values. For example, let's say you
-    have 3 values with an average of 5. If you sample two of the values
-    and they turn out to be 4, and 5, even without sampling the final
-    value, you know that the final value is 6. Hence, there is no
-    freedom in the last value.
+A degree of freedom ($\nu$) is the maximum number of logically independent values. You can think of it as the number of values that need to be known in order to know all of the values. For example, let's say you have 3 data points and you know that their average value is 5. If you randomly select two of the values (let's say, 4 and 5) even without sampling the last data point, you know that its value needs to be 6. Hence, there is "no freedom" in the last data point.
 
--   In the case of the $t$-distribution, the degree(s) of freedom can be
-    represented as $\nu = n-1$, with $n$ being the sample size.
+In the case of the $t$-distribution, the degree(s) of freedom are calculated as $\nu = n-1$, with $n$ being the sample size.
 
--   When $\nu$ is large, the $t$-distribution begins to look like a
-    standard normal distribution.
+When $\nu$ is large, the $t$-distribution begins to look like a standard normal distribution. This approximation between standard normal and $t$-distribution can start to be noticed around $\nu \geq 30$.
 
--   This approximation between standard normal and $t$-distribution can
-    start being noticed around $\nu \geq 30$.
-
-As with the uniform and normal distribution, to generate random values
-that together have a t-distribution we add the prefix `r` to the name of
-the distribution, `rt()`.
+As with the uniform and normal distribution, to generate random values that together have a t-distribution we add the prefix `r` to the name of the distribution, `rt()`.
 
 ### Simulation
 
@@ -940,21 +833,15 @@ the distribution, `rt()`.
  lines(xx, dt(xx, df))
 ```
 
-Although the t-distribution is bell-shaped and symmetrical like the
-normal distribution, it is not as thin as a normal distribution. Hence,
-the data is more spread out than a normal distribution---this is a
-characteristic explained by the central limit theorem (CLT) and the law
-of large numbers (LLN), which we will explore in future modules.
+Although the t-distribution is bell-shaped and symmetrical like the normal distribution, it is not as thin as a normal distribution. Hence, the data is more spread out than a normal distribution. 
+
+> **Note**: this is explained by the central limit theorem (CLT) and the law of large numbers (LLN), which we will explore in future modules.
 
 ### PDF
 
-The function `dt()` calculates the PDF or the density of a particular
-variable, depending on the sample size and degrees of freedom.
+The function `dt()` calculates the PDF or the density of a particular variable, depending on the sample size and degrees of freedom.
 
-In the examples shown below we use the variable `ex.tvalues` which is a
-sequence of numbers ranging from -4 to 4 with increments of 0.01.
-Therefore there are 800 numbers generated with the degrees of freedom of
-799.
+In the examples shown below we use the variable `ex.tvalues` which is a sequence of numbers ranging from -4 to 4 with increments of 0.01. Therefore there are 800 numbers generated with the degrees of freedom of 799.
 
 ```{r}
  ex.tvalues <- seq(- 4, 4, by = 0.01)  # generating a sequence of number 
@@ -964,18 +851,14 @@ Therefore there are 800 numbers generated with the degrees of freedom of
 
 ### CDF
 
-The `pt()` function calculates the entire CDF curve of a t-distributed
-random *variable* and gives the probability of a t-distributed random
-*number* that is less that the value of a given number.
+The `pt()` function calculates the entire CDF curve of a t-distributed random *variable* and gives the probability of a t-distributed random *number* that is less that the value of a given number.
 
 ```{r}
  ex_pt <- pt(ex.tvalues, df = 799)   # calculating CDF
  plot(ex_pt, type = "l") 
 ```
 
-The `qnorm()` function takes the probability value and gives a number
-whose cumulative value matches the probability value. This function can
-also create a percent point function (ppf).
+The `qnorm()` function takes the probability value and gives a number whose cumulative value matches the probability value. This function can also create a percent point function (ppf).
 
 ```{r}
  ex.qtvalues <- seq(0, 1, by = 0.01)  # generating a sequence of number 
@@ -983,86 +866,140 @@ also create a percent point function (ppf).
  plot(ex_qt, type = "l") # plotting the ppf 
 ```
 
-Beyond these three common distributions, there are many other types of
-distributions such as chi-square distribution or f-distribution. In rare
-cases we may have variables that do not fit a distribution. This could
-happen because the data is being distributed sporadically and can
-therefore not be approximated by any common distribution. In these
-cases, we describe it as a non-parametrical distribution.
+Beyond these three common distributions, there are many other types of distributions such as chi-square distribution or f-distribution. In rare cases we may have variables that do not fit a distribution. This could happen because the data is being distributed sporadically and can therefore not be approximated by any common distribution. In these cases, we describe it as a non-parametrical distribution.
 
 # Part 3: Exercises
 
 ## Exercise 12
 
-Which of the following random variables are most likely to be
-uniformally distributed.
+Which of the following random variables are most likely to be uniformally distributed.
 
-**A.** The height of a UBC student\
-**B.** The wages of a UBC student\
-**C.** The birthday of a UBC student
+(A) The height of a UBC student
+(B) The wages of a UBC student
+(C) The birthday of a UBC student
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 # Enter your answer here as "A", "B", or "C"
 
 answer_12 <- "..."
+
+test_12(answer_12)
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_12 <- "C"
+
 test_12(answer_12)
 ```
 
 ## Exercise 13
 
-Which of the following random variables are most likely to be normally
-distributed.
+Which of the following random variables are most likely to be normally distributed.
 
-**A.** The height of a UBC student\
-**B.** The grades of a particular course\
-**C.** The birthday of a UBC student
+(A) The height of a UBC student
+(B) The grades of a particular course
+(C) The birthday of a UBC student
 
 ```{r}
-#| tags: []
+#| eval: false
+#| classes: "question"
+
 # Enter your answer here as "A", "B", or "C"
 
 answer_13 <- "..."
+
+test_13(answer_13)
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_13 <- "A"
+
 test_13(answer_13)
 ```
 
 ## Exercise 14
 
-Given our uniform distribution `example_unif`, find $F(72)$. Note that
-you don't need to calculate the exact probability given the
-distribution. You only need to know that this random variable is
-uniformly distributed for values between 10 and 100.
+Given our uniform distribution `example_unif`, find $F(72)$. 
+
+> **Hint**: you don't need to calculate the exact probability given the distribution. You only need to know that this random variable is uniformly distributed for values between 10 and 100.
 
 ```{r}
-# Enter your answer as an integer below. Your answer should only have one decimal place. 
+#| eval: false
+#| classes: "question"
+
+# Enter your answer as a double below. Your answer should only have one decimal place. 
 
 answer_14 <- ...
+
+test_14()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+# Enter your answer as a double below. Your answer should only have one decimal place. 
+
+answer_14 <- 72/90
+
 test_14()
 ```
 
 ## Exercise 15
 
-Assume we have a standard normal distribution. Find $F(0)$
+Assume we have a standard normal distribution. Find $F(0)$.
 
 ```{r}
-# Enter your answer as an integer below. Your answer should only have one decimal place
+#| eval: false
+#| classes: "question"
+
+# Enter your answer as a double below. Your answer should only have one decimal place. 
 
 answer_15 <- ...
+
+test_15()
+```
+```{r}
+#| eval: false
+#| classes: "false"
+
+# Enter your answer as a double below. Your answer should only have one decimal place. 
+
+answer_15 <- 1/2
+
 test_15()
 ```
 
 ## Exercise 16
 
-Let's assume we have a students $t-$distribtion that is nearly
-coincident to the corresponding normal distribution. What must be true?
+Let's assume we have a student's $t-$distribution that approximates a normal distribution really well. What must be true?
 
-**A.** The degrees of freedom parameter must be very large.\
-**B.** The degrees of freedom parameter must be very small.\
-**C.** The degrees of freedom parameter must be equal to the mean of the
+(A) The degrees of freedom parameter must be very large.
+(B) The degrees of freedom parameter must be very small.
+(C) The degrees of freedom parameter must be equal to the mean of the
 normal distribution.
 
 ```{r}
+#| eval: false
+#| classes: "question"
+
 # Enter your answer here as "A", "B", or "C"
 
 answer_16 <- "..."
+
+test_16(answer_16)
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_16 <- "A"
+
 test_16(answer_16)
 ```

@@ -37,12 +37,14 @@ test_5 <- function() {
 }
 
 
-
 test_6 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(answer_6), "03b3b7e9967823ca8ae75c138a3aa39c")
-  })
-  print("Success!")
+  ans <- answer_6
+  case_when(
+    ans == "5e17165d7dd92f0ebda92658595f4f6b" ~
+    "Not quite! Remember our second condition for confidence intervals of proportions!",
+    ans == "853277e1983a1a23f029c6571ce5abe9" ~
+    "Success!",
+    TRUE ~ "Solution is incorrect")
 }
 
 

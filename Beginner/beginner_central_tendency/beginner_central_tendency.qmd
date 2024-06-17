@@ -10,7 +10,7 @@ format:
     jupyter:
       kernelspec:
         display_name: R
-        language: r
+        language: r 
         name: ir
 ---
 
@@ -269,12 +269,14 @@ Using what we've learned so far, graph the distribution of values of the `wages`
 -   A: mean
 -   B: median
 -   C: mode
-
+```{r}
+# use this cell to plot wages
+```
 ```{r}
 #| eval: false
 #| classes: "question"
 
-answer_3 <- "X" # replace X with your answer of A, B, or C here
+answer_3 <- "..." # replace ... with your answer of "A", "B", or "C" here
 
 test_3()
 ```
@@ -428,7 +430,7 @@ mean(census_data$pkids)
 
 We can see that the mean of `pkids` is about 0.7. Let's think about this. The mean is found by summing up all observations for a variable and then dividing by the total number of observations. In this case, we are summing up individual values of 0 and 1, then dividing by the total number of observations we have in the data set. Since values of 0 will not factor into this addition, our final sum will capture the sum of all the 1s in the data set. This number is thus a representation of the number of people who responded "Yes" to the question "Do you belong to a household with any children?". Since we always divide this sum by the total number of observations to get our mean, this mean represents the ratio or percentage of the data set who belong to a household with some children. In this case, about 70% of respondents in the data set belong to a household with some children. For dummy variables, the median is not very helpful, since it simply represents a value at which 50% of observations record a lower value. In this case, observations can only take on one of two values, so the median does not provide us much intuitive information. The mean is much more useful in this case.
 
-### Exercise 4
+### Exercise 5
 
 Use the `glimpse()` function to inspect the newly created `bilingual` dummy variable, then use that variable to answer this question: what percentage of people in the dataset are bilingual? Answer to **1** decimal place.
 
@@ -476,7 +478,7 @@ answer_5 <- 1.2 # your answer here
 test_5()
 ```
 
-### Exercise 5
+### Exercise 6
 
 With the help of the variable `agegrp`, use a graph to answer the following question: what is the most common age group of participants recorded in the dataset? Use the `unique()` function to help you see how each `agegrp` category is coded.
 
@@ -566,19 +568,19 @@ test_6()
 
 [What is the statistical name for this figure? Would other common measures of central tendency be appropriate to report for this question? Answer here:]{style="color: red;"}
 
-### Exercise 6
+### Exercise 7
 
 Given the following potential variables that have been hypothetically measured,\
 which measure of central tendency would best suit the following variables.
 
-1.  An `veteran` variable wherein 1 indicates that the individual is a veteran and 0 otherwise\
+1.  A `veteran` variable wherein 1 indicates that the individual is a veteran and 0 otherwise\
 2.  A `education` variable where there are distinct categories (i.e. High School Education, Bachelor's Degree, Master's Degree, etc...)\
 3.  A `height` variable indicating the height of each individual\
 4.  A `wealth` variable indicating the net worth of an individual
 
-A. mean\
-B. median\
-C. mode
+  (A) mean
+  (B) median
+  (C) mode
 
 Answer with a sequence of letters corresponding the best measure of central tendency that would fit each of the aforementioned variables. Example: "AAAA"
 
@@ -586,7 +588,7 @@ Answer with a sequence of letters corresponding the best measure of central tend
 #| eval: false
 #| classes: "question"
 
-answer_7 <- "" #your answer here
+answer_7 <- "..." # your answer here
 
 test_7()
 
@@ -597,7 +599,7 @@ test_7()
 #| eval: false
 #| classes: "answer"
 
-answer_7 <- "ACAB" #your answer here
+answer_7 <- "ACAB" # your answer here
 
 test_7()
 ```
