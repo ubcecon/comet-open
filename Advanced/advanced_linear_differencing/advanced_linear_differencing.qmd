@@ -1,15 +1,27 @@
 ---
 title: "3.4 - Advanced - Linear Differencing"
-author: "Uddhav Kalra"
+author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
+Last update: 18 June 2024
+description: Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to apply to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
 format: html
 editor: visual
 ---
 
-## Prerequisites
+## Outline
+
+### Prerequisites
 
 1.  Differences-in-Differences
 2.  Event Studies
+
+### Outcomes
+
+By the end of this notebook, you will be able to:
+
+  - 
+  
+  - 
 
 Install necessary packages
 
@@ -152,7 +164,7 @@ for (grp in 2:3) {
 
 In our original difference in differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment". However this 2x2 set-up fails when we have multiple treated groups being treated at different times.
 
-In cases of multiple we cannot use our original did equation,
+In cases of multiple we cannot use our original DiD equation,
 
 $$
 y_{it} = \alpha + \gamma_i TREAT_i + \gamma_t POST_t + \beta TREAT_i \times POST_t + u_{it} 
