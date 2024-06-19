@@ -1,0 +1,185 @@
+---
+title: '2 - Working with Do-Files'
+author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
+date: 2024-05-29
+description: This notebook covers how to write and work with Stata do-files. We go over how to create a do-file, commenting, and generating log-files. 
+categories: [econ 490, pystata, do-files, commenting, delimiters, log-files]
+format:
+  html: default
+  ipynb:
+    jupyter:
+        kernelspec:
+            display_name: python3
+            language: python
+            name: Python3
+---
+
+## Prerequisites 
+
+1. Connect Stata on your personal computer to JupyterLab.
+
+## Learning Outcomes
+
+1. Understand the importance of executing commands inside of a do-file. 
+2. Open and execute commands within a do-file. 
+3. Annotate do-files for the purpose of clearly communicating an empirical approach. 
+4. Generate log-files that document the results of the do-file execution. 
+
+## 2.0 Intro
+
+```{python}
+import stata_setup
+stata_setup.config('C:\Applications\Stata18/','se')
+```
+
+```{python}
+>>> import sys
+>>> sys.path.append('/Applications/Stata/utilities') # make sure this is the same as what you set up in Module - 1, Section 1.5: Setting Up PyStata
+>>> from pystata import config
+>>> config.init('se')
+```
+
+## 2.1 Introduction to Do-Files
+
+Do-files record the list of commands we want to run for our analysis and allow us to run these commands directly from the file. When we run our analysis in a do-file, we always know exactly what we have asked Stata to compute, which leads to far fewer errors. We can also easily edit the file whenever we want to make any changes to our analysis. Further, we will often want to repeat the same analysis over and over again (say for subgroups of our sample). Using a do-file makes this straightforward. Finally, and importantly for ECON 490, you can show your do-file to either your TA or your instructor for help and feedback. Many sections of ECON 490 require students to submit their do-files with their final paper. 
+
+Stata provides a way to save code notebooks, also known as do-files, where we can keep all the code we ran in a particular instance. 
+
+<div class="alert alert-info">
+
+**Note:** The Jupyter cells in the following lectures will work as a do-file proxy, but whenever you run commands in the Stata interface it is very important to keep track of those commands in a do-file. </div>
+
+## 2.2 Opening Do-files from Stata Interface
+
+To open the Do-file Editor from our Stata session, we use the shortcut `Ctrl(Command)+9` or click this part of the Stata: Interface
+
+![New do-file button](img/stata_interface.png)
+
+
+You should now observe a new window in your computer that looks like this:
+
+![Empty do-file](img/dofile_editor.png)
+
+
+<div class="alert alert-block alert-warning">
+    
+**Warning:** Always save your do-file in your folder as soon as you begin your work by clicking the save icon on the top right. It is good practice to also save your do-file each and every time you run the file. Getting in the habit of doing this will save you many hours of redoing accidentally lost work when your file closes. </div>
+
+## 2.3 Executing Do-files
+
+Once you have written your commands, you can execute your code one of three ways:
+
+1. By running the code `do file_name.do` either in the command line or in another do-file.
+2. By clicking on the icon at the top right of the display.
+3. By selecting a sub-section of the text and clicking on the icon at the top right of the display.
+
+The icon for executing your code looks like this:
+
+![Do-file execution button](img/dofile_execute.png)
+
+In [Module 18](https://comet.arts.ubc.ca/docs/econ_490/econ490-stata/18_Wf_Guide2.html) we will be covering detailed information about how to set up your do-files for your ECON 490 project.
+
+## 2.4 Writing Comments in Our Code
+
+Writing comments for different parts of our code is a very good practice. It allows us to revisit code we wrote in the past and understand what we were doing. Stata allows for three different types of comments in our do-files. 
+
+The first type of comment requires using asterisks `*` and works well for a single line of text:
+
+```{python}
+%%stata 
+
+*This is a Stata comment: nothing is going to happen here
+```
+
+The second type of comment requires using  `//` and can be used whenever we want to write a comment next to our code.
+
+```{python}
+%%stata
+
+display 5 // This command is printing the number 5
+```
+
+The third type of comment requires using `/*`. This is used for a multi-line comment that starts with `/*` and closes with `*/`.
+
+```{python}
+%%stata
+
+/*
+Multi-line comments are also allowed this way,
+and they are very useful!
+*/
+```
+
+You will notice that the comments are highlighted with the colour <font color='green'>green</font> within our do-files. Whenever you see that colour, you should automatically recognize that as being a comment made by the author. Similarly, you will notice that the recognized Stata commands in our do-file are highlighted <font color='blue'>blue</font>. These colours help us differentiate comments from code.
+
+![Comments in a do-file](img/dofile_comments.png)
+
+
+## 2.5 Delimiters 
+
+Stata automatically treats every line as a different instruction or command. In other words, the delimiter of each instruction we feed into Stata is set by a new row or line (what Stata programmers refer to as `cr` (carriage return)). While we do not advise to change this delimiter, it may be useful to know that there is another approach to delimiters: set different lines by using a semi-colon `;`. You may change this setting by writing:
+
+```{python}
+%%stata
+#delimit ;
+display 5
++6;
+```
+
+As we can see now, an instruction can take place in multiple lines, and will not end until a semi-colon is met.
+
+We can revert this change by running:
+
+```{python}
+%%stata
+#delimit cr
+
+display 5
+```
+
+## 2.6 Saving Log-files
+
+Log-files save a recording of everything that appears in the results window when you run your do-file. Your instructor and TA will want to see your log-file whenever you have problems with your analysis and, as with the do-file, most instructors will require students to submit their log-files with their final research at the end of the term.  
+
+It is important to get into the practice of creating a log-file every time you run a do-file.
+
+Start every do-file with the command initiating the creation of a log. The command `log` tells Stata to open a log-file and create a record of what you type and any output that appears in the Results window. The command to start the log recording is simply `log using filename`, where `filename` is the name you want the log to have when saved. 
+
+<div class="alert alert-info">
+
+**Note:** Carefully choose a file name that clearly indicates the analysis you are undertaking, with no spaces or capital letters. </div>
+    
+Given that your work is likely to be submitted online, you should also get into the practice of saving your log-file as a text file that your instructor can view on Canvas. To create a log-file as a text file, we use the option `text`. You will probably be overwriting the same log-file many times (i.e. each time you run the do-file) so you should also use the option `replace`. 
+
+All together your command line will be:
+
+```stata
+    log using filename, text replace
+```
+
+It is imperative that you close your log-file at the end of your do-file. Otherwise, the log-file will continue to record all your work and cause your do-file to crash the next time you run that file. The command to close the log-file belongs at the very end of the do-file. 
+
+The command to close the log-file is simply `log close`. The most common approach is to run the following command at both the beginning and end of your do-file. 
+
+```stata
+   capture log close
+```
+
+Although we will discuss the `capture` command in [Module 6](https://comet.arts.ubc.ca/docs/econ_490/econ490-stata/6_Creating_Variables.html), what you should know at this point is that if you run this command and there is no log-file open, just ignore this line and keep going. This way you can avoid one of the most frustrating features of using do-files: if your do-file crashes partway through a run, the log-file will not be closed. Having the log-file still open will then cause the do-file to crash a second time when the do-file is next run.
+
+## 2.7 Wrap Up
+
+When producing a research project, organization and attention to detail are extremely important skills to develop. That is why you should always save the do-file in an easy-to-reach folder as soon as you begin your work by clicking the save icon on the top right. It is good practice to also save your do-file each and every time you run the file. Getting in the habit of doing this will save you many hours of redoing accidentally lost work when your file closes.
+
+We will be learning more about how to organize all of your files in [Module 18](https://comet.arts.ubc.ca/docs/econ_490/econ490-stata/18_Wf_Guide2.html).
+
+<div class="alert alert-info">
+
+**Note:** You can show your do-file to either your TA or your instructor for help and feedback. It is also good to submit any practical assignments using Stata along with a do-file. </div>
+
+## References
+
+[What's it like–Getting started in Stata](https://youtu.be/TtlwTuN06jg) <br>
+[Official Stata commands cheat sheet](https://www.stata.com/bookstore/stata-cheat-sheets/) <br>
+[New enhancements to Stata do-files. How to add bookmarks to your do-files](https://www.youtube.com/watch?v=GhYZuKRgo7E)
+
