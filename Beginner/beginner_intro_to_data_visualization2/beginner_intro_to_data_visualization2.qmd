@@ -52,7 +52,7 @@ Let's load it now.
 source("beginner_intro_to_data_visualization2_tests.r")
 ```
 
-```{r}
+```{r, message = FALSE}
 
 # import packages
 library(tidyverse) # contains ggplot2, which is what we'll be using!
@@ -76,7 +76,7 @@ pwt_data <- pwt_data %>%
 NA_data <- filter(pwt_data, (countrycode == "CAN")|(countrycode == "USA"))
 
 # check that it looks OK
-tail(pwt_data,10)
+tail(NA_data,10)
 # there will be a lot of missing data
 ```
 
@@ -105,15 +105,16 @@ Here, we explore a few tips and tricks for customizing labels to suit the needs 
 
 As a refresher, a few `labs()` arguments we've already covered are:
 
-`x =` specifies x-axis title.\
-`y =` specifies y-axis title.\
-`color =` specifies meaning of color outline.\
-`fill =` specifies meaning of color fill.\
-`title =` specifies title of plot.
+- `x =` specifies x-axis title
+- `y =` specifies y-axis title
+- `color =` specifies meaning of color outline.
+- `fill =` specifies meaning of color fill
+- `title =` specifies title of plot
 
-> **NEW ARGUMENTS**\
-> `subtitle =` specifies a subtitle for the graph (positioned below title).\
-> `caption =` specifies a caption at the bottom of graph, which can be great for listing the source of our data.
+And here are some **new arguments**:
+
+- `subtitle =` specifies a subtitle for the graph (positioned below title)
+- `caption =` specifies a caption at the bottom of graph, which can be great for listing the source of our data
 
 These arguments give us a basic infrastructure for a plot - we can demonstrate these features using a simple bar chart.
 
@@ -130,7 +131,7 @@ basic_plot <- ggplot(data = NA_data,
              color = "countyr",
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
-        theme(text = element_text(size = 20, hjust = 0)) # specifies the x, y and legend label text size
+        theme(text = element_text(size = 15)) # specifies the x, y and legend label text size
         options(repr.plot.width = 15, repr.plot.height = 7) # specifies the dimension 
   
 basic_plot
@@ -144,8 +145,7 @@ Fix the typo from the graph above (in the code below!) so that the two legends o
 > What might be going on here that would create two legends on this graph?
 
 ```{r}
-
-# replace the error with your answer: your legend should begin with a Capital letter
+# replace the variable that is causing the error in the legend formatting by the correct variable
 
 basic_plot_test <- ggplot(data = NA_data,  
                     aes(x = year,   
@@ -155,39 +155,59 @@ basic_plot_test <- ggplot(data = NA_data,
         labs(x = "Year",  
              y = "Real GDP per capita (expenditure-based)",
              fill = "Country",
-             color = "countyr",
+             color = "countryr",
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
-        theme(text = element_text(size = 20)) # specifies the x, y and legend label text size
+        theme(text = element_text(size = 15)) # specifies the x, y and legend label text size
         options(repr.plot.width = 15, repr.plot.height = 7) # specifies the dimension 
 
 basic_plot_test
 ```
 
 ```{r}
+#| eval: false
+#| classes: "question"
 
 answer_1 <- basic_plot_test
+
+test_1()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_1 <- basic_plot_test <- ggplot(data = NA_data,  
+                    aes(x = year,   
+                    y = rgdpe/pop, 
+                    fill = country, 
+                    color = country)) + 
+        labs(x = "Year",  
+             y = "Real GDP per capita (expenditure-based)",
+             fill = "Country",
+             color = "Country", # THIS IS THE EDIT
+             title = "Canada & US Real GDP per Capita over Time") +
+        geom_col(position = "dodge") +
+        theme(text = element_text(size = 15))
+        options(repr.plot.width = 15, repr.plot.height = 7) 
+
 
 test_1()
 ```
 
 ## The `theme()` function
 
-We also learned about the `theme()` function, which allows us to modify components of a theme such as text.\
-As a refresher, one `theme()` argument we've already covered is:
+We also learned about the `theme()` function, which allows us to modify components of a theme such as text. One `theme()` argument we've already covered is `text = element_text()`, which specifies text attributes that broadly apply to all text components in a graph (titles, labels, captions, ...).
 
-`text = element_text()` specifies text attributes that broadly apply to all text components in a graph
 
--   Example: title, labels, caption, etc.
+And here are some **new arguments**:
 
-> **NEW ARGUMENTS**\
-> `plot.title = element_text()` allows specifications for the title text.\
-> `plot.subtitle.title = element_text()` allows specifications for the subtitle text.\
-> `plot.caption = element_text()` allows specifications for the caption text.\
-> `axis.text.x = element_text()` allows specifications for x axis text\
-> `axis.text.y = element_text()` allows specifications for y axis text.\
-> `legend.position =` allows specifications for legend position.
-> \* example, `"top"`, `"bottom"` or as a vector: `c(x-coordinate, y-coordinate)`
+- `plot.title = element_text()` allows specifications for the title text.
+- `plot.subtitle.title = element_text()` allows specifications for the subtitle text.
+- `plot.caption = element_text()` allows specifications for the caption text.
+- `axis.text.x = element_text()` allows specifications for x axis text.
+- `axis.text.y = element_text()` allows specifications for y axis text.
+- `legend.position =` allows specifications for legend position.
+    - Example: `"top"`, `"bottom"` or as a vector (i.e., `c(x-coordinate, y-coordinate)`)
 
 -   Always ensure that the text is readable to an audience with a range of seeing abilities.
 
@@ -198,19 +218,15 @@ As a refresher, one `theme()` argument we've already covered is:
 
 There are also a quite a few things we can specify using the `element_text()` function:
 
-`size =` specifies x-axis title (default in R is set at size 11)
-
-> **NEW ARGUMENTS**\
-> `hjust =` specifies the position of the plot titles (default is left).
-> \* `0.5`: centre, `1`: right, `0`: left
->
-> `color =` specifies the text color.\
-> `face =` specifies typographical emphasis.
-> \* example: `"bold"`, `"italic"`, `"bold.italic"`
->
-> `angle =` specifies angular rotation of text.\
-> `vjust =` specifies the vertical adjustment.
-> \* example: higher number is up, lower number is down from the graph (default is 0)
+- `size =` specifies x-axis title (default in R is set at size 11).
+- `hjust =` specifies the position of the plot titles (default is left).
+    - `0.5`: centre, `1`: right, `0`: left
+- `color =` specifies the text color.
+- `face =` specifies typographical emphasis.
+    - Example: `"bold"`, `"italic"`, `"bold.italic"`
+- `angle =` specifies angular rotation of text.
+- `vjust =` specifies the vertical adjustment.
+    - Example: higher number is up, lower number is down from the graph (default is 0).
 
 Let's use some of these new functions and arguments to improve our earlier visualization!
 
@@ -230,8 +246,8 @@ intermediate_plot <- ggplot(data = NA_data,
              title = "Canada & US Real GDP per Capita over Time", subtitle = "1950-2019", 
              caption = "Source: Penn World Tables 2019") +
         geom_col(position = "dodge") +
-        theme(text = element_text(size = 20, hjust = 0)) + # specifies the x, y and legend label text size
-        theme(plot.title = element_text(size = 25, hjust = 0.5, color = "black", face = "bold")) + # specifies title text details
+        theme(text = element_text(size = 15)) + # specifies the x, y and legend label text size
+        theme(plot.title = element_text(size = 20, hjust = 0.5, color = "black", face = "bold")) + # specifies title text details
         theme(plot.subtitle = element_text(size = 19, hjust = 0.5)) +  # specifies subtitle text details
         theme(plot.caption = element_text(size = 15, face = "italic", vjust = 0)) + # specifies caption text details
         theme(legend.position = "top")  # places the legend at the top of the graph
@@ -240,31 +256,22 @@ intermediate_plot <- ggplot(data = NA_data,
 intermediate_plot
 ```
 
-## Formatting Graphs
-
 ## Scales
 
 To visualize only a subsection of our data we can use the following commands which manipulate the scale of our graphs:
 
 -   `xlim()` specifies scale adjustments on the x-axis.
-
 -   `ylim()` specifies scale adjustments on the y-axis.
 
-Both of these functions take two arguments - one lower bound limit and one upper bound limit:
-
--   `xlim(lowerbound,upperbound)` .
+Both of these functions take two arguments - one lower bound limit and one upper bound limit.
 
 -   We can use the `xlim()` and `ylim()` functions to examine subsections of our axis variables.
-
 -   In the GDP per capita over time plot that we've been working with, use `xlim()` to view a subsection of data from 2000-2019 below.
     This will make the power of changing the scale of our graph much more obvious.
 
-**Note**: scaling can occur on any quantitative attribute, that is, we can scale variables other than year.
+> **Note**: scaling can occur on any quantitative attribute; that is, we can scale other variables in addition to year.
 
 ```{r}
-
-# fill in the ... to make the graph
-
 scaled_plot <- ggplot(data = NA_data,  
                 aes(x = year,   
                     y = rgdpe/pop, 
@@ -274,11 +281,11 @@ scaled_plot <- ggplot(data = NA_data,
              y = "Real GDP per capita (expenditure-based)",
              fill = "Country",
              color = "Country", 
-             title = "Canada & US Real GDP per Capita over Time", subtitle = "...-2019",  # adjust the subtitle to reflect the window of time we're working with
+             title = "Canada & US Real GDP per Capita over Time", subtitle = "2000-2019",  # adjust the subtitle to reflect the window of time we're working with
              caption = "Source: Penn World Tables 2019") +
         geom_col(position = "dodge") +
-        theme(text = element_text(size = 20, hjust = 0)) + 
-        theme(plot.title = element_text(size = 25, hjust = 0.5, color = "black", face = "bold")) +
+        theme(text = element_text(size = 15, hjust = 0)) + 
+        theme(plot.title = element_text(size = 20, hjust = 0.5, color = "black", face = "bold")) +
         theme(plot.subtitle = element_text(size = 19, hjust = 0.5)) +  
         theme(plot.caption = element_text(size = 15, face = "italic", vjust = 0)) + 
         theme(legend.position = "top") +
@@ -308,23 +315,20 @@ Scaling is important because it can communicate a variety of different messages 
 
 Let's say instead of creating one plot at a time, we're interested in piecing together a visualization that takes on a more dashboard-like effect to display multiple plots in a grid simultaneously.
 
--   A function we can use to achieve this is `facet_grid()`.
-    To *facet* something simply means to split
-
+-   A function we can use to achieve this is `facet_grid()`. To *facet* something simply means to split it.
 -   Faceting allows us to arrange graphs into multiple views or layers which can help us explore multidimensionality and visualize complexity in a dataset.
 
-> **NEW ARGUMENTS**\
-> `facet_grid(rows = vars(variable))` creates a grid of plots using a variable or variables split into rows (horizontal split) or columns (vertical split).
-> The `vars()` function allows our variable(s) of choice to be correctly evaluated in the context of the data frame.\
-> `geom_hline()` creates a *horizontal* line across our plot(s) at a y value of our choosing.\
-> `geom_vline()` creates a *vertical* line across our plot(s) at an x value of our choosing.
+Some arguments of `facet_grid()` are:
+
+- `facet_grid(rows = vars(variable))` creates a grid of plots using a variable or variables split into rows (horizontal split) or columns (vertical split).
+- The `vars()` function allows our variable(s) of choice to be correctly evaluated in the context of the data frame.
+- `geom_hline()` creates a *horizontal* line across our plot(s) at a y value of our choosing.
+- `geom_vline()` creates a *vertical* line across our plot(s) at an x value of our choosing.
 
 Both `geom_hline()` and `geom_vline()` can be used on single plots and subplots to emphasize particular thresholds, values or time periods.
 In the graph below, we'll add a horizontal line to our faceted plot to help us see when the GDP from each G7 country rose above 40,000.
 
 ```{r}
-
-
 g7_data <- pwt_data %>%
 filter(country == "Canada" | country == "United States" | country == "France" | 
        country == "Germany" |  country == "Italy" |  country == "Japan" | country == "United Kingdom")  # select G7 countries  
@@ -345,18 +349,16 @@ facet_plot <- ggplot(data = g7_data,
         theme(text = element_text(size = 20, hjust = 0)) + 
         theme(plot.title = element_text(size = 25, hjust = 0.5, color = "black", face = "bold")) + 
         theme(plot.subtitle = element_text(size = 19, hjust = 0.5)) +  
-        theme(plot.caption = element_text(size = 15, face = "italic", vjust = 0)) + 
+        theme(plot.caption = element_text(size = 10, face = "italic", vjust = 0)) + 
         theme(legend.position = "top") +
         geom_hline(yintercept = 40000, linetype = "solid", size = 0.25) + # add horizontal line 
         facet_grid(rows = vars(country)) + # create a set of subplots organized by country
         scale_color_brewer(palette="Paired")
-        options(repr.plot.width = 10, repr.plot.height = 15) 
 
 facet_plot
 ```
 
-Faceting allows us to arrange charts to make comparisons clearly.
-Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded difficult to observe the nuances between countries.
+Faceting allows us to arrange charts to make comparisons clearly. Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded difficult to observe the nuances between countries.
 
 ```{r}
 
@@ -391,17 +393,13 @@ We can see that this graph above, while it is quite consolidated, does not prese
 
 When creating visualizations that use a predictive element like a regression line, we can summon graph features that visualize how accurate our model is at predicting a variable(s) with 95% confidence.
 
-> **NEW ARGUMENTS**\
-> `geom_smooth()` creates a trendline that aids the eye in spotting patterns in the data.\
-> Arguments within this function include:
->
-> -    `method =` specifies the type of smoothing we want to use - in this notebook, we'll use linear regression using the `lm` function.
->
-> -    `se =` uses a logical argument to specify the presence of a standard error/confidence band (default is `TRUE`).
->
-> -   `colour =` specifies the colour of the trendline.
->
-> -    `fill =` specifies the colour of the confidence band.
+
+The function `geom_smooth()` creates a trendline that aids the eye in spotting patterns in the data. Arguments within this function include:
+
+- `method =` specifies the type of smoothing we want to use - in this notebook, we'll use linear regression using the `lm` function
+- `se =` uses a logical argument to specify the presence of a standard error/confidence band (default is `TRUE`)
+- `colour =` specifies the colour of the trendline
+- `fill =` specifies the colour of the confidence band
 
 ## Design
 
@@ -449,23 +447,30 @@ intermediate_scatterplot
 
 In our last notebook, we introduced the `RColorBrewer` theme options and specifications such as `"blue"` or `"Set3"`.
 Colours can also be set using hexadecimal colour codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
-\> ex.
-"#FF0000" (red), "#FF6347" (orange), "#FFD700" (yellow)
+
+For example:
+
+- "#FF0000" (red) 
+- "#FF6347" (orange)
+- "#FFD700" (yellow)
 
 Key points to remember:
 
 -   Choose diverse colours when making comparisons
--   Use colour hue (i.e. the lightness or darkness of a colour) when demonstrating concentration or other quantitative measures.
--   Too many colours may distract your audience from the main message of the visualization (\<10 is recommended).
--   Be aware of colour semantics which can vary depending on culture. For example, in the West, green might be used to indicate growth, while red might be used to indicate loss or warning.
--   While the default background colour for visualization in R is a pale grey colour though a white background can make a visualization look a bit cleaner and allow colours to stand out better.
+-   Use colour hue (i.e., the lightness or darkness of a colour) when demonstrating concentration or other quantitative measures
+-   Too many colours may distract your audience from the main message of the visualization (less than 10 is recommended)
+-   Be aware of colour semantics which can vary depending on culture
+    - For example, in the West, green might be used to indicate growth, while red might be used to indicate loss or warning
+-   While the default background colour for visualization in R is a pale grey colour, a white background can make a visualization look a bit cleaner and allow colours to stand out better
 
-To change our background colour, we can add layers to our ggplot visualizations using the following functions which invoke pre-designed themes from the `ggthemes()` package we imported at the beginning of our notebook: \>`theme_bw()` white background, grey gridlines, black graph border\
-\>`theme_minimal()` white background, grey gridlines, no graph border\
-\>`theme_classic()` white background, no gridlines, no graph border\
-\>`theme_economist()`: a theme based on the plots in the [The Economist magazine](https://www.economist.com/)\
-\> `theme_hc()`: a theme based on [Highcharts JS](https://www.highcharts.com/)\
-\>`theme_wsj()`: a theme based on the plots in the [The Wall Street Journal](https://www.wsj.com/)
+To change our background colour, we can add layers to our ggplot visualizations with functions from the package `ggthemes()`. Some of the functions include: 
+
+- `theme_bw()` white background, grey gridlines, black graph border
+- `theme_minimal()` white background, grey gridlines, no graph border
+- `theme_classic()` white background, no gridlines, no graph border
+- `theme_economist()`: a theme based on the plots in the [The Economist magazine](https://www.economist.com/)
+- `theme_hc()`: a theme based on [Highcharts JS](https://www.highcharts.com/)
+- `theme_wsj()`: a theme based on the plots in the [The Wall Street Journal](https://www.wsj.com/)
 
 You can read more about [ggthemes](https://mran.microsoft.com/snapshot/2016-12-28/web/packages/ggthemes/vignettes/ggthemes.html) here.
 
@@ -485,70 +490,170 @@ Alternatively, once we have completed and exported a visualization, we can run i
 Let's now apply what we've learned with a few case studies.
 In them, we will try to recreate a few different types of graphs with our PWT dataset!
 
-## Case Study 1: Labeled Scatterplots
+## Case Study 1: Scatterplots
 
 Let's see if we can use our tools to recreate a graph similar to the one below using our PWT data set.
 
-What type of plot will we want to specify using the `geom_X` command?
+```{r}
+#| echo: false
+
+list_of_countries <- c("Peru", "Brazil", "Paraguay", "Colombia", "Uruguay", "Guatemala", "Chile", "Argentina", "Suriname", "Ecuador", "Bolivia", "Venezuela (Bolivarian Republic of)", "Mexico", "Nicaragua", "El Salvador", "Honduras", "Guyana", "Dominican Republic")
+
+# filter our data for a subset of African and South American Countires
+casestudy_data <- filter(pwt_data, year == 2019, country %in% list_of_countries) %>%
+select(country, hc, rgdpe, pop)
+```
+
+```{r, message = FALSE}
+#| echo: false
+
+scatter <- ggplot(casestudy_data, aes(x = hc, y = rgdpe/pop, size = pop)) +
+    geom_point(color='darkblue') + 
+    theme_minimal() + 
+    theme(text = element_text(size = 15, hjust = 0)) + 
+    theme(plot.title = element_text(size = 18, hjust = 0.5, color = "black", face = "bold")) +
+    theme(legend.position = 'top', plot.subtitle = element_text(size = 12, hjust = 0.5)) +   
+    labs(x = "Human Capital Index", 
+         y = "GDP per Capita (PPP)", 
+         size = "Population (million)", 
+         title = "Human Capital and GDP per Capita in Latin America",
+         subtitle = "Data from 2019") +
+    geom_smooth(method = lm, se = FALSE, colour = "black", size = 0.5) # compute trendlines for the data
+    
+suppressWarnings(print(scatter))
+```
+
+It's highly recommended that you try to recreate the chart on your own before answering the questions below. The best way to learn data visualization in R is through practice.
 
 ```{r}
+# try it yourself here
+
+# use `rgdpe` as the measure for gdp
+
+# to help you out: here is a vector with the countries we used in the plot
+
+list_of_countries <- c("Peru", "Brazil", "Paraguay", "Colombia", "Uruguay", "Guatemala", "Chile", "Argentina", "Suriname", "Ecuador", "Bolivia", "Venezuela (Bolivarian Republic of)", "Mexico", "Nicaragua", "El Salvador", "Honduras", "Guyana", "Dominican Republic")
+```
+
+Once you've given this chart a try, answer the questions below to verify your understanding:
+
+What command did we use for plotting the data?
+
+```{r}
+#| eval: false
+#| classes: "question"
 
 # Fill in the ... with your answer below (example: "geom_histogram")
-
 answer_2 <- "geom_..."
+
+test_2()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+# Fill in the ... with your answer below (example: "geom_histogram")
+answer_2 <- "geom_point"
+
 test_2()
 ```
 
-![2014 Wellbeing and Financial Inclusion Map](media/Wellbing_and_financial_inclusion_scatterplot.png)
+What aesthetics did we use to build the plot? Remember that the structure of `aes` is: 
 
-> **Source**: Boston Consulting Group
+aes(x = ..., y = .../..., size = ...)
 
-```{r}
-
-# filter our data for a subset of African and South American Countires
-casestudy2_data <- filter(pwt_data, year == 2014, country == "Ethiopia" | country == "South Africa" | country == "Kenya" | country == "Rwanda" | country == "Botswana" | country == "Nigeria" | country == "Mali" | country == "Peru" | country == "Brazil" | country == "Chile" | country == "Paraguay" | country == "Colombia" | country == "Argentina") %>%
-
-# assign each observation to a corresponding "region", since we are only given data at the country-level
-mutate(region = c("South America","South America","Africa","South America","South America","Africa","Africa","Africa","Africa","South America","South America","Africa","Africa")) %>%
-    select(country, region, hc, rgdpe, pop)
-```
-
-Trace through the code below to see where we apply what we learned from Part 1!
 
 ```{r}
+#| eval: false
+#| classes: "question"
 
-labeled_scatter <- ggplot(casestudy2_data, aes(x = hc, y = rgdpe/pop, fill = region, label = country)) +
-    geom_point(color = "grey", size = 10, shape = 21, stroke = 1) + # shape 21 allows a stroke to be made visible, the default = 19
-    theme_hc() + # use a clean, white background
-    geom_text(size = 7, nudge_y = 10, nudge_x = 0.09) + # adjusting our text
-    labs(x = "Human Capital Index", y = "GDP per Capita", fill = "", title = "Human Capital and GDP per Capita in Africa and South America",
-        subtitle = "2014") +
-    theme(text = element_text(size = 18), legend.position = "top") + # place our legend at the top to maximize space
-    geom_smooth(method = lm, se = FALSE, colour = "black", size = 0.5) + # compute trendlines for the data
-    scale_fill_brewer(palette = "Set2")  # select our colour palette
-    
-labeled_scatter 
+# Fill in the ... with the variables used - don't add or remove any of the quotations!
+x <- "..."
+y <- "..."
+size <- "..."
+
+answer_3 <- paste(x, y, size)   # don't change this
+
+test_3()
 ```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+x <- "hc"
+y <- "rgdpe/pop" # rgdpepop also works
+size <- "pop"
+
+answer_3 <- paste(x, y, size)
+
+test_3()
+```
+
+How did we label our axes, legend, and subtitle? Make sure your answers are written exactly like the plot.
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+# Fill in the ... with the labels used - don't add or remove any of the quotations or commas!
+
+labels <- "labs(x = ..., y = ..., size = ..., subtitle = ...)"
+
+test_4()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_4 <- "labs(x = Human Capital Index, y = GDP per Capita (PPP), size = Population (million), subtitle = Data from 2019)"
+
+test_4()
+```
+
+How did we plot the line of best fit? Select the option that best completes the code skeleton below.
+
+...(... = lm, se = ...)
+
+(A) geom_point, method, FALSE
+(B) geom_smooth, fit, TRUE
+(C) geom_line, method, FALSE
+(D) geom_point, fit, TRUE
+(E) geom_smooth, method, FALSE
+(F) geom_line, fit, TRUE
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+# Enter your answer as "A", "B", "C", "D", "E" or "F"
+answer_5 <- "..."
+
+test_5()
+```
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_5 <- "E"
+
+test_5()
+```
+
 
 ## Case Study 2: Confidence Bands
 
-Now, let's see if we can make our own visualization that uses a confidence band!
-
-![2010 Line Graph with Probabilistic Population Projects for China](media/un_population_graphs.png)
-
-[Source: Eviews User Forum](https://forums.eviews.com/viewtopic.php?t=17766)
+Now, let's see if you can replicate a plot that uses a confidence band.
 
 ```{r}
-
+# here is the data we're going to use
 confidence_data <- pwt_data %>%
     filter(country == "Canada") %>%
     mutate(adjusted_gdp = rgdpe/pop)
 ```
 
-Trace through the code below to see where we apply what we learned from Part 1!
-
+Here is the plot that you have to replicate.
 ```{r}
-
+#| echo: false
 confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
     geom_point(colour = "red", size = 3) + # set our data points to be a distinct colour from our confidence interval
     labs(x = "Human Capital", y = "GDP per Capita", fill = "", title = "Human Capital and GDP Per Capita in Canada",
@@ -560,23 +665,25 @@ confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
 confidence_plot
 ```
 
-## Exercise 2
-
-Use the `pwt_data` dataframe to create a graph which looks similar to the one below.
-Store your object in answer_3.
-
-(**Hint**: all relevant styling options are identical to those used in the Real GDP per capita comparison across G7 countries we worked through earlier, except `options()`, which specifies a plot width and height of 10 each).
-
-![Answer3](media/answer3.PNG)
+Try to replicate it yourself and then compare it to the actual code below. Don't worry if you don't get everything right on the first try. Plot design is supposed to be iterative! Make sure you get the most important parts first, and then try adding the special features.
 
 ```{r}
-
 # your code here
-
-answer_3 <-
-
-test_3()
 ```
 
-We've covered a lot of content in this notebook.
-For further reading or exploration, we recommend visiting the hyperlinks attached throughout this module, as all of them are valuable resources for deepening your understanding of visualization in R!
+## Case Study 2: Answer Key
+
+```{r}
+#| eval: false
+confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
+    geom_point(colour = "red", size = 3) + # set our data points to be a distinct colour from our confidence interval
+    labs(x = "Human Capital", y = "GDP per Capita", fill = "", title = "Human Capital and GDP Per Capita in Canada",
+        subtitle = "1950-2019", caption = "95% confidence interval") +
+    geom_smooth(method = lm, se = TRUE, colour = "black", size = 0.99, fill = "black") + # compute trendlines for the data
+    theme_minimal() + # select a theme with a light grid background
+    theme(text = element_text(size = 20), plot.caption = element_text(color = "grey")) # create a plot caption describing the confidence band d
+     
+confidence_plot
+```
+
+We've covered a lot of content in this notebook. For further reading or exploration, we recommend visiting the hyperlinks attached throughout this module, as all of them are valuable resources for deepening your understanding of visualization in R!
