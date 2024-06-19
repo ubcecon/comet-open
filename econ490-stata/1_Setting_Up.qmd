@@ -1,0 +1,124 @@
+---
+title: "01 - Jupyter and Stata"
+author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
+date: 2024-05-29
+description: This notebook explains how to set up Jupyter, add a Stata Kernel, and connect to COMET. It is the first step to take when embarking on a research project.
+categories: [econ 490, stata, setting up, intro]
+format: 
+  html: default
+  ipynb:
+      syntax-definitions: 
+      - stata.xml
+      kernelspec: 
+        display_name: Stata
+        language: Stata
+        name: stata
+---
+
+## Prerequisites 
+
+1. Have installed Stata onto your personal computer.
+2. Have installed Anaconda Navigator onto your personal computer.
+
+## Learning Outcomes
+
+
+1. Connect Stata on your personal computer to Jupyter Notebook.
+
+
+## 1.1 Jupyter and Stata
+
+Before you begin you will need to have installed Stata from the [UBC portal](https://ubc.onthehub.com/WebStore/Welcome.aspx). Please be certain to sign in using your CWL before searching for Stata. This software is free for all students in the UBC Faculty of Arts. 
+
+You will also need to install [Anaconda Navigator](https://www.anaconda.com/) in order to be able to run your files in a local version of Jupyter Notebook.
+
+Conda is an open-source package and environment management system. With Conda we can create a particular directory folder (also known as environment) that will contain the packages that allow us to run Jupyter online notebooks which run code coming from different softwares (henceforth referred as kernels): Stata, R, Python, etc. The bare minimum for our environments is some version of Python. 
+
+The only way to set up an environment based on Stata requires us to manually connect our computer's Stata program to Jupyter Notebook.
+
+<div class="alert alert-info">
+
+**Note:** You will only have to do this once on any computer. After that you will be able to go directly to Jupyter Notebooks for your work. </div>
+
+## 1.2 Setting up Your Computer 
+
+In order to execute the following commands on your computer, you will need to access your computer's terminal window. A terminal window includes a prompt that indicates where you will enter commands. The prompt you see depends on your own system, but it often includes the name of the host you are logged in to, your current working folder, your user name, and a prompt symbol.
+
+How you access that terminal window will depend on your operating system:
+
+#### To open the terminal in Mac, do one of the following:
+
+1. Click the Launchpad icon in the Dock, type "terminal" in the search field, then click Terminal.
+2. In the Finder, open the /Applications/Utilities folder, then double-click Terminal.
+
+#### To open the terminal in Windows, do one of the following:
+
+1. Click the Start button and select "All Apps". Scroll down the Start menu, right-click on the shortcut for Windows Terminal, move to the More menu, and select "Run as administrator".  
+2. Click the Search icon, start typing "command prompt", and then select Open or Run as Administrator from the search results. 
+
+Once you have the terminal open, you can run the commands `conda` that can find packages to install from channels. This is not dissimilar to downloading software from a server. You want to make sure that the computer first finds the `conda-forge` channel. To allow this, you should run the following commands directly in your own terminal window in Jupyter Notebooks:
+
+```bash
+  conda config --add channels conda-forge
+  conda config --set channel_priority strict
+```
+
+The goal here is to create a package bundle, i.e. an environment, where you will install some version of R, Stata Kernel, and Jupyter. You can explore the things you can download to an environment from the  `conda-forge` channel by running, for example, `conda search r-base`, `conda search stata_kernel`, etc. That way, you can see that the terminal lists all the different versions of these packages that you can download from the different channels. 
+
+Now we are ready to create a new environment where we can install all these packages. In this particular case, we will create an environment based on Python 3.9.7. Let us create an environment called `stata_r_env` by writing:
+
+```bash
+  conda create -n stata_r_env python=3.9.7
+```
+
+If you omit the `=3.9.7` part, you will create an environment with the default Python version. 
+
+We want anything that we install from the channel to be part of this new environment. To do so, we need to activate it by running
+
+```bash
+  conda activate stata_r_env
+```
+
+Now that our environment is activated we can install everything we want. We begin by installing Jupyter, which will allow us to run the interactive notebooks:
+
+```bash
+  conda install jupyter
+```
+
+## 1.3 Installing Stata Kernel on an Environment
+
+Next, we will install the Stata Kernel by running:
+
+```bash
+  conda install -c conda-forge stata_kernel
+  python -m stata_kernel.install
+```
+
+Finally, to be able to run the entire ECON 490 folder, it is highly recommended to install a stable R-version. In this particular case, we will focus on R 4.1.2. To install this we type
+
+```bash
+  conda install -c conda-forge r-base=4.1.2  
+```
+
+## 1.4 Running the COMET notebooks on your own computer
+Now that you have installed the Stata kernel and successfully connected your own version of Stata to the notebooks, you may want to run the COMET notebooks locally on your computer.
+To do so, just follow some simple steps:
+
+1. **Download the notebooks from COMET.** 
+- On the top-right corner of this webpage, you can see the menu called "LAUNCH COMET". Click on the down arrow to its right and then click on "LAUNCH LOCALLY". 
+- A zipped folder will be automatically download to your computer. Unzip it and within it locate a folder called "econ490-stata". 
+- This folder contains all the Jupyter Notebooks concerning the Stata modules. Move folder "econ490-stata" to where it is most convenient for you on your computer.
+2. **Open the notebooks in Jupyter.** 
+- Open Anaconda Navigator and locate the Jupyter notebook tile. 
+- Click on the button "Launch" in the Jupyter notebook tile. A Jupyter file browser will open in a web browser tab. 
+- Click on the File Browser on your left (a folder icon) and locate your "econ490-stata" folder. Now open any module you may want to work on!
+- Be careful! Always make sure that the Stata kernel is connected and ready to run. 
+  - You can check the status of your kernel by looking at the circle on the top-right of your Notebook. It should be of color white. 
+  - Moving your cursor on top of it, you should see the message 'Kernel status: Idle'. 
+  - The first time you open a Stata notebook, it will take a couple of seconds for the Stata kernel to connect. While connecting, the circle will be gray with a tiny thunderbolt inside. 
+  - You can always interrupt or reconnect the kernel by clicking on the "Kernel" menu on the top bar.
+
+<div class="alert alert-info">
+
+**Note:** You will only have to do step 1 once on any computer. After that, you will only have to do step 2, that is to open directly the notebooks in Jupyter. </div>
+
