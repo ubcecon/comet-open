@@ -1,11 +1,14 @@
 ---
 title: "3.2 - Advanced - Instrumental Variables"
 categories: [advanced, R, instrumental variable, 2SLS, two-stage least-squares regression, regression]
-jupyter:
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 

@@ -1,8 +1,14 @@
 ---
 title: "3.6 - Advanced - LLM APIs"
-author: ""
 categories: [advanced, python, OpenAI]
-jupyter: python3
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: "Python 3 (ipykernel)"
+                language: python3
+                name: python3
 ---
 
 ```{python}

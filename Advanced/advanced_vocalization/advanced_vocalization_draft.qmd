@@ -1,7 +1,14 @@
 ---
 title: "3.8 - Advanced - Vocalization"
 categories: [advanced, python, vocalization, text-to-speech, gTTS, mozilla TTS, Microsoft Azure text-to-speech]
-jupyter: python3
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: "Python 3 (ipykernel)"
+                language: python3
+                name: python3
 ---
 
 

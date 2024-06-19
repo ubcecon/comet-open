@@ -1,7 +1,15 @@
 ---
 title: "3.5 - Advanced - Word Embeddings (python)"
-jupyter: python3
 categories: [advanced, python, natural language processing, large language models, word embeddings, word2vec, vectors, cosine similarity]
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: "Python 3 (ipykernel)"
+                language: python3
+                name: python3
+
 ---
 
 _Python Version_
@@ -303,7 +311,7 @@ from sklearn.manifold import MDS
 # Transform cosine similarity to cosine distance
 cos_dist = 1 - cosine_similarity(dtm_df_novel)
 
-mds = MDS(n_components=2, dissimilarity="precomputed", random_state=1)
+mds = MDS(n_components=2, dissimilarity="precomputed", random_state=1, normalized_stress="auto")
 
 pos = mds.fit_transform(cos_dist)  # shape (n_components, n_samples)
 xs, ys = pos[:, 0], pos[:, 1]
@@ -360,10 +368,29 @@ Theoretically you could visualize and cluster these as well - but this takes a l
 
 We'll thus turn to the machine learning version: word embeddings
 
+```{python}
+#| tags: []
+# Clean-up memory
+import sys
+
+# These are the usual ipython objects, including this one you are creating
+ipython_vars = ['In', 'Out', 'exit', 'quit', 'get_ipython', 'ipython_vars']
+
+# Get a sorted list of the objects and their sizes
+sorted([(x, sys.getsizeof(globals().get(x))) for x in dir() if not x.startswith('_') and x not in sys.modules and x not in ipython_vars], key=lambda x: x[1], reverse=True)
+
+ 
+del cos_sim_words 
+del dtm_df_novel 
+del novel_dtm 
+del feature_list
+```
+
+<font color = "blue" size=5>At this point you should restart your kernel if < 4 gb memory available</font>
+    
+* Do this by clicking on the "Kernel" menu and hitting "restart"
+
 ## Exercise #3: Using word2vec with 150 English Novels
-<div>
-<img src="media/150_novels.png" width="750"/>
-<div>
 
 In this exercise, we'll use an English-language subset from a dataset about novels created by [Andrew Piper](https://www.mcgill.ca/langlitcultures/andrew-piper). Specifically we'll look at 150 novels by British and American authors spanning the years 1771-1930. These texts reside on disk, each in a separate plaintext file. Metadata is contained in a spreadsheet distributed with the novel files.
 
@@ -494,6 +521,8 @@ Since novels were imported as single strings, we'll first need to divide them in
 # Split each novel into sentences
 
 sentences = [sentence for novel in novel_list for sentence in sent_tokenize(novel)]
+
+del novel_list
 ```
 
 ```{python}
@@ -507,14 +536,14 @@ sentences[0]
 #| tags: []
 # Split each sentence into tokens
 
-words_by_sentence = [fast_tokenize(sentence) for sentence in sentences]
+sentences = [fast_tokenize(sentence) for sentence in sentences]
 ```
 
 ```{python}
 #| tags: []
 # Remove any sentences that contain zero tokens
 
-words_by_sentence = [sentence for sentence in words_by_sentence if sentence != []]
+sentences = [sentence for sentence in sentences if sentence != []]
 ```
 
 ```{python}
@@ -522,18 +551,30 @@ words_by_sentence = [sentence for sentence in words_by_sentence if sentence != [
 #| tags: []
 # Inspect first sentence
 
-words_by_sentence[0]
+sentences[0]
 ```
 
 #### Training
 
+To train the model, we would run:
+
+```
+# Train word2vec model from txtLab corpus
+
+model = gensim.models.Word2Vec(sentences, vector_size=100, window=5, \
+                               min_count=25, sg=1, alpha=0.025, epochs=5, batch_words=10000)
+```
+
+However, this is both slow and memory intensive, so instead we will load pre-trained data.
+
 ```{python}
 #| scrolled: true
 #| tags: []
-# Train word2vec model from txtLab corpus
+#unload moster dataframe
+del sentences
 
-model = gensim.models.Word2Vec(words_by_sentence, vector_size=100, window=5, \
-                               min_count=25, sg=1, alpha=0.025, epochs=5, batch_words=10000)
+# Load pre-trained model from harddisk
+model = gensim.models.KeyedVectors.load_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt')
 ```
 
 ## Embeddings
@@ -543,7 +584,7 @@ model = gensim.models.Word2Vec(words_by_sentence, vector_size=100, window=5, \
 #| tags: []
 # Return dense word vector
 
-model.wv.get_vector('whale')
+model.get_vector('whale')
 ```
 
 ## Vector-Space Operations
@@ -555,14 +596,14 @@ Since words are represented as dense vectors, we can ask how similiar words' mea
 #| tags: []
 # Find cosine distance between two given word vectors
 
-model.wv.similarity('pride','prejudice')
+model.similarity('pride','prejudice')
 ```
 
 ```{python}
 #| tags: []
 # Find nearest word vectors by cosine distance
 
-model.wv.most_similar('pride')
+model.most_similar('pride')
 ```
 
 ```{python}
@@ -572,7 +613,7 @@ model.wv.most_similar('pride')
 # Finds mean vector of words in list
 # and identifies the word further from that mean
 
-model.wv.doesnt_match(['pride','prejudice', 'whale'])
+model.doesnt_match(['pride','prejudice', 'whale'])
 ```
 
 ### Multiple Valences
@@ -582,14 +623,14 @@ A word embedding may encode both primary and secondary meanings that are both pr
 #| tags: []
 # Get most similar words to BANK, in order to get a sense for its primary meaning
 
-model.wv.most_similar('bank')
+model.most_similar('bank')
 ```
 
 ```{python}
 #| tags: []
 # Remove the sense of "river bank" from "bank" and see what is left
 
-model.wv.most_similar(positive=['bank'], negative=['river'])
+model.most_similar(positive=['bank'], negative=['river'])
 ```
 
 ### Analogy
@@ -600,14 +641,14 @@ Analogies are rendered as simple mathematical operations in vector space. For ex
 # Get most similar words to KING, in order
 # to get a sense for its primary meaning
 
-model.wv.most_similar('king')
+model.most_similar('king')
 ```
 
 ```{python}
 #| tags: []
 # The canonic word2vec analogy: King - Man + Woman -> Queen
 
-model.wv.most_similar(positive=['woman', 'king'], negative=['man'])
+model.most_similar(positive=['woman', 'king'], negative=['man'])
 ```
 
 ### Gendered Vectors
@@ -618,14 +659,14 @@ Note that this method uses vector projection, whereas Schmidt had used rejection
 #| tags: []
 # Feminine Vector
 
-model.wv.most_similar(positive=['she','her','hers','herself'], negative=['he','him','his','himself'])
+model.most_similar(positive=['she','her','hers','herself'], negative=['he','him','his','himself'])
 ```
 
 ```{python}
 #| tags: []
 # Masculine Vector
 
-model.wv.most_similar(positive=['he','him','his','himself'], negative=['she','her','hers','herself'])
+model.most_similar(positive=['he','him','his','himself'], negative=['she','her','hers','herself'])
 ```
 
 ## Visualization
@@ -634,21 +675,21 @@ model.wv.most_similar(positive=['he','him','his','himself'], negative=['she','he
 #| tags: []
 # Dictionary of words in model
 
-model.wv.key_to_index
+model.key_to_index
 ```
 
 ```{python}
 #| tags: []
 # Visualizing the whole vocabulary would make it hard to read
 
-len(model.wv.key_to_index)
+len(model.key_to_index)
 ```
 
 ```{python}
 #| tags: []
 # For interpretability, we'll select words that already have a semantic relation
 
-her_tokens = [token for token,weight in model.wv.most_similar(positive=['she','her','hers','herself'], \
+her_tokens = [token for token,weight in model.most_similar(positive=['she','her','hers','herself'], \
                                                        negative=['he','him','his','himself'], topn=50)]
 ```
 
@@ -664,7 +705,7 @@ her_tokens[:15]
 #| tags: []
 # Get the vector for each sampled word
 
-vectors = [model.wv.get_vector(word) for word in her_tokens] 
+vectors = [model.get_vector(word) for word in her_tokens] 
 ```
 
 ```{python}
@@ -686,8 +727,10 @@ embeddings = mds.fit_transform(dist_matrix)
 ```{python}
 #| tags: []
 # Make a pretty graph
+%pylab inline
+matplotlib.style.use('ggplot')
 
-_, ax = plt.subplots(figsize=(10,10))
+_, ax = subplots(figsize=(10,10))
 ax.scatter(embeddings[:,0], embeddings[:,1], alpha=0)
 for i in range(len(vectors)):
     ax.annotate(her_tokens[i], ((embeddings[i,0], embeddings[i,1])))
@@ -697,9 +740,9 @@ for i in range(len(vectors)):
 #| tags: []
 # For comparison, here is the same graph using a masculine-pronoun vector
 
-his_tokens = [token for token,weight in model.wv.most_similar(positive=['he','him','his','himself'], \
+his_tokens = [token for token,weight in model.most_similar(positive=['he','him','his','himself'], \
                                                        negative=['she','her','hers','herself'], topn=50)]
-vectors = [model.wv.get_vector(word) for word in his_tokens]
+vectors = [model.get_vector(word) for word in his_tokens]
 dist_matrix = pairwise.pairwise_distances(vectors, metric='cosine')
 mds = MDS(n_components = 2, dissimilarity='precomputed')
 embeddings = mds.fit_transform(dist_matrix)
@@ -719,7 +762,7 @@ for i in range(len(vectors)):
 #| tags: []
 # Save current model for later use
 
-model.wv.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt')
+model.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt')
 #model.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt') # deprecated
 ```
 
@@ -758,12 +801,12 @@ See if you can attempt the following exercises on your own!
 
 ## Q.  What characterizes these two words inthe corpus? Does this make sense?
 
-model.wv.most_similar('car')
+model.most_similar('car')
 ```
 
 ```{python}
 #| tags: []
-model.wv.most_similar('motorcar')
+model.most_similar('motorcar')
 ```
 
 ```{python}
@@ -773,7 +816,7 @@ model.wv.most_similar('motorcar')
 ## Q.  What has our model learned about nation-states?
 
 
-model.wv.most_similar(positive=['paris', 'spain'], negative = ['madrid'])
+model.most_similar(positive=['paris', 'spain'], negative = ['madrid'])
 ```
 
 ```{python}
@@ -783,7 +826,7 @@ model.wv.most_similar(positive=['paris', 'spain'], negative = ['madrid'])
 
 ## Q.  What do these indicate semantically?
 
-model.wv.most_similar(positive= ['woman'], negative=['man'])
+model.most_similar(positive= ['woman'], negative=['man'])
 ```
 
 ```{python}
@@ -806,7 +849,7 @@ ecco_model.most_similar(positive=['learning', 'virtue'], negative=['riches'])
 #| scrolled: true
 #| tags: []
 # txtLab model: RICHES are to VIRTUE what LEARNING is to ??
-model.wv.most_similar(positive=['learning', 'virtue'], negative=['riches'])
+model.most_similar(positive=['learning', 'virtue'], negative=['riches'])
 ```
 
 ## Concluding Remarks and Resources
@@ -833,7 +876,5 @@ This notebook has been built using the following materials:
 - Anwla, P. K. (2019, October 22). Challenges in word2vec Model. TowardsMachineLearning. https://towardsmachinelearning.org/performance-problems-in-word2vec-model/
 
 - Chandran, S. (2021, November 16). Introduction to Text Representations for Language Processing—Part 2. Medium. https://towardsdatascience.com/introduction-to-text-representations-for-language-processing-part-2-54fe6907868
-
-
 
 

@@ -1,18 +1,17 @@
 ---
 title: '3.3 - Advanced - Classification and Clustering'
+author: 'COMET Team <br> _Colby Chambers, Jonathan Graves_'
+date: 18 October 2022
 categories: [advanced, R, k-means clustering, elbow plot, stargazer]
 format: 
-  html: default
-  ipynb:
-    jupyter:
-      kernelspec:
-        display_name: R
-        language: r
-        name: ir
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: R
+                language: r
+                name: ir
 ---
-
-* **Authors**: COMET Team (Colby Chambers, Jonathan Graves)
-* **Last Update**: 18 October 2022 
 
 ### Prerequisites
 
