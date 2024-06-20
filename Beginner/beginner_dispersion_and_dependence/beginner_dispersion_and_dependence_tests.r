@@ -4,11 +4,10 @@ library(tidyverse)
 
 test_1 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_1), "b4f5e8891b19a71cd98e3e688e75ea02")
+    expect_equal(digest(round(answer_1)), "df39ee50d3a5e56eec2cce629f8fc351")
   })
   print("Success!")
 }
-digest(0.0015)
 
 test_2 <- function() {
   ans <- digest(answer_2)
@@ -29,7 +28,7 @@ test_3 <- function() {
     "Incorrect, the covariance also measures linear relationships. The correlation coefficient adjusts the covariance so that the measure is interpretable.",
     ans == "81949aed6f8e18b150efa97ff46a6fc3" ~
     "Success!",
-    TRUE ~ "Solution is incorrect")
+    TRUE ~ "Review formatting")
 }
 
 test_4 <- function() {
