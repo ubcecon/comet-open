@@ -47,6 +47,8 @@ format:
 
 ## Part 1: Understanding Visualization
 
+> **Note**: we use a substantial amount of charts in this notebook. If the charts are not rendering properly, try adjusting the following parameters in the plot codes: options(repr.plot.width = 15, repr.plot.height = 9). `repr.plot.width` is the plot width and `repr.plot.height` is the plot height.
+
 ### Introduction
 
 > **"The purpose of a visualization is to answer a question about a data set of interest."**\

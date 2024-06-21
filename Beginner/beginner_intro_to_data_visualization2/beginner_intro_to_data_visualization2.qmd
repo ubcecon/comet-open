@@ -35,17 +35,18 @@ By the end of this notebook, you will be able to:
 
 -   Deeb, Sameer. 2005. "The Molecular Basis of Variation in Human Color Vision." *Clinical Genetics* 67: 369--77.
 
-# Introduction
+## Introduction
 
 This notebook expands on the concepts introduced in Introduction to Data Visualization 1 and explores ways to create more layering customizations that can help make our visualizations look extra polished.
+
+> **Note**: we use a substantial amount of charts in this notebook. If the charts are not rendering properly, try adjusting the following parameters in the plot codes: options(repr.plot.width = 15, repr.plot.height = 9). `repr.plot.width` is the plot width and `repr.plot.height` is the plot height.
+
+
 We'll also see how our new tools perform in a few case study examples.
 
 Because we're already familiar with the theoretical concepts of `ggplot2`, **this notebook serves as more of a** **resource guide with practical case study examples than as a learning module.**
 
-## Loading the data
-
-In this notebook, we'll be working with the Penn World Tables data set again.
-Let's load it now.
+In this notebook, we'll be working with the Penn World Tables data set again. Let's load it now.
 
 ```{r}
 
@@ -80,9 +81,7 @@ tail(NA_data,10)
 # there will be a lot of missing data
 ```
 
-# Part 1: Adding Techniques to our Data Visualization Toolkit
-
-## Adding and Adjusting Labels
+## Part 1: Adding to our Data Visualization Toolkit
 
 In notebook 1 we introduced the `labs()` function which allows us to specify the aesthetic outputs of different labels on our chart, such as the x and y axis titles, the legend title and main graph title.
 
@@ -101,7 +100,7 @@ Here are a few best practices to keep in mind when crafting and adding labels to
 
 Here, we explore a few tips and tricks for customizing labels to suit the needs of our graph.
 
-## The `labs()` function
+### The `labs()` function
 
 As a refresher, a few `labs()` arguments we've already covered are:
 
@@ -132,17 +131,16 @@ basic_plot <- ggplot(data = NA_data,
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
         theme(text = element_text(size = 15)) # specifies the x, y and legend label text size
-        options(repr.plot.width = 15, repr.plot.height = 7) # specifies the dimension 
+        options(repr.plot.width = 15, repr.plot.height = 9) # specifies the dimension 
   
 basic_plot
 ```
 
-### Exercise 1
+### Test your knowledge
 
 Fix the typo from the graph above (in the code below!) so that the two legends on the right hand side are merged into one.
 
 > **Hint**: remember that arguments in the `ggplot()` contain aesthetic mappings, while arguments in the `labs()` function contain labels and other specifications that are set by us and not the data.
-> What might be going on here that would create two legends on this graph?
 
 ```{r}
 # replace the variable that is causing the error in the legend formatting by the correct variable
@@ -159,7 +157,7 @@ basic_plot_test <- ggplot(data = NA_data,
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
         theme(text = element_text(size = 15)) # specifies the x, y and legend label text size
-        options(repr.plot.width = 15, repr.plot.height = 7) # specifies the dimension 
+        options(repr.plot.width = 15, repr.plot.height = 9) # specifies the dimension 
 
 basic_plot_test
 ```
@@ -176,7 +174,7 @@ test_1()
 #| eval: false
 #| classes: "answer"
 
-answer_1 <- basic_plot_test <- ggplot(data = NA_data,  
+basic_plot_test <- basic_plot_test <- ggplot(data = NA_data,  
                     aes(x = year,   
                     y = rgdpe/pop, 
                     fill = country, 
@@ -188,16 +186,17 @@ answer_1 <- basic_plot_test <- ggplot(data = NA_data,
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
         theme(text = element_text(size = 15))
-        options(repr.plot.width = 15, repr.plot.height = 7) 
+        options(repr.plot.width = 15, repr.plot.height = 9)
 
+
+answer_1 <- basic_plot_test
 
 test_1()
 ```
 
-## The `theme()` function
+## Part 2: Adjusting Feautures of our Visualization
 
 We also learned about the `theme()` function, which allows us to modify components of a theme such as text. One `theme()` argument we've already covered is `text = element_text()`, which specifies text attributes that broadly apply to all text components in a graph (titles, labels, captions, ...).
-
 
 And here are some **new arguments**:
 
@@ -214,7 +213,7 @@ And here are some **new arguments**:
 -   Adjusting label size and boldness can help us emphasize important information about a graph that we'd like our audience to focus on.
     Check out more `theme()` arguments in [this documentation resource created by R Studio](https://ggplot2.tidyverse.org/reference/theme.html).
 
-## The `element_text()` function
+### The `element_text()` function
 
 There are also a quite a few things we can specify using the `element_text()` function:
 
@@ -231,8 +230,6 @@ There are also a quite a few things we can specify using the `element_text()` fu
 Let's use some of these new functions and arguments to improve our earlier visualization!
 
 ```{r}
-
-
 intermediate_plot <- ggplot(data = NA_data,  
                 aes(x = year,   
                     y = rgdpe/pop, 
@@ -256,7 +253,7 @@ intermediate_plot <- ggplot(data = NA_data,
 intermediate_plot
 ```
 
-## Scales
+### Scales
 
 To visualize only a subsection of our data we can use the following commands which manipulate the scale of our graphs:
 
@@ -311,7 +308,7 @@ scaled_plot
 
 Scaling is important because it can communicate a variety of different messages depending on how it is used.
 
-## Faceting
+### Faceting
 
 Let's say instead of creating one plot at a time, we're interested in piecing together a visualization that takes on a more dashboard-like effect to display multiple plots in a grid simultaneously.
 
@@ -354,6 +351,8 @@ facet_plot <- ggplot(data = g7_data,
         geom_hline(yintercept = 40000, linetype = "solid", size = 0.25) + # add horizontal line 
         facet_grid(rows = vars(country)) + # create a set of subplots organized by country
         scale_color_brewer(palette="Paired")
+        options(repr.plot.width = 15, repr.plot.height = 9) 
+
 
 facet_plot
 ```
@@ -382,17 +381,16 @@ line_plot <- ggplot(data = g7_data,
         theme(legend.position = "top") +
         geom_hline(yintercept = 40000, linetype = "solid", size = 0.25) + # add horizontal line +
         scale_color_brewer(palette="Paired")
-        options(repr.plot.width = 10, repr.plot.height = 12) 
+        options(repr.plot.width = 15, repr.plot.height = 9) 
 
 line_plot
 ```
 
 We can see that this graph above, while it is quite consolidated, does not present the specific patterns of each country as clearly as does our faceted graph immediately before it.
 
-## Confidence Bands
+### Confidence Bands
 
 When creating visualizations that use a predictive element like a regression line, we can summon graph features that visualize how accurate our model is at predicting a variable(s) with 95% confidence.
-
 
 The function `geom_smooth()` creates a trendline that aids the eye in spotting patterns in the data. Arguments within this function include:
 
@@ -401,11 +399,11 @@ The function `geom_smooth()` creates a trendline that aids the eye in spotting p
 - `colour =` specifies the colour of the trendline
 - `fill =` specifies the colour of the confidence band
 
-## Design
+## Part 3: Chart Design
 
 Before we move into some case studies, we'll examine a few more design tips and tricks that we can add to our visualization toolkit to make our visualizations look extra polished ✨
 
-## Shapes
+### Shapes
 
 -   `pch =` Allows us to change the shape of the data points using the argument on scatter plot to distinguish sets of data.
     -   E.g., Option 2 (the upwards triangle icon) could indicate growth or movement upwards, whereas option 6 (the downwards triangle icon) could indicate decline or movement downwards.
@@ -419,7 +417,6 @@ This is particularly useful if we are working with a large data set.
 Try exploring a few different shape and size options in the scatterplot below!
 
 ```{r}
-
 intermediate_scatterplot <- ggplot(data = NA_data,  
                 aes(x = hc,   
                     y = rgdpe/pop, 
@@ -438,12 +435,12 @@ intermediate_scatterplot <- ggplot(data = NA_data,
         theme(plot.subtitle = element_text(size = 19, hjust = 0.5)) +  
         theme(plot.caption = element_text(size = 15, face = "italic", vjust = 0)) + 
         theme(legend.position = "top")  
-        options(repr.plot.width = 12, repr.plot.height = 9) 
+        options(repr.plot.width = 15, repr.plot.height = 9) 
 
 intermediate_scatterplot
 ```
 
-## Colour
+### Colour
 
 In our last notebook, we introduced the `RColorBrewer` theme options and specifications such as `"blue"` or `"Set3"`.
 Colours can also be set using hexadecimal colour codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
@@ -485,12 +482,11 @@ display.brewer.all(colorblindFriendly = TRUE)
 
 Alternatively, once we have completed and exported a visualization, we can run it through a [Colour Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/) like this one to test if our visualization looks okay from the perspective of those who have different colour blindness or impairment conditions.
 
-# Part 2: Case Studies
+### Test your knowledge
 
-Let's now apply what we've learned with a few case studies.
-In them, we will try to recreate a few different types of graphs with our PWT dataset!
+Let's now apply what we've learned with a few case studies. We will try to recreate a few different types of graphs with our PWT dataset!
 
-## Case Study 1: Scatterplots
+#### Scatterplots
 
 Let's see if we can use our tools to recreate a graph similar to the one below using our PWT data set.
 
@@ -518,7 +514,7 @@ scatter <- ggplot(casestudy_data, aes(x = hc, y = rgdpe/pop, size = pop)) +
          size = "Population (million)", 
          title = "Human Capital and GDP per Capita in Latin America",
          subtitle = "Data from 2019") +
-    geom_smooth(method = lm, se = FALSE, colour = "black", size = 0.5) # compute trendlines for the data
+    geom_smooth(method = lm, se = FALSE, colour = "black", size = 0.5)
     
 suppressWarnings(print(scatter))
 ```
@@ -567,9 +563,9 @@ aes(x = ..., y = .../..., size = ...)
 #| eval: false
 #| classes: "question"
 
-# Fill in the ... with the variables used - don't add or remove any of the quotations!
+# Fill in the "..." with the variables used - don't add or remove any of the quotations!
 x <- "..."
-y <- "..."
+y <- ".../..."
 size <- "..."
 
 answer_3 <- paste(x, y, size)   # don't change this
@@ -597,7 +593,7 @@ How did we label our axes, legend, and subtitle? Make sure your answers are writ
 
 # Fill in the ... with the labels used - don't add or remove any of the quotations or commas!
 
-labels <- "labs(x = ..., y = ..., size = ..., subtitle = ...)"
+answer_4 <- "labs(x = ..., y = ..., size = ..., subtitle = ...)"
 
 test_4()
 ```
@@ -640,7 +636,7 @@ test_5()
 ```
 
 
-## Case Study 2: Confidence Bands
+#### Confidence bands
 
 Now, let's see if you can replicate a plot that uses a confidence band.
 
@@ -671,7 +667,7 @@ Try to replicate it yourself and then compare it to the actual code below. Don't
 # your code here
 ```
 
-## Case Study 2: Answer Key
+#### Confidence bands: answer key
 
 ```{r}
 #| eval: false
@@ -682,6 +678,8 @@ confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
     geom_smooth(method = lm, se = TRUE, colour = "black", size = 0.99, fill = "black") + # compute trendlines for the data
     theme_minimal() + # select a theme with a light grid background
     theme(text = element_text(size = 20), plot.caption = element_text(color = "grey")) # create a plot caption describing the confidence band d
+    options(repr.plot.width = 15, repr.plot.height = 9) 
+
      
 confidence_plot
 ```

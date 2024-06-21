@@ -18,7 +18,8 @@ test_2 <- function() {
 test_3 <- function(){
   ans <- digest(answer_3)
   case_when(
-    ans %in% c("a4bd702e0470547106e88677f805f64f", "964fe8d5ca4794c660c56d271ba3e5c2") ~
+    ans %in% c("a4bd702e0470547106e88677f805f64f", 
+    "964fe8d5ca4794c660c56d271ba3e5c2") ~
     'Correct!',
     ans == "33739d0c70216a23c9056a8023b60829" ~
     'Incorrect, our second variable needs to be GDP per capita.',
