@@ -29,9 +29,8 @@ format:
 
 In this notebook, you will learn about:
 
-\- Filtering, Segmenting, Combining and Cleaning Data Sets for further analysis.
-
-\- Reshaping and Presenting Data in different kinds of Tidy-formats as best suited for your Research Question (RQs)
+- Filtering, Segmenting, Combining and Cleaning Data Sets for further analysis.
+- Reshaping and Presenting Data in different kinds of Tidy-formats as best suited for your Research Question (RQs)
 
 ### References
 
@@ -46,7 +45,7 @@ library(tidyverse)
 library(haven)
 ```
 
-### Start with loading the WDI data set
+## Part 1: Data Cleaning
 
 The World Development Indicators (WDI) is the primary World Bank collection of development indicators, compiled from officially recognized international sources.
 
@@ -121,7 +120,7 @@ access_wdi <- access_wdi %>%  rename_with(~str_extract(., "\\d{4}"), starts_with
 head(access_wdi, 5)
 ```
 
-### Handling Missing Values
+### Handling missing values
 
 We are interested in seeing if there are any specific years for when the data was not collected or is missing for *most* of the variables/series.
 
@@ -199,7 +198,7 @@ If we had to answer a holistic set of questions on the state of access to public
 
 Narrowing down our research scope a bit, we could still visualize the growth in access to energy across the countries over the last 5 years using R. 
 
-### Merging Data Frames in R
+### Merging data frames in R
 
 The World Bank (in tandem with the International Monetary Fund) also updates the Quarterly Public Debt data base. The WDI data set has a few key macro-series including *national incomes*, *CABs*, *Bank Capital to Assets Ratios,* and various kinds of *CPIA* ratings.
 
@@ -241,7 +240,7 @@ head(qpd, 25)
 
 ```
 
-### Aggregating Quarterly Values by Year
+## Part 2: Data Wrangling
 
 The Series data in QPD is stored on a quarter-by-year basis, and we can aggregate _column_wise_ to get yearly amounts for each year. 
 
@@ -328,7 +327,7 @@ Also, take note of the zeroes in the data frame. These occur due to certain Coun
 
 > The best thing about the dataframe is that the aggregate values strictly greater than 0 are at least not being under-aggregated since we took care of cases where data was missing for less than 20 periods. 
 
-#### Performing the Merge
+#### Performing the merge
 
 I'll now create a new data frame which includes both the macro variables from WDI and the QPD data. We'll use `rbind()` to append observations from QPD to `macro_wdi`.
 
@@ -347,7 +346,7 @@ df_macro
 
 ```
 
-#### Performing a Horizontal Merge
+#### Performing a horizontal merge
 
 Let's suppose we were to update `df_macro` with 2023 values which we have saved in a different dataframe.
 
@@ -374,7 +373,7 @@ df_macro_2 <- df_macro_2 %>% rename("2023" = "values_2023")
 df_macro_2
 ```
 
-### Optional: Review of different Merge Methods in R
+### Optional: different merging methods in R
 
 ```{r}
 library(knitr)
@@ -385,14 +384,9 @@ As illustrated in the image, an `full_join()` and `right_join()` are great for m
 
 For simpler cases, `inner_join()` is ideal when you only want to include fully matched observations in the final data set.
 
-### Conclusion
+## Appendix
 
-Thanks for completing this module. The skills you have learnt in **Intro to Data Parts 1 and 2** should help with various kinds of data interviews. Researchers should remember to document their decisions while excluding/including data, merging different data sources, always think about how certain actions might change the validity of later statistical tests or the drawn conclusions.
-
-
-### Appendix
-
-#### More on the _Wrangling Code_ that aggregates period values in QPD
+### More on the *wrangling code* that aggregates period values in QPD
 
 The following code should produce 5 different data-frames that incrementally show how our _wrangling_ code calculated the yearly aggregates for each Country and Series. 
 

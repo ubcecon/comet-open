@@ -13,10 +13,16 @@ test_1 <- function() {
   }
 
 test_2 <- function(){
-  ans <- digest(answer_2)
+  test_that("Solution is incorrect", {
+  expect_equal(digest(answer_2), "2b6f4912f28a4340ed1aba4780cf3dbc")
+})
+  print('Success!')
+}
+
+test_3 <- function(){
+  ans <- digest(answer_3)
   case_when(ans == "75f1160e72554f4270c809f041c7a776" ~
-             "Almost there! Remember that mutate is the function to create a new variable, 
-             we're asking for the function that takes `grades` and 2 as inputs.",
+             "Almost there! Remember that mutate is the function to create a new variable, we're asking for the function that takes `grades` and 2 as inputs.",
              ans == "3a5505c06543876fe45598b5e5e5195d" ~
              "Not quite! Review the previous section and try again.",
              ans == "475bf9280aab63a82af60791302736f6" ~
@@ -30,22 +36,15 @@ test_2 <- function(){
              TRUE ~ "Review the formatting of your answer.")
 }
 
-test_3 <- function() {
-    ans <- digest(answer_3)
-    case_when(ans == "317be6c8c60403220d0f4f9fa663a873" ~
-               "Success!",
-               TRUE ~ "Incorrect! Review your answer and try again.")
-}
-
-test_3 <- function() {
-    ans <- digest(answer_3)
-    case_when(ans == "317be6c8c60403220d0f4f9fa663a873" ~
-               "Success!",
-               TRUE ~ "Incorrect! Review your answer and try again.")
-}
-
 test_4 <- function() {
-    ans <- digest(sum(as.numeric(answer_4$knows_english)))
+    ans <- digest(answer_4)
+    case_when(ans == "317be6c8c60403220d0f4f9fa663a873" ~
+               "Success!",
+               TRUE ~ "Incorrect! Review your answer and try again.")
+}
+
+test_5 <- function() {
+    ans <- digest(sum(as.numeric(answer_5$knows_english)))
     case_when(ans == "8a0f03861e6878a0abeefceef7d3a551" ~
                "Success!",
                TRUE ~ "Incorrect! Review your answer and try again.")
