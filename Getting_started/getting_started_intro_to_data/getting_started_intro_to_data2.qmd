@@ -37,7 +37,7 @@ In this notebook, you will learn about:
 -   [Introduction to Probability and Statistics Using R](https://mran.microsoft.com/snapshot/2018-09-28/web/packages/IPSUR/vignettes/IPSUR.pdf)
 -   [DSCI 100 Textbook](https://datasciencebook.ca/index.html)
 
-```{r}
+```{r, message = FALSE}
 # Run this cell
 source("getting_started_intro_to_data_tests.r")
 # loading in our packages
@@ -366,7 +366,7 @@ head(series_2023, 5)
 Now, we can use `merge()` to add the 2023 values column into `df_macro` while ensuring  only the observations where values for `Country` are matched between the two data frames are merged.
 
 ```{r}
-df_macro_2 <- merge(df_macro, df_2023, by = c("Country", "Series_Code", "Series_Name"))
+df_macro_2 <- merge(df_macro, series_2023, by = c("Country", "Series_Code", "Series_Name"))
 
 df_macro_2 <- df_macro_2 %>% rename("2023" = "values_2023")
 
@@ -377,7 +377,7 @@ df_macro_2
 
 ```{r}
 library(knitr)
-knitr::include_graphics("join_visual.png")
+knitr::include_graphics("media/join_visual.png")
 ```
 
 As illustrated in the image, an `full_join()` and `right_join()` are great for merging data sources in situations when we are particularly interested in the issue of missing matches.
