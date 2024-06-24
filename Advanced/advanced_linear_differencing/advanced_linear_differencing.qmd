@@ -15,13 +15,10 @@ editor: visual
 1.  Differences-in-Differences
 2.  Event Studies
 
-### Outcomes
+This notebook will cover:
 
-By the end of this notebook, you will be able to:
-
-  - 
-  
-  - 
+  - Difference-in-differences research when there are more than two groups, and when treatment timing varies.
+  - Event studies when treatment is a continuous variable
 
 Install necessary packages
 
@@ -50,7 +47,9 @@ library(broom)
 
 ## Background Functions
 
-Data Generating function.
+The following blocks are a data generating function which will simulate the panel-structured data with which we will be working. 
+
+You do not need to follow how this data is constructed in order to understand the notebook. 
 
 ```{r}
 dgp <- function(N, T, a, g, id_var = "id", time_var = "time") {
@@ -147,6 +146,29 @@ dgp_2 <- function(N, T, g, id_var = "id", time_var = "time") {
 }
 ```
 
+
+## Why Linear Differencing?
+
+**To implement a DiD-style analysis when there are multiple treatment groups, multiple control groups, and treatment occurs at multiple different times**
+
+Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
+
+In our classic difference-in-differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment". 
+
+$$
+y_{it} = \alpha + \gamma_i TREAT_i + \gamma_t POST_t + \beta TREAT_i \times POST_t + u_{it} 
+$$
+
+Where the average treatment effect on the treated (ATT), our outcome of interest, is also equivalent to $\hat{\beta}$ 
+
+$$
+ATT = \hat{\beta} = [\bar{y}{^{Post} _{Treated}} - \bar{y}{^{Pre} _{Treated}}] - [\bar{y}{^{Post} _{Untreated}} - \bar{y}{^{Pre} _{Untreated}}]
+$$
+
+However this 2x2 set-up fails when we have multiple treated groups being treated at different times. Why? Because a post period isn't properly defined.
+
+Consider:
+
 ```{r}
 set.seed(123)
 fake_data <- dgp(N=50, T=20, a=3, g=10)
@@ -160,27 +182,28 @@ for (grp in 2:3) {
 }
 ```
 
-## Variation in Treatment Timing
 
-In our original difference in differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment". However this 2x2 set-up fails when we have multiple treated groups being treated at different times.
-
-In cases of multiple we cannot use our original DiD equation,
-
-$$
-y_{it} = \alpha + \gamma_i TREAT_i + \gamma_t POST_t + \beta TREAT_i \times POST_t + u_{it} 
-$$
-
-because a post period isn't properly defined. In our example group 2 is treated at $t=12$ while group 3 is treated at $t=8$. So do we use 12 as our post period or do we use 8 as our post period? If let's say we use 12 as our post period, then group 2 is our treated do we use group 1 as our control or do we use group 3 from $t = 8 \ \text{to} \ 20$ as our control? The answer to these questions will depend on what our research question is.
+In this example, group 2 is treated at $t=12$ while group 3 is treated at $t=8$. So do we use 12 as our post period or do we use 8 as our post period? If let's say we use 12 as our post period, then group 2 is our treated do we use group 1 as our control or do we use group 3 from $t = 8 \ \text{to} \ 20$ as our control? The answer to these questions will depend on what our research question is.
 
 ## Old DiD and Variance Weighting
 
-In our fictitious example there are 4 possible DiD estimators (Can you list all 4?). In fact for $n$ treated and one control group there are $n^2$ possible estimators! But how do these estimators relate to the old DiD estimator we had? The relation is given by the following equation:
+In our fictitious example there are 4 possible DiD estimators (Can you list all 4?). In fact for $n$ treated and one control group there are $n^2$ possible estimators! But how do these estimators relate to the old DiD estimator we had? Simply put, our old DiD estimator was a truncated version of a more generalized 2x2 estimator. 
+
+Where we once had only two groups and two time periods, we are now expanding that to cover three groups over three time periods (although this can be generalized to many groups and many periods). The relation is as follows: 
 
 $$
 \hat \beta^{DiD} = \sum_{k \neq U}s_{kU} \hat \beta_{kU} + \sum_{k \neq U} \sum_{k>l} [s^k_{kl} \hat \beta_{kl}^{k} + s^l_{kl} \hat \beta_{kl}^{l}]
 $$
 
-where the 2x2 estimators are:
+::: {.callout-note}
+Let *k* and *l* be treated groups, where *k* is treated at a point in time earlier than *l*, and *U* is the untreated group.
+
+$\hat{\beta}_{kU}$ uses *k* as the treated group and *U* as the control group, $\hat{\beta}_{kl}^k$ uses *k* as the treated and pre-treatment *l* as the control group and finally $\hat{\beta}_{kl}^l$ uses *l* as the treated group and post-treatment *k* as the control group.
+
+$s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights.
+:::
+
+And the 2x2 estimators are:
 
 $$
 \begin{equation}
@@ -198,8 +221,14 @@ $$
 \begin{equation}
 \hat{\beta}_{kl}^l = (\bar{y}_l^{POST(l)} - \bar{y}_l^{MID{(k,l)}}) - (\bar{y}_k^{POST(l)} - \bar{y}_k^{MID(k,l)})
 \end{equation}
-$$\
-and *U* is the untreated group, *k* and *l* are some treated groups such that treatment time of *l* is greater than *k*'s, $s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights. $\hat{\beta}_{kU}$ uses *k* as the treated group and *U* as the control group, $\hat{\beta}_{kl}^k$ uses *k* as the treated and pre-treatment *l* as the control group and finally $\hat{\beta}_{kl}^l$ uses *l* as the treated group and post-treatment *k* as the control group.
+$$
+
+::: {.callout-note}
+
+In the context of our example, PRE refers to $0<time<8$ (i.e. up until group 3 is treated), MID to $8<time<12$ (i.e. when group 3 has been treated by group 2 has not been), and POST to $12<time<20$ (i.e. when groups 2 and 3 have both been treated). 
+
+:::
+ 
 
 Although this equation looks really complicated (and it is), what it essentially means is that our original DiD estimator is a variance weighted average of all possible DiD estimators with staggered treatment.
 
