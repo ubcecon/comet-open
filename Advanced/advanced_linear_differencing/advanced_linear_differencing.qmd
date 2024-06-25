@@ -260,17 +260,27 @@ $$
 \beta^{DiD} = VWATT + VWCT - \Delta ATT
 $$
 
-where, *VWATT* is the variance weighted average treatment effect on treated, *VWCT* is the variance weighted common trends and $\Delta ATT$ is the weighted sum of the treatment effects within each group's post-period with respect to another group's treatment timing.
+where, **VWATT** is the variance weighted average treatment effect on treated, **VWCT** is the variance weighted common trends and $\Delta ATT$ is the weighted sum of the treatment effects within each group's post-period with respect to another group's treatment timing.
 
-The *VWATT* is a positively weighted average of *ATT*s for the treatment groups and post-periods across the 2x2 DiD estimators that make up $\hat{\beta}^{DiD}$. *VWCT* generalises the common trends to a setting with timing variation. It is the weighted average of the difference in counterfactual trends between pairs of groups and different time periods. Since already treated groups act as controls we need to subtract average changes in their untreated outcomes and their treatment effects which is captured by $\Delta ATT$. If we expect the effect of treatment to not vary over time, then $\Delta ATT = 0$.
+If the common trends assumption holds, as it must in a valid DiD research design, then $VCWT = 0$.
+
+$$
+\beta^{DiD} = VWATT + \underbrace{VWCT}_{0} - \Delta ATT 
+$$
+
+$$
+\rightarrow \beta^{DiD} = VWATT - \Delta ATT 
+$$
+
+The **VWATT** term is a positively weighted average of **ATT**s for the treatment groups and post-periods across the 2x2 DiD estimators that make up $\hat{\beta}^{DiD}$. **VWCT** generalises the common trends to a setting with timing variation. It is the weighted average of the difference in counterfactual trends between pairs of groups and different time periods. Since already treated groups act as controls we need to subtract average changes in their untreated outcomes and their treatment effects which is captured by $\Delta ATT$. If we expect the effect of treatment to not vary over time, then $\Delta ATT = 0$.
 
 Now that we know the decomposition of the DiD estimator in terms of *ATT*s, how do we interpret it?
 
-Moving forward we will assume that the common trends assumption hold, as a result $VCWT = 0$.
+First let's consider the case where treatment effect is the same across time but vary across units in a group, in other words $\Delta ATT = 0$. So, we are only left with **VWATT**. The **VWATT** weights together the group specific **ATT**s *not* by sample shares but rather by a function of sample shares and treatment variance. In general the **VWATT** does not equal the sample **ATT** neither does it equal the effect in the average treated period. The **VWATT** suffers from the bias-variance: the variance weights come from the fact that OLS combines 2x2 DiD estimators efficiently but potentially moves the point estimate away from the **ATT**. The extent to which **VWATT** differs from **ATT** depends on the relationship between treatment effect heterogeneity and treatment timing in a given sample.
 
-First let's consider the case where treatment effect is the same across time but vary across units in a group, in other words $\Delta ATT = 0$. So, we are only left with *VWATT*. The *VWATT* weights together the group specific *ATT*s **not** by sample shares but rather by a function of sample shares and treatment variance. In general the *VWATT* does not equal the sample *ATT* neither does it equal the effect in the average treated period. The *VWATT* suffers from the bias-variance: the variance weights come from the fact that OLS combines 2x2 DiD estimators efficiently but potentially moves the point estimate away from the *ATT*. The extent to which *VWATT* differs from *ATT* depends on the relationship between treatment effect heterogeneity and treatment timing in a given sample. However, if one group is very large or there is little variation in treatment timing, the weights matter less and *VWTT* is a good estimator of *ATT* in that case.
+That said, this does not mean the **VWATT** is uninformative. In cases where one group is very large or there is little variation in treatment timing, the weights matter less and **VWTT** can be a good estimator of **ATT** in these situations.
 
-Now, let's allow treatment effect to vary across time but not across units in a group. In this case biases arise when using already treated groups as controls. Due to this variation in treatment across time, common trends between counterfactual outcomes leaves the set of estimates $\hat{\beta}_{kl}^l$ biased, while common trends between counterfactuals and treated outcomes leaves the set of estimates $\hat{\beta}_{kl}^k$ biased. In this case to extract *ATT* an event study.
+Now, let's allow treatment effect to vary across time but not across units in a group. In this case biases arise when using already treated groups as controls. Due to this variation in treatment across time, common trends between counterfactual outcomes leaves the set of estimates $\hat{\beta}_{kl}^l$ biased, while common trends between counterfactuals and treated outcomes leaves the set of estimates $\hat{\beta}_{kl}^k$ biased. In this case to extract **ATT** an event study.
 
 ## Example
 
