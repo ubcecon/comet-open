@@ -1,7 +1,7 @@
 ---
 title: "3.4 - Advanced - Linear Differencing"
 author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
-Last update: 18 June 2024
+Last update: 26 June 2024
 description: Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to apply to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
 format: html
@@ -47,7 +47,7 @@ library(broom)
 
 ## Background Functions
 
-The following blocks are a data generating function which will simulate the panel-structured data with which we will be working. 
+The following blocks of code are data generating functions which will simulate the panel-structured data with which we will be working. 
 
 You do not need to follow how this data is constructed in order to understand the notebook. 
 
@@ -183,27 +183,36 @@ for (grp in 2:3) {
 ```
 
 
-In this example, group 2 is treated at $t=12$ while group 3 is treated at $t=8$. So do we use 12 as our post period or do we use 8 as our post period? If let's say we use 12 as our post period, then group 2 is our treated do we use group 1 as our control or do we use group 3 from $t = 8 \ \text{to} \ 20$ as our control? The answer to these questions will depend on what our research question is.
+In this example, group 2 is treated at $t=12$ while group 3 is treated at $t=8$. So do we use 12 as our post period or do we use 8 as our post period? Suppose we use 12 as our post period, then group 2 is our treated group. In this case, should we use group 1 as our control, or group 3 from $t = 8 \ \text{to} \ 20$ as our control? The answer to these questions will depend on what our research question is.
 
-## Old DiD and Variance Weighting
+## Variance Weighting: the Bridge from Traditional DiD to Linear Differencing
 
-In our fictitious example there are 4 possible DiD estimators (Can you list all 4?). In fact for $n$ treated and one control group there are $n^2$ possible estimators! But how do these estimators relate to the old DiD estimator we had? Simply put, our old DiD estimator was a truncated version of a more generalized 2x2 estimator. 
+A hidden facet of traditional difference-in-differences equations is that the effect one finds is implicitly a Variance Weighted Average Treatment effect on Treated (**VWATT**). However, when there are only two groups and one period of treatment, the variance weighting divides out by itself to become $1$. Thus, for simplicity's sake we ignore it during traditional analyses. 
 
-Where we once had only two groups and two time periods, we are now expanding that to cover three groups over three time periods (although this can be generalized to many groups and many periods). The relation is as follows: 
+Now, consider the example from our above graph: suppose group 3 (first treated) has $n=100$ and $\hat{\beta} = 0.50$, group 2 (second treated) has $n=50$ and $\hat{\beta} = 0.40$. A simple average of the effect would give a coefficient of $0.45$ but that would be misleading because having a different number of observations in each group will (in general) affect the variance in such a way as to make it not simplify to $1$. 
+
+Recoginizing this is _critical_ to understanding the equations which undergird linear differencing.
+
+Now, with no further ado, the <u>Linear Differencing Equation</u>
 
 $$
 \hat \beta^{DiD} = \sum_{k \neq U}s_{kU} \hat \beta_{kU} + \sum_{k \neq U} \sum_{k>l} [s^k_{kl} \hat \beta_{kl}^{k} + s^l_{kl} \hat \beta_{kl}^{l}]
 $$
 
+
 ::: {.callout-note}
-Let *k* and *l* be treated groups, where *k* is treated at a point in time earlier than *l*, and *U* is the untreated group.
+Let *k* and *l* be treated groups, where *k* is treated at a point in time earlier than *l*, and *U* is the untreated group. When used as a superscript, this denotes the treatment group to whom the sample variance or coefficient belongs. 
 
 $\hat{\beta}_{kU}$ uses *k* as the treated group and *U* as the control group, $\hat{\beta}_{kl}^k$ uses *k* as the treated and pre-treatment *l* as the control group and finally $\hat{\beta}_{kl}^l$ uses *l* as the treated group and post-treatment *k* as the control group.
 
-$s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights.
+$s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights. 
 :::
 
-And the 2x2 estimators are:
+Where we once had only two groups and two time periods (basically just the first term and $s_{kU}=1$), we are now expanding that to cover three groups over three time periods (although this can be generalized to many groups and many periods). 
+
+Simply put, our traditional DiD estimator was a truncated version of a more generalized 2x2 estimator which we are now employing.  
+
+And the 2x2 estimators we used in our <u>Linear Differencing Equation</u> are:
 
 $$
 \begin{equation}
@@ -230,13 +239,18 @@ In the context of our example, PRE refers to $0<time<8$ (i.e. up until group 3 i
 :::
  
 
-Although this equation looks really complicated (and it is), what it essentially means is that our original DiD estimator is a variance weighted average of all possible DiD estimators with staggered treatment.
+Although this equation looks really complicated (and it is), what it essentially means is that our <u>Linear Differencing Equation</u> is a variance weighted average of all possible DiD estimators with staggered treatment.
 
-Depending on the research question the old DiD estimator may not be the best estimator to capture what we need. So it is important to know what it is we want to estimate and then compute the DiD estimator we want instead of just using our old DiD in this new staggered enviornment.
+We'll get into some of the capabilities and limits of linear differencing in the next sections. Suffice to say for now that the coefficient can be difficult to interpret. So, it is important to know what it is you want to estimate for your research question before deciding whether the <u>Linear Differencing Equation</u> is required or if a more traditional DiD would suffice.
+
+::: {.callout-tip}
+## For $n$ treated and one control group there are $n^2$ possible DiD estimators! Can you list all of the ones from our example? 
+
+:::
 
 ## A New Common Trends
 
-Since we have multiple estimates for DiD, we will also need new common trends assumptions. The assumptions needed are similar to the assumption needed for a traditional 2x2 DiD estimator. In order to see what common trends assumptions are required in this new staggered environment let's look at the decomposition of all of the 2x2 DiD estimates:
+Since we have multiple estimates for DiD, we will also need multiple new common trends assumptions. The assumptions needed are similar to the assumption needed for a traditional 2x2 DiD estimator. In order to see what common trends assumptions are required in this new staggered environment let's look at the decomposition of all of the 2x2 DiD estimates:
 
 $$
 \hat{\beta}_{kU} = ATT_k(POST(k)) + [\Delta Y_k^0(POST(k),PRE(k)) - \Delta Y_U^0(POST(k),PRE(k))]
@@ -250,19 +264,35 @@ $$
 \hat{\beta}_{kl}^l = ATT_l(POST(l)) + [\Delta Y_l^0(POST(l),MID(k,l)) -\Delta Y_k^0(POST(l),MID(k,l))] \\ - [ATT_k(POST(l)) - ATT_k(MID(k,l))]
 $$
 
-The first two $(\hat{\beta}_{kU}$, $\hat{\beta}_{kl}^k)$ should seem familiar as they are the same as the old 2x2 DiD, the last term $(\hat{\beta}_{kl}^l)$ is different. It involves the counterfactual values, as before, and includes the change in treatment effects of already treated control group.
+The first two $(\hat{\beta}_{kU}$, $\hat{\beta}_{kl}^k)$ should seem familiar as they are the same as the 2x2 DiD we just covered, but the last term $(\hat{\beta}_{kl}^l)$ is different. It involves the counterfactual values, as before, and includes the change in treatment effects of the already treated control group(s).
+
+::: {.callout-tip}
+## If the CTA holds, all the $[...]$ terms should cancel to zero
+
+:::
 
 ## Average Treatment on Treated
 
-To isolate for just the effect of the treatment, we need to account for the effects of timing of the treatment. To do so let's put all the equations in the previous sections together. Doing so yields a decomposition of the traditional DiD in terms of treatment effects,
+To isolate for just the effect of the treatment, we need to account for the effects of timing of the treatment. To do so let's put all the equations in the previous sections together. Doing so yields a decomposition of the <u>Linear Differencing Equation</u> in terms of treatment effects,
 
 $$
 \beta^{DiD} = VWATT + VWCT - \Delta ATT
 $$
 
-where, **VWATT** is the variance weighted average treatment effect on treated, **VWCT** is the variance weighted common trends and $\Delta ATT$ is the weighted sum of the treatment effects within each group's post-period with respect to another group's treatment timing.
+where, $VWATT$ is the variance weighted average treatment effect on treated, $VWCT$ is the variance weighted common trends and $\Delta ATT$ is the weighted sum of the treatment effects within each group's post-period with respect to another group's treatment timing.
 
-If the common trends assumption holds, as it must in a valid DiD research design, then $VCWT = 0$.
+
+
+::: {.callout-important}
+The $VWATT$ term is a positively weighted average of $ATTs$ for the treatment groups and post-periods across the 2x2 DiD estimators that make up $\hat{\beta}^{DiD}$.
+
+$VWCT$ generalises the common trends to a setting with timing variation. It is the weighted average of the difference in counterfactual trends between pairs of groups and different time periods.
+
+Since already treated groups act as controls, we need to subtract average changes in their untreated outcomes and their treatment effects which is captured by $\Delta ATT$. If we expect the effect of treatment to not vary over time, then $\Delta ATT = 0$.
+
+:::
+
+If the common trends assumption holds, as it must for a DiD research design to be valid, then $VCWT = 0$.
 
 $$
 \beta^{DiD} = VWATT + \underbrace{VWCT}_{0} - \Delta ATT 
@@ -272,37 +302,35 @@ $$
 \rightarrow \beta^{DiD} = VWATT - \Delta ATT 
 $$
 
-The **VWATT** term is a positively weighted average of **ATT**s for the treatment groups and post-periods across the 2x2 DiD estimators that make up $\hat{\beta}^{DiD}$. **VWCT** generalises the common trends to a setting with timing variation. It is the weighted average of the difference in counterfactual trends between pairs of groups and different time periods. Since already treated groups act as controls we need to subtract average changes in their untreated outcomes and their treatment effects which is captured by $\Delta ATT$. If we expect the effect of treatment to not vary over time, then $\Delta ATT = 0$.
+Now that we know the decomposition of the DiD estimator in terms of $ATTs$, how do we interpret it?
 
-Now that we know the decomposition of the DiD estimator in terms of *ATT*s, how do we interpret it?
+First let's consider the case where treatment effect is the same across time but vary across units in a group, in other words $\Delta ATT = 0$. So, we are only left with $VWATT$. The $VWATT$ weights together the group specific $ATTs$ *not* by share of sample size but rather by a function of sample shares and treatment variance. In general the $VWATT$ does not equal the sample $ATT$ neither does it equal the effect in the average treated period. The $VWATT$ suffers from the bias-variance: the variance weights come from the fact that OLS combines 2x2 DiD estimators efficiently but potentially moves the point estimate away from the $ATT$. The extent to which $VWATT$ differs from $ATT$ depends on the relationship between treatment effect heterogeneity and treatment timing in a given sample.
 
-First let's consider the case where treatment effect is the same across time but vary across units in a group, in other words $\Delta ATT = 0$. So, we are only left with **VWATT**. The **VWATT** weights together the group specific **ATT**s *not* by sample shares but rather by a function of sample shares and treatment variance. In general the **VWATT** does not equal the sample **ATT** neither does it equal the effect in the average treated period. The **VWATT** suffers from the bias-variance: the variance weights come from the fact that OLS combines 2x2 DiD estimators efficiently but potentially moves the point estimate away from the **ATT**. The extent to which **VWATT** differs from **ATT** depends on the relationship between treatment effect heterogeneity and treatment timing in a given sample.
+That said, this does not mean the $VWATT$ is uninformative. In cases where one group is very large or there is little variation in treatment timing, the weights matter less and $VWTT$ can be a good estimator of $ATT$ in these situations.
 
-That said, this does not mean the **VWATT** is uninformative. In cases where one group is very large or there is little variation in treatment timing, the weights matter less and **VWTT** can be a good estimator of **ATT** in these situations.
-
-Now, let's allow treatment effect to vary across time but not across units in a group. In this case biases arise when using already treated groups as controls. Due to this variation in treatment across time, common trends between counterfactual outcomes leaves the set of estimates $\hat{\beta}_{kl}^l$ biased, while common trends between counterfactuals and treated outcomes leaves the set of estimates $\hat{\beta}_{kl}^k$ biased. In this case to extract **ATT** an event study.
+Now, let's allow treatment effect to vary across time but not across units in a group. In this case biases arise when using already treated groups as controls. Due to this variation in treatment across time, common trends between counterfactual outcomes leaves the set of estimates $\hat{\beta}_{kl}^l$ biased, while common trends between counterfactuals and treated outcomes leaves the set of estimates $\hat{\beta}_{kl}^k$ biased. In this case, it would be preferable to to extract $ATT$ through an event study instead.
 
 ## Example
 
-Now let's use our fake data to illustrate this in code. We will use the bacon function from the bacondecomp package. The bacon function gives us the 2x2 DiD decomposition along with the weights associated. Run `?bacon` to see the documentation.
+Now let's use our fake data to illustrate this in code. We will use the `bacon` function from the `bacondecomp` package. The `bacon` function gives us the 2x2 DiD decomposition along with the weights associated. Run `?bacon` to see the documentation.
 
 ```{r}
 summary_1 <- bacon(var1 ~ treatment, data = fake_data, id_var = "id", time_var = "time")
 print(summary_1)
 ```
 
-From the table above we can see that $\hat{\beta}_{2,1} = \hat{\beta}^2_{2,3} = 37.15$, $\hat{\beta}_{3,1}= \hat{\beta}^3_{3,2} = 27.79$ in our fictitious case. Using these estimates and weights we can compute the *ATT*.
+From the table above we can see that $\hat{\beta}_{2,1} = \hat{\beta}^2_{2,3} = 37.15$, $\hat{\beta}_{3,1}= \hat{\beta}^3_{2,3} = 27.79$ in our fictitious case. Using these estimates and weights we can compute the $WVATT$.
 
 ```{r}
 ATT_1 <- weighted.mean(summary_1$estimate, summary_1$weight)
 print(ATT_1)
 ```
 
-Now let's try a bigger example with 9 treated groups, 1 control group and 50 time periods.
+Now let's try a bigger example with 5 treated groups, 1 control group and 50 time periods.
 
 ```{r}
 set.seed(123)
-fake_data_2 <- dgp(N=100, T=50, a=10, g=10)
+fake_data_2 <- dgp(N=100, T=50, a=6, g=10)
 fake_data_2$treatment <- 0
 for (grp in 2:10) {
   fake_data_2$treatment <- ifelse((fake_data_2$group == grp & fake_data_2$time >= fake_data_2$jump_time), 1, fake_data_2$treatment)
@@ -315,6 +343,11 @@ Try to do it yourself.
 ```{r}
 #summary_2 <- bacon(??? ~ ???, data = fake_data_2, id_var = ???, time_var = ???)
 #print(summary_2)
+```
+
+```{r}
+summary_2 <- bacon(var1 ~ treatment, data = fake_data_2, id_var = id, time_var = time)
+print(summary_2)
 ```
 
 Now calculate the weighted mean for *ATT*.
