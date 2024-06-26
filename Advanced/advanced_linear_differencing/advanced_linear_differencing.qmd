@@ -4,7 +4,7 @@ author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
 Last update: 26 June 2024
 description: Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to apply to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
-format: html
+format: html 
 editor: visual
 ---
 
@@ -18,7 +18,10 @@ editor: visual
 This notebook will cover:
 
   - Difference-in-differences research when there are more than two groups, and when treatment timing varies.
-  - Event studies when treatment is a continuous variable
+  - Event studies when treatment is a continuous variable. 
+
+
+## Setting up
 
 Install necessary packages
 
@@ -31,7 +34,7 @@ Install necessary packages
 
 Load Packages
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(haven)
 library(ggplot2)
@@ -45,13 +48,11 @@ library(plm)
 library(broom)
 ```
 
-## Background Functions
-
 The following blocks of code are data generating functions which will simulate the panel-structured data with which we will be working. 
 
 You do not need to follow how this data is constructed in order to understand the notebook. 
 
-```{r}
+```{r, dgp1, code-fold: true}
 dgp <- function(N, T, a, g, id_var = "id", time_var = "time") {
   ids <- 1:N # Unique ids
   times <- 1:T # Time periods
@@ -103,7 +104,7 @@ plot_avgs <- function(panel_data){
 }
 ```
 
-```{r}
+```{r, dgp2, code-fold: true}
 dgp_2 <- function(N, T, g, id_var = "id", time_var = "time") {
   ids <- 1:N  # Unique ids
   times <- 1:T  # Time periods
@@ -326,35 +327,31 @@ ATT_1 <- weighted.mean(summary_1$estimate, summary_1$weight)
 print(ATT_1)
 ```
 
-Now let's try a bigger example with 5 treated groups, 1 control group and 50 time periods.
+Now let's try a larger example with 5 treated groups, 1 control group and 50 time periods.
 
 ```{r}
 set.seed(123)
-fake_data_2 <- dgp(N=100, T=50, a=6, g=10)
-fake_data_2$treatment <- 0
-for (grp in 2:10) {
-  fake_data_2$treatment <- ifelse((fake_data_2$group == grp & fake_data_2$time >= fake_data_2$jump_time), 1, fake_data_2$treatment)
+fake_data_3 <- dgp(N=100, T=50, a=6, g=10)
+fake_data_3$treatment <- 0
+for (grp in 2:6) {
+  fake_data_3$treatment <- ifelse((fake_data_3$group == grp & fake_data_3$time >= fake_data_3$jump_time), 1, fake_data_3$treatment)
 }
-plot_avgs(fake_data_2)
+plot_avgs(fake_data_3)
 ```
 
 Try to do it yourself.
 
 ```{r}
-#summary_2 <- bacon(??? ~ ???, data = fake_data_2, id_var = ???, time_var = ???)
-#print(summary_2)
-```
-
-```{r}
-summary_2 <- bacon(var1 ~ treatment, data = fake_data_2, id_var = id, time_var = time)
-print(summary_2)
+summary_3 <- bacon(var1 ~ treatment, data = fake_data_3, id_var = "id", time_var = "time")
+print(summary_3)
 ```
 
 Now calculate the weighted mean for *ATT*.
 
 ```{r}
-#ATT_2 <- weighted.mean(summary_2$???, summary_2$???)
-#Should be 40.9138
+ATT_3 <- weighted.mean(summary_3$estimate, summary_3$weight)
+print(ATT_3)
+#Should be 42.12366
 ```
 
 ## Continuous Treatment
