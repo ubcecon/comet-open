@@ -21,7 +21,7 @@ This notebook will cover:
   - Event studies when treatment is a continuous variable. 
 
 
-## Setting up
+# Setting up
 
 Install necessary packages
 
@@ -147,6 +147,7 @@ dgp_2 <- function(N, T, g, id_var = "id", time_var = "time") {
 }
 ```
 
+# Difference-in-Differences with Variation in Treatment Timing
 
 ## Why Linear Differencing?
 
@@ -331,36 +332,45 @@ Now let's try a larger example with 5 treated groups, 1 control group and 50 tim
 
 ```{r}
 set.seed(123)
-fake_data_3 <- dgp(N=100, T=50, a=6, g=10)
-fake_data_3$treatment <- 0
+fake_data_2 <- dgp(N=100, T=50, a=6, g=10)
+fake_data_2$treatment <- 0
 for (grp in 2:6) {
-  fake_data_3$treatment <- ifelse((fake_data_3$group == grp & fake_data_3$time >= fake_data_3$jump_time), 1, fake_data_3$treatment)
+  fake_data_2$treatment <- ifelse((fake_data_2$group == grp & fake_data_2$time >= fake_data_2$jump_time), 1, fake_data_2$treatment)
 }
-plot_avgs(fake_data_3)
+plot_avgs(fake_data_2)
 ```
 
 Try to do it yourself.
 
 ```{r}
-summary_3 <- bacon(var1 ~ treatment, data = fake_data_3, id_var = "id", time_var = "time")
-print(summary_3)
+summary_2 <- bacon(var1 ~ treatment, data = fake_data_2, id_var = "id", time_var = "time")
+print(summary_2)
 ```
 
 Now calculate the weighted mean for *ATT*.
 
 ```{r}
-ATT_3 <- weighted.mean(summary_3$estimate, summary_3$weight)
-print(ATT_3)
+ATT_2 <- weighted.mean(summary_2$estimate, summary_2$weight)
+print(ATT_2)
 #Should be 42.12366
 ```
 
-## Continuous Treatment
+# Continuous Treatment
 
-Now lets consider a case where treatment is not just a dummy variable but rather a continuous variable. One example could be the effects of taking two pills of Advil (not sponsored) as opposed to three pills. If we try to use our old treatment definitions, we get stuck. For example, do we discretise treatment and calculate the *ATT* for each group? What if we have a continuum of treatment? To show causality in this set-up we'll have to broaden our definitions.
+Now lets consider a case where treatment is not just a dummy variable but rather a continuous variable. One example could be the effects of taking Advil (not a sponsor). What's the effect of taking 1mg, 2mg, 3mg, and so forth up to 400mg? If we try to use our old treatment definitions, we get stuck. For example, do we discretise treatment and calculate the *ATT* for each group? What if we have a continuum of treatment? The "trick" to showing causality in this set-up will be aggregating our parameters of interest in order to simplify our estimation such that it resembles an event study. 
+
+### Roadmap: 
+1) Formally set-up the situation
+2) Define our outcomes of interest
+3) Redefine our two continuous measures of timing into a single event-study time variable
+4) Redefine our continuous treatment (dosage) into a binary high- or low-dose treatment
+5) Work through an example
+
+## Setting Up
 
 Going forward we will consider a set-up with *N* units indexed by *i*, *T* time periods by *t*, treatment time of groups as $G_i$ such that $G_i \in \mathcal{G} = \{2, \ldots , T, \infty \}$ where $G_i = \infty$ means the unit is never treated (control) and $D_i$ as the "dose group" such that $D_i \in \mathcal{D} \subseteq [0, d_H]$, where $d_H < \infty$ denotes the treatment dose (intensity) received by *i*.
 
-## Average Causal Response
+### Average Causal Response
 
 In order to show causality, we will adopt the potential outcome framework as in Differences-in-Differences. So, we will write $Y_{i,t}(g,d)$ as the potential outcome of unit *i* at time *t* if the unit is treated in period *g*, with dose *d*. $Y_{i,t}(0) = Y_{i,t}(\infty , 0)$ represents the never treated units. Using this notation we an define a group-time-dose-specific average treatment effect on treated:
 
@@ -374,37 +384,89 @@ $$
 ACR(g,t,d) = \frac{\partial E[Y_t(g,d)|G=g]}{\partial \bar{d}} \Bigg|_{\bar{d} = d}
 $$
 
-*ACR*(g,t,d) is the average causal response to a marginal change in the dose at *d* for all units in timing group *g*. The *ACR* answers causal questions about what level of treatment matters. Since this is a slope parameter, as a function of *g*, *t* and *d*, variations in these dimensions.
+*ACR*(g,t,d) is the average causal response to a marginal change in the dose at *d* for all units in timing group *g*. The *ACR* answers causal questions about what level of treatment matters. Since this slope parameter is a function of *g*, *t*, and *d*, variations along any of these dimensions may cause economically meaningful changes.
 
-## Event Study Parameters
+### Event Study Parameters
 
-Under certain assumptions, event study aggregations that average over treatment dosages can be used to calculate a dose response function. More specifically, let $ATT^o(g,t) = E[ATT(g,t,d)| G=g, D>0]$ be the average *ATT* for that group in a given point in time and let $ATT^{es} (e) = E[ATT^o(G, G+e)|G+e \in [2,T], D>0]$ be the average treatment effect among those that have been exposed for exactly *e* periods, conditional on being observed having participated in the treatment for that number of periods $(G+e \in [2,T])$ and being ever treated $(D>0)$. When *D* is binary, $ATT^{es}(e)$ reduces to the event-study coefficient. We can also split $ATT^{es}(e)$ into "lower-dose" and "higher-dose" groups by partially aggregating the doses in each group and time period. We can also aggregate over some event-times, which can facilitate reporting dose-response functions.
+Combining a research set up in which treatment is continuous across each *t* and *g* with the fact that changes across any one of *g*, *t*, and *d* could be economically meaningful suggests there could be *N* dose-response functions we need to estimate! This puts us in a sticky situation for untangling causality. The solution? Refefine our two variables for time into a new parameter, *e*, the "event-time" or *time-since-treatment* $e \equiv t - g$. 
+
+Under some fairly innocuous assumptions, event study aggregations that average over treatment dosages can be used to calculate a dose response function. More specifically, let $$ATT^o(g,t) = E[ATT(g,t,d)| G=g, D>0]$$ be the average *ATT* for that group in a given point in time, and the event study *ATT* $$ATT^{es} (e) = E[ATT^o(G, G+e)|G+e \in [2,T], D>0]$$ be the average treatment effect among those that have been exposed for exactly *e* periods, conditional on being observed having participated in the treatment for that number of periods $(G+e \in [2,T])$ and being ever treated $(D>0)$.
+
+
+This is the first redefinition of the problem we talked about: changing timing into being a single variable. That's a start, but it doesn't quite get us where we need to go. Next, it's worth emphasizing that when *D* is binary, $ATT^{es}(e)$ reduces to an event-study coefficient. We'll use this fact to split $ATT^{es}(e)$ into "lower-dose" and "higher-dose" groups by partially aggregating the doses in each group and time period. We can also aggregate over some event-times, which will facilitate reporting dose-response functions.
 
 ## Necessary Assumptions
 
-**Assumption 1:** *The observed data consists of* $\{Y_{i,1}, \ldots, Y_{i,T}, D_i, G_i\}^n_{i=1}$ *which is independently and identically distributed.*
+::: {.callout-tip collapse="true"}
+## Assumption 1: We have panel data
+*The observed data consists of* $\{Y_{i,1}, \ldots, Y_{i,T}, D_i, G_i\}^n_{i=1}$ *which is independently and identically distributed.*
 
 This assumption states that we have panel data.
 
-**Assumption 2:** (i) $\mathcal{D}_{+} = [dL,d_U]$ *with* $0<d_L<d_U<\infty$ (ii) $P(D=0) > 0$ *and* $dF_{D|G}(d|g) > 0$ *and* $(g,d) \in (\mathcal{G} \backslash \{\infty\}) \times \mathcal{D}_{+}$, (iii) *For all* $g \in (\mathcal{G} \backslash \{\infty\})$ *and* $t=2, \ldots , T$, $E[\Delta Y_t | G=g, D=d]$ *is continuously differentiable in* $d$ *on* $\mathcal{D}_+$.
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Assumption 2: Some units are never-treated and treatment is continuous
+i) $\mathcal{D}_{+} = [dL,d_U]$ *with* $0<d_L<d_U<\infty$ 
+ii) $P(D=0) > 0$ *and* $dF_{D|G}(d|g) > 0$ *and* $(g,d) \in (\mathcal{G} \backslash \{\infty\}) \times \mathcal{D}_{+}$, 
+iii) *For all* $g \in (\mathcal{G} \backslash \{\infty\})$ *and* $t=2, \ldots , T$, $E[\Delta Y_t | G=g, D=d]$ *is continuously differentiable in* $d$ *on* $\mathcal{D}_+$.
 
 This assumption states that we have a set of units that are never-treated and that treatment is continuous. If there are no never-treated units, we can restrict attention to periods $t = 1, \ldots , \bar{G}-1$, where $\bar{G} = \text{max}\{G_i : G_i < \infty \}$ is the time of the last group treated.
 
-**Assumption 3:** (i) *For all* $g \in \mathcal{G}$ *and* $t = 1, \ldots , T$ *with* $t<g$, $Y_{i,t}(g,d) = Y_{i,t}(0)$ *a.s.* (ii) $W_{i,1} = 0$ *a.s. and for* $t = 2, \ldots , T$, $W_{i,t-1} = d$ *implies* $W_{i,t} = d$ *a.s.*
+:::
+
+::: {.callout-tip collapse="true"}
+## Assumption 3: There is no anticipation and treatment is staggered.
+i) *For all* $g \in \mathcal{G}$ *and* $t = 1, \ldots , T$ *with* $t<g$, $Y_{i,t}(g,d) = Y_{i,t}(0)$ *a.s.* 
+ii) $W_{i,1} = 0$ *a.s. and for* $t = 2, \ldots , T$, $W_{i,t-1} = d$ *implies* $W_{i,t} = d$ *a.s.*
 
 This assumption states that there is no anticipation and that treatment is staggered.
 
-**Assumption 4:** *For all* $(g,g') \in \mathcal{G}$, $t-=2, \ldots ,T$ *and* $(d,d') \in \mathcal{D} \times \mathcal{D}$, $E[\Delta Y_t(0)|G = g, D = d] = E[\Delta Y_t(0)|G=g', D=d']$
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Assumption 4: Parallel trends assumption is valid
+*For all* $(g,g') \in \mathcal{G}$, $t-=2, \ldots ,T$ *and* $(d,d') \in \mathcal{D} \times \mathcal{D}$, $E[\Delta Y_t(0)|G = g, D = d] = E[\Delta Y_t(0)|G=g', D=d']$
 
 This assumption is the parallel trends assumptions, in the absence of treatment, the average evolution of the untreated potential outcomes is the same across dosage-time groups.
 
-Under these assumptions, it can be shown that (i) $ATT^{es}(e) = E[\theta^o(G,G+e)|G+e \in [2,T], D>0$, (ii) $ATT^{es}_{d_1,d_2}(e) = E[\theta^o_{d_1,d_2}(G, G+e)|G+e \in [2,T], d_1 \leq D \leq d_2]$ and (iii) $ATT^{es}_{e_1,e_2}(d) = E[\tilde{Y}^{e_1, e_2}(G)|G+e_2 \in [2,T], D=d]$.
+:::
 
-\(i\) shows that we can ignore treatment intensity when focusing on the event study type parameters $ATT^{es}(e)$ and therefore use the estimators from staggered DiD setups with binary treatement to estimate these paramaters. (ii) shows that this is still the case when one wants to present event-studies that only partially aggregate across dosages. (iii) tells us that one can rely on dose-response-curve estimators for two period setups.
+Under these assumptions, it can be shown that:
+
+::: {.callout-caution}
+## Treatment intensity is unimportant in the context of our $ATT^{es}(e)$ parameter
+
+$ATT^{es}(e) = E[\theta^o(G,G+e)|G+e \in [2,T], D>0$ implies that we can ignore treatment intensity when focusing on the event study type parameters $ATT^{es}(e)$ and therefore use the estimators from staggered DiD setups with binary treatement to estimate these paramaters.
+
+:::
+
+
+::: {.callout-caution}
+## This is also true with partial aggregation
+$ATT^{es}_{d_1,d_2}(e) = E[\theta^o_{d_1,d_2}(G, G+e)|G+e \in [2,T], d_1 \leq D \leq d_2]$ shows that this is still the case when one wants to present event-studies that only partially aggregate across dosages
+
+:::
+
+
+
+::: {.callout-caution}
+## We can rely on dose-response-curve estimators for two period setups
+
+$ATT^{es}_{e_1,e_2}(d) = E[\tilde{Y}^{e_1, e_2}(G)|G+e_2 \in [2,T], D=d]$ tells us that one can rely on dose-response-curve estimators for two period setups
+:::
+
+::: {.callout-important}
+## For the full proof, see theorem 1 from Callaway, Goodman-Bacon, and Sant’Anna (2024)
+:::
 
 ## Example
 
-```{r}
+$ATT^{es}_{d_1,d_2}(e)$ 
+
+```{r, warning=FALSE, message=FALSE}
 set.seed(221)
 fake_data_3 <- dgp_2(1000, 6, 0)
 plot_avgs(fake_data_3)
@@ -455,7 +517,7 @@ combined_plot <- ggplot(combined_coef_data, aes(x = term, y = estimate, color = 
 print(combined_plot)
 ```
 
-The plot above shows the the vent study for both doses type. In this case we chose to aggregate over different dose types, however if we had differing event times, we could aggregate over them too. The choice of what to aggregate over depends on the research question.
+The plot above shows the the event study for both doses type. In this case we chose to aggregate over different dose types, however if we had differing event times, we could aggregate over them too. The choice of what to aggregate over depends on the research question.
 
 ## References
 
