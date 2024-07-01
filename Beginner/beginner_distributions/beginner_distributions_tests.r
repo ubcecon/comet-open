@@ -24,76 +24,82 @@ test_3 <- function() {
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_4), "53f106f0810996a7abcddcb89a0d659d")
+    expect_equal(digest(answer_4), "55ab2f5437a130b63d11dabc83b1d331")
   })
   print("Success!")
 }
 
 test_5 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_5), "be34be9198b2baebe0ec1ff4811e81a3")
+    expect_equal(digest(answer_5), "71162853943c3ff45f1aa3dd8352f89e")
   })
   print("Success!")
 }
 
 test_6 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_6), "4e257636509cd70b313df2efbe98daa6")
+    expect_equal(digest(answer_6), "908d1fd10b357ed0ceaaec823abf81bc")
   })
   print("Success!")
 }
 
 test_7 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_7), "811e292ea672045e386a53e15cdfbe04")
+    expect_equal(digest(answer_7), "4940727701f3e0a12164baf5070f9a87")
   })
   print("Success!")
 }
 
 test_8 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_8), "195ee15273c197b63b82de2955b11d83")
+    expect_equal(digest(answer_8), "db4b68351294e891168a5ecfc5f3009d")
   })
   print("Success!")
 }
 
 test_9 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_9), "97c884a6879f4b25f46b7fb774c49a37")
+    expect_equal(digest(round(answer_9, 2)), "7524211463fd9c81f4124b5109054101")
   })
   print("Success!")
 }
 
 test_10 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_10), "195ee15273c197b63b82de2955b11d83")
+    expect_equal(digest(answer_10), "9bf3774d8676f70583b66a822bdbdb88")
   })
   print("Success!")
 }
 
 test_11 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_11), "071251066305956df7540d2bb4f7c891")
+    expect_equal(digest(answer_11), "db4b68351294e891168a5ecfc5f3009d")
   })
   print("Success!")
 }
 
-test_12 <- function(answer_12) {
-    if (answer_12 == "A" | answer_12 == "B" | answer_12 == "C") 
-        case_when(answer_12 == "A" ~ "Try again! It is not equally likely that a person is 3 ft. or 6ft. "
-                ,answer_12 == "B" ~ "Try again! It is not equally likely that a person is making $25,000 or $100,000"
-                ,answer_12 == "C" ~ "Yes, this is correct! Approximately speaking, it is equally likely that someone is born on any given day of the year.")
-    else 
-        print("That is an invalid input. Recheck the formatting")
+test_12 <- function() {
+  ans <- digest(answer_12)
+  case_when(
+    ans == "75f1160e72554f4270c809f041c7a776" ~
+    "Try again! It is not equally likely that a person is 3 ft. or 6ft. ",
+    ans == "3a5505c06543876fe45598b5e5e5195d" ~
+    "Try again! It is not equally likely that a person is making $25,000 or $100,000",
+    ans == "475bf9280aab63a82af60791302736f6" ~
+    "Yes, this is correct! Approximately speaking, it is equally likely that someone is born on any given day of the year.",
+    TRUE ~ "That is an invalid input. Recheck the formatting")
 }
 
-test_13 <- function(answer_13) {
-    if (answer_13 == "A" | answer_13 == "B" | answer_13 == "C") 
-        case_when(answer_13 == "A" ~ "Yes, this is correct! The height of students would be much more frequent around an average height (say 170 cm.) and then progressively less frequent on both ends."
-                ,answer_13 == "B" ~ "Try again! Grades would be more frequent towards the higher marks than the lower marks. Additionally, its not possible to get higher than the maximum mark. The distribution would be heavily skewed to the right."
-                ,answer_13 == "C" ~ "Try again! It is equally likely that an individual is born on any of the days in a year.")
-    else 
-        print("That is an invalid input. Recheck the formatting")
+test_13 <- function() {
+  ans <- digest(answer_13)
+  case_when(
+    ans == "75f1160e72554f4270c809f041c7a776" ~
+    "Yes, this is correct! The height of students would be much more frequent around an average height (say 170 cm.) and then progressively less frequent on both ends.",
+    ans == "3a5505c06543876fe45598b5e5e5195d" ~
+    "Try again! Wages are bounded by the minimum wage and are typically right-skewed.",
+    ans == "475bf9280aab63a82af60791302736f6" ~
+    "Try again! It is equally likely that an individual is born on any of the days in a year.",
+    TRUE ~ "That is an invalid input. Recheck the formatting")
 }
 
 test_14 <- function() {
@@ -110,26 +116,14 @@ test_15 <- function() {
   print("Success!")
 }
 
-test_16 <- function(answer_16) {
-    if (answer_16 == "A" | answer_16 == "B" | answer_16 == "C") 
-        case_when(answer_16 == "A" ~ "Yes. this is correct! The t-distribution becomes to look very similar to the normal distribution when the degrees of freedom parameter is large."
-                ,answer_16 == "B" ~ "Try again!"
-                ,answer_16 == "C" ~ "Try again!")
-    else 
-        print("That is an invalid input. Recheck the formatting")
+test_16 <- function() {
+  ans <- digest(answer_16)
+  case_when(
+    ans == "75f1160e72554f4270c809f041c7a776" ~
+    "Yes, this is correct! ",
+    ans == "3a5505c06543876fe45598b5e5e5195d" ~
+    "Try again! This distribution approaches a normal distribution in large samples.",
+    ans == "475bf9280aab63a82af60791302736f6" ~
+    "Try again!",
+    TRUE ~ "That is an invalid input. Recheck the formatting")
 }
-
-
-
-
-
-        
-                  
-                  
-
-
-
-
-
-
-
