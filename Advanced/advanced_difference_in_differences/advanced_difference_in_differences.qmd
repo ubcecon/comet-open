@@ -1,11 +1,14 @@
 ---
 title: '3.1 - Advanced - Difference in Differences'
 categories: [advanced, R, difference in differences, t-test, comparison measure estimator, before-after estimator, regression, triple difference estimator, cross-section data, parallel trends]
-jupyter:
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: R
+                language: r
+                name: ir
 ---
 
 

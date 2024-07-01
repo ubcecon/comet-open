@@ -1,7 +1,14 @@
 ---
 title: "3.7 - Advanced - Transcription"
-jupyter: python3
 categories: [advanced, python, Whisper, audio transcription, PyTorch, preprocessing, diarization]
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: "Python 3 (ipykernel)"
+                language: python3
+                name: python3
 ---
 
 

@@ -1,6 +1,13 @@
 ---
 title: "3.5 - Advanced - Word Embeddings Tutorial (python)"
-jupyter: python3
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: "Python 3 (ipykernel)"
+                language: python3
+                name: python3
 ---
 
 <h1 align='center'>It Starts with a Research Question...</h1>

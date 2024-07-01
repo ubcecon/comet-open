@@ -4,8 +4,14 @@ author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
 Last update: 26 June 2024
 description: Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to apply to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
-format: html 
-editor: visual
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 ## Outline

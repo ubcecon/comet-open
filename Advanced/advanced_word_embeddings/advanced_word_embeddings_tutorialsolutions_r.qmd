@@ -1,10 +1,13 @@
 ---
 title: "3.5 - Advanced - Word Embeddings Tutorial Solutions (R)"
-jupyter:
-  kernelspec:
-    display_name: R
-    language: R
-    name: ir
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 <div>
