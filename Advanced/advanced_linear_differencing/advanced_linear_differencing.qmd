@@ -2,9 +2,11 @@
 title: "3.4 - Advanced - Linear Differencing"
 author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
 Last update: 26 June 2024
-description: Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to apply to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
+description: This notebook introduces students to linear differencing, focusing on techniques of difference-in-differences with variation in treatment timing, and event-studies with a continuous treatment
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
-format: html 
+format:
+  html:
+    code-fold: show
 editor: visual
 ---
 
@@ -25,7 +27,7 @@ This notebook will cover:
 
 Install necessary packages
 
-```{r}
+```{r, fold-code: true}
 #install.packages("bacondecomp")
 #install.packages("lmtest")
 #install.packages("gridExtra")
@@ -34,7 +36,7 @@ Install necessary packages
 
 Load Packages
 
-```{r, warning=FALSE, message=FALSE}
+```{r, library, fold-code: false, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(haven)
 library(ggplot2)
@@ -149,11 +151,11 @@ dgp_2 <- function(N, T, g, id_var = "id", time_var = "time") {
 
 # Difference-in-Differences with Variation in Treatment Timing
 
-## Why Linear Differencing?
+## Purpose?
 
 **To implement a DiD-style analysis when there are multiple treatment groups, multiple control groups, and treatment occurs at multiple different times**
 
-Linear differencing extends traditional 2x2 difference-in-differences estimation techniques to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
+This application of linear differencing extends traditional 2x2 difference-in-differences estimation techniques to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 
 In our classic difference-in-differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment". 
 
@@ -171,13 +173,13 @@ However this 2x2 set-up fails when we have multiple treated groups being treated
 
 Consider:
 
-```{r}
+```{r, fake_data, code-fold: false}
 set.seed(123)
 fake_data <- dgp(N=50, T=20, a=3, g=10)
 plot_avgs(fake_data)
 ```
 
-```{r}
+```{r, fake_data_treatment, code-fold: false}
 fake_data$treatment <- 0
 for (grp in 2:3) {
   fake_data$treatment <- ifelse((fake_data$group == grp & fake_data$time >= fake_data$jump_time), 1, fake_data$treatment)
@@ -316,21 +318,21 @@ Now, let's allow treatment effect to vary across time but not across units in a 
 
 Now let's use our fake data to illustrate this in code. We will use the `bacon` function from the `bacondecomp` package. The `bacon` function gives us the 2x2 DiD decomposition along with the weights associated. Run `?bacon` to see the documentation.
 
-```{r}
+```{r, summary_1, code-fold: false}
 summary_1 <- bacon(var1 ~ treatment, data = fake_data, id_var = "id", time_var = "time")
 print(summary_1)
 ```
 
 From the table above we can see that $\hat{\beta}_{2,1} = \hat{\beta}^2_{2,3} = 37.15$, $\hat{\beta}_{3,1}= \hat{\beta}^3_{2,3} = 27.79$ in our fictitious case. Using these estimates and weights we can compute the $WVATT$.
 
-```{r}
+```{r, att_1, code-fold: false}
 ATT_1 <- weighted.mean(summary_1$estimate, summary_1$weight)
 print(ATT_1)
 ```
 
 Now let's try a larger example with 5 treated groups, 1 control group and 50 time periods.
 
-```{r}
+```{r, fake_data_2, code-fold: false}
 set.seed(123)
 fake_data_2 <- dgp(N=100, T=50, a=6, g=10)
 fake_data_2$treatment <- 0
@@ -342,14 +344,14 @@ plot_avgs(fake_data_2)
 
 Try to do it yourself.
 
-```{r}
+```{r, summary_2, code-fold: false}
 summary_2 <- bacon(var1 ~ treatment, data = fake_data_2, id_var = "id", time_var = "time")
 print(summary_2)
 ```
 
 Now calculate the weighted mean for *ATT*.
 
-```{r}
+```{r, att_2, code-fold: false}
 ATT_2 <- weighted.mean(summary_2$estimate, summary_2$weight)
 print(ATT_2)
 #Should be 42.12366
@@ -360,6 +362,7 @@ print(ATT_2)
 Now lets consider a case where treatment is not just a dummy variable but rather a continuous variable. One example could be the effects of taking Advil (not a sponsor). What's the effect of taking 1mg, 2mg, 3mg, and so forth up to 400mg? If we try to use our old treatment definitions, we get stuck. For example, do we discretise treatment and calculate the *ATT* for each group? What if we have a continuum of treatment? The "trick" to showing causality in this set-up will be aggregating our parameters of interest in order to simplify our estimation such that it resembles an event study. 
 
 ### Roadmap: 
+
 1) Formally set-up the situation
 2) Define our outcomes of interest
 3) Redefine our two continuous measures of timing into a single event-study time variable
@@ -464,19 +467,25 @@ $ATT^{es}_{e_1,e_2}(d) = E[\tilde{Y}^{e_1, e_2}(G)|G+e_2 \in [2,T], D=d]$ tells 
 
 ## Example
 
-$ATT^{es}_{d_1,d_2}(e)$ 
+To see this in action, we'll use `dgp_2` to generate some fresh data for us.
 
-```{r, warning=FALSE, message=FALSE}
+```{r, fake_data_3, code-fold: false}
 set.seed(221)
 fake_data_3 <- dgp_2(1000, 6, 0)
 plot_avgs(fake_data_3)
 ```
 
-Take a look at `jump_magnitude` within `fake_data_3` to see the treatment effect on each unit.
+Woah! Look at that spike. 
 
-Let's split the treated group into a low and high dosage group with $d_1$ is the minimum dose and $d_2$ is the median dose.
+Okay, so clearly our treatment is doing *something* (remember, we're treating people in the treated group a dose across a continuum), but we don't necessarily know how much it is doing. It could be that 1mg  and 1000mg Advil have the same effect, it could be that there's no effect for those taking less than 100mg but a huge effect on those taking more than 100mg, or that the effect increases continously.
 
-```{r}
+How do we tease that out? We'll go back to our friend the partial dose aggregation effect $ATT^{es}_{d_1,d_2}(e)$.
+
+In the block of code below, take a look at `jump_magnitude` within `fake_data_3` to see the treatment effect on each unit. Can you see how we're defining a high and low dosage?
+
+
+
+```{r, event_study, code-fold: false}
 sub_data <- subset(fake_data_3, group == 2)
 fake_data_3$d1 <- ifelse(fake_data_3$jump_magnitude >= min(sub_data$jump_magnitude) & fake_data_3$jump_magnitude <= median(sub_data$jump_magnitude) & fake_data_3$group == 2, 1, 0)
 fake_data_3$d2 <- ifelse(fake_data_3$jump_magnitude > median(sub_data$jump_magnitude) & fake_data_3$group == 2, 1, 0)
@@ -500,24 +509,48 @@ sub_data_d2 <- subset(fake_data_3, group == 1 | fake_data_3$d2 == 1)
 
 event_study_2 <- plm(var1 ~ event_time_dummy1 + event_time_dummy2 + event_time_dummy4 + event_time_dummy5 + event_time_dummy6 , data = sub_data_d2, index=c("id", "time"), model = "within")
 
-summary(event_study_2)
-
 coef_data1 <- tidy(event_study_1)
 coef_data2 <- tidy(event_study_2)
 
 combined_coef_data <- rbind(coef_data1, coef_data2)
 combined_coef_data$model <- c(rep("Low Dose", nrow(coef_data1)), rep("High Dose", nrow(coef_data2)))
 
-combined_plot <- ggplot(combined_coef_data, aes(x = term, y = estimate, color = model)) +
+event_time_labels <- c("event_time_dummy1" = "t = 1",
+                       "event_time_dummy2" = "t = 2",
+                       "event_time_dummy3" = "t = 3",
+                       "event_time_dummy4" = "t = 4",
+                       "event_time_dummy5" = "t = 5",
+                       "event_time_dummy6" = "t = 6")
+
+
+  combined_plot <- ggplot(combined_coef_data, aes(x = term, y = estimate, color = model)) +
   geom_point() +
   geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), width = 0.2) +
   labs(x = "Coefficient", y = "Estimate", title = "Combined Coefficient Plot") +
+  scale_x_discrete(labels = event_time_labels) +
   theme_minimal()
 
+```
+
+
+::: {.callout-tip collapse=TRUE}
+High dose ($d_2$) has been defined as a dosage above the median, and a low dose ($d_1$) as that which is below the median. We could have defined it as broadly or as narrowly as we like, this was just a convienent middle ground. 
+:::
+
+
+```{r, results, code-fold: false}
+summary(event_study_1)
+summary(event_study_2)
 print(combined_plot)
 ```
 
-The plot above shows the the event study for both doses type. In this case we chose to aggregate over different dose types, however if we had differing event times, we could aggregate over them too. The choice of what to aggregate over depends on the research question.
+The plot above shows the the event study for both dosage types, and we can extract the $ATT^{es}_{d_1,d_2}(e)$ from the `summary()` table. 
+
+For the low dose group ($d_1$), the immediate effect is ~64.47 in $t=4$, and rises slightly in periods $t=5$ and $t=6$ to settle around ~69. For the high dose group ($d_2$) the immediate effect is ~124.77 in $t=4$ and it also rises slightly over time, setting around ~130 in $t=5$ and $t=6$. 
+
+In the context of the effect of taking Advil it might be a little hard to intuitively interpret coefficents like this (what does it mean to have a 124 unit change in headaches?), but the specifics aren't important (maybe we're measuring how much Advil is processed by your liver, whatever, it's fake data!). What *is* important is the technique for aggregating continuous treatment effects in order to make them interpretable. 
+
+Note, in this case we chose to aggregate over different dose types, however if we had differing event times, we could aggregate over them too. The choice of what to aggregate over will depend on the research question.
 
 ## References
 
