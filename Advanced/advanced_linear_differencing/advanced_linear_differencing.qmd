@@ -2,7 +2,7 @@
 title: "3.4 - Advanced - Linear Differencing"
 author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
 Last update: 26 June 2024
-description: This notebook introduces students to linear differencing, focusing on techniques of difference-in-differences with variation in treatment timing, and event-studies with a continuous treatment
+description: This notebook introduces students to linear differencing, focusing on techniques of difference-in-differences with variation in treatment timing, and event-studies with a continuous treatment.
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
 format:
   html:
