@@ -123,7 +123,6 @@ The following list contains a few things we want to consider when preparing a te
 You can look at a pre-defined list of stop words in the tidytext dataset using this command:
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 head(stop_words)
 ```
@@ -134,7 +133,6 @@ head(stop_words)
 Next, we’ll run through a practice example using a predetermined lexicon titled, `bing` which was created by Bing Liu and collaborators. The lexicon contains a list of around 6800 English words which are categorized as being either positive or negative. You can read more about the lexicon [here](https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html). One thing to note about lexicon-based analyses that operate at the word level is that they are not able to understand the sentiment of phrases or pairs of words such as “not bad” or “not true.” Can you think of any other phrases that might not work with a word-based analysis?
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 # Construct a dataframe
 username <- c("@potus", "@abject.ron", "@tess888", "@ayden99", "@curious_reggie", 
@@ -160,7 +158,6 @@ policy_df
 Once we have a dataframe, we want to convert it into the tidytext format. The `unnest_tokens` function helps us do that and includes arguments which we can use to specify how we want this done. You can learn more about the `unnest_tokens` function by inputing `?unnest_tokens` into a code cell.
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 policy_token <- policy_df  |>
     unnest_tokens(output = word, 
@@ -181,13 +178,11 @@ If we were interested in running our sentiment analysis at a higher level, for e
 If we are only interested in identifying the words in our corpus of tweets that contain negative (as opposed to positive) sentiment, we can use the `bing` library. Let's take a look at some of the words on the `bing` list:
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 head(get_sentiments("bing"))
 ```
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 negative_sentiments <- get_sentiments("bing") %>% 
     filter(sentiment == "negative") # select only the negative words
@@ -202,7 +197,6 @@ head(negative_policy)
 #### Negative and Positive Sentiment
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 sentiment_policy <- policy_token %>%
     inner_join(get_sentiments("bing")) %>% # adds column with binary sentiment library
@@ -214,7 +208,6 @@ head(sentiment_policy)
 #### Summarizing Sentence-level Sentiment
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 summary_policy <- policy_token %>%
     inner_join(get_sentiments("bing")) %>% # adds column with binary sentiment library
@@ -225,7 +218,6 @@ summary_policy
 ```
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 bing_word_counts <- policy_token |>
   inner_join(get_sentiments("bing")) |>
@@ -251,7 +243,6 @@ Try out a few different usernames in the blank `...` code below:
 * "@not.nat"
 
 ```{r}
-#| tags: []
 #| vscode: {languageId: r}
 user_summary <- summary_policy |>
 filter(username == "@curious_reggie")|>
@@ -407,11 +398,12 @@ The context implied by this post is that workday is unusable, and therefore, thi
 * Air Force Institute of Technology. (n.d.). Text Mining: Sentiment Analysis · AFIT Data Science Lab R Programming Guide. Retrieved May 31, 2024, from https://afit-r.github.io/sentiment_analysis
 * Benoit, K., Watanabe, K., Wang, H., Nulty, P., Obeng, A., Müller, S., & Matsuo, A. (2018). quanteda: An R package for the quantitative analysis of textual data. Journal of Open Source Software, 3(30), 774. https://doi.org/10.21105/joss.00774
 * Hicks, S. (2022, October 13). Tidytext and sentiment analysis: Introduction to tidytext and sentiment analysis. https://www.stephaniehicks.com/jhustatcomputing2022/posts/2022-10-13-working-with-text-sentiment-analysis/
+* Hu, M., & Liu, B. (2004). Mining and summarizing customer reviews. Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004). https://doi.org/10.1145/1014052.1014073 
 * Hussein, D. M. E.-D. M. (2018). A survey on sentiment analysis challenges. Journal of King Saud University - Engineering Sciences, 30(4), 330–338. https://doi.org/10.1016/j.jksues.2016.04.002
+* imFrenly. (2024, June 27). I made workday more usable. https://www.reddit.com/r/UBC/comments/1dpe5so/i_made_workday_more_usable/
 * Liu, B. (2011). Sentiment Analysis and Opinion Mining. Department of Computer Science University Of Illinois at Chicago. https://www.cs.uic.edu/~liub/FBS/Sentiment-Analysis-tutorial-AAAI-2011.pdf
 * Robinson, D. (2016, July 21). Does sentiment analysis work? A tidy analysis of Yelp reviews. Variance Explained. http://varianceexplained.org/r/yelp-sentiment/
 * Silge, J., & Hvitfeldt, E. (2022). Supervised Machine Learning for Text Analysis in R. https://smltar.com/
 * Silge, J., & Robinson, D. (2017). Welcome to Text Mining with R | Text Mining with R. https://www.tidytextmining.com/
-* imFrenly. (2024, June 27). I made workday more usable. https://www.reddit.com/r/UBC/comments/1dpe5so/i_made_workday_more_usable/
 * Zestyclose-Collar-76. (2024, May 21). WHY DOES WORKDAY SHOW MY AVERAGE. https://www.reddit.com/r/UBC/comments/1cxjf77/why_does_workday_show_my_average/
 
