@@ -13,10 +13,6 @@ format:
         name: r
 ---
 
-
-_R Version_
-<br>
-
 ![Cover Art Image](media/sentiment_analysis_cover_art.png "title")
 
 ### Loading and Installing Packages
@@ -280,7 +276,7 @@ To find reddit posts, we'll use the `find_thread_urls()` command. The `keywords`
 ```{r}
 rubc_urls_workday <- tibble(find_thread_urls(
 keywords = "workday",
-sort_by = "top",
+sort_by = "new",
 subreddit = "ubc",
 period = "day"
 ))
