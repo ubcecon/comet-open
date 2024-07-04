@@ -4,7 +4,6 @@ jupyter: ir
 ---
 
 
-
 _R Version_
 <br>
 Authors: Anneke Dresselhuis, Irene Berezin
@@ -14,7 +13,7 @@ Authors: Anneke Dresselhuis, Irene Berezin
 ### Loading and Installing Packages
 
 ```{r}
-#| vscode: {languageId: r}
+
 # comment the packages that don't need to be installed. Installation may take a while.
 
 install.packages("scales", type='source')
@@ -30,8 +29,6 @@ install.packages("wordcloud")
 ```
 
 ```{r}
-#| tags: []
-#| vscode: {languageId: r}
 # these may take a while to load
 library(ggplot2)
 library(readr)
@@ -123,7 +120,6 @@ The following list contains a few things we want to consider when preparing a te
 You can look at a pre-defined list of stop words in the tidytext dataset using this command:
 
 ```{r}
-#| vscode: {languageId: r}
 head(stop_words)
 ```
 
@@ -133,7 +129,6 @@ head(stop_words)
 Next, we’ll run through a practice example using a predetermined lexicon titled, `bing` which was created by Bing Liu and collaborators. The lexicon contains a list of around 6800 English words which are categorized as being either positive or negative. You can read more about the lexicon [here](https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html). One thing to note about lexicon-based analyses that operate at the word level is that they are not able to understand the sentiment of phrases or pairs of words such as “not bad” or “not true.” Can you think of any other phrases that might not work with a word-based analysis?
 
 ```{r}
-#| vscode: {languageId: r}
 # Construct a dataframe
 username <- c("@potus", "@abject.ron", "@tess888", "@ayden99", "@curious_reggie", 
                     "@peter.the.third", "@xavier_w", "@humble.pacifist", 
@@ -158,7 +153,6 @@ policy_df
 Once we have a dataframe, we want to convert it into the tidytext format. The `unnest_tokens` function helps us do that and includes arguments which we can use to specify how we want this done. You can learn more about the `unnest_tokens` function by inputing `?unnest_tokens` into a code cell.
 
 ```{r}
-#| vscode: {languageId: r}
 policy_token <- policy_df  |>
     unnest_tokens(output = word, 
                   input = text,
@@ -178,12 +172,10 @@ If we were interested in running our sentiment analysis at a higher level, for e
 If we are only interested in identifying the words in our corpus of tweets that contain negative (as opposed to positive) sentiment, we can use the `bing` library. Let's take a look at some of the words on the `bing` list:
 
 ```{r}
-#| vscode: {languageId: r}
 head(get_sentiments("bing"))
 ```
 
 ```{r}
-#| vscode: {languageId: r}
 negative_sentiments <- get_sentiments("bing") %>% 
     filter(sentiment == "negative") # select only the negative words
 
@@ -197,7 +189,6 @@ head(negative_policy)
 #### Negative and Positive Sentiment
 
 ```{r}
-#| vscode: {languageId: r}
 sentiment_policy <- policy_token %>%
     inner_join(get_sentiments("bing")) %>% # adds column with binary sentiment library
     count(word, sentiment) %>%
@@ -208,7 +199,6 @@ head(sentiment_policy)
 #### Summarizing Sentence-level Sentiment
 
 ```{r}
-#| vscode: {languageId: r}
 summary_policy <- policy_token %>%
     inner_join(get_sentiments("bing")) %>% # adds column with binary sentiment library
     count(username, word, sentiment) %>%
@@ -218,7 +208,6 @@ summary_policy
 ```
 
 ```{r}
-#| vscode: {languageId: r}
 bing_word_counts <- policy_token |>
   inner_join(get_sentiments("bing")) |>
   count(word, sentiment, sort = TRUE) |>
@@ -243,7 +232,6 @@ Try out a few different usernames in the blank `...` code below:
 * "@not.nat"
 
 ```{r}
-#| vscode: {languageId: r}
 user_summary <- summary_policy |>
 filter(username == "@curious_reggie")|>
 mutate(sentiment_sum = sum(sentiment))|>
@@ -269,7 +257,7 @@ To answer this question, we'll apply the following steps:
 The `RedditExtractoR` package will allow us to scrape reddit posts directly from R, without having to log into reddit ourselves. This makes it an effective tool for small-scale web scraping.
 
 ```{r}
-#| vscode: {languageId: r}
+
 library(RedditExtractoR)
 ```
 
@@ -278,7 +266,6 @@ library(RedditExtractoR)
 To find reddit posts, we'll use the `find_thread_urls()` command. The `keywords` argument specifies which keywords we'd like to have in our reddit posts. We'll create two dataframes, one with reddit posts with the keyword "workday", and the other with the keyword "ssc". Additionally, we'll specify to sort by "top" for the most popular results, and ensure that our subreddit is set it "UBC".
 
 ```{r}
-#| vscode: {languageId: r}
 rubc_urls_workday <- tibble(find_thread_urls(
 keywords = "workday",
 sort_by = "top",
@@ -297,7 +284,6 @@ period = "year"
 Running the new dataframes will give you some examples of the different comments and posts related to workday and the ssc, respectively. 
 
 ```{r}
-#| vscode: {languageId: r}
 rubc_urls_workday
 
 rubc_urls_ssc
@@ -306,7 +292,6 @@ rubc_urls_ssc
 We'll also have to preprocess the comments to allow for sentiment analysis. We'll do so by removing individual numbers, punctuation, separators and symbols. We'll also remove unnessesary stopwords, as seen earlier. Lastly, we'll convert all the columns to characters.
 
 ```{r}
-#| vscode: {languageId: r}
 r_ubc_workday_cleaned <- rubc_urls_workday |>
 select(text)|>
 as.character()|>
@@ -323,7 +308,6 @@ as.character()|>
 Let's create a visualization of our two datasets, using the `wordcloud` package.
 
 ```{r}
-#| vscode: {languageId: r}
 library(wordcloud)
 set.seed(100)
 wordcloud(r_ubc_workday_cleaned, min.freq=5, scale=c(5,0.25), colors=brewer.pal(8, "Dark2"))
@@ -338,7 +322,6 @@ For our analysis, we'll be using a lexicon-based sentiment analysis approach: gr
 The dictionary itself is a set of two `.txt` files located under `media > opinion-lexicon-english`. We'll combine the two into a tibble and associate the negative text file with negative sentiment, and the positive text file with positive sentiment. 
 
 ```{r}
-#| vscode: {languageId: r}
 positive.words.bl <- scan("media/opinion-lexicon-English/positive-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
 negative.words.bl <- scan("media/opinion-lexicon-English/negative-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
 
@@ -351,7 +334,6 @@ str(sentiment.dictionary)
 We can now coduct sentiment analysis on the reddit comments. We'll do so using the `quanteda` package, as seen earlier. Using our dictionary from earlier, we'll comb through the datasets and isolate their sentiment into a new dataframe. We'll be doing a polar sentiment analysis, meaning that we will assigning strictly positive or negative sentiment to each entry. Additionally, we'll standardize our sentiment values to be between 0 and 1. This will allow for a more acurate visualization, as the amount of rows in the ssc and workday datasets are different. 
 
 ```{r}
-#| vscode: {languageId: r}
 dfm_ubc_workday <- dfm(r_ubc_workday_cleaned, dictionary = sentiment.dictionary)
 sentiment_ubc_workday <- convert(dfm_ubc_workday, "data.frame") |>
   gather(positive, negative, key = "Polarity", value = "Words")|>
@@ -374,7 +356,6 @@ sentiment_ubc
 ```
 
 ```{r}
-#| vscode: {languageId: r}
 sentiment_ubc_plot <- ggplot(sentiment_ubc, aes(x=label, y=Words, fill=Polarity,))+geom_bar(stat="identity", color="#faf3ff", size=2)+ggtitle("Sentiment Analysis of posts related to the SSC versus Workday")+scale_fill_brewer(palette = "Paired")
 sentiment_ubc_plot
 ```
