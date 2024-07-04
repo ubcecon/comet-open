@@ -1,12 +1,21 @@
 ---
-title: Introduction to Sentiment Analysis
-jupyter: ir
+title: "Introduction to Sentiment Analysis"
+author: Anneke Dresselhuis, Irene Berezin
+date: 2024-05-29
+description: This notebook explains how to perform basic sentiment analysis and Reddit web scraping using R.
+categories: []
+format: 
+  html: default
+  ipynb:
+      kernelspec: 
+        display_name: R
+        language: R
+        name: r
 ---
 
 
 _R Version_
 <br>
-Authors: Anneke Dresselhuis, Irene Berezin
 
 ![Cover Art Image](media/sentiment_analysis_cover_art.png "title")
 
@@ -14,22 +23,23 @@ Authors: Anneke Dresselhuis, Irene Berezin
 
 ```{r}
 
-# comment the packages that don't need to be installed. Installation may take a while.
+# un-comment the packages that need to be installed. Installation may take a while.
 
-install.packages("scales", type='source')
-install.packages("ggplot2")
-install.packages("RcppParallel")
-install.packages("quanteda")
-install.packages("tidytext")
-install.packages("SentimentAnalysis")
-install.packages("textdata")
-install.packages("RColorBrewer")
-install.packages("RedditExtractoR")
-install.packages("wordcloud")
+#install.packages("tidytext")
+#install.packages("ggplot2")
+#install.packages("RcppParallel")
+#install.packages("quanteda")
+#install.packages("tidytext")
+#install.packages("SentimentAnalysis")
+#install.packages("textdata")
+#install.packages("RColorBrewer")
+#install.packages("RedditExtractoR")
+#install.packages("wordcloud")
 ```
 
 ```{r}
 # these may take a while to load
+library(tidytext)
 library(ggplot2)
 library(readr)
 library(tidyverse)
@@ -265,19 +275,21 @@ library(RedditExtractoR)
 
 To find reddit posts, we'll use the `find_thread_urls()` command. The `keywords` argument specifies which keywords we'd like to have in our reddit posts. We'll create two dataframes, one with reddit posts with the keyword "workday", and the other with the keyword "ssc". Additionally, we'll specify to sort by "top" for the most popular results, and ensure that our subreddit is set it "UBC".
 
+**Depending on your internet speed, set** `sort=by = "top"` **and** `period = "all"` **for best results.**
+
 ```{r}
 rubc_urls_workday <- tibble(find_thread_urls(
 keywords = "workday",
 sort_by = "top",
 subreddit = "ubc",
-period = "year"
+period = "day"
 ))
 
 rubc_urls_ssc <- tibble(find_thread_urls(
 keywords = "ssc",
-sort_by = "top",
+sort_by = "new",
 subreddit = "ubc",
-period = "year"
+period = "day"
 ))
 ```
 
@@ -319,11 +331,11 @@ wordcloud(r_ubc_ssc_cleaned, min.freq=5, scale=c(5,0.25), colors=brewer.pal(8, "
 
 For our analysis, we'll be using a lexicon-based sentiment analysis approach: grouping sentiment by either "negative" or "positive" using a pre-labelled dictionary. We'll download and use a **sentiment dictionary**, a dataset of words which are split up into negative vesus positive sentiments. This is particularly usefull when all we want to do is quantitatively compare the amount of positive versus negative sentiment in a dataset. We'll be using the *opinion lexicon english dictonary* for this task.
 
-The dictionary itself is a set of two `.txt` files located under `media > opinion-lexicon-english`. We'll combine the two into a tibble and associate the negative text file with negative sentiment, and the positive text file with positive sentiment. 
+The dictionary itself is a set of two `.txt` files located under `data > opinion-lexicon-english`. We'll combine the two into a tibble and associate the negative text file with negative sentiment, and the positive text file with positive sentiment. 
 
 ```{r}
-positive.words.bl <- scan("media/opinion-lexicon-English/positive-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
-negative.words.bl <- scan("media/opinion-lexicon-English/negative-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
+positive.words.bl <- scan("data/opinion-lexicon-English/positive-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
+negative.words.bl <- scan("data/opinion-lexicon-English/negative-words.txt", what = "char", sep = "\n", skip = 35, quiet = T)
 
 sentiment.dictionary <- dictionary(list(positive = positive.words.bl, negative = negative.words.bl))
 str(sentiment.dictionary)
@@ -334,29 +346,34 @@ str(sentiment.dictionary)
 We can now coduct sentiment analysis on the reddit comments. We'll do so using the `quanteda` package, as seen earlier. Using our dictionary from earlier, we'll comb through the datasets and isolate their sentiment into a new dataframe. We'll be doing a polar sentiment analysis, meaning that we will assigning strictly positive or negative sentiment to each entry. Additionally, we'll standardize our sentiment values to be between 0 and 1. This will allow for a more acurate visualization, as the amount of rows in the ssc and workday datasets are different. 
 
 ```{r}
-dfm_ubc_workday <- dfm(r_ubc_workday_cleaned, dictionary = sentiment.dictionary)
-sentiment_ubc_workday <- convert(dfm_ubc_workday, "data.frame") |>
-  gather(positive, negative, key = "Polarity", value = "Words")|>
-  mutate(Words = Words/(293+318))
+sentiment.dictionary <- dictionary(list(positive = positive.words.bl, negative = negative.words.bl))
 
+dfm_ubc_workday <- dfm(r_ubc_workday_cleaned)
+dfm_ubc_ssc <- dfm(r_ubc_ssc_cleaned)
 
-dfm_ubc_ssc <- dfm(r_ubc_ssc_cleaned, dictionary = sentiment.dictionary)
-sentiment_ubc_ssc <- convert(dfm_ubc_ssc, "data.frame") |>
-  gather(positive, negative, key = "Polarity", value = "Words")|>
-  mutate(Words = Words/(466+331))
+dfm_ubc_workday <- dfm_lookup(dfm_ubc_workday, dictionary = sentiment.dictionary)
+dfm_ubc_ssc <- dfm_lookup(dfm_ubc_ssc, dictionary = sentiment.dictionary)
+
+sentiment_ubc_workday <- convert(dfm_ubc_workday, to = "data.frame") |>
+  gather(positive, negative, key = "Polarity", value = "Words") |>
+  mutate(Words = Words / (293 + 318))
+
+sentiment_ubc_ssc <- convert(dfm_ubc_ssc, to = "data.frame") |>
+  gather(positive, negative, key = "Polarity", value = "Words") |>
+  mutate(Words = Words / (466 + 331))
 
 labels <- c("workday", "workday", "ssc", "ssc")
 
-sentiment_ubc <- tibble(bind_rows(sentiment_ubc_workday, sentiment_ubc_ssc))|>
-select(!doc_id)|>
-bind_cols(labels)|>
-rename(label = ...3)
+sentiment_ubc <- tibble(bind_rows(sentiment_ubc_workday, sentiment_ubc_ssc)) |>
+  select(!doc_id) |>
+  bind_cols(labels) |>
+  rename(label = ...3)
 
 sentiment_ubc
 ```
 
 ```{r}
-sentiment_ubc_plot <- ggplot(sentiment_ubc, aes(x=label, y=Words, fill=Polarity,))+geom_bar(stat="identity", color="#faf3ff", size=2)+ggtitle("Sentiment Analysis of posts related to the SSC versus Workday")+scale_fill_brewer(palette = "Paired")
+sentiment_ubc_plot <- ggplot(sentiment_ubc, aes(x=label, y=Words, fill=Polarity,))+geom_bar(stat="identity", color="#faf3ff", linewidth=2)+ggtitle("Sentiment Analysis of posts related to the SSC versus Workday")+scale_fill_brewer(palette = "Paired")
 sentiment_ubc_plot
 ```
 
@@ -366,7 +383,7 @@ Our analysis shows that there is slightly more negative sentiment towards workda
 
 > *WHY DOES WORKDAY SHOW MY AVERAGE: Literally triggering. I don’t want to be shown this against my will.*
 
-The sentiment here is clearly negative: OP is expressing frustration about having to see their average every time they open workday. However, the word "triggering" is not listed as a negative word in the opinion english lexicon. Thus, this post will not be considered "negative". 
+The sentiment here is clearly negative: OP is expressing frustration about having to see their GPA every time they open workday. However, the word "triggering" is not listed as a negative word in the opinion english lexicon. Thus, this post will not be considered "negative". 
 
 **2) Dictonary-based entiment analysis struggles with irony, sarcasm, and not explicitly negative/positive statements.** Consider the following post by u/imFrenly: 
 
