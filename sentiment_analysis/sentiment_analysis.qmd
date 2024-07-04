@@ -13,6 +13,8 @@ format:
         name: r
 ---
 
+<br>
+
 ![Cover Art Image](media/sentiment_analysis_cover_art.png "title")
 
 ### Loading and Installing Packages
@@ -361,10 +363,9 @@ labels <- c("workday", "workday", "ssc", "ssc")
 sentiment_ubc <- tibble(bind_rows(sentiment_ubc_workday, sentiment_ubc_ssc)) |>
   select(!doc_id) |>
   bind_cols(labels) |>
-  rename(label = ...3)>
+  rename(label = ...3)|>
   group_by(label)|>
   mutate(Words = Words/sum(Words))
-
 
 sentiment_ubc
 ```
