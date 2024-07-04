@@ -1,9 +1,9 @@
 ---
 title: "Introduction to Sentiment Analysis"
 author: Anneke Dresselhuis, Irene Berezin
-date: 2024-05-29
+date: 2024-07-04
 description: This notebook explains how to perform basic sentiment analysis and Reddit web scraping using R.
-categories: []
+categories: [visualization, R]
 format: 
   html: default
   ipynb:
