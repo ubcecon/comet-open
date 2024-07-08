@@ -1,0 +1,18 @@
+---
+title: "Answers Example"
+filters:
+  - answers.lua
+---
+
+## Heading
+
+
+::: silence
+This content will be silenced.
+:::
+
+::: .answer
+This content will be silenced.
+:::
+
+This is not silenced

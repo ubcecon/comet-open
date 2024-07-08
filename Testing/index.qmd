@@ -1,0 +1,25 @@
+---
+title: Welcome to COMET!
+title-block-banner: false
+filters:
+  - collapse-callout
+  - answers
+collapse-callout:
+  note: true
+#id: ab-heading
+about:
+  template: trestles
+
+  image: media/logo_1.png
+toc: false
+nocite: |
+  @comet-project
+---
+
+<!--![](media/logo_1.png){fig-alt="COMET Project Logo"}-->
+
+## Comet Testing
+
+See your test code here: <a href="./testing.html" target="_blank">Testing Page/</a>.
+
+To run the code, you can do either `quarto render` or `quarto preview`.

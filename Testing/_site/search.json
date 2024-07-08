@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "testing.html",
+    "href": "testing.html",
+    "title": "Testing",
+    "section": "",
+    "text": "Paste Code Here!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome to COMET!",
+    "section": "",
+    "text": "See your test code here: Testing Page/.\nTo run the code, you can do either quarto render or quarto preview."
+  },
+  {
+    "objectID": "index.html#comet-testing",
+    "href": "index.html#comet-testing",
+    "title": "Welcome to COMET!",
+    "section": "",
+    "text": "See your test code here: Testing Page/.\nTo run the code, you can do either quarto render or quarto preview."
+  }
+]

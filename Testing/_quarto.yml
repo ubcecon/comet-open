@@ -1,0 +1,33 @@
+project:
+  type: website
+  preview:
+    port: 4200
+    browser: true
+  render: 
+  - "files/*"
+  - "*.qmd"
+  - "*.ipynb"
+  - "*.r"
+  - "!readme.md"
+
+execute:
+    eval: false
+    keep-ipynb: false
+    cache: false
+
+
+
+format:
+  html:
+    theme:
+      light: 
+        - sandstone
+        - comet_theme.scss
+    css: styles.css
+    toc: true
+    anchor-sections: true
+    email-obfuscation: javascript
+    page-layout: full
+    link-external-newwindow: true
+    lang: en-GB
+    keywords: economics, econometrics, R, data, machine learning, UBC, COMET, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners
