@@ -1,6 +1,6 @@
-![COMET Banner](media/banner_1.png)
+# TLEF Project: Developing interactive learning modules for hands-on-econometrics skills
 
-# COMET Project: Creating Online Materials for Econometrics Teaching
+_(We need a cooler title)_
 
 Welcome to the repository for our large TLEF project.  This site stores our materials for developing Jupyter-based notebooks to support teaching introductory and intermediate econometrics courses.  This project is funded by the University of British Columbia.  The motivating "pitch" is as follows:
 
@@ -43,14 +43,12 @@ Ensure that you keep your commits clean and tidy:
 Any commits or merge requests that do not meet these guidelines will be rejected and will need to be re-done.
 
 ## Large Files Commit Guidelines
-_(As of August 2022)_
+_(As of April 2022)_
 
-Large files are problematic in Git: because they are stored as binaries _any_ change to them (including inconsequential ones) creates a new version of the file, which is then stored in the repository's commit history.  This means that the repo can quickly balloon in size to an unmanagable degree.  We are currently using the [git Large File Storage](https://git-lfs.github.com/) system.
+Large files are problematic in Git: because they are stored as binaries _any_ change to them (including inconsequential ones) creates a new version of the file, which is then stored in the repository's commit history.  This means that the repo can quickly balloon in size to an unmanagable degree.  We are currently exploring the use of the [git Large File Storage](https://git-lfs.github.com/) system, but we are not 100% sure if things are working yet.
 
-- It is **very important** that you do not upload large binary files to the repository unless necessary. This includes:
-  - `.dta, .xls, .xlsx, .csv, .jpg, .docx, .tab`: basically, anything that isn't an `.r, .ipynb, .md,` or small text tile
 - Please place all large data files in a the [dedicated  UBC OneDrive folder](https://ubcca-my.sharepoint.com/:f:/g/personal/jonathan_graves_ubc_ca/Ei9qKd8LviRAgJ5QRWBBDXwB4Bg5CRobsOxhOhGDhu8rag?e=0NrpP4) and copy the files to your notebook directory as-needed.
-  + Create an issue to have the file managed by the LFS server and tag a maintainer.
+  + Create an issue to have the file managed by the LFS server and tag a maintainer.  You can remove the file form the OneDrive folder once it is under version control.
 - This applies to files such as: (i) raw data, (ii) datasets, (iii) videos, (iv) large images.  Anything roughly larger than 10 mb should be considered "large" for the purposes of this repository
 
 Currently, the list of filetypes which should be automatically version controlled can be viewed in the `.gitattributes` file in the main repository.

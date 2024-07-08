@@ -1,0 +1,301 @@
+project:
+  type: website
+  preview:
+    port: 4200
+    browser: true
+  render: 
+  - "media/*"
+  - "files/*"
+  - "*.qmd"
+  - "*.ipynb"
+  - "*.r"
+
+execute:
+    eval: false
+    keep-ipynb: false
+    cache: false
+
+website:
+  title: "COMET"
+  search: true
+  page-navigation: true
+  reader-mode: false
+  repo-url: https://github.com/ubcecon/comet-project
+  #repo-actions: [edit, issue]
+  repo-actions: [issue]
+  favicon: media/comet_favicon.png
+  page-footer: 
+    left: 
+    - text: <a rel='license' href='http://creativecommons.org/licenses/by-nc-sa/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png' /></a>.  <a rel='license' href='https://comet.arts.ubc.ca/pages/copyright.html'>See details.</a>
+    right: 
+      - text: 'The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.'
+  navbar:
+    background: primary
+    search: false
+    logo: media/logo_no_tiny_text.png
+    #tools: 
+    #  - icon: github
+    #    href: https://github.com/ubcecon/comet-project
+    left:
+      - text: "Get Started"
+        menu:
+        - text: Quickstart Guide
+          file: pages/quickstart.qmd
+        - text: "Install and Use COMET"
+          file: pages/installation/installing_locally.qmd
+        - text: "Get Started"
+          file: pages/index/index_getting_started.qmd
+      - text: "Learn By Skill Level"
+        menu:
+        - text: "Getting Started"
+          file: pages/index/index_getting_started.qmd
+        - text: "Beginner"
+          file: pages/index/index_beginner.qmd
+        - text: "Intermediate - Econometrics"
+          file: pages/index/index_intermediate.qmd
+        - text: "Intermediate - Geospatial"
+          file: pages/index/index_geog.qmd
+        - text: "Advanced"
+          file: pages/index/index_advanced.qmd
+        - text: "---"
+        - text: "Browse All"
+          file: pages/index/all.qmd
+      - text: "Learn By Class"
+        menu:
+        - text: "Making Sense of Economic Data (ECON 226/227)"
+          file: pages/index/index_226.qmd
+        - text: "Econometrics I (ECON 325)"
+          file: pages/index/index_325.qmd
+        - text: "Econometrics II (ECON 326)"
+          file: pages/index/index_326.qmd
+        - text: "Statistics in Geography (GEOG 374)"
+          file: pages/index/index_geog.qmd
+      - text: "Learn to Research"
+        menu: 
+          - text: "Learn How to Do a Project"
+            file: pages/index/index_research.qmd
+      - text: "Teach With COMET"
+        menu:
+        - text: "Learn how to teach with Jupyter and COMET"
+          href: pages/teaching_with_comet.qmd
+        - text: "Using COMET in the Classroom"
+          href: pages/using_comet.qmd
+        - text: "See COMET presentations"
+          href: pages/dissemination/dissemination.qmd
+      - text: "Contribute"
+        menu: 
+        - text: "Install for Development"
+          href: pages/installation/installing_for_development.qmd
+        - text: "Write Self Tests"
+          href: pages/documentation/writing_self_tests.qmd
+
+    right: 
+      - icon: play
+        text: Launch COMET
+        menu:
+          - text: Launch on JupyterOpen
+            href: "https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=lab%2Ftree%2Fcomet-project%2F&branch=main"
+            icon: cloud-check
+          - text: Launch on Syzygy
+            href: "https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=lab%2Ftree%2Fcomet-project%2F&branch=main"
+            icon: gear
+          - text: Launch on Collab
+            href: "https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"
+            icon: google
+          - text: Launch Locally
+            href: "https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"
+            icon: cloud-download
+          - text: "---"
+          - text: Project Datasets
+            href: https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip
+            icon: clipboard-data
+
+      - text: " | "
+        href: "#"
+      - text: "About"
+        menu:
+         - pages/team.qmd
+         - pages/copyright.qmd
+
+  sidebar:
+    - title: "Learn by Skill Level"
+      style: docked
+      collapse-level: 1
+      contents:
+        - text: "<h4>Learn by Skill Level</h4>"
+        - text: ---
+        - section: 
+          file: pages/index/index_getting_started.qmd
+          contents:
+          - text: "Intro to JupyterNotebooks"
+            file: docs/Getting_started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd
+          - text: "Intro to R"
+            file: docs/Getting_started/getting_started_intro_to_R/getting_started_intro_to_R.qmd
+          - text: "Intro to Data (Part 1)"
+            file: docs/Getting_started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
+          - text: "Intro to Data (Part 2)"
+            file: docs/Getting_started/getting_started_intro_to_data/getting_started_intro_to_data2.qmd
+
+        - text: "---"
+
+        - section:
+          file: pages/index/index_beginner.qmd
+          contents:
+          - text: Central Tendency
+            file: docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd
+          - text: Dispersion and Dependence
+            file: docs/Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.qmd
+          - text: Confidence Intervals
+            file: docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd
+          - text: Hypothesis Testing
+            file: docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).qmd
+          - text: Visualization I
+            file: docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd
+          - text: Visualization II
+            file: docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd
+          - text: Distributions
+            file: docs/Beginner/beginner_distributions/beginner_distributions.qmd
+          - text: Simple Regression
+            file: docs/Beginner/beginner_simple_regression/beginner_simple_regression.qmd
+          - text: Sampling Distributions
+            file: docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
+
+        - text: "---"
+
+        - section:
+          file: pages/index/index_intermediate.qmd
+          contents:
+          - text: Simple Regression
+            file: docs/Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
+          - text: Multiple Regression
+            file: docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd
+          - text: Issues in Regression
+            file: docs/Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd
+          - text: Interactions
+            file: docs/Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd
+          - text: ---
+          - pages/index/index_geog.qmd
+          - text: Chi-Square Test
+            file: docs/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.ipynb
+          - text: t-test
+            file: docs/geog_374/Lab_06_Ttest/Lab_06_Ttest.ipynb
+          - text: ANOVA
+            file: docs/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.ipynb
+          - text: Regression
+            file: docs/geog_374/Lab_03_Regression/Lab_03_Regression.ipynb
+          - text: Wrangling and Visualizing Data
+            file: docs/geog_374/Climate_Disasters/Climate_Disasters.ipynb
+
+
+
+        - text: "---"
+
+        - section:
+          file: pages/index/index_advanced.qmd
+          contents:
+          - text: Classification and Clustering
+            file: docs/Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd
+          - text: Word Embeddings (Python)
+            file: docs/Advanced/advanced_word_embeddings/Word2Vec_Workshop_Python_Version.ipynb
+          - text: Word Embeddings (R)
+            file: docs/Advanced/advanced_word_embeddings/Word2Vec_Workshop_R_Version.ipynb
+          - text: Word Embeddings (Colab)
+            file: docs/Advanced/advanced_word_embeddings/Word2Vec_Workshop_R_Version_collab.ipynb
+
+
+    - title: "Learn by Class"
+      style: docked
+      collapse-level: 1
+      contents:
+        - section: 
+          file: pages/index/index_226.qmd
+          contents:
+          - text: Introduction to Central Tendency
+            file: docs/Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd
+          - text: Introduction to Confidence Intervals
+            file: docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.qmd
+          - text: Hypothesis Testing
+            file: docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).qmd
+        - text: "---"
+
+        - section:
+          file: pages/index/index_325.qmd
+          contents:
+          - text: Introduction to Statistical Concepts
+            file: docs/Beginner/beginner_intro_to_statistical_concepts/beginner_intro_to_statistical_concepts.qmd
+          - text: Central Tendency
+            file: docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd
+          - text: Dispersion and Dependence
+            file: docs/Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.qmd
+          - text: Confidence Intervals
+            file: docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd
+          - text: Hypothesis Testing
+            file: docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).qmd
+          - text: Introduction to Data Visualization I
+            file: docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd
+          - text: Introduction to Data Visualization II
+            file: docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd
+          - text: Distributions
+            file: docs/Beginner/beginner_distributions/beginner_distributions.qmd
+          - text: Simple Regression
+            file: docs/Beginner/beginner_simple_regression/beginner_simple_regression.qmd
+          - text: Sampling Distributions
+            file: docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
+          - text: Example Project (325)
+            file: docs/Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd
+        - text: "---"
+
+        - section: 
+          file:  pages/index/index_326.qmd
+          contents:
+          - text: Review of Basic Statistics
+            file: docs/Beginner/beginner_review_of_basic_statistics/beginner_review_of_basic_statistics.qmd
+          - text: Introduction to Regression
+            file: docs/Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
+          - text: Multiple Regression
+            file: docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd
+          - text: Issues in Regression
+            file: docs/Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd
+          - text: Interactions and Non-Linear Terms
+            file: docs/Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd
+          - text: Example Project (326)
+            file: docs/Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd
+        - text: "---"
+
+
+        - section: Notebooks
+          file: pages/index/index_geog.qmd
+          contents:
+          - text: "Introduction to ANOVA"
+            file: docs/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.ipynb
+          - text: "Regression Analysis"
+            file: docs/geog_374/Lab_03_Regression/Lab_03_Regression.ipynb
+          - text: "Chi-Squared Tests"
+            file: docs/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.ipynb
+          - text: "t-Tests"
+            file: docs/geog_374/Lab_06_Ttest/Lab_06_Ttest.ipynb
+
+
+
+filters:
+  - answers
+
+format:
+  html:
+    theme:
+      light: 
+        - sandstone
+        - comet_theme.scss
+    css: styles.css
+    toc: true
+    anchor-sections: true
+    email-obfuscation: javascript
+    page-layout: full
+    link-external-newwindow: true
+    lang: en-GB
+    include-in-header: metadata.html
+
+
+
+
+

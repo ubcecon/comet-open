@@ -1,0 +1,23 @@
+---
+title: "Advanced Modules"
+toc: false
+listing:
+- id: advanced
+  type: grid
+  image-placeholder: placeholder_images/placeholder.png
+  contents:
+    - "../../docs/Advanced/*/*.qmd"
+    - "../../docs/Advanced/*/*.ipynb"
+  categories: true
+  fields: [image, title, date, description]
+---
+
+This section contains advanced materials and case studies to support a variety of classes.
+
+## Modules
+
+::: {#advanced}
+
+:::
+
+
