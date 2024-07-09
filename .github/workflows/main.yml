@@ -1,0 +1,31 @@
+name: Build and Extract Artifacts
+
+on:
+  push:
+    branches:
+      - pages_build
+  pull_request:
+    branches:
+      - pages_build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t my-app-image -f .dockerfile .
+
+    - name: Create and copy from container
+      run: |
+        docker create --name temp-container my-app-image
+        docker cp temp-container:/artifacts/build ./artifacts
+        docker rm temp-container
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-build
+        path: artifacts
