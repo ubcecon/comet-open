@@ -1,0 +1,27 @@
+name: Quarto Build
+
+on:
+  push:
+    branches:
+      pages
+
+      jobs:
+        container:
+          runs-on: rocker/tidyverse:latest
+          container:
+            image: 'ghcr.io/${{ github.repository }}:latest'
+            credentials:
+              username: ${{ github.ref }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+              steps:
+                - uses: ./.github/workflows/quarto-build-job.yml
+                  name: check and render quarto files
+                  run: |
+                    quarto check
+                    cd comet-quarto
+                    quarto render
+                    - uses: actions/upload-artifact@v4
+                      name: store site output as artifact
+                      with:
+                        name: built-site
+                        path: comet-quarto/_site/
