@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ECON 490: Panel Data Regressions (15) – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Collab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#what-is-panel-data" id="toc-what-is-panel-data" class="nav-link" data-scroll-target="#what-is-panel-data">15.1 What is Panel Data?</a></li>
+  <li><a href="#preparing-your-data-for-time-series-analysis" id="toc-preparing-your-data-for-time-series-analysis" class="nav-link" data-scroll-target="#preparing-your-data-for-time-series-analysis">15.2 Preparing your data for time series analysis</a></li>
+  <li><a href="#basic-regressions-with-panel-data" id="toc-basic-regressions-with-panel-data" class="nav-link" data-scroll-target="#basic-regressions-with-panel-data">15.3 Basic Regressions with Panel Data</a></li>
+  <li><a href="#creating-new-time-series-variables" id="toc-creating-new-time-series-variables" class="nav-link" data-scroll-target="#creating-new-time-series-variables">15.4 Creating New Time Series Variables</a></li>
+  <li><a href="#is-our-panel-data-regression-properly-specified" id="toc-is-our-panel-data-regression-properly-specified" class="nav-link" data-scroll-target="#is-our-panel-data-regression-properly-specified">15.5 Is our Panel Data Regression Properly Specified?</a></li>
+  <li><a href="#how-is-panel-data-helpful" id="toc-how-is-panel-data-helpful" class="nav-link" data-scroll-target="#how-is-panel-data-helpful">15.6 How is Panel Data Helpful?</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">15.7 Wrap Up</a></li>
+  <li><a href="#video-tutorial" id="toc-video-tutorial" class="nav-link" data-scroll-target="#video-tutorial">15.8 Video tutorial</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ECON 490: Panel Data Regressions (15)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Run OLS Regressions.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Prepare data for time series analysis.</li>
+<li>Run panel data regressions.</li>
+<li>Create lagged variables.</li>
+<li>Understand and work with fixed effects.</li>
+<li>Correct for heteroskedasticity and serial correlation.</li>
+</ol>
+<p>This module uses the <a href="https://www.rug.nl/ggdc/productivity/pwt/?lang=en">Penn World Tables</a> which measure income, input, output and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, you should download this data in the specified Stata format.</p>
+<div id="be016d70" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>&lt;&gt;:2: SyntaxWarning: invalid escape sequence '\P'
+&lt;&gt;:2: SyntaxWarning: invalid escape sequence '\P'
+C:\Users\irene\AppData\Local\Temp\ipykernel_30392\4069384911.py:2: SyntaxWarning: invalid escape sequence '\P'
+  stata_setup.config('C:\Program Files\Stata18/','se')</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       SE—Standard Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Unlimited-user network, expiring 19 Aug 2024
+Serial number: 401809301518
+  Licensed to: Irene Berezin
+               UBC
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.</code></pre>
+</div>
+</div>
+<div id="2c87f4c8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module - 1, Section 1.5.1: Setting Up PyStata</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="what-is-panel-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-panel-data">15.1 What is Panel Data?</h2>
+<p>In economics, we typically have data consisting of many units observed at a particular point in time. This is called cross-sectional data. There may be several different versions of the data set that are collected over time (monthly, annually, etc.), but each version includes an entirely different set of individuals.</p>
+<p>For example, let’s consider a Canadian cross-sectional data set: General Social Survey Cycle 31: Family, 2017. In this data set, the first observation is a 55 year old married woman who lives in Alberta with two children. When the General Social Survey Cycle 25: Family, 2011 was collected six years previously there were probably similar women surveyed, but it is extremely unlikely that this exact same woman was included in that data set as well. Even if she was included, we would have no way to match her data over the two years of the survey.</p>
+<p>Cross-sectional data allows us to explore variation between individuals at one point in time but does not allow us to explore variation over time for those same individuals.</p>
+<p>You are also familiar with time-series data sets from your previous economics courses. Time-series data sets contain observations over several years for only one country, state, province, etc. For example, measures of income, output, unemployment, and fertility for Canada from 1960 to 2020 would be considered time-series data. Time-series data allows us to explore variation over time for one individual unit (e.g.&nbsp;Canada), but does not allow us to explore variation between individual units (i.e.&nbsp;multiple countries) at any one point in time.</p>
+<p>Panel data allows us to observe the same unit across multiple time periods. For example, the <a href="https://www.rug.nl/ggdc/productivity/pwt/?lang=en">Penn World Tables</a> is a panel data set that measures income, output, input and productivity, covering 183 countries from 1950 to the near present. There are also microdata panel data sets that follow the same people over time. One example is the Canadian National Longitudinal Survey of Children and Youth (NLSCY), which followed the same children from 1994 to 2010, surveying them every two years as they progressed from childhood to adulthood.</p>
+<p>Panel data sets allow us to answer questions that we cannot answer with time series and cross-sectional data; they allow us to simultaneously explore variation over time for individual countries (for example) and variation between individuals at one point in time. This approach is extremely productive for two reasons:</p>
+<ol type="1">
+<li>Panel data sets are large, much larger than if we were to use data collected at one point in time.</li>
+<li>Panel data regressions control for variables that do not change over time and are difficult to measure, such as geography and culture.</li>
+</ol>
+<p>In this sense, panel data sets allow us to answer empirical questions that cannot be answered with other types of data such as cross-sectional or time-series data.</p>
+<p>Before we move forward exploring panel data sets in this module, we should understand the two main types of panel data:</p>
+<ul>
+<li><p>Balanced Panel: A panel data set in which we observe <em>all</em> units over <em>all</em> included time periods. Suppose we have a data set following the school outcomes of a select group of <span class="math inline">\(N\)</span> children over <span class="math inline">\(T\)</span> years. This is common in studies which investigate the effects of early childhood interventions on relevant outcomes over time. If the panel data set is balanced, we will see <span class="math inline">\(T\)</span> observations for each child corresponding to the <span class="math inline">\(T\)</span> years they have been tracked. As a result, our data set in total will have <span class="math inline">\(n = N*T\)</span> observations.</p></li>
+<li><p>Unbalanced Panel: A panel data set in which we do <em>not</em> observe all units over all included time periods. Suppose in our data set tracking select children’s education outcomes over time that some children drop out of the study. This panel data set would be an unbalanced panel because it would necessarily have <span class="math inline">\(n &lt; N*T\)</span> observations since the children who dropped out would not have observations for the years they were no longer in the study.</p></li>
+</ul>
+<p>We learned the techniques to create a balanced panel the notebook Within Group Analysis (7). Essentially all that is needed is to create a new data set that includes only the years for which there are no missing values.</p>
+</section>
+<section id="preparing-your-data-for-time-series-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-your-data-for-time-series-analysis">15.2 Preparing your data for time series analysis</h2>
+<p>Your first step in any panel data analysis is to identify which variable is the panel variable and which variable is the time variable. Your second step is indicating that information to Stata.</p>
+<p>We are going to use the Penn World Data (discussed above) in this example. In that data set the panel variable is either <em>country</em> or <em>countrycode</em> and the time variable is <em>year</em>. Below you will need add the <code>cd</code> command to change the directory to the folder where you have downloaded this data.</p>
+<div id="0da34790" class="cell" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Include the command to change the directory to the location of this data <span class="bu">file</span>.</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>cd</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>use pwt1001, clear</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>describe country countrycode year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. * Include the command to change the directory to the location of this data fi
+&gt; le.
+. cd
+C:\Users\irene\econometrics\econ490-pystata
+
+. use pwt1001, clear
+
+. describe country countrycode year
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+country         str34   %34s                  Country name
+countrycode     str3    %9s                   3-letter ISO country code
+year            int     %10.0g                Year
+
+. </code></pre>
+</div>
+</div>
+<p>When the decribe command executed, did you see that the variable <em>year</em> is an interger (i.e.&nbsp;a number like 2020) and that <em>country</em> or <em>countrycode</em> are string variables (i.e.&nbsp;they are words like “Canada”)? Specifying the panel and time variables requires that both of the variables we are using are coded as numeric variables, and so our first step is to create a new numeric variable that represents the country variable.</p>
+<p>To do this we execute the command <code>encode</code> that creates a new numeric variable that represents the original string variable <em>countrycode</em>.</p>
+<div id="08a45701" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>encode countrycode, gen(ccode) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>label var ccode <span class="st">"Numeric code that represents the country"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. encode countrycode, gen(ccode) 
+
+. 
+. label var ccode "Numeric code that represents the country"
+
+. </code></pre>
+</div>
+</div>
+<p>We can see in our data editor that this command created a unique code for each country and saved it in a variable that we have named <em>ccode</em>. For example, in the data editore we can see that country of Canada was given the code 31 and the country of Brazil was given the code 25.</p>
+<p>Now we are able to proceed with specifying both our panel and time variables by using the command <code>xtset</code>. With this command, we first list the panel variable and then the time variable.</p>
+<div id="defe62ab" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>xtset ccode year, yearly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtset ccode year, yearly
+
+Panel variable: ccode (strongly balanced)
+ Time variable: year, 1950 to 2019
+         Delta: 1 year
+
+. </code></pre>
+</div>
+</div>
+<p>You know that you will have done this correctly when the output indicates that the “Time variable” is “year”.</p>
+<p>Within our panel data set, our use of this command above states that we observe countries (indicated by country codes) over many time periods that are separated into year groupings (delta = 1 year, meaning that each country has an observation for each year). The option for periodicity of the observations is helpful. For instance, if we wanted each country to have an observation for every two years instead of every year, we would specify delta(2) as our periodicity option to <code>xtset</code>.</p>
+<p>Always make sure you check the output of <code>xtset</code> carefully to see that the time variable and panel variable have been properly specified.</p>
+</section>
+<section id="basic-regressions-with-panel-data" class="level2">
+<h2 class="anchored" data-anchor-id="basic-regressions-with-panel-data">15.3 Basic Regressions with Panel Data</h2>
+<p>For now we are going to focus on the skills you need to run your own panel data regressions. At the end of this Notebook you will find more details about the econometrics of panel data regressions that will help you understand these approaches in section 14.7. Please make sure you understand that theory before beginning your own research.</p>
+<p>Now that we have specified the panel and time variables we are working with, we can begin to run regressions using our panel data. For panel data regressions we simply replace <code>regress</code> witht the command <code>xtreg</code>.</p>
+<p>Let’s try this out by regressing the natural log of GDP per capita on the natural log of human capital. We have included the <code>describe</code> to help you understand the variables we are using in this exercise.</p>
+<div id="b3589d0d" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>describe rgdpe pop hc</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>gen lngdp <span class="op">=</span> ln(rgdpo<span class="op">/</span>pop)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>gen lnhc <span class="op">=</span> ln(hc)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. describe rgdpe pop hc
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+rgdpe           float   %14.3g                Expenditure-side real GDP at
+                                                chained PPPs (in mil. 2017US$)
+pop             double  %10.0g                Population (in millions)
+hc              float   %9.0g               * Human capital index, see note hc
+
+. 
+. gen lngdp = ln(rgdpo/pop)
+(2,411 missing values generated)
+
+. gen lnhc = ln(hc)
+(4,173 missing values generated)
+
+. 
+. xtreg lngdp lnhc
+
+Random-effects GLS regression                   Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                Wald chi2(1)      =    8408.76
+corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.081454   .0226987    91.70   0.000     2.036965    2.125942
+       _cons |   7.344036   .0612318   119.94   0.000     7.224024    7.464048
+-------------+----------------------------------------------------------------
+     sigma_u |  .71051066
+     sigma_e |   .3932119
+         rho |  .76553536   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. </code></pre>
+</div>
+</div>
+<p>The coefficients in a panel regression are interpreted similarly to those in a basic OLS regression. Because we have taken the natural log of our variables, we can interpret the coefficient on each explanatory variable as being that a 1% increase in the explanatory variable leads to a <span class="math inline">\(\beta\)</span> % increase in the dependent variable.</p>
+<p>Thus, in the regression results above, a 1% increase in human capital leads to a roughly 2% increase in real GDP per capita. That’s a huge effect, but then again this model is almost certainly misspecified due to omitted variable bias. Namely, we are likely missing a number of explanatory variables that explain variation in both GDP per capita and human capital, such as savings and population growth rates.</p>
+<p>One thing we know is that GDP per capita can be impacted by the individual characteristics of a country that do not change much over time. For example, it is known that distance from the equator has an impact on the standard of living of a country; countries that are closer to the equator are generally poorer than those farther from it. This is a time-invariant characteristic that we might want to control for in our regression. At the same time, we know that GDP per capita could be similarly impacted in many countries by a shock at one point in time. For example, a worldwide global recession would affect the GDP per capita of all countries at a given time such that values of GDP per capita in this time period are uniformly different in all countries from values in other periods. That seems like a time-variant characteristic (time trend) that we might want to control for in our regression. Fortunately, with panel data regressions we can account for these sources of endogeneity. Let’s look at how panel data helps us do this now.</p>
+<section id="fixed-effects-models" class="level4">
+<h4 class="anchored" data-anchor-id="fixed-effects-models">15.3.1 Fixed Effects Models</h4>
+<p>We refer to shocks that are invariant based on some variable (e.g.&nbsp;household level shocks that don’t vary with year or time-specific shocks that don’t vary with household) as <strong>fixed effects</strong>. For instance, we can define household fixed effects, time fixed effects, and so on. Notice that this is an assumption on the error terms, and as such, when we include fixed effects to our specification they become part of the model we assume to be true.</p>
+<p>When we ran our regression of log real GDP per capita on log human capital from earlier where we were concerned about omitted variable bias and endogeneity. We are concerned about distance from the equator positively impacting both human capital and real GDP per capita, in which case our measure of human capital would be correlated with our error term, preventing us from interpreting our regression result as causal. We are now able to add country fixed effects to our regression to account for this and come closer to determining the pure effect of human capital on GDP growth. There are two ways to do this. Let’s look at the more obvious one first.</p>
+<p><em>Approach 1</em>: create a series of country dummy variables for each country and include them in the regression. For example, we would have one dummy variable called “Canada” that would be equal to 1 if the country is Canada and 0 if not. We would have dummy variables for all but one of the countries in this data set in order to avoid introducing perfect collinearity into our regression specification. Rather than define all of these dummies manually and include them in our <code>reg</code> command, we can simply add i.code into our regression. Stata will then manually create all of the code (country) variables for us.</p>
+<div id="70cf10cb" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc i.ccode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc i.ccode
+
+Random-effects GLS regression                   Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 1.0000                                         avg =       59.6
+     Overall = 0.8991                                         max =         70
+
+                                                Wald chi2(145)    =   75668.31
+corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.072537   .0228576    90.67   0.000     2.027737    2.117337
+             |
+       ccode |
+        ALB  |  -1.167585   .0801743   -14.56   0.000    -1.324724   -1.010446
+        ARE  |   2.266366   .0796921    28.44   0.000     2.110172    2.422559
+        ARG  |  -.8561933   .0743902   -11.51   0.000    -1.001995   -.7103912
+        ARM  |  -1.485533    .093271   -15.93   0.000     -1.66834   -1.302725
+        AUS  |  -.0942302    .076069    -1.24   0.215    -.2433226    .0548622
+        AUT  |  -.1109968   .0753938    -1.47   0.141    -.2587659    .0367723
+        BDI  |  -1.520566   .0752978   -20.19   0.000    -1.668147   -1.372985
+        BEL  |   .0601811   .0749744     0.80   0.422     -.086766    .2071282
+        BEN  |   -.857801   .0750248   -11.43   0.000    -1.004847   -.7107551
+        BFA  |  -.8977982   .0753508   -11.91   0.000    -1.045483   -.7501132
+        BGD  |  -1.242003   .0751348   -16.53   0.000    -1.389265   -1.094742
+        BGR  |  -.7604451   .0809396    -9.40   0.000    -.9190838   -.6018064
+        BHR  |   .8210965   .0794591    10.33   0.000     .6653595    .9768335
+        BLZ  |  -1.343531    .080911   -16.61   0.000    -1.502113   -1.184948
+        BOL  |  -1.347422    .073696   -18.28   0.000    -1.491864   -1.202981
+        BRA  |  -.4142286   .0733045    -5.65   0.000    -.5579028   -.2705545
+        BRB  |  -.1897638   .0770783    -2.46   0.014    -.3408345   -.0386931
+        BRN  |   1.503302   .0800975    18.77   0.000     1.346314     1.66029
+        BWA  |  -.8169213   .0759202   -10.76   0.000    -.9657221   -.6681205
+        CAF  |  -1.307198   .0752984   -17.36   0.000     -1.45478   -1.159616
+        CAN  |  -.0235712   .0759494    -0.31   0.756    -.1724293    .1252868
+        CHE  |   .1159736   .0763893     1.52   0.129    -.0337467    .2656938
+        CHL  |  -.6640075   .0747736    -8.88   0.000    -.8105611   -.5174539
+        CHN  |  -1.251941   .0738216   -16.96   0.000    -1.396628   -1.107253
+        CIV  |  -.5281156   .0753013    -7.01   0.000    -.6757034   -.3805278
+        CMR  |  -.9435662   .0754434   -12.51   0.000    -1.091432   -.7956999
+        COD  |  -1.136322   .0728257   -15.60   0.000    -1.279058   -.9935867
+        COG  |  -.7672164   .0755483   -10.16   0.000    -.9152883   -.6191445
+        COL  |  -.4126524   .0735289    -5.61   0.000    -.5567664   -.2685384
+        CRI  |  -.3754629   .0737845    -5.09   0.000     -.520078   -.2308479
+        CYP  |  -.0297054   .0740581    -0.40   0.688    -.1748567    .1154459
+        CZE  |  -.3349684   .0940311    -3.56   0.000     -.519266   -.1506708
+        DEU  |  -.3038158   .0760558    -3.99   0.000    -.4528823   -.1547492
+        DNK  |  -.0638862   .0757018    -0.84   0.399    -.2122589    .0844866
+        DOM  |  -.5496054   .0736276    -7.46   0.000    -.6939128    -.405298
+        DZA  |   .4004323   .0755001     5.30   0.000     .2524548    .5484097
+        ECU  |  -.6859267   .0738495    -9.29   0.000     -.830669   -.5411843
+        EGY  |  -1.028446   .0730225   -14.08   0.000    -1.171567   -.8853244
+        ESP  |   .0026079    .074305     0.04   0.972    -.1430272    .1482431
+        EST  |  -.5866867   .0936584    -6.26   0.000    -.7702539   -.4031196
+        ETH  |  -1.462973   .0753127   -19.43   0.000    -1.610583   -1.315362
+        FIN  |  -.0552752   .0751749    -0.74   0.462    -.2026153     .092065
+        FJI  |  -.7626918   .0763733    -9.99   0.000    -.9123807    -.613003
+        FRA  |   .1069984   .0748937     1.43   0.153    -.0397905    .2537872
+        GAB  |   .2872627   .0756826     3.80   0.000     .1389276    .4355979
+        GBR  |  -.2046964   .0758355    -2.70   0.007    -.3533312   -.0560616
+        GHA  |  -.7666579   .0743406   -10.31   0.000    -.9123628    -.620953
+        GMB  |  -.3783084   .0752947    -5.02   0.000    -.5258834   -.2307334
+        GRC  |  -.1195682   .0746092    -1.60   0.109    -.2657995    .0266631
+        GTM  |  -.3600827   .0729039    -4.94   0.000    -.5029717   -.2171937
+        GUY  |  -1.071105   .0800011   -13.39   0.000    -1.227904   -.9143052
+        HKG  |   .3536698    .077052     4.59   0.000     .2026506    .5046889
+        HND  |  -.9253552   .0731616   -12.65   0.000    -1.068749    -.781961
+        HRV  |  -.5280945   .0932547    -5.66   0.000    -.7108703   -.3453187
+        HTI  |  -1.153332   .0753401   -15.31   0.000    -1.300996   -1.005669
+        HUN  |  -.5205111   .0811291    -6.42   0.000    -.6795212   -.3615009
+        IDN  |  -1.026255   .0758132   -13.54   0.000    -1.174846   -.8776637
+        IND  |  -1.180681    .072924   -16.19   0.000    -1.323609   -1.037753
+        IRL  |  -.1043488   .0749147    -1.39   0.164    -.2511789    .0424813
+        IRN  |   .1575227   .0740786     2.13   0.033     .0123313     .302714
+        IRQ  |  -.0331739   .0789483    -0.42   0.674    -.1879098     .121562
+        ISL  |   .3615295   .0746757     4.84   0.000     .2151678    .5078912
+        ISR  |  -.2988862    .075613    -3.95   0.000     -.447085   -.1506874
+        ITA  |   .1210815   .0744401     1.63   0.104    -.0248184    .2669814
+        JAM  |  -.8681193   .0747782   -11.61   0.000    -1.014682   -.7215567
+        JOR  |  -.7779743   .0743328   -10.47   0.000    -.9236639   -.6322848
+        JPN  |  -.4223239   .0757315    -5.58   0.000     -.570755   -.2738929
+        KAZ  |  -.7565804   .0932048    -8.12   0.000    -.9392584   -.5739024
+        KEN  |  -1.179702   .0730714   -16.14   0.000     -1.32292   -1.036485
+        KGZ  |  -1.924722   .0931645   -20.66   0.000    -2.107321   -1.742123
+        KHM  |  -1.389133   .0787891   -17.63   0.000    -1.543556   -1.234709
+        KOR  |  -.8586359   .0754249   -11.38   0.000    -1.006466   -.7108059
+        KWT  |   1.682594   .0793737    21.20   0.000     1.527025    1.838164
+        LAO  |  -1.250598   .0788503   -15.86   0.000    -1.405142   -1.096054
+        LBR  |  -1.564942   .0765941   -20.43   0.000    -1.715064    -1.41482
+        LKA  |  -1.229281   .0741029   -16.59   0.000     -1.37452   -1.084042
+        LSO  |  -1.406844   .0757763   -18.57   0.000    -1.555363   -1.258326
+        LTU  |  -.4579488   .0931202    -4.92   0.000     -.640461   -.2754365
+        LUX  |   .6663584   .0745599     8.94   0.000     .5202237    .8124932
+        LVA  |  -.4205205   .0929532    -4.52   0.000    -.6027054   -.2383357
+        MAC  |   .8761201   .0796854    10.99   0.000     .7199396      1.0323
+        MAR  |  -.3318478   .0728292    -4.56   0.000    -.4745903   -.1891052
+        MDA  |  -1.713512   .0930228   -18.42   0.000    -1.895834   -1.531191
+        MDG  |  -1.289452   .0753642   -17.11   0.000    -1.437163   -1.141741
+        MDV  |  -.1380271   .0790971    -1.75   0.081    -.2930545    .0170003
+        MEX  |  -.0596504   .0737608    -0.81   0.419     -.204219    .0849182
+        MLI  |  -1.217787   .0753184   -16.17   0.000    -1.365408   -1.070165
+        MLT  |  -.6047981   .0752351    -8.04   0.000    -.7522562     -.45734
+        MMR  |   -1.47045   .0759577   -19.36   0.000    -1.619324   -1.321576
+        MNG  |  -1.550264   .0801544   -19.34   0.000    -1.707364   -1.393164
+        MOZ  |  -1.402513     .07531   -18.62   0.000    -1.550118   -1.254909
+        MRT  |  -.4266718   .0753664    -5.66   0.000    -.5743872   -.2789564
+        MUS  |  -.0791482    .073458    -1.08   0.281    -.2231232    .0648268
+        MWI  |   -1.68129   .0738461   -22.77   0.000    -1.826026   -1.536554
+        MYS  |  -.3608378   .0749055    -4.82   0.000    -.5076499   -.2140257
+        NAM  |  -.4384733   .0759446    -5.77   0.000     -.587322   -.2896246
+        NER  |  -.8025278   .0753428   -10.65   0.000     -.950197   -.6548585
+        NGA  |  -.8191766    .075341   -10.87   0.000    -.9668423    -.671511
+        NIC  |  -.4132997   .0731293    -5.65   0.000    -.5566304   -.2699689
+        NLD  |   .0442159   .0754439     0.59   0.558    -.1036515    .1920833
+        NOR  |   .0543472   .0758195     0.72   0.473    -.0942563    .2029506
+        NPL  |  -1.282033   .0753016   -17.03   0.000    -1.429622   -1.134445
+        NZL  |  -.3006866   .0759628    -3.96   0.000    -.4495709   -.1518022
+        PAK  |  -.7906198   .0728637   -10.85   0.000      -.93343   -.6478096
+        PAN  |  -.6960321   .0740998    -9.39   0.000     -.841265   -.5507993
+        PER  |  -.9140058   .0737523   -12.39   0.000    -1.058558   -.7694538
+        PHL  |  -1.208707   .0737143   -16.40   0.000    -1.353185    -1.06423
+        POL  |   -.665956   .0810286    -8.22   0.000    -.8247692   -.5071429
+        PRT  |   .3215888   .0732968     4.39   0.000     .1779298    .4652478
+        PRY  |  -.8082201   .0737547   -10.96   0.000    -.9527766   -.6636636
+        QAT  |   1.716625    .079682    21.54   0.000     1.560451    1.872799
+        ROU  |  -.9929521    .077292   -12.85   0.000    -1.144442   -.8414625
+        RUS  |  -.5689844   .0933972    -6.09   0.000    -.7520394   -.3859293
+        RWA  |  -1.370132    .075312   -18.19   0.000    -1.517741   -1.222523
+        SAU  |   .9389691   .0795731    11.80   0.000     .7830087     1.09493
+        SDN  |   -.627489   .0786598    -7.98   0.000    -.7816594   -.4733187
+        SEN  |    -.41376   .0752945    -5.50   0.000    -.5613346   -.2661854
+        SGP  |   .4528528    .076504     5.92   0.000     .3029077    .6027979
+        SLE  |    -1.1959     .07559   -15.82   0.000    -1.344054   -1.047746
+        SLV  |  -1.483257   .0730552   -20.30   0.000    -1.626443   -1.340071
+        SRB  |  -.9042736   .0930796    -9.72   0.000    -1.086706    -.721841
+        SVK  |  -.5414365   .0938912    -5.77   0.000    -.7254599   -.3574131
+        SVN  |  -.2446127   .0936807    -2.61   0.009    -.4282236   -.0610018
+        SWE  |    .001472   .0755478     0.02   0.984     -.146599    .1495431
+        SWZ  |  -.2669642    .078989    -3.38   0.001    -.4217798   -.1121485
+        SYR  |  -1.112671   .0757991   -14.68   0.000    -1.261235   -.9641075
+        TGO  |  -1.182079    .075378   -15.68   0.000    -1.329817   -1.034341
+        THA  |  -.7933918   .0733773   -10.81   0.000    -.9372087   -.6495749
+        TJK  |  -2.386482   .0932714   -25.59   0.000    -2.569291   -2.203674
+        TTO  |  -.0485307   .0744453    -0.65   0.514    -.1944407    .0973794
+        TUN  |  -.2149054   .0755464    -2.84   0.004    -.3629737   -.0668372
+        TUR  |   .2710638   .0731255     3.71   0.000     .1277405    .4143872
+        TWN  |  -.0768687   .0742117    -1.04   0.300    -.2223209    .0685835
+        TZA  |  -1.298408   .0753746   -17.23   0.000     -1.44614   -1.150677
+        UGA  |  -1.635895   .0729136   -22.44   0.000    -1.778803   -1.492987
+        UKR  |  -1.223806   .0933087   -13.12   0.000    -1.406687   -1.040924
+        URY  |  -.2971627   .0740501    -4.01   0.000    -.4422983   -.1520272
+        USA  |   .0665248   .0762303     0.87   0.383    -.0828838    .2159333
+        VEN  |   -.105541   .0733484    -1.44   0.150    -.2493012    .0382191
+        VNM  |  -1.661203    .079402   -20.92   0.000    -1.816828   -1.505577
+        YEM  |  -.9614948   .0899015   -10.69   0.000    -1.137699    -.785291
+        ZAF  |  -.2013624   .0736927    -2.73   0.006    -.3457974   -.0569274
+        ZMB  |  -1.531063   .0744627   -20.56   0.000    -1.677007   -1.385119
+        ZWE  |  -1.047877   .0741844   -14.13   0.000    -1.193275   -.9024778
+             |
+       _cons |    7.91387   .0557836   141.87   0.000     7.804536    8.023204
+-------------+----------------------------------------------------------------
+     sigma_u |          0
+     sigma_e |   .3932119
+         rho |          0   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. </code></pre>
+</div>
+</div>
+<p>The problem with this approach is that we end up with a huge table containing the coefficients of every country dummy, none of which we care about. We are interested in the relationship between GDP and human capital, not the mean values of GDP for each country relative to the omitted one. Luckily for us, a well-known result is that controlling for fixed effects is equivalent to adding multiple dummy variables. This leads us into the second approach to including fixed effects in a regression.</p>
+<p><em>Approach 2</em>: We can alternatively apply fixed affects to the regression by adding <code>fe</code> as an option on the regression.</p>
+<div id="22777284" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc, fe
+
+Fixed-effects (within) regression               Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                F(1, 8491)        =    8221.37
+corr(u_i, Xb) = 0.2961                          Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.072537   .0228576    90.67   0.000      2.02773    2.117343
+       _cons |   7.369692   .0159552   461.90   0.000     7.338416    7.400968
+-------------+----------------------------------------------------------------
+     sigma_u |  .73516756
+     sigma_e |   .3932119
+         rho |  .77755934   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(144, 8491) = 174.45                 Prob &gt; F = 0.0000
+
+. </code></pre>
+</div>
+</div>
+<p>We obtained the same coefficient and standard errors on our <code>lnhc</code> explanatory variable using both approaches!</p>
+<p>One type of model we can also run is a <strong>random effects model</strong>. The main difference between a random and fixed effects model is that, with the random effects model, differences across countries are assumed to be random. This allows us to treat time-invariant variables such as latitude as control variables. To run a random-effects model just add re as an option in xtreg regression like below.</p>
+<div id="7dcc2b13" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, re</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc, re
+
+Random-effects GLS regression                   Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                Wald chi2(1)      =    8408.76
+corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.081454   .0226987    91.70   0.000     2.036965    2.125942
+       _cons |   7.344036   .0612318   119.94   0.000     7.224024    7.464048
+-------------+----------------------------------------------------------------
+     sigma_u |  .71051066
+     sigma_e |   .3932119
+         rho |  .76553536   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. </code></pre>
+</div>
+</div>
+<p>As you can see, with this data and choice of variables there is little difference in results between all of these models and choice of code to run.</p>
+<p>This, however, will not always be the case. The test to determine if you should use the fixed-effects model (fe) or the random-effects model (re) is called the Hausman test.</p>
+<p>To run this test in Stata start by running a fixed-effects model and ask Stata to store the estimation results under then name “fixed”:</p>
+<div id="4a98d4fe" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>estimates store fixed </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc, fe
+
+Fixed-effects (within) regression               Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                F(1, 8491)        =    8221.37
+corr(u_i, Xb) = 0.2961                          Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.072537   .0228576    90.67   0.000      2.02773    2.117343
+       _cons |   7.369692   .0159552   461.90   0.000     7.338416    7.400968
+-------------+----------------------------------------------------------------
+     sigma_u |  .73516756
+     sigma_e |   .3932119
+         rho |  .77755934   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(144, 8491) = 174.45                 Prob &gt; F = 0.0000
+
+. 
+. estimates store fixed 
+
+. </code></pre>
+</div>
+</div>
+<p>Next run a random-effects model and again ask Stata to store the estimation results as “random”:</p>
+<div id="bbd018b2" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, re </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>estimates store random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc, re 
+
+Random-effects GLS regression                   Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                Wald chi2(1)      =    8408.76
+corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.081454   .0226987    91.70   0.000     2.036965    2.125942
+       _cons |   7.344036   .0612318   119.94   0.000     7.224024    7.464048
+-------------+----------------------------------------------------------------
+     sigma_u |  .71051066
+     sigma_e |   .3932119
+         rho |  .76553536   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. 
+. estimates store random
+
+. </code></pre>
+</div>
+</div>
+<p>Then run a command for the Hausman test comparing the two sets of estimates:</p>
+<div id="284d94ab" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>hausman fixed random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. hausman fixed random
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     fixed        random       Difference       Std. err.
+-------------+----------------------------------------------------------------
+        lnhc |    2.072537     2.081454       -.0089169        .0026904
+------------------------------------------------------------------------------
+                          b = Consistent under H0 and Ha; obtained from xtreg.
+           B = Inconsistent under Ha, efficient under H0; obtained from xtreg.
+
+Test of H0: Difference in coefficients not systematic
+
+    chi2(1) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+            =  10.98
+Prob &gt; chi2 = 0.0009
+
+. </code></pre>
+</div>
+</div>
+<p>As you can see, the results of this test suggest that we would reject the null hypothesis (random effect) and that we should adopt a fixed-effects model.</p>
+</section>
+<section id="what-if-we-want-to-control-for-multiple-fixed-effects" class="level4">
+<h4 class="anchored" data-anchor-id="what-if-we-want-to-control-for-multiple-fixed-effects">15.3.1 What if We Want to Control for Multiple Fixed Effects?</h4>
+<p>You have run a panel data with fixed effects, and you might think that no more needs to be done to control for factors that are constant across your cross-sectional variables (i.e.&nbsp;countries) at any one point in time (i.e.&nbsp;years). However, for very long series (for example those over 20 years) you will want to check that are time dummy variables are not also needed.</p>
+<p>The Stata command <code>testparm</code> tests whether the coefficients on three or more variables are equal to zero. When used after a fixed-effects panel data regression that includes time and/or panel dummies, <code>testparm</code> will tell us if the dummies for all years are equal to 0. If they equal to zero then no time-fixed effects are needed. If they are not we will want to include them in all of our regressions.</p>
+<p>As we have already learned, we can include an <code>i.year</code> to include a new dummy variable for each unique value in the variable year and include that in our regression. Now let’s test to see if that is necessary in the fixed effects regression by running the command for <code>testparm</code>.</p>
+<div id="99ae530e" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc i.year</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>testparm i.year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc i.year
+
+Random-effects GLS regression                   Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.5673                                         min =         30
+     Between = 0.5271                                         avg =       59.6
+     Overall = 0.4653                                         max =         70
+
+                                                Wald chi2(70)     =   11032.47
+corr(u_i, X) = 0 (assumed)                      Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   .9953885   .0533463    18.66   0.000     .8908317    1.099945
+             |
+        year |
+       1951  |   .0178031   .0697244     0.26   0.798    -.1188543    .1544605
+       1952  |   .0259721   .0694461     0.37   0.708    -.1101397    .1620839
+       1953  |   .0262229   .0689145     0.38   0.704     -.108847    .1612928
+       1954  |    .053819   .0679378     0.79   0.428    -.0793367    .1869747
+       1955  |   .0964718   .0670622     1.44   0.150    -.0349678    .2279114
+       1956  |   .1219016    .067064     1.82   0.069    -.0095415    .2533446
+       1957  |   .1455531   .0670669     2.17   0.030     .0141045    .2770018
+       1958  |   .1477829   .0670708     2.20   0.028     .0163265    .2792392
+       1959  |    .185058   .0666733     2.78   0.006     .0543807    .3157352
+       1960  |     .26242   .0621097     4.23   0.000     .1406873    .3841528
+       1961  |   .2753844   .0620285     4.44   0.000     .1538108     .396958
+       1962  |   .3057185   .0619506     4.93   0.000     .1842976    .4271395
+       1963  |    .309277   .0619687     4.99   0.000     .1878206    .4307333
+       1964  |   .3625061   .0618943     5.86   0.000     .2411955    .4838166
+       1965  |   .3923993   .0619157     6.34   0.000     .2710469    .5137518
+       1966  |   .4045928   .0619431     6.53   0.000     .2831867     .525999
+       1967  |   .4182151   .0619724     6.75   0.000     .2967514    .5396788
+       1968  |   .4384561    .062004     7.07   0.000     .3169305    .5599817
+       1969  |   .4726771   .0620378     7.62   0.000     .3510853    .5942689
+       1970  |   .5309956   .0603276     8.80   0.000     .4127557    .6492354
+       1971  |    .549766   .0603772     9.11   0.000     .4314289     .668103
+       1972  |   .5697978   .0604308     9.43   0.000     .4513557      .68824
+       1973  |   .5952057   .0604877     9.84   0.000     .4766519    .7137595
+       1974  |   .6207654   .0605473    10.25   0.000     .5020948     .739436
+       1975  |   .6107479   .0606101    10.08   0.000     .4919542    .7295415
+       1976  |   .6360785   .0606861    10.48   0.000      .517136     .755021
+       1977  |   .6468602   .0607667    10.64   0.000     .5277597    .7659608
+       1978  |   .6535494   .0608511    10.74   0.000     .5342833    .7728154
+       1979  |   .6578622   .0609388    10.80   0.000     .5384243    .7773001
+       1980  |   .6581445   .0610291    10.78   0.000     .5385296    .7777593
+       1981  |   .6472568   .0611513    10.58   0.000     .5274026    .7671111
+       1982  |   .6205573   .0612795    10.13   0.000     .5004517    .7406629
+       1983  |   .6021466   .0614131     9.80   0.000     .4817792    .7225141
+       1984  |   .6037983   .0615516     9.81   0.000     .4831594    .7244372
+       1985  |   .5789695   .0616955     9.38   0.000     .4580485    .6998904
+       1986  |   .5658215   .0618343     9.15   0.000     .4446285    .6870146
+       1987  |    .571656   .0619775     9.22   0.000     .4501824    .6931296
+       1988  |    .573049   .0621251     9.22   0.000      .451286    .6948119
+       1989  |   .5724024   .0622043     9.20   0.000     .4504842    .6943205
+       1990  |   .6285131    .061546    10.21   0.000     .5078852     .749141
+       1991  |   .5972128   .0617097     9.68   0.000      .476264    .7181616
+       1992  |   .5732003   .0618758     9.26   0.000      .451926    .6944746
+       1993  |    .559798   .0620456     9.02   0.000     .4381909    .6814051
+       1994  |   .5535301   .0622197     8.90   0.000     .4315816    .6754786
+       1995  |   .5775349   .0623968     9.26   0.000     .4552394    .6998303
+       1996  |   .6067848   .0625627     9.70   0.000     .4841642    .7294054
+       1997  |   .6172768   .0627314     9.84   0.000     .4943255    .7402281
+       1998  |   .6004642   .0629023     9.55   0.000     .4771778    .7237505
+       1999  |   .6137021   .0630744     9.73   0.000     .4900785    .7373256
+       2000  |   .6560094   .0632477    10.37   0.000     .5320462    .7799725
+       2001  |   .6595905   .0634081    10.40   0.000     .5353129    .7838682
+       2002  |   .6736759   .0635703    10.60   0.000     .5490804    .7982715
+       2003  |   .6980967   .0637339    10.95   0.000     .5731806    .8230129
+       2004  |   .7491733   .0638976    11.72   0.000     .6239364    .8744102
+       2005  |   .8281019   .0640635    12.93   0.000     .7025398     .953664
+       2006  |   .8763791   .0642322    13.64   0.000     .7504862    1.002272
+       2007  |   .9197114   .0644033    14.28   0.000     .7934833     1.04594
+       2008  |   .9621744   .0645753    14.90   0.000     .8356091     1.08874
+       2009  |    .921703   .0647463    14.24   0.000     .7948026    1.048603
+       2010  |   .9858718   .0649159    15.19   0.000      .858639    1.113105
+       2011  |   1.043475   .0651151    16.03   0.000     .9158513    1.171098
+       2012  |   1.060546   .0653156    16.24   0.000     .9325295    1.188562
+       2013  |   1.053693   .0655184    16.08   0.000     .9252792    1.182107
+       2014  |   1.056419    .065723    16.07   0.000     .9276043    1.185234
+       2015  |   1.023772   .0659305    15.53   0.000     .8945501    1.152993
+       2016  |   1.015305    .066141    15.35   0.000     .8856715     1.14494
+       2017  |   1.021399   .0663533    15.39   0.000     .8913495    1.151449
+       2018  |   1.035342   .0665694    15.55   0.000     .9048686    1.165816
+       2019  |   1.036413   .0667891    15.52   0.000      .905509    1.167317
+             |
+       _cons |   7.439635    .077874    95.53   0.000     7.287005    7.592265
+-------------+----------------------------------------------------------------
+     sigma_u |  .66502037
+     sigma_e |  .36415315
+         rho |  .76932191   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. 
+. testparm i.year
+
+ ( 1)  1951.year = 0
+ ( 2)  1952.year = 0
+ ( 3)  1953.year = 0
+ ( 4)  1954.year = 0
+ ( 5)  1955.year = 0
+ ( 6)  1956.year = 0
+ ( 7)  1957.year = 0
+ ( 8)  1958.year = 0
+ ( 9)  1959.year = 0
+ (10)  1960.year = 0
+ (11)  1961.year = 0
+ (12)  1962.year = 0
+ (13)  1963.year = 0
+ (14)  1964.year = 0
+ (15)  1965.year = 0
+ (16)  1966.year = 0
+ (17)  1967.year = 0
+ (18)  1968.year = 0
+ (19)  1969.year = 0
+ (20)  1970.year = 0
+ (21)  1971.year = 0
+ (22)  1972.year = 0
+ (23)  1973.year = 0
+ (24)  1974.year = 0
+ (25)  1975.year = 0
+ (26)  1976.year = 0
+ (27)  1977.year = 0
+ (28)  1978.year = 0
+ (29)  1979.year = 0
+ (30)  1980.year = 0
+ (31)  1981.year = 0
+ (32)  1982.year = 0
+ (33)  1983.year = 0
+ (34)  1984.year = 0
+ (35)  1985.year = 0
+ (36)  1986.year = 0
+ (37)  1987.year = 0
+ (38)  1988.year = 0
+ (39)  1989.year = 0
+ (40)  1990.year = 0
+ (41)  1991.year = 0
+ (42)  1992.year = 0
+ (43)  1993.year = 0
+ (44)  1994.year = 0
+ (45)  1995.year = 0
+ (46)  1996.year = 0
+ (47)  1997.year = 0
+ (48)  1998.year = 0
+ (49)  1999.year = 0
+ (50)  2000.year = 0
+ (51)  2001.year = 0
+ (52)  2002.year = 0
+ (53)  2003.year = 0
+ (54)  2004.year = 0
+ (55)  2005.year = 0
+ (56)  2006.year = 0
+ (57)  2007.year = 0
+ (58)  2008.year = 0
+ (59)  2009.year = 0
+ (60)  2010.year = 0
+ (61)  2011.year = 0
+ (62)  2012.year = 0
+ (63)  2013.year = 0
+ (64)  2014.year = 0
+ (65)  2015.year = 0
+ (66)  2016.year = 0
+ (67)  2017.year = 0
+ (68)  2018.year = 0
+ (69)  2019.year = 0
+
+           chi2( 69) = 1363.89
+         Prob &gt; chi2 =    0.0000
+
+. </code></pre>
+</div>
+</div>
+<p>Stata runs a joint test to see if the coefficients on the dummies for all years are equal to 0. The null hypothesis on this test is that they are equal to zero, meaning that as the test statistic is less than 0.05 we can reject the null hypothesis and will want to include the year dummies in our analysis.</p>
+</section>
+</section>
+<section id="creating-new-time-series-variables" class="level2">
+<h2 class="anchored" data-anchor-id="creating-new-time-series-variables">15.4 Creating New Time Series Variables</h2>
+<p>Panel data also provides us with a new source of variation: variation over time. This means that we have access to a wide variety of variables we can include. For instance, we can create lags (variables in previous periods) and leads (variables in future periods). Once we have defined our panel data set using the <code>xtset</code> command (which we did earlier) we can create the lags using <code>L.variable</code> and the leads using <code>F.variable</code>.</p>
+<p>For example, let’s create a new variable that lags the natural log of GDP per capita by one period.</p>
+<div id="91a1e6a4" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>gen lag1_lngdp <span class="op">=</span> L1.lngdp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. gen lag1_lngdp = L1.lngdp
+(2,594 missing values generated)
+
+. </code></pre>
+</div>
+</div>
+<p>If we wanted to lag this same variable ten periods, we could use this command:</p>
+<div id="e96102b9" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>gen lag10_lngdp <span class="op">=</span> L10.lngdp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. gen lag10_lngdp = L10.lngdp
+(4,241 missing values generated)
+
+. </code></pre>
+</div>
+</div>
+<p>We can include lagged variables directly in our regression if we believe that past values of real GDP per capita influence current levels of real GDP per capita.</p>
+<div id="09d234bb" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp L1.lngdp L10.lngdp lnhc i.year, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp L1.lngdp L10.lngdp lnhc i.year, fe
+
+Fixed-effects (within) regression               Number of obs     =      7,208
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.9721                                         min =         20
+     Between = 0.9999                                         avg =       49.7
+     Overall = 0.9954                                         max =         60
+
+                                                F(62, 7001)       =    3940.00
+corr(u_i, Xb) = 0.8913                          Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       lngdp |
+         L1. |   .9902435   .0038061   260.17   0.000     .9827823    .9977047
+        L10. |  -.0399322   .0036316   -11.00   0.000    -.0470513   -.0328131
+             |
+        lnhc |   .0195021   .0149505     1.30   0.192    -.0098054    .0488096
+             |
+        year |
+       1961  |   .0012136   .0150409     0.08   0.936    -.0282712    .0306984
+       1962  |   .0089642   .0149834     0.60   0.550    -.0204077    .0383362
+       1963  |   .0005079   .0148733     0.03   0.973    -.0286482    .0296639
+       1964  |   .0307714   .0146698     2.10   0.036     .0020141    .0595287
+       1965  |   .0185671   .0144896     1.28   0.200     -.009837    .0469711
+       1966  |   .0053137   .0144952     0.37   0.714    -.0231014    .0337287
+       1967  |  -.0038829   .0145012    -0.27   0.789    -.0323097    .0245438
+       1968  |  -.0014469    .014507    -0.10   0.921     -.029885    .0269913
+       1969  |   .0282496   .0143934     1.96   0.050     .0000341    .0564652
+       1970  |   .0342442   .0135273     2.53   0.011     .0077266    .0607617
+       1971  |   .0140959   .0135249     1.04   0.297    -.0124169    .0406088
+       1972  |   .0213268   .0135197     1.58   0.115     -.005176    .0478295
+       1973  |   .0250646   .0135374     1.85   0.064    -.0014729    .0516021
+       1974  |   .0244523   .0135415     1.81   0.071    -.0020932    .0509977
+       1975  |  -.0109177   .0135639    -0.80   0.421     -.037507    .0156716
+       1976  |   .0264938   .0135787     1.95   0.051    -.0001245    .0531121
+       1977  |   .0172719   .0136042     1.27   0.204    -.0093965    .0439403
+       1978  |   .0148633   .0136293     1.09   0.276    -.0118544    .0415809
+       1979  |   .0102008   .0136565     0.75   0.455    -.0165702    .0369718
+       1980  |   .0085316   .0133178     0.64   0.522    -.0175754    .0346385
+       1981  |    .001079    .013354     0.08   0.936    -.0250989    .0272569
+       1982  |  -.0138718   .0133915    -1.04   0.300    -.0401233    .0123796
+       1983  |  -.0047129   .0134308    -0.35   0.726    -.0310413    .0216154
+       1984  |   .0162799   .0134749     1.21   0.227    -.0101349    .0426948
+       1985  |  -.0104281    .013513    -0.77   0.440    -.0369177    .0160615
+       1986  |   .0014367   .0135592     0.11   0.916    -.0251434    .0280168
+       1987  |   .0209369   .0136041     1.54   0.124    -.0057313    .0476051
+       1988  |   .0170562   .0136506     1.25   0.212     -.009703    .0438155
+       1989  |   .0193004   .0136972     1.41   0.159    -.0075503    .0461512
+       1990  |   .0242895   .0137437     1.77   0.077    -.0026522    .0512312
+       1991  |  -.0055244   .0137892    -0.40   0.689    -.0325553    .0215066
+       1992  |   .0166306    .013828     1.20   0.229    -.0104765    .0437378
+       1993  |   .0131152   .0138731     0.95   0.345    -.0140804    .0403107
+       1994  |   .0209707   .0139261     1.51   0.132    -.0063287      .04827
+       1995  |     .04204   .0139722     3.01   0.003     .0146504    .0694297
+       1996  |   .0453148   .0140222     3.23   0.001     .0178271    .0728025
+       1997  |   .0275372     .01408     1.96   0.051    -.0000638    .0551383
+       1998  |   .0011516   .0141347     0.08   0.935    -.0265567    .0288599
+       1999  |   .0320776   .0141664     2.26   0.024     .0043071    .0598481
+       2000  |   .0578138   .0140784     4.11   0.000     .0302158    .0854118
+       2001  |   .0177771   .0141252     1.26   0.208    -.0099125    .0454668
+       2002  |   .0276489   .0141701     1.95   0.051    -.0001289    .0554267
+       2003  |   .0378643    .014221     2.66   0.008     .0099869    .0657418
+       2004  |   .0647254   .0142765     4.53   0.000     .0367391    .0927116
+       2005  |   .0943584   .0143474     6.58   0.000     .0662333    .1224836
+       2006  |   .0659652   .0144305     4.57   0.000      .037677    .0942534
+       2007  |   .0622005   .0145032     4.29   0.000     .0337698    .0906311
+       2008  |   .0613123   .0145712     4.21   0.000     .0327483    .0898764
+       2009  |  -.0205425   .0146453    -1.40   0.161    -.0492517    .0081667
+       2010  |   .0855195   .0146892     5.82   0.000     .0567243    .1143148
+       2011  |   .0811768    .014778     5.49   0.000     .0522076    .1101461
+       2012  |   .0419435   .0148695     2.82   0.005     .0127947    .0710923
+       2013  |   .0193823    .014945     1.30   0.195    -.0099143     .048679
+       2014  |    .031128   .0150153     2.07   0.038     .0016933    .0605626
+       2015  |  -.0008208    .015101    -0.05   0.957    -.0304234    .0287818
+       2016  |   .0252179   .0151697     1.66   0.096    -.0045193    .0549551
+       2017  |   .0416232   .0152491     2.73   0.006     .0117304     .071516
+       2018  |   .0515126   .0153355     3.36   0.001     .0214505    .0815748
+       2019  |   .0374197   .0153921     2.43   0.015     .0072466    .0675928
+             |
+       _cons |   .4137854   .0275731    15.01   0.000     .3597337    .4678371
+-------------+----------------------------------------------------------------
+     sigma_u |  .05404699
+     sigma_e |  .08054093
+         rho |   .3104913   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(144, 7001) = 2.65                   Prob &gt; F = 0.0000
+
+. </code></pre>
+</div>
+</div>
+<p>While we included lags from the previous period and 10 periods back as examples, we can use any period for our lags. In fact, including lag variables as controls for recent periods such as one lag back and two lags back is the most common choice for inclusion of past values of independent variables as controls.</p>
+<p>Finally, these time series variables are useful if we are trying to measure the growth rate of a variable. You may remember that the growth rate of a variable X is just equal to <span class="math inline">\(ln(X_{t}) - ln(X_{t-1})\)</span> where the subscripts indicate time.</p>
+<p>For example, if we want to now include the natural log of the population growth rate in our regression we can create that new variable by taking the natural log of the population growth rate <span class="math inline">\(ln(pop_{t}) - ln(pop_{t-1})\)</span></p>
+<div id="81e6be26" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>gen lnn <span class="op">=</span> ln(ln(pop)<span class="op">-</span>ln(L1.pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. gen lnn = ln(ln(pop)-ln(L1.pop))
+(3,450 missing values generated)
+
+. </code></pre>
+</div>
+</div>
+<p>Another variable that might also be useful is the natural log of the growth rate of GDP per capital.</p>
+<div id="541083c5" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>gen dlngdp<span class="op">=</span>ln(lngdp <span class="op">-</span> L1.lngdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. gen dlngdp=ln(lngdp - L1.lngdp)
+(5,795 missing values generated)
+
+. </code></pre>
+</div>
+</div>
+<p>Let’s put this all together in a regression and see what results we get:</p>
+<div id="09e211d4" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>xtreg dlngdp L1.lngdp lnhc lnn i.year, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg dlngdp L1.lngdp lnhc lnn i.year, fe
+
+Fixed-effects (within) regression               Number of obs     =      5,465
+Group variable: ccode                           Number of groups  =        140
+
+R-squared:                                      Obs per group:
+     Within  = 0.0680                                         min =          2
+     Between = 0.0108                                         avg =       39.0
+     Overall = 0.0462                                         max =         60
+
+                                                F(71, 5254)       =       5.40
+corr(u_i, Xb) = -0.1746                         Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+      dlngdp | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       lngdp |
+         L1. |  -.1853119     .04033    -4.59   0.000    -.2643755   -.1062483
+             |
+        lnhc |   .2705899   .1966261     1.38   0.169    -.1148789    .6560587
+         lnn |  -.0523217   .0265974    -1.97   0.049    -.1044636   -.0001798
+             |
+        year |
+       1952  |   -.099967   .2305104    -0.43   0.665    -.5518633    .3519292
+       1953  |   .0090347   .2217199     0.04   0.967    -.4256285     .443698
+       1954  |   .1131285    .212706     0.53   0.595    -.3038636    .5301206
+       1955  |   .0080017   .2107581     0.04   0.970    -.4051718    .4211752
+       1956  |  -.4641057   .2093588    -2.22   0.027    -.8745361   -.0536754
+       1957  |  -.1526395    .211047    -0.72   0.470    -.5663794    .2611005
+       1958  |  -.6997954   .2277545    -3.07   0.002    -1.146289    -.253302
+       1959  |  -.1232425   .2141894    -0.58   0.565    -.5431428    .2966578
+       1960  |   .0462978   .2089085     0.22   0.825    -.3632497    .4558452
+       1961  |  -.3480797   .2001159    -1.74   0.082      -.74039    .0442307
+       1962  |  -.1151027     .19578    -0.59   0.557    -.4989128    .2687075
+       1963  |  -.0732617   .1966156    -0.37   0.709    -.4587099    .3121865
+       1964  |   .0327713   .1923909     0.17   0.865    -.3443948    .4099373
+       1965  |  -.0570053   .1969998    -0.29   0.772    -.4432068    .3291962
+       1966  |  -.5657967   .1954319    -2.90   0.004    -.9489244    -.182669
+       1967  |  -.3328726   .1985421    -1.68   0.094    -.7220975    .0563524
+       1968  |  -.1813929   .1940778    -0.93   0.350    -.5618661    .1990803
+       1969  |   .0219682   .1936469     0.11   0.910    -.3576602    .4015966
+       1970  |   .3018397   .1961577     1.54   0.124     -.082711    .6863905
+       1971  |  -.2508719   .1916733    -1.31   0.191    -.6266313    .1248875
+       1972  |  -.0877766   .1913399    -0.46   0.646    -.4628823    .2873291
+       1973  |   .1639995   .1915518     0.86   0.392    -.2115216    .5395205
+       1974  |  -.0058386   .1932006    -0.03   0.976     -.384592    .3729148
+       1975  |  -.2887302   .2057281    -1.40   0.161    -.6920427    .1145823
+       1976  |   .0649726   .1942182     0.33   0.738    -.3157758    .4457209
+       1977  |  -.1821347   .1968885    -0.93   0.355    -.5681181    .2038487
+       1978  |  -.1281384   .1971856    -0.65   0.516    -.5147042    .2584274
+       1979  |  -.1026343   .1982133    -0.52   0.605    -.4912148    .2859461
+       1980  |  -.2207011   .2022804    -1.09   0.275    -.6172548    .1758526
+       1981  |  -.2144361   .2060877    -1.04   0.298    -.6184536    .1895815
+       1982  |  -.8013063   .2191248    -3.66   0.000    -1.230882   -.3717306
+       1983  |  -.2978487   .2101168    -1.42   0.156    -.7097649    .1140675
+       1984  |  -.1921488   .2037307    -0.94   0.346    -.5915457     .207248
+       1985  |  -.6192931   .2121557    -2.92   0.004    -1.035206   -.2033798
+       1986  |  -.0247539   .2050512    -0.12   0.904    -.4267395    .3772316
+       1987  |  -.0836047   .2049267    -0.41   0.683    -.4853462    .3181368
+       1988  |  -.1773129   .2033501    -0.87   0.383    -.5759636    .2213378
+       1989  |   -.216709   .2061752    -1.05   0.293    -.6208982    .1874801
+       1990  |  -.1029481   .2037307    -0.51   0.613    -.5023449    .2964487
+       1991  |  -.2113553   .2114437    -1.00   0.318    -.6258728    .2031622
+       1992  |  -.2797653   .2095338    -1.34   0.182    -.6905387    .1310081
+       1993  |  -.3005134   .2071802    -1.45   0.147    -.7066727    .1056458
+       1994  |   .0027848   .2056116     0.01   0.989    -.4002994     .405869
+       1995  |  -.0109579   .2042036    -0.05   0.957    -.4112818     .389366
+       1996  |   .1573324   .2062262     0.76   0.446    -.2469568    .5616215
+       1997  |  -.2668611   .2057516    -1.30   0.195    -.6702198    .1364975
+       1998  |  -.2182675   .2151946    -1.01   0.310    -.6401383    .2036034
+       1999  |  -.0502273   .2116084    -0.24   0.812    -.4650676     .364613
+       2000  |  -.0443905   .2062698    -0.22   0.830     -.448765    .3599839
+       2001  |  -.3561773    .218427    -1.63   0.103    -.7843851    .0720305
+       2002  |  -.1815304   .2177039    -0.83   0.404    -.6083205    .2452598
+       2003  |  -.1755016   .2099487    -0.84   0.403    -.5870883    .2360851
+       2004  |     .07888   .2080334     0.38   0.705    -.3289518    .4867119
+       2005  |    .428666   .2079812     2.06   0.039     .0209364    .8363957
+       2006  |   .0705911   .2110394     0.33   0.738    -.3431339    .4843161
+       2007  |   .2116385   .2104657     1.01   0.315    -.2009617    .6242387
+       2008  |   .2391556   .2145273     1.11   0.265    -.1814071    .6597184
+       2009  |   .0991337   .2403729     0.41   0.680    -.3720971    .5703644
+       2010  |   .3560309   .2123908     1.68   0.094    -.0603433    .7724051
+       2011  |   .3664368   .2138722     1.71   0.087    -.0528416    .7857153
+       2012  |  -.1996652   .2189568    -0.91   0.362    -.6289115    .2295812
+       2013  |  -.4467897   .2319267    -1.93   0.054    -.9014624    .0078829
+       2014  |   -.237489   .2273998    -1.04   0.296    -.6832871    .2083092
+       2015  |  -.1815811   .2342816    -0.78   0.438    -.6408703    .2777081
+       2016  |  -.6170238   .2272141    -2.72   0.007    -1.062458   -.1715897
+       2017  |  -.3791262   .2221476    -1.71   0.088    -.8146279    .0563755
+       2018  |  -.5515301   .2236345    -2.47   0.014    -.9899467   -.1131135
+       2019  |  -.7027819   .2269077    -3.10   0.002    -1.147615   -.2579485
+             |
+       _cons |  -1.977118   .3548434    -5.57   0.000    -2.672758   -1.281477
+-------------+----------------------------------------------------------------
+     sigma_u |  .41161403
+     sigma_e |  .99999749
+         rho |  .14488033   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(139, 5254) = 4.47                   Prob &gt; F = 0.0000
+
+. </code></pre>
+</div>
+</div>
+</section>
+<section id="is-our-panel-data-regression-properly-specified" class="level2">
+<h2 class="anchored" data-anchor-id="is-our-panel-data-regression-properly-specified">15.5 Is our Panel Data Regression Properly Specified?</h2>
+<p>While there are concerns with interpreting the coefficients of these regressions that are familiar to all regressions (i.e.&nbsp;multicollinearity, inferring causality), there are some topics which require special treatment when working with panel data.</p>
+<section id="heteroskedasticity" class="level4">
+<h4 class="anchored" data-anchor-id="heteroskedasticity">15.5.1 Heteroskedasticity</h4>
+<p>As always, when running regression we must consider whether our residuals are heteroskedastic (not constant for all values of <span class="math inline">\(X\)</span>). To test our panel data regression for heteroskedasticity in the residuals, we need to calculate a modified Wald statistic. Fortunately, there is a Stata package available for installation that will make this test very easy for us to conduct. To install this package into your version of Stata, simply type:</p>
+<div id="ecd546f5" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>ssc install xttest3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. ssc install xttest3
+checking xttest3 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. </code></pre>
+</div>
+</div>
+<p>Let’s now test this with our original regression, the regression of log real GDP per capita on log human capital with the inclusion of fixed effects.</p>
+<div id="5f3c0d5a" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>xttest3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtreg lngdp lnhc, fe
+
+Fixed-effects (within) regression               Number of obs     =      8,637
+Group variable: ccode                           Number of groups  =        145
+
+R-squared:                                      Obs per group:
+     Within  = 0.4919                                         min =         30
+     Between = 0.5907                                         avg =       59.6
+     Overall = 0.6006                                         max =         70
+
+                                                F(1, 8491)        =    8221.37
+corr(u_i, Xb) = 0.2961                          Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lngdp | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.072537   .0228576    90.67   0.000      2.02773    2.117343
+       _cons |   7.369692   .0159552   461.90   0.000     7.338416    7.400968
+-------------+----------------------------------------------------------------
+     sigma_u |  .73516756
+     sigma_e |   .3932119
+         rho |  .77755934   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(144, 8491) = 174.45                 Prob &gt; F = 0.0000
+
+. xttest3
+
+Modified Wald test for groupwise heteroskedasticity
+in fixed effect regression model
+
+H0: sigma(i)^2 = sigma^2 for all i
+
+chi2 (145)  =  75913.77
+Prob&gt;chi2 =      0.0000
+
+
+. </code></pre>
+</div>
+</div>
+<p>The null is homoskedasticity (or constant variance of the error term). From the output above, we can see that we reject the null hypothesis and conclude that the residuals in this regression are heteroskedastic.</p>
+<p>The best method for dealing with heteroskedasticity in panel data regression is by using generalized least squares, or GLS. There are a number of techniques to estimate GLS equations in Stata, but the recommended approach is the Prais-Winsten method.</p>
+<p>This is easily implemented by replacing the command <code>xtreg</code> with <code>xtpcse</code> and including the option <em>het</em>.</p>
+<div id="95ae615b" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>xtpcse lngdp lnhc, het</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+. 
+. xtpcse lngdp lnhc, het
+
+Linear regression, heteroskedastic panels corrected standard errors
+
+Group variable:   ccode                         Number of obs     =      8,637
+Time variable:    year                          Number of groups  =        145
+Panels:           heteroskedastic (unbalanced)  Obs per group:
+Autocorrelation:  no autocorrelation                          min =         30
+                                                              avg =  59.565517
+                                                              max =         70
+Estimated covariances      =       145          R-squared         =     0.6006
+Estimated autocorrelations =         0          Wald chi2(1)      =   16264.57
+Estimated coefficients     =         2          Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+             |            Het-corrected
+       lngdp | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnhc |   2.652185   .0207961   127.53   0.000     2.611425    2.692944
+       _cons |   6.979568   .0162396   429.79   0.000     6.947738    7.011397
+------------------------------------------------------------------------------
+
+. </code></pre>
+</div>
+</div>
+</section>
+<section id="serial-correlation" class="level4">
+<h4 class="anchored" data-anchor-id="serial-correlation">15.5.2 Serial Correlation</h4>
+<p>In time-series setups where we only observe a single unit over time (no cross-sectional dimension) we might be worried that a linear regression model like</p>
+<p><span class="math display">\[ Y_t = \alpha + \beta X_t + \varepsilon_t \]</span></p>
+<p>can have errors that not only are heteroskedastic (i.e.&nbsp;that depend on observables <span class="math inline">\(X_t\)</span>) but can also be correlated across time. For instance, if <span class="math inline">\(Y_t\)</span> was income, then <span class="math inline">\(\varepsilon_t\)</span> may represent income shocks (including transitory and permanent components). The permanent income shocks are, by definition, very persistent over time. This would mean that <span class="math inline">\(\varepsilon_{t-1}\)</span> affects (and thus is correlated with) shocks in the next period <span class="math inline">\(\varepsilon_t\)</span>. This problem is called serial correlation or autocorrelation, and if it exists, the assumptions of the regression model (i.e.&nbsp;unbiasedness, consistency, etc.) are violated. This can take the form of regressions where a variable is correlated with lagged versions of the same variable.</p>
+<p>To test our panel data regression for serial correlation, we need to run a Woolridge test. Fortunately, there is are multiple packages in Stata available for installation that make this test automatic to conduct. Run the command below to see some of these packages.</p>
+<div id="6361c3d9" class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>search xtserial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then choose one of these packages and follow the (brief) instructions to install the package. Once it’s installed, you can conduct the Woolridge test for autocorrelation below.</p>
+<div id="52126377" class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>xtserial lngdp lnhc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The null hypothesis is that there is no serial correlation between residuals. From the output, we see that we can reject the null hypothesis and conclude the variables are correlated with lagged versions of themselves. One method for dealing with this serial correlation in panel data regression is by using the same Prais-Winsten method to estimate a GLS equation. This is easily implemented by replacing the command xtreg with xtpcse and including the option “corr(ar1)”.</p>
+<div id="4337d888" class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>xtpcse lngdp lnhc, het corr(ar1) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that we have continued to use the <em>het</em> option to account for heteroskedasticity in our standard errors. We can also see that our results have not drifted significantly from what they were originally when running our first, most simple regression of log GDP per capita on log human capital.</p>
+<div class="alert alert-block alert-warning">
+<p><b>Warning:</b> The Prais-Winsten approach does not control for panel and time fixed effects. You will want to use <code>testparm</code> to test both the need for year fixed effects and, in the example we have been using here, country fixed effects. Now that we have used <code>encode</code> to create a new country variable that is numeric, we can include country dummies simply by including <code>i.ccode</code> into our regression.</p>
+</div>
+</section>
+<section id="granger-causality" class="level4">
+<h4 class="anchored" data-anchor-id="granger-causality">15.5.3 Granger Causality</h4>
+<p>In the regressions that we have been running in this example we have found that the level of human capital is correlated with the level of GDP per capita. But have we proven that having high human capital causes countries to be wealthier? Or is is possible that wealthier countries can afford to invest in human capital?</p>
+<p>The Granger Causality test allows use to unpack some of the causality in these regressions. While understanding how this test works is beyond the scope of this notebook, we can look at an example using this data.</p>
+<p>The first thing we need to do is ensure that our panel is balanced. In the Penn World tables there are no missing values for real GDP and for population, but their are missing value for human capital. We can balance our panel by simply dropping all of the observations that do not include that measure.</p>
+<div id="6ce4f7aa" class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>drop <span class="cf">if</span> hc<span class="op">==</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we can run the test that is provided by Stata for Granger Causality <code>xtgcause</code>. You will need to install this package before begin using the same approach you used with <code>xtserial</code> above.</p>
+<p>Now let’s test the causality between GDP and human capital</p>
+<div id="53ab0254" class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>xtgcause lngdp lnhc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From our results, we can reject the null hypothesis that that the effect is that wealthy countries can afford higher levels of human capital. The evidence seems to suggest that high human capital causes countries to be wealthier.</p>
+<p>Please speak to your instructor or TA if you need help with this test.</p>
+</section>
+</section>
+<section id="how-is-panel-data-helpful" class="level2">
+<h2 class="anchored" data-anchor-id="how-is-panel-data-helpful">15.6 How is Panel Data Helpful?</h2>
+<p>In typical cross-sectional settings, it is hard to defend a selection on observables (otherwise known as conditional independence) assumption. However, panel data allows us to control for unobserved time invariant heterogeneity.</p>
+<p>Consider the following example. Household income <span class="math inline">\(y_{jt}\)</span> at time <span class="math inline">\(t\)</span> can be split into two components:</p>
+<p><span class="math display">\[
+y_{jt} = e_{jt} + \Psi_{j}
+\]</span></p>
+<p>where <span class="math inline">\(\Psi_{j}\)</span> is a measure of unobserved household-level determinants of income such as social programs targeted towards certain households.</p>
+<p>Consider what happens when we compute each <span class="math inline">\(j\)</span> household’s average income, average value of <span class="math inline">\(e\)</span>, and average value of <span class="math inline">\(\Psi\)</span> across time <span class="math inline">\(t\)</span> in the data:</p>
+<p><span class="math display">\[
+\bar{y}_{J}= \frac{1}{\sum_{j,t}   \mathbf{1}\{ j = J \}  } \sum_{j,t}  y_{jt} \mathbf{1}\{ j = J \}
+\]</span> <span class="math display">\[
+\bar{e}_{J}= \frac{1}{\sum_{j,t}   \mathbf{1}\{ j = J \}  } \sum_{j,t}  e_{jt} \mathbf{1}\{ j = J \}
+\]</span> <span class="math display">\[
+\bar{\Psi}_{J} =  \Psi_{J}
+\]</span></p>
+<p>Notice that the mean of <span class="math inline">\(\Psi_{j}\)</span> does not change over time for a fixed household <span class="math inline">\(j\)</span>. Hence, we can subtract the two household level means from the original equation to get:</p>
+<p><span class="math display">\[
+y_{jt} - \bar{y}_{j} = e_{jt} - \bar{e}_{j}  + \underbrace{ \Psi_{j} - \bar{\Psi}_{j}  }_\text{equals zero!}
+\]</span></p>
+<p>Therefore, we are able to get rid of the unobserved heterogeneity in household determinants of income via “de-meaning”! This is called a within-group or fixed-effects transform. If we believe these types of unobserved errors/shocks are creating endogeneity, we can get rid of them using this powerful trick. In some cases, we may alternatively choose to do a first-differences transform of our regression specification. This entails subtracting the regression in one period not from its expectation across time but from the regression in the previous period. In this case, time-invariant characteristics are similarly removed from the regression since they are constant across all periods <span class="math inline">\(t\)</span>.</p>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">15.7 Wrap Up</h2>
+<p>In this module we’ve learned how to address linear regression in the case where we have access to two dimensions: cross-sectional variation and time variation. The usefulness of time variation is that it allows us to control for time-invariant components of the error term which may be causing endogeneity. We also investigated different ways for addressing problems such as heteroskedasticity and autocorrelation in our standard errors when working specifically with panel data. In the next module, we will cover a popular research design method: difference-in-differences.</p>
+</section>
+<section id="video-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="video-tutorial">15.8 Video tutorial</h2>
+<p>Click on the image below for a video tutorial on this module.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://learning.media.ubc.ca/media/Notebook+15+-+Panel+Data+Regressions/0_qvdklmwp"><img src="img/stata15.png" class="img-fluid figure-img" alt="Panel Data Regressions"></a></p>
+<figcaption>Panel Data Regressions</figcaption>
+</figure>
+</div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a href="https://www.youtube.com/watch?v=SOQvXICIRNY&amp;t=149s">Formatting and managing dates</a> <br> <a href="https://www.youtube.com/watch?v=ik8r4WvrPkc&amp;t=224s">Time-series operators (lags)</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

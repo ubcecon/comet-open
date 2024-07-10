@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="COMET Team   Mridul Manas">
+<meta name="dcterms.date" content="2023-08-03">
+<meta name="description" content="What is a hypothesis? How do we test it? This notebook introduces hypothesis testing, outlining the connection between sampling distributions, repeated sampling, and test-statistics; how we can use classical hypothesis testing techniques to answer economic questions.">
+
+<title>1.4.1 - Beginner - Hypothesis Testing (226) – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Collab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_226.html">Making Sense of Economic Data (ECON 226)</a></li><li class="breadcrumb-item"><a href="../../../docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).html">Hypothesis Testing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_226.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making Sense of Economic Data (ECON 226)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Central Tendency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Hypothesis Testing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_325.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Econometrics I (ECON 325)</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_intro_to_statistical_concepts/beginner_intro_to_statistical_concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistical Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Central Tendency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dispersion and Dependence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Data Visualization I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Data Visualization II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_simple_regression/beginner_simple_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Example Project (325)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_326.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Econometrics II (ECON 326)</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Beginner/beginner_review_of_basic_statistics/beginner_review_of_basic_statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review of Basic Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Issues in Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions and Non-Linear Terms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Example Project (326)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_geog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/geog_374/Lab_03_Regression/Lab_03_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chi-Squared Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/geog_374/Lab_06_Ttest/Lab_06_Ttest.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">t-Tests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites:</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes:</a></li>
+  <li><a href="#an-introduction-to-hypothesis-testing-using-r" id="toc-an-introduction-to-hypothesis-testing-using-r" class="nav-link" data-scroll-target="#an-introduction-to-hypothesis-testing-using-r">1. An Introduction to Hypothesis Testing using R</a></li>
+  <li><a href="#do-mandatory-tutorials-increase-gpas" id="toc-do-mandatory-tutorials-increase-gpas" class="nav-link" data-scroll-target="#do-mandatory-tutorials-increase-gpas">1.1: Do Mandatory Tutorials Increase GPAs?</a></li>
+  <li><a href="#formulating-the-null-and-alternate-hypotheses" id="toc-formulating-the-null-and-alternate-hypotheses" class="nav-link" data-scroll-target="#formulating-the-null-and-alternate-hypotheses">1.2: Formulating The Null And Alternate Hypotheses</a></li>
+  <li><a href="#the-distribution-individual-gpas-in-2022-23-under-null-hypothesis" id="toc-the-distribution-individual-gpas-in-2022-23-under-null-hypothesis" class="nav-link" data-scroll-target="#the-distribution-individual-gpas-in-2022-23-under-null-hypothesis">1.2: The Distribution Individual GPAs In 2022-23 Under Null Hypothesis</a></li>
+  <li><a href="#the-distribution-of-sample-means-under-null-hypothesis" id="toc-the-distribution-of-sample-means-under-null-hypothesis" class="nav-link" data-scroll-target="#the-distribution-of-sample-means-under-null-hypothesis">1.3: The Distribution of Sample Means Under Null Hypothesis</a></li>
+  <li><a href="#simulating-the-sampling-distribution-under-null-hypothesis" id="toc-simulating-the-sampling-distribution-under-null-hypothesis" class="nav-link" data-scroll-target="#simulating-the-sampling-distribution-under-null-hypothesis">1.4: Simulating the Sampling Distribution under Null Hypothesis</a></li>
+  <li><a href="#calculating-the-test-statistic-under-null-hypothesis" id="toc-calculating-the-test-statistic-under-null-hypothesis" class="nav-link" data-scroll-target="#calculating-the-test-statistic-under-null-hypothesis">1.5: Calculating the <code>test-statistic</code> Under Null Hypothesis</a></li>
+  <li><a href="#the-null-distribution" id="toc-the-null-distribution" class="nav-link" data-scroll-target="#the-null-distribution">1.6: The Null Distribution</a></li>
+  <li><a href="#calculating-the-p-value-from-the-null-distribution" id="toc-calculating-the-p-value-from-the-null-distribution" class="nav-link" data-scroll-target="#calculating-the-p-value-from-the-null-distribution">1.6: Calculating the <code>p-value</code> From The Null Distribution</a></li>
+  <li><a href="#rejecting-or-not-rejecting-the-null-model" id="toc-rejecting-or-not-rejecting-the-null-model" class="nav-link" data-scroll-target="#rejecting-or-not-rejecting-the-null-model">1.7: Rejecting or Not Rejecting the Null Model</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">2. Conclusions</a></li>
+  <li><a href="#sanity-checks" id="toc-sanity-checks" class="nav-link" data-scroll-target="#sanity-checks">2.1: Sanity Checks</a></li>
+  <li><a href="#remarks" id="toc-remarks" class="nav-link" data-scroll-target="#remarks">2.2: Remarks</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="beginner_hypothesis_testing(226).ipynb" download="beginner_hypothesis_testing(226).ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_226.html">Making Sense of Economic Data (ECON 226)</a></li><li class="breadcrumb-item"><a href="../../../docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).html">Hypothesis Testing</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">1.4.1 - Beginner - Hypothesis Testing (226)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 226</div>
+    <div class="quarto-category">econ 227</div>
+    <div class="quarto-category">hypothesis testing</div>
+    <div class="quarto-category">t-test</div>
+    <div class="quarto-category">p-value</div>
+    <div class="quarto-category">central limit theorem</div>
+    <div class="quarto-category">null distribution</div>
+    <div class="quarto-category">significance level</div>
+    <div class="quarto-category">sampling distribution</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">beginner</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    What is a hypothesis? How do we test it? This notebook introduces hypothesis testing, outlining the connection between sampling distributions, repeated sampling, and test-statistics; how we can use classical hypothesis testing techniques to answer economic questions.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>COMET Team <br> <em>Mridul Manas</em> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">3 August 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites:</h3>
+<ul>
+<li><p>Introduction to Jupyter</p></li>
+<li><p>Introduction to R</p></li>
+<li><p>Confidence Intervals</p></li>
+</ul>
+</section>
+<section id="learning-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes:</h3>
+<ol type="1">
+<li><p>Modelling real-world problems as a null hypothesis tests carefully defining the hypotheses using correct notation.</p></li>
+<li><p>Simulating the distribution of population observations as hypothesized under the null assumption.</p></li>
+<li><p>Simulating the process of repeated sampling in R.</p></li>
+<li><p>Verifying if <strong>Central Limit Theorem</strong> holds by simulating the sampling distribution under the null hypothesis.</p></li>
+<li><p>Obtaining the null distribution of test-statistics and understand its significance to hypothesis testing.</p></li>
+<li><p>Computing <strong>p-values</strong> and using them to reject or not reject the null hypothesis.</p></li>
+<li><p>Interpreting <strong>significance levels (</strong><span class="math inline">\(\alpha\)</span>) and how they are used in hypothesis testing.</p></li>
+</ol>
+</section>
+<section id="an-introduction-to-hypothesis-testing-using-r" class="level3">
+<h3 class="anchored" data-anchor-id="an-introduction-to-hypothesis-testing-using-r">1. An Introduction to Hypothesis Testing using R</h3>
+<p>Hypothesis Testing is a formal approach to choosing between two possible interpretations of an observed relationship in a sample. You are comparing two populations A and B and draw one independent sample randomly from each population to find that the point estimate obtained from sample A (eg. sample mean) is higher than the point estimate obtained from sample B. Thinking about the true population parameters for the two populations, we can choose between two interpretations:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span> or null hypothesis: there is no relationship between the two population parameters, and the observed relationship between the two point estimates is a result of sampling variability</li>
+<li><span class="math inline">\(H_1\)</span> or alternative hypothesis: there <em>is</em> a relationship between the two population parameters, as sampling variability alone cannot explain the observed relationship between the two point estimates</li>
+</ul>
+<p>Please note that we neither reject or accept the alternative hypothesis. Hypothesis testing always concludes with us either accepting or rejecting the null hypothesis or <span class="math inline">\(H_0\)</span>.</p>
+<p>You might have heard of the <em>right tailed</em> hypothesis tests. When interested in a <em>single</em> population, this indicates that we are asking if the true parameter (could be the mean, standard deviation or variance) is strictly “greater than” a fixed constant value(eg. <span class="math inline">\(\mu_A &gt; 23\)</span> or when checking if the coefficient from a regression is significant, ie. <span class="math inline">\(\beta_1 &gt; 0\)</span>). In the two-sample case, we are always interested in knowing whether one population’s true parameter is greater than another population’s (eg. <span class="math inline">\(\mu_A &gt; \mu_B\)</span>).</p>
+<blockquote class="blockquote">
+<p>This notebook explains how to conduct a <em>right-tailed</em> using R. The left-tailed test is similar to right-tailed except we are interested in “lesser than” relationships observed within populations. Two-tailed tests are used to check for strict equality, such as asking if <span class="math inline">\(\mu_A = mu_B\)</span> or whether one parameter (eg. <span class="math inline">\(\mu_A\)</span>, <span class="math inline">\(\sigma_A\)</span> or <span class="math inline">\(\beta_A\)</span> (regression) is strictly equal to a certain fixed value or the true parameter of some other population.</p>
+</blockquote>
+</section>
+<section id="do-mandatory-tutorials-increase-gpas" class="level3">
+<h3 class="anchored" data-anchor-id="do-mandatory-tutorials-increase-gpas">1.1: Do Mandatory Tutorials Increase GPAs?</h3>
+<p>The UWC School at the start of 2022-23 launched a policy requiring all of the boarding students in the school to attend supervised “prep sessions” or tutorials. You are given the challenge to infer whether the average GPA for 2022-23 year was higher than the 2021-22 GPA average (72.5%) while only having access to 2022-23 grades for 50 (randomly picked) students from the whole class of 500.</p>
+</section>
+<section id="formulating-the-null-and-alternate-hypotheses" class="level3">
+<h3 class="anchored" data-anchor-id="formulating-the-null-and-alternate-hypotheses">1.2: Formulating The Null And Alternate Hypotheses</h3>
+<p>Let’s first define our population parameters:</p>
+<ul>
+<li><p><span class="math inline">\(\mu_0 = 72.5\)</span>: Population mean GPA (%) in 2021-22 (base)</p></li>
+<li><p><span class="math inline">\(\mu_1 (unknown)\)</span>: Population mean GPA (%) in 2022-23 (treatment)</p></li>
+</ul>
+<p>We are essentially interested in determining whether <span class="math inline">\(\mu_1 &gt; \mu_0\)</span>. Since we know the true value for <span class="math inline">\(\mu_0\)</span>, we can choose the <em>relationship to be tested</em> as: <span class="math inline">\(\mu_1 &gt; 72.5\)</span> where <span class="math inline">\(\mu_1\)</span> is the true average GPA of all 500 students in 2022-23.</p>
+<blockquote class="blockquote">
+<p>Side note: This is also equivalent to asking if <span class="math inline">\(\mu_1 - mu_0 &gt; 0\)</span>, and that is a right-tailed test for population difference in means.</p>
+</blockquote>
+<p>Our hypotheses for the right-tailed test are:</p>
+<ul>
+<li><p><span class="math inline">\(H_0\)</span>: After-school tutorials did not increase the average GPA <span class="math inline">\(\mu_1 = 72.5\)</span></p></li>
+<li><p><span class="math inline">\(H_1\)</span>: After-school tutorials did increase the average GPA (<span class="math inline">\(\mu_1 &gt; 72.5)\)</span></p></li>
+</ul>
+<p>Here, <span class="math inline">\(\H_0\)</span> is the <strong>null hypothesis</strong> and we always begin with assuming that this is true. Our job essentially is to use statistical inference and reasoning to conclude whether null hypothesis is true or not, based on a single sample from the population!</p>
+</section>
+<section id="the-distribution-individual-gpas-in-2022-23-under-null-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="the-distribution-individual-gpas-in-2022-23-under-null-hypothesis">1.2: The Distribution Individual GPAs In 2022-23 Under Null Hypothesis</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THIS CELL BEFORE CONTINUING</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary library</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since the values for GPAs are both random and of continuous type, we can visualize the <strong>distribution</strong> to see the number of times we observe specific values for the GPAs across a continuous x-axis. For this tutorial, we assume that we know the GPAs in both years (2021-22 and 2022-23) are <strong>normally distributed</strong>. This means that the distribution is symmetric and bell-like in shape with its center situated at its mean.</p>
+<p>As always, we begin the test with assuming the null hypothesis is true. Hence, in the following code cell, we have set the mean of the <strong>hypothesized under null</strong> distribution of GPAs as 72.5%.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the seed for reproducibility (optional)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">500</span> <span class="co"># number of observations</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mean_h0 <span class="ot">=</span> <span class="fl">72.5</span> <span class="co">#hypothesized population mean under the null</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sd_pop <span class="ot">=</span> <span class="fl">2.8</span> <span class="co">#population standard deviation of GPAs in 2022-23 </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a bounded normal distribution of GPAs with mean 72.5% and standard deviation of 2.8%. </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>gpa_null_dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">GPA =</span> <span class="fu">rnorm</span>(n, mean_h0, sd_pop))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the density plot and add the vertical line and annotation</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>gpa_null_dist_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gpa_null_dist, <span class="fu">aes</span>(<span class="at">x =</span> GPA)) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_h0, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Mean: %.2f"</span>, mean_h0), <span class="at">x =</span> mean_h0, <span class="at">y =</span> <span class="fl">0.01</span>), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hypothesized Distribution of GPAs (2022-23) Under Null Hypothesis"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"GPA (%)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>gpa_null_dist_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our choice of the population mean for this distribution has been borrowed directly from the <strong>null hypothesis</strong>. Hence, we can call it the distribution of 2022-23 GPAs <em>under null</em>.</p>
+<blockquote class="blockquote">
+<p>Data simulated in R comes with inherent variability that should explain the <em>imperfections</em> in the shape of the distribution or why the center (mean) is not exactly equal to the set mean, <span class="math inline">\(\mu_0 = 72.5\)</span>.</p>
+</blockquote>
+<p><strong><em><em>Thinking Critically</em>:</em></strong> Consider one student the population has obtained a GPA of 82.3%, placing themselves in the top 0.15% of the 2022-23 class (assuming the the population mean <span class="math inline">\(\mu_1\)</span> is still equal to <span class="math inline">\(\mu_0\)</span> under null).</p>
+<p>Would you reject the null hypothesis based on this observation alone?</p>
+<p>Our answer is a clear NO. Outliers might challenge our null hypothesis but they can occur in all fairness the null hypothesis. They tell nothing about the validity of the null hypothesis!</p>
+<p>You might be wondering how we calculated the <span class="math inline">\(P(GPA &gt; 82.3) = 0.15\)</span>. We used a rule called the 68-95-99.7 rule that only works for normal distributions.</p>
+<blockquote class="blockquote">
+<p><strong>The 68-95-99.7 rule</strong> – also known as the empirical rule or three-sigma rule – is a statistical guideline that describes the percentage of data that falls within a certain number of standard deviations from the mean in a normal distribution.</p>
+<p>For a normal distribution, approximately 68% of the data falls within one standard deviation (σ) of the mean (μ). Approximately 95% of the data falls within two standard deviations (2σ) of the mean (μ). Approximately 99.7% of the data falls within three standard deviations (3σ) of the mean (μ).</p>
+</blockquote>
+<p>Instead of considering individual values from the population, let’s explore the idea of taking a representative set of 50 randomly chosen students from the 2022-23 class.</p>
+</section>
+<section id="the-distribution-of-sample-means-under-null-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="the-distribution-of-sample-means-under-null-hypothesis">1.3: The Distribution of Sample Means Under Null Hypothesis</h3>
+<p><em>Essentially, the sampling distribution of sample means can be generated through the following steps:</em></p>
+<ol type="1">
+<li><p>Draw all possible samples of a fixed size <span class="math inline">\(n\)</span> from the population (drawing observations randomly with replacement)</p></li>
+<li><p>Record the point estimate or the sample statistic for each sample. This is the <span class="math inline">\(\bar{x_i}\)</span> or the sample mean GPA for sample <span class="math inline">\(i\)</span>.</p></li>
+<li><p>Plot <em>each and every</em> point estimate obtainable from the population, ie. the (<span class="math inline">\(\bar{x_i}\)</span>s), as a distribution (just like we did for 2022-23 individual GPAs). This distribution will be called the <strong>sampling distribution of sample means</strong>.</p></li>
+</ol>
+<p><em>What does the sampling distribution look like under the null hypothesis? Where is it centered under null, and what is its standard deviation?</em></p>
+<p>The <strong>Central Limit Theorem</strong> states that for large enough sample sizes, the sampling distribution of sample means will approach a normal distribution, regardless of the shape of the population distribution. As the sample size increases, the mean of the sampling distribution of sample means will get closer and closer to the population mean.</p>
+<p>Assume that our sample size is 50 which is big enough for CLT (<span class="math inline">\(&gt; 30\)</span>). Assuming the GPAs (2022-23) follow a normal distribution with a population mean of <span class="math inline">\(\mu_0 = 72.5\)</span>, the sampling distribution of sample means will be distributed as:</p>
+<p><span class="math display">\[
+\text{N}\sim(\mu_0 = 72.5, \frac{\sigma}{\sqrt{n}})
+\]</span></p>
+<p>Here, <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>is called the <em>standard error</em> of the sampling distribution with <span class="math inline">\(\sigma\)</span> being the population standard deviation and <span class="math inline">\(n\)</span> the sample size.</p>
+<p>However, population standard deviations (<span class="math inline">\(\sigma\)</span>) are rarely known in real-world cases, and we can use <span class="math inline">\(s\)</span> or the sample standard deviation as an estimator. But, using <span class="math inline">\(s\)</span> instead of <span class="math inline">\(\sigma\)</span> means that sample means will follow the <code>t-distribution</code> instead. <span class="math display">\[
+\bar{X} \sim \text{t}_{n-1}(\mu, \frac{\sigma}{\sqrt{n}})
+\]</span></p>
+<blockquote class="blockquote">
+<p>A t-distribution has fatter tails than a normal distribution but it does a good job at approximating a normal distribution when sample size, n, is large (<span class="math inline">\(&gt; 30\)</span>). The <span class="math inline">\(n-1\)</span> notation denotes the “degrees of freedom” which you would learn is important for calculating the right probabilities.</p>
+</blockquote>
+</section>
+<section id="simulating-the-sampling-distribution-under-null-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="simulating-the-sampling-distribution-under-null-hypothesis">1.4: Simulating the Sampling Distribution under Null Hypothesis</h3>
+<p>Here is a function that simulates the process of taking repeated samples (with replacement). Though this is beyond the scope of this tutorial, handy pre-built methods exist for R which simulate repeated sampling procedures such as those offered as part of the <code>infer</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THIS CELL BEFORE CONTINUING:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>rep_sample_n <span class="ot">&lt;-</span> <span class="cf">function</span>(reps, n, pop_array) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">replicate =</span> <span class="fu">integer</span>(), <span class="at">GPA =</span> <span class="fu">numeric</span>())</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>reps) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    sample_vals <span class="ot">&lt;-</span> <span class="fu">sample</span>(pop_array, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    temp_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sample_id =</span> <span class="fu">rep</span>(i, n), <span class="at">GPA =</span> sample_vals)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    output <span class="ot">&lt;-</span> <span class="fu">rbind</span>(output, temp_df)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage of the function:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">rep_sample_n</span>(<span class="at">reps =</span> <span class="dv">1500</span>, <span class="at">n =</span> <span class="dv">50</span>, gpa_null_dist<span class="sc">$</span>GPA)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s compute the sample means for each sample:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THIS CELL</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">80</span>) <span class="co">#DO NOT CHANGE for reproducibility. </span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sampling_dist_null <span class="ot">&lt;-</span> <span class="fu">rep_sample_n</span>(<span class="at">reps =</span> <span class="dv">1500</span>, <span class="at">n =</span> <span class="dv">50</span>, gpa_null_dist<span class="sc">$</span>GPA)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sampling_dist_means_null <span class="ot">&lt;-</span> sampling_dist_null <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample_id) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean_GPA =</span> <span class="fu">mean</span>(GPA))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sampling_dist_means_null, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we will visualize the distribution of the 1500 sample means. Can you guess what the mean for this distribution will be?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_sample_means_null <span class="ot">&lt;-</span> <span class="fu">mean</span>(sampling_dist_means_null<span class="sc">$</span>mean_GPA)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the density plot for the sampling distribution and add the vertical line and annotation</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sampling_dist_means_null_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sampling_dist_means_null, <span class="fu">aes</span>(<span class="at">x =</span> mean_GPA)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_sample_means_null, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Mean: %.2f"</span>, mean_sample_means_null), <span class="at">x =</span> mean_sample_means_null, <span class="at">y =</span> <span class="fl">0.15</span>), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Distribution of Sample Means (2022-23) Under Null Hypothesis"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Sample Mean GPA (%)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>sampling_dist_means_null_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The mean of our sampling distribution under null is 72.43% which is the (quite the) same as the hypothesized mean for the population under null. The Central Limit Theorem clearly holds in our case!</p>
+<blockquote class="blockquote">
+<p><strong><em>Think Critically:</em></strong> Researchers and statisticians <em>rarely</em> ever get the chance to take <em>all possible</em> samples from the population. Hence, we rely on classical inferential theory and the CLT assumption to <em>hypothesize</em> what the sampling distribution will look like under the null and alternate models. R is able to simulate and visualize the process for us which helps us verify that the classical theory and assumption we’re taught in classes are actually quite reliable!</p>
+</blockquote>
+</section>
+<section id="calculating-the-test-statistic-under-null-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-the-test-statistic-under-null-hypothesis">1.5: Calculating the <code>test-statistic</code> Under Null Hypothesis</h3>
+<p>Suppose you were given two samples: <strong>Sample A</strong> shows an average GPA of 78%, while <strong>Sample B</strong> boasts a higher average of 83%. At first glance, we might lean towards Sample B being more convincing evidence of an increase in the true mean GPA in 2022-23. But let’s consider the <strong>standard deviations</strong>.</p>
+<p>In <strong>Sample A</strong>, the standard deviation is only 1.2% which suggests the GPAs are huddled close to the average. <strong>Sample B</strong> wields a 7.4% standard deviation, implying the GPAs are more spread out, resembling a diverse set of students. Sample A’s small standard deviation supports the idea of a genuine increase as the GPAs are well-clustered around the average. In contrast, Sample B’s larger standard deviation introduces some doubt as the wide spread of GPAs within the sample doesn’t strongly back the claim of an increase in average GPA.</p>
+<p>The <strong>test-statistic</strong> incorporates the observed sample statistics and the sample size against the backdrop of assumptions implied by the null hypothesis, such as what the true population mean is. The result is <em>a numeric value</em> that we then use to calculate the <strong>p-value</strong> for the test.</p>
+<p>The formula for the test-statistic, assuming we don’t know the true population standard deviation (<span class="math inline">\(\sigma\)</span>), is as follows:</p>
+<p><span class="math display">\[
+\frac{\bar{x} - \mu_0}{\frac{{s}}{\sqrt{n}}}
+\]</span></p>
+<p>where <span class="math inline">\(s\)</span> is the standard deviation of the sample, and <span class="math inline">\(n\)</span> is the sample size (50 in our case).</p>
+<p>Let’s now draw a sample randomly from the <strong>true</strong> 2022-23 population of GPAs, and <em>continue to assume</em> that this sample has been drawn from a population with mean equal to <span class="math inline">\(\mu_0 = 72.5\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THE FOLLOWING CELL BEFORE CONTINUING:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the seed for reproducibility</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternate Distribution of 500 GPAs with mean 83.30% and standard deviation of 3.2%. </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gpa_dist_alt <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="at">mean =</span> <span class="fl">83.40</span>, <span class="at">sd =</span> <span class="fl">3.2</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the population GPA data</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>gpa_dist_alt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">GPA =</span> gpa_dist_alt)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>random_sample <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">GPA =</span> <span class="fu">sample</span>(gpa_dist_alt<span class="sc">$</span>GPA, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(random_sample, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s now calculate and store the mean and standard deviation for this sample:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(random_sample<span class="sc">$</span>GPA)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sample_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(random_sample<span class="sc">$</span>GPA)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sample_mean)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sample_sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Calculating the test-statistic:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, let's estimate the standard error using the sample S.D. </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the test-statistic</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>test_stat <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> <span class="fl">72.5</span>) <span class="sc">/</span> standard_error</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>test_stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you might ask, how do we interpret this test-statistic? Does this provide enough evidence to reject or not reject the null hypothesis? We will introduce the concept of the <strong>p-value</strong> to answer these questions.</p>
+</section>
+<section id="the-null-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="the-null-distribution">1.6: The Null Distribution</h3>
+<p>The null distribution describes how the test-statistic will be distributed <strong>under the null hypothesis</strong>.</p>
+<p>Consider individual 2022-23 GPAs distributed as:</p>
+<p><span class="math display">\[
+x \sim N(\mu_0, \sigma)
+\]</span></p>
+<p>Our null hypothesis makes no assumptions about how the population is distributed or what its true variance or standard deviation is.</p>
+<p>The Central Limit Theorem, however, tells us that the sample mean (<span class="math inline">\(\bar{X}\)</span>) will follow the normal distribution with a standard deviation that depends on the an estimator called <span class="math inline">\(s\)</span> or the sample standard deviation (obstained from any arbitary sample). The distribution of sample estimates will follow:</p>
+<p><span class="math display">\[
+\bar{X} \sim \text{t}_{n-1}(\mu_0, \frac{s}{\sqrt{n}})
+\]</span></p>
+<p>Here, <span class="math inline">\(n\)</span> is the sample size, <span class="math inline">\(s\)</span> the sample standard deviation and <span class="math inline">\(n - 1\)</span> denotes the degrees of freedom (a parameter which descibes the <span class="math inline">\(t\)</span>-distribution).</p>
+<p>We can take this a bit further and describe how the test-statistic <span class="math inline">\(\frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}\)</span> is distributed under the null hypothesis:</p>
+<p><span class="math display">\[
+\frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} \sim \text{t}_{n-1}(0, 1)
+\]</span></p>
+<p>This is in face is the <strong>null distribution</strong>, ie. the distribution of the test-statistic under the null hypothesis.</p>
+<p>Let’s use R to visualize the distribution of test-statistics, ie. the <span class="math inline">\(t_{n-1}\)</span> distribution or “the null distribution”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> sampling_dist_null <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sample_mean =</span> <span class="fu">mean</span>(GPA),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sample_sd =</span> <span class="fu">sd</span>(GPA),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sample_standard_error =</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_statistic =</span> (sample_mean <span class="sc">-</span> <span class="fl">72.5</span>)<span class="sc">/</span> (sample_standard_error)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> test_statistic)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Test-Statistic"</span>, <span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">title =</span> <span class="st">"Null Distribution of Test-Statistics"</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> test_stat, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">type =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>null_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>You’ll learn in further classes that the test-statistic is a standardized version of the sample estimates. Hence, the <span class="math inline">\(t\)</span>-distribution is centered at a mean of 0 and has standard deviation of 1.</p>
+</blockquote>
+<p>The red line indicates the test-statistic we had calculated in Part 1.5. We will calculate a probability of observing a test-statistic as extreme as the one indicated by the red line using the null distribution.</p>
+</section>
+<section id="calculating-the-p-value-from-the-null-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-the-p-value-from-the-null-distribution">1.6: Calculating the <code>p-value</code> From The Null Distribution</h3>
+<p>Let’s now calculate the p-value for the test-statistic. For <span class="math inline">\(t\)</span>-distribution, we need to know the degrees of freedom, which is simply equal to <span class="math inline">\(n - 1\)</span> in the case of single-sample one-tailed hypothesis testing.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="dv">50</span> <span class="sc">-</span> <span class="dv">1</span> <span class="co">#degrees of freedom = sample size minus 1</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the p-value using the t-distribution</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(test_stat, <span class="at">df =</span> df)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"P-value:"</span>, p_val))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><code>pt(x, df = df)</code> is the probability of observing a test-statistic equal to or <strong>smaller</strong> than x. We are interested in p-value which denotes the probability of observing a test statistic equal to or greater than x. Hence, the correct code for the p-value is <code>1 - pt(x, df = df)</code>.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>P-values</strong> explain the probability of observing a value of a test-statistic as big as 23.7 under the assumption that the null model for sample means holds. In other words, assuming the null model holds, ie. the distribution of sample means in centered at <span class="math inline">\(\mu_0\)</span>, what is the probability of observing a test-statistic (from a single sample) of 23.7 or bigger?</p>
+</blockquote>
+</section>
+<section id="rejecting-or-not-rejecting-the-null-model" class="level3">
+<h3 class="anchored" data-anchor-id="rejecting-or-not-rejecting-the-null-model">1.7: Rejecting or Not Rejecting the Null Model</h3>
+<p>Let’s now compare our p-value to a <strong>threshold</strong> to decide whether to reject or not reject the null hypothesis.</p>
+<p>The threshold we commonly use for hypothesis tests are called <span class="math inline">\(\alpha\)</span> that are commonly set as: <strong>0.10, 0.05, or 0.01</strong>.</p>
+<p>In the following code cell, we will first visualize the <strong>distribution of sample means under the null hypothesis</strong> and mark where the percentile corresponding to <span class="math inline">\(\alpha = 0.05\)</span> falls.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the alpha = 0.05 critical value under the null assumption</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>critical_value_h0 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(sampling_dist_means_null<span class="sc">$</span>mean_GPA, <span class="at">probs =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sampling_dist_means_null_plot <span class="ot">&lt;-</span> sampling_dist_means_null_plot <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Annotate the mean of the sampling distribution under null</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_sample_means_null, <span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Annotate where the quantile for alpha 0.05 falls under null</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> critical_value_h0, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Annotate alpha = 0.05</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> critical_value_h0 <span class="sc">+</span> <span class="fl">0.02</span>, <span class="at">y =</span> <span class="fl">0.9</span>, <span class="at">label =</span> <span class="st">"alpha = 0.05"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Null Model Distribution of Sample Means (2022-23)"</span>, </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Sample Mean GPA (%)"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>sampling_dist_means_null_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The purple line indicates the quantile to the left of which lie (<span class="math inline">\(1-\alpha\)</span>)% of all the observations. Since we chose <span class="math inline">\(\alpha = 0.05\)</span>, 95% of all the possible means should lie to the left of it.</p>
+<p>Whenever we observe a sample mean which falls to the <strong>right</strong> of the purple line, we say we have <em>enough evidence to reject the null hypothesis at <span class="math inline">\(\alpha = 0.05\)</span></em>.</p>
+<p>We can also choose to simply verify if <span class="math inline">\(\alpha &gt; p-value\)</span> in order to decide whether to reject or not reject <span class="math inline">\(H_0\)</span> at that chosen level of alpha.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THIS CELL:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_val <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_val <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_val <span class="sc">&lt;</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Not only our p-value (0) is smaller than <span class="math inline">\(\alpha = 0.05\)</span> but it’s smaller than all of the other commonly chosen levels. Hence we choose to reject the null hypothesis at each of those significance levels (ie. <span class="math inline">\(\alpha\)</span>’s)</p>
+<p><em>Conclude and interpret the test as follows</em>:</p>
+<p>The p-value obtained from our single sample is smaller than <span class="math inline">\(\alpha = 0.05\)</span>. We thus have enough evidence to reject the null hypothesis which is equivalent to rejecting the hypothesis that <span class="math inline">\(\mu_1 = 72.5\)</span>.</p>
+<p>As one can infer using the plots displayed above, the sample mean we had obtained earlier seems to be <em>too unlikely</em> for us to not refute the assumption that the sample observations belong to the distribution of GPAs hypothesized under null (See the plot in Part 1.2).</p>
+<p>Observe that our reasoning is quite similar to a “<em>proof by contradiction</em>”, except that we use a chosen threshold such as <span class="math inline">\(\alpha = 0.05\)</span> to decide if we have likely reached a contradiction. If the p-value is too small from a right-tailed hypothesis test, we have enough evidence to <em>informally conclude</em> that the true mean (ie. the center of both the population and sampling distribution must be to the right of previously hypothesized population mean).</p>
+<p>We can also use the null-distribution to visualize and understand <em>why</em> the null hypothesis was rejected:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> null_dist <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">49</span>), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">type =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>null_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We make the following observations: 1. The blue line indicates the <span class="math inline">\(\alpha = 0.05\)</span> percentile for the null distribution. The area under the curve to the right of the blue marker is equal to 0.05, or we say, the probability of observing a test-statistic as extreme as the one marked by the blue line is 0.05.</p>
+<ol start="2" type="1">
+<li>The red line indicates the test-statistic we obtained from the single sample we had drawn earlier. As you can see, this falls way beyond to the right of the blue line.</li>
+</ol>
+<p>Both statements above conclude with the idea that the observed test-statistic is that unlikely under the null distribution that it has more chances of belonging to a different distribution which we call the alternative distribution.</p>
+</section>
+<section id="conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="conclusions">2. Conclusions</h3>
+</section>
+<section id="sanity-checks" class="level3">
+<h3 class="anchored" data-anchor-id="sanity-checks">2.1: Sanity Checks</h3>
+<p>So did we make the correct decision by rejecting the null hypothesis?</p>
+<p>Let’s look at the <em>actual</em> distribution of 2022-23 GPAs that we used to draw our random sample:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RUN THIS CELL:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gpa_dist_alt_plot <span class="ot">&lt;-</span> gpa_dist_alt <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GPA)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"True GPAs (%) in 2022-23"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(gpa_dist_alt<span class="sc">$</span>GPA), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">type =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"True Population Mean: %.2f"</span>, <span class="fu">mean</span>(gpa_dist_alt<span class="sc">$</span>GPA)), <span class="at">x =</span> <span class="fu">mean</span>(gpa_dist_alt<span class="sc">$</span>GPA), <span class="at">y =</span> <span class="fl">0.15</span>), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>gpa_dist_alt_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>SO we DID correctly conclude that the true mean GPA is not equal to 72.5% by just observing one single sample! How impressive is that?</p>
+<p>Now, you might find it helpful to learn that we didn’t actually need to go all the way to Part 1.6 to make a decision about the null hypothesis. We could have instead followed either of the two methods:</p>
+<ol type="1">
+<li><p>Compute a 95% Confidence Interval for the True Population Mean GPA (2022-23) using the random sample we had obtained, and then, verify if the interval contains the hypothesized mean <span class="math inline">\(\mu_0 = 72.5\)</span>.</p></li>
+<li><p>Calculate the probability of observing the sample mean (not the test-statistic) under the distribution of sample means assumed under null (ie. the one which is centered at <span class="math inline">\(\mu_0\)</span> due to CLT), and see if the probability (can call this p-val) is less than alpha.</p></li>
+</ol>
+</section>
+<section id="remarks" class="level3">
+<h3 class="anchored" data-anchor-id="remarks">2.2: Remarks</h3>
+<p>Suppose the organizers know the true <strong>set in stone</strong> average GPA for 2022-23. If you conclude that the 2023 mean GPA is higher than 2022 mean GPA, when it actually is, you score 150 points. This is equivalent to saying, if you reject the null hypothesis when the null hypothesis in fact is not true, you score 150 points. However, if you reject the null hypothesis when the null hypothesis is in fact true, you lose 100 points!</p>
+<p>When you reject the null hypothesis when it’s actually true, you are comitting a Type 1 error and the probability of comitting a Type 1 error is equal to the chosen significance level, ie. <span class="math inline">\(\alpha\)</span> used for the test. This follows from the fact that <span class="math inline">\(\alpha = 0.05\)</span> marks the point on the distributions (hypothesized under null) to the right of which lie 5% of the observations. Hence there is a 5% probability of comitting a Type 1 error in this case.</p>
+<p>An <strong>alternate distribution</strong> describes how the test-statistic would be distributed under the alternative hypothesis. In our case, we found enough evidence supporting that the test-statistic did not belong to the null model. Instead, they belong to an alternative model where the population mean is different than the hypothesized value. Since our test was <strong>right-tailed</strong>, both of the distributions for the sample means and test-statistics must, according to our test’s conclusions, have centers (means) which lie to the right of the hypothesized mean <span class="math inline">\(\mu_0\)</span>.</p>
+<p>There’s also the two-tailed hypothesis test where the null hypothesis assumes that <span class="math inline">\(\mu_1 != \mu_0\)</span>. Here, the alternate model would say that the true means (centers) for the distributions (eg. of null, sample means, or population itself) can lie either to the left or right of the <span class="math inline">\(\mu_0\)</span>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.html" class="pagination-link" aria-label="Introduction to Confidence Intervals">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction to Confidence Intervals</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
