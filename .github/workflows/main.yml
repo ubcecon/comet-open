@@ -33,9 +33,14 @@ jobs:
         publish_dir: ./artifacts/artifacts/build
         publish_branch: gh-pages
 
-    - name: Deploy artifacts
+    - name: Collect ipynb files
+      run: |
+        mkdir ipynb_artifacts
+        find ./artifacts -name '*.ipynb' -exec cp {} ipynb_artifacts/ \;
+
+    - name: Deploy ipynb artifacts
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./artifacts
+        publish_dir: ./ipynb_artifacts
         publish_branch: artifacts
