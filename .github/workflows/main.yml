@@ -33,14 +33,13 @@ jobs:
         publish_dir: ./artifacts/artifacts/build
         publish_branch: gh-pages
 
-    - name: Collect ipynb files
+    - name: Remove HTML files
       run: |
-        mkdir ipynb_artifacts
-        find ./artifacts -name '*.ipynb' -exec cp {} ipynb_artifacts/ \;
+        find ./artifacts -name '*.html' -exec rm {} \;
 
-    - name: Deploy ipynb artifacts
+    - name: Deploy remaining artifacts
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./ipynb_artifacts
+        publish_dir: ./artifacts
         publish_branch: artifacts
