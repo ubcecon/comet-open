@@ -1,0 +1,45 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - pages_build
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build and export
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: .dockerfile
+        tags: my-app-image:latest
+        outputs: type=local,dest=./artifacts
+
+    - name: Display structure of downloaded files
+      run: ls -R ./artifacts
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./artifacts/artifacts/build
+        publish_branch: gh-pages
+
+    - name: Remove HTML files
+      run: |
+        find ./artifacts -name '*.html' -exec rm {} \;
+
+    - name: Deploy remaining artifacts
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./artifacts
+        publish_branch: artifacts

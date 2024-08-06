@@ -1,0 +1,11 @@
+**/.ipynb_checkpoints*
+**/*-checkpoint*
+*-checkpoint*
+notebook_materials/pwt100.dta
+comet-quarto/.quarto/
+comet-quarto/_site/
+.Rproj.user
+*.Rproj
+*/*/*/figure-html/
+.Rhistory
+*.DS_Store*
