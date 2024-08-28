@@ -7,7 +7,7 @@ RUN install2.r --error \
     stargazer
 
 COPY renv.lock /app/renv.lock
-COPY comet-quarto /app
+COPY project /app
 
 RUN apt-get update --fix-missing && \
     apt-get install -y \
