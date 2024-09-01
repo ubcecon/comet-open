@@ -6,8 +6,8 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-    - "../../docs/Advanced/*/*.qmd"
-    - "../../docs/Advanced/*/*.ipynb"
+    - "../../docs/4_Advanced/*/*.qmd"
+    - "../../docs/4_Advanced/*/*.ipynb"
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]

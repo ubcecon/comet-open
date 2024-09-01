@@ -6,7 +6,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/Beginner/*/*.qmd
+  - ../../docs/2_Beginner/*/*.qmd
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
