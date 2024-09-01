@@ -129,60 +129,6 @@ clean_up_data <- function(SFS_data) {
   return(SFS_data)
 }
 
-test_1 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(reg1$coefficients[1], 3)), "d21651ff4f1a03ee33f1e248fd1d497d")
-  })
-  print("Success!")
-}
-
-
-test_2 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(reg2$coefficients[1], 3)), "a01f754ae07d1f545d7fa1e635f0d397")
-  })
-  print("Success!")
-}
-
-test_3 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(reg3$coefficients[1], 3)), "04aedefae1f702c50c8bfa71eea389d7")
-  })
-  print("Success!")
-}
-
-
-test_4 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(reg4$coefficients[1], 3)), "f02741b40f9113aeb5a5e87fb9b2ab23")
-  })
-  print("Success!")
-}
-
-test_5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(x), "047869e1cafdfce7faa4f07419604bc0")
-  })
-  print("Success!")
-}
-
-
-test_6 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(SFS_data$resid[1], 3)), "221d88b706b11efb9707f3d239684288")
-  })
-  print("Success!")
-}
-
-test_7 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(round(WT$coefficients[1], 2)), "1191bdb37060071fb219fa1c2a78c4d4")
-  })
-  print("Success!")
-}
-
-
-
 
 vif <- function(model,x_j,y){
   #s_2=RMSE(model)^2

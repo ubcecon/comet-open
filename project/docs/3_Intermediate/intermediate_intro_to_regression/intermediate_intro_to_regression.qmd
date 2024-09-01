@@ -1,9 +1,9 @@
 ---
-title: "2.1 - Intermediate - Introduction to Regression (326)"
-author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_
-date: 8 December 2022
+title: "2.1 - Intermediate - Introduction to Regression"
+author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Avi Woodward-Kelen, Anneke Dresselhuis, Rathin Dharani, Devan Rawlings, Jasmine Arora, Jonathan Graves_
+date: 25 July 2024
 description: An introduction to simple regression using Jupyter and R, with an emphasis on understanding what regression models are actually doing.  Computation is using OLS.
-categories: [introduction, econ 326, simple regression, regression, ols, t-test, dummy variable, pareto distribution, intermediate, R]
+categories: [introduction, econ 325, econ 326, simple regression, regression, ols, t-test, dummy variable, pareto distribution, beginner, intermediate, R]
 format: 
   html: default
   ipynb:
@@ -28,24 +28,14 @@ format:
 By the end of this notebook, you will be able to:
 
 -   Learn how to run a simple linear regression using R
-
 -   Create and understand regression outputs in R
+-   Understand how to interpret coefficient estimates from simple linear regressions in terms of an econometric model
+-    Examine the various elements of regression objects in R (including fitted values, residuals and coefficients)
+-   Understand the relationship between $t$-tests and the estimates from simple linear regressions
+-   Understand the role of qualitative variables in regression analysis, with a particular emphasis on dummies
+-   Explain how adding variables to a model changes the results
 
--   Understand how to interpret coefficient estimates from simple linear
-    regressions in terms of an econometric model
-
--    Examine the various elements of regression objects in R (including
-    fitted values, residuals and coefficients)
-
--   Understand the relationship between $t$-tests and the estimates from
-    simple linear regressions
-
--   Understand the role of qualitative variables in regression analysis,
-    with a particular emphasis on dummies
-
--    Explain how adding variables to a model changes the results
-
-Note that the data in this exercise is provided under the Statistics
+> Note that the data in this exercise is provided under the Statistics
 Canada Open License: \> [[<sup>1</sup>](#fn1s)Statistics Canada, Survey
 of Financial Security, 2019, 2021. Reproduced and distributed on an "as
 is" basis with the permission of Statistics Canada.Adapted from
@@ -53,14 +43,15 @@ Statistics Canada, Survey of Financial Security, 2019, 2021. This does
 not constitute an endorsement by Statistics Canada of this
 product.]{#fn1}
 
-```{r}
+```{r, message = FALSE}
 library(tidyverse)
 library(haven)
 library(dplyr)
+library(scales)
 source("intermediate_intro_to_regression_tests.r")
 ```
 
-```{r}
+```{r, message = FALSE}
 SFS_data <- read_dta("../datasets_intermediate/SFS_2019_Eng.dta")  #this code is discussed in module 1
 
 SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc))
@@ -89,12 +80,10 @@ What is a regression? What is the relationship of a regression to other
 statistical concepts? How do we use regressions to answer economic
 questions?
 
-In this notebook, we will explore these questions using our SFS data
-from Module 1 and learn more about the gender wealth gap. If you
-remember from last module, we were interested in the wealth gap between
-male and female lead households.
+In this notebook, we will explore these questions using data from the 2019 Survey of Financial Security (SFS). If you did module *1.0.1 Beginner Introduction to Statistics using R* you might recall we used it to learn more about the gender wealth gap between
+male and female lead households. You don't need to work through the module in order to follow along, but if you didn't do it and you feel you might benefit from a statistical refresher - now would be a great time for a little refresher. 
 
-We'll begin our analysis by exploring the relationship between wealth
+Either way, we'll begin our analysis by exploring the relationship between wealth
 and income. Let's start off with a visualization:
 
 ```{r}
@@ -162,7 +151,9 @@ $\beta_0$ and $\beta_1$ such that as little as possible of the model is
 explained by the residual term. We write the complete regression
 equation by combining the two parts of the model:
 
-$$W_i = \beta_0 + \beta_1 I_i + \epsilon_i$$
+$$
+W_i = \beta_0 + \beta_1 I_i + \epsilon_i
+$$
 
 The goal of regression analysis is to:
 
@@ -176,7 +167,9 @@ there are many ways to "estimate" the equation. In this course, we often
 use *ordinary least squares* (OLS) as our estimation method which can be
 understood as the following:
 
-$$(\hat{\beta_0},\hat{\beta_1}) = \arg \min_{b_0,b_1} \sum_{i=1}^{n} (M_i - b_0 - b_1 W_i)^2 =\arg \min_{b_0,b_1} \sum_{i=1}^{n} (e_i)^2$$
+$$
+(\hat{\beta_0},\hat{\beta_1}) = \arg \min_{\beta_0,\beta_1} \sum_{i=1}^{n} (W_i - \beta_0 - \beta_1 I_i)^2 =\arg \min_{b_0,b_1} \sum_{i=1}^{n} (\epsilon_i)^2
+$$
 
 It is just the calculus way of writing "choose $\beta_0$ and $\beta_1$
 (call them $\hat{\beta_0},\hat{\beta_1}$) such that they minimize the
@@ -194,7 +187,7 @@ commands, we'll discuss on how we can estimate manually.
 ### Example: Manual Estimation
 
 If we think about the residuals as a gauge of error in our model
-(remember we want to think about the error in absolute terms, we can
+(remember we want to think about the error in absolute terms), we can
 look at the scatterplot and guess how the model might perform based on
 how small or large the residuals are from the regression line. As you
 can probably imagine, this is not the most efficient nor the most
@@ -219,7 +212,14 @@ options(repr.plot.width=10,repr.plot.height=8) #controls the image size
 
 fitted_line <- data.frame(income_before_tax = SFS_data$income_before_tax, wealth = B_0 + B_1*SFS_data$income_before_tax) #makes the regression line
 
-f <- ggplot(data = SFS_data, aes(x = income_before_tax, y = wealth),xlim=c(0,3*10^6),ylim=c(0,3*10^7)) + xlab("before tax income") + ylab("wealth")+scale_x_continuous() 
+f <- ggplot(data = SFS_data,
+            aes(x = income_before_tax, y = wealth),
+            xlim=c(0,3000000),
+            ylim=c(0,30000000)) + 
+  xlab("before tax income") +
+  ylab("wealth") +
+  scale_x_continuous(labels = comma) +
+  scale_y_continuous(labels = comma) 
 f <- f + geom_point() + geom_line(color = "#330974", data = fitted_line) #style preferences
 
 f #prints our graph with the line
@@ -227,31 +227,94 @@ f #prints our graph with the line
 
 As we change our $\beta_0, \beta_1$, notice how the best fit line
 changes as well. The closer we fit our line to the data the lower SSE we
-have
+have.
+
+### Interactive Visualization of OLS
+
+Understanding OLS is fundamental to understanding regressions and other topics in econometrics. Let's try and understand the formula for OLS above through a more visual approach.
+
+To demonstrate this, we will use a small scatter plot with just 4 points.
+
+- The straight line through the scatter plot is modelled by the simple regression formula $B_0 + B_1X$.
+
+- Since it's nearly impossible for a regression to perfectly predict the relationship between two variables, we will almost always include an **unobservable error** $e_i$ with our regression estimation. This is the vertical distance between the regression line and the actual data points.
+
+- Hence each of the points can be modelled by the equation $Y_i = B_0 + B_1X + e_i$.
+
+- Instead of minimizing the error terms, we will try to minimize the squared errors which are represented by the size of those red boxes.
+
+Try your own values for `beta_0` and `beta_1`. Make sure to try the values only roughly within the specified range. The actual value of `beta_0` and `beta_1` that minimize the residual sum of squares is 0.65 and 0.82 respectively. The code block below also displays the area of the red boxes; deviation from these optimal values will increase the area of the red boxes.
+
+```{r}
+beta_0 <- 0.65 #CHANGE THIS VALUE, TRY VALUES BETWEEN 0 - 1
+beta_1 <- 0.82 #CHANGE THIS VALUE, TRY VALUES BETWEEN 0.6 - 1.4
+
+x <- c(1, 2, 3, 4)
+y <- c(1.7, 1.5, 4, 3.6)
+
+# don't worry about this code, just run it!
+dta <- data.frame(x, y)
+example_df_graph <- dta %>%
+                    ggplot(aes(x = x, y = y)) +
+                    geom_point() +
+                    geom_abline(intercept = beta_0, slope = beta_1) +
+                    xlim(0, 5) +
+                    ylim(0, 5) +
+                    geom_rect(aes(xmin = (dta[1, "x"] + (beta_0 + (beta_1 * dta[1, "x"])) - dta[1, "y"]), xmax = dta[1, "x"], 
+                                  ymin = (beta_0 + (beta_1 * dta[1, "x"])), ymax = dta[1, "y"]),
+                            alpha = 0.1,
+                            fill = "red") +
+                    geom_rect(aes(xmin = dta[2, "x"], xmax = (dta[2, "x"] + (beta_0 + (beta_1 * dta[2, "x"])) - dta[2, "y"]), 
+                                  ymin = dta[2, "y"], ymax = (beta_0 + (beta_1 * dta[2, "x"]))), 
+                            alpha = 0.1, 
+                            fill = "red") +
+                    geom_rect(aes(xmin = (dta[3, "x"] + (beta_0 + (beta_1 * dta[3, "x"])) - dta[3, "y"]), xmax = dta[3, "x"], 
+                                  ymin = (beta_0 + (beta_1 * dta[3, "x"])), ymax = dta[3, "y"]), 
+                            alpha = 0.1, 
+                            fill = "red") +
+                    geom_rect(aes(xmin = dta[4, "x"], xmax = (dta[4, "x"] + (beta_0 + (beta_1 * dta[4, "x"])) - dta[4, "y"]), 
+                                  ymin = dta[4, "y"], ymax = (beta_0 + (beta_1 * dta[4, "x"]))), 
+                            alpha = 0.1, 
+                            fill = "red")
+example_df_graph
+
+area_1 <- ((dta[1, "x"] - (dta[1, "x"] + (beta_0 + (beta_1 * dta[1, "x"])) - dta[1, "y"])) * 
+        ((beta_0 + (beta_1 * dta[2, "x"])) - dta[2, "y"]))
+area_2 <- ((dta[2, "x"] + (beta_0 + (beta_1 * dta[2, "x"])) - dta[2, "y"]) - dta[2, "x"]) * 
+          ((beta_0 + (beta_1 * dta[2, "x"])) - dta[2, "y"])
+area_3 <- (dta[3, "x"] - (dta[3, "x"] + (beta_0 + (beta_1 * dta[3, "x"])) - dta[3, "y"])) * 
+          (dta[3, "y"]) - (beta_0 + (beta_1 * dta[3, "x"]))
+area_4 <- ((dta[4, "x"] + (beta_0 + (beta_1 * dta[4, "x"])) - dta[4, "y"]) - dta[4, "x"]) * 
+          ((beta_0 + (beta_1 * dta[4, "x"])) - dta[4, "y"])
+
+area <- area_1 + area_2 + area_3 + area_4
+print("Area of red boxes is: ")
+area
+```
 
 ### Simple Regressions in R
 
-Now, let's see how we could use a regression in R to do this. Regression
-models look like: `Y ~ X` (the `~` symbol is called "tilde" FYI).
+Now, let's see how we could use a regression in R to do this.
 
-> For now you can ignore the residual terms and parameters when writing
-> the model in R - just focus on the variables.
+- Regression models look like: `Y ~ X` where `Y` is regressed on `X` and the `~` symbol is called "tilde" and is pronounced "TIL-duh" by the way
+
+> For now you can ignore the residual terms and parameters when writing the model in R (the computer implicitly knows it's there!) and just focus on the variables.
 
 So, for example, our regression model is
 
-$$W_i = \beta_0 + \beta_1 I_i + \epsilon_i$$
+$$
+W_i = \beta_0 + \beta_1 I_i + \epsilon_i
+$$
 
 Which can be written in R as
 
 `wealth ~ income_before_tax`
 
-Regressions are estimated in R using the `lm` command, which contains an
-argument to specify the dataset. This creates a **linear model object**,
-which can be used to calculate things (through prediction) or perform
-tests. It also stores all of the information about the model, such as
-the coefficient and fit. The model generated using the lm() command can
-also be printed and summarized to give important basic information about
-a regression.
+Regressions are estimated in R using the `lm` function which contains an argument to specify the dataset. 
+
+- This creates a *linear model* object, which can be used to calculate things (using prediction) or perform tests.
+- It also stores all of the information about the model, such as the coefficient and fit.
+- These models can also be printed and summarized to give important basic information about a regression.
 
 Below are a few of the most important elements of a linear model. Let's
 say, for example, that we called the model `my_model.`
@@ -261,6 +324,7 @@ say, for example, that we called the model `my_model.`
 -   `my_model$fitted.values`: gives us the predicted values
 
 Enough talk! Let's see our model in action here.
+
 
 ```{r}
 regression1 = lm(wealth ~ income_after_tax, data = SFS_data) # take note this is very important!
@@ -338,7 +402,7 @@ wealth is weird. We will deal with this later.
 
 ## Part 2: Simple Regressions and $t$-Tests
 
-What if we wanted to work with a qualitative variable like `gender`?
+Previously, we looked at the relationship between market income and wages. However, these are both *quantitative* variables. What if we wanted to work with a *qualitative* variable like `gender`?
 
 Regression models can still incorporate this kind of variable - which is
 good, because (as the Census makes clear) this is the most common type
@@ -352,20 +416,29 @@ $$W_i = \beta_0 + \beta_1 G_i + \epsilon_i ~, \text{where}\ G_i \ \text{is Gende
 
 Consider the conditional expectation:
 
-$$E[W_i|G_i = \text{Male}] = \beta_0 + \beta_1 \cdot 1 + \epsilon_i$$
+$$
+E[W_i|G_i = \text{Male}] = \beta_0 + \beta_1 \cdot 1 + \epsilon_i
+$$
 
-$$E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1 \cdot 0 + \epsilon_i$$
+$$
+E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1 \cdot 0 + \epsilon_i
+$$
 
-By the OLS reggression assumptions, we have that \$E\[\epsilon\_i\|G_i\]
-= 0 \$, so:
+By the OLS reggression assumptions, we have that $E[\epsilon_i|G_i] = 0 $, so:
 
-$$E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1$$
+$$
+E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1
+$$
 
-$$E[W_i|G_i = \text{Male}] = \beta_0$$
+$$
+E[W_i|G_i = \text{Male}] = \beta_0
+$$
 
 Combining these two expressions:
 
-$$\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}] = \beta_1-\beta_0$$
+$$
+\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}] = \beta_1-\beta_0
+$$
 
 What this tells us:
 
@@ -381,6 +454,8 @@ investigate the wealth gap between male and female lead households, we
 might expect to see a negative sign on the coefficient - that is, if we
 anticipate that female lead households will have less wealth than male
 lead households.
+
+
 
 ```{r}
 regression2 <- lm(wealth ~ gender, data = SFS_data)
@@ -528,7 +603,53 @@ called a **multiple regression** model, which we haven't covered yet.
 Let's explore regression some more, in the following series of
 exercises.
 
-## Part 3: Exercises
+## Part 3: Weighting
+
+In the previous examples, we have assumed that all observations are equally important. However, this is not always the case. Sometimes, we may want to give more weight to some observations than others. This could be for a wide variety of reasons, but a common one has to do with the observations in your sample as compared to the true population (other common reasons include data reliability and the need to correct for selection bias). 
+
+Consider the Survey of Financial Statistics versus the true population of Canada. The SFS is a sample of the population, and it is possible that the sample is not representative of the population. In this case, we might want to weight the observations in the sample to make them more representative of the population.
+
+```{r}
+count(SFS_data)
+```
+
+In our case, the SFS surveyed 10,141 individuals. However, the [population of Canada in 2019 was 37.6 million people](https://www150.statcan.gc.ca/n1/pub/11-627-m/11-627-m2019061-eng.htm). While completing the census is a legal obligation which is typically good at capturing practically all inhabitants, the SFS is voluntary and may or may not represent the population well (e.g. perhaps the super wealthy or those in destitute poverty are underrepresented, or marginalized groups are less likely to respond to government surveys about something as personal as your wealth). 
+
+Whatever the case may be, we'll want to adjust, "weight", our sample to make it more representative of the population (and we'll use the census as our benchmark). Luckily for us, Statcan is aware of this potential issue, and has included pre-made/recommended weights for us to use! 
+
+To see what happens when we include weights we simply add a straightforward argument `weight = x` in the `lm()`function, where `x` is the name of your weighting variable. (If for some reason your weights are contained in a different dataset than the rest of your data you could use `weight = other_dataset$x` to specify the correct weights).
+
+Let's remind ourselves of what we found in `regression1`
+
+```{r}
+summary(regression1) #original non-weighted regression
+```
+
+How does this compare to a weighted regression? 
+
+```{r}
+regression3 <- lm(wealth ~ income_after_tax, data = SFS_data, weights = pweight) #the variable for weights in SFS_data is called pweight, short for population weight. 
+summary(regression3)
+```
+
+> *Think Deeper*: What is the difference in the coefficient on `income_after_tax` between the weighted and unweighted regressions? What does the change in the intercept imply? 
+
+How about when we looked at the gender effect on wealth? 
+
+```{r}
+summary(regression2) #again, our original non-weighted regression
+```
+
+```{r}
+regression4 <- lm(wealth ~ gender, data = SFS_data, weights = pweight)
+summary(regression4)
+```
+
+> *Think Deeper*: What is the difference in the coefficient on `gender` between the weighted and unweighted regressions? What does the change in the intercept imply? Did the unweighted regression overestimate or underestimate the gender-wealth gap?
+
+In general, weighting is a powerful tool that can help us correct for biases in our data. However, it is important to remember that weighting is not a panacea. It can only correct for biases that we know about and can measure. If there are biases in our data that we are unaware of or we don't know what to benchmark against, weighting will not help us.
+
+## Part 4: Exercises
 
 ### Activity 1
 
@@ -538,7 +659,7 @@ now examine this issue directly using regressions. Run a regression with
 \* before tax income \* on male and female lead households.
 
 <em>Tested objects:</em> `regm` (the regression for males).<em>Tested
-objects:</em> `regm` (the regression for females).
+objects:</em> `regf` (the regression for females).
 
 ```{r}
 #| classes: "question"
@@ -695,7 +816,7 @@ p_Value <- c(sum20$coefficients[2,4], sum30$coefficients[2,4], sum40$coefficient
 tibble(Educ_Group, Income_Gap, Std._Error, t_Value, p_Value) #it's like a table but a tibble
 ```
 
-#### Short Answer 3
+#### Short Answer 2
 
 **Prompt**: What happens to the income gap as we move across eduction
 groups? What might explain these changes? (hint: think back to module
@@ -779,7 +900,7 @@ test_8() #Quiz 5
 ```
 :::
 
-#### Short Answer 4
+#### Short Answer 3
 
 Prompt: Compare the estimated income gap with and without $E_i$ in the
 regression. What happens to the gap when we add $E_i$?
@@ -799,6 +920,9 @@ Answer: The gender-income gap has increased; notice the stand error's
 have increased. This means it's harder to have certainty what the income
 gap is once we control for education.
 :::
+
+
+
 
 ### Theoretical Activity 1
 
@@ -888,7 +1012,7 @@ test_5() #Quiz7
 ```
 :::
 
-#### Short Answer 5
+#### Short Answer 4
 
 Prompt: How do we interpret each of these estimates? (Hint: what does a
 1-unit change in the explanatory variable mean here?)

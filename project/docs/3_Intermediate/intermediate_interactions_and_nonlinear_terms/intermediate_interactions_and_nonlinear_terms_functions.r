@@ -117,53 +117,6 @@ clean_up_data <- function() {
   
   return(SFS_data)
   
-  
-  
-}
-test_0 <- function() {
-  test_that("Solution is incorrect. Hint: remember the interaction variables?", {
-    expect_equal(digest(summary(reg0$coefficients[["(Intercept)"]])), '1ddd087882333332a25285bde78aa646')
-  })
-  print("Success!")
-}
-test_1 <- function() {
-  test_that("Solution is incorrect. Hint: remember the interaction variables?", {
-    expect_equal(digest(summary(reg1$coefficients[["(Intercept)"]])), '3dd015d03091849541c0dcec913ce003')
-  })
-  print("Success!")
-}
-test_1.5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg2$coefficients[["(Intercept)"]]), '6c18be83689693b50285a1fdcb061fb7')
-  })
-  print("Success!")
-}
-test_2 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg3A$coefficients[["(Intercept)"]]), '0c05bd8c4f380919002e076eca235762')
-  })
-  print("Success!")
-}
-
-test_3 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg3M$coefficients[["(Intercept)"]]), 'dfb7de8928de9e3bb49fd71ad9fc108e')
-  })
-  print("Success!")
-}
-
-test_4 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg3F$coefficients[["(Intercept)"]]), '9d92649a8f9e738852c80be92cb732e8')
-  })
-  print("Success!")
-}
-
-test_5 <- function() {
-  test_that("Solution is incorrect. Hint: interactions?", {
-    expect_equal(digest(reg4$coefficients[["(Intercept)"]]), 'acb096782d9c9e8d5aa3ff6de3e129e2')
-  })
-  print("Success!")
 }
 
 

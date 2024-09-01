@@ -6,11 +6,11 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-    - "../../docs/Beginner/beginner_review_of_basic_statistics/beginner_review_of_basic_statistics.qmd"
-    - "../../docs/Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd"
+    - "../../docs/Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd"
     - "../../docs/Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd"
-    - "../../docs/Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd"
     - "../../docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd"
+    - "../../docs/Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd"
+    - "../../docs/Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd"
     - "../../docs/Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd"
   categories: true
   fields: [image, title, date, description]

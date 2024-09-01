@@ -1,0 +1,123 @@
+---
+title: '3.9 - Advanced - Frisch-Waugh-Lovell Theorem'
+categories: [advanced, econ 398, Frisch-Waugh-Lovell theorem, regression, residuals, linear regression, R]
+format: 
+    html: default
+    ipynb:
+        jupyter:
+            kernelspec:
+                display_name: R
+                language: r
+                name: ir
+---
+
+
+**For the purposes of ECON-398, you do not need to know this. This is for those who would like a slightly deeper understanding of how Linear Regression works**
+
+Recall from the notes that multiple regression models can in general be decomposed to a series of simpler regression models. This is the result of the Frisch-Waugh-Lovell Theorem, which shows us exactly what kinds of variation in the data goes into estimating each parameter. In practical terms, you verify that this works as described by running the models as suggested by the FWL Theorem.
+
+
+## Load Data
+
+Just like the last lesson on summary statistics, I am going to use simulated data in this lesson. In particular, certain concepts are easier to demonstrate when the data is synthetic, so that the true Data Generating Process (DGP) is known.
+
+```{r}
+library(tidyverse)
+library(stargazer)
+```
+
+### Generating Correlated Random Variables
+
+The base of synthetic data starts with random variables generated with a particular desired covariance structure. The simplest case uses a multivariate Normal distribution due to its nice joint and marginal distribution properties. There are tools available to generate correlated random variables with other distributions, but those are beyond the scope of this course.
+
+For this lesson, it is not necessary for variables to have specific meanings. I will assign the variables names corresponding to letters we use when teaching the theory in the course.
+
+```{r}
+set.seed(998)
+sim.data = matrix(rnorm(25000, 0, 1), 5000, 5, FALSE)
+sim.data <- sim.data %*% chol(matrix(
+    c(1, 0, .5, .25, 0,
+     0, 1, .6, .1, 0,
+     .5, .6, 1, .4, 0,
+     .25, .1, .4, 1, 0,
+     0, 0, 0, 0, 1),
+    5, 5, TRUE))
+colnames(sim.data) <- c('D', 'X', 'W', 'Z', 'e')
+sim.data <- as_tibble(sim.data)
+```
+
+### Modifying the Random Variables to Desired Types
+
+For our purposes here, we require one binary variable, one categorical variable with more than $2$ categories, and one continuous variable. To adhere as closely to course terminology as possible, `D` will be the binary variable, `W` the categorical variable, and `X` and `Z` continuous variables. 
+
+```{r}
+sim.data <- sim.data %>%
+    mutate(
+        D = if_else(D > 0, 1, 0),
+        W = as_factor(ntile(W, 5))
+    )
+```
+
+### Generating the Outcome Variable
+
+I manually define the outcome variable so that I know the true parameters of the CEF of the outcome variable. Keep this in mind as we look at regression outputs later. Notice that despite generating $4$ variables I use only $3$ variables to define the CEF. This is not a mistake and in a future lesson the purpose of `Z` will be made clear.
+
+```{r}
+sim.data <- sim.data %>%
+    mutate(
+        Y = .25 + 3 * D + .5 * X + .4 * (W == 2) + .7 * (W == 3) + 1.3 * (W == 4) + 1.9 * (W == 5) + e
+    )
+```
+
+### Summary Statistics
+
+I report a summary of the data here. I could also use `summarize` or `stargazer`, but this is sufficient for my purposes since this notebook is about teaching how linear regression works in practice and not how to execute a full data analysis pipeline.
+
+```{r}
+summary(sim.data)
+```
+
+## The Theorem in Practice
+
+Suppose I want to estimate
+
+$$
+    Y_{i} = \alpha + \delta D_{i} + \beta X_{i} + e_{i}.
+$$
+
+If I am interested in only $\beta$, the FWL Theorem says that I can decompose this procedure into three steps:
+
+1. First,
+$$
+    Y_{i} = \zeta_{0} + \zeta_{1} D_{i} + U_{i}.
+$$
+2. Second,
+$$
+    D_{i} = \eta_{0} + \eta_{1} D_{i} + V_{i}.
+$$
+3. Third,
+$$
+    U_{i} = \gamma + \beta V_{i} + \xi_{i}.
+$$
+
+```{r}
+sim.data <- sim.data %>%
+    mutate(
+        U = resid(lm(Y ~ D, data = .)),
+        V = resid(lm(X ~ D, data = .))
+    )
+```
+
+```{r}
+stargazer(
+    sim.data %>%
+        lm(Y ~ D + X, data = .),
+    sim.data %>%
+        lm(U ~ V, data = .),
+    type = 'text', df = FALSE)
+```
+
+### What does FWL tell us?
+
+The key lesson that FWL teaches is that in a linear regression, the coefficient on each variable depends on the correlation in the residual variation of that variable and the outcome variable that are not already explained by other variables. This is what is known as identifying variation in statistics: what features of your data actually lead to the results that you see?
+

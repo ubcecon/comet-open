@@ -1,0 +1,1185 @@
+---
+title: "2.6 - Intermediate - Conditional Expectations (398)"
+author: COMET Team <br> _Jonathan Graves, Yeow Chong Gow, Angela Chen_
+date: 9 July 2023
+description: Theory and practice of the analytical application of economics. Causality, empirical analysis, and the application of theoretical models through engagement in applied work.
+categories: [intermediate, econ 398, regression, R, conditional expectations, conditional varainces, confidence intervals, comparison measure, summary statistics, t-test]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
+---
+
+## Outline
+
+### Prerequisites
+
+- Basics of Jupyter Notebooks
+- Basics of R
+- Introduction to Data
+
+### Outcomes
+
+- Conditional Expectations
+- Conditional Variances
+- Conditional Covariances
+- Confidence Intervals
+- The Comparison Measure
+- Percentiles and Inter-Quartile Range
+- Summary Statistics Tables
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### References
+========
+1.  Conditional Expectations.
+2.  Conditional Variances.
+3.  Conditional Covariances
+4.  Confidence Intervals.
+5.  The Comparison Measure.
+6.  Percentiles and Inter-Quartile Range.
+7.  Summary Statistics Tables.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+- Stargazer package is due to: Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://cran.r-project.org/web/packages/stargazer/index.html
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+```{r, message = FALSE}
+library(tidyverse)
+```
+
+## Part 1: Conditional Expectations with Simulated Data
+
+Because this series of notebooks cover techniques used to recover causal effects, many of which we can never know with certainty in real-world data, we will use synthetic data to model the true data generating process.
+
+To ensure replicable results when working with random synthetic data, one needs to set the seed for the [pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator). With a specified seed, the code will always produce the same data set. 
+========
+1.  Basics of Jupyter Notebooks.
+2.  Basics of R.
+3.  Introduction to Data.
+
+If you are in need of a refresher, please look through those notebooks again before starting on this one. Finally, note that while this notebook will go over some theory of these objects, do not expect it to be entirely the same as what was covered in class. These same objects may be presented slightly differently to provide a different perspective of looking at the same objects and also to tie in more closely to how we actually estimate these objects in practice from data.
+
+## Data
+
+Because this series of notebooks cover techniques used to recover causal effects, many of which we can never know with certainty in real-world data, we will use synthetic data throughout these notebooks where we know the true parameter values and therefore whether the outcomes of our estimation procedures match our theories. In this notebook, we will start getting familiar with generating and using synthetic data as a tool to learn to use the methods of causal inference correctly.
+
+The following code simulates a data set of $5000$ observations that resembles an earnings data set. The values used for the various functions are taken from an analysis of a real data set to ensure that the simulated data still looks sufficiently realistic.
+
+```{r}
+library(tidyverse)
+```
+
+### Setting Seed
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+In the following code we simulate a data set of $5000$ observations that resembles an earnings data set. Let's begin with four basic variables: gender, age, years of education, and tenure. The values used for the various functions are taken from an analysis of a real data set to ensure that the simulated data still looks sufficiently realistic.
+
+```{r}
+set.seed(999)
+sim.data = matrix(rnorm(20000, 0, 1), 5000, 4, FALSE)
+sim.data <- sim.data %*% chol(matrix(
+    c(.25, -.15, .065, -.065,
+      -.15, 185, 2.65, 50,
+      .065, 2.65, 5, .7,
+      -.065, 50, .7, 50),
+    4, 4, TRUE))
+colnames(sim.data) <- c('sex', 'age', 'educ', 'workexp')
+sim.data <- as_tibble(sim.data)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+To make the data generating process more realistic, we shift the data by the desired means, round the entries, and bound the variables to the subset of interest. 
+========
+### Modifying the Variables
+
+I shift the data by the desired means, round them to resemble how these variables are always integers in real data, then bound them to resemble how in general researchers do not sample the entire space but limit attention to certain populations of interest. This is all done using functions and methods introduced in the Introduction to Data Notebook.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+sim.data <- sim.data %>% mutate(
+        sex = if_else(sex < 0, 'male', 'female'),
+        age = round(age + 40, 0),
+        educ = round(educ + 13.5, 0),
+        workexp = round(workexp + 6.75, 0)
+    ) %>% mutate(
+        sex = factor(sex, levels = c('male', 'female')),
+        age = case_when(
+            age < 15 ~ 15,
+            age > 65 ~ 65,
+            TRUE ~ age
+        ),
+        educ = case_when(
+            educ < 8 ~ 8,
+            educ > 18 ~ 18,
+            TRUE ~ educ
+        ),
+        workexp = case_when(
+            workexp < 0 ~ 0,
+            workexp > 20 ~ 20,
+            TRUE ~ workexp
+        )
+    )
+```
+
+### Generating the outcome variable
+
+Here we specify the "true" data generating process for log-hourly wages.
+
+```{r}
+sim.data <- sim.data %>% mutate(
+        lnhrly = 1.5 + .39 * (sex=='female')
+                    + .06 * age - .0007 * age ^ 2
+                    - .02 * age * (sex=='female') + .0002 * age ^ 2 * (sex=='female')
+                    - .02 * educ + .003 * educ ^ 2
+                    - .05 * educ * (sex=='female') + .0025 * educ ^ 2 * (sex=='female')
+                    + .03 * workexp - .0008 * workexp ^ 2
+                    + .01 * workexp * (sex=='female') - .00015 * workexp ^ 2 * (sex=='female')
+                    + rnorm(5000, 0, .4)
+    )
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Data summary
+
+The following code let's us see the summary statistics of our simulated dataset. We will discuss summary statistics in more detail towards the end of this notebook.
+========
+### Showing a Summary of the Data
+
+The following lets me see the summary measures of this data set to ensure that the synthetic data has been generated to the desired specification. We will discuss summary statistics in more detail toward the end of this notebook.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+summary(sim.data)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Expectations
+
+Before we talk about conditional expectations, we should briefly recap what [expectations](https://en.wikipedia.org/wiki/Expected_value) are. An expectation of a variable is the [first moment](https://en.wikipedia.org/wiki/Moment_(mathematics)) of the probability distribution function (or probability mass function) of that variable. In other words, it is the mean,
+========
+## Expectations
+
+Before we talk about conditional expectations, we should briefly recap what [expectations](https://en.wikipedia.org/wiki/Expected_value) are. An expectation of a variable is the first [moment](https://en.wikipedia.org/wiki/Moment_(mathematics)) of the probability distribution function (or probability mass function) of that variable. In other words, it is the mean,
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+$$
+    \mathbb{E}[X] = \int x dF(x)
+$$
+
+if $X$ is a continuous variable and
+
+$$
+    \mathbb{E}[X] = \sum_{j} x_{j} \mathbb{P}_{X}(x_{j})
+$$
+
+if $X$ is a discrete variable, with the $j$ subscript representing unique values of the variable. The mean is one of the possible measures of the "centre" of a variable. We also know how to compute the estimator of the expectation, which is the average,
+
+$$
+    \overline{X} = \frac{1}{N} \sum_{i} X_{i}
+$$
+
+where $j$ subscripts observations instead of unique values of $X$. Appendix 2 explains why the average is a good estimator for the expectation of a variable. 
+
+In `R`, the function `mean` computes the average for you. You can also do it manually using a combination of `sum` and `length`. A third way is using `lm`. Intuitively, we can rewrite each data point as the sum of the mean and its deviation
+
+$$
+    X_{i} = \mathbb{E}[X] + e_{i}.
+$$
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+We can then replace $\mathbb{E}[X]$ with any arbitrary variable name (e.g., $\alpha$) and treat this as an estimation problem of computing a value for $\alpha$ that minimizes some score function of the errors $e_{i}$. `lm(X ~ 1, data = df)` estimates this model for a specific assumption about the score function. We then retrieve the estimate of the mean by calling the `coefficients` property of the resulting object.
+========
+We can then replace $\mathbb{E}[X]$ with any arbitrary variable name, $\alpha$ say, and treat this as an estimation problem of computing a value for $\alpha$ that minimises some score function of the errors $e_{i}$. `lm(X ~ 1, data = df)` estimates this model for a specific assumption about the score function. The rest of what `lm` really does will be covered at a later time in this course. We then retrieve the estimate of the mean by calling the `coefficients` property of the resulting object.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+
+print(
+    matrix(
+        c(
+            mean(sim.data$lnhrly),
+            sum(sim.data$lnhrly) / length(sim.data$lnhrly),
+            lm(lnhrly ~ 1, data = sim.data)$coefficients
+        ),
+        ncol = 1,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'manual', 'lm'), c('mean'))
+    )
+)
+```
+
+### Conditional Expectations
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+The extension from expectations and the average to conditional expectations is straightforward because [conditional expectations](https://en.wikipedia.org/wiki/Conditional_expectation) are the expected values of a variable given specific values of other variables. Mathematically, the conditional expectation is the following object,
+$$
+\begin{align}
+m(Z) & = \int x dF(x \mid Z) \\
+& = \mathbb{E}[X \mid Z]
+\end{align}
+========
+The extension from expectations and the average to conditional expectations is straightforward because [conditional expectations](https://en.wikipedia.org/wiki/Conditional_expectation) intuitively are the expected values of a variable holding constant other variables. Mathematically, the conditional expectation is the following object,
+
+$$
+\begin{align*}
+    m(Z) & = \int x dF(x \mid Z) \\
+    & = \mathbb{E}[X \mid Z]
+\end{align*}
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+$$
+
+for a continuous $X$ variable and
+$$
+m(Z)  = \sum_{j} x_{j} \mathbb{P}(X=x_{j} \mid Z)
+$$
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+for a discrete $X$ variable. 
+========
+$$
+\begin{align*}
+    m(Z) & = \sum_{j} x_{j} \mathbb{P}(X=x_{j} \mid Z)
+\end{align*}
+$$
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+Notice that the object that results is a function of the conditioning variable, $Z$. Unlike the expectation, which is a fixed value, the conditional expectation of a variable is a function of some other variable. If this seems confusing, approach this by first imagining $Z$ to be a discrete variable. 
+
+For example, suppose $X$ is years of completed education and $Z$ is gender. Then it hopefully makes sense that
+
+$$
+    m(\text{Gender}) = \mathbb{E}[\text{Years of Completed Education} \mid \text{Gender}] 
+$$
+
+is a function while
+
+$$
+    m(\text{Gender} = \text{Female}) = \mathbb{E}[\text{Years of Completed Education} \mid \text{Gender} = \text{Female}] 
+$$
+
+is now a specific value. We can then carry this intuition through to $Z$ with more than $2$ categories, and to continuous $Z$ variables. Another way to think about this is that the conditional distribution functions are in fact functions of two variables,
+
+$$
+    f(X \mid Z) = \frac{f(X,Z)}{f(Z)}
+$$
+
+The similar definition for the discrete case is [Bayes' Rule](https://en.wikipedia.org/wiki/Bayes%27_theorem). When we integrate only over $X$, $Z$ is still left as a variable. Hence, the resulting conditional expectation is still a function of $Z$ until we also set the value of $Z$. This intuition carries over to the empirical estimator of the conditional expectation, which is the average applied over the subset of data that meets the conditions,
+
+$$
+    \overline{X}\mid_{Z=z} = \frac{\sum_{i} X_{i} \mathbf{1}\{Z_{i}=z\}}{\sum_{i} \mathbf{1}\{Z_{i}=z\}}
+$$
+
+For example, the estimated conditional mean of the years of completed education among females is the average of the years of completed education among females. Note that unlike the unconditional mean, showing that this conditional average is the appropriate estimator for the conditional mean is not straightforward even though it seems intuitively correct. For more on this refer to Appendix 2.
+
+In `R`, we get the subset of data matching the condition using the syntax `X[Z==z]`. If your data is loaded in a `tibble`, we can also use the syntax `df %>% filter(Z==z) %>% summarise(mean = mean(X)) %>% .[['mean']]`. The second syntax involves less copy and pasting when you wish to change your variable names later. 
+
+The `lm` version of the `tibble` syntax is `sim.data %>% lm(X ~ Z - 1, data = .) %>% .[['coefficients']] %>% .[['Zz']]`. For now all you need to know about what `lm(X ~ Z - 1, data = .)` does is that it is estimating the values of $\alpha_{j}$ that minimise some score function of the errors $e_{i}$ in
+
+$$
+    X_{i} = \begin{cases}
+        \alpha_{1} + e_{i} \quad & \text{if} \quad Z_{i} = z_{1} \\
+        \alpha_{2} + e_{i} \quad & \text{if} \quad Z_{i} = z_{2} \\
+        \cdots \\
+        \alpha_{k} + e_{i} \quad & \text{if} \quad Z_{i} = z_{k}
+    \end{cases}
+$$
+
+As should be intuitive, each $\alpha_{j}$ corresponds to the conditional mean of $X$ for $Z=z_{j}$.
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% filter(sex=='female') %>% summarise(mean = mean(lnhrly)) %>% .[['mean']],
+            sim.data %>% filter(sex=='female') %>% summarise(mean = sum(lnhrly) / n()) %>% .[['mean']],
+            sim.data %>% lm(lnhrly ~ sex - 1, data = .) %>% .[['coefficients']] %>% .[['sexfemale']]
+        ),
+        ncol = 1,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'manual', 'lm'), c('mean | female'))
+    )
+)
+```
+
+## Part 2: Conditional Variance
+
+### Variances
+
+The [variance](https://en.wikipedia.org/wiki/Variance) is the second standardised moment of a probability distribution function, expressed as
+
+$$
+\begin{align*}
+    Var(X) & = \int (x - \mathbb{E}[X])^{2} dF(x) \\
+    & = \mathbb{E}[(X - \mathbb{E}[X])^{2}] \\
+    & = \mathbb{E}[X^{2}] - (\mathbb{E}[X])^{2}
+\end{align*}
+$$
+
+if $X$ is continuous and
+
+$$
+\begin{align*}
+    Var(X) & = \sum_{j} (x_{j} - \mathbb{E}[X])^{2} \mathbb{P}(X=x_{j})
+\end{align*}
+$$
+
+if $X$ is discrete. The variance describes the dispersion of the data around the mean; it is the mean of the squared distance between each data point and the mean. The greater this value, the greater the dispersion. If all data is concentrated around the mean, the variance will be near zero. As the shape of the distribution diverges from a "bell" shape, the variance increases. At the extreme, if the distribution of your data is flat or even concentrated at two poles far from the mean (i.e., a [bimodal distribution](https://en.wikipedia.org/wiki/Multimodal_distribution)), then your variable will have very high variance. The empirical estimator of the variance is
+
+$$
+    s_{X}^{2} = \frac{1}{N-1} \sum_{i} \left( X_{i} - \overline{X} \right)^{2}
+$$
+
+In `R`, use the `var` function to estimate the variance. Notice that the denominator is $N-1$. This is due to [Bessel's Correction](https://en.wikipedia.org/wiki/Bessel%27s_correction), which is needed for the estimator to be unbiased. The uncorrected estimator underestimates the variance in your data. We can verify that `var` in `R` computes the corrected version manually using `sum` and `length`.
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+To see why this correction is needed, refer to Appendix 2.
+========
+To see why this correction is needed, a mathematical exposition is given in Annex C of this notebook.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% summarise(var = var(lnhrly)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sum(lnhrly) / (n() - 1)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sum(lnhrly) / n())
+        ),
+        ncol = 1,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'corrected', 'uncorrected'), c('var'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Conditional Variances
+
+The extension from variances to [conditional variances](https://en.wikipedia.org/wiki/Conditional_variance) is also relatively straightforward. Mathematically,
+========
+## Conditional Variances
+
+The extension from variances to [conditional variances](https://en.wikipedia.org/wiki/Conditional_variance) is also relatively straightforward. Mathematically,
+
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+$$
+\begin{align*}
+    Var(X \mid Z) & = \int (x - \mathbb{E}[X \mid Z])^{2} dF(x \mid Z) \\
+    & = \mathbb{E} \left[ \left( X - \mathbb{E}[X \mid Z] \right)^{2} \mid Z \right] \\
+    & = \mathbb{E}[X^{2} \mid Z] - (\mathbb{E}[X \mid Z])^{2}
+\end{align*}
+$$
+
+You might wonder whether we can just follow through with the third equality given that we are now dealing with conditional expectations. We can because an expectation conditional on $Z$ is already in the information set of $Z$, and therefore it is a constant with respect to an expectation conditional on $Z$. In other words,
+
+$$
+    \mathbb{E}_{Y}[ \mathbb{E}[X \mid Y, Z] \mid Z] = \mathbb{E}[X \mid Z]
+$$
+
+which you may recognise as the [Law of Total Probability](https://en.wikipedia.org/wiki/Law_of_total_probability). We used a specific variant of the Law with $Y$ set to a null value. Given the similarity, intuitively the empirical estimator of the conditional variance would be
+
+$$
+    s_{X \mid Z = z}^{2} = \frac{1}{\#\{Z_{i} = z\} - 1} \sum_{i} \left( X_{i} - \overline{X} \mid_{Z_{i} = z} \right)^{2} \mathbf{1}\{Z_{i} = z\}
+$$
+
+This is the variance estimator applied to the subset satisfying the condition $Z_{i} = z$. Again, intuitively we can think of this being the case because a conditional variance of a variable is its variance holding constant another conditioning variable. Restricting attention to the subset satisfying the condition effectively is applying the conditioning required of the conditional variance.
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% filter(sex == 'female') %>% summarise(var = var(lnhrly)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sum(lnhrly) / (n() - 1)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sum(lnhrly) / n())
+        ),
+        ncol = 1,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'corrected', 'uncorrected'), c('var | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Standard Deviation
+========
+## Standard Deviation
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+We can also quickly take this opportunity to review the [standard deviation](https://en.wikipedia.org/wiki/Standard_deviation). It is simply the square root of the variance,
+
+$$
+    SD(X) = \sqrt{Var(X)}
+$$
+
+Unlike the variance, we do not normally correct for bias in the empirical estimator of the standard deviation beyond using the unbiased variance estimator. Hence the empirical estimator of the standard deviation is simply
+
+$$
+    s_{X} = \sqrt{s_{X}^{2}}
+$$
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+If it is not clear why this is not an unbiased estimator of the true standard deviation, recall that due to [Jensen's Inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality), in general for a non-linear function $f$ we will have that $\mathbb{E}[f(X)] \ne f(\mathbb{E}[X])$. However the standard deviation is a case when there is [no single straightforward solution for the unbiased estimator](https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation) and therefore we simply accept that we use a biased estimator. The definition of the conditional versions follow similarly by replacing the variance with the conditional variance and the variance estimator with the conditional variance estimator.
+========
+If it is not clear why this is not an unbiased estimator of the true standard deviation, recall that due to [Jensen's Inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality) in general for a non-linear function $f$ we will have that $\mathbb{E}[f(X)] \ne f(\mathbb{E}[X])$. However this is a case where there is [no single straightforward solution for the unbiased estimator](https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation) and therefore in most cases we simply accept that we use a biased estimator. The definition of the conditional versions follow similarly by replacing the variance with the conditional variance and the variance estimator with the conditional variance estimator.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% summarise(var = sd(lnhrly)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sqrt(sum(lnhrly) / (n() - 1))),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sqrt(sum(lnhrly) / n())),
+            sim.data %>% filter(sex == 'female') %>% summarise(var = sd(lnhrly)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sqrt(sum(lnhrly) / (n() - 1))),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), lnhrly = lnhrly^2) %>% summarise(var = sqrt(sum(lnhrly) / n()))
+        ),
+        ncol = 2,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'corrected', 'uncorrected'), c('sd', 'sd | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+
+### Standard Error
+========
+## Standard Error
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+Related to the standard deviation, the [standard error](https://en.wikipedia.org/wiki/Standard_error) measures uncertainty in parameter estimates. When the parameter is the mean, the standard error of the mean is the standard deviation normalised by the square root of the sample size,
+
+$$
+    SE(\overline{X}) = \frac{SD(X)}{\sqrt{N}}
+$$
+
+The empirical estimator similarly replaces the standard deviation with the standard deviation estimator. In both cases, the conditional standard error substitutes the standard deviation for the conditional standard deviation. As there are no Base-`R` functions to compute the standard error, you need to compute it manually using `sd`, `sqrt` and `n` (or `length`, if you are not using the `tidyverse` syntax).
+
+There is however another way to confirm this computation. The syntax `lm(X ~ 1, data = df)` estimates the mean of `X` and the standard error of the mean. Using `vcov`, `diag` and `sqrt`, we can extract this standard error (`sqrt` is needed as `R` stores the variance). Below we demonstrate both the manual and this alternative function method using `lm`.
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+
+========
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% summarise(var = sd(lnhrly) / sqrt(n())),
+            sim.data %>% lm(lnhrly ~ 1, data = .) %>% vcov %>% diag %>% sqrt,
+            sim.data %>% filter(sex == 'female') %>% summarise(var = sd(lnhrly) / sqrt(n())),
+            sim.data %>% filter(sex == 'female') %>% lm(lnhrly ~ 1, data = .) %>% vcov %>% diag %>% sqrt
+        ),
+        ncol = 2,
+        nrow = 2,
+        dimnames = list('method' = c('manual', 'lm'), c('se', 'se | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Covariance
+========
+## Covariance
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+The [covariance](https://en.wikipedia.org/wiki/Covariance) between two variables is the mean of the deviations of each variable from its mean, multiplied together. In other words,
+
+$$
+\begin{align*}
+    Cov(X,Y) & = \int (x - \mathbb{E}[X]) (y - \mathbb{E}[Y]) dF(x,y) \\
+    & = \mathbb{E}_{X,Y} \left[ (X - \mathbb{E}[X]) (Y - \mathbb{E}[Y]) \right] \\
+    & = \mathbb{E}_{X,Y}[XY] - \mathbb{E}[X] \mathbb{E}[Y].
+\end{align*}
+$$
+
+Similar to the variance, a bias correction is required for the empirical estimator. The correction is however the same as in the variance case, or in other words
+
+$$
+    s_{X,Y} = \frac{1}{N - 1} \sum_{i} (X_{i} - \overline{X}) (Y_{i} - \overline{Y})
+$$
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+The proof that this is the unbiased estimator follows exactly the same steps as for the variance estimator in Appendix 2. The conditional covariance replaces the expectations in the expression with the respective conditional expectations. The empirical estimator of the conditional covariance is adjusted similarly from the covariance estimator, by restricting the estimation sample to the subsample that satisfy the condition. We will not cover why now, but conditional covariances are a key object you will need to become familiar with for more advanced econometrics applications.
+========
+The proof that this is the unbiased estimator follows exactly the same steps as for the variance estimator in Annex C. The conditional covariance replaces the expectations in the expression with the respective conditional expectations. The empirical estimator of the conditional covariance is adjusted similarly from the covariance estimator, by restricting the estimation sample to the subsample that satisfy the condition. We will not cover why now, but conditional covariances are a key object you will need to become familiar with later in this course, hence its early introduction although it is not otherwise useful in this notebook.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% summarise(var = cov(lnhrly, workexp)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cov = lnhrly * workexp) %>% summarise(cov = sum(cov) / (n() - 1)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cov = lnhrly * workexp) %>% summarise(cov = sum(cov) / n()),
+            sim.data %>% filter(sex == 'female') %>% summarise(var = cov(lnhrly, workexp)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cov = lnhrly * workexp) %>% summarise(cov = sum(cov) / (n() - 1)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cov = lnhrly * workexp) %>% summarise(cov = sum(cov) / n())
+        ),
+        ncol = 2,
+        nrow = 3,
+        dimnames = list('method' = c('function', 'corrected', 'uncorrected'), c('cov', 'cov | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Correlation
+
+The [correlation](https://en.wikipedia.org/wiki/Correlation) between two variables is covariance normalised by the standard deviation of both variables multiplied together. Strictly speaking, this is [Pearson's coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient). While there are other types of correlations, they are less widely used. Mathematically,
+========
+## Correlation
+
+The [correlation](https://en.wikipedia.org/wiki/Correlation) between two variables is covariance normalised by the standard deviation of both variables multiplied together. Strictly speaking, this is [Pearson's coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient). While there are other types of correlations, they are less relevant to this course. Mathematically,
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+$$
+    Corr(X,Y) = \frac{Cov(X,Y)}{SD(X) \cdot SD(Y)}
+$$
+
+For the empirical estimator, it suffices to substitute any valid empirical estimator of the covariance and standard deviations, as long as they use the same denominator. Notice that by doing so, the bias correction does not matter in this case and the correlation estimator becomes
+
+$$
+    r_{X,Y} = \frac{\sum_{i} (X_{i} - \overline{X}) (Y_{i} - \overline{Y})}{\sqrt{\left( \sum_{i} (X_{i} - \overline{X})^{2} \right) \left( \sum_{i} (Y_{i} - \overline{Y})^{2} \right)}}
+$$
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+The conditional correlation and estimator replaces the appropriate expectations and means with conditional expectations and means. Intuitively, because correlations have been normalised by the variance of the variables in comparison to covariances, the conditional correlation provides high-level intuition as to whether two variables of interest really have any relationship after holding constant other potential [confounders](https://en.wikipedia.org/wiki/Confounding) to the relationship. However, such manual computation is usually only feasible when the confounders are categorical variables since holding constant a continuous variable would result in a subsample too small to do useful analyses. 
+========
+The conditional correlation and estimator replaces the appropriate expectations and means with conditional expectations and means. Intuitively, because correlations have been normalised by the variance of the variables in comparison to covariances, the conditional correlation provides high-level intuition as to whether two variables of interest really have any relationship after holding constant other potential [confounders](https://en.wikipedia.org/wiki/Confounding) to the relationship. However, such manual computation is usually only feasible when the confounders are categorical variables since holding constant a continuous variable would result in a subsample too small to do useful analyses. Topics later in this course will precisely expand on this intuition on controlling away confounding effects to focus on a, hopefully causal, relationship of interest.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% summarise(var = cor(lnhrly, workexp)),
+            sim.data %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cor = lnhrly * workexp) %>% summarise(cor = sum(cor) / sqrt(sum(lnhrly ^ 2) * sum(workexp ^ 2))),
+            sim.data %>% filter(sex == 'female') %>% summarise(var = cor(lnhrly, workexp)),
+            sim.data %>% filter(sex == 'female') %>% mutate(lnhrly = lnhrly - mean(lnhrly), workexp = workexp - mean(workexp), cor = lnhrly * workexp) %>% summarise(cor = sum(cor) / sqrt(sum(lnhrly ^ 2) * sum(workexp ^ 2)))
+        ),
+        ncol = 2,
+        nrow = 2,
+        dimnames = list('method' = c('function', 'manual'), c('cor', 'cor | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+## Part 3: Comparison Measures
+
+### Confidence Intervals
+========
+## Confidence Intervals
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+Before presenting the comparison measure and its empirical implementation, we need to revisit the [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval). A $1-\alpha$ confidence interval is a closed interval such that if the confidence interval were computed the same way from a large number of samples drawn the same way as the current sample, then at most $\alpha$ of these intervals will fail to contain the true parameter value. Recall from basic statistics that this is the interpretation because most econometrics is done in the [Frequentist](https://en.wikipedia.org/wiki/Frequentist_inference) framework. Parameters have true, fixed underlying values that we do not observe but which we wish to estimate by drawing a representative sample of the population and computing our estimators. Although the idea that a $1-\alpha$ confidence interval has a $1-\alpha$ probability of containing the true parameter seems intuitive, it is incorrect in this system since every confidence interval precisely either contains or does not contain the true parameter. To obtain this interpretation, you would need to compute the [credible interval](https://en.wikipedia.org/wiki/Credible_interval) instead. However this is outside the scope of this course.
+
+To construct an interval, we require the normalised distribution that the parameter draws from and a desired confidence level $\alpha$. For example, the confidence interval of the mean is constructed as
+
+$$
+    \left( \overline{X} + \widehat{SE}(\overline{X}) \cdot F^{-1}_{X} \left( \frac{\alpha}{2} \right) , \overline{X} + \widehat{SE}(\overline{X}) \cdot F^{-1}_{X} \left( 1 - \frac{\alpha}{2} \right) \right).
+$$
+
+In a finite sample, the mean will have a Student-$t$ distribution with degrees of freedom $N-1$. In `R`, the inverse-CDF function of the Student-$t$ distribution is `qt`. The syntax `qt(c(alpha / 2, 1 - alpha / 2), N-1) * (sd(X) / sqrt(N)) + mean(X))` constructs the $\alpha$ confidence interval for the mean of `X`. An alternative syntax uses `confint` with `lm` instead. The syntax `confint(lm(X ~ 1, data = sim.data), level = 1 - alpha)` also yields the $\alpha$ confidence interval for the mean of $X$.
+
+Confidence intervals for conditional means use the conditional variance and the number of observations with that condition to construct the confidence interval. However then the `qt` and `confint` methods diverge a little bit due to the underlying implicit assumptions about the conditional variances of different conditioning groups.
+
+```{r}
+
+print(
+    matrix(
+        c(
+            sim.data %>% lm(lnhrly ~ 1, data = .) %>% confint(level = .95),
+            sim.data %>% lm(lnhrly ~ sex - 1, data = .) %>% confint(level = .95) %>% .['sexfemale',],
+            sim.data %>% summarise(n = n(), se = sd(lnhrly) / sqrt(n), mean = mean(lnhrly)) %>% summarise(cil = qt(.025, n - 1) * se + mean, ciu = qt(.975, n - 1) * se + mean),
+            sim.data %>% filter(sex=='female') %>% summarise(n = n(), se = sd(lnhrly) / sqrt(n), mean = mean(lnhrly)) %>% summarise(cil = qt(.025, n - 1) * se + mean, ciu = qt(.975, n - 1) * se + mean)
+        ),
+        ncol = 4,
+        nrow = 2,
+        byrow = TRUE,
+        dimnames = list('method' = c('qt', 'confint'), c('ci(l)', 'ci(u)', 'ci(l) | female', 'ci(u) | female'))
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### The Comparison Measure
+========
+## The Comparison Measure
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+We have covered the necessary tools to start thinking about the comparison measure. Recall that it is simply defined as
+
+$$
+    \theta = \mathbb{E}[Y_{i} \mid D_{i} = 1] - \mathbb{E}[Y_{i} \mid D_{i} = 0]
+$$
+
+where the notation $D_{i} = 1$ and $D_{i} = 0$ is in fact quite general because we can always redefine any variable $X_{i}$ into a binary variable for whether its values fall within a certain set of interest,
+
+$$
+    D_{i} = \begin{cases}
+        1 \quad & \text{if} \quad X_{i} \in \mathcal{X} \\
+        0 \quad & \text{otherwise}
+    \end{cases}.
+$$
+
+Notice then that this parameter is simply the difference of two conditional expectations. We already know how to estimate conditional expectations. As such, the estimator of the comparison measure is
+
+$$
+    t = \frac{\sum_{i} Y_{i} \mathbf{1}\{D_{i} = 1\}}{\sum_{i} \mathbf{1}\{D_{i} = 1\}} - \frac{\sum_{i} Y_{i} \mathbf{1}\{D_{i} = 0\}}{\sum_{i} \mathbf{1}\{D_{i} = 0\}}.
+$$
+
+When $D$ is defined to be a treatment indicator, then the estimator $t$ asks the question: is there a difference in the mean outcome $Y$ of the treated versus the untreated group? It turns out at this point that independent of theories of causal inference, this testing framework already exists. A test comparing whether there is a statistically significant difference in the means of two groups or samples is known as the $2$-sample [$t$-test](https://en.wikipedia.org/wiki/Student%27s_t-test). This is convenient as in addition to being able to rely on an established body of knowledge for this particular test, the question of how to compute the standard error of the estimator has also been resolved.
+
+Generally, the $t$-test is any hypothesis test where the distribution of the test statistic under the null hypothesis follows a Student-$t$ distribution. The situations where this practically occurs the most often are in the $1$-sample $t$-test and $2$-sample $t$-test. $t$-tests are generally formulated as testing the hypotheses
+
+$$
+\begin{align*}
+    H_{0} : & \mu_{1} = \mu_{2} \\
+    H_{1} : & \mu_{1} \ne \mu_{2}.
+\end{align*}
+$$
+
+The alternative hypothesis need not be a $2$-sided test, although the $1$-sided test is not done often in practice unless heavily supported by theory. In a $1$-sample $t$-test, $\mu_{1}$ is the parameter that we are estimating and $\mu_{2}$ is our [hypothesis](https://en.wikipedia.org/wiki/Hypothesis) of that parameter's value. In practice, the $1$-sample $t$-test is often done with the null hypothesis set to $0$. In a $2$-sample $t$-test, both $\mu_{1}$ and $\mu_{2}$ are estimated parameters. One of the most common cases of the $2$-sample $t$-test is precisely to estimate the empirical comparison measure,
+
+$$
+\begin{align*}
+    H_{0} : & \mathbb{E}[X_{i} \mid D_{i} = 1] = \mathbb{E}[X_{i} \mid D_{i} = 0] \\
+    H_{1} : & \mathbb{E}[X_{i} \mid D_{i} = 1] \ne \mathbb{E}[X_{i} \mid D_{i} = 0].
+\end{align*}
+$$
+
+We will largely gloss over the detailed theory now, and focus on how to run these two tests in practice.
+
+### $1$-Sample $t$-Test
+
+In `R`, use `t.test` to run a $t$-test (both variants). For the $1$-sample version, you specify a vector containing the data used to estimate the mean and your hypothesis for the mean value using the `mu` keyword.
+
+```{r}
+
+print(
+    t.test(sim.data$lnhrly, mu = 3)
+)
+```
+
+### Presenting Test Results More Nicely
+
+The default formatting is not the nicest. We can use a helper library `broom` to reformat the test output into a table.
+
+```{r}
+
+library(broom)
+```
+
+```{r}
+
+map_df(list(t.test(sim.data$lnhrly, mu = 3)), tidy)
+```
+
+### Interpreting the Output
+
+We ran the test
+
+$$
+\begin{align*}
+    H_{0} : & \mathbb{E}[\ln(hrly)] = 3 \\
+    H_{1} : & \mathbb{E}[\ln(hrly)] \ne 3.
+\end{align*}
+$$
+
+Therefore, the output says that
+
+1.  the estimate of $\mathbb{E}[lnhrly]$ in the data is $2.989$,
+2.  the $t$-statistic of the Null Hypothesis is $-1.630$,
+3.  the degrees of freedom (DF) of the test is $5000 - 1 = 4999$,
+4.  and the probability of obtaining a $t$-statistic this extreme if the null hypothesis is correct is $0.103$.
+
+Note that point 4 is the Frequentist interpretation of the $p$-value. These results imply that we cannot reject the null hypothesis with any level of confidence less than $10\%$. In general, given some level of confidence $\alpha$, we reject the null hypothesis if the $p$-value is less than $\alpha$. Under this interpretation, $\alpha$ is in fact our tolerance level for a [False Negative](https://en.wikipedia.org/wiki/False_positives_and_false_negatives). At $\alpha = 10\%$, we would like to reject the null hypothesis with such confidence that we reject the null hypothesis in only $10\%$ of the time that the null hypothesis is in fact true. Formally,
+
+$$
+    \alpha = \mathbb{P}(\text{Reject $H_{0}$} \mid \text{$H_{0}$ True}).
+$$
+
+Note that $1 - \alpha$, the probability of not rejecting a true null hypothesis, is not the same as the [Power of the test](https://en.wikipedia.org/wiki/Power_of_a_test), which is the probability of rejecting the Null Hypothesis correctly, i.e.,
+
+$$
+    1 - \beta = \mathbb{P}(\text{Reject $H_{0}$} \mid \text{$H_{0}$ False}),
+$$
+
+For our purposes, you only need to know this to interpret your results properly. The theory behind this is beyond the scope of this notebook.
+
+### $2$-Sample $t$-Test
+
+Instead of specifying a counterfactual parameter value using `mu`, specify a second vector containing the data to estimate the second mean as the second argument in `t.test` to run the $2$-sample $t$-test. For this test, you may also specify the options `paired` and `var.equal` depending on what you are willing to assume about your data for the test.
+
+```{r}
+
+print(
+    t.test(
+        sim.data$lnhrly[sim.data$sex=='male'],
+        sim.data$lnhrly[sim.data$sex=='female']
+    )
+)
+```
+
+### Presenting Results in Table Format
+
+The syntax to reformat the results into a table is the same as in the $1$-sample case.
+
+```{r}
+
+map_df(
+    list(
+        t.test(
+            sim.data$lnhrly[sim.data$sex=='male'],
+            sim.data$lnhrly[sim.data$sex=='female']
+        )
+    ),
+    tidy
+)
+```
+
+### Interpreting the Output
+$$
+This runs the test
+
+$$
+\begin{align*}
+    H_{0} : & \mathbb{E}[\ln(hrly) \mid \text{Male}] = \mathbb{E}[\ln(hrly) \mid \text{Female}] \\
+    H_{1} : & \mathbb{E}[\ln(hrly) \mid \text{Male}] \ne \mathbb{E}[\ln(hrly) \mid \text{Female}].
+\end{align*}
+$$
+
+Therefore, the output says that
+
+1.  males have a $0.215$ greater $\log$-hourly wage than females on average,
+2.  the $t$-statistic of the Null Hypothesis is $16.329$,
+3.  the degrees of freedom (DF) of the test is $4986.076$,
+4.  and the probability of obtaining a $t$-statistic this extreme if the null hypothesis is correct is $1.980 \times 10^{-58}$, or basically zero.
+
+The fact that we would need such a low false negative rate to not reject the null hypothesis suggests that we are very unlikely to be living in a world where the null hypothesis is in fact true. In more layman terms, this means that we can very safely conclude that males do in fact earn significantly more than females. Ignoring the fact that expectations and non-linear functions cannot in general have their order switched, this result implies that males on average earn $100\% \times (\exp(0.215) - 1) \approx 24\%$ more than females (or, you can simply report an approximation of $22\%$ based on the $\log$ approximation rule $\ln(1 + g) \approx g$ for "small" $g$ by linear Taylor approximation).
+
+## Part 4: Describing Distributions More Generally
+
+Expectations such as means and variances are specific examples of what are more generally called [summary statistics](https://en.wikipedia.org/wiki/Summary_statistics). These are generally estimators of specific parametric measures of the distribution of your data. However, sometimes the mean and variance may not be the most appropriate way to describe your data because some common interpretations of these values assume that your variables have [bell-shaped distributions](https://en.wikipedia.org/wiki/Bell-shaped_function). A more general way to describe the distribution of your data uses [quantiles](https://en.wikipedia.org/wiki/Quantile).
+
+Recall that every distribution is uniquely described by a cumulative distribution function,
+
+$$
+    F(x) = \mathbb{P}\{X_{i} \le x\}.
+$$
+
+In words, the cumulative distribution at $x$ is the probability that a randomly realised value of the random variable $X_{i}$ is at most $x$. Then, the $\alpha$ quantile of a random variable is the value $x_{\alpha}$ such that the CDF evaluated at $x_{\alpha}$ is exactly $\alpha$,
+
+$$
+    F(x_{\alpha}) = \alpha.
+$$
+
+i.e., the quantile is the inverse function of the CDF.
+
+### Median: review
+
+Under this definition, the median of a random variable is simply $X_{50}$ (or $X_{0.50}$ depending on your notational preference).
+
+In `R`, use the function `quantile` to report the desired quantiles in your data.
+
+```{r}
+
+print(
+    quantile(sim.data$lnhrly, .5)
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Quartiles: review
+========
+### Quartiles
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+Similarly, quartiles are $X_{25}$ and $X_{75}$.
+
+```{r}
+
+print(
+    quantile(sim.data$lnhrly, c(.25, .5, .75))
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Minimum and maximum: review
+========
+### Minimum and Maximum
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+Sometimes, when people talk about quartiles they also include the minimum ($0$-th percentile) and maximum ($100$-th percentile). The minimum and maximum are equivalently $X_{0}$ and $X_{100}$.
+
+```{r}
+
+print(
+    quantile(sim.data$lnhrly, seq(0, 1, .25))
+)
+```
+
+### Deciles: review
+
+Another popular set of percentiles to use are the deciles.
+
+```{r}
+
+print(
+    quantile(sim.data$lnhrly, seq(0, 1, .1))
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Interquartile range: review
+========
+### Interquartile Range
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+The Interquartile Range is a non-parametric way of summarising the spread of your data. It is the value
+
+$$
+    IQR = X_{75} - X_{25},
+$$
+
+which has the interpretation that the $50\%$ of the variables around the median in your data have a spread this large. The smaller this value, the lower the spread and therefore more concentrated your data around the median.
+
+In `R`, use the `IQR` function to compute the interquartile range from an array.
+
+```{r}
+
+print(
+    list(
+        'IQR' = IQR(sim.data$lnhrly)
+    )
+)
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Presenting summary statistics
+========
+# Presenting Summary Statistics
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+We have now covered basically all of the commonly-used and reported summary statistics measures and their estimators. Before starting data analyses, it is often helpful to take a step back and compute and present summary statistics to get a handle on how your data looks like and what variation it contains that will help you reach the answer you seek. While there are many ways of presenting summary statistics, we will cover the most important one: the summary statistic table.
+
+Most professional research papers will report summary statistic tables with a standardised format. In this format, the table reports the number of non-missing observations, the mean, standard deviation, minimum, median, and maximum of each variable used in the subsequent analysis. There is no need to prepare the table manually. Instead, the `stargazer` package can do this automatically.
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+```{r, message = FALSE}
+========
+```{r}
+
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+library(stargazer)
+```
+
+```{r}
+stargazer(data.frame(sim.data), type = 'text')
+```
+
+### Summarising categorical variables
+
+You will notice that factor variables like sex have not been summarised. This is because categorical variables are not really numeric variables as often the numeric labels assigned do not even have ordinal meaning. Instead, what you can do is to summarise a set of dummy variables that each capture one level in the categorical variable.
+
+```{r}
+sim.data %>% 
+    mutate(
+        male = if_else(sex == 'male', 1, 0),
+        female = if_else(sex == 'female', 1, 0)
+    ) %>%
+    data.frame %>%
+    stargazer(., type = 'text')
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+### Letting `stargazer` deal with categorical variables automatically
+
+Imagine our data as a dozen categorical variables, each with $5$ levels on average. We should not prepare all the dummy variables manually using the above syntax. Instead, combine `stargazer` with `model.matrix`. `model.matrix` takes a model and a data set to fit the model to and returns a data set of the variables used to fit the model. This includes creating dummy variables representing each level of categorical variables.
+========
+### Letting `stargazer` deal with Categorical Variables Automatically
+
+Imagine that our data as a dozen categorical variables, each with $5$ levels on average. We should not prepare all the dummy variables manually using the above syntax. Instead, combine `stargazer` with `model.matrix`. `model.matrix` takes a model and a data set to fit the model to and returns a data set of the variables used to fit the model. This includes creating dummy variables representing each level of categorical variables.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+sim.data %>% 
+    model.matrix(
+        ~ sex + age + educ + workexp + lnhrly - 1, data = .
+    ) %>%
+    data.frame %>%
+    stargazer(., type = 'text')
+```
+
+### Potential problem with `stargazer`
+
+One of the potential issues with using the `stargazer` with `model.matrix` pattern is that `model.matrix` drops all observations where even just one of the variables listed is missing. Sometimes, you do not want that; instead you just want a summary of all non-missing values for each variable of interest. While there are many ways an experienced `R` coder can get around this issue, potentially one of the most straightforward is to simply mutate every categorical variable to replace missing values (typically coded as `NA`) with specific non-missing values using `mutate` and `replace_na` so that model.matrix no longer drops rows where that value was missing. You can then cut out the row corresponding to the missing value category from the table later in post-processing.
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+For example, let's randomly set some genders to missing to demonstrate how `model.matrix` handles this.
+========
+For example, I am first going to randomly set some genders to missing to demonstrate how `model.matrix` handles this.
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+sim.data <- sim.data %>% mutate(sex = case_when(runif(5000,0,1) < .98 ~ sex))
+sim.data %>%
+    model.matrix(
+        ~ sex + age + educ + workexp + lnhrly - 1, data = .
+    ) %>%
+    data.frame %>%
+    stargazer(., type = 'text')
+```
+
+Now I show how to do the relabelling trick mentioned before.
+
+```{r}
+
+sim.data <- sim.data %>%
+    mutate(
+        sex = as.character(sex),
+        sex = replace_na(sex, 'missing'),
+        sex = factor(sex, labels = c('missing','male','female'))
+    )
+sim.data %>%
+    model.matrix(
+        ~ sex + age + educ + workexp + lnhrly - 1, data = .
+    ) %>%
+    data.frame %>%
+    stargazer(., type = 'text')
+```
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+## Appendix: Summary statistics for research projects
+========
+## Exercise #: Summarise Your Research Question
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+The course project will get you practicing what you have hopefully learnt from this notebook. To begin, recall the lessons from the introductory notebooks and load and clean your data.
+
+```{r}
+library(haven)
+```
+
+```{r}
+#| eval: false
+
+my.data <- 'load your data'
+my.data <- 'do any necessary data cleaning'
+```
+
+### Look at your Data
+
+Have a `glimpse` of your data and refer to any outside material (e.g., data user guides) to help you interpret what you see. The goal here is to figure out which variables are relevant for your project:
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+1. What is your causal question of interest? A causal question has the form "Does X cause Y?" or "How does X affect Y?". This tells you your outcome and explanatory variable of interest.
+2. What are the potential confounders? In other words, which variables in the data, when excluded, will necessarily lead to bias in your treatment effect estimates due to omitted variables bias?
+3. What are the potential controls? In other words, suppose there are other hidden selection biases for which whatever is causing those are not available in your data. Are there however other variables that you might be able to use to proxy for those unobserved variables or otherwise control away their effects?
+========
+1.  What is your causal question of interest? A causal question has the form "Does X cause Y?" or "How does X affect Y?". This tells you your outcome and explanatory variable of interest.
+2.  What are the potential confounders? In other words, which variables in the data, when excluded, will necessarily lead to bias in your treatment effect estimates due to omitted variables bias?
+3.  What are the potential controls? In other words, suppose there are other hidden selection biases for which whatever is causing those are not available in your data. Are there however other variables that you might be able to use to proxy for those unobserved variables or otherwise control away their effects?
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+#| eval: false
+
+glimpse(my.data)
+```
+
+### Construct a Summary Statistic Table
+
+Once you have identified your variables of interest, create a summary statistic table to let the reader have an overview of your data. If you have categorical variables, feel free to insert the `model.matrix` step or generate the necessary level dummies before constructing the table.
+
+Because we would like a written report and in general the text-format output of `stargazer` does not look as nice in a report as it does in a notebook, we should report results in a slightly different way.
+
+<<<<<<<< HEAD:Intermediate/intermediate_conditional_expectations_398/intermediate_conditional_expectations_398.qmd
+1. Output the summary statistics in HTML format with `out.header = TRUE`.
+2. Open the HTML file in your web browser of choice.
+3. Copy the table that you see and paste the table into a word document. You are done!
+========
+1.  Output the summary statistics in HTML format with `out.header = TRUE`.
+2.  Open the HTML file in your web browser of choice.
+3.  Copy the table that you see and paste the table into a word document. You are done!
+>>>>>>>> Avi_consolidating_notebooks:notebook_recycling_bin_plz_use_me/intermediate_conditional_expectations(398)/intermediate_conditional_expectations(398).qmd
+
+```{r}
+#| eval: false
+
+my.data %>%
+    as.data.frame %>%
+    select(starts_with(c('change', 'this', 'to', 'your', 'preferred', 'selector'))) %>%
+    stargazer(
+        type = 'html',
+        out = 'prj_vars_sum_stat.html',
+        out.header = TRUE
+    )
+```
+
+### Run any $t$-Tests of Interest
+
+This gets you started on thinking about the analyses you are about to do. Before any fancier statistics, just think about how you might approach your question by using only $t$-tests. How do the different ways of running the $t$-test compare against the potential sources of bias you have learnt in class? From there, figure out what $t$-tests might be appropriate to run.
+
+```{r}
+#| eval: false
+
+map_df(
+    list(
+        t.test('run'),
+        t.test('any'),
+        t.test('number'),
+        t.test('of'),
+        t.test('tests'),
+        t.test('of'),
+        t.test('your'),
+        t.test('preference')
+    ),
+    tidy
+)
+```
+
+### Interpret your Summary Statistics and Test Results
+
+Describe and interpret what you have just shown us.
+
+1.  In describing the summary statistics, point the reader to specific moments of interest. For example, it might be of interest if say the average age of the respondent in your data is particularly young or particularly old. *Et cetera*.
+2.  In describing the $t$-tests, you can simply describe things in this way: "the difference in satisfaction levels between males and females is $-2.4$ ($p=0.00132$)...".
+3.  In interpreting the $t$-tests, recall that the $1$-sample test is trying to tell us how much confidence we should place on our prior hypothesis about the mean, while the $2$-sample test is trying to tell us how much confidence should we have that the means for the two groups are equal. Given this, say in plain language what the outcome of the test implies about the relationship between your variables and how should the reader interpret this relationship.
+4.  Provide some caveats about your results. What else have you not yet formally considered in the reported results that could change things, and which you are of course going to be interested in testing in further analyses?
+
+## Appendix 2
+
+### A: The Average
+
+Briefly, we know that the average estimates the mean because
+
+$$
+\begin{align*}
+    \mathbb{E}[\overline{X}] & = \mathbb{E} \left[ \frac{1}{N} \sum_{i} X_{i} \right] \\
+    & = \frac{1}{N} \sum_{i} \mathbb{E}[X_{i}] \\
+    & = \mathbb{E}[X].
+\end{align*}
+$$
+
+This is relatively straightforward as we exploited the linearity of the expectation operator.
+
+### B: The Conditional Average
+
+We said in the notebook that the conditional average,
+
+$$
+    \overline{X}\mid_{Z=z} = \frac{\sum_{i} X_{i} \mathbf{1}\{Z_{i}=z\}}{\sum_{i} \mathbf{1}\{Z_{i}=z\}},
+$$
+
+is the appropriate way to estimate the conditional mean $\mathbb{E}[X \mid Z = z]$. We will not do a full proof here as it is far beyond the scope of this course, but it suffices to say that this estimator becomes better as your sample size increases (i.e., this estimator is [consistent](https://en.wikipedia.org/wiki/Consistent_estimator)). You should take a more theoretical econometrics or statistics course to see the fully rigorous treatment of this estimator. For now, to see why it is not as straightforward as you might have thought to show that this estimator is correct, try taking the expectation of the estimator. You get
+
+$$
+    \mathbb{E}[\overline{X}\mid_{Z=z}] = \sum_{i} \mathbb{E} \left[ \frac{X_{i} \mathbf{1}\{Z_{i}=z\}}{\sum_{i} \mathbf{1}\{Z_{i}=z\}} \right].
+$$
+
+Remember that the expectation is only a linear operator, so that we cannot just expand it as and however we like. So how do we then know intuitively that this is correct? It turns out that this estimator is not necessarily unbiased in a finite sample but it will be correct on average as your sample grows increasingly large, a property known as consistency and due to a class of theorems in theoretical statistics called the [Law of Large Numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers). For this estimator, we can provide the intuition instead. Notice that the conditional expectation in the discrete variable case is
+
+$$
+    \mathbb{E}[X \mid Z] = \sum_{j} x_{j} \frac{\mathbb{P}(X = x_{j} \cap Z)}{\mathbb{P}(Z)}.
+$$
+
+The numerator resolves to
+
+$$
+    \sum_{j} x_{j} \mathbb{P}(X = x_{j} \cap Z = z) = \mathbb{E}[X \mathbf{1}\{Z = z\}]
+$$
+
+and the denominator is expressed as
+
+$$
+    \mathbb{P}(Z = z) = \mathbb{E}[\mathbf{1}\{Z = z\}].
+$$
+
+These look like the expectation versions of the numerator and denominator of the estimator. In fact, we can rearrange the estimator slightly to
+
+$$
+    \overline{X}\mid_{Z=z} = \frac{\frac{1}{N} \sum_{i} X_{i} \mathbf{1}\{Z_{i}=z\}}{\frac{1}{N} \sum_{i} \mathbf{1}\{Z_{i}=z\}}
+$$
+
+and see that individually, the numerator and denominator intuitively resolve to the respective expectation terms. There exists a Law of Large Number that says that when this condition is satisfied and some other regularity conditions are also met, then as the sample size ($N$) becomes arbitrarily large the estimator becomes precisely what we think it should be estimating.
+
+Again, this is only meant to convey intuition and not provide rigorous proof as the proof would be beyond the scope of this course and does not contribute to our understanding of causal inference. For our purposes, it suffices to know that we have a valid empirical estimator of the objects of interest in our discussion of causal inference so that we can correctly estimate the empirical versions of the causal estimators covered in the course.
+
+### C: Bessel's Correction
+
+To see why the empirical variance estimator has $N-1$ instead of $N$ for the denominator, see what happens if you compute the uncorrected estimator. Denote the uncorrected estimator as $\tilde{s}_{X}^{2}$ and begin with the definitional statement,
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \mathbb{E} \left[ \frac{1}{N} \sum_{i} \left( X_{i} - \overline{X} \right)^{2} \right].
+$$
+
+We first expand the square term to get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \mathbb{E} \left[ \frac{1}{N} \sum_{i} \left( X_{i}^{2} - 2 X_{i} \overline{X} + \overline{X}^{2} \right) \right]
+$$
+
+and then notice that $\overline{X}$ is a constant when summed over the index $i$ so that we can simplify the expanded square as
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \mathbb{E} \left[ \frac{1}{N} \sum_{i} X_{i}^{2} - 2 \overline{X}^{2} + \overline{X}^{2} \right].
+$$
+
+We can now bring the expectation in under the summation to get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \frac{1}{N} \sum_{i} \mathbb{E}[X_{i}^{2}] - \mathbb{E}[\overline{X}^{2}].
+$$
+
+Notice that $\mathbb{E}[\overline{X}^{2}] \ne (\mathbb{E}[\overline{X}])^{2}$ in general. This is a consequence of Jensen's Inequality. Instead we need to first expand it like a square term to get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \mathbb{E}[X_{i}^{2}] - \frac{1}{N^{2}} \mathbb{E} \left[ \sum_{i} X_{i}^{2} + \sum_{i \ne j} X_{i}X_{j} \right]
+$$
+
+then bring the expectation operator under the summation to get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \mathbb{E}[X_{i}^{2}] - \frac{1}{N} \mathbb{E}[X_{i}^{2}] + \frac{N (N - 1)}{N^{2}} \left( (\mathbb{E}[X_{i}])^{2} + Cov(X_{i},X_{j}) \right).
+$$
+
+The second term comes from the identity $Cov(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$. If your data is randomly sampled, the covariance between any arbitrary pair of different observations $i$, $j$, should be zero. With randomly sampled data, we get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \frac{N - 1}{N} \mathbb{E}[X_{i}^{2}] + \frac{N - 1}{N} (\mathbb{E}[X_{i}])^{2}.
+$$
+
+We can now apply the definition of the variance to get
+
+$$
+    \mathbb{E}[\tilde{s}_{X}^{2}] = \frac{N - 1}{N} Var(X).
+$$
+
+Therefore it turns out that to get an unbiased estimator of the variance, we need to apply the correction
+
+$$
+    Var(X) = \frac{N}{N - 1} \mathbb{E}[\tilde{s}_{X}^{2}]
+$$
+
+Which when you bring it in under the expectation and expand the estimator, we get
+
+$$
+    Var(X) = \mathbb{E} \left[ \frac{1}{N - 1} \sum_{i} \left( X_{i} - \overline{X} \right)^{2} \right].
+$$
+
+The term in the estimator is the corrected version of the variance estimator.

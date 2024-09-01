@@ -130,7 +130,7 @@ website:
           - text: "Intro to JupyterNotebooks"
             file: docs/Getting_started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd
           - text: "Intro to R"
-            file: docs/Getting_started/getting_started_intro_to_R/getting_started_intro_to_R.qmd
+            file: docs/Getting_started/getting_started_intro_to_r/getting_started_intro_to_r.qmd
           - text: "Intro to Data (Part 1)"
             file: docs/Getting_started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
           - text: "Intro to Data (Part 2)"
@@ -141,6 +141,10 @@ website:
         - section:
           file: pages/index/index_beginner.qmd
           contents:
+          - text: Introduction to Statistics I
+            file: docs/Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
+          - text: Introduction to Statistics II
+            file: docs/Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd
           - text: Central Tendency
             file: docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd
           - text: Dispersion and Dependence
@@ -148,17 +152,17 @@ website:
           - text: Confidence Intervals
             file: docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd
           - text: Hypothesis Testing
-            file: docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).qmd
-          - text: Visualization I
+            file: docs/Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.qmd
+          - text: Data Visualization I
             file: docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd
-          - text: Visualization II
+          - text: Data Visualization II
             file: docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd
           - text: Distributions
             file: docs/Beginner/beginner_distributions/beginner_distributions.qmd
-          - text: Simple Regression
-            file: docs/Beginner/beginner_simple_regression/beginner_simple_regression.qmd
           - text: Sampling Distributions
             file: docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
+          - text: Simple Regression
+            file: docs/intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
 
         - text: "---"
 
@@ -195,6 +199,28 @@ website:
           contents:
           - text: Classification and Clustering
             file: docs/Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd
+          - text: Differences In Differences
+            file: docs/Advanced/advanced_difference_in_differences/advanced_difference_in_differences.qmd
+          - text: Frisch Waugh Lovell Theorem
+            file: docs/Advanced/advanced_frisch-waugh-lovell_thm/advanced_frisch-waugh-lovell_thm.qmd
+          - text: Geospatial I
+            file: docs/Advanced/advanced_geospatial/advanced_geopatial.qmd
+          - text: Geospatial II
+            file: docs/Advanced/advanced_geospatial/advanced_geopatial_2.qmd
+          - text: Instrumental Variables I
+            file: docs/Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.qmd
+          - text: Instrumental Variables II
+            file: docs/Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.qmd
+          - text: Large Language Model APIs (Python)
+            file: docs/Advanced/advanced_llm_apis/advanced_llm_api_openai.qmd
+          - text: Linear Differencing
+            file: docs/Advanced/advanced_linear_differencing/advanced_linear_differencing.qmd
+          - text: Sentiment Analysis Using LLMs (Python)
+            file: docs/Advanced/advanced_ollama_llm/Irene/fine_tuning_llm.qmd
+          - text: Transcription (Python)
+            file: docs/Advanced/advanced_transcription/advanced_transcription_whisper.qmd
+          - text: Vocalization (Python)
+            file: docs/Advanced/advanced_vocalization/advanced_vocalization_draft.qmd
           - text: Word Embeddings (Python)
             file: docs/Advanced/advanced_word_embeddings/Word2Vec_Workshop_Python_Version.ipynb
           - text: Word Embeddings (R)
@@ -207,22 +233,30 @@ website:
       style: docked
       collapse-level: 1
       contents:
+        - text: "<h4>Learn by Class</h4>"
+        - text: ---
         - section: 
           file: pages/index/index_226.qmd
           contents:
-          - text: Introduction to Central Tendency
-            file: docs/Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd
-          - text: Introduction to Confidence Intervals
-            file: docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.qmd
+          - text: Introduction to Statistics I
+            file: docs/Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
+          - text: Introduction to Statistics II
+            file: docs/Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd
+          - text: Central Tendency
+            file: docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd
+          - text: Confidence Intervals
+            file: docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd
           - text: Hypothesis Testing
-            file: docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).qmd
+            file: docs/Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.qmd
         - text: "---"
 
         - section:
           file: pages/index/index_325.qmd
           contents:
-          - text: Introduction to Statistical Concepts
-            file: docs/Beginner/beginner_intro_to_statistical_concepts/beginner_intro_to_statistical_concepts.qmd
+          - text: Introduction to Statistics I
+            file: docs/Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
+          - text: Introduction to Statistics II
+            file: docs/Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd
           - text: Central Tendency
             file: docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd
           - text: Dispersion and Dependence
@@ -230,15 +264,15 @@ website:
           - text: Confidence Intervals
             file: docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd
           - text: Hypothesis Testing
-            file: docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).qmd
-          - text: Introduction to Data Visualization I
+            file: docs/Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.qmd
+          - text: Data Visualization I
             file: docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd
-          - text: Introduction to Data Visualization II
+          - text: Data Visualization II
             file: docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd
           - text: Distributions
             file: docs/Beginner/beginner_distributions/beginner_distributions.qmd
           - text: Simple Regression
-            file: docs/Beginner/beginner_simple_regression/beginner_simple_regression.qmd
+            file: docs/intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
           - text: Sampling Distributions
             file: docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
           - text: Example Project (325)
@@ -248,10 +282,10 @@ website:
         - section: 
           file:  pages/index/index_326.qmd
           contents:
-          - text: Review of Basic Statistics
-            file: docs/Beginner/beginner_review_of_basic_statistics/beginner_review_of_basic_statistics.qmd
+          - text: Review of Basic Statistics using R
+            file: docs/Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd
           - text: Introduction to Regression
-            file: docs/Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
+            file: docs/intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
           - text: Multiple Regression
             file: docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd
           - text: Issues in Regression
@@ -274,6 +308,134 @@ website:
             file: docs/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.ipynb
           - text: "t-Tests"
             file: docs/geog_374/Lab_06_Ttest/Lab_06_Ttest.ipynb
+
+
+
+    - title: "Learn to Research"
+      style: docked
+      collapse-level: 1
+      contents:
+        - text: "<h4>Learn to Research</h4>"
+        - text: "---"
+        - section: "STATA Notebooks"
+          file: pages/index/index_research.qmd
+          contents:
+            - text: "Setting Up (1)"
+              file: docs/Research/econ490-stata/1_Setting_Up.ipynb
+            - text: "Working with Do-files (2)"
+              file: docs/Research/econ490-stata/2_Working_Dofiles.ipynb
+            - text: "STATA Essentials (3)"
+              file: docs/Research/econ490-stata/3_Stata_Essentials.ipynb
+            - text: "Locals and Globals (4)"
+              file: docs/Research/econ490-stata/4_Locals_and_Globals.ipynb
+            - text: "Opening Datasets (5)"
+              file: docs/Research/econ490-stata/5_Opening_Datasets.ipynb
+            - text: "Creating Variables (6)"
+              file: docs/Research/econ490-stata/6_Creating_Variables.ipynb
+            - text: "Within Group Analysis (7)"
+              file: docs/Research/econ490-stata/7_Within_Group.ipynb
+            - text: "Combining Datasets (8)"
+              file: docs/Research/econ490-stata/8_Merge_Append.ipynb
+            - text: "Creating Meaningful Visuals (9)"
+              file: docs/Research/econ490-stata/9_Stata_Graphs.ipynb
+            - text: "Combining Graphs (10)"
+              file: docs/Research/econ490-stata/10_Combining_Graphs.ipynb
+            - text: "Conducting Regression Analysis (11)"
+              file: docs/Research/econ490-stata/11_Linear_Reg.ipynb
+            - text: "Exporting Regression Output (12)"
+              file: docs/Research/econ490-stata/12_Exporting_Output.ipynb
+            - text: "Dummy Variables and Interactions (13)"
+              file: docs/Research/econ490-stata/13_Dummy.ipynb
+            - text: "Good Regression Practices (14)"
+              file: docs/Research/econ490-stata/14_PostReg.ipynb
+            - text: "Panel Data Regression (15)"
+              file: docs/Research/econ490-stata/15_Panel_Data.ipynb
+            - text: "Difference in Differences (16)"
+              file: docs/Research/econ490-stata/16_Diff_in_Diff.ipynb
+            - text: "Instrumental Variable Analysis (17)"
+              file: docs/Research/econ490-stata/17_IV.ipynb
+            - text: "STATA Workflow Guide (18)"
+              file: docs/Research/econ490-stata/18_Wf_Guide2.ipynb
+        - text: "---"
+        - section: "R Notebooks"
+          file: pages/index/index_research.qmd
+          contents:
+            - text: "Formatting Guidelines (00)"
+              file: docs/Research/econ490-r/Formating_rules.ipynb
+            - text: "Setting Up (1)"
+              file: docs/Research/econ490-r/1_Setting_Up.ipynb
+            - text: "Working with R Scripts (2)"
+              file: docs/Research/econ490-r/2_Working_Rscripts.ipynb
+            - text: "R Essentials (3)"
+              file: docs/Research/econ490-r/3_R_Essentials.ipynb
+            - text: "Opening Datasets (4)"
+              file: docs/Research/econ490-r/4_Opening_Datasets.ipynb
+            - text: "Creating Variables (5)"
+              file: docs/Research/econ490-r/5_Creating_Variables.ipynb
+            - text: "Within Group Analysis (6)" 
+              file: docs/Research/econ490-r/6_Within_Group.ipynb
+            - text: "Combining Datasets (7)"
+              file: docs/Research/econ490-r/7_Combining_Datasets.ipynb
+            - text: "Creating Meaningful Visuals (8)"
+              file: docs/Research/econ490-r/8_ggplot_graphs.ipynb
+            - text: "Combining Graphs (9)"
+              file: docs/Research/econ490-r/9_Combining_Graphs.ipynb
+            - text: "Conducting Regression Analysis (10)"
+              file: docs/Research/econ490-r/10_Linear_Reg.ipynb
+            - text: "Exporting Regression Output (11)"
+              file: docs/Research/econ490-r/11_Exporting_Output.ipynb
+            - text: "Dummy Variables and Interactions (12)"
+              file: docs/Research/econ490-r/12_Dummy.ipynb
+            - text: "Good Regression Practices (13)"
+              file: docs/Research/econ490-r/13_PostReg.ipynb
+            - text: "Panel Data Regression (14)"
+              file: docs/Research/econ490-r/14_Panel_Data.ipynb
+            - text: "Difference in Differences (15)"
+              file: docs/Research/econ490-r/15_Diff_in_Diff.ipynb
+            - text: "Instrumental Variable Analysis (16)"
+              file: docs/Research/econ490-stata/16_IV.ipynb
+            - text: "R Workflow Guide (17)"
+              file: docs/Research/econ490-stata/17_Wf_Guide.ipynb
+        - text: "---"
+        - section: "Pystata Notebooks"
+          file: pages/index/index_research.qmd
+          contents:
+            - text: "Setting Up (1)"
+              file: docs/Research/econ490-pystata/1_Setting_Up_PyStata.ipynb
+            - text: "Working with Do-files (2)"
+              file: docs/Research/econ490-pystata/2_Working_Dofiles.ipynb
+            - text: "STATA Essentials (3)"
+              file: docs/Research/econ490-pystata/3_Stata_Essentials.ipynb
+            - text: "Locals and Globals (4)"
+              file: docs/Research/econ490-pystata/4_Locals_and_Globals.ipynb
+            - text: "Opening Datasets (5)"
+              file: docs/Research/econ490-pystata/5_Opening_Datasets.ipynb
+            - text: "Creating Variables (6)"
+              file: docs/Research/econ490-pystata/6_Creating_Variables.ipynb
+            - text: "Within Group Analysis (7)"
+              file: docs/Research/econ490-pystata/7_Within_Group.ipynb
+            - text: "Combining Datasets (8)"
+              file: docs/Research/econ490-pystata/8_Merge_Append.ipynb
+            - text: "Creating Meaningful Visuals (9)"
+              file: docs/Research/econ490-pystata/9_Stata_Graphs.ipynb
+            - text: "Combining Graphs (10)"
+              file: docs/Research/econ490-pystata/10_Combining_Graphs.ipynb
+            - text: "Conducting Regression Analysis (11)"
+              file: docs/Research/econ490-pystata/11_Linear_Reg.ipynb
+            - text: "Exporting Regression Output (12)"
+              file: docs/Research/econ490-pystata/12_Exporting_Output.ipynb
+            - text: "Dummy Variables and Interactions (13)"
+              file: docs/Research/econ490-pystata/13_Dummy.ipynb
+            - text: "Good Regression Practices (14)"
+              file: docs/Research/econ490-pystata/14_PostReg.ipynb
+            - text: "Panel Data Regression (15)"
+              file: docs/Research/econ490-pystata/15_Panel_Data.ipynb
+            - text: "Difference in Differences (16)"
+              file: docs/Research/econ490-pystata/16_Diff_in_Diff.ipynb
+            - text: "Instrumental Variable Analysis (17)"
+              file: docs/Research/econ490-pystata/17_IV.ipynb
+            - text: "STATA Workflow Guide (18)"
+              file: docs/Research/econ490-pystata/18_Wf_Guide2.ipynb
 
 
 

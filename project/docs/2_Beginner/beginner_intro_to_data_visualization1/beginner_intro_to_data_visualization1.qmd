@@ -47,6 +47,8 @@ format:
 
 ## Part 1: Understanding Visualization
 
+> **Note**: we use a substantial amount of charts in this notebook. If the charts are not rendering properly, try adjusting the following parameters in the plot codes: options(repr.plot.width = 15, repr.plot.height = 9). `repr.plot.width` is the plot width and `repr.plot.height` is the plot height.
+
 ### Introduction
 
 > **"The purpose of a visualization is to answer a question about a data set of interest."**\
@@ -55,7 +57,7 @@ format:
 In econometrics, good data visualizations should always...
 
 1.  Answer a well-thought-out and relevant economic research question.
-2.  Provide readers with a clear understanding of the research question and answer
+2.  Provide readers with a clear understanding of the research question and answer.
 
 Questions to keep in mind:
 
@@ -65,26 +67,27 @@ Questions to keep in mind:
 
 Not only are data visualizations incredibly important as narrative outputs from data analysis, they can also help us identify patterns or anomalies as we process our data.
 
-### Principles of Design: Data Visualization *DOs* and *DONT's*
+### Principles of design: data visualization *DOs* and *DONT's*
 
-> **DO** use data visualization to tell the story of the data *truthfully*\
-> **DO** remember that a visualization's accuracy is only as good as the data is\
-> **DO** label your axes in font sizes that are readable and use descriptive titles
+- **DO** use data visualization to tell the story of the data *truthfully*
+- **DO** remember that a visualization's accuracy is only as good as the data is
+- **DO** label your axes in font sizes that are readable and use descriptive titles
 
-> **DON'T** choose colours that are very similar to each other when trying to distinguish 2 variables (red & blue \> red & orange)\
-> **DON'T** use design features (eg, exaggerated scaling) to manipulate readers into believing a particular narrative of the data
 
-### Types of Visualizations:
+- **DON'T** choose colours that are very similar to each other when trying to distinguish 2 variables (red & blue \> red & orange)
+- **DON'T** use design features (e.g., exaggerated scaling) to manipulate readers into believing a particular narrative of the data
+
+### Types of visualizations
 
 The four following plot types we will be working with can all be found in the `ggplot2` package:
 
-~Note:\ There\ are\ other\ plots\ that\ can\ be\ generated\ using\ this\ package\ which\ we'll\ explore\ in\ *Introduction\ to\ Data\ Visualization\ II*\ or\ check\ out\ [R\ studio's\ ggplot2\ Cheat\ Sheet](https://www.rstudio.com/resources/cheatsheets/)~
+> **Note**: There are other plots that can be generated using this package which we'll explore in *Introduction to Data Visualization II*. You can also check out [R studio's ggplot2 Cheat Sheet](https://www.rstudio.com/resources/cheatsheets/)
 
 -   **Scatter plot**
     -   Visualizes the relationship between two quantitative variables
     -   Good for showing relationships and groupings among variables from relatively large datasets
 -   **Line plot**
-    -   Visualizes trends with respect to an independent, ordered quantity (e.g time)
+    -   Visualizes trends with respect to an independent, ordered quantity (e.g., time)
     -   Good for when one of our variables is ordinal (time-like) or to display multiple series on a common timeline
 -   **Bar plot**
     -   Visualizes comparisons of amounts
@@ -118,7 +121,7 @@ Let's start by importing the packages and data into our notebook. if you're not 
 source("beginner_intro_to_data_visualization1_tests.r")
 ```
 
-```{r}
+```{r, message = FALSE}
 
 # import packages
 library(tidyverse) # contains ggplot2, which is what we'll be using!
@@ -142,8 +145,9 @@ glimpse(pwt_data)
 
 As you can see, this data set includes 12,810 observations and many different variables.
 
-Question time: **How many variables are included in this data set?**\
-*Hint: variables are stored in columns*
+How many variables are included in this data set?
+
+> **Hint**: variables are stored in columns
 
 ```{r}
 #| eval: false
@@ -167,7 +171,7 @@ answer_1 <- 52
 test_1()
 ```
 
-#### Understanding `ggplot2`
+### Understanding `ggplot2`
 
 R uses a "language" for how graphics are created called the **grammar of graphics**, which is a system of best practices from statistical visualization theory that centres data in the process.
 
@@ -186,20 +190,20 @@ In this "grammar" of graphics, we create a series of "layers" which implement a 
 
 Let's see what this looks like in practice.
 
-#### Interpreting the Data
+### Interpreting the data
 
 A few of the key variables represent the following:
 
-`rgdpe` = expenditure-side real GDP (millions of USD)\
-`pop` = population of a given country (millions of people)\
-`year` = year of data recording (1950-2019)\
-`country` = country being studied (183 countries are captured in this data set)\
-`hc` = an index of human capital per person, which is based on average years of schooling and the return to education\
-`emp` = number of persons engaged in employment (millions)
+- `rgdpe` = expenditure-side real GDP (millions of USD)
+- `pop` = population of a given country (millions of people)
+- `year` = year of data recording (1950-2019)
+- `country` = country being studied (183 countries are captured in this data set)
+- `hc` = an index of human capital per person, which is based on average years of schooling and the return to education
+- `emp` = number of persons engaged in employment (millions)
 
-#### Beginning our Analysis
+### Beginning our analysis
 
-Let's say we are interested in creating a visualization that answers the following question:\
+Let's say we are interested in creating a visualization that answers the following question:
 **How has real GDP per Capita changed over time in North American countries?**
 
 ```{r}
@@ -262,12 +266,14 @@ Let's work through a few more examples together. We'll also learn how to adjust 
 
 It's important to note that we should build a visualization piece-by-piece and making adjustments along the way. Don't worry about getting it completely right on the first try!
 
-Let's say we are interested in creating a visualization that answers the following question:\
-**What is the relationship between GDP per capita and human capital in the world today?**
+Let's say we are interested in creating a visualization that answers the following question: **What is the relationship between GDP per capita and human capital in the world today?**
 
 The first thing we want to do is identify what data we need:
 
--   GDP: `rdgpe` or `rdgpo` (Quiz: what's the difference?)
+-   GDP: `rgdpe` or `rgdpo`
+
+> **Think Deeper**: What's the difference between using `rgdpe` and `rgdpo`?
+
 -   Population: `pop`
 -   Human capital: variable `hc`
 -   Data from "today": `year == 2019`, the most recent data in our sample
@@ -283,7 +289,7 @@ head(figure_data$year)
 
 Nice, it looks like we've got all the 2019 data! Let's first consider what kind of visualization we want.
 
-We are interested in the **relationship between two quantitative variables** understanding **how they move together**
+We are interested in the *relationship between two quantitative variables* - understanding *how they move together*.
 
 While there are a couple of options, we'll start with a **scatterplot**. If we consult our [cheat-sheet](https://www.rstudio.com/resources/cheatsheets/), we can see that scatterplots are the `geom_point()` command. This *requires* the aesthetic properties:
 
@@ -292,10 +298,7 @@ While there are a couple of options, we'll start with a **scatterplot**. If we c
 
 We then have other optional ones, like `alpha, color, fill, shape, size, stroke` see [R studio's ggplot2 Cheat Sheet](https://www.rstudio.com/resources/cheatsheets/).
 
-> Note:
->
-> 1.  You can assign aesthetics on *either* the `ggplot` layer *or* on a `geom`. The only difference is that the `ggplot` aesthetics are automatically inherited by all other layers.
-> 2.  Generally, any aesthetic property which can be assigned in `aes()` can also be assigned to the `geom` directly; ie: if you wanted to make a line dashed or a point red, you could do this by setting `geom_point(color = "red")`. However, this will apply to all parts of the `geom` so use it wisely!
+> **Note**: You can assign aesthetics on *either* the `ggplot` layer *or* on a `geom`. The only difference is that the `ggplot` aesthetics are automatically inherited by all other layers. Generally, any aesthetic property which can be assigned in `aes()` can also be assigned to the `geom` directly. For example, if you wanted to make a line dashed or a point red, you could do this by setting `geom_point(color = "red")`. However, this will apply to all parts of the `geom` so use it wisely!
 
 Let's start simple, and make `x` represent human capital, and `y` represent real GDP per capita. We can start our visualization by creating our `ggplot` object and assigning all these properties:
 
@@ -317,7 +320,7 @@ figure <- figure + labs(x = "Human Capital",
 # note: you can set aethestics to be simple functions of variables!
 ```
 
-After running the previous cell, nothing was printed in our notebook; this is because we need to assign our visualization! Right now, it's just data and properties. Let's test it our by adding our `geom_point()` layer:
+After running the previous cell, nothing was printed in our notebook; this is because we need to assign our visualization! Right now, it's just data and properties. Let's test it out by adding our `geom_point()` layer:
 
 ```{r}
 
@@ -363,11 +366,11 @@ options(repr.plot.width = 15, repr.plot.height = 9)
 
 Notice that we used `color_brewer` earlier and `color_distiller` here.
 
--   `color_brewer` is for visualizations with discrete variables
+-   `color_brewer` is for visualizations with discrete variables.
 
 -   `color_distiller` is for continuous.
 
-As you see, building visualization requires lots of trial and error! Always ask yourself: "Is this effective? Is this what I want it to do?"
+As you see, building visualization requires lots of trial and error! Before and after doing a visualization, always ask yourself: "Is this effective? Is this what I want to do?"
 
 ### Exporting Visualizations
 
@@ -376,10 +379,10 @@ Once we've decided that our graph can successfully answer our economic question,
 -   `ggsave`: save a visualization using the following key arguments
     -   `("file_name.file_format", my_plot, width = #, height = #)`
 
-> You can check out an expanded list of possible arguments at the [R documentation page for `ggsave`](https://www.rdocumentation.org/packages/ggplot2/versions/1.0.0/topics/ggsave)
+> **Note**: you can check out an expanded list of possible arguments at the [R documentation page for `ggsave`](https://www.rdocumentation.org/packages/ggplot2/versions/1.0.0/topics/ggsave).
 
 1.  The first part of the argument `"file_name.file_format"` is where we decide on the name and file format to be saved in the Jupyter workspace.
-    -   You can add `"folder/file_name.file_format"`) to save to a specific folder, (The format depends on the context you plan to use the visualization in. Images are typically stored in either **raster** or **vector** formats. See [*Data Science: A First Introduction*.](https://datasciencebook.ca/viz.html#saving-the-visualization)
+    -   You can add `"folder/file_name.file_format"` to save to a specific folder: the format depends on the context you plan to use the visualization in. Images are typically stored in either **raster** or **vector** formats. See [*Data Science: A First Introduction*.](https://datasciencebook.ca/viz.html#saving-the-visualization)
 
 **Raster images** are represented as a 2-D grid of square pixels, each with its own color. Compressed rastor images are "lossy" if the image cannot be perfectly re-created but differences are minimal. "Lossless" formats, on the other hand, allow a perfect display of the original image.
 
@@ -404,7 +407,7 @@ Common vector file types:
 | Pros | Takes the same amount of space and time to load regardless of the image's content. | High quality image: you can zoom in/scale up without compromising quality. |
 | Cons | May look "pixelated" when zoomed in.                                               | May take longer to load depending on complexity of the image is.           |
 
-2.  The second part of the argument, `my_plot` specifies which plot in our analysis we'd like to export
+2.  The second part of the argument, `my_plot` specifies which plot in our analysis we'd like to export.
 
 3.  The last key part of the argument `width =` and `height =` specifies the dimensions of our image. If we haven't made modifications to the size, these commands can be left out. Since we adjusted the graph output size using `options(repr.plot.width = 15, repr.plot.height = 9)`we will specify these dimensions as we export.
 
@@ -425,9 +428,147 @@ Did you see file appear in the directory? Now try saving the same graph as an `.
 
 As we have seen, R makes it easy to create high-quality, impactful graphics. We'll let you try it on your own now!
 
-## Part 3: Making Your Own Chart
+### Test your knowledge
 
-For the final section of this notebook, you'll make your own visualization using the Penn Data again. Let's say you want to build a visualization on **the relationship between the economic development of China and United States over time.**
+For this part of the notebook, we'll build a chart together. The chart we'll build is to describe the relationship between a country's price level and it's GDP per capita in 2019. A stylized fact of Economics says that countries with higher GDP per capita tend to have higher price levels, an effect we call the **Penn Effect**. Let's check if that's true in our data.
+
+In this example, let's focus on consumption - let's use real consumption as a proxy for GDP and the price level for consumption as a proxy for the price level.
+
+> **Note**: the reason why the Penn World Table was created was to track those alleged differences in price levels across countries.
+
+What variables from `pwt_data` do we need for this chart?
+
+(A) `ccon`, `year`, `pop`, `avh`
+(B) `ccon`, `pop`, `pl_con`
+(C) `ccon`, `year`, `pop`, `rgdpe`
+(D) `ccon`, `year`, `ccon`
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+#Fill in the "..." with "A", "B", "C", or "D" below
+
+answer_2 <- "..."
+
+test_2()
+```
+
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_2 <- "B"
+
+test_2()
+```
+
+What is the most appropriate chart for this visualization?
+
+(A) scatterplot
+(B) line chart
+(C) histogram
+(D) bar chart
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+#Fill in the "..." with "A", "B", "C", or "D" below
+
+answer_3 <- "..."
+
+test_3()
+```
+
+```{r}
+#| eval: false
+#| classes: "answer"
+
+answer_3 <- "A"
+
+test_3()
+```
+
+Let's get our data from `pwt_data`. Fill in the code below to select and filter the dataset.
+```{r}
+#| eval: false
+#| classes: "question"
+
+pwt_data_clean <- filter(...) %>%
+                    select(...) # only select the necessary columns
+
+answer_4 <- pwt_data_clean # don't change this!
+
+test_4()
+```
+
+```{r}
+#| eval: false
+#| classes: "answer"
+
+pwt_data_clean <- filter(pwt_data, year == '2019') %>%
+                    select(pop, ccon, pl_con)
+
+answer_4 <- pwt_data_clean
+
+test_4()
+```
+
+Now, let's start filling in the structure of our plot.
+
+```{r}
+#| eval: false
+#| classes: "question"
+
+penn_effect_plot <- ggplot(data = ..., aes( #add your aesthetics below
+                  x = ..., 
+                  y = ...)) +
+                  labs(x = "Real Consumption per Capita (PPP)", # don't change the labels of the axes!
+                       y = "Consumption Price Level",
+                     title = "The Penn Effect (2019)") +
+                  geom_...()+ # add geom function here
+                  ylim(0,2) 
+
+answer_5 <- penn_effect_plot
+
+test_5()
+```
+
+```{r}
+#| eval: false
+#| classes: "answer"
+
+penn_effect_plot <- ggplot(data = pwt_data_clean, aes(
+                  x = ccon/pop, 
+                  y = pl_con)) +
+                  labs(x = "Real Consumption per Capita (PPP)", 
+                       y = "Consumption Price Level",
+                     title = "The Penn Effect (2019)") +
+                  geom_point()+
+                  ylim(0,2) 
+
+answer_5 <- penn_effect_plot
+
+test_5()
+```
+
+Cool! Now let's just add a couple of more features to make it more effective (and prettier).
+
+```{r}
+#| eval: false
+
+penn_effect_plot <- penn_effect_plot + geom_point(aes(size = pop)) + theme(text = element_text(size = 15)) + geom_smooth(method = 'lm', se = FALSE, color = 'darkblue')
+
+penn_effect_plot
+
+options(repr.plot.width = 15, repr.plot.height = 9)
+
+```
+
+It does seem like countries with higher consumption per capital are associated with higher price levels!
+
+Now, you'll make your own visualization using the Penn dataset. The topic of your visualization should be **the relationship between the economic development of China and United States over time.**
 
 Some variables you might want to consider are:
 
@@ -470,6 +611,8 @@ A good idea is to create it in layers, like we did before - updating as you go. 
 See if you can piece together a decent graph from what you've learned so far. Depending on the direction you choose, your plot might look something like this one below. If you're stuck, try to re-create this one, before starting on your own.
 
 ![Total Factor Productivity Plot](media/TFP_plot.png)
+
+> **Think Deeper**: why might China's TFP be so volatile?
 
 This visualization was made using the following features:
 

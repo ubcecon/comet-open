@@ -3,7 +3,7 @@ library(digest)
 
 test_1 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_1), "b71ae1fc63e62eeb285198e5b0fa9732")
+    expect_equal(digest(round((answer_1),2)), "b71ae1fc63e62eeb285198e5b0fa9732")
   })
   print("Success!")
 }
@@ -16,22 +16,27 @@ test_2 <- function() {
 }
 
 test_3 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(answer_3), "3a5505c06543876fe45598b5e5e5195d")
-  })
-  print("Success!")
+  ans <- digest(answer_3)
+  case_when(
+    ans == "3a5505c06543876fe45598b5e5e5195d" ~
+    "Correct!",
+    ans == "75f1160e72554f4270c809f041c7a776" ~
+    "This option is incorrect",
+    ans == "475bf9280aab63a82af60791302736f6" ~
+    "This option is incorrect",
+    TRUE ~ "Review formatting" )
 }
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_4), "dbe44290f77ce353f9b6dab6fce787b6")
+    expect_equal(digest(answer_4), "de6b5150ec99d04586f59b943587775d")
   })
   print("Success!")
 }
 
 test_5 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_5), "861c36daa18d7a28798c8463a336717f")
+    expect_equal(digest(round(answer_5,3)), "f7295e631ff9fead7bc632a470be8aa7")
   })
   print("Success!")
 }

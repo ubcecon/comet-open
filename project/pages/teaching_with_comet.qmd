@@ -25,7 +25,7 @@ In this guide, we will discuss:
 :::{.callout-tip}
 ## Want the Basics?
 
-Just looking for a quick overview of how Jupyter notebooks work?  Try out [getting started](../docs/econ_intro/intro_jupyter/intro_to_jupyter.qmd) introduction to Jupyter notebook, then come back here.
+Just looking for a quick overview of how Jupyter notebooks work?  Try out [getting started](../docs/Getting_started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd) introduction to Jupyter notebook, then come back here.
 :::
 
 As most of our experience is in post-secondary education, this guide is intended for educators teaching students at the university level.  However, it is probably also suitable for upper-year high school students, with sufficient experience^[We have taught several of these notebooks to 1st year students during intake events, who were fresh out of high school.].
@@ -209,7 +209,7 @@ We have found it is usually best to give students the Jupyter notebook of the pr
 
 A _flipped classroom_ refers to a teaching model where activities traditional done in the classroom are done at while, while activities done at home are done in the classroom (@akccayir2018flipped).  "Flipping" the lecture demonstration, outlined above, using Jupyter Notebooks is a natural fit.
 
-Most flipped classroom experiences tend to use videos (see @akccayir2018flipped), and this is quite feasible with Jupyter Notebooks.  Record yourself demonstrating the notebook, and have students follow along.  We can done this for some of the COMET notebooks (see [our project notebooks](../docs/econ_490/econ490-pystata/10_Combining_Graphs.qmd) for example).
+Most flipped classroom experiences tend to use videos (see @akccayir2018flipped), and this is quite feasible with Jupyter Notebooks.  Record yourself demonstrating the notebook, and have students follow along.  We can done this for some of the COMET notebooks (see [our project notebooks](../docs/Research/econ490-pystata/10_Combining_Graphs.ipynb) for example).
 
 However, the interactivity of notebooks makes them ideal for doing as "pre-reading" assignment instead, or in addition, to videos.  The active learning created by interacting with the notebook, and completing [self-test](@sec-selftests) exercises, makes them more effective than just doing a reading.
 
@@ -223,8 +223,8 @@ A good flipped-classroom notebook:
 
 When in the classroom, we recommend following-up the notebook with a formative or summative assessment using the same skills, but in a new setting or in a more sophisticated way.
 
-* For example, you could assign students a pre-reading of [classification and clustering](../docs/econ_adv/01_classification_clustering/01_classification_and_clustering.qmd) before class.  In the class, you could then introduce a new dataset and have them explore it using clustering methods.
-* Many of our COMET notebooks, especially the [intermediate ones](../docs/econ_326/multiple_regression/multiple_regression1.qmd) are built with this structure, where one "Part" of the notebook can be turned into the classroom part of the flipped classroom.^[This was actually our original use for the notebooks, before COMET! See @graves2024understanding]
+* For example, you could assign students a pre-reading of [classification and clustering](../docs/Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd) before class.  In the class, you could then introduce a new dataset and have them explore it using clustering methods.
+* Many of our COMET notebooks, especially the [intermediate ones](../docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd) are built with this structure, where one "Part" of the notebook can be turned into the classroom part of the flipped classroom.^[This was actually our original use for the notebooks, before COMET! See @graves2024understanding]
 
 ## Workshops or Labs  {.unnumbered}
 
@@ -239,7 +239,7 @@ We have also found it effective to teach using Jupyter notebooks in small group 
 
 It is often  effective to design your notebooks so that they have several identifiable "tasks" or stopping points, where you can bring the workshop back together.
 
-* Many of our COMET notebooks, especially the [intermediate ones](../docs/econ_326/multiple_regression/multiple_regression1.qmd) are built with this structure.
+* Many of our COMET notebooks, especially the [intermediate ones](../docs/Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd) are built with this structure.
 * Make sure you build in time for students to introduce themselves to one another, if this is their first time meeting.
 
 ### Suggestions for Teaching {.unnumbered}
@@ -258,9 +258,9 @@ At the end of the workshop, having students hand in their Notebook is an effecti
 
 It is easier than you might expect to develop notebooks for teaching.  Some of our favourite examples are:
 
-* [Word Embeddings](../docs/econ_adv/02_word_embeddings/02_word_embeddings.ipynb): an advanced, workshop-style, `.ipynb` format notebook.
-* [Visualization](../docs/econ_325/06_visualization_1/intro_to_visualization1.qmd): a basic, lecture-style, introduction with time for experimentation.
-* [Exporting Output](../docs/econ_490/econ490-stata/12_Exporting_Output.ipynb): a flipped-classroom style book or workshop for STATA output.
+* [Word Embeddings](../docs/Advanced/advanced_word_embeddings/Word2Vec_Workshop_Python_Version.ipynb): an advanced, workshop-style, `.ipynb` format notebook.
+* [Visualization](../docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd): a basic, lecture-style, introduction with time for experimentation.
+* [Exporting Output](../docs/Research/econ490-stata/12_Exporting_Output.ipynb): a flipped-classroom style book or workshop for STATA output.
 
 Poke around and see some more!
 

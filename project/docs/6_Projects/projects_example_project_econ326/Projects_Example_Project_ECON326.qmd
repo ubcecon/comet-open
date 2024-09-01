@@ -160,11 +160,11 @@ Now, let's work on making both the Electricity and Population datasets annual.
 ```{r}
 elec_data_grouped <- elec_data %>%
   group_by(year, province) %>%
-  summarise(electricity = sum(elec))
+  summarise(electricity = round(mean(elec)))
 
 pop_data_grouped <- pop_data %>%
   group_by(year, province) %>%
-  summarise(population = sum(pop))
+  summarise(population = round(mean(pop)))
 ```
 
 Our next step will be to merge our datasets, so that we can smoothly run the analysis from one clean reference.  

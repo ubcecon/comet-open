@@ -22,7 +22,7 @@ collapse-callout:
 ## Research Assistants
 :::: {.columns}
 
-::: {.column width="25%"}
+::: {.column width="30%"}
 <span style="color:#CC7A00"> **2022** </span>  
 <li> Colby Chambers </li>
 <li> William Co </li>
@@ -44,7 +44,7 @@ collapse-callout:
 <!-- empty column to create gap -->
 :::
 
-::: {.column width="70%"}
+::: {.column width="30%"}
 <span style="color:#CC7A00"> **2023** </span>  
 <li> Jasmine Arora </li>
 <li> Angela Chen </li>
@@ -56,6 +56,22 @@ collapse-callout:
 <li> Kady Toure Yeo </li>
 <li> Charlotte White </li>
 <li> Oliver Xu</li>
+:::
+
+
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="30%"}
+<span style="color:#CC7A00"> **2024** </span>  
+<li> Irene Berezin </li>
+<li> Eric Daigle </li>
+<li> Alex Haddon </li>
+<li> Jane Platt </li>
+<li> Priyanshu Mahey </li>
+<li> Luiz Felipe Ramos </li>
+<li> Avi Woodward-Kelen </li>
 :::
 
 :::

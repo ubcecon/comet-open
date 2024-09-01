@@ -10,9 +10,10 @@ listing:
     - "../../docs/Advanced/*/*.ipynb"
   categories: true
   fields: [image, title, date, description]
+  sort-ui: [title, date]
 ---
 
-This section contains advanced materials and case studies to support a variety of classes.
+The modules in this unit are **Advanced** level and contains materials and case studies to support a variety of classes.
 
 ## Modules
 

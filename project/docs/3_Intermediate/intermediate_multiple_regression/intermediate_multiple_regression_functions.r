@@ -84,7 +84,7 @@ clean_up_sfs <- function(SFS_data) {
         education == "2" ~ "High school",
         education == "3" ~ "Non-university post-secondary",
         education == "4" ~ "University",
-        TRUE ~ as.character(education)
+        TRUE ~ NA
       ),
       province = case_when(
         province == "10" ~ "Newfoundland and Labrador",
@@ -123,72 +123,4 @@ clean_up_sfs <- function(SFS_data) {
     )
   
   return(SFS_data)
-}
-
-
-
-### Self-tests
-
-test_1 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(answer1), 'f7b0db1c9bc01deadcdde41033af1311')
-  })
-  print("Success!")
-}
-
-test_2 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg_LESS), 'cf1829ebfea06a34d670471c16367bc7')
-  })
-  print("Success!")
-}
-
-
-test_2.5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg_HS), 'ca0ef80393a482fe6a299b69ab9374f8')
-  })
-  print("Success!")
-}
-
-test_3 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg_NU), 'dfadec6bab303513637fdf70e319f5a1')
-  })
-  print("Success!")
-}
-
-
-test_3.5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg_U), '3d2023189710af9b7b6679f7ded2e880')
-  })
-  print("Success!")
-}
-
-test_4 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg2), '35884f5f525ea0144acc39d32ca88217')
-  })
-  print("Success!")
-}
-
-test_5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg3), '217dd5c6670df0e3e21e143a181aa52d')
-  })
-  print("Success!")
-}
-
-test_5.5 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg4), 'f779a169528a7262d60e11a4c212369a')
-  })
-  print("Success!")
-}
-test_6 <- function() {
-  test_that("Solution is incorrect", {
-    expect_equal(digest(reg5), '6b5828b36a805070e35646458c120410')
-  })
-  print("Success!")
 }
