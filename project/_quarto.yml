@@ -9,6 +9,7 @@ project:
   - "*.qmd"
   - "*.ipynb"
   - "*.r"
+  - "!in_progress/*"
 
 execute:
     eval: false
@@ -201,12 +202,10 @@ website:
             file: docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd
           - text: Differences In Differences
             file: docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.qmd
-          - text: Frisch Waugh Lovell Theorem
-            file: docs/4_Advanced/advanced_frisch-waugh-lovell_thm/advanced_frisch-waugh-lovell_thm.qmd
           - text: Geospatial I
-            file: docs/4_Advanced/advanced_geospatial/advanced_geopatial.qmd
+            file: docs/4_Advanced/advanced_geospatial/advanced_geospatial.qmd
           - text: Geospatial II
-            file: docs/4_Advanced/advanced_geospatial/advanced_geopatial_2.qmd
+            file: docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.qmd
           - text: Instrumental Variables I
             file: docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.qmd
           - text: Instrumental Variables II
@@ -216,17 +215,15 @@ website:
           - text: Linear Differencing
             file: docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.qmd
           - text: Sentiment Analysis Using LLMs (Python)
-            file: docs/4_Advanced/advanced_ollama_llm/Irene/fine_tuning_llm.qmd
+            file: docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.qmd
           - text: Transcription (Python)
             file: docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.qmd
           - text: Vocalization (Python)
             file: docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.qmd
           - text: Word Embeddings (Python)
-            file: docs/4_Advanced/advanced_word_embeddings/Word2Vec_Workshop_Python_Version.ipynb
+            file: docs\4_Advanced\advanced_word_embeddings\advanced_word_embeddings_python_version.qmd
           - text: Word Embeddings (R)
-            file: docs/4_Advanced/advanced_word_embeddings/Word2Vec_Workshop_R_Version.ipynb
-          - text: Word Embeddings (Colab)
-            file: docs/4_Advanced/advanced_word_embeddings/Word2Vec_Workshop_R_Version_collab.ipynb
+            file: docs\4_Advanced\advanced_word_embeddings\advanced_word_embeddings_r_version.qmd
 
 
     - title: "Learn by Class"
@@ -393,9 +390,9 @@ website:
             - text: "Difference in Differences (15)"
               file: docs/5_Research/econ490-r/15_Diff_in_Diff.qmd
             - text: "Instrumental Variable Analysis (16)"
-              file: docs/5_Research/econ490-stata/16_IV.qmd
+              file: docs/5_Research/econ490-stata/17_IV.qmd
             - text: "R Workflow Guide (17)"
-              file: docs/5_Research/econ490-stata/17_Wf_Guide.qmd
+              file: docs/5_Research/econ490-stata/18_Wf_Guide.qmd
         - text: "---"
         - section: "Pystata Notebooks"
           file: pages/index/index_research.qmd
