@@ -77,7 +77,7 @@ Each sub-folder consists of a specific category of files and is numbered to indi
 
 It's almost never a good idea to use one script for an entire project. Instead, we will want to create different scripts for different tasks and add descriptive labels to reflect our workflow. As mentioned in the previous section, we should prefix our files with numbers to align with the workflow sequence.
 
-![Scripts folder with example scripts](img/fig3scripts.png)
+![Scripts folder with example scripts](img/fig3.png)
 
 In the image above, the first script, `build_data.R`, cleans the raw data and generates core variables that will be used in subsequent scripts. The second script, `descriptive_statistics.R`, generates descriptive statistics and relevant figures. The third script, `results.R`, runs the final regressions and generates regression tables. The master script, `master_script.R`, runs all these other scripts. We will discuss its role in detail in a moment.
 
