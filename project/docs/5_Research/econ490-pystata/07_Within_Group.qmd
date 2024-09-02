@@ -146,7 +146,7 @@ summarize var_one
 
 You may not be aware, but Stata records the observation number as a hidden variable (a scalar) called <i>_n</i> and the total number of observations as <i>_N</i>.
 
-Let's take a look at these by creating two new variables: one that is the observation number and one that is the total number of observations.
+Let's take a look at these by creating two newvariables: one that is the observation number and one that is the total number of observations.
 
 ```{python}
 %%stata

@@ -99,6 +99,7 @@ replace female = 0 if sex == "M"
 There is another, simpler way to  create a dummy variable, which is shown below. 
 
 ```{stata}
+
 replace female = ( sex == "F") 
 ```
 
@@ -114,7 +115,6 @@ We could have also used the command `capture drop female` before we used `genera
 We already talked about how to create dummy variables with `generate` and `replace`. Let’s see how this can be done for a whole set of dummy variables. For our example, we will create one dummy for each region identified in the data set.
 
 ```{stata}
-
 tabulate region, generate(reg)
 ```
 

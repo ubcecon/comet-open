@@ -118,7 +118,7 @@ su price if foreign == 0  & mpg < 25
 
 Maybe we want to restrict to a particular list of values. Here we can write out all of the conditions using the "or" operator, or we can simply make use of the option `inlist()`:
 
-```{pyhton}
+```{python}
 %%stata
 su price if mpg == 10 | mpg == 15 | mpg == 25 | mpg == 40
 ```

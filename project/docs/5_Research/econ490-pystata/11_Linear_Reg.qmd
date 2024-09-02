@@ -98,17 +98,20 @@ How do equations (1) and (2) relate? If we take the expectation given age on equ
 $$
 E[age_{i}|age_{i}]=age_{i}
 $$ 
+
 and this will leave us with 
 $$
 E[u_{i}|age_{i}]=0.
 $$ 
+
 If $age=0$, then $\beta_1 \times age=0$ and 
 $$
 E[logearnings_{i}|age_{i}=0]=\beta_0
-$$
+$$ 
+
 If $age=1$, then $\beta_1 \times age=\beta_1$ and
 
-$$ 
+$$
 E[logearnings_{i}|age_{i}=1]=\beta_0+ \beta_1
 $$
 
@@ -129,7 +132,7 @@ $$
 This is the intuition that we should follow to interpret the coefficients!
 
 Consider a slightly more complicated example.
-    
+
 Let's assume there are only two regions in this world: region **A** and region **B**. In this world, we'll make it such that workers in region B earn $\beta_1$ percentage points more than workers in region A on average. We are going to create a dummy variable called *region* that takes the value of 1 if the worker's region is B and a value of 0 if the worker's region is A.
 
 Furthermore, an extra year of age increases earnings by $\beta_2$ on average. We take the same approach with every explanatory variable on the list above. The empirical economist (us!) only observes a subset of all these variables, which we call the observables or covariates $X_{it}$. Let's suppose that the empirical economist only observes the region and age of the workers.
@@ -145,6 +148,7 @@ logearnings_{i} &=  \beta_1 \{region_{i}=1\} + \beta_2 age_{i} + \underbrace{ \b
 In the second line we did one of the most powerful tricks in all of mathematics: add and subtract the same term! Specifically, we add and subtract the mean earnings for workers who are in region A and have *age* equal to zero. This term is the interpretation of the constant in our linear model. The re-defined unobservable term $u_i$ is a deviation from such mean, which we expect to be zero on average.
 
 Be mindful of the interpretation of the coefficients in this new equation. As we have just seen, the constant $\beta_0$ is interpreted as the average earnings of workers living in region A and with *age* equal to zero: if $age=0$ and ${region}_{i}=0$ then $\beta_1 \times \{{region}_{i}=0\} = 0$ and $\beta_2 \times age=0$. All that remains is $\beta_0$: 
+
 $$
 E[logearnings_{i}|age_{i}=0 \; \text{and} \; {region}_{i}=0]=\beta_0
 $$
@@ -181,32 +185,34 @@ So far, we have made an assumption at the population level. Remember that to kno
 ## 11.3 Ordinary Least Squares
 
 If we are given some data set and we have to find the unknown ${\beta}s$, the most common and powerful tool is known as OLS. Continuing with the example above, let all the observations be indexed by $j=1,2,\dots, n$. Let 
+
 $$
 \hat{β_0}, \hat{β_1},\hat{β_2}
-$$ 
+$$
 
 be the estimators of 
+
 $$
 β_0, β_1, β_2.
-$$ 
+$$
 
-The formula for the estimators will return some values that will give rise to a sample version of the population model: 
+The formula for the estimators will return some values that will give rise to a sample version of the population model:
 
 $$
 logearnings_{j} = b_0 + b_1\{region_{j}=1\} + b_2 age_{j}  + \hat{u_{j}},
 $$
 
-where $u_j$ is the true error in the population, and $\hat{u_{j}}$ is called a residual (the sample version of the error given the current estimates). OLS finds the values of ${\hat{β}}s$ that minimize the sum of squared residuals. This is given by the following minimization problem:
+where $u_j$ is the true error in the population, and $\hat{u_{j}}$ is called a residual (the sample version of the error given the current estimates). OLS finds the values of ${\hat{β}}s$ that minimize the sum of squared residuals. This is given by the following minimization problem: 
 $$
 \min_{b} \frac{1}{n} \sum_{j}^n \hat{u}_{j}^2
 $$
 
-This expression can also be written as
+This expression can also be written as 
 $$
 \min_{b} \frac{1}{n} \sum_{j}^n (logearnings_{j} - b_0 - b_1 \{region_{j}=1\} - b_2age_{j} )^2
 $$
 
-OLS is minimizing the squared residuals (the sample version of the error term) given our data. This minimization problem can be solved using calculus, specifically the derivative chain rule. The first order conditions are given by : 
+OLS is minimizing the squared residuals (the sample version of the error term) given our data. This minimization problem can be solved using calculus, specifically the derivative chain rule. The first order conditions are given by :
 
 \begin{align}
 \frac{1}{n} \sum_{j}^n 1 \times \hat{u}_{j} &= 0  \\
@@ -214,7 +220,7 @@ OLS is minimizing the squared residuals (the sample version of the error term) g
 \frac{1}{n} \sum_{j}^n \{region_i = B\} \times \hat{u}_{j} &= 0 
 \end{align}
 
-From these first order conditions, we construct the most important restrictions for OLS: 
+From these first order conditions, we construct the most important restrictions for OLS:
 
 $$
 \frac{1}{n} \sum_{j}^n \hat{u}_j = \frac{1}{n} \sum_{j}^n \hat{u}_j \times  age_j=\frac{1}{n} \sum_{j}^n \hat{u}_j\times\{region_j = 1\}=0
@@ -228,9 +234,9 @@ Notice that the formula for $β_0, β_1, β_2$ (the true values!) is using these
 
 **Note:** Because this is an optimization problem, all of our variables must be numeric. If a variable is categorical, we must re-code it into a numerical variable. You will understand more about this after completing our next module. </div>
 
-## 11.4 Ordinary Least Squares Regressions with Stata 
+## 11.4 Ordinary Least Squares Regressions with Stata
 
-For this module, we will be using the fake data set. Recall that this data is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings. 
+For this module, we will be using the fake data set. Recall that this data is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.
 
 ```{python}
 %%stata
@@ -244,7 +250,7 @@ use "fake_data.dta", clear
 
 To run a linear regression using OLS in Stata, we use the command `regress`. The basic syntax of the command is:
 
-```stata
+``` stata
 regress dep_varname indep_varname
 ```
 
@@ -269,7 +275,7 @@ Sometimes, we find that our coefficient is negative. This is not a concern. If i
 
 The command `regress` also allows us to list multiple covariates. When we want to carry out a multivariate regression, we write:
 
-```stata
+``` stata
 regress dep_varname indep_varname1 indep_varname2
 ```
 
@@ -281,10 +287,10 @@ and so on.
 regress logearn age treated
 ```
 
-How would we interpret the coefficient corresponding to being treated? Consider the following two comparisons: 
+How would we interpret the coefficient corresponding to being treated? Consider the following two comparisons:
 
--   Mean *logearnings* of 18 year old treated workers minus the mean *logearnings* of 18 year old untreated workers = $\beta_2$. 
--   Mean *logearnings* of 20 year old treated workers minus the mean *logearnings* of 20 year old untreated workers = $\beta_2$. 
+-   Mean *logearnings* of 18 year old treated workers minus the mean *logearnings* of 18 year old untreated workers = $\beta_2$.
+-   Mean *logearnings* of 20 year old treated workers minus the mean *logearnings* of 20 year old untreated workers = $\beta_2$.
 
 Therefore, the coefficient gives the increase in *logearnings* between treated and untreated workers **holding all other characteristics equal**. We economists usually refer to this as $\textit{ceteris paribus}$.
 
@@ -294,7 +300,7 @@ $$
 t = \frac{ \hat{\beta} - 0 }{StdErr}
 $$
 
-If the t-statistic is roughly greater than 2 in absolute value, we reject the null hypothesis that there is no effect of the independent variable in question on earnings ($\hat{\beta} = 0$). This would mean that the data supports the hypothesis that the variable in question has some effect on earnings at a confidence level of 95%. 
+If the t-statistic is roughly greater than 2 in absolute value, we reject the null hypothesis that there is no effect of the independent variable in question on earnings ($\hat{\beta} = 0$). This would mean that the data supports the hypothesis that the variable in question has some effect on earnings at a confidence level of 95%.
 
 An alternative test can be performed using the p-value statistic: if the p-value is less than 0.05 we reject the null hypothesis at 95% confidence level. In either case, when we reject the null hypothesis, we say that the coefficient is statistically significant.
 
@@ -389,7 +395,7 @@ There are four ways to weight in Stata. We can include frequency weights (`fw`),
 
 Our sample weights will be commonly coded as an additional variable in our data set such as *weight_pct*, however sometimes this is not the case, and we will need to select the variable ourselves. Please reach out to an instructor, TA, or supervisor if you think this is the case. To include probability weights in regression analysis, we can simply include the following command immediately after our independent variable(s):
 
-```stata
+``` stata
     regress y x [pw = weight_pct]   
 ```
 
@@ -403,11 +409,11 @@ regress logearn age treated [pw = sample_weight]
 
 Often, after weighting our sample, the coefficients from our regression will change in magnitude. In these cases, there was some subsample of the population that was over-represented in the data and skewed the results of the unweighted regression.
 
-Finally, while this section described the use of weighted regressions, it is important to know that there are many times we might want to apply weights to our sample that have nothing to do with running regressions. For example, if we wanted to calculate the mean of a variable using data from a skewed sample, we would want to make sure to use the weighted mean. While `summarize` is used in Stata to calculate means, we can use `collapse` to create summary statistics with sample weights factored into the calculations (see [Module 7](https://comet.arts.ubc.ca/docs/Research/econ490-stata/07_Within_Group.html)).
+Finally, while this section described the use of weighted regressions, it is important to know that there are many times we might want to apply weights to our sample that have nothing to do with running regressions. For example, if we wanted to calculate the mean of a variable using data from a skewed sample, we would want to make sure to use the weighted mean. While `summarize` is used in Stata to calculate means, we can use `collapse` to create summary statistics with sample weights factored into the calculations (see [Module 7](https://comet.arts.ubc.ca/docs/Research/econ490-pystata/07_Within_Group.html)).
 
 ## 11.5 What can we do with OLS?
 
-Notice that OLS gives us a linear approximation to the conditional mean of some dependent variable, given some observables. We can use this information for prediction: if we had different observables, how would the expected mean differ?We can do this in Stata by using the `predict` function. All we need to do is run `predict varname` after we run our regression. `varname` represents a new variable that will hold the predicted values of our dependent variable. We can do this with different regressions that have different observables (one might include *age* as an explanatory variable, while another might include *education*), and we can compare the predicted values. 
+Notice that OLS gives us a linear approximation to the conditional mean of some dependent variable, given some observables. We can use this information for prediction: if we had different observables, how would the expected mean differ?We can do this in Stata by using the `predict` function. All we need to do is run `predict varname` after we run our regression. `varname` represents a new variable that will hold the predicted values of our dependent variable. We can do this with different regressions that have different observables (one might include *age* as an explanatory variable, while another might include *education*), and we can compare the predicted values.
 
 Another thing we can do with OLS is discuss causality: how does manipulating one variable impact a dependent variable on average? To give a causal interpretation to our OLS estimates, we require that, in the population, it holds that $\mathbf{E}[X_i u_i] = 0$. This is the same as saying that the unobservables are uncorrelated with the independent variables of the equation (remember, this is not testable because we cannot compute the expectations in practice!). If these unobservables are correlated with an independent variable, this means the independent variable can be causing a change in the dependent variable because of a change in an unobservable rather than a change in the independent variable itself. This inhibits our ability to interpret our coefficients with causality and is known as the endogeneity problem.
 
@@ -415,15 +421,15 @@ We might be tempted to think that we can test this using the sample version $\fr
 
 For instance, looking at the previous regression, if we want to say that the causal effect of being treated is equal to -0.81, it must be the case that treatment is not correlated (in the population sense) with the error term (our unobservables). However, it could be the case that treated workers are the ones that usually perform worse at their job, which would contradict a causal interpretation of our OLS estimates. This brings us to a short discussion of what distinguishes good and bad controls in a regression model:
 
--  Good Controls: To think about good controls, we need to consider which **unobserved** determinants of the outcome are possibly correlated with our variable of interest.
--  Bad Controls: It is bad practice to include variables that are themselves outcomes. For instance, consider studying the causal effect of college on earnings. If we include a covariate of working at a high paying job, then we're blocking part of the causal channel between college and earnings (i.e. you are more likely to have a nice job if you study more years!)
+-   Good Controls: To think about good controls, we need to consider which **unobserved** determinants of the outcome are possibly correlated with our variable of interest.
+-   Bad Controls: It is bad practice to include variables that are themselves outcomes. For instance, consider studying the causal effect of college on earnings. If we include a covariate of working at a high paying job, then we're blocking part of the causal channel between college and earnings (i.e. you are more likely to have a nice job if you study more years!)
 
 ## 11.6 Wrap Up
 
 In this module we discussed the following concepts:
 
-- Linear Model: an equation that describes how the outcome is generated, and depends on some coefficients $\beta$.
-- Ordinary Least Squares: a method to obtain a good approximation of the true $\beta$ of a linear model from a given sample.
+-   Linear Model: an equation that describes how the outcome is generated, and depends on some coefficients $\beta$.
+-   Ordinary Least Squares: a method to obtain a good approximation of the true $\beta$ of a linear model from a given sample.
 
 Notice that there is no such thing as an OLS model. More specifically, notice that we could apply a different method (estimator) to a linear model. For example, consider minimizing the sum of all error terms 
 $$
@@ -450,14 +456,11 @@ is going to be the difference between the expected value of y due to a change in
 
 ## 11.7 Wrap-up Table
 
-|Command| Function|
-|-------|---------|
-|`regress dep_varname indep_varname1 indep_varname2 ... [pw= weight_pct]`| It estimates a model using OLS including probability weights.|
-|`predict varname`| It creates a variable holding the predicted values for our dependent variable.  
+| Command | Function |
+|----------------------------------|--------------------------------------|
+| `regress dep_varname indep_varname1 indep_varname2 ... [pw= weight_pct]` | It estimates a model using OLS including probability weights. |
+| `predict varname` | It creates a variable holding the predicted values for our dependent variable. |
 
 ## References
 
-[Simple linear regression in Stata](https://www.youtube.com/watchv=HafqFSB9x70&list=PLN5IskQdgXWnnIVeA_Y0OBGmnw21fvcmU&index=21) <br>
-[(Non StataCorp) Summary of Interpreting a Regression Output from Stata](https://www.youtube.com/watch?v=-kr1BaEqlxg)
-[(Non StataCorp) Weighting in Stata](https://stats.oarc.ucla.edu/other/mult-pkg/faq/what-types-of-weights-do-sas-stata-and-spss-support/#:~:text=You%20need%20to%20read%20the,while%20another%20assumes%20probability%20weights.)
-[How to use the predict function in Stata](https://www.stata.com/manuals/rpredict.pdf)
+[Simple linear regression in Stata](https://www.youtube.com/watchv=HafqFSB9x70&list=PLN5IskQdgXWnnIVeA_Y0OBGmnw21fvcmU&index=21) <br> [(Non StataCorp) Summary of Interpreting a Regression Output from Stata](https://www.youtube.com/watch?v=-kr1BaEqlxg) [(Non StataCorp) Weighting in Stata](https://stats.oarc.ucla.edu/other/mult-pkg/faq/what-types-of-weights-do-sas-stata-and-spss-support/#:~:text=You%20need%20to%20read%20the,while%20another%20assumes%20probability%20weights.) [How to use the predict function in Stata](https://www.stata.com/manuals/rpredict.pdf)

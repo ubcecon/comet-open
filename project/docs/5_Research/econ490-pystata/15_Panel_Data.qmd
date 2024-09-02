@@ -281,7 +281,6 @@ xtreg dlngdp L1.lngdp lnhc lnn i.year, fe
 ```
 
 ## 15.5 Is our Panel Data Regression Properly Specified?
-
 While there are the typical concerns with interpreting the coefficients of regressions (i.e. multicollinearity, inferring causality), there are some topics which require special treatment when working with panel data.
 
 ### 15.5.1 Heteroskedasticity

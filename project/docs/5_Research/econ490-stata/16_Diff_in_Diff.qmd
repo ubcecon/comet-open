@@ -83,9 +83,7 @@ How do we do that?
 
 A common approach to check for parallel trends is to plot the mean outcome for both the treated and untreated group over time.
 
-Do you recall how to make these plots from [Module 9](https://comet.arts.ubc.ca/docs/Research/econ490-stata/09_Stata_Graphs.html)?
-
-We start by generating the average log-earnings for each group in each year.
+Do you recall how to make these plots from [Module 9](https://comet.arts.ubc.ca/docs/Research/econ490-stata/09_Stata_Graphs.html)? We start by generating the average log-earnings for each group in each year.
 
 ```{stata}
 * Generate log-earnings

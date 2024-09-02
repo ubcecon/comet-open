@@ -261,7 +261,7 @@ The scatterplot shows an inverted-U relationship between age and the predicted l
 
 <div class="alert alert-info">
 
-**Note:** If there is a theoretical reason for believing that non-linearity exists, Stata provides some tests for non-linearity. We can also create a scatter-plot to see if we observe a non-linear relationship in the data. We covered that approach in [Module 9](https://comet.arts.ubc.ca/docs/Research/econ490-stata/09_Stata_Graphs.html). </div>
+**Note:** If there is a theoretical reason for believing that non-linearity exists, Stata provides some tests for non-linearity. We can also create a scatter-plot to see if we observe a non-linear relationship in the data. We covered that approach in [Module 9](https://comet.arts.ubc.ca/docs/Research/econ490-stata/9_Stata_Graphs.html). </div>
 
 ## 14.5 Wrap Up 
 

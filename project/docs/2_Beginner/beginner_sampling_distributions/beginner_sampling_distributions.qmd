@@ -339,7 +339,7 @@ answer_3
 test_3()
 ```
 ```{r}
-#| eval: true
+#| eval: false
 #| classes: answer
 
 set.seed(30)
