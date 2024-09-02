@@ -128,13 +128,13 @@ website:
           file: pages/index/index_getting_started.qmd
           contents:
           - text: "Intro to JupyterNotebooks"
-            file: docs/1_Getting_started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd
+            file: docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd
           - text: "Intro to R"
-            file: docs/1_Getting_started/getting_started_intro_to_r/getting_started_intro_to_r.qmd
+            file: docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.qmd
           - text: "Intro to Data (Part 1)"
-            file: docs/1_Getting_started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
+            file: docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
           - text: "Intro to Data (Part 2)"
-            file: docs/1_Getting_started/getting_started_intro_to_data/getting_started_intro_to_data2.qmd
+            file: docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.qmd
 
         - text: "---"
 
@@ -276,7 +276,7 @@ website:
           - text: Sampling Distributions
             file: docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
           - text: Example Project (325)
-            file: docs/Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd
+            file: docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd
         - text: "---"
 
         - section: 
@@ -293,7 +293,7 @@ website:
           - text: Interactions and Non-Linear Terms
             file: docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd
           - text: Example Project (326)
-            file: docs/Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd
+            file: docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd
         - text: "---"
 
 
@@ -321,121 +321,121 @@ website:
           file: pages/index/index_research.qmd
           contents:
             - text: "Setting Up (1)"
-              file: docs/5_Research/econ490-stata/1_Setting_Up.ipynb
+              file: docs/5_Research/econ490-stata/01_Setting_Up.qmd
             - text: "Working with Do-files (2)"
-              file: docs/5_Research/econ490-stata/2_Working_Dofiles.ipynb
+              file: docs/5_Research/econ490-stata/02_Working_Dofiles.qmd
             - text: "STATA Essentials (3)"
-              file: docs/5_Research/econ490-stata/3_Stata_Essentials.ipynb
+              file: docs/5_Research/econ490-stata/03_Stata_Essentials.qmd
             - text: "Locals and Globals (4)"
-              file: docs/5_Research/econ490-stata/4_Locals_and_Globals.ipynb
+              file: docs/5_Research/econ490-stata/04_Locals_and_Globals.qmd
             - text: "Opening Datasets (5)"
-              file: docs/5_Research/econ490-stata/5_Opening_Datasets.ipynb
+              file: docs/5_Research/econ490-stata/05_Opening_Data_Sets.qmd
             - text: "Creating Variables (6)"
-              file: docs/5_Research/econ490-stata/6_Creating_Variables.ipynb
+              file: docs/5_Research/econ490-stata/06_Creating_Variables.qmd
             - text: "Within Group Analysis (7)"
-              file: docs/5_Research/econ490-stata/7_Within_Group.ipynb
+              file: docs/5_Research/econ490-stata/07_Within_Group.qmd
             - text: "Combining Datasets (8)"
-              file: docs/5_Research/econ490-stata/8_Merge_Append.ipynb
+              file: docs/5_Research/econ490-stata/08_Merge_Append.qmd
             - text: "Creating Meaningful Visuals (9)"
-              file: docs/5_Research/econ490-stata/9_Stata_Graphs.ipynb
+              file: docs/5_Research/econ490-stata/09_Stata_Graphs.qmd
             - text: "Combining Graphs (10)"
-              file: docs/5_Research/econ490-stata/10_Combining_Graphs.ipynb
+              file: docs/5_Research/econ490-stata/10_Combining_Graphs.qmd
             - text: "Conducting Regression Analysis (11)"
-              file: docs/5_Research/econ490-stata/11_Linear_Reg.ipynb
+              file: docs/5_Research/econ490-stata/11_Linear_Reg.qmd
             - text: "Exporting Regression Output (12)"
-              file: docs/5_Research/econ490-stata/12_Exporting_Output.ipynb
+              file: docs/5_Research/econ490-stata/12_Exporting_Output.qmd
             - text: "Dummy Variables and Interactions (13)"
-              file: docs/5_Research/econ490-stata/13_Dummy.ipynb
+              file: docs/5_Research/econ490-stata/13_Dummy.qmd
             - text: "Good Regression Practices (14)"
-              file: docs/5_Research/econ490-stata/14_PostReg.ipynb
+              file: docs/5_Research/econ490-stata/14_PostReg.qmd
             - text: "Panel Data Regression (15)"
-              file: docs/5_Research/econ490-stata/15_Panel_Data.ipynb
+              file: docs/5_Research/econ490-stata/15_Panel_Data.qmd
             - text: "Difference in Differences (16)"
-              file: docs/5_Research/econ490-stata/16_Diff_in_Diff.ipynb
+              file: docs/5_Research/econ490-stata/16_Diff_in_Diff.qmd
             - text: "Instrumental Variable Analysis (17)"
-              file: docs/5_Research/econ490-stata/17_IV.ipynb
+              file: docs/5_Research/econ490-stata/17_IV.qmd
             - text: "STATA Workflow Guide (18)"
-              file: docs/5_Research/econ490-stata/18_Wf_Guide2.ipynb
+              file: docs/5_Research/econ490-stata/18_Wf_Guide2.qmd
         - text: "---"
         - section: "R Notebooks"
           file: pages/index/index_research.qmd
           contents:
-            - text: "Formatting Guidelines (00)"
-              file: docs/5_Research/econ490-r/Formating_rules.ipynb
+            #- text: "Formatting Guidelines (00)"
+            #  file: docs/5_Research/econ490-r/Formating_rules.ipynb
             - text: "Setting Up (1)"
-              file: docs/5_Research/econ490-r/1_Setting_Up.ipynb
+              file: docs/5_Research/econ490-r/01_Setting_Up.qmd
             - text: "Working with R Scripts (2)"
-              file: docs/5_Research/econ490-r/2_Working_Rscripts.ipynb
+              file: docs/5_Research/econ490-r/02_Working_Rscripts.qmd
             - text: "R Essentials (3)"
-              file: docs/5_Research/econ490-r/3_R_Essentials.ipynb
+              file: docs/5_Research/econ490-r/03_R_Essentials.qmd
             - text: "Opening Datasets (4)"
-              file: docs/5_Research/econ490-r/4_Opening_Datasets.ipynb
+              file: docs/5_Research/econ490-r/04_Opening_Data_Sets.qmd
             - text: "Creating Variables (5)"
-              file: docs/5_Research/econ490-r/5_Creating_Variables.ipynb
+              file: docs/5_Research/econ490-r/05_Creating_Variables.qmd
             - text: "Within Group Analysis (6)" 
-              file: docs/5_Research/econ490-r/6_Within_Group.ipynb
+              file: docs/5_Research/econ490-r/06_Within_Group.qmd
             - text: "Combining Datasets (7)"
-              file: docs/5_Research/econ490-r/7_Combining_Datasets.ipynb
+              file: docs/5_Research/econ490-r/07_Combining_Datasets.qmd
             - text: "Creating Meaningful Visuals (8)"
-              file: docs/5_Research/econ490-r/8_ggplot_graphs.ipynb
+              file: docs/5_Research/econ490-r/08_ggplot_graphs.qmd
             - text: "Combining Graphs (9)"
-              file: docs/5_Research/econ490-r/9_Combining_Graphs.ipynb
+              file: docs/5_Research/econ490-r/09_Combining_Graphs.qmd
             - text: "Conducting Regression Analysis (10)"
-              file: docs/5_Research/econ490-r/10_Linear_Reg.ipynb
+              file: docs/5_Research/econ490-r/10_Linear_Reg.qmd
             - text: "Exporting Regression Output (11)"
-              file: docs/5_Research/econ490-r/11_Exporting_Output.ipynb
+              file: docs/5_Research/econ490-r/11_Exporting_Output.qmd
             - text: "Dummy Variables and Interactions (12)"
-              file: docs/5_Research/econ490-r/12_Dummy.ipynb
+              file: docs/5_Research/econ490-r/12_Dummy.qmd
             - text: "Good Regression Practices (13)"
-              file: docs/5_Research/econ490-r/13_PostReg.ipynb
+              file: docs/5_Research/econ490-r/13_PostReg.qmd
             - text: "Panel Data Regression (14)"
-              file: docs/5_Research/econ490-r/14_Panel_Data.ipynb
+              file: docs/5_Research/econ490-r/14_Panel_Data.qmd
             - text: "Difference in Differences (15)"
-              file: docs/5_Research/econ490-r/15_Diff_in_Diff.ipynb
+              file: docs/5_Research/econ490-r/15_Diff_in_Diff.qmd
             - text: "Instrumental Variable Analysis (16)"
-              file: docs/5_Research/econ490-stata/16_IV.ipynb
+              file: docs/5_Research/econ490-stata/16_IV.qmd
             - text: "R Workflow Guide (17)"
-              file: docs/5_Research/econ490-stata/17_Wf_Guide.ipynb
+              file: docs/5_Research/econ490-stata/17_Wf_Guide.qmd
         - text: "---"
         - section: "Pystata Notebooks"
           file: pages/index/index_research.qmd
           contents:
             - text: "Setting Up (1)"
-              file: docs/5_Research/econ490-pystata/1_Setting_Up_PyStata.ipynb
+              file: docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.qmd
             - text: "Working with Do-files (2)"
-              file: docs/5_Research/econ490-pystata/2_Working_Dofiles.ipynb
+              file: docs/5_Research/econ490-pystata/02_Working_Dofiles.qmd
             - text: "STATA Essentials (3)"
-              file: docs/5_Research/econ490-pystata/3_Stata_Essentials.ipynb
+              file: docs/5_Research/econ490-pystata/03_Stata_Essentials.qmd
             - text: "Locals and Globals (4)"
-              file: docs/5_Research/econ490-pystata/4_Locals_and_Globals.ipynb
+              file: docs/5_Research/econ490-pystata/04_Locals_and_Globals.qmd
             - text: "Opening Datasets (5)"
-              file: docs/5_Research/econ490-pystata/5_Opening_Datasets.ipynb
+              file: docs/5_Research/econ490-pystata/05_Opening_Data_Sets.qmd
             - text: "Creating Variables (6)"
-              file: docs/5_Research/econ490-pystata/6_Creating_Variables.ipynb
+              file: docs/5_Research/econ490-pystata/06_Creating_Variables.qmd
             - text: "Within Group Analysis (7)"
-              file: docs/5_Research/econ490-pystata/7_Within_Group.ipynb
+              file: docs/5_Research/econ490-pystata/07_Within_Group.qmd
             - text: "Combining Datasets (8)"
-              file: docs/5_Research/econ490-pystata/8_Merge_Append.ipynb
+              file: docs/5_Research/econ490-pystata/08_Merge_Append.qmd
             - text: "Creating Meaningful Visuals (9)"
-              file: docs/5_Research/econ490-pystata/9_Stata_Graphs.ipynb
+              file: docs/5_Research/econ490-pystata/09_Stata_Graphs.qmd
             - text: "Combining Graphs (10)"
-              file: docs/5_Research/econ490-pystata/10_Combining_Graphs.ipynb
+              file: docs/5_Research/econ490-pystata/10_Combining_Graphs.qmd
             - text: "Conducting Regression Analysis (11)"
-              file: docs/5_Research/econ490-pystata/11_Linear_Reg.ipynb
+              file: docs/5_Research/econ490-pystata/11_Linear_Reg.qmd
             - text: "Exporting Regression Output (12)"
-              file: docs/5_Research/econ490-pystata/12_Exporting_Output.ipynb
+              file: docs/5_Research/econ490-pystata/12_Exporting_Output.qmd
             - text: "Dummy Variables and Interactions (13)"
-              file: docs/5_Research/econ490-pystata/13_Dummy.ipynb
+              file: docs/5_Research/econ490-pystata/13_Dummy.qmd
             - text: "Good Regression Practices (14)"
-              file: docs/5_Research/econ490-pystata/14_PostReg.ipynb
+              file: docs/5_Research/econ490-pystata/14_PostReg.qmd
             - text: "Panel Data Regression (15)"
-              file: docs/5_Research/econ490-pystata/15_Panel_Data.ipynb
+              file: docs/5_Research/econ490-pystata/15_Panel_Data.qmd
             - text: "Difference in Differences (16)"
-              file: docs/5_Research/econ490-pystata/16_Diff_in_Diff.ipynb
+              file: docs/5_Research/econ490-pystata/16_Diff_in_Diff.qmd
             - text: "Instrumental Variable Analysis (17)"
-              file: docs/5_Research/econ490-pystata/17_IV.ipynb
+              file: docs/5_Research/econ490-pystata/17_IV.qmd
             - text: "STATA Workflow Guide (18)"
-              file: docs/5_Research/econ490-pystata/18_Wf_Guide2.ipynb
+              file: docs/5_Research/econ490-pystata/18_Wf_Guide2.qmd
 
 
 
