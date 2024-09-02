@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt">
+<meta name="dcterms.date" content="2024-05-29">
+<meta name="description" content="This notebook covers some good practices that should be implemented when we perform regression analysis. We look at how to handle outliers, multicollinearity, heteroskedasticity, and nonlinearity.">
+
+<title>14 - Good Regression Practices – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" rel="next">
+<link href="../../../docs/5_Research/econ490-stata/13_Dummy.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Collab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_research.html">STATA Notebooks</a></li><li class="breadcrumb-item"><a href="../../../docs/5_Research/econ490-stata/14_PostReg.html">Good Regression Practices (14)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn to Research</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with R Scripts (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/06_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pystata Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#dealing-with-outliers" id="toc-dealing-with-outliers" class="nav-link" data-scroll-target="#dealing-with-outliers">14.1 Dealing with Outliers</a>
+  <ul class="collapse">
+  <li><a href="#winsorizing-a-dependent-variable" id="toc-winsorizing-a-dependent-variable" class="nav-link" data-scroll-target="#winsorizing-a-dependent-variable">14.1.1 Winsorizing a Dependent Variable</a></li>
+  <li><a href="#trimming-a-dependent-variable" id="toc-trimming-a-dependent-variable" class="nav-link" data-scroll-target="#trimming-a-dependent-variable">14.1.2 Trimming a Dependent Variable</a></li>
+  </ul></li>
+  <li><a href="#multicollinearity" id="toc-multicollinearity" class="nav-link" data-scroll-target="#multicollinearity">14.2 Multicollinearity</a></li>
+  <li><a href="#heteroskedasticity" id="toc-heteroskedasticity" class="nav-link" data-scroll-target="#heteroskedasticity">14.3 Heteroskedasticity</a></li>
+  <li><a href="#non-linearity" id="toc-non-linearity" class="nav-link" data-scroll-target="#non-linearity">14.4 Non-linearity</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">14.5 Wrap Up</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="14_PostReg.ipynb" download="14_PostReg.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_research.html">STATA Notebooks</a></li><li class="breadcrumb-item"><a href="../../../docs/5_Research/econ490-stata/14_PostReg.html">Good Regression Practices (14)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">14 - Good Regression Practices</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">stata</div>
+    <div class="quarto-category">outliers</div>
+    <div class="quarto-category">winsorizing</div>
+    <div class="quarto-category">trimming</div>
+    <div class="quarto-category">multicollinearity</div>
+    <div class="quarto-category">heteroskedasticity</div>
+    <div class="quarto-category">nonlinearity</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This notebook covers some good practices that should be implemented when we perform regression analysis. We look at how to handle outliers, multicollinearity, heteroskedasticity, and nonlinearity.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">29 May 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Importing data into Stata.</li>
+<li>Creating new variables using <code>generate</code> and <code>replace</code>.</li>
+<li>Identifying percentiles in data using <code>summarize</code> and <code>return list</code>.</li>
+<li>Running OLS regressions.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Identify and correct for outliers by trimming or winsorizing the dependent variable.</li>
+<li>Identify and correct for the problem of multicollinearity.</li>
+<li>Identify and correct for the problem of heteroskedasticity.</li>
+<li>Identify and correct for the problem of non-linearity.</li>
+</ol>
+</section>
+<section id="dealing-with-outliers" class="level2">
+<h2 class="anchored" data-anchor-id="dealing-with-outliers">14.1 Dealing with Outliers</h2>
+<p>Imagine that we have constructed a dependent variable which contains the earnings growth of individual workers and we see that some worker’s earnings increased by more than 400%. We might wonder if this massive change is just a coding error made by the statisticians that produced the data set. Even without that type of error, though, we might worry that the earnings growth of a small number of observations are driving the results of our analysis. If this is the case, we will produce an inaccurate analysis based on results that are not associated with the majority of our observations.</p>
+<p>The standard practice in these cases is to either winsorize or trim the subset of observations that are used in that regression. Both practices remove the outlier values in the dependent variable to allow us to produce a more accurate empirical analysis. In this section, we will look at both approaches.</p>
+<div class="alert alert-block alert-warning">
+<strong>Warning:</strong> We should only consider fixing outliers when there is a clear reason to address this issue. Do not apply the tools below if the summary statistics in your data make sense to you in terms of abnormal values. For example, outliers might be a sign that our dependent and explanatory variables have a non-linear relationship. If that is the case, we will want to consider including an interaction term that addresses that non-linearity. A good way to test for this is to create a scatter plot of our dependent and independent variables. This will help us to see if there are actually some outliers, or if there is just a non-linear relationship.
+</div>
+<section id="winsorizing-a-dependent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="winsorizing-a-dependent-variable">14.1.1 Winsorizing a Dependent Variable</h3>
+<p>Winsorizing is the process of limiting extreme values in the dependent variable to reduce the effect of (possibly erroneous) outliers. It consists of replacing values below the <span class="math inline">\(a\)</span>th percentile by that percentile’s value, and values above the <span class="math inline">\(b\)</span>th percentile by that percentile’s value. Consider the following example using our fake data set:</p>
+<pre class="{stata}"><code>clear all
+*cd ""
+use fake_data, clear </code></pre>
+<p>Let’s have a look at the distribution of earnings in the data set.</p>
+<p>Specifically, focus on the earnings at four points of the distribution: the minimum, the maximum, the 1st percentile, and the 99th percentile. We can display them using locals, as seen in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/04_Locals_and_Globals.html">Module 4</a>.</p>
+<pre class="{stata}"><code>summarize earnings, detail
+local ratio_lb = round(r(p1)/r(min))
+local ratio_ub = round(r(max)/r(p99))
+display "The earnings of the individual in the 1st percentile are `r(p1)'"
+display "The lowest earner in the dataset earned `r(min)'"
+display "The earnings of the individual in the 99th percentile are `r(p99)' "
+display "The highest earner in the dataset earned `r(max)'"
+display "The individual in the 1st pctile earned `ratio_lb' times as much as the lowest earner!"
+display "The highest earner earned `ratio_ub' times as much as the individual in the 99th pctile!"</code></pre>
+<p>From the summary statistics above, we can see that that the income earned by the individual at the 1st percentile is 2,831.03 and that the lowest earner in the data set earned 8.88.</p>
+<p>We can also see that income earned by the individual at the 99th percentile is only 607,140.32 and that the highest earner in the data earned over 60 millions!</p>
+<p>These facts suggest to us that there are large outliers in our dependent variable.</p>
+<p>We want to get rid of these outliers by winsorizing our data set. What that means is replacing the earnings of all observations below the 1st percentile by exactly the earnings of the individual at the 1st percentile, and replacing the earnings of all observations above the 99th percentile by exactly the earnings of the individual at the 99th percentile.</p>
+<p>Recall that we can see how Stata stored the information in the previously run <code>summarize</code> command by using the command <code>return list</code>.</p>
+<pre class="{stata}"><code>return list</code></pre>
+<p>To winsorize this data, we do the following 3 step process:</p>
+<ol type="1">
+<li>We create a new variable called <em>earnings_winsor</em> which is identical to our <em>earnings</em> variable (<code>gen earnings_winsor = earnings</code>). We choose to store the winsorized version of the dependent variable in a different variable so that we don’t overwrite the original data set.</li>
+<li>If earnings are smaller than the 1st percentile, we replace the values of <em>earnings_winsor</em> with the earnings of the individual at the 1st percentile (stored in Stata in <code>r(p1)</code>). Note that we need to ensure that Stata does not replace missing values with <code>r(p1)</code>.</li>
+<li>If earnings are larger than the 99th percentile, we replace the values of <em>earnings_winsor</em> with the earnings of the individual at the 99th percentile (stored in Stata in <code>r(p99)</code>). Note that we need to ensure that Stata does not replace missing values with <code>r(p99)</code>.</li>
+</ol>
+<p>We do this below:</p>
+<pre class="{stata}"><code>generate earnings_winsor = earnings
+replace earnings_winsor = r(p1) if earnings_winsor&lt;r(p1) &amp; earnings_winsor!=.
+replace earnings_winsor = r(p99) if earnings_winsor&gt;r(p99) &amp; earnings_winsor!=.</code></pre>
+<p>Let’s take a look at the summary statistics of the original earnings variable and the new variable that we have created:</p>
+<pre class="{stata}"><code>summarize earnings earnings_winsor</code></pre>
+<p>Now we will use this new dependent variable in our regression analysis. If the outliers were not creating problems, there will be no change in the results. If they were creating problems, those problems will now be fixed.</p>
+<p>Let’s take a look at this by first running the regression from <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/11_Linear_Reg.html">Module 11</a> with the original <em>logearnings</em> variable.</p>
+<pre class="{stata}"><code>capture drop logearnings
+generate logearnings = log(earnings)
+regress logearnings age </code></pre>
+<p>Now we will run this again, using the new winsorized <em>logearnings</em> variable.</p>
+<pre class="{stata}"><code>capture drop logearnings_winsor
+generate logearnings_winsor = log(earnings_winsor)
+regress logearnings_winsor age </code></pre>
+<p>Do you think that in this case the outliers were having a significant impact before being winsorized?</p>
+</section>
+<section id="trimming-a-dependent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="trimming-a-dependent-variable">14.1.2 Trimming a Dependent Variable</h3>
+<p>Trimming consists of replacing both values below the <span class="math inline">\(a\)</span>th percentile and values above the <span class="math inline">\(b\)</span>th percentile by a missing value. This is done to exclude these outliers from regression, since Stata automatically excludes missing observations in the command <code>regress</code>.</p>
+<p>Below, we look at the commands for trimming a variable. Notice that the steps are quite similar to when we winsorized the same variable. Don’t forget to create a new <em>earnings_trim</em> variable to avoid overwriting our original variable!</p>
+<pre class="{stata}"><code>summarize earnings, detail
+
+capture drop earnings_trim
+generate earnings_trim = earnings
+replace earnings_trim = . if earnings_trim &lt; r(p1) &amp; earnings_trim!=.
+replace earnings_trim = . if earnings_trim &gt; r(p99) &amp; earnings_trim!=.</code></pre>
+<p>And here is the result of the regression with the new dependent variable:</p>
+<pre class="{stata}"><code>capture drop logearnings_trim
+generate logearnings_trim = log(earnings_trim)
+regress logearnings_trim age </code></pre>
+</section>
+</section>
+<section id="multicollinearity" class="level2">
+<h2 class="anchored" data-anchor-id="multicollinearity">14.2 Multicollinearity</h2>
+<p>If two variables are linear combinations of one another they are multicollinear. Ultimately, Stata does not allow us to include two variables in a regression that are perfect linear combinations of one another, such as a constant or a dummy variable for male and a dummy for female (since female = 1 - male). In all of the regressions above, we see that one of those variables was dropped from the regression “because of collinearity”.</p>
+<pre class="{stata}"><code>capture drop male
+generate male = sex == "M"
+
+capture drop female 
+generate female = sex == "F"</code></pre>
+<pre class="{stata}"><code>regress logearnings male female</code></pre>
+<p>Is this a problem? Not really. Multicollinearity is a sign that a variable is not adding any new information. Notice that with the constant term and a male dummy we can know the mean earnings of females. In this case, the constant term is, by construction, the mean earnings of females, and the male dummy gives the earning premium paid to male workers.</p>
+<p>While there are some statistical tests for multicollinearity, nothing beats having the right intuition when running a regression. If there is an obvious case where two variables contain basically the same information, we’ll want to avoid including both in the analysis.</p>
+<p>For instance, we might have an age variable that includes both years and months (e.g.&nbsp;if a baby is 1 year and 1 month old, then this age variable would be coded as 1 + 1/12 = 1.083). If we included this variable in a regression which also included an age variable that includes only years (e.g the baby’s age would be coded as 1) then we would have the problem of multicollinearity. Because they are not perfectly collinear, Stata might still produce some results; however, the coefficients on these two variables would be biased.</p>
+</section>
+<section id="heteroskedasticity" class="level2">
+<h2 class="anchored" data-anchor-id="heteroskedasticity">14.3 Heteroskedasticity</h2>
+<p>When we run a linear regression, we essentially split the outcome into a (linear) part explained by observables (<span class="math inline">\(x_i\)</span>) and an error term (<span class="math inline">\(e_i\)</span>): <span class="math display">\[
+y_i = a + b x_i + e_i
+\]</span></p>
+<p>The standard errors in our coefficients depend on <span class="math inline">\(e_i^2\)</span> (as you might remember from your econometrics courses). Heteroskedasticity refers to the case where the variance of this projection error depends on the observables <span class="math inline">\(x_i\)</span>. For instance, the variance of wages tends to be higher for people who are university educated (some of these people have very high wages) whereas it is small for people who are non-university educated (these people tend to be concentrated in lower paying jobs). Stata by default assumes that the variance does not depend on the observables, which is known as homoskedasticity. It is safe to say that this is an incredibly restrictive assumption.</p>
+<p>While there are tests for heteroskedasticity, the more empirical economists rely on including the option <code>robust</code> at the end of the <code>regress</code> command for the OLS regression to address this. This will adjust our standard errors to make them robust to heteroskedasticity.</p>
+<pre class="{stata}"><code>capture drop logearnings
+generate logearnings = log(earnings)
+regress logearnings age, robust</code></pre>
+<p>Best practices are simply to always use robust standard errors in your own research project, since most standard errors will be heteroskedastic.</p>
+</section>
+<section id="non-linearity" class="level2">
+<h2 class="anchored" data-anchor-id="non-linearity">14.4 Non-linearity</h2>
+<p>Our regression analysis so far assumes that the relationship between our independent and explanatory variables is linear. If this is not the case, and the relationship is non-linear, then we are getting inaccurate results with our analysis.</p>
+<p>Let’s consider an example. We know that earnings increases with age, but what if economic theory predicts that earnings increase by more for each year of age when workers are younger than when they are older? What we are asking here is whether earnings is increasing with age at a decreasing rate. In essence, we want to check whether there is a concave relation between age and earnings. We can think of several mechanisms for why this relationship might exist: for a young worker, as they age, they get higher wages through increased experience in the job; for an older worker, as they age, those wage increases will be smaller as there are smaller productity gains with each additional year working. In fact, if the productivity of workers decreaseas as they age, perhaps for reasons related to health, then it is possible to find a negative relationship between age and earning beyond a certain age – the relationship would be an inverted U-shape.</p>
+<p>We could check if this is the case in our model by including a new interaction term that is simply age interacted with itself, which is the equivalent of including age and age squared. We learned how to do this in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/13_Dummy.html">Module 13</a>. Let’s include this in the regression above, remembering that age is a continuous variable (do you remember how to include a continuous variable in a regression?).</p>
+<pre class="{stata}"><code>regress logearnings c.age##c.age</code></pre>
+<p>There does seem to be some evidence in our regression results that this economic theory is correct, since the coefficient on the interaction term is both negative and statistically significant.</p>
+<p>How do we interpret these results? Let’s think about the equation we have just estimated: <span class="math display">\[
+Earnings_i = \beta_0 + \beta_1 Age_i + \beta_2 Age^2_i + \varepsilon_i
+\]</span></p>
+<p>This means that earnings of an individual change in the following way with their age: <span class="math display">\[
+\frac{\partial Earnings_i}{\partial Age_i} = \beta_1 + 2 \beta_2 Age_i
+\]</span></p>
+<p>Due to the quadratic term, as age changes, the relationship between age and earnings changes as well.</p>
+<p>We have just estimated <span class="math inline">\(\beta_1\)</span> to be positive and equal to 0.079, and <span class="math inline">\(\beta_2\)</span> to be negative and equal to 0.001.</p>
+<p>This means that, as age increases, it’s correlation with earnings decrease: <span class="math display">\[
+\frac{\partial Earnings_i}{\partial Age_i} = 0.079 - 2 * 0.001 Age_i
+\]</span></p>
+<p>Since the marginal effect changes with the size of <span class="math inline">\(Age_i\)</span>, providing one unique number for the marginal effect becomes difficult.</p>
+<p>The most frequently reported version of this effect is the “marginal effect at the means”: the marginal effect of age on earnings when age takes its average value. In our case, this will be equal to 0.079 minus 0.002 times the average value of age.</p>
+<p>To do this in practice, we store the estimated coefficients and average age in three locals: local <em>agemean</em> stores the average age, while locals <em>beta1</em> and <em>beta2</em> store the estimated coefficients. We learned how to do this in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/04_Locals_and_Globals.html">Module 4</a>. Notice that Stata automatically stores the estimated coefficients in locals with syntax <code>_b[regressor name]</code>. To retrieve the estimated coefficient <span class="math inline">\(\beta_2\)</span>, we manually create the variable <span class="math inline">\(Age^2_i\)</span> and call it <em>agesq</em>.</p>
+<pre class="{stata}"><code>summarize age
+local agemean : display %2.0fc r(mean)
+capture drop agesq
+generate agesq = age*age
+regress logearnings age agesq
+local beta1 : display %5.3fc _b[age]
+local beta2 : display %5.3fc _b[agesq]
+local marg_effect = `beta1' + (2 * `beta2' * `agemean')
+display "beta1 is `beta1', beta2 is `beta2', and average age is `agemean'."
+display "Therefore, the marginal effect at the means is `beta1' + 2*(`beta2')*`agemean', which is equal to `marg_effect'."</code></pre>
+<p>We find that the marginal effect at the mean is -0.011. What does that mean? It means that, for the average person, becoming one year older is associated with a 1% decrease in log earnings.</p>
+<p>Notice that this is the effect for the <em>average person</em>. Is the same true for young workers and older workers? To learn how to interpret this non-linearity in age, let’s see how the predicted earnings correlate with age.</p>
+<p>We can obtain the predicted earnings with the <code>predict</code> command and then use a scatterplot to eyeball it’s relationship with age. We covered how to create scatterplots in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/09_Stata_Graphs.html">Module 9</a> and the <code>predict</code> function in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/11_Linear_Reg.html">Module 11</a>.</p>
+<div class="alert alert-info">
+<strong>Note:</strong> Stata graphs will not appear in the Jupyter Notebooks. To make the most out of this part of the module, it is recommended that you run this code on Stata installed locally in your computer.
+</div>
+<pre class="{stata}"><code>* Run the regression with the quadratic term
+regress logearnings c.age##c.age
+
+* Predict earnings and save them as yhat
+predict yhat, xb
+
+* Plot the scatterplot
+twoway scatter yhat age</code></pre>
+<p>The scatterplot shows an inverted-U relationship between age and the predicted log-earnings. This relationship implies that, when a worker is very young, aging is positively correlated with earnings. However, after a certain age, this correlation becomes negative and the worker gets lower earnings for each additional year of age. In fact, based on this graph, workers earnings start to decline just after the age of 50. Had we modelled this as a linear model, we would have missed this important piece of information!</p>
+<div class="alert alert-info">
+<strong>Note:</strong> If there is a theoretical reason for believing that non-linearity exists, Stata provides some tests for non-linearity. We can also create a scatter-plot to see if we observe a non-linear relationship in the data. We covered that approach in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/9_Stata_Graphs.html">Module 9</a>.
+</div>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">14.5 Wrap Up</h2>
+<p>It is important to always follow best practices for regression analysis. Nonetheless, checking and correcting for outliers, as well as addressing heteroskedasticity, multicollinearity and non-linearity can be more of an art than a science. If you need any guidance on whether or not you need to address these issues, please be certain to speak with your instructor, TA, or supervisor.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a href="https://www.youtube.com/watch?v=jIiHb0gsyVo">How to identify and replace unusual data values</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="pagination-link" aria-label="Dummy Variables and Interactions (13)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dummy Variables and Interactions (13)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="pagination-link" aria-label="Panel Data Regression (15)">
+        <span class="nav-page-text">Panel Data Regression (15)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

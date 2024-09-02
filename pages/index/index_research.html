@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../docs/5_Research/econ490-stata/01_Setting_Up.html" rel="next">
 <link href="../../media/comet_favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-listing/list.min.js"></script>
 <script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
@@ -81,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-image','listing-title','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-filename","listing-file-modified","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -109,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-image','listing-title','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -137,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-image','listing-title','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -217,7 +218,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -418,15 +419,389 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/index/index_research.html">STATA Notebooks</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn to Research</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/index/index_research.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">STATA Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with R Scripts (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/06_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pystata Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(56)</span></div><div class="category" data-category="Breusch-Pagan test">Breusch-Pagan test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data cleaning">data cleaning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data wrangling">data wrangling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dummy variable">dummy variable <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 325">econ 325 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 326">econ 326 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="heteroskedasticity">heteroskedasticity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="homoskedasticity">homoskedasticity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="hypothesis testing">hypothesis testing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="interaction terms">interaction terms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multicollinearity">multicollinearity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multiple regression">multiple regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="projects">projects <span class="quarto-category-count">(2)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(2)</span></div><div class="category" data-category="summary statistics">summary statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="t-test">t-test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vif">vif <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(38)</span></div><div class="category" data-category="1:m">1:m <span class="quarto-category-count">(1)</span></div><div class="category" data-category="2SLS">2SLS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Breusch-Pagan test">Breusch-Pagan test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="OneDrive">OneDrive <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="aesthetic">aesthetic <span class="quarto-category-count">(1)</span></div><div class="category" data-category="append">append <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bar chart">bar chart <span class="quarto-category-count">(2)</span></div><div class="category" data-category="case when">case when <span class="quarto-category-count">(2)</span></div><div class="category" data-category="causality">causality <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cbind">cbind <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cleaning">cleaning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="clearing">clearing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="codebook">codebook <span class="quarto-category-count">(1)</span></div><div class="category" data-category="coefficients">coefficients <span class="quarto-category-count">(4)</span></div><div class="category" data-category="coefplot">coefplot <span class="quarto-category-count">(1)</span></div><div class="category" data-category="collapse">collapse <span class="quarto-category-count">(1)</span></div><div class="category" data-category="combining graphs">combining graphs <span class="quarto-category-count">(2)</span></div><div class="category" data-category="commenting">commenting <span class="quarto-category-count">(4)</span></div><div class="category" data-category="controls">controls <span class="quarto-category-count">(2)</span></div><div class="category" data-category="csv">csv <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data cleaning">data cleaning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data frames">data frames <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data wrangling">data wrangling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="delimiters">delimiters <span class="quarto-category-count">(2)</span></div><div class="category" data-category="describe">describe <span class="quarto-category-count">(2)</span></div><div class="category" data-category="difference-in-differences">difference-in-differences <span class="quarto-category-count">(2)</span></div><div class="category" data-category="directories">directories <span class="quarto-category-count">(1)</span></div><div class="category" data-category="do-files">do-files <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dta">dta <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dummy variable">dummy variable <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dummy variables">dummy variables <span class="quarto-category-count">(3)</span></div><div class="category" data-category="econ 325">econ 325 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 326">econ 326 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 490">econ 490 <span class="quarto-category-count">(35)</span></div><div class="category" data-category="egen">egen <span class="quarto-category-count">(1)</span></div><div class="category" data-category="endogeneity">endogeneity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="estimates">estimates <span class="quarto-category-count">(2)</span></div><div class="category" data-category="etable">etable <span class="quarto-category-count">(1)</span></div><div class="category" data-category="event study">event study <span class="quarto-category-count">(2)</span></div><div class="category" data-category="exclusion">exclusion <span class="quarto-category-count">(2)</span></div><div class="category" data-category="exporting">exporting <span class="quarto-category-count">(3)</span></div><div class="category" data-category="expressions">expressions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="factorizing">factorizing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fixed-effects">fixed-effects <span class="quarto-category-count">(2)</span></div><div class="category" data-category="foreach">foreach <span class="quarto-category-count">(1)</span></div><div class="category" data-category="forvalues">forvalues <span class="quarto-category-count">(1)</span></div><div class="category" data-category="full join">full join <span class="quarto-category-count">(1)</span></div><div class="category" data-category="functions">functions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="generate">generate <span class="quarto-category-count">(1)</span></div><div class="category" data-category="generating variables">generating variables <span class="quarto-category-count">(4)</span></div><div class="category" data-category="ggplot">ggplot <span class="quarto-category-count">(2)</span></div><div class="category" data-category="glimpse">glimpse <span class="quarto-category-count">(1)</span></div><div class="category" data-category="globals">globals <span class="quarto-category-count">(1)</span></div><div class="category" data-category="help">help <span class="quarto-category-count">(2)</span></div><div class="category" data-category="heteroskedasticity">heteroskedasticity <span class="quarto-category-count">(5)</span></div><div class="category" data-category="histogram">histogram <span class="quarto-category-count">(2)</span></div><div class="category" data-category="homoskedasticity">homoskedasticity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="hypothesis testing">hypothesis testing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ifelse">ifelse <span class="quarto-category-count">(2)</span></div><div class="category" data-category="import">import <span class="quarto-category-count">(1)</span></div><div class="category" data-category="inner join">inner join <span class="quarto-category-count">(1)</span></div><div class="category" data-category="instrumental variable">instrumental variable <span class="quarto-category-count">(2)</span></div><div class="category" data-category="interaction">interaction <span class="quarto-category-count">(2)</span></div><div class="category" data-category="interaction terms">interaction terms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="interpretation">interpretation <span class="quarto-category-count">(4)</span></div><div class="category" data-category="intro">intro <span class="quarto-category-count">(2)</span></div><div class="category" data-category="left join">left join <span class="quarto-category-count">(1)</span></div><div class="category" data-category="lists">lists <span class="quarto-category-count">(1)</span></div><div class="category" data-category="loading data">loading data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="locals">locals <span class="quarto-category-count">(1)</span></div><div class="category" data-category="log-files">log-files <span class="quarto-category-count">(1)</span></div><div class="category" data-category="loops">loops <span class="quarto-category-count">(2)</span></div><div class="category" data-category="m:1">m:1 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="m:m">m:m <span class="quarto-category-count">(1)</span></div><div class="category" data-category="map">map <span class="quarto-category-count">(1)</span></div><div class="category" data-category="master">master <span class="quarto-category-count">(2)</span></div><div class="category" data-category="matrices">matrices <span class="quarto-category-count">(1)</span></div><div class="category" data-category="merge">merge <span class="quarto-category-count">(2)</span></div><div class="category" data-category="missing data">missing data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multicollinearity">multicollinearity <span class="quarto-category-count">(3)</span></div><div class="category" data-category="multiple regression">multiple regression <span class="quarto-category-count">(3)</span></div><div class="category" data-category="mutating">mutating <span class="quarto-category-count">(2)</span></div><div class="category" data-category="naming">naming <span class="quarto-category-count">(3)</span></div><div class="category" data-category="nonlinearity">nonlinearity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="objects">objects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="operations">operations <span class="quarto-category-count">(1)</span></div><div class="category" data-category="organization">organization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="outliers">outliers <span class="quarto-category-count">(2)</span></div><div class="category" data-category="panel data">panel data <span class="quarto-category-count">(4)</span></div><div class="category" data-category="parallel trends">parallel trends <span class="quarto-category-count">(2)</span></div><div class="category" data-category="projects">projects <span class="quarto-category-count">(2)</span></div><div class="category" data-category="pystata">pystata <span class="quarto-category-count">(18)</span></div><div class="category" data-category="r">r <span class="quarto-category-count">(17)</span></div><div class="category" data-category="random-effects">random-effects <span class="quarto-category-count">(2)</span></div><div class="category" data-category="rbind">rbind <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(12)</span></div><div class="category" data-category="relevance">relevance <span class="quarto-category-count">(2)</span></div><div class="category" data-category="reshape">reshape <span class="quarto-category-count">(1)</span></div><div class="category" data-category="save">save <span class="quarto-category-count">(1)</span></div><div class="category" data-category="scatter plot">scatter plot <span class="quarto-category-count">(2)</span></div><div class="category" data-category="scripts">scripts <span class="quarto-category-count">(3)</span></div><div class="category" data-category="serial correlation">serial correlation <span class="quarto-category-count">(2)</span></div><div class="category" data-category="setting up">setting up <span class="quarto-category-count">(2)</span></div><div class="category" data-category="sort">sort <span class="quarto-category-count">(1)</span></div><div class="category" data-category="summarize">summarize <span class="quarto-category-count">(1)</span></div><div class="category" data-category="summary">summary <span class="quarto-category-count">(1)</span></div><div class="category" data-category="summary statistics">summary statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="t-test">t-test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tabulate">tabulate <span class="quarto-category-count">(2)</span></div><div class="category" data-category="trimming">trimming <span class="quarto-category-count">(2)</span></div><div class="category" data-category="twoway">twoway <span class="quarto-category-count">(2)</span></div><div class="category" data-category="univariate regression">univariate regression <span class="quarto-category-count">(2)</span></div><div class="category" data-category="variables">variables <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vectors">vectors <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vif">vif <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(8)</span></div><div class="category" data-category="weak instrument">weak instrument <span class="quarto-category-count">(2)</span></div><div class="category" data-category="winsorizing">winsorizing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="workflow">workflow <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -435,7 +810,7 @@ window.Quarto = {
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -450,7 +825,7 @@ window.Quarto = {
 <p>This section contains material to support UBC’s <a href="https://economics.ubc.ca/undergraduate/courses/econ-490-course-information/">ECON 490 Seminar in Applied Economics</a>. This course is a our senior research class, which focuses on conducting an original research project - including applied econometrics analysis, writing, and presentation.</p>
 <p>There are <strong>three versions</strong> of these notebooks: two for STATA, and one for R.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">STATA Notebooks</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">R Notebooks</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">pystata Notebooks</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">STATA Notebooks</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">R Notebooks</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">pystata Notebooks</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>These notebooks using the STATA programming language, and are launch in Jupyter using the <code>stata_kernel</code>. You will only be able to run these locally, not via most commercial JupyterHubs.</p>
@@ -474,271 +849,12 @@ window.Quarto = {
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="7" data-listing-word-count-sort="1373">
-<a href="../../docs/Research/econ490-stata/8_Merge_Append.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1725312377586">
+<a href="../../docs/5_Research/econ490-stata/01_Setting_Up.ipynb" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata8.png" alt="Combining Datasets" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Combining Data Sets (8)
-</h5>
 <div class="card-text listing-description">
-Often when we are working with data sets it is necessary to merge or append existing data with other data sets. For example, imagine that we want to do one of the following:
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="26" data-listing-word-count-sort="5106">
-<a href="../../docs/Research/econ490-stata/11_Linear_Reg.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata11.png" alt="Conducting Regression Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Regression Analysis (11)
-</h5>
-<div class="card-text listing-description">
-Before conducting a regression analysis, a great deal of work must go into understanding the data and investigating the theoretical relationships between variables. The…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="10" data-listing-word-count-sort="1975">
-<a href="../../docs/Research/econ490-stata/7_Within_Group.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata7.png" alt="Conducting Within Group Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Within Group Analysis (7)
-</h5>
-<div class="card-text listing-description">
-There are times when you need to consider workers as a group. Consider some of the following examples:
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="16" data-listing-word-count-sort="3136">
-<a href="../../docs/Research/econ490-stata/16_Diff_in_Diff.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata16.png" alt="Differences-in-Differences Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Differences-in-Differences Analysis (16)
-</h5>
-<div class="card-text listing-description">
-Difference-in-differences (Diff-in-Diff) is a <strong>research design</strong> used to estimate the causal impact of a treatment by comparing the changes in outcomes over time between a…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="5" data-listing-word-count-sort="936">
-<a href="../../docs/Research/econ490-stata/12_Exporting_Output.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata12.png" alt="Exporting Regression Output" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Exporting Regression Output (12)
-</h5>
-<div class="card-text listing-description">
-When doing our project, presenting our results in a clear and organized manner is as important as obtaining the results themselves. Stata’s output is very clear on the…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="10" data-listing-word-count-sort="1829">
-<a href="../../docs/Research/econ490-stata/6_Creating_Variables.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata6.png" alt="Generating Variables" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Generating Variables (6)
-</h5>
-<div class="card-text listing-description">
-We’ll continue working with the fake data data set introduced in the previous lecture. Recall that this data set is simulating information of workers in the years 1982-2012…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="11" data-listing-word-count-sort="2170">
-<a href="../../docs/Research/econ490-stata/14_PostReg.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata14.png" alt="Good Regression Practices" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Good Regression Practices (14)
-</h5>
-<div class="card-text listing-description">
-Imagine that we have constructed a dependent variable which contains the earnings growth of individual workers and we see that some worker’s earnings increased by more than…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="6" data-listing-word-count-sort="1174">
-<a href="../../docs/Research/econ490-stata/17_IV.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata17.png" alt="Instrumental Variable Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Instrumental Variable Analysis (17)
-</h5>
-<div class="card-text listing-description">
-Consider a case where we want to know the effect of education on earnings. We may want to estimate a model like the following
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="6" data-listing-word-count-sort="1066">
-<a href="../../docs/Research/econ490-stata/1_Setting_Up.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata1.png" alt="Jupyter and Stata" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Jupyter and Stata (1)
-</h5>
-<div class="card-text listing-description">
-Before you begin you will need to have installed Stata from the UBC portal. Please be certain to sign in using your CWL before searching for Stata. This software is free for…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="10" data-listing-word-count-sort="1919">
-<a href="../../docs/Research/econ490-stata/5_Opening_Datasets.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata5.png" alt="Opening Datasets" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Opening Datasets (5)
-</h5>
-<div class="card-text listing-description">
-In this repository you will find a folder named “data”, with a sub-folder named “raw”. In that sub-folder you will find two different versions of the same data set…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="21" data-listing-word-count-sort="4078">
-<a href="../../docs/Research/econ490-stata/15_Panel_Data.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata15.png" alt="Panel Data Regressions" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Panel Data Regressions (15)
-</h5>
-<div class="card-text listing-description">
-This module uses the Penn World Tables which measure income, input, output and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, you…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="11" data-listing-word-count-sort="2035">
-<a href="../../docs/Research/econ490-stata/3_Stata_Essentials.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata3.png" alt="Stata Essentials" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Stata Essentials (3)
-</h5>
-<div class="card-text listing-description">
-Let’s start by opening a dataset that was provided when you installed Stata onto your own computer. We will soon move on to importing our own data, but this Stata data set…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="24" data-listing-word-count-sort="4621">
-<a href="../../docs/Research/econ490-stata/18_Wf_Guide2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/fig1-stata-dir.png" style="height: 150px;" title="Main directory structure" class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Stata Workflow Guide (18)
-</h5>
-<div class="card-text listing-description">
-Significant credit for the content of the module must go to Asjad Naqvi and this very useful post on The Stata Guide on Medium
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="13" data-listing-word-count-sort="2600">
-<a href="../../docs/Research/econ490-stata/13_Dummy.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata13.png" alt="Using Dummy Variables and Interactions" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Using Dummy Variables and Interactions (13)
-</h5>
-<div class="card-text listing-description">
-You will remember dummy variables from when they were introduced in Module 6. There we discussed both how to interpret and how to generate this type of variable. If you have…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="7" data-listing-word-count-sort="1314">
-<a href="../../docs/Research/econ490-stata/2_Working_Dofiles.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata_interface.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Working with Do-Files (2)
-</h5>
-<div class="card-text listing-description">
-Do-files record the list of commands we want to run for our analysis and allow us to run these commands directly from the file. When we run our analysis in a do-file, we…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="8" data-listing-word-count-sort="1515">
-<a href="../../docs/Research/econ490-stata/4_Locals_and_Globals.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/stata4.png" alt="Working with Locals and Globals" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Working with Locals and Globals (4)
-</h5>
-<div class="card-text listing-description">
-In ECON 325 and ECON 326, you learned that “variables” are characteristics of a data set. For example, if we had a data set that included all of the countries in the world…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="5" data-listing-word-count-sort="821">
-<a href="../../docs/Research/econ490-stata/10_Combining_Graphs.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-stata/img/panel_a.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Econ 490: Combining Graphs (10)
-</h5>
-<div class="card-text listing-description">
-<b>Note:</b> Your best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1724889243904" data-listing-reading-time-sort="10" data-listing-word-count-sort="1827">
-<a href="../../docs/Research/econ490-stata/9_Stata_Graphs.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Econ 490: Creating Meaningful Visuals (9)
-</h5>
-<div class="card-text listing-description">
-<b>Note:</b> Your best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter…
+
 </div>
 </div>
 </div>
@@ -772,271 +888,341 @@ No matching items
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="11" data-listing-word-count-sort="2034">
-<a href="../../docs/Research/econ490-r/7_Combining_Datasets.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-categories="econ 490,r,setting up,intro" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269630" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1112">
+<a href="../../docs/5_Research/econ490-r/01_Setting_Up.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Combining Data Sets (7)
+01 - Setting Up Jupyter and R
 </h5>
 <div class="card-text listing-description">
-We’ll continue working with the “fake_data” data set introduced in the previous lecture. Recall that this data set is simulating information of workers in the years…
+This notebook explains how to set up Jupyter, add an R Kernel, and connect to COMET. It is the first step to take when embarking on a research project.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="4" data-listing-word-count-sort="713">
-<a href="../../docs/Research/econ490-r/9_Combining_Graphs.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="1" data-categories="econ 490,r,scripts,commenting,delimiters,clearing" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269630" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="678">
+<a href="../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-r/img/Rstudio.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+02 - Working with R Scripts
+</h5>
+<div class="card-text listing-description">
+This notebook covers how to write and work with R scripts. We go over how to create a script, commenting, and preparing our R session.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="econ 490,r,vectors,matrices,lists,data frames,objects,variables,operations,functions" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269630" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3254">
+<a href="../../docs/5_Research/econ490-r/03_R_Essentials.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Combining Graphs (9)
+03 - R Essentials
 </h5>
 <div class="card-text listing-description">
-We’ll continue working with the fake data set we have been using so far. Recall that this data set is simulating information for workers in the years 1982-2012 in a fake…
+This notebook dives into a few essentials commands in R, including types of data, how to explore our data, and some basic functions.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="26" data-listing-word-count-sort="5078">
-<a href="../../docs/Research/econ490-r/10_Linear_Reg.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="3" data-categories="econ 490,r,loading data,glimpse,summary,cleaning,factorizing,missing data" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269630" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3371">
+<a href="../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Regression Analysis (10)
+04 - Opening Datasets
 </h5>
 <div class="card-text listing-description">
-Before conducting a regression analysis, a great deal of work must go into understanding the data and investigating the theoretical relationships between variables. The…
+This notebook explains how to load, view, and clean data. We go over importing and previewing our data, as well as preparing the data for analysis.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="10" data-listing-word-count-sort="1958">
-<a href="../../docs/Research/econ490-r/6_Within_Group.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="4" data-categories="econ 490,r,generating variables,dummy variables,ifelse,case when,mutating,naming" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1624">
+<a href="../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Within Group Analysis (6)
+05 - Generating Variables
 </h5>
 <div class="card-text listing-description">
-When we are working on a particular project, it is often quite important to know how to summarize data for specific groupings, whether of variables or observations meeting…<code></code><code></code>
+In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="13" data-listing-word-count-sort="2512">
-<a href="../../docs/Research/econ490-r/8_ggplot_graphs.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="5" data-categories="econ 490,r,generating variables,dummy variables,ifelse,case when,mutating,naming" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2258">
+<a href="../../docs/5_Research/econ490-r/06_Within_Group.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Creating Meaningful Visuals (8)
+06 - Conducting Within Group Analysis
 </h5>
 <div class="card-text listing-description">
-If you are familiar with Stata, you will notice that graphs in R are completely different. The most important and widely used package for data visualization in R is <code>ggplot2</code>.…
+In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="17" data-listing-word-count-sort="3236">
-<a href="../../docs/Research/econ490-r/15_Diff_in_Diff.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="6" data-categories="econ 490,r,append,cbind,rbind,merge,left join,inner join,full join" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2348">
+<a href="../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Differences-in-Differences Analysis (15)
+07 - Combining Data Sets
 </h5>
 <div class="card-text listing-description">
-For this module, we will keep working on our fake dataset. Recall that this data is simulating information of workers in the years 1982-2012 in a fake country where a…
+This notebook explains how to append and merge data sets.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="11" data-listing-word-count-sort="2026">
-<a href="../../docs/Research/econ490-r/12_Dummy.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="7" data-categories="econ 490,r,visualization,ggplot,scatter plot,histogram,bar chart,exporting,aesthetic,map" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4462">
+<a href="../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Dummy Variables and Interactions (12)
+08 - Creating Meaningful Visuals
 </h5>
 <div class="card-text listing-description">
-You will remember dummy variables from when they were introduced in Module 6. There we discussed both how to interpret and to generate this type of variable. If you have any…
+This notebook goes over how to make all sorts of visuals. We look at different types of graphs, like scatter plots and histograms, exporting figures, and how to edit the…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="5" data-listing-word-count-sort="898">
-<a href="../../docs/Research/econ490-r/11_Exporting_Output.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="8" data-categories="econ 490,r,visualization,ggplot,combining graphs" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1415">
+<a href="../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Exporting Regression Output (11)
+09 - Combining Graphs
 </h5>
 <div class="card-text listing-description">
-When doing our project, presenting our results in a clear and organized manner is as important as obtaining the results themselves. R’s output is very clear on the computer…
+This notebook explains how to combine graphs.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
-<a href="../../docs/Research/econ490-r/Formating_rules.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="9" data-categories="econ 490,r,regression,univariate regression,multiple regression,estimates,coefficients,controls,interpretation" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5151">
+<a href="../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Formatting Guidelines (00)
+10 - Conducting Regression Analysis
 </h5>
 <div class="card-text listing-description">
-Start with a brief introduction that is included under a heading - do not simply continuing on from above. Note that the heads at this level use title case.
+This notebook goes over the theory surrounding linear regressions, as well as how to implement univariate and multivariate regressions in R. We dig into coefficient…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="8" data-listing-word-count-sort="1546">
-<a href="../../docs/Research/econ490-r/5_Creating_Variables.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="10" data-categories="econ 490,r,regression,exporting,visualization" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1012">
+<a href="../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Generating Variables (5)
+11 - Exporting Regression Output
 </h5>
 <div class="card-text listing-description">
-In this module, you will learn to:
+Here, we work on how to export our regression results. We introduce some packages to make our regression results look professional and to present our coefficients in a…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="11" data-listing-word-count-sort="2075">
-<a href="../../docs/Research/econ490-r/13_PostReg.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="11" data-categories="econ 490,r,dummy variable,interaction,regression,interpretation,coefficients" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2203">
+<a href="../../docs/5_Research/econ490-r/12_Dummy.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Good Regression Practice (13)
+12 - Dummy Variables and Interactions
 </h5>
 <div class="card-text listing-description">
-Imagine that we have constructed a dependent variable which contains the earnings growth of individual workers and we see that some worker’s earnings increased by more than…
+In this notebook, we dive into dummy variables and interaction terms. We look at how to include them in our regressions and how to interpret their coefficients.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="6" data-listing-word-count-sort="1147">
-<a href="../../docs/Research/econ490-r/16_IV.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="12" data-categories="econ 490,r,outliers,winsorizing,trimming,multicollinearity,heteroskedasticity,nonlinearity" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2491">
+<a href="../../docs/5_Research/econ490-r/13_PostReg.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Instrumental Variable Analysis (16)
+13 - Good Regression Practice
 </h5>
 <div class="card-text listing-description">
-Consider a case where we want to know the effect of education on earnings. We may want to estimate a model like the following
+This notebook covers some good practices that should be implemented when we perform regression analysis. We look at how to handle outliers, multicollinearity…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="6" data-listing-word-count-sort="1065">
-<a href="../../docs/Research/econ490-r/1_Setting_Up.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="13" data-categories="econ 490,r,panel data,regression,fixed-effects,random-effects,heteroskedasticity,serial correlation,causality" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4425">
+<a href="../../docs/5_Research/econ490-r/14_Panel_Data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Jupyter and R (1)
+14 - Panel Data Regressions
 </h5>
 <div class="card-text listing-description">
-You will need to install Anaconda Navigator in order to be able to run JupyterLab.
+In this notebook, we go over panel data. We look into what it is, how to run regressions with panel data, as well as fixed and random-effects models. We finish by looking at…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="16" data-listing-word-count-sort="3123">
-<a href="../../docs/Research/econ490-r/4_Opening_Datasets.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="14" data-categories="econ 490,r,difference-in-differences,panel data,regression,parallel trends,event study" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4121">
+<a href="../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Opening Datasets (4)
+15 - Difference-in-Differences Analysis
 </h5>
 <div class="card-text listing-description">
-After completing this notebook, you will be able to:
+This notebook introduces difference-in-difference analysis. We look the assumptions required to perform this type of analysis, how to run the regressions, how to run event…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="21" data-listing-word-count-sort="4066">
-<a href="../../docs/Research/econ490-r/14_Panel_Data.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="15" data-categories="econ 490,r,instrumental variable,endogeneity,relevance,exclusion,2SLS,weak instrument" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1173">
+<a href="../../docs/5_Research/econ490-r/16_IV.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Panel Data Regressions (14)
+16 - Instrumental Variable Analysis
 </h5>
 <div class="card-text listing-description">
-This module uses the Penn World Tables which measure income, input, output and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, you…
+This notebook introduces instrumental variable analysis. We look the conditions that must be satisfied to perform an IV analysis, how the two-stage-least-squares approach…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="15" data-listing-word-count-sort="2931">
-<a href="../../docs/Research/econ490-r/3_R_Essentials.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="16" data-categories="econ 490,r,workflow,master,organization,scripts,commenting,OneDrive" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269634" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3012">
+<a href="../../docs/5_Research/econ490-r/17_Wf_Guide.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-r/img/fig1.PNG" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: R Essentials (3)
+17 - R Workflow Guide
 </h5>
 <div class="card-text listing-description">
-Run the code cell below before starting!
+This notebook is here to help us organize our files when conducting large-scale research. We talk about workflow management, coding style, and cloud storage.
 </div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
 </div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="15" data-listing-word-count-sort="2999">
-<a href="../../docs/Research/econ490-r/17_Wf_Guide.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-r/img/fig1-R-project.png" style="height: 150px;" title="RProject Object" class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: R Workflow Guide (17)
-</h5>
-<div class="card-text listing-description">
-Structuring your files and folders early on can save you a lot of time and effort throughout your research project. This approach will make it easier for you to keep track…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1724889243900" data-listing-reading-time-sort="4" data-listing-word-count-sort="629">
-<a href="../../docs/Research/econ490-r/2_Working_Rscripts.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-r/img/Rstudio.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Working with R Scripts (2)
-</h5>
-<div class="card-text listing-description">
-If you choose to work with R, it is very advisable to install RStudio here. RStudio provides a nice interface to work with R code. Whenever we work with R or any other…
 </div>
 </div>
 </div>
@@ -1070,271 +1256,361 @@ No matching items
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="7" data-listing-word-count-sort="1373">
-<a href="../../docs/Research/econ490-pystata/8_Merge_Append.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-categories="econ 490,pystata,setting up,intro" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1032">
+<a href="../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata8.png" alt="Combining Datasets" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-pystata/img/anaconda_prompt.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Combining Data Sets (8)
+01 - Setting up PyStata for your Windows computer
 </h5>
 <div class="card-text listing-description">
-Often when we are working with data sets it is necessary to merge or append existing data with other data sets. For example, imagine that we want to do one of the following:
+This notebook explains how to set up Jupyter, add a PyStata Kernel, and connect to COMET. It is the first step to take when embarking on a research project.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1724889243820" data-listing-reading-time-sort="26" data-listing-word-count-sort="5106">
-<a href="../../docs/Research/econ490-pystata/11_Linear_Reg.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="1" data-categories="econ 490,pystata,do-files,commenting,delimiters,log-files" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1310">
+<a href="../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata11.png" alt="Conducting Regression Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-pystata/img/stata_interface.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Regression Analysis (11)
+02 - Working with Do-Files
 </h5>
 <div class="card-text listing-description">
-Before conducting a regression analysis, a great deal of work must go into understanding the data and investigating the theoretical relationships between variables. The…
+This notebook covers how to write and work with Stata do-files. We go over how to create a do-file, commenting, and generating log-files.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="10" data-listing-word-count-sort="1975">
-<a href="../../docs/Research/econ490-pystata/7_Within_Group.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata7.png" alt="Conducting Within Group Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Conducting Within Group Analysis (7)
-</h5>
-<div class="card-text listing-description">
-There are times when you need to consider workers as a group. Consider some of the following examples:
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="16" data-listing-word-count-sort="3136">
-<a href="../../docs/Research/econ490-pystata/16_Diff_in_Diff.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata16.png" alt="Differences-in-Differences Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Differences-in-Differences Analysis (16)
-</h5>
-<div class="card-text listing-description">
-Difference-in-differences (Diff-in-Diff) is a <strong>research design</strong> used to estimate the causal impact of a treatment by comparing the changes in outcomes over time between a…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1724889243820" data-listing-reading-time-sort="5" data-listing-word-count-sort="936">
-<a href="../../docs/Research/econ490-pystata/12_Exporting_Output.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/12_Exporting_Output_files/figure-html/cell-11-output-2.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Exporting Regression Output (12)
-</h5>
-<div class="card-text listing-description">
-When doing our project, presenting our results in a clear and organized manner is as important as obtaining the results themselves. Stata’s output is very clear on the…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="9" data-listing-word-count-sort="1687">
-<a href="../../docs/Research/econ490-pystata/6_Creating_Variables.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata6.png" alt="Generating Variables" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Generating Variables (6)
-</h5>
-<div class="card-text listing-description">
-We’ll continue working with the fake data data set introduced in the previous lecture. Recall that this data set is simulating information of workers in the years 1982-2012…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="11" data-listing-word-count-sort="2170">
-<a href="../../docs/Research/econ490-pystata/14_PostReg.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/14_PostReg_files/figure-html/cell-18-output-2.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Good Regression Practices (14)
-</h5>
-<div class="card-text listing-description">
-Imagine that we have constructed a dependent variable which contains the earnings growth of individual workers and we see that some worker’s earnings increased by more than…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="6" data-listing-word-count-sort="1174">
-<a href="../../docs/Research/econ490-pystata/17_IV.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata17.png" alt="Instrumental Variable Analysis" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Instrumental Variable Analysis (17)
-</h5>
-<div class="card-text listing-description">
-Consider a case where we want to know the effect of education on earnings. We may want to estimate a model like the following
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="9" data-listing-word-count-sort="1777">
-<a href="../../docs/Research/econ490-pystata/5_Opening_Datasets.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata5.png" alt="Opening Datasets" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Opening Datasets (5)
-</h5>
-<div class="card-text listing-description">
-In this repository you will find a folder named “data”, with a sub-folder named “raw”. In that sub-folder you will find two different versions of the same data set…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="21" data-listing-word-count-sort="4078">
-<a href="../../docs/Research/econ490-pystata/15_Panel_Data.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata15.png" alt="Panel Data Regressions" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Panel Data Regressions (15)
-</h5>
-<div class="card-text listing-description">
-This module uses the Penn World Tables which measure income, input, output and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, you…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1724889243880" data-listing-reading-time-sort="11" data-listing-word-count-sort="2035">
-<a href="../../docs/Research/econ490-pystata/3_Stata_Essentials.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata3.png" alt="Stata Essentials" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Stata Essentials (3)
-</h5>
-<div class="card-text listing-description">
-Let’s start by opening a dataset that was provided when you installed Stata onto your own computer. We will soon move on to importing our own data, but this Stata data set…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="24" data-listing-word-count-sort="4621">
-<a href="../../docs/Research/econ490-pystata/18_Wf_Guide2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/fig1-stata-dir.png" style="height: 150px;" title="Main directory structure" class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Stata Workflow Guide (18)
-</h5>
-<div class="card-text listing-description">
-Significant credit for the content of the module must go to Asjad Naqvi and this very useful post on The Stata Guide on Medium
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1724889243820" data-listing-reading-time-sort="13" data-listing-word-count-sort="2600">
-<a href="../../docs/Research/econ490-pystata/13_Dummy.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata13.png" alt="Using Dummy Variables and Interactions" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Using Dummy Variables and Interactions (13)
-</h5>
-<div class="card-text listing-description">
-You will remember dummy variables from when they were introduced in Module 6. There we discussed both how to interpret and how to generate this type of variable. If you have…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="7" data-listing-word-count-sort="1314">
-<a href="../../docs/Research/econ490-pystata/2_Working_Dofiles.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata_interface.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Working with Do-Files (2)
-</h5>
-<div class="card-text listing-description">
-Do-files record the list of commands we want to run for our analysis and allow us to run these commands directly from the file. When we run our analysis in a do-file, we…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="8" data-listing-word-count-sort="1515">
-<a href="../../docs/Research/econ490-pystata/4_Locals_and_Globals.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/stata4.png" alt="Working with Locals and Globals" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-ECON 490: Working with Locals and Globals (4)
-</h5>
-<div class="card-text listing-description">
-In ECON 325 and ECON 326, you learned that “variables” are characteristics of a data set. For example, if we had a data set that included all of the countries in the world…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1724889243820" data-listing-reading-time-sort="5" data-listing-word-count-sort="821">
-<a href="../../docs/Research/econ490-pystata/10_Combining_Graphs.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/10_Combining_Graphs_files/figure-html/cell-6-output-2.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Econ 490: Combining Graphs (10)
-</h5>
-<div class="card-text listing-description">
-<b>Note:</b> Your best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter…
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1724889243884" data-listing-reading-time-sort="10" data-listing-word-count-sort="1827">
-<a href="../../docs/Research/econ490-pystata/9_Stata_Graphs.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="2" data-categories="econ 490,pystata,describe,summarize,loops,help" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2325">
+<a href="../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-Econ 490: Creating Meaningful Visuals (9)
+03 - Stata Essentials
 </h5>
 <div class="card-text listing-description">
-<b>Note:</b> Your best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter…
+This notebook dives into a few essentials commands in Stata, including describe, summarize, loops, and help.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1724889243876" data-listing-reading-time-sort="6" data-listing-word-count-sort="1060">
-<a href="../../docs/Research/econ490-pystata/1_Setting_Up_PyStata.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="3" data-categories="econ 490,pystata,locals,globals,loops,forvalues,foreach,help" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1651">
+<a href="../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="../../docs/Research/econ490-pystata/img/anaconda_prompt.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
-Setting up PyStata for your Windows computer
+04 - Working with Locals and Globals
 </h5>
 <div class="card-text listing-description">
-Before you begin you will need to have installed Stata from the UBC portal. Please be certain to sign in using your CWL before searching for Stata. This software is free for…
+This notebook explains how to create and use locals and globals.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="econ 490,pystata,directories,import,csv,dta,save,describe,codebook,tabulate" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2259">
+<a href="../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+05 - Opening Datasets
+</h5>
+<div class="card-text listing-description">
+This notebook explains how to load, view, and clean data. We go over importing and previewing our data, as well as preparing the data for analysis.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="econ 490,pystata,generating variables,dummy variables,tabulate,expressions,naming" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1867">
+<a href="../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+06 - Generating Variables
+</h5>
+<div class="card-text listing-description">
+In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="econ 490,pystata,generating variables,egen,sort,collapse,reshape" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2399">
+<a href="../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+07 - Conducting Within Group Analysis
+</h5>
+<div class="card-text listing-description">
+In this notebook, we look at within-group analysis. We see how to summarize data for subgroups, how to generate new variables among subgroups, and how to reshape out data.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="7" data-categories="econ 490,pystata,merge,append,m:m,m:1,1:m" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1506">
+<a href="../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+08 - Combining Datasets
+</h5>
+<div class="card-text listing-description">
+This notebook explains how to append and merge data sets.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="8" data-categories="econ 490,pystata,visualization,scatter plot,histogram,bar chart,twoway" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2071">
+<a href="../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+09 - Creating Meaningful Visuals
+</h5>
+<div class="card-text listing-description">
+This notebook goes over how to make all sorts of visuals. We look at different types of graphs, like scatter plots and histograms, exporting figures, and how to edit the…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="9" data-categories="econ 490,pystata,visualization,combining graphs,twoway,generate" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1522">
+<a href="../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-pystata/img/panel_a.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+10 - Combining Graphs
+</h5>
+<div class="card-text listing-description">
+This notebook explains how to combine graphs.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="10" data-categories="econ 490,pystata,regression,univariate regression,multiple regression,estimates,coefficients,controls,interpretation" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27" data-listing-word-count-sort="5205">
+<a href="../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+11 - Conducting Regression Analysis
+</h5>
+<div class="card-text listing-description">
+This notebook goes over the theory surrounding linear regressions, as well as how to implement univariate and multivariate regressions in Stata. We dig into coefficient…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="11" data-categories="econ 490,pystata,regression,exporting,etable,coefplot,visualization" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1069">
+<a href="../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+12 - Exporting Regression Output
+</h5>
+<div class="card-text listing-description">
+Here, we work on how to export our regression results. We introduce some commands to make our regression results look professional and to present our coefficients in a…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="12" data-categories="econ 490,pystata,dummy variable,interaction,regression,interpretation,coefficients" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2766">
+<a href="../../docs/5_Research/econ490-pystata/13_Dummy.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+13 - Using Dummy Variables and Interactions
+</h5>
+<div class="card-text listing-description">
+In this notebook, we dive into dummy variables and interaction terms. We look at how to include them in our regressions and how to interpret their coefficients.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="13" data-categories="econ 490,pystata,outliers,winsorizing,trimming,multicollinearity,heteroskedasticity,nonlinearity" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2585">
+<a href="../../docs/5_Research/econ490-pystata/14_PostReg.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+14 - Good Regression Practices
+</h5>
+<div class="card-text listing-description">
+This notebook covers some good practices that should be implemented when we perform regression analysis. We look at how to handle outliers, multicollinearity…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="14" data-categories="econ 490,pystata,panel data,regression,fixed-effects,random-effects,heteroskedasticity,serial correlation,causality" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4277">
+<a href="../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+15 - Panel Data Regressions
+</h5>
+<div class="card-text listing-description">
+In this notebook, we go over panel data. We look into what it is, how to run regressions with panel data, as well as fixed and random-effects models. We finish by looking at…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="15" data-categories="econ 490,pystata,difference-in-differences,panel data,regression,parallel trends,event study" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3670">
+<a href="../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+16 - Differences-in-Differences Analysis
+</h5>
+<div class="card-text listing-description">
+This notebook introduces difference-in-difference analysis. We look the assumptions required to perform this type of analysis, how to run the regressions, how to run event…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="16" data-categories="econ 490,pystata,instrumental variable,endogeneity,relevance,exclusion,2SLS,weak instrument" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1211">
+<a href="../../docs/5_Research/econ490-pystata/17_IV.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+17: Instrumental Variable Analysis
+</h5>
+<div class="card-text listing-description">
+This notebook introduces instrumental variable analysis. We look the conditions that must be satisfied to perform an IV analysis, how the two-stage-least-squares approach…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="17" data-categories="econ 490,pystata,workflow,master,organization,scripts,commenting,OneDrive" data-listing-date-sort="1716940800000" data-listing-file-modified-sort="1725312269614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4653">
+<a href="../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="../../docs/5_Research/econ490-pystata/img/fig1-stata-dir.png" style="height: 150px;" title="Main directory structure" class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+18 - Stata Workflow Guide
+</h5>
+<div class="card-text listing-description">
+This notebook is here to help us organize our files when conducting large-scale research. We talk about workflow management, coding style, and cloud storage.
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+29 May 2024
+</div>
 </div>
 </div>
 </div>
@@ -1371,8 +1647,8 @@ No matching items
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="econ 325,regression,hypothesis testing,projects,t-test,visualization,summary statistics,R" data-listing-date-sort="1673481600000" data-listing-file-modified-sort="1724889243820" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4626">
-<a href="../../docs/Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-categories="econ 325,regression,hypothesis testing,projects,t-test,visualization,summary statistics,R" data-listing-date-sort="1673481600000" data-listing-file-modified-sort="1725312269650" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4626">
+<a href="../../docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
@@ -1391,8 +1667,8 @@ Let’s put it all together! This notebook is an example of what a “final proj
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="econ 326,regression,projects,R,visualization,data wrangling,data cleaning,multiple regression,homoskedasticity,multicollinearity,Breusch-Pagan test,heteroskedasticity,vif,dummy variable,interaction terms" data-listing-date-sort="1688169600000" data-listing-file-modified-sort="1724889243820" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3636">
-<a href="../../docs/Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="1" data-categories="econ 326,regression,projects,R,visualization,data wrangling,data cleaning,multiple regression,homoskedasticity,multicollinearity,Breusch-Pagan test,heteroskedasticity,vif,dummy variable,interaction terms" data-listing-date-sort="1688169600000" data-listing-file-modified-sort="1725312269650" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3636">
+<a href="../../docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="placeholder_images/placeholder.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
@@ -1847,6 +2123,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="pagination-link" aria-label="Setting Up (1)">
+        <span class="nav-page-text">Setting Up (1)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
