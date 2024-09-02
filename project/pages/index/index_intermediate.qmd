@@ -14,7 +14,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/geog_374/*/*.ipynb
+  - ../../docs/3_Intermediate/geog_374/*/*.ipynb
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]

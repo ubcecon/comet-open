@@ -414,7 +414,7 @@ $$
 Where $E(x)$ is the expected value of random variable $X$, $x$ is a particular value that the random variable can take on, and $P(x)$ is the probability of that value occurring. In the following example, we will use this equation to determine the answer to our previous question: how many fish can we expect to catch in a day?
 
 $$
-E(X) = \sum_x x \cdot P(x)\\
+E(X) = \sum_x x \cdot P(x)
 $$
 
 $$

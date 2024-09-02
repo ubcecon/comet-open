@@ -211,11 +211,13 @@ website:
           - text: Instrumental Variables II
             file: docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.qmd
           - text: Large Language Model APIs (Python)
-            file: docs/4_Advanced/advanced_llm_apis/advanced_llm_api_openai.qmd
+            file: docs\4_Advanced\advanced_llm_apis2\advanced_llm_apis2.qmd
           - text: Linear Differencing
             file: docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.qmd
+          - text: Training LLMS
+            file: docs\4_Advanced\advanced_ollama_llm\fine_tuning_llm.qmd
           - text: Sentiment Analysis Using LLMs (Python)
-            file: docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.qmd
+            file: docs\4_Advanced\advanced_sentiment_analysis\sentiment_analysis.qmd
           - text: Transcription (Python)
             file: docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.qmd
           - text: Vocalization (Python)
@@ -392,7 +394,7 @@ website:
             - text: "Instrumental Variable Analysis (16)"
               file: docs/5_Research/econ490-stata/17_IV.qmd
             - text: "R Workflow Guide (17)"
-              file: docs/5_Research/econ490-stata/18_Wf_Guide.qmd
+              file: docs/5_Research/econ490-stata/18_Wf_Guide2.qmd
         - text: "---"
         - section: "Pystata Notebooks"
           file: pages/index/index_research.qmd
