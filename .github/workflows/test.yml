@@ -1,0 +1,29 @@
+name: Test Build
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Lint Quarto Notebooks
+      run: |
+        find ./project/docs/ -name "*.qmd" -type f -exec python meta/testing/linter.py {} \;
+      if: ${{ failure() }}
+      continue-on-error: true
+    - name: Fail on Linting Error
+      if: ${{ steps.lint.outputs.linting_failed == 'true' }}
+      run: echo "Linting errors - check output from prior stage."
+      #run: exit 1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Build and export
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: .dockerfile
+        tags: my-app-image:latest
+        outputs: type=local,dest=./artifacts
+    - name: Display structure of downloaded files
+      run: ls -R ./artifacts
