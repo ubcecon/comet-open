@@ -24,5 +24,5 @@ _Links_:
 
 * [Teaching with Jupyter Notebooks](../teaching_with_comet.qmd)
 * [Writing Self-tests](../documentation/writing_self_tests.qmd)
-* [Exemplar notebook (Word Embeddings)](../../docs/Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.qmd/)
-* [Exemplar notebook (clustering)](../../docs/Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.quarto_ipynb)
+* [Exemplar notebook (Word Embeddings)](../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.qmd)
+* [Exemplar notebook (clustering)](../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd)

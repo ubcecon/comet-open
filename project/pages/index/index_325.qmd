@@ -6,17 +6,18 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-    - "../../docs/Beginner/beginner_central_tendency/beginner_central_tendency.qmd"
-    - "../../docs/Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd"
-    - "../../docs/Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.qmd"
-    - "../../docs/Beginner/beginner_distributions/beginner_distributions.qmd"
-    - "../../docs/Beginner/beginner_hypothesis_testing(325)/beginner_hypothesis_testing(325).qmd"
-    - "../../docs/Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd"
-    - "../../docs/Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd"
-    - "../../docs/Beginner/beginner_intro_to_statistical_concepts/beginner_intro_to_statistical_concepts.qmd"
-    - "../../docs/Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd"
-    - "../../docs/Beginner/beginner_simple_regression/beginner_simple_regression.qmd"
-    - "../../docs/Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd"
+    - "../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.qmd"
+    - "../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd"
+    - "../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.qmd"
+    - "../../docs/2_Beginner/beginner_distributions/beginner_distributions.qmd"
+    - "../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd"
+    - "../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd"
+    - "../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd"
+    - "../../docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd"
 
   categories: true
   fields: [image, title, date, description]

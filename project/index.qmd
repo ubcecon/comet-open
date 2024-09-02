@@ -33,9 +33,9 @@ nocite: |
 
 ::: {.callout-warning}
 ## Work in Progress
-We are currently working on COMET over the the summer.  Some of the links and files might be broken, or might not work anymore.
+We are currently rebuilding parts of this site and adding content.  Some of the links and files might be broken, or might not work anymore.
 
-* If you have an old version of the GitHub project on your Jupyter account, it should still be OK for now.
+* If you have an old version of the GitHub project on your Jupyter account, you should delete it and load the new version.
 * Links to the website may not be working currently.
 :::
 

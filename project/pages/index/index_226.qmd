@@ -6,9 +6,11 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-    - "../../docs/Beginner/beginner_hypothesis_testing(226)/beginner_hypothesis_testing(226).qmd"
-    - "../../docs/Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd"
-    - "../../docs/Beginner/beginner_intro_to_confidence_intervals/beginner_intro_to_confidence_intervals.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd"
+    - "../../docs/2_Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd"
+    - "../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.qmd"
+    - "../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.qmd"
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]

@@ -13,7 +13,7 @@ The COMET modules can be used for teaching in a variety of ways.  While most of 
   - We would _not_ recommend using these for grades, except if those grades are based on completion.
 * Generally, modules are most engaging when someone is "animating" them, such as a TA or Instructor.
 
-COMET modules can be launched interactively via a [JupyterHub](https://jupyter.org/hub). If you are new to working with JupyterHub, you can orient yourself with the structure and interface in our [_Introduction to Jupyter Module_](../docs/econ_intro/intro_jupyter/intro_to_jupyter.qmd) .
+COMET modules can be launched interactively via a [JupyterHub](https://jupyter.org/hub). If you are new to working with JupyterHub, you can orient yourself with the structure and interface in our [_Introduction to Jupyter Module_](../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd).
 
 * UBC offers an in-house JupyterHub called [JupyterOpen](https://open.jupyter.ubc.ca/) for which these modules were designed.
 * PIMS offers a non-UBC specific JupyterHub called [Syzygy](https://syzygy.ca/) if you are at another institution or JupyterOpen goes down.

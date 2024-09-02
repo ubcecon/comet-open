@@ -6,7 +6,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/Research/econ490-stata/*.ipynb
+  - ../../docs/5_Research/econ490-stata/*.ipynb
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
@@ -14,7 +14,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/Research/econ490-pystata/*.ipynb
+  - ../../docs/5_Research/econ490-pystata/*.qmd
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
@@ -22,7 +22,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/Research/econ490-r/*.ipynb
+  - ../../docs/5_Research/econ490-r/*.qmd
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
@@ -30,7 +30,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/Projects/*/*.qmd
+  - ../../docs/6_Projects/*/*.qmd
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
