@@ -47,7 +47,7 @@ RStudio Projects are built-in features of RStudio that allow us to create a work
 
 To create an RStudio Project, first launch RStudio. Then navigate through __File__, __New Project__, __New Directory__, and then __New Project__. We can then choose the name of our project and select where we would like the project to be stored. To allow for the project to live on OneDrive (which is highly recommended), we select the OneDrive directory in our computer. Finally, we can create the project. If we access your OneDrive folder on our computer, we should then see a subfolder with our project name and a default .RProj object already inside, which looks like the one below.
 
-![RStudio Project Default Directory](img/fig1.png)
+![RStudio Project Default Directory](img/fig1.PNG)
 
 Whenever we want to return to our project to work on it, we can simply click the .RStudio Project object above. We can also start a fresh session in RStudio and navigate to our project by selecting __File__, __Open Project__, and then following the specified instructions.
 
@@ -57,7 +57,7 @@ Now that we have an RStudio Project directory in our computer, we can organize f
 
 Within the main folder, we'll want to sort all of our files into sub-folders similar to the structure shown below:
 
-![Main directory structure](img/fig2.png)
+![Main directory structure](img/fig2.PNG)
 
 Each sub-folder consists of a specific category of files and is numbered to indicate the workflow:
 
@@ -77,7 +77,7 @@ Each sub-folder consists of a specific category of files and is numbered to indi
 
 It's almost never a good idea to use one script for an entire project. Instead, we will want to create different scripts for different tasks and add descriptive labels to reflect our workflow. As mentioned in the previous section, we should prefix our files with numbers to align with the workflow sequence.
 
-![Scripts folder with example scripts](img/fig3.png)
+![Scripts folder with example scripts](img/fig3.PNG)
 
 In the image above, the first script, `build_data.R`, cleans the raw data and generates core variables that will be used in subsequent scripts. The second script, `descriptive_statistics.R`, generates descriptive statistics and relevant figures. The third script, `results.R`, runs the final regressions and generates regression tables. The master script, `master_script.R`, runs all these other scripts. We will discuss its role in detail in a moment.
 
@@ -101,8 +101,8 @@ As we make progress with our project, we might find ourselves collecting many ve
 
 One advantage of using projects in RStudio is that our working directory is set automatically every time we launch our project. In this way, we do not need to set our directory first in order to refer to relative file paths (provided the files are in fact somewhere within our overarching project directory). For instance, if we want to load in a "fake_data.csv" data set in the data folder within a directory structured identically to the one above, we can simply use the following code:
 
-```R
-data <- read.csv("1. data/fake_data.csv")
+```{r}
+data <- read.csv("data/fake_data.csv")
 ```
 
 We can access any of the folders listed above and any potential subfolders/files within them quite quickly using this approach. To check your current directory at any time, you can use the `getwd` function.
@@ -126,17 +126,17 @@ In any case, a master script is useful for running various scripts at once, sinc
 
 For an example of a very brief master script for a project with few scripts, look at the template below.
 
-```R
+```{r}
 # Brief Project Description
 
 # running the script for loading and cleaning data
-source("2. scripts/build_data.R")
+source("scripts/build_data.R")
 
 # running the script for generating summary statistics
-source("2. scripts/descriptive_statistics.R")
+source("scripts/descriptive_statistics.R")
 
 # running the script for generating results
-source("2. scripts/results.R")
+source("scripts/results.R")
 ```
 
 It is important to note that R cannot read the singular backslashes inherent to file paths on Windows computers. While copying file paths is not a problem for Mac users (since R can read forward slashes just fine), the backslashes inherent to file paths for Windows users are a problem. For Windows users, one can either change all of the backslashes to forward slashes (as has been done throughout this notebook), or simply add a second backslash to all existing backslashes. Either option will allow code to run successfully.
@@ -155,7 +155,7 @@ Leaving comments will not only help us remember what we have done, but it will h
 
 There are three ways to comment in an R script:
 
-```R
+```{r}
 # comments on individual lines
 
 1 + 1 # comments on individual lines and after some code
@@ -168,7 +168,7 @@ There are three ways to comment in an R script:
 
 We can also use a series of number signs `#` or combination of number signs and dashes `#-` to format our script and partition our code. For instance, for a script dedicated to data cleaning, we can specify its purpose at the top as such:
 
-```R
+```{r}
 ####################
 # Data Cleaning
 #------------------#
@@ -178,13 +178,13 @@ Formatting our script in this manner creates visual bookmarks and highlights dif
 
 Another use for comments is to "comment out" code that we might be testing or might need later. Use a number sign to comment out a line:
 
-```R
+```{r}
 # fake_data <- data %>% mutate(log_earnings = log(earnings))
 ```
 
 Comment out a block of code by running CTRL + shift + C on Windows or Command + shift + C on mac. There is no formal way of commenting out a block of code in writing like in Stata, so this command is the best approach to quickly comment out a block of code if you don't want to run it right now but feel you may need it later:
 
-```R
+```{r}
 # fake_data %>% group_by(region) %>% count()
 # fake_data %>% group_by(sex) %>% summarise(meanearnings = mean(earnings))
 # fake_data %>% group_by(region) %>% summarise(total = n())
@@ -192,7 +192,7 @@ Comment out a block of code by running CTRL + shift + C on Windows or Command + 
 
 Most importantly, we should leave comments before and after our code to explain what we did!
 
-```R
+```{r}
 # Open Raw Data
 fake_data <- read.csv("1. data/fake_data.csv")
 
@@ -209,7 +209,7 @@ Imagine we want to create a scatterplot in R combining the command `ggplot` and 
 The line of code that achieves this is `figure <- ggplot(data = fake_data, aes(x = year,  y = earnings)) + geom_point()`.
 This may be too long and we may want to split it in several lines. Knowing that R can read code as continuing across multiple lines, we would be tempted to write the following:
 
-```R
+```{r}
 figure <- ggplot(data = fake_data, aes(x = year,  y = earnings))
 + geom_point()
 
@@ -219,7 +219,7 @@ figure()
 
 R will return an error for the above code. This is because it believes our code is done on the first line, so that the addition of `geom_point` is alone and non-sensical. For R to understand that `ggplot` and `geom_point` belong to the same block of code, we must leave the plus sign on the first line:
 
-```R
+```{r}
 figure <- ggplot(data = fake_data, aes(x = year,  y = earnings)) + 
 geom_point()
 
@@ -229,12 +229,11 @@ figure()
 
 The plus sign at the end of the first line signals to R that the code on the first line is not complete and it must keep reading down below to `geom_point`. While operators allow R to "keep reading" across multiple lines, an open bracket achieves the same goal. For example, we could split the code in two lines such that `aes(` is the last word on the first line:
 
-```R
+```{r}
 figure <- ggplot(data = fake_data, aes(
                      x = year, y = earnings)) + geom_point()
                  
 figure
-
 ```
 
 Now our code is split across multiple lines and is also easier to read.
@@ -243,11 +242,11 @@ Now our code is split across multiple lines and is also easier to read.
 
 Using indentations in our code and spacing it neatly can further improve its readability with little effort. We can use the `tab` button on our keyboard to indent and organize our code. Let's reformat the last example to see this in action.
 
-```R
+```{r}
 figure <- ggplot(data = fake_data,
                  aes(
                      x = year,  
-                     y = earnings) + 
+                     y = earnings)) + 
           geom_point()
 
 figure
@@ -261,11 +260,11 @@ We might not want to indent our code on such a granular level, as shown in the e
 
 Let's review a final example which combines all the code styling tools we have discussed so far:
 
-```R
+```{r}
 figure <- ggplot(data = fake_data, # choose the data we want
                  aes(
                      x = year,  # x is year
-                     y = average_logearn) # y is earnings
+                     y = average_logearn)) # y is earnings
           + geom_point()
                  
 
@@ -280,6 +279,6 @@ In this notebook, we looked at how to use UBC OneDrive to securely store project
 
 ## References
 
-- [Structuring a Good README File](https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/) <br>
+- [Structuring a Good README File](https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/)
 - [Understanding RStudio Projects](https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner%27s-guide/)
 
