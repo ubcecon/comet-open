@@ -2,7 +2,7 @@ FROM rocker/tidyverse:latest as builder
 
 WORKDIR /app
 
-COPY renv.lock ../../project ./
+COPY ./meta/building/renv.lock ./project ./
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl gdebi-core libgl1-mesa-glx libxt6 python3.10 python3-pip \
