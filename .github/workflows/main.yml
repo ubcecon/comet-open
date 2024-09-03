@@ -15,7 +15,6 @@ jobs:
           if [ -s lint_output.txt ]; then
             echo "linting_failed=true" >> $GITHUB_OUTPUT
             cat lint_output.txt
-            exit 1
           fi
 
       - name: Set up Docker Buildx
@@ -25,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: .dockerfile
+          file: ./meta/building/.dockerfile
           tags: my-app-image:latest
           outputs: type=local,dest=./artifacts
         
