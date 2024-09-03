@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./meta/building.dockerfile
+          file: ./meta/building/.dockerfile
           tags: my-app-image:latest
           outputs: type=local,dest=./artifacts
         
