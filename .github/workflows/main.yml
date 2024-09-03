@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - test
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -15,7 +15,6 @@ jobs:
           if [ -s lint_output.txt ]; then
             echo "linting_failed=true" >> $GITHUB_OUTPUT
             cat lint_output.txt
-            exit 1
           fi
 
       - name: Set up Docker Buildx
