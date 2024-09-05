@@ -28,7 +28,7 @@ jobs:
 #          outputs: type=local,dest=./artifacts
 
       - name: Test Build
-        run: touch ./artifacts/test.txt
+        run: mkdir -p artifacts && touch artifacts/test.txt
 
       - name: Display structure of downloaded files
         run: ls -R ./artifacts
