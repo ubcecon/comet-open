@@ -52,6 +52,12 @@ jobs:
           name: site
           path: artifacts
 
+      - name: Print directory structure
+        run: |
+          echo "Contents of artifacts directory:"
+          tree
+          ls -al artifacts
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
