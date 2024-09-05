@@ -813,7 +813,7 @@ window.Quarto = {
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">16.0 Intro</h2>
-<div id="be2808a9" class="cell" data-execution_count="1">
+<div id="261eb5a9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -836,7 +836,7 @@ y_{i1} - y_{i0} =   e_{i1} - e_{i0}
 <p>where our new equation no longer depends on <span class="math inline">\(\alpha_i\)</span>! However, see how we are now measuring <span class="math inline">\(y_{i1} - y_{i0}\)</span> instead of <span class="math inline">\(y_{it}\)</span>? Our model now has <em>changes</em> rather than levels. This is going to be the trick used implicitly throughout this module.</p>
 <p>For this module, we will keep working on our fake data set. Recall that this data is simulating information of workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
 <p>Let’s start by loading our data and letting Stata know that it is panel data with panel variable <em>workerid</em> and time variable <em>year</em>. We’ve seen how to do this in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/15_Panel_Data.html">Module 15</a>.</p>
-<div id="44e9251f" class="cell" data-execution_count="2">
+<div id="d92d7345" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Load the data</span>
@@ -852,7 +852,7 @@ y_{i1} - y_{i0} =   e_{i1} - e_{i0}
 <h2 class="anchored" data-anchor-id="parallel-trends-assumption">16.2 Parallel Trends Assumption</h2>
 <p>When using a diff-in-diff design, we first need to make sure our data has a binary treatment variable which takes the value 1 when our unit of observation is treated and 0 otherwise. In the example above, let’s denote such a binary treatment variable as <span class="math inline">\(D_i\)</span>. It takes value 1 if a worker <span class="math inline">\(i\)</span> is enrolled in the training program at some point in time.</p>
 <p>In our fake data set, the binary treatment variable already exists and is called <em>treated</em>. Let’s check that it takes values 0 or 1.</p>
-<div id="a7ae6da5" class="cell" data-execution_count="3">
+<div id="1baf1bfe" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>describe, full</span>
@@ -864,7 +864,7 @@ y_{i1} - y_{i0} =   e_{i1} - e_{i0}
 <p>How do we do that?</p>
 <p>A common approach to check for parallel trends is to plot the mean outcome for both the treated and untreated group over time.</p>
 <p>Do you recall how to make these plots from <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>? We start by generating the average log-earnings for each group in each year.</p>
-<div id="5dc63383" class="cell" data-execution_count="4">
+<div id="c6956c30" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Generate log<span class="op">-</span>earnings</span>
@@ -874,7 +874,7 @@ y_{i1} - y_{i0} =   e_{i1} - e_{i0}
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>bysort year treated: egen meanearn <span class="op">=</span> mean(logearn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we plot the trend of average earnings by each group. It is common practice to add a vertical line in the period just before the treatment is assigned. In our case, that would be year 2002. The idea is that the treated workers receive the treatment between years 2002 and 2003.</p>
-<div id="9dcad970" class="cell" data-execution_count="5">
+<div id="683aa59c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Make graph</span>
@@ -904,14 +904,14 @@ y_{it} = \beta D_i \mathbf{1}\{t=1\}  +  \lambda_t + \alpha_i + e_{it} \tag{1}
 <p>The parameter <span class="math inline">\(\beta\)</span> provides the average treatment effect (on the treated) at period <span class="math inline">\(t=1\)</span> (i.e.&nbsp;we get the effect for those with <span class="math inline">\(D_i=1\)</span> at <span class="math inline">\(t=1\)</span>). It is the average impact of the treatment on those workers who actually received the treatment. <span class="math inline">\(\beta\)</span> states by how much the average earnings of treated individuals would have changed if they had not received the treatment.</p>
 <p>Let’s see how we can estimate this linear diff-in-diff model!</p>
 <p>Recall that we have information of workers in the years 1982-2012 and the training program (the treatment) was introduced in 2003. We’ll keep one year prior and one year after the program, to keep things consistent with the previous section. Specifically, we can think of year 2002 as <span class="math inline">\(t=0\)</span> and year 2003 as <span class="math inline">\(t=1\)</span>.</p>
-<div id="c4c56984" class="cell" data-execution_count="6">
+<div id="48d4822b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>keep <span class="cf">if</span> year<span class="op">==</span><span class="dv">2002</span> <span class="op">|</span> year<span class="op">==</span><span class="dv">2003</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that the diff-in-diff linear model in Equation (1) can be seen as a specific case of a linear model with many fixed-effects. We can use the command <code>reghdfe</code> and the option <code>absorb()</code> to run this type of regression, which we saw in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/13_Dummy.html">Module 13</a>. We can also use the command <code>areg</code> alongside the option <code>absorb()</code> which has the same syntax. In either case, don’t forget to list the fixed-effects in <code>absorb()</code> to avoid seeing them in the regression output!</p>
 <p>Recall that we can create fixed-effects with the <code>i.</code> operator and interactions with the <code>#</code> operator.</p>
-<div id="149ec8f4" class="cell" data-execution_count="7">
+<div id="38b6b19b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>areg logearn treated<span class="co">#2003.year i.year, absorb(workerid)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -936,7 +936,7 @@ y_{it} = \beta D_i \mathbf{1}\{t\geq 1\}  + \lambda_t + \alpha_i + e_{it} \tag{3
 \]</span></p>
 <p>where the <span class="math inline">\(\beta\)</span> corresponds now to all time periods after the year in which treatment was applied: <span class="math inline">\(t\geq 1\)</span>. Some people rename <span class="math inline">\(D_i \mathbf{1}\{t\geq 1\}\)</span> to <span class="math inline">\(D_{it}\)</span>, where <span class="math inline">\(D_{it}\)</span> is simply a variable that takes 0 before any treatment and 1 for those who are being treated at that particular time <span class="math inline">\(t\)</span>. This is known as the <em>Two-Way Fixed-Effects (TWFE) Model</em> . It receives this name because we are including unit fixed-effects, time fixed-effects, and our treatment status.</p>
 <p>Let’s load our fake data set again and estimate a TWFE model step-by-step.</p>
-<div id="c9ca03d9" class="cell" data-execution_count="8">
+<div id="29857f78" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Load data</span>
@@ -947,13 +947,13 @@ y_{it} = \beta D_i \mathbf{1}\{t\geq 1\}  + \lambda_t + \alpha_i + e_{it} \tag{3
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>generate logearn <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember that now we need to create <span class="math inline">\(\mathbf{1}\{t\geq 1\}\)</span>, a dummy equal to 1 for all years following the year in which the treatment was administered. In our example, we need to create a dummy variable taking value 1 for all years greater than or equal to 2003.</p>
-<div id="afe7aac7" class="cell" data-execution_count="9">
+<div id="be4b0664" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>generate post2003 <span class="op">=</span> year<span class="op">&gt;=</span><span class="dv">2003</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can again use <code>areg</code> or <code>reghdfe</code> to estimate Equation (3), but remember to use the new <em>post2003</em> dummy variable.</p>
-<div id="df8f10d2" class="cell" data-execution_count="10">
+<div id="f6c9b5cc" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>areg logearn <span class="fl">1.</span><span class="er">treated</span><span class="co">#1.post2003 i.year, absorb(workerid)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -977,7 +977,7 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <p>How do we estimate Equation (4) in practice?</p>
 <p>We begin by constructing a variable that identifies the time relative to the event. For instance, if a person enters the training program in 2003, the observation corresponding to 2002 is time -1 relative to the event, the observation corresponding to 2003 is time 0 relative to the event, and so on. We call this variable <em>event_time</em> and we compute it as the difference between the current year and the year in which the treatment was received (stored in variable <em>time_entering_treatment</em>).</p>
 <p>In this fake data set, everyone enters the program in 2003, so it is very easy to construct the event time. If this is not the case, we need to make sure that we have a variable which states the year in which each person receives their treatment.</p>
-<div id="4cba6795" class="cell" data-execution_count="11">
+<div id="c5889552" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Load data</span>
@@ -997,13 +997,13 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>generate event_time <span class="op">=</span> year <span class="op">-</span> time_entering_treatment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To make sure we have created <em>event_time</em> properly, let’s see which values it takes.</p>
-<div id="b46739cf" class="cell" data-execution_count="12">
+<div id="a51fd6de" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>tabulate event_time , missing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that all untreated workers have a missing value for the variable <em>event_time</em>. We want to include untreated workers in the reference category <span class="math inline">\(k=-1\)</span>. Recall that we are still trying to understand the effect of being treated compared to the reference group, those that are untreated. Therefore, we code untreated units as if they always belonged to event time -1.</p>
-<div id="e3435a38" class="cell" data-execution_count="13">
+<div id="3a3b270d" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>replace event_time <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="cf">if</span> treated<span class="op">==</span><span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1011,20 +1011,20 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <p>We then decide which <em>window</em> of time around the treatment we want to focus on (the <span class="math inline">\(T\)</span>’s in Equation (4)). For instance, we may want to focus on 2 years prior to the treatment and 2 years after the treatment, and estimate those treatment effects. Our choice should depend on the amount of information we have in each year. In this case, notice that the number of workers 8 years after treatment is substantially lower than the number of workers 8 years before treatment is started.</p>
 <p>We could drop all observations before <span class="math inline">\(k=-2\)</span> and after <span class="math inline">\(k=2\)</span>. This would once again reduce the amount of information we have in our dataset.</p>
 <p>An alternative approach, called <em>binning</em> the window around treatment, is usually preferred. It works by pretending that treated workers who are observed before <em>event_time</em> -2 were actually observed in <em>event_time</em> -2 and treated workers who are observed after <em>event_time</em> 2 were actually observed in <em>event_time</em> 2.</p>
-<div id="ddb12cf2" class="cell" data-execution_count="14">
+<div id="11e18cd1" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>replace event_time <span class="op">=</span> <span class="op">-</span><span class="dv">2</span> <span class="cf">if</span> event_time<span class="op">&lt;-</span><span class="dv">2</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">1</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>replace event_time <span class="op">=</span> <span class="dv">2</span> <span class="cf">if</span> event_time<span class="op">&gt;</span><span class="dv">2</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how these steps have modified the values of variable <em>event_time</em>:</p>
-<div id="281532c5" class="cell" data-execution_count="15">
+<div id="3759b787" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>tabulate event_time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The next step is to generate a dummy variable for each value of <em>event_time</em>.</p>
-<div id="36509859" class="cell" data-execution_count="16">
+<div id="94433c44" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>tabulate event_time, gen(event_time_dummy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1032,7 +1032,7 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <p>Notice that <em>event_time_dummy2</em> is the one that corresponds to <em>event_time</em> -1.</p>
 <p>Once again, Equation (4) is nothing but a linear model with many fixed-effects. We can again use either command <code>areg</code> or <code>reghdfe</code>.</p>
 <p>This time, we must include dummy variables for the different values of <em>event_time</em>, with the exception of the dummy variable for the baseline event time <span class="math inline">\(k=-1\)</span>: <em>event_time_dummy2</em>.</p>
-<div id="e9af3e40" class="cell" data-execution_count="17">
+<div id="c787cf38" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>areg logearn event_time_dummy1 event_time_dummy3 event_time_dummy4 event_time_dummy5 i.year , absorb(workerid) <span class="op">//</span> do you recall how we included worker <span class="kw">and</span> year fixed<span class="op">-</span>effects?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1045,7 +1045,7 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <h3 class="anchored" data-anchor-id="event-study-graph">16.5.1 Event Study Graph</h3>
 <p>The table output is a correct way to convey the results, but it’s efficacy is limited, especially when we want to use a large time window. In those cases, a graph does a better job of representing all coefficients of interest.</p>
 <p>We can easily do that using the command <code>coefplot</code>, which we covered in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>. We keep all coefficients of interest by including all <em>event_time</em> dummies as inputs in <code>keep()</code>, and we rename them one-by-one in <code>rename()</code> to increase clarity of the graph.</p>
-<div id="f2109665" class="cell" data-execution_count="18">
+<div id="3913b34c" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>coefplot, keep(event_time_<span class="op">*</span>) vertical graphregion(color(white)) yline(<span class="dv">0</span>) <span class="op">///</span></span>
@@ -1059,7 +1059,7 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 <h2 class="anchored" data-anchor-id="common-mistakes">16.6 Common Mistakes</h2>
 <p>The most common mistake when dealing with a diff-in-diff research design is to add covariates that are already captured by the fixed-effects.</p>
 <p>Let’s see what happens if we try to estimate Equation (2) where <span class="math inline">\(X\)</span> is gender at birth.</p>
-<div id="70ea0604" class="cell" data-execution_count="19">
+<div id="954c5a45" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Load the data</span>
@@ -1080,7 +1080,7 @@ y_{it} = \sum_{k=-T,k\neq1}^T \beta_k \mathbf{1}\{K_{it} = k\}  + \lambda_t + \a
 </div>
 <p>We cannot estimate the specification above because <em>sex</em> does not change over time for the same individual. Remember: in diff-in-diff regressions, we can only add covariates that are time varying by nature (e.g.&nbsp;tenure, experience) or are trends based on fixed characteristics (e.g.&nbsp;time dummies interacted with sex).</p>
 <p>Another common mistake when dealing with event studies is to forget to re-assign untreated workers to the reference group <span class="math inline">\(k=-1\)</span>. Let’s see what happens if we try to estimate Equation (4) without this adjustment.</p>
-<div id="052bca40" class="cell" data-execution_count="20">
+<div id="9f3e43ab" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Load data</span>

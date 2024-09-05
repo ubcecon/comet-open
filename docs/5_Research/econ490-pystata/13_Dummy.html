@@ -811,11 +811,11 @@ window.Quarto = {
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">13.0 Intro</h2>
-<div id="ec8c55c5" class="cell" data-execution_count="1">
+<div id="2c35914b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4a97cbfb" class="cell" data-execution_count="2">
+<div id="142bbad3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -828,7 +828,7 @@ window.Quarto = {
 <p>Here we will discuss including qualitative variables as explanatory variables in a linear regression model as dummy variables.</p>
 <p>Imagine that we want to include a new explanatory variable in our multivariate regression from <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/11_Linear_Reg.html">Module 11</a> that indicates whether an individual is identified as female. To do this, we need to include a new dummy variable in our regression.</p>
 <p>For this module, we again will be using the fake data set. Recall that this data is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
-<div id="cefd19cb" class="cell" data-execution_count="3">
+<div id="99f8e2e9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
@@ -836,26 +836,26 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>use fake_data,clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s generate a variable that takes the log of <em>earnings</em>, as we did for our regression in the previous module.</p>
-<div id="33e107f7" class="cell" data-execution_count="4">
+<div id="80156e80" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>generate logearnings <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s take a look at the data.</p>
-<div id="8760aa15" class="cell" data-execution_count="5">
+<div id="44051971" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As expected, <em>logearnings</em> is a quantitative variable showing the logarithm of each value of <em>earnings</em>. We also have a variable named <em>sex</em>, but it doesn’t seem to be coded as a numeric variable. Let’s take a closer look:</p>
-<div id="7045de03" class="cell" data-execution_count="6">
+<div id="526f7ec7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>codebook sex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As expected, <em>sex</em> is a string variable and is not numeric. We cannot use a string variable in a regression analysis; we have to create a new variable which indicates the sex of the individual represented by the observation in numeric form.</p>
 <p>A dummy variable is a numeric variable that takes either the value of 0 or 1 depending on a condition. In this case, we want to create a variable that equals 1 whenever a worker is identified as “female”. We have seen how to do this in previous notebooks. Do you remember what to do?</p>
-<div id="d8da9dda" class="cell" data-execution_count="7">
+<div id="58c2937b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>generate female <span class="op">=</span> <span class="op">//</span>fill <span class="kw">in</span> the blank<span class="op">!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -865,7 +865,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="interpreting-the-coefficient-on-a-dummy-variable">13.2 Interpreting the Coefficient on a Dummy Variable</h2>
 <p>Whenever we interpret the coefficient on a dummy variable in a regression, we are making a direct comparison between the 1-category and the 0-category for that dummy. In the case of this <em>female</em> dummy, we are directly comparing the mean earnings of female-identified workers against the mean earnings of male-identified workers.</p>
 <p>Let’s consider the regression below.</p>
-<div id="9bcbbf7c" class="cell" data-execution_count="8">
+<div id="57312e51" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>regress logearnings female</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -880,7 +880,7 @@ window.Quarto = {
 <strong>Note:</strong> We are only able to state this result because the p-value for both <span class="math inline">\(\hat{β}_0\)</span> and <span class="math inline">\(\hat{β}_1\)</span> is less than 0.05, allowing us to reject the null hypothesis that <span class="math inline">\(β_0 = 0\)</span> and <span class="math inline">\(β_1 = 0\)</span> at 95% confidence level.
 </div>
 <p>The interpretation remains the same once we control for more variables, although it is <em>ceteris paribus</em> the other observables now also included in the regression. An example is below.</p>
-<div id="240d59a6" class="cell" data-execution_count="9">
+<div id="363ab250" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>regress logearnings female age </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -891,7 +891,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="dummy-variables-with-multiple-categories">13.3 Dummy Variables with Multiple Categories</h2>
 <p>In this data set, we also have a <em>region</em> variable that has 5 different regions. As we saw in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/06_Creating_Variables.html">Module 6</a>, we can create dummies for each category using <code>tabulate</code>.</p>
 <p>First, we <code>tabulate</code> the categorical variable we want to make into a set of dummies, and then we <code>generate</code> five new dummy variables for the 5 regions represented in the data.</p>
-<div id="06ba6a29" class="cell" data-execution_count="10">
+<div id="b2c48551" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>tabulate region, generate(regdummy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -900,25 +900,25 @@ window.Quarto = {
 <p>We must always exclude one of the dummies. Failing to do so means falling into the <strong>dummy variable trap</strong> of perfect collinearity described above. Essentially, if we include all of the five dummy variables, the fifth one will not add any new information. This is because, using the four other dummies, we can perfectly deduce whether a person is in region 5 (<em>regdummy5</em> = 1). To avoid this, we have to choose one region to serve as a base level for which we will not define a dummy. This dummy variable that we exclude will be the category of reference, or base level, when interpreting coefficients in the regression. This means that the coefficient on each region dummy variable will be comparing the mean earnings of people in that region to the mean earnings of people in the one region excluded.</p>
 <p>We have actually already seen this approach in action in the first regression we ran above; there, we didn’t add a separate dummy variable for “male”. Instead, we excluded the male dummy variable and interpreted the coefficient on <em>female</em> as the difference between female and male log-earnings.</p>
 <p>The easiest way to include multiple categories in a regression in Stata is to write the list of variables using the notation <code>i.variable</code>. Including this tells Stata to automatically drop one of the dummies. As we can see, Stata drops the first region dummy (<em>region</em> = 1) and includes dummy variables for the regions 2 - 5. In this way, Stata automatically helps us avoid the dummy variable trap!</p>
-<div id="4a67e0fb" class="cell" data-execution_count="11">
+<div id="d95b2339" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>regress logearnings i.region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We might not want the first region to be our reference category. In fact, we will often want to control which dummy variable is selected as the reference or base level category. If that is the case, we first have to control the reference dummy variable using the command <code>fvset base</code>, which uses the following syntax: <code>fvset base value_of_base base_var</code>. We do this below by setting the base level category to be region 3.</p>
-<div id="20611112" class="cell" data-execution_count="12">
+<div id="912f2788" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fvset base <span class="dv">3</span> region </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we run the regression below, the reference is now region 3 and not region 1.</p>
-<div id="026ac93c" class="cell" data-execution_count="13">
+<div id="ca71fbe9" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>regress logearnings i.region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Of course, we could also create a new <code>global</code> that includes all of the dummy variables, and place that directly in the regression, as we learned in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/04_Locals_and_Globals.html">Module 4</a>. Here is an example of what that would look like:</p>
-<div id="3242f970" class="cell" data-execution_count="14">
+<div id="b977ebc9" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> regiondummies <span class="st">"regdummy1 regdummy2 regdummy4 regdummy5"</span></span>
@@ -933,20 +933,20 @@ window.Quarto = {
 <p>Luckily for us, there is a package that deals exactly with this issue. The package is called <code>reghdfe</code> and needs to be installed with the command <code>ssc install reghdfe</code>.</p>
 <p>Using the package is very easy. The syntax is <code>reghdfe depvar indepvars, absorb(fixedeffects)</code>, where <em>depvar</em> is our dependent variable of interest, <em>indepvar</em> is a list of explanatory variables, and <em>fixedeffects</em> is a list of variables for which we would like to create dummies.</p>
 <p>To see how it works in practice, let’s say we want to study how earnings change with age for all regions. The code would then be <code>reghdfe logearnings age, absorb(region)</code>.</p>
-<div id="ffe62235" class="cell" data-execution_count="15">
+<div id="af92cf1e" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Install reghdfe</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ssc install reghdfe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5bafd6bf" class="cell" data-execution_count="16">
+<div id="ca4703e4" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Estimate the model</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>reghdfe logearnings age, absorb(region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In practice, using <code>reghdfe</code> is equivalent to asking Stata to create four dummy variables for <em>region</em> and use them as additional explanatory variables. As a matter of fact, <code>reghdfe logearnings age, absorb(region)</code> produces the same results as <code>reg logearnings age i.region</code>. You can check it by running the code below. Notice that by default <code>reghdfe</code> suppresses the coefficients associated to each dummy variable for <em>region</em>.</p>
-<div id="99ad8231" class="cell" data-execution_count="17">
+<div id="e9558582" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>regress logearnings age i.region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -960,14 +960,14 @@ window.Quarto = {
 <strong>Warning:</strong> Whenever we do this, it is <strong>very important</strong> that we also include both the female dummy and age as control variables.
 </div>
 <p>To run this in Stata, categorical variables must be preceded by <code>i.</code>, continuous variables must be preceded by <code>c.</code>, and terms are interacted with the <code>##</code> symbol. For our example, we have the categorical variable <code>i.female</code> interacted with continuous variable <code>c.age</code>. Including <code>##</code> for the interaction automatically includes the female dummy and age as control variables. The regression looks like this:</p>
-<div id="3dfcf32a" class="cell" data-execution_count="18">
+<div id="7af52a76" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>regress logearnings i.female<span class="co">##c.age</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that Stata automatically includes the female and age variables as dummy variables for controls when we write the interaction using <code>##</code>. From the coefficient on <em>female</em>, we can see that, on average, people who are identified as female earn about 0.27 less than those identified as male, holding age constant. We can also see, from the coefficient on <em>age</em>, that each additional year of age increases log-earnings by about 0.013 for the reference category (males). Looking at the coefficient on our interaction term, this effect of age on log-earnings is lower for females by 0.007, meaning that an extra year of age increases log-earnings for women by about 0.013 + (-0.007) = 0.006. It thus seems that our theory is correct: the wage gap between males and females of the same age increases as they get older. For men and women who are both 20, an extra year will be associated with the man earning a bit more than the woman on average. However, if the man and woman are both 50, an extra year will be associated with the man earning much more than the woman on average (or at least out-earning her by much more than before). We can also see from the statistical significance of the coefficient on our interaction term that it was worth including!</p>
 <p>Try this yourself below with the set of region dummies we created above. Think about what these results mean.</p>
-<div id="48573b7c" class="cell" data-execution_count="19">
+<div id="5b4f2550" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>regress logearnings i.female<span class="co">##i.region</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
