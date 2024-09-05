@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt">
+<meta name="dcterms.date" content="2024-05-29">
+<meta name="description" content="This notebook is here to help us organize our files when conducting large-scale research. We talk about workflow management, coding style, and cloud storage.">
+
+<title>17 - R Workflow Guide – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Collab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#introduction-to-workflow-management" id="toc-introduction-to-workflow-management" class="nav-link" data-scroll-target="#introduction-to-workflow-management">17.1 Introduction to Workflow Management</a></li>
+  <li><a href="#setting-up-the-directory" id="toc-setting-up-the-directory" class="nav-link" data-scroll-target="#setting-up-the-directory">17.2 Setting Up the Directory</a>
+  <ul class="collapse">
+  <li><a href="#using-ubc-microsoft-onedrive" id="toc-using-ubc-microsoft-onedrive" class="nav-link" data-scroll-target="#using-ubc-microsoft-onedrive">17.2.1 Using UBC Microsoft OneDrive</a></li>
+  <li><a href="#creating-an-rstudio-project" id="toc-creating-an-rstudio-project" class="nav-link" data-scroll-target="#creating-an-rstudio-project">17.2.2 Creating an RStudio project</a></li>
+  <li><a href="#organization-of-the-main-folder" id="toc-organization-of-the-main-folder" class="nav-link" data-scroll-target="#organization-of-the-main-folder">17.2.3 Organization of the Main Folder</a></li>
+  <li><a href="#scripts-folder" id="toc-scripts-folder" class="nav-link" data-scroll-target="#scripts-folder">17.2.4 Scripts Folder</a></li>
+  <li><a href="#choosing-good-file-names" id="toc-choosing-good-file-names" class="nav-link" data-scroll-target="#choosing-good-file-names">17.2.5 Choosing Good File Names</a></li>
+  </ul></li>
+  <li><a href="#working-in-the-directory" id="toc-working-in-the-directory" class="nav-link" data-scroll-target="#working-in-the-directory">17.3 Working in the Directory</a>
+  <ul class="collapse">
+  <li><a href="#referring-to-specific-files" id="toc-referring-to-specific-files" class="nav-link" data-scroll-target="#referring-to-specific-files">17.3.1 Referring to Specific Files</a></li>
+  <li><a href="#creating-a-readme-file" id="toc-creating-a-readme-file" class="nav-link" data-scroll-target="#creating-a-readme-file">17.3.2 Creating a README File</a></li>
+  <li><a href="#creating-a-master-script" id="toc-creating-a-master-script" class="nav-link" data-scroll-target="#creating-a-master-script">17.3.3 Creating a Master Script</a></li>
+  </ul></li>
+  <li><a href="#best-practices-for-writing-code" id="toc-best-practices-for-writing-code" class="nav-link" data-scroll-target="#best-practices-for-writing-code">17.4 Best Practices for Writing Code</a>
+  <ul class="collapse">
+  <li><a href="#commenting" id="toc-commenting" class="nav-link" data-scroll-target="#commenting">17.4.1 Commenting</a></li>
+  <li><a href="#splitting-the-code-across-lines" id="toc-splitting-the-code-across-lines" class="nav-link" data-scroll-target="#splitting-the-code-across-lines">17.4.2 Splitting the Code Across Lines</a></li>
+  <li><a href="#indenting-and-spacing-our-code" id="toc-indenting-and-spacing-our-code" class="nav-link" data-scroll-target="#indenting-and-spacing-our-code">17.4.3 Indenting and Spacing our Code</a></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">17.4.4 Putting it All Together</a></li>
+  </ul></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">17.5 Wrap Up</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="17_Wf_Guide.ipynb" download="17_Wf_Guide.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">17 - R Workflow Guide</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">r</div>
+    <div class="quarto-category">workflow</div>
+    <div class="quarto-category">master</div>
+    <div class="quarto-category">organization</div>
+    <div class="quarto-category">scripts</div>
+    <div class="quarto-category">commenting</div>
+    <div class="quarto-category">OneDrive</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This notebook is here to help us organize our files when conducting large-scale research. We talk about workflow management, coding style, and cloud storage.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">29 May 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Knowledge of the content of the previous modules: opening data sets, creating graphs, regression analysis.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Develop foundational skills and practices for workflow management in research and data applications.</li>
+<li>Improve coding style, especially for collaborative settings.</li>
+<li>Use the secure file-hosting service UBC OneDrive to store, share, and synchronize folders.</li>
+</ol>
+</section>
+<section id="introduction-to-workflow-management" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-workflow-management">17.1 Introduction to Workflow Management</h2>
+<p>Structuring our files and folders early on will save us a lot of time and effort throughout our research projects. This approach covered in this notebook will make it easier for us to keep track of our progress and reduce our workload later on. This approach will be particularly important if we are working in a group, with several co-authors on one project.</p>
+<p>In this module, we will discuss how to manage files and scripts as part of the research workflow. We will also cover how to stylize code to make it easy to read and replicate. While these are not strict rules, consider them guidelines for research and data management.</p>
+</section>
+<section id="setting-up-the-directory" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-directory">17.2 Setting Up the Directory</h2>
+<section id="using-ubc-microsoft-onedrive" class="level3">
+<h3 class="anchored" data-anchor-id="using-ubc-microsoft-onedrive">17.2.1 Using UBC Microsoft OneDrive</h3>
+<p>Let’s say that have been asked to create a series of folders that will hold all of the information for our project. There are good reasons for keeping those folders on UBC OneDrive. We might, for example, want to be able to access that information when we are away from your computer (for example, working in a lab). We might (legitimately!!) be concerned that all of our hard work will be lost if our computer is damaged or stolen. Finally, we might be working as part of a group - in which case file sharing will be necessary! Setting up OneDrive and installing the application on your own computer will resolve all of those issues.</p>
+<p><a href="https://lthub.ubc.ca/guides/microsoft-onedrive-student-guide/">UBC Microsoft OneDrive</a> is a secure file-hosting service that allows us to store, share, and synchronize files and folders from any connected devices. You can learn how to store files on this service from the link provided above, here we are going to cover how to access these files directly from R on any computer.</p>
+<p>To begin, we need to follow the instructions for our operating system to install the Microsoft OneDrive application on any computer that we want to work on. Once we have complete this process, we will see a new folder in our computer directory which contains all of the files in our OneDrive folder. It is likely labeled OneDrive itself by default. It is in this folder that we will create our RStudio Project file.</p>
+</section>
+<section id="creating-an-rstudio-project" class="level3">
+<h3 class="anchored" data-anchor-id="creating-an-rstudio-project">17.2.2 Creating an RStudio project</h3>
+<p>RStudio Projects are built-in features of RStudio that allow us to create a working directory for a project which we can launch whenever we want. In this way, the project allows us to refer to all of our files using relative and not absolute paths. This approach also prevents us from needing to set our directory every time we work on our project. In this sense, it is quite a valuable tool both from a collaboration and efficiency standpoint.</p>
+<p>To create an RStudio Project, first launch RStudio. Then navigate through <strong>File</strong>, <strong>New Project</strong>, <strong>New Directory</strong>, and then <strong>New Project</strong>. We can then choose the name of our project and select where we would like the project to be stored. To allow for the project to live on OneDrive (which is highly recommended), we select the OneDrive directory in our computer. Finally, we can create the project. If we access your OneDrive folder on our computer, we should then see a subfolder with our project name and a default .RProj object already inside, which looks like the one below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/fig1.PNG" class="img-fluid figure-img"></p>
+<figcaption>RStudio Project Default Directory</figcaption>
+</figure>
+</div>
+<p>Whenever we want to return to our project to work on it, we can simply click the .RStudio Project object above. We can also start a fresh session in RStudio and navigate to our project by selecting <strong>File</strong>, <strong>Open Project</strong>, and then following the specified instructions.</p>
+</section>
+<section id="organization-of-the-main-folder" class="level3">
+<h3 class="anchored" data-anchor-id="organization-of-the-main-folder">17.2.3 Organization of the Main Folder</h3>
+<p>Now that we have an RStudio Project directory in our computer, we can organize folders within this larger folder. This is important given that, over the course of a research project, we are likely to accumulate numerous files for our project, such as raw data files, scripts, tables, graphs, and figures. In fact, there are often many versions of each of these files.</p>
+<p>Within the main folder, we’ll want to sort all of our files into sub-folders similar to the structure shown below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/fig2.PNG" class="img-fluid figure-img"></p>
+<figcaption>Main directory structure</figcaption>
+</figure>
+</div>
+<p>Each sub-folder consists of a specific category of files and is numbered to indicate the workflow:</p>
+<ul>
+<li><strong>data:</strong> contains all the data files;</li>
+<li><strong>scripts:</strong> contains all the R scripts used to process, clean and analyze the data files;</li>
+<li><strong>tables:</strong> contains all the regression tables, summary statistics, etc.;</li>
+<li><strong>figures:</strong> contains all the graphs and figures;</li>
+<li><strong>literature:</strong> contains papers and documents related to your literature review;</li>
+<li><strong>paper:</strong> contains word documents or LaTeX files relating to the written part of your paper;</li>
+<li><strong>slides:</strong> contains presentation slides.</li>
+</ul>
+<div class="alert alert-block alert-info">
+<strong>Note:</strong> We’ll want to avoid spaces, special characters, or capital letters in our folder or file names. If we need to use spaces, we can use underscores <code>_</code> . We will also want to number our files to indicate our workflow.
+</div>
+</section>
+<section id="scripts-folder" class="level3">
+<h3 class="anchored" data-anchor-id="scripts-folder">17.2.4 Scripts Folder</h3>
+<p>It’s almost never a good idea to use one script for an entire project. Instead, we will want to create different scripts for different tasks and add descriptive labels to reflect our workflow. As mentioned in the previous section, we should prefix our files with numbers to align with the workflow sequence.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/fig3.PNG" class="img-fluid figure-img"></p>
+<figcaption>Scripts folder with example scripts</figcaption>
+</figure>
+</div>
+<p>In the image above, the first script, <code>build_data.R</code>, cleans the raw data and generates core variables that will be used in subsequent scripts. The second script, <code>descriptive_statistics.R</code>, generates descriptive statistics and relevant figures. The third script, <code>results.R</code>, runs the final regressions and generates regression tables. The master script, <code>master_script.R</code>, runs all these other scripts. We will discuss its role in detail in a moment.</p>
+<div class="alert alert-info">
+Note: Some researchers prefer to use different scripts for different figures and tables, which is completely fine as long as the files are labeled well. If we want to generate different tables and figures within the same script, we should be sure to write them into separate code blocks within a script so that they can be easily distinguished.
+</div>
+</section>
+<section id="choosing-good-file-names" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-good-file-names">17.2.5 Choosing Good File Names</h3>
+<p>While you are welcome to use your own naming conventions, it can be helpful to prefix your file names with numbers to align with your workflow, post-fixed with version numbers. Version numbers could be <code>_v1</code>, <code>_v2</code> (i.e.&nbsp;“ECON490_script_v12.R”) or they could be indicated by dates (i.e.&nbsp;“Thesis_script_230430.R”).</p>
+<div class="alert alert-block alert-info">
+<b>Note:</b> Following the yymmdd (year month date) format when using dates will automatically sort our files with the latest version at the top. Other date formats will not sort the files in the correct order and thus defeat the purpose of adding a post-fixed version number.
+</div>
+<p>As we make progress with our project, we might find ourselves collecting many versions of the same files. As older versions become redundant, it is best to delete them or move them to a temp folder. Creating a temp folder for old scripts, tables, or documents can be helpful in keeping our main folders neat, especially if we are hesitant to delete them or if we are susceptible to digital hoarding (as many of us are).</p>
+</section>
+</section>
+<section id="working-in-the-directory" class="level2">
+<h2 class="anchored" data-anchor-id="working-in-the-directory">17.3 Working in the Directory</h2>
+<section id="referring-to-specific-files" class="level3">
+<h3 class="anchored" data-anchor-id="referring-to-specific-files">17.3.1 Referring to Specific Files</h3>
+<p>One advantage of using projects in RStudio is that our working directory is set automatically every time we launch our project. In this way, we do not need to set our directory first in order to refer to relative file paths (provided the files are in fact somewhere within our overarching project directory). For instance, if we want to load in a “fake_data.csv” data set in the data folder within a directory structured identically to the one above, we can simply use the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/fake_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can access any of the folders listed above and any potential subfolders/files within them quite quickly using this approach. To check your current directory at any time, you can use the <code>getwd</code> function.</p>
+</section>
+<section id="creating-a-readme-file" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-readme-file">17.3.2 Creating a README File</h3>
+<p>In the main directory, it is also a good idea to include a README file, particularly if we will be sharing our projects with others. A README file is a text file which gives a general overview of the purpose of the project and how to best understand it. While some README files are quite long and lend themselves to a table of contents, yours will likely not need this feature. The file can simply include the following features:</p>
+<ul>
+<li>A title;</li>
+<li>A general description of the project’s goal;</li>
+<li>An acknowledgment of the sources of any data and how it was used;</li>
+<li>Any other major features you think are important to include.</li>
+</ul>
+<p>The README file can also include a more detailed explanation of how all or some of the different folders and files within them contribute to the functioning of the project as a whole. In this way, anyone who reads it, as long as it is located in the main directory, can understand how the project folder is laid out and where to go to find the information they need. This is very helpful for classmates, teaching assistants, and professors.</p>
+</section>
+<section id="creating-a-master-script" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-master-script">17.3.3 Creating a Master Script</h3>
+<p>We may also want to create a master script. This script acts as a compiler and runs some, or all, of the scripts for our project. In its simplest form, it can include just a series of commands allowing the user to run various scripts. In greater detail, it can function in lieu of a README file and also include a general description of the project and the purpose of various scripts.</p>
+<p>In any case, a master script is useful for running various scripts at once, since it provides an alternative to simply combining the code in all of these scripts together into a single script. For example, imagine that we have a script which builds the model for our project, one which cleans our data, and one which produces tables of summary statistics. These are all detailed scripts which accomplish very different goals. To combine them all into a single script could be quite overwhelming. With a master script, however, we can run all of these scripts quickly while leaving them discretely separated in various files. In this way, the master script is like a compiler.</p>
+<p>For an example of a very brief master script for a project with few scripts, look at the template below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Brief Project Description</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># running the script for loading and cleaning data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"scripts/build_data.R"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># running the script for generating summary statistics</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"scripts/descriptive_statistics.R"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># running the script for generating results</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"scripts/results.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is important to note that R cannot read the singular backslashes inherent to file paths on Windows computers. While copying file paths is not a problem for Mac users (since R can read forward slashes just fine), the backslashes inherent to file paths for Windows users are a problem. For Windows users, one can either change all of the backslashes to forward slashes (as has been done throughout this notebook), or simply add a second backslash to all existing backslashes. Either option will allow code to run successfully.</p>
+</section>
+</section>
+<section id="best-practices-for-writing-code" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-writing-code">17.4 Best Practices for Writing Code</h2>
+<p>There are three core practices that will make it easy to write, edit and understand code:</p>
+<ol type="1">
+<li>Adding comments.</li>
+<li>Splitting up code into multiple lines.</li>
+<li>Indenting and spacing code.</li>
+</ol>
+<section id="commenting" class="level3">
+<h3 class="anchored" data-anchor-id="commenting">17.4.1 Commenting</h3>
+<p>Leaving comments will not only help us remember what we have done, but it will help our group members, TAs, instructors, and supervisors understand our thought process.</p>
+<p>There are three ways to comment in an R script:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comments on individual lines</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="co"># comments on individual lines and after some code</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># comments on multiple lines</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># like a "code block"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># activated by highlighting your code and running CTRL + shift + C (or Command + shift + C on mac)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can also use a series of number signs <code>#</code> or combination of number signs and dashes <code>#-</code> to format our script and partition our code. For instance, for a script dedicated to data cleaning, we can specify its purpose at the top as such:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">####################</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Cleaning</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#------------------#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Formatting our script in this manner creates visual bookmarks and highlights different sections of our script.</p>
+<p>Another use for comments is to “comment out” code that we might be testing or might need later. Use a number sign to comment out a line:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fake_data &lt;- data %&gt;% mutate(log_earnings = log(earnings))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Comment out a block of code by running CTRL + shift + C on Windows or Command + shift + C on mac. There is no formal way of commenting out a block of code in writing like in Stata, so this command is the best approach to quickly comment out a block of code if you don’t want to run it right now but feel you may need it later:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fake_data %&gt;% group_by(region) %&gt;% count()</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fake_data %&gt;% group_by(sex) %&gt;% summarise(meanearnings = mean(earnings))</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fake_data %&gt;% group_by(region) %&gt;% summarise(total = n())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Most importantly, we should leave comments before and after our code to explain what we did!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open Raw Data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"1. data/fake_data.csv"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(fake_data) <span class="co"># factorize all variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we move on to writing more complex code, leaving comments will become more helpful.</p>
+</section>
+<section id="splitting-the-code-across-lines" class="level3">
+<h3 class="anchored" data-anchor-id="splitting-the-code-across-lines">17.4.2 Splitting the Code Across Lines</h3>
+<p>R can automatically read code as continuing across multiple lines, provided we don’t give it a reason to believe our code is finished. Let’s look at an example to see why. Imagine we want to create a scatterplot in R combining the command <code>ggplot</code> and <code>geom_point</code> (for all details on how to do graphs in R, see <a href="https://comet.arts.ubc.ca/docs/Research/econ490-r/08_ggplot_graphs.html">Module 8</a>).</p>
+<p>The line of code that achieves this is <code>figure &lt;- ggplot(data = fake_data, aes(x = year,  y = earnings)) + geom_point()</code>. This may be too long and we may want to split it in several lines. Knowing that R can read code as continuing across multiple lines, we would be tempted to write the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> fake_data, <span class="fu">aes</span>(<span class="at">x =</span> year,  <span class="at">y =</span> earnings))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R will return an error for the above code. This is because it believes our code is done on the first line, so that the addition of <code>geom_point</code> is alone and non-sensical. For R to understand that <code>ggplot</code> and <code>geom_point</code> belong to the same block of code, we must leave the plus sign on the first line:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> fake_data, <span class="fu">aes</span>(<span class="at">x =</span> year,  <span class="at">y =</span> earnings)) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The plus sign at the end of the first line signals to R that the code on the first line is not complete and it must keep reading down below to <code>geom_point</code>. While operators allow R to “keep reading” across multiple lines, an open bracket achieves the same goal. For example, we could split the code in two lines such that <code>aes(</code> is the last word on the first line:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> fake_data, <span class="fu">aes</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">x =</span> year, <span class="at">y =</span> earnings)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>figure</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now our code is split across multiple lines and is also easier to read.</p>
+</section>
+<section id="indenting-and-spacing-our-code" class="level3">
+<h3 class="anchored" data-anchor-id="indenting-and-spacing-our-code">17.4.3 Indenting and Spacing our Code</h3>
+<p>Using indentations in our code and spacing it neatly can further improve its readability with little effort. We can use the <code>tab</code> button on our keyboard to indent and organize our code. Let’s reformat the last example to see this in action.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> fake_data,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">x =</span> year,  </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> earnings)) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>figure</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is the same code block as before, but it is significantly easier to read this time around.</p>
+<p>We might not want to indent our code on such a granular level, as shown in the example above. That’s okay, as long as the code is organized in a way that is clear to us and our collaborators, and generally easy to understand.</p>
+</section>
+<section id="putting-it-all-together" class="level3">
+<h3 class="anchored" data-anchor-id="putting-it-all-together">17.4.4 Putting it All Together</h3>
+<p>Let’s review a final example which combines all the code styling tools we have discussed so far:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> fake_data, <span class="co"># choose the data we want</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">x =</span> year,  <span class="co"># x is year</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> average_logearn)) <span class="co"># y is earnings</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>          <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>figure</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The comments in this example might seem unnecessary since the code is self-explanatory. However, depending on our familiarity with R (or coding in general) and the complexity of the code, adding comments that seem obvious at the time can be helpful when we revisit work days or weeks later. As students of economics, we understand that there is an opportunity cost to everything, including time spent deciphering code we have already written.</p>
+</section>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">17.5 Wrap Up</h2>
+<p>In this notebook, we looked at how to use UBC OneDrive to securely store projects. We also looked at how to use R’s built-in RStudio Projects functionality to minimize the need for setting directories. Further, we explored how to structure this directory, how to name files, and how to separate scripts. We also discussed important file types to include and best practices for coding more generally.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/">Structuring a Good README File</a></li>
+<li><a href="https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner%27s-guide/">Understanding RStudio Projects</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

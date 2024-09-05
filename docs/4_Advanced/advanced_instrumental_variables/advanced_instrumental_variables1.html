@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="COMET Team  ">
+<meta name="dcterms.date" content="2024-06-10">
+<meta name="description" content="An introduction to estimating causal effects with instrumental variables on Jupyter and R.">
+
+<title>3.2.1 - Advanced - Instrumental Variables – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" rel="next">
+<link href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Collab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html">Instrumental Variables I</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn by Skill Level</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Started: Introduction to Data, R, and Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to JupyterNotebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 2)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_beginner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Beginner: Using R and Data in Applied Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Central Tendency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dispersion and Dependence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_intermediate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intermediate: Econometrics and Modeling Using R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Issues in Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/index/index_geog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geographic Computation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chi-Square Test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_06_Ttest/Lab_06_Ttest.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">t-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_03_Regression/Lab_03_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Climate_Disasters/Climate_Disasters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wrangling and Visualizing Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_advanced.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Modules</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Differences In Differences</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Instrumental Variables I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variables II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large Language Model APIs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Differencing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Training LLMS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentiment Analysis Using LLMs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transcription (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vocalization (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (R)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline">Outline</a></li>
+  <li><a href="#context-oregon-health-insurance-experiment" id="toc-context-oregon-health-insurance-experiment" class="nav-link" data-scroll-target="#context-oregon-health-insurance-experiment">Context: Oregon Health Insurance Experiment</a>
+  <ul class="collapse">
+  <li><a href="#the-experiment-solving-the-problem-of-partial-random-assignment" id="toc-the-experiment-solving-the-problem-of-partial-random-assignment" class="nav-link" data-scroll-target="#the-experiment-solving-the-problem-of-partial-random-assignment">The experiment: solving the problem of partial random assignment</a></li>
+  <li><a href="#the-theory" id="toc-the-theory" class="nav-link" data-scroll-target="#the-theory">The theory</a></li>
+  <li><a href="#health-insurance-example-with-simulated-data" id="toc-health-insurance-example-with-simulated-data" class="nav-link" data-scroll-target="#health-insurance-example-with-simulated-data">Health insurance example with simulated data</a></li>
+  <li><a href="#formalizing-instrumental-variables" id="toc-formalizing-instrumental-variables" class="nav-link" data-scroll-target="#formalizing-instrumental-variables">Formalizing instrumental variables</a></li>
+  <li><a href="#formalizing-the-wald-estimator" id="toc-formalizing-the-wald-estimator" class="nav-link" data-scroll-target="#formalizing-the-wald-estimator">Formalizing the Wald estimator</a></li>
+  <li><a href="#back-to-the-insurance-example-with-simulated-data" id="toc-back-to-the-insurance-example-with-simulated-data" class="nav-link" data-scroll-target="#back-to-the-insurance-example-with-simulated-data">Back to the insurance example with simulated data</a></li>
+  </ul></li>
+  <li><a href="#example-2-college-proximity-and-returns-to-education" id="toc-example-2-college-proximity-and-returns-to-education" class="nav-link" data-scroll-target="#example-2-college-proximity-and-returns-to-education">Example 2: College Proximity and Returns to Education</a>
+  <ul class="collapse">
+  <li><a href="#the-selection-problem" id="toc-the-selection-problem" class="nav-link" data-scroll-target="#the-selection-problem">The selection problem</a></li>
+  <li><a href="#analyzing-the-results" id="toc-analyzing-the-results" class="nav-link" data-scroll-target="#analyzing-the-results">Analyzing the results</a></li>
+  <li><a href="#adding-controls-to-the-iv-regression" id="toc-adding-controls-to-the-iv-regression" class="nav-link" data-scroll-target="#adding-controls-to-the-iv-regression">Adding controls to the IV regression</a></li>
+  <li><a href="#local-average-treatment-effect-late" id="toc-local-average-treatment-effect-late" class="nav-link" data-scroll-target="#local-average-treatment-effect-late">Local average treatment effect (LATE)</a></li>
+  <li><a href="#a-note-on-standard-errors" id="toc-a-note-on-standard-errors" class="nav-link" data-scroll-target="#a-note-on-standard-errors">A note on standard errors</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="advanced_instrumental_variables1.ipynb" download="advanced_instrumental_variables1.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html">Instrumental Variables I</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">3.2.1 - Advanced - Instrumental Variables</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">advanced</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">instrumental variables</div>
+    <div class="quarto-category">causality</div>
+    <div class="quarto-category">2SLS</div>
+    <div class="quarto-category">regression</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An introduction to estimating causal effects with instrumental variables on Jupyter and R.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>COMET Team <br> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">10 June 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ul>
+<li>An intermediate understanding of Jupyter and R</li>
+<li>A theoretical understanding of linear regressions</li>
+</ul>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<p>After completing this notebook, you will be able to:</p>
+<ul>
+<li>Understand how instrumental variables solve omitted variable bias</li>
+<li>Choose appropriate instrumental variables</li>
+<li>Estimate causal effects with 2SLS estimators</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Baicker, K., Taubman, S. L., Allen, H. L., Bernstein, M., Gruber, J. H., Newhouse, J. P., Schneider, E. C., Wright, B. J., Zaslavsky, A. M., &amp; Finkelstein, A. N. (2013). The Oregon Experiment: Effects of Medicaid on clinical outcomes. New England Journal of Medicine, 368(18), 1713–1722.</li>
+<li>Card, D. (1993). Using geographic variation in college proximity to estimate the return to schooling. National Bureau of Economic Research.</li>
+<li>Hanck, C., Arnold, M., Gerber, A., &amp; Schmelzer, M. (n.d.). Introduction to econometrics with R [E-book]. University of Duisburg-Essen.</li>
+<li>Kleiber, Christian, and Achim Zeileis. 2008. Applied Econometrics with R. New York: Springer-Verlag.</li>
+</ul>
+</section>
+<section id="outline" class="level2">
+<h2 class="anchored" data-anchor-id="outline">Outline</h2>
+<p>The notebooks <em>Instrumental Variables 1 and 2</em> are structured as follows:</p>
+<ul>
+<li>Context: Oregon Health Insurance Experiment
+<ul>
+<li>Introducing instrumental variables in the context of partial random assignment</li>
+<li>Laying out the theory of instrumental variables and their estimators</li>
+</ul></li>
+<li>Example 2: College Proximity and Returns to Education
+<ul>
+<li>Solving OVB with data from Card (1993)</li>
+<li>Applying IV estimators on R using the <code>AER</code> package</li>
+<li>Discussing the differences between OLS and IV estimates</li>
+</ul></li>
+<li>Example 3: Tariffs on Animal and Vegetable Oils
+<ul>
+<li>Understanding the first application of instrumental variables in the context of endogeneity</li>
+<li>Modeling solutions to endogeneity in demand and supply relationships</li>
+</ul></li>
+<li>Example 4: Pigouvian Taxes on Cigarettes
+<ul>
+<li>Extending IV regressions to multiple instruments</li>
+<li>Introducing statistical tests to quantify the validity of instruments</li>
+</ul></li>
+</ul>
+</section>
+<section id="context-oregon-health-insurance-experiment" class="level2">
+<h2 class="anchored" data-anchor-id="context-oregon-health-insurance-experiment">Context: Oregon Health Insurance Experiment</h2>
+<p>Universal healthcare is one of the most widely debated topics in economic policy. Since 1965, the federal government of the United States provides free healthcare to American citizens through two different health insurance programs: Medicare and Medicaid. These programs cover medical costs of at-risk and some low-income Americans. In 2010, the federal government approved the Affordable Care Act, which let US states extend Medicaid to all low-income adults within their jurisdictions.</p>
+<p>The key question the states faced was: <strong>should we extend health insurance to all low-income adults?</strong></p>
+<p>This decision required the states to assess the costs and benefits of extending health insurance to the uninsured. Crucially, they need to know how much (or whether at all) health insurance improves health outcomes of individuals.</p>
+<p>A first approach might be to estimate the effect of health insurance using a regression. For instance, we could regress health outcomes on insurance status. Unfortunately, this model would have <em>omitted variables bias (OVB)</em>. It is likely that the older and lower-income population currently covered by Medicare and Medicaid is less healthy than the average American. This would result in a misleading estimate. We need another approach.</p>
+<p>Ideally, we would want to randomly select people from the uninsured population, randomly assign health insurance to them, then compare the health outcomes of the two groups. This was what the State of Oregon did in 2008.</p>
+<section id="the-experiment-solving-the-problem-of-partial-random-assignment" class="level3">
+<h3 class="anchored" data-anchor-id="the-experiment-solving-the-problem-of-partial-random-assignment">The experiment: solving the problem of partial random assignment</h3>
+<p>From 2008 to 2011, the state of Oregon randomly assigned Medicaid coverage to 30,000 uninsured citizens through a lottery system. The lottery winners were offered full coverage of the Oregon Health Plan (OHP) Standard Medicaid, once they submitted some documentation. The state recorded the health outcomes of both the individuals that won and lost the lottery over the course of several years.</p>
+<p>Although this is close to our ideal, it’s not a perfect randomly controlled trial (RCT). Lottery winners were only given free insurance if they submitted their documents and met some eligibility criteria<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Many lottery winners either did not submit the required documents or turned out to be ineligible to the program. In the end, only about 25% of the lottery winners eventually enrolled in OHP Standard.</p>
+<p>While the <em>possibility to apply for insurance</em> was randomly assigned by the lottery system, <em>insurance status</em> was not randomly assigned. This means that if health outcomes were related to the reason why they didn’t fill out their forms, or were ineligible, we could still have OVB.</p>
+<p>Fortunately, there are ways around this “partial random assignment”. We can (1) isolate the variation in insurance status created by the lottery and (2) calculate the effect of insurance status on health outcomes just for this isolated variation. This approach is called <strong>instrumental variables</strong>.</p>
+</section>
+<section id="the-theory" class="level3">
+<h3 class="anchored" data-anchor-id="the-theory">The theory</h3>
+<p>We are interested in the effect of <em>insurance status</em> on <em>health outcomes.</em> We know:</p>
+<ul>
+<li>Lottery results are randomly assigned</li>
+<li>Winning the lottery increases the probability of insurance coverage</li>
+<li>Insurance coverage affects health outcomes</li>
+</ul>
+<p>We can use these facts to isolate the effect of health insurance. The key insight is that winning the lottery can only affect your health through its impact on your health insurance. This means that the following relationship must be true:</p>
+<p><span class="math display">\[
+\text{Effect of lottery on insurance} \cdot \text{Effect of insurance on health} = \text{Effect of lottery on health}
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Example</strong>: Imagine that all of the lottery winners were automatically enrolled in the insurance program. That would mean that the probability of insurance status for lottery winners is 100%. In this scenario, insurance status is determined <em>solely</em> by the lottery, so we have a traditional RCT. A comparison of health outcomes between those who won and those who lost the lottery (or those who have and those who don’t have insurance) would be unbiased. This can be seen on the equation above: if the effect of lottery on insurance <span class="math inline">\(=\)</span> 1, then effect of lottery on health outcomes <span class="math inline">\(=\)</span> effect of insurance on health outcomes.</p>
+</blockquote>
+<p>Since lottery winners are not automatically enrolled in the insurance program, winning the lottery increases the probability of insurance coverage by less than 100%. This means that insurance status is determined by both the lottery and other external variables (for example, maybe those who don’t submit the application on time care less about their health). In this case, a simple comparison of health outcomes between individuals would yield a biased estimate.</p>
+<p>To get the true effect of insurance on health, we can rearrange the relationship.</p>
+<p><span class="math display">\[
+\text{Effect of insurance on health} = \frac{\text{Effect of lottery on health}}{\text{Effect of lottery on insurance}}
+\]</span></p>
+<p>Let’s be a little more rigorous about what we mean by “effect”. Since lottery is a binary variable (you either win or lose the lottery), we can rewrite the “effects” as the difference in averages for the lottery dummy turned on and off. We get a ratio of differences of conditional averages: the difference in health outcomes conditional on lottery result divided by the difference in insurance status conditional on lottery result.</p>
+<p><span class="math display">\[
+    \text{Effect of insurance on health} = \frac{\text{Average health of winners} - \text{Average health of losers}}{\text{Average insurance of winners} - \text{Average insurance of losers}}
+\]</span></p>
+<p>That seems like something we can calculate. This difference in averages should adjust our estimates to reflect the “partial random assignment” situation. The effect of insurance on health equals the effect of the lottery results on health <em>adjusted for the probability that lottery winners enroll in the insurance program</em>.</p>
+<blockquote class="blockquote">
+<p><strong>Think deeper</strong>: Why can we interpret the effect of lottery on insurance as the probability that lottery winners enroll in the insurance program?</p>
+</blockquote>
+</section>
+<section id="health-insurance-example-with-simulated-data" class="level3">
+<h3 class="anchored" data-anchor-id="health-insurance-example-with-simulated-data">Health insurance example with simulated data</h3>
+<p>Let’s calculate the effect of insurance on health with a very simple simulated dataset.</p>
+<p><code>simulated_health_data</code> has data on 1,000 uninsured individuals who participated in a lottery system for public health insurance coverage in a fictitious state. The variables coded are:</p>
+<ul>
+<li><code>lot_win</code> dummy == 1 for lottery winners</li>
+<li><code>insurance_status</code> dummy == 1 for enrolled in the insurance program</li>
+<li><code>health_outcome</code> for an aggregate measure of health outcomes after 12 months of insurance enrollment (the higher, the better!)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages needed for the analysis</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load datasets</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'advanced_instrumental_variables1_data1.r'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'advanced_instrumental_variables1_data2.r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set seed to ensure reproducibility</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulated_health_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Similar to the Oregon experiment, lottery winners are only enrolled in the insurance program if they submit a set of required documents. We can see that winning the lottery does not guarantee enrollment since there are individuals for whom <code>lot_win == 1</code> and <code>insurance_status == 0</code>.</p>
+<p>Let’s find the share of individuals who won the lottery but did not enroll in the insurance program.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>share_enrolled <span class="ot">&lt;-</span> simulated_health_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(lot_win <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span>    <span class="co"># filter for lottery winners</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">summarize</span>(<span class="at">share_enrolled =</span> <span class="fu">sum</span>(insurance_status)<span class="sc">/</span><span class="fu">sum</span>(lot_win))    <span class="co"># find % of winners who enrolled</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.double</span>(share_enrolled))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Only 65% of those who win the lottery actually enroll in the insurance program. This adds bias to the randomization process and deems a simple difference in means (and consequently, an OLS estimate) an inappropriate estimate of the causal effect.</p>
+<p>Let’s (1) calculate the OLS estimate as if this was a traditional RCT (2) calculate our adjusted estimate of the causal effect. Since we’re working with simulated data, we can compare our estimates to the true underlying relationships.</p>
+<section id="calculating-the-ols-estimate" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-ols-estimate">Calculating the OLS estimate</h4>
+<p>Let’s use the <code>lm()</code> function to calculate the OLS estimate as if this was a traditional RCT. We log-transform health outcomes to interpret the coefficient in percentage terms.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  run linear regression</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>OLS_estimate <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(health_outcome) <span class="sc">~</span> insurance_status, <span class="at">data =</span> simulated_health_data)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(OLS_estimate, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The OLS estimate of the effect of insurance on health outcomes is very large: insured individuals have 21.5% better health outcomes on average. This estimate supports the idea that there are large benefits in extending health insurance coverage to the population that is currently uninsured.</p>
+</section>
+<section id="calculating-our-adjusted-estimate" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-our-adjusted-estimate">Calculating our adjusted estimate</h4>
+<p>Let’s calculate the adjusted estimate that we derived in the previous section.</p>
+<p>First, we calculate the average values of insurance status and health outcomes conditional on lottery result. We store those values in a data frame called <code>conditional_means</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>conditional_means <span class="ot">&lt;-</span> simulated_health_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">group_by</span>(lot_win) <span class="sc">%&gt;%</span>    <span class="co"># group data based on lottery results</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">summarize</span>(<span class="at">avg_insurance_status =</span> <span class="fu">mean</span>(insurance_status),    <span class="co"># calculate sample averages of status and outcomes</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">avg_health_outcome =</span> <span class="fu">mean</span>(<span class="fu">log</span>(health_outcome)))            </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>conditional_means</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we divide the difference in conditional means of health outcomes by the difference in conditional means of insurance status.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate difference in conditional means of health outcomes</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>effect_lot_health <span class="ot">&lt;-</span> conditional_means[<span class="dv">2</span>,<span class="dv">3</span>] <span class="sc">-</span> conditional_means[<span class="dv">1</span>,<span class="dv">3</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate difference in conditional means of insurance status</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>effect_lot_insurance <span class="ot">&lt;-</span> conditional_means[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">-</span> conditional_means[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate adjusted estimate</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>adjusted_estimate <span class="ot">&lt;-</span> <span class="fu">as.double</span>(effect_lot_health<span class="sc">/</span>effect_lot_insurance)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adjusted_estimate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The estimated causal effect calculated with our adjusted estimate is approximately 5.7% - just a fraction of the OLS estimate.</p>
+<p>This stark difference suggests that there is OVB in our OLS estimate. Before we look at what’s happening under the hood, let’s formalize what we did in this example.</p>
+</section>
+</section>
+<section id="formalizing-instrumental-variables" class="level3">
+<h3 class="anchored" data-anchor-id="formalizing-instrumental-variables">Formalizing instrumental variables</h3>
+<p>We use <strong>instrumental variables</strong> (IVs) to isolate causal effects from models that might be plagued with omitted variable bias or endogeneity. IVs allow us to make causal inferences with observational data when OLS estimators are biased.</p>
+<p>We were interested in estimating <span class="math inline">\(\beta_1\)</span> in the model below:</p>
+<p><span class="math display">\[
+Health_i = \beta_0 + \beta_1 Insurance_{i} + \epsilon_i
+\]</span></p>
+<p>We say that a variable <span class="math inline">\(Z\)</span> can be used as an instrumental variable for <span class="math inline">\(Insurance\)</span> only if it satisfies all of the following conditions:</p>
+<ul>
+<li><span class="math inline">\(Z\)</span> is randomly assigned (or as good as randomly assigned)</li>
+<li><span class="math inline">\(Z\)</span> has a causal effect on <span class="math inline">\(Insurance\)</span></li>
+<li><span class="math inline">\(Z\)</span> affects the outcome variable <span class="math inline">\(Health\)</span> exclusively through <span class="math inline">\(Insurance\)</span> (that is, <span class="math inline">\(Z\)</span> does not have a direct effect on <span class="math inline">\(Health\)</span>)</li>
+</ul>
+<p>It should be clear that lottery results can be used as an instrument since it is a variable that satisfies the three conditions: (1) is randomly assigned (2) has a causal effect on insurance status (3) only affects health outcomes through insurance status.</p>
+</section>
+<section id="formalizing-the-wald-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="formalizing-the-wald-estimator">Formalizing the Wald estimator</h3>
+<p>The <strong>Wald estimator</strong> uses instrumental variables to compute the causal effect of the variable of interest on the outcome. It does so through the relationship which we have derived in the context of the Oregon Health Insurance Experiment.</p>
+<p>As long as the three IV assumptions are met, the effect of the instrument on the variable of interest times the effect of the variable of interest on the outcome equals the effect of the instrument on the outcome. For an instrument <span class="math inline">\(Z\)</span>, a treatment <span class="math inline">\(D\)</span>, and an outcome <span class="math inline">\(Y\)</span>:</p>
+<p><span class="math display">\[
+\text{Effect of } Z \text{ on } D \cdot \text{Effect of } D \text{ on } Y = \text{Effect of } Z \text{ on } Y
+\]</span></p>
+<p>Rearranging the equation gets us to the effect we’re interested in calculating:</p>
+<p><span class="math display">\[
+\text{Effect of } D \text{ on } Y = \frac{\text{Effect of } Z \text{ on } Y}{\text{Effect of } Z \text{ on } D}
+\]</span></p>
+<p>When <span class="math inline">\(Z\)</span> is a binary variable, our relationship of interest can be written as a differences in conditional means:</p>
+<p><span class="math display">\[
+    \text{Effect of } D \text{ on } Y = \frac{\mathbb{E}[Y_{i} \mid Z_{i} = 1] - \mathbb{E}[Y_{i} \mid Z_{i} = 0]}{\mathbb{E}[D_{i} \mid Z_{i} = 1] - \mathbb{E}[D_{i} \mid Z_{i} = 0]}
+\]</span></p>
+<p>This is exactly what we did in our example with simulated data. Let’s turn back to our analysis and compare our estimates to the true underlying relationships.</p>
+</section>
+<section id="back-to-the-insurance-example-with-simulated-data" class="level3">
+<h3 class="anchored" data-anchor-id="back-to-the-insurance-example-with-simulated-data">Back to the insurance example with simulated data</h3>
+<p>Let’s compare our OLS estimate (21.5%) and Wald estimate (5.7%) to the underlying relationships of the data.</p>
+<p>The following dataset <code>simulated_health_data_extended</code> includes the variable <code>income</code>, coded in thousands of dollars per year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the dataset</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulated_health_data_extended)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this (very simplified) simulated world, <code>income</code> was the only source of bias in our original model.</p>
+<p>If we had income data from the start, we could have solved the OVB by simply controlling for income on a regression of health outcomes on insurance status. Let’s do that now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run linear regression controlling for income</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>extended_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(health_outcome) <span class="sc">~</span> insurance_status <span class="sc">+</span> <span class="fu">log</span>(income), <span class="at">data =</span> simulated_health_data_extended)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(extended_model, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The extended model shows that, controlling for income, the causal effect of insurance on outcomes is 5.8% - very similar to our Wald estimate. Income is positively related to both health outcomes and insurance status, and is the main determinant of health outcomes in our fictitious state.</p>
+<p>The true causal effect of insurance on outcomes is actually 5%<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The difference between the Wald estimate, the extended model, and the true causal effect can be attributed to sampling variance.</p>
+<p>This example shows that the Wald estimator can be used to solve OVB when we do not have data to control for the omitted variable in our model. That was only possible because we had an instrument that was (1) randomly assigned (2) causally related to the variable of interest (3) only affected the outcome through the variable of interest.</p>
+<section id="from-the-wald-estimator-to-the-2sls-estimator" class="level4">
+<h4 class="anchored" data-anchor-id="from-the-wald-estimator-to-the-2sls-estimator">From the Wald estimator to the 2SLS estimator</h4>
+<p>The Wald estimator is useful to build the intuition around instrumental variables. However, researchers rarely use it in their research. Researchers typically use a much more flexible estimator, the <strong>2SLS estimator</strong>.</p>
+<p>The 2SLS estimator, which we will denote <span class="math inline">\(\beta^{TSLS}_{1}\)</span>, is equivalent to the Wald estimator. For an instrument <span class="math inline">\(Z\)</span>, a treatment <span class="math inline">\(D\)</span>, and an outcome <span class="math inline">\(Y\)</span>:</p>
+<p><span class="math display">\[
+    \text{Effect of } D \text{ on } Y = \frac{\mathbb{E}[Y_{i} \mid Z_{i} = 1] - \mathbb{E}[Y_{i} \mid Z_{i} = 0]}{\mathbb{E}[D_{i} \mid Z_{i} = 1] - \mathbb{E}[D_{i} \mid Z_{i} = 0]} = \beta^{TSLS}_{1}
+\]</span></p>
+<p>To calculate <span class="math inline">\(\beta^{TSLS}_{1}\)</span>, we have to run 2 regressions. The first regression is a regression of the treatment on the instrument, called the <strong>first stage regression</strong>. The second regression is a regression of the outcome on the fitted values of the first stage regression, called the <strong>second stage regression</strong>. Follow the step-by-step below.</p>
+<ol type="1">
+<li>Run the first stage regression:</li>
+</ol>
+<p><span class="math display">\[
+    D_{i} = \beta_{0} + \beta_{1}Z_{i} + v_{i}
+\]</span></p>
+<ol start="2" type="1">
+<li>Store the fitted values from the first stage regression <span class="math inline">\(\widehat{D_{i}}\)</span>:</li>
+</ol>
+<p><span class="math display">\[
+    \widehat{D_{i}} = b_{0} + b_{1}Z_{i}
+\]</span></p>
+<p>where <span class="math inline">\(b_{0}\)</span>, <span class="math inline">\(b_{1}\)</span> are the estimated coefficients of the first stage.</p>
+<ol start="3" type="1">
+<li>Run the second stage regression:</li>
+</ol>
+<p><span class="math display">\[
+    Y_{i} = \beta^{TSLS}_{0} + \beta^{TSLS}_{1}\widehat{D_{i}} + u_{i}
+\]</span></p>
+<p>The coefficient on our second stage regression <span class="math inline">\(\beta^{TSLS}_{1}\)</span> is the effect of interest: the causal effect of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span>.</p>
+</section>
+<section id="calculating-the-2sls-estimate" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-2sls-estimate">Calculating the 2SLS estimate</h4>
+<p>Let’s calculate the 2SLS estimate of the effect of insurance on health with our simulated health insurance data.</p>
+<ol type="1">
+<li>Run the first stage:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the first stage regression</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>health_st1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(insurance_status <span class="sc">~</span> lot_win, <span class="at">data =</span> simulated_health_data)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(health_st1, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Similar to our Wald estimate, the first stage indicates that winning the lottery increases the probability of insurance coverage by 65%. The effect is significant at the 0.1% significance level.</p>
+<blockquote class="blockquote">
+<p><strong>Think deeper</strong>: what would happen if the coefficient on <code>lot_win</code> was not significant?</p>
+</blockquote>
+<ol start="2" type="1">
+<li>Store the fitted values of the first stage:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store fitted values as a new column named `insurance_status_hat`</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>simulated_health_data<span class="sc">$</span>insurance_status_hat <span class="ot">&lt;-</span> health_st1<span class="sc">$</span>fitted.values</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># look at a subset of the updated dataset</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulated_health_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Run the second stage:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the second stage regression</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>health_st2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(health_outcome) <span class="sc">~</span> insurance_status_hat, <span class="at">data =</span> simulated_health_data)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(health_st2, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our 2SLS estimate is 5.7% - exactly equal to our Wald estimate. Let’s take a moment to understand why this works.</p>
+</section>
+<section id="making-sense-of-the-2sls-estimate" class="level4">
+<h4 class="anchored" data-anchor-id="making-sense-of-the-2sls-estimate">Making sense of the 2SLS estimate</h4>
+<p>Remember that the problem with just running a simple OLS when there is OVB is that the <em>variable of interest is correlated to the error term</em> of the model: <span class="math inline">\(Cov(Insurance_{i}, \epsilon_{i})\neq 0\)</span>.</p>
+<p>When we run the first stage, we effectively decompose the treatment into two parts: the error term and the variation explained by the instrument (the fitted values). Since the instrument is randomly assigned (or as good as randomly assigned) and the fitted values are driven solely by the instrument, <em>the fitted values are necessarily not correlated to the error term</em>: <span class="math inline">\(Cov(\widehat{Insurance_{i}}, \epsilon_{i}) = 0\)</span>.</p>
+<p>Problem solved. We throw away the bad variation of the treatment (the error term of the first stage) and run a regression of the outcome on the good variation of the treatment (the fitted values of the first stage). The estimated coefficient of this regression is our 2SLS estimate, an unbiased estimate of the causal effect.</p>
+<p>It is important to remember that this only works when the instrument satisfies the three criteria:</p>
+<ol type="1">
+<li>Random assignment: the instrument is as good as randomly assigned</li>
+<li>Relevance: the instrument has a causal effect on the variable of interest</li>
+<li>Exogeneity: the instrument only affects the outcome through the variable of interest</li>
+</ol>
+<blockquote class="blockquote">
+<p>At this point, you should have the background knowledge to understand most of what the researchers did to measure the effect of insurance on health in the Oregon Health Insurance Experiment. The Baicker (2013) study can be read for free on the <a href="https://www.nejm.org/doi/10.1056/NEJMsa1212321?url_ver=Z39.88-2003&amp;rfr_id=ori:rid:crossref.org&amp;rfr_dat=cr_pub%20%200www.ncbi.nlm.nih.gov">New England Journal of Medicine</a>. We recommend reading the “Special Article” as well as the “Analytic Specifications” section (pages 5-7) of the Supplementary Appendix.</p>
+</blockquote>
+<p>In the following example, we’ll show how we can take advantage of the flexibility of the 2SLS estimator to use instruments that are not randomly assigned.</p>
+</section>
+</section>
+</section>
+<section id="example-2-college-proximity-and-returns-to-education" class="level2">
+<h2 class="anchored" data-anchor-id="example-2-college-proximity-and-returns-to-education">Example 2: College Proximity and Returns to Education</h2>
+<p>An interesting topic in labor economics is understanding how education affects future earnings. Card (1993) investigates this relationship by calculating the economic returns to schooling with college proximity as an instrumental variable.</p>
+<p>In this example, we’ll try to answer the same questions as Card (1993) with a simplified version of his dataset. Our dataset <code>cdist_data</code> contains the following variables for high school graduates:</p>
+<ul>
+<li><code>distance</code> dummy == 1 for living close to 4-year college in 1966</li>
+<li><code>momdad14</code> dummy == 1 for living with both parents at age 14</li>
+<li><code>black</code> dummy == 1 for being black</li>
+<li><code>south</code> dummy == 1 for living in the south in 1976</li>
+<li><code>urban</code> dummy == 1 for living in urban area in 1976</li>
+<li><code>wage</code> for wage in 1976</li>
+<li><code>educ</code> for years of education in 1976</li>
+<li><code>exper</code> for years of experience in 1976</li>
+<li><code>fatheduc</code> for years of father’s education</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># view data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(cdist_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="the-selection-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-selection-problem">The selection problem</h3>
+<p>The question we want to answer is: <strong>what is the effect of an extra year of education on wages?</strong></p>
+<p>A simple regression of <code>wage</code> on <code>education</code> would generate a biased estimate of the causal effect because education is not randomly assigned across the surveyed. As Card (1993) put it, “individuals make their own schooling choices; depending on how these choices are made, measured earnings differences between workers with difference levels of schooling may over-state or under-state the true return to education.” That is just another way of saying that the model contains selection bias.</p>
+<p>We have two potential solutions for this problem (1) solving the OVB with additional control variables (2) solving the OVB with an instrumental variable that is randomly assigned (or as good as randomly assigned). Let’s try both approaches and compare them with the (biased) OLS estimate.</p>
+<section id="calculating-the-ols-estimate-1" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-ols-estimate-1">Calculating the OLS estimate</h4>
+<p>First, let’s estimate the returns to education with simple regression of the form:</p>
+<p><span class="math display">\[
+\log(wage_i) = \beta_0 + \beta_1 education_i + u_i,
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run linear regression</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>simple_OLS <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ, <span class="at">data=</span>cdist_data)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(simple_OLS, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The OLS estimate for the returns to education is a 5.2% boost in earnings for every additional year of schooling.</p>
+</section>
+<section id="controlling-for-observable-differences" class="level4">
+<h4 class="anchored" data-anchor-id="controlling-for-observable-differences">Controlling for observable differences</h4>
+<p>Let’s try adding controls. Remember from the linear regression section that we should try controlling for confounding variables: variables that affect earnings and/or education but are not affected by education. Let’s follow Card (1993) and add the controls <code>momdad14</code>, <code>south</code>, <code>black</code>, <code>fatheduc</code>, <code>exper</code>, and <code>urban</code>.</p>
+<blockquote class="blockquote">
+<p>Card (1993) runs additional specifications with <code>exper</code> as endogenous, but we’ll limit our analysis to this single model.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run linear regression</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>multiple_OLS <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ <span class="sc">+</span> momdad14 <span class="sc">+</span> south <span class="sc">+</span> black <span class="sc">+</span> fatheduc <span class="sc">+</span> exper <span class="sc">+</span> urban, <span class="at">data=</span>cdist_data)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(multiple_OLS, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When adding controls, the estimated returns to education increase to 7.3% higher wages for every additional year of schooling.</p>
+</section>
+<section id="using-an-instrumental-variable-to-estimate-the-causal-effect" class="level4">
+<h4 class="anchored" data-anchor-id="using-an-instrumental-variable-to-estimate-the-causal-effect">Using an instrumental variable to estimate the causal effect</h4>
+<p>Let’s estimate the returns to education using college proximity as an instrumental variable. The logic behind choosing this instrument is that students who live closer to colleges are more likely to pursue more education than those who live further away.</p>
+<p>The variable <code>distance</code> on our dataset maps whether the survey respondents live close to a 4-year college. Let’s estimate the returns to education with the 2SLS estimator.</p>
+<ol type="1">
+<li>Run the first stage regression:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the first stage</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dist_s1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(educ <span class="sc">~</span> distance , <span class="at">data=</span>cdist_data)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(dist_s1, <span class="at">vcov=</span>vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The fitted values of our first stage are given by: <span class="math display">\[
+\widehat{education_{i}}= 12.698 + 0.829 distance_{i}
+\]</span></p>
+<p>We find that students living close to a 4-year college pursue 0.83 years more of education than those who don’t live close to a college. The effect is significant at the 0.1% significance level.</p>
+<ol start="2" type="1">
+<li>Store the fitted values from the first stage:</li>
+</ol>
+<p>We store the fitted values of our first stage regression, <span class="math inline">\(\widehat{education_{i}}\)</span> as the variable <code>educ_hat</code> in our dataset <code>cdist_data</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># store fitted values as a new column named `educ_hat`</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cdist_data<span class="sc">$</span>educ_hat <span class="ot">&lt;-</span> dist_s1<span class="sc">$</span>fitted.values</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># view the appended dataset</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cdist_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Run the second stage regression:</li>
+</ol>
+<p><span class="math display">\[
+\log(wage_{i}) = \beta_0 + \beta_1 \widehat{education_{i}} + u_i.
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the second stage</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dist_s2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ_hat, <span class="at">data=</span>cdist_data)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(dist_s2, <span class="at">vcov =</span> vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The 2SLS estimate for the returns to education is a staggering 18.8% increase in wages for every additional year of schooling. This result suggests substantial returns to education; even higher than the range of 10-14% found by Card (1993). More importantly, this estimate differs significantly from the 5-7% range that we found with our OLS estimates.</p>
+<p>But we’re not done yet. We need to take a closer look at our model, understand the shortcomings of our modeling choices, and try to fix them. Before doing that though, let’s take a quick look at <code>ivreg()</code>.</p>
+</section>
+<section id="estimating-2sls-directly-with-ivreg" class="level4">
+<h4 class="anchored" data-anchor-id="estimating-2sls-directly-with-ivreg">Estimating 2SLS directly with <code>ivreg()</code></h4>
+<p>The function <code>ivreg()</code> from the <code>AER</code> package carries out 2SLS automatically. It follows the same structure as <code>lm()</code>, with the added feature of specifying instruments with a vertical bar after the regression formula. Let’s run <code>ivreg()</code> on our college distance data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run 'ivreg()' regression</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dist_ivreg <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ <span class="sc">|</span> distance, <span class="at">data =</span> cdist_data)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(dist_ivreg, <span class="at">vcov =</span> vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that <code>ivreg()</code> gives us the same result as running the first and second stages independently: an additional year of education is associated with a 18.8% increase in wages. However, <code>ivreg()</code> gives us larger standard errors. This might be a problem for hypothesis testing… More on this later.</p>
+<blockquote class="blockquote">
+<p>Although we report our main results with <code>ivreg()</code>, running first stage regressions is useful for testing assumptions about instrument relevance. We discuss this on <em>Instrumental Variables 2</em>.</p>
+</blockquote>
+</section>
+</section>
+<section id="analyzing-the-results" class="level3">
+<h3 class="anchored" data-anchor-id="analyzing-the-results">Analyzing the results</h3>
+<p>Now that we have estimated the returns to education with OLS, multiple regression, and 2SLS, let’s think critically about the estimated coefficients and reflect about any possible shortcomings of our modeling choices. Use the following questions to guide your reflection:</p>
+<ul>
+<li><p>Are we confident that our multiple regression specification solves the selection problem? Are there any important effects that we have failed to control? If yes, what is the probable direction of the bias?</p></li>
+<li><p>Is college proximity a good instrument? If not, what assumptions does it fail to meet? Is there any way that we could improve our IV approach?</p></li>
+</ul>
+<p>The answers to some of these questions can be found on <a href="https://davidcard.berkeley.edu/papers/geo_var_schooling.pdf">Card (1993)</a>. Read through the paper to find out how he solves the selection problem.</p>
+</section>
+<section id="adding-controls-to-the-iv-regression" class="level3">
+<h3 class="anchored" data-anchor-id="adding-controls-to-the-iv-regression">Adding controls to the IV regression</h3>
+<p>We have a problem with our instrument: college proximity is not randomly assigned. It is possible that distance from a 4-year college is correlated to the error term of the model (for example, marginalized groups living far from colleges could be less likely to both attend college and work high-paying jobs).</p>
+<p>To fix this we need to control for variables which undermine our instrument (for example, ethnicity) in the IV regression. If we are able to control for all sources of variation that affect our outcome directly (or indirectly, through a variable that is not our instrument), the instrument will be “as good as randomly assigned”</p>
+<p>In our example, we need to control for all potential determinants of college proximity that also affect wages directly. Controlling for these potential sources of variation (<code>momdad14</code>, <code>south</code>, <code>black</code>, <code>fatheduc</code>, <code>exper</code>, <code>urban</code>), we can be more confident (although not 100% confident) that our instrument satisfies the three IV conditions.</p>
+<p>Let’s run our extended IV regression with <code>ivreg()</code>:</p>
+<blockquote class="blockquote">
+<p>Note that <code>ivreg()</code> requires users to specify the control variables on both sides of the vertical bar.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run 'ivreg()' regression with controls</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dist_ivreg <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(<span class="fu">log</span>(wage) <span class="sc">~</span> educ <span class="sc">+</span> momdad14 <span class="sc">+</span> south <span class="sc">+</span> black <span class="sc">+</span> fatheduc <span class="sc">+</span> exper <span class="sc">+</span> urban <span class="sc">|</span> distance <span class="sc">+</span> momdad14 <span class="sc">+</span> south <span class="sc">+</span> black <span class="sc">+</span> fatheduc <span class="sc">+</span> exper <span class="sc">+</span> urban, <span class="at">data =</span> cdist_data)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test significance of coefficients with robust standard errors</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(dist_ivreg, <span class="at">vcov =</span> vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our estimate is a 14.2% increase in earnings for every additional year of education. This is well within the range of 10-14% found by Card (1993).</p>
+</section>
+<section id="local-average-treatment-effect-late" class="level3">
+<h3 class="anchored" data-anchor-id="local-average-treatment-effect-late">Local average treatment effect (LATE)</h3>
+<p>Our 2SLS estimate with controls is twice as large as our multiple regression estimate. If we’re controlling for so many variables in the multiple regression, what is driving such a big difference in estimates?</p>
+<p>It is possible that the <strong>treatment on the treated (TOT)</strong> and <strong>local average treatment effect (LATE)</strong> are different for our subjects.</p>
+<p>When we use traditional regression methods to estimate causal effects, we use the entire (within group) variation of the treatment to calculate the causal effect. This is what we call treatment on the treated.</p>
+<p>When we use instrumental variables, we isolate the variation of the treatment driven by the instrument. If the instrument does not affect the entire population equally, we could systematically exclude observations with economic meaning from our calculation. We have three types of individuals in the college distance dataset:</p>
+<ol type="1">
+<li>Those who would go to college regardless of where they live: the <em>always-takers</em>.</li>
+<li>Those who wouldn’t go to college regardless of where they live: the <em>never-takers</em>.</li>
+<li>Those who would go to college only if they live close to a 4-year college: the <em>compliers</em>.</li>
+</ol>
+<p>Although both always-takers and compliers are treated, an IV approach only uses the variation of compliers to estimate the causal effect. That makes sense: since the instrument doesn’t affect the choice of individuals type 1 and 2 of going to college, their instrument-driven variation must necessarily be zero. We call the causal effect on compliers the local average treatment effect.</p>
+<p>It is likely that the compliers in our dataset are lower-income students, who would only go to college if they could live with their parents and not pay housing costs. If that is true, then the difference in results between the multiple regression and the IV regression could be driven by differences in the TOT and LATE (and not just OVB).</p>
+<p>Our larger LATE could suggest that the returns to education for the poor are higher than the returns to education for the rich, a finding that could influence the decisions that both agents and policymakers make about education spending.</p>
+</section>
+<section id="a-note-on-standard-errors" class="level3">
+<h3 class="anchored" data-anchor-id="a-note-on-standard-errors">A note on standard errors</h3>
+<p>Previously, we noted that standard errors from manually estimated 2SLS and <code>ivreg()</code> are different. It is important to note that <strong><em>the correct standard errors are those calculated by</em></strong> <code>ivreg()</code>.</p>
+<p>Standard errors from manually calculated 2SLS do not adjust for the added uncertainty inherent to IVs: the fact that we use predictions from the first stage regression as regressors in the second stage regression. The IV standard erros fix for this additional uncertainty by adding a term for the correlation between the instrument and the treatment. This makes IV standard errors from <code>ivreg()</code> larger and more accurate than <code>lm()</code> standard errors.</p>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>To be eligible for OHP Standard, individuals must be 19-64 years old, an Oregon resident who is a US citizen or legal immigrant, ineligible for other public health insurance, and uninsured for the past six months. Individuals must also earn less than the federal poverty level, and have assets worth no more than US$2,000.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>We know because the data is simulated.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="pagination-link" aria-label="Geospatial II">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Geospatial II</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="pagination-link" aria-label="Instrumental Variables II">
+        <span class="nav-page-text">Instrumental Variables II</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
