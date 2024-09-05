@@ -16,19 +16,19 @@ jobs:
             cat lint_output.txt
           fi
 
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-#      - name: Build and export
-#        uses: docker/build-push-action@v4
-#        with:
-#          context: .
-#          file: ./meta/building/.dockerfile
-#          tags: my-app-image:latest
-#          outputs: type=local,dest=./artifacts
+      - name: Build and export
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./meta/building/.dockerfile
+          tags: my-app-image:latest
+          outputs: type=local,dest=./artifacts
 
-      - name: Test Build
-        run: mkdir -p artifacts && touch artifacts/test.txt
+#      - name: Test Build
+#        run: mkdir -p artifacts && touch artifacts/test.txt
 
       - name: Display structure of downloaded files
         run: ls -R ./artifacts
