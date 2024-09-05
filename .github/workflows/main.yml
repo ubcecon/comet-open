@@ -1,10 +1,9 @@
 name: Build and Deploy
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,11 +30,21 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R ./artifacts
 
+      - name: Upload files as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-files
+          path: ./artifacts
+    
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./artifacts/artifacts/build
+          publish_dir: ./artifacts
           publish_branch: gh-pages
 
       - name: Remove HTML files
