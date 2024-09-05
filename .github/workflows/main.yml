@@ -34,10 +34,10 @@ jobs:
         run: ls -R ./artifacts
 
       - name: Upload files as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: site
-          path: ./artifacts
+          path: artifacts
     
   deploy:
     needs: build
@@ -50,7 +50,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: site
-          path: ./artifacts/
+          path: artifacts
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -61,11 +61,11 @@ jobs:
 
       - name: Remove HTML files
         run: |
-          find ./artifacts -name '*.html' -exec rm {} \;
+          find artifacts -name '*.html' -exec rm {} \;
           
       - name: Deploy remaining artifacts
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./artifacts
+          publish_dir: artifacts
           publish_branch: artifacts
