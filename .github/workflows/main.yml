@@ -33,13 +33,22 @@ jobs:
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: generated-files
+          name: site
           path: ./artifacts
     
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: site
+          path: ./artifacts/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
