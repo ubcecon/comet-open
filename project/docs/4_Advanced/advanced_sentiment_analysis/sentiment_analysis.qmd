@@ -1,6 +1,6 @@
 ---
-title: "Introduction to Sentiment Analysis"
-author: Anneke Dresselhuis, Irene Berezin
+title: "4.2 - Advanced - Introduction to Sentiment Analysis"
+author:  COMET Team <br> _Anneke Dresselhuis, Irene Berezin_
 date: 2024-07-04
 description: This notebook explains how to perform basic sentiment analysis and Reddit web scraping using R.
 categories: [visualization, R]

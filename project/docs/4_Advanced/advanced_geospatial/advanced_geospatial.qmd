@@ -1,5 +1,5 @@
 ---
-title: "3.10.1 - Advanced - Geospatial Analysis"
+title: "3.5.1 - Advanced - Geospatial Analysis"
 author: ""
 date: 24 June 2024
 description: This notebook introduces geospatial analysis with vector data in R. We go over basic geospatial objects and operations.

@@ -1,5 +1,5 @@
 ---
-title: "3.10 - Advanced - Synthetic Control"
+title: "3.4 - Advanced - Synthetic Control"
 author: COMET Team <br> _Avi Woodward-Kelen_
 date: 24 August 2024
 description: An introduction to estimating causality through the use of synthetic control. Synthetic control is the process by which we create a counterfactual to the unit we actually observed. 

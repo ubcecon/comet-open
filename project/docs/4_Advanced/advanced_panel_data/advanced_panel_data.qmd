@@ -1,5 +1,5 @@
 ---
-title: '3.11 - Advanced - Panel Data'
+title: '3.3 - Advanced - Panel Data'
 author: COMET Team <br> _Jane Platt_
 date: July 26, 2024
 description: This module goes over the theory of panel data analysis as well as how to apply the theory to real-world data. We look into panel regressions, fixed effects, a few other regression topics with panel data. 
