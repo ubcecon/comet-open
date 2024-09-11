@@ -773,11 +773,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">3.0 Intro</h2>
-<div id="730ceea1" class="cell" data-execution_count="1">
+<div id="174023b1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="630edfcf" class="cell" data-execution_count="2">
+<div id="5c81f9b6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -787,12 +787,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="describing-your-data" class="level2">
 <h2 class="anchored" data-anchor-id="describing-your-data">3.1 Describing Your Data</h2>
 <p>Let’s start by opening a dataset that was provided when we installed Stata onto our computers. We will soon move on to importing our own data, but this Stata data set will help get us started. This is a data set on automobiles and their characteristics. We can install this dataset by running the command in the cell below:</p>
-<div id="ac76d449" class="cell" data-execution_count="3">
+<div id="cb86bf6a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sysuse auto.dta, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can begin by checking the characteristics of the data set we have just downloaded. The command <code>describe</code> allows us to see the number of observations, the number of variables, a list of variable names and descriptions, and the variable types and labels of that data set.</p>
-<div id="89ce4e28" class="cell" data-execution_count="4">
+<div id="587d5f80" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>describe </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -804,7 +804,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="using-help-to-understand-commands">3.2.1 Using HELP to understand commands</h4>
 <p>Stata has a help manual installed in the program which provides documentation for all Stata published commands. This information can be reached by typing the command <code>help</code> and then the name of the command we need extra information about.</p>
 <p>Let’s try to see what extra information Stata provides by using the <code>help</code> command with the <code>summarize</code> command. <code>summarize</code> gives us the basic statistics from any variable(s) in the data set, such as the variables we have discussed above, but what else can it do? To see the extra information that is available by using <code>summarize</code>, let’s run the command below:</p>
-<div id="1fc96df1" class="cell" data-execution_count="5">
+<div id="cf71ac64" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span> summarize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -833,48 +833,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Not: ! or ~</li>
 </ol>
 <p>Let’s look at an example which applies this new knowledge: summarizing the variable <em>price</em> when the make of the car is domestic (i.e.&nbsp;not foreign):</p>
-<div id="bdcd93d8" class="cell" data-execution_count="6">
+<div id="89bc9917" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> foreign <span class="op">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s do this again, but now we will impose the additional condition that the mileage must be less than 25.</p>
-<div id="74c73c95" class="cell" data-execution_count="7">
+<div id="557d7571" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> foreign <span class="op">==</span> <span class="dv">0</span>  <span class="op">&amp;</span> mpg <span class="op">&lt;</span> <span class="dv">25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Maybe we want to restrict to a particular list of values. Here we can write out all of the conditions using the “or” operator, or we can simply make use of the option <code>inlist()</code>:</p>
-<div id="d5102e5e" class="cell" data-execution_count="8">
+<div id="05e869c0" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> mpg <span class="op">==</span> <span class="dv">10</span> <span class="op">|</span> mpg <span class="op">==</span> <span class="dv">15</span> <span class="op">|</span> mpg <span class="op">==</span> <span class="dv">25</span> <span class="op">|</span> mpg <span class="op">==</span> <span class="dv">40</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This works exactly the same way as this command:</p>
-<div id="ee16b95d" class="cell" data-execution_count="9">
+<div id="b403594c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> inlist(mpg,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Maybe we want to restrict to values in a particular range. Here we can use the conditional operators, or we can make use of the option <code>inrange()</code>:</p>
-<div id="4162a6c1" class="cell" data-execution_count="10">
+<div id="aec40f00" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> mpg <span class="op">&gt;=</span> <span class="dv">5</span> <span class="op">&amp;</span> mpg <span class="op">&lt;=</span> <span class="dv">25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice the output returned by the code below is equal to the previous cell:</p>
-<div id="a342f549" class="cell" data-execution_count="11">
+<div id="f87a4ce6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> inrange(mpg,<span class="dv">5</span>,<span class="dv">25</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There might be variables for which there is no information recorded for some observations. For example, when we <code>summarize</code> our automobile data we will see that there are 74 observations for most variables, but that the variable <em>rep78</em> has only 69 observations - for five observations there is no repair record indicated in the data set.</p>
-<div id="13f385e2" class="cell" data-execution_count="12">
+<div id="0bed7b66" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>su price rep78 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If, for some reason, we only want to consider observations without missing values, we can use the option <code>!missing()</code> which combines the command <code>missing()</code> with the negative conditional operator “!”. For example, the command below says to summarize the variable <em>price</em> for all observations for which <em>rep78</em> is NOT missing.</p>
-<div id="9f490e56" class="cell" data-execution_count="13">
+<div id="444746be" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> <span class="op">!</span>missing(rep78)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This command can also be written using the conditional operator since missing numeric variables are indicated by a “.”. This is shown below:</p>
-<div id="5f3dbfed" class="cell" data-execution_count="14">
+<div id="3381b23d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> rep78 <span class="op">!=</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -885,14 +885,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="imposing-in-conditions" class="level4">
 <h4 class="anchored" data-anchor-id="imposing-in-conditions">3.2.3 Imposing IN conditions</h4>
 <p>We can also subset the data by using the observation number. The example below summarizes the data in observations 1 through 10.</p>
-<div id="82aa42c4" class="cell" data-execution_count="15">
+<div id="b635f144" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>su price <span class="kw">in</span> <span class="dv">1</span><span class="op">/</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>But be careful! This type of condition is generally not recommended because it depends on how the data is ordered.</p>
 <p>To see this, let’s sort the observations in ascending order by running the command <code>sort</code>:</p>
-<div id="0851a850" class="cell" data-execution_count="16">
+<div id="fadb1ddf" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sort price </span>
@@ -905,7 +905,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="command-options">3.2.4 Command options</h4>
 <p>When we used the <code>help</code> command, we saw that we can introduce some optional arguments after a comma. In the case of the <code>summarize</code> command, we were shown the following options: <code>d</code>etail, <code>mean</code>only, <code>f</code>ormat and <code>sep</code>arator(#).</p>
 <p>If we want additional statistics apart from the mean, standard deviation, min, and max values, we can use the option <code>detail</code> or just <code>d</code> for short.</p>
-<div id="9d5fd6f4" class="cell" data-execution_count="17">
+<div id="35eebf46" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>su price, d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -917,21 +917,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Much like any other programming language, there are <code>for</code> and <code>while</code> loops that we can use to iterate through many times. In particular, the <code>for</code> loops are also sub-divided into <code>forvalues</code> (which iterate across a range of numbers) and <code>foreach</code> (which iterate across a list of names).</p>
 <p>It is very common that these loops create a <em>local</em> scope (i.e.&nbsp;the iteration labels only exist within a loop). A <code>local</code> in Stata is a special variable that we create ourselves that temporarily stores information. We’ll discuss locals in the next module, but consider this simple example in which the letter “i” is used as a place holder for the number 95 – it is a <code>local</code>.</p>
 <p>For a better understanding of locals and globals, please visit <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/04_Locals_and_Globals.html">Module 4</a>.</p>
-<div id="ac28850f" class="cell" data-execution_count="18">
+<div id="6cc307c4" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>local i <span class="op">=</span> <span class="dv">95</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>display `i<span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also create locals that are strings rather than numeric in type. Consider this example:</p>
-<div id="90b56c7d" class="cell" data-execution_count="19">
+<div id="61dfd070" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>local course <span class="op">=</span> <span class="st">"ECON 490"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>display <span class="st">"`course'"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can store anything inside a local. When we want to use that information, we include the local encased in a backtick (`) and apostrophe (’).</p>
-<div id="f0058190" class="cell" data-execution_count="20">
+<div id="7ea3eeda" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>local course <span class="op">=</span> <span class="st">"ECON 490"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -940,7 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-loops-using-forvalues" class="level4">
 <h4 class="anchored" data-anchor-id="creating-loops-using-forvalues">3.3.1 Creating loops Using <code>forvalues</code></h4>
 <p>Whenever we want to iterate across a range of values defined as <code>forvalues = local_var_name =  min_value(steps)max_value</code>, we can write the command below. Here we are iterating from 1 to 10 in increments of 1.</p>
-<div id="6ff8a083" class="cell" data-execution_count="21">
+<div id="d551e521" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>forvalues counter<span class="op">=</span><span class="dv">1</span>(<span class="dv">1</span>)<span class="dv">10</span>{</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>Notice that now counter <span class="kw">is</span> a local variable</span>
@@ -949,7 +949,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Notice that the open brace <code>{</code> needs to be on the same line as the <code>for</code> command, with no comments after it. Similarly, the closing brace <code>}</code> needs to be on its own line.</p>
 <p>Experiment below with the command above by changing the increments and min or max values. See what your code outputs.</p>
-<div id="ce936901" class="cell" data-execution_count="22">
+<div id="4a9facde" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -957,14 +957,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="creating-loops-using-foreach">3.3.2 Creating loops using <code>foreach</code></h4>
 <p>Whenever we want to iterate across a list of names, we can use the <code>foreach</code> command below. This asks Stata to <code>summarize</code> for a list of variables (in this example, <em>mpg</em> and <em>price</em>).</p>
 <p>The syntax for <code>foreach</code> is similar to that of <code>forvalues</code>: <code>foreach local_var_name in  "list of variables"</code>. Here, we are asking Stata to perform the <code>summarize</code> command on two variables (<em>mpg</em> and <em>price</em>):</p>
-<div id="a41041bd" class="cell" data-execution_count="23">
+<div id="abcdc105" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>foreach name <span class="kw">in</span> <span class="st">"mpg"</span> <span class="st">"price"</span>{</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    summarize `name<span class="st">'</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can have a list stored in a local variable as well. Here, we are storing a list, which includes two variable names (<em>mpg</em> and <em>price</em>) in a local called <em>namelist</em>. Then, using <code>foreach</code>, we summarize <em>name</em> which runs through the list we created above, called <em>namelist</em>.</p>
-<div id="ad6a222e" class="cell" data-execution_count="24">
+<div id="6d11bfcc" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>local namelist <span class="st">"mpg price"</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>foreach name <span class="kw">in</span> `namelist<span class="st">'{</span></span>
@@ -975,7 +975,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="writing-loops-with-conitions-using-while" class="level4">
 <h4 class="anchored" data-anchor-id="writing-loops-with-conitions-using-while">3.3.3 Writing loops with conitions using <code>while</code></h4>
 <p>Whenever we want to iterate until a condition is met, we can write the command below. The condition here is simply “while counter is less than 5”.</p>
-<div id="2245d27b" class="cell" data-execution_count="25">
+<div id="7cdfebf6" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>local counter <span class="op">=</span> <span class="dv">1</span> </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> `counter<span class="st">'&lt;5{</span></span>
@@ -988,17 +988,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="errors" class="level2">
 <h2 class="anchored" data-anchor-id="errors">3.4 Errors</h2>
 <p>A common occurrence while working with Stata is encountering various errors. Whenever an error occurs, the program will stop executing and an error message will pop-up. Most commonly occuring errors can be attributed to syntax issues, so we should always verify our code before execution. Below we have provided 3 common errors that may pop up.</p>
-<div id="100f320f" class="cell" data-execution_count="26">
+<div id="d2f65ef7" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>summarize hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We must always verify that the variable you use for a command exists and that you are using its correct spelling. Stata alerts you when you try to execute a command with a non-existing variable.</p>
-<div id="2a6c909d" class="cell" data-execution_count="27">
+<div id="c960e734" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>su price <span class="cf">if</span> <span class="dv">5</span> <span class="op">=&lt;</span> mpg <span class="op">=&lt;</span> <span class="dv">25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this example, the error is due to the use of invalid conditional operators. To make use of the greater than or equal to operator, you must use the symbol (mpg &gt;= ) and to use the less than or equal to operator, you use the symbol (mpg &lt;= ).</p>
-<div id="3b210823" class="cell" data-execution_count="28">
+<div id="fc56cd7b" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>local word <span class="op">=</span> <span class="dv">95</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1014,12 +1014,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb29"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>name_of_command [<span class="kw">varlist</span>] [<span class="kw">if</span>] [<span class="kw">in</span>] [<span class="kw">weight</span>] [, options]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>At this point, you should feel more comfortable reading a documentation file for a Stata command. The question that remains is how to find new commands!</p>
 <p>You are encouraged to search for commands using the command <code>search</code>. For example, if you are interested in running a regression you can write:</p>
-<div id="a5a66fd7" class="cell" data-execution_count="29">
+<div id="0421262e" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>search regress </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see that a new Stata window pops up on our computer, and we can click on the different options that are shown to look at the documentation for all these commands. Try it yourself in the code cell below!</p>
-<div id="17374fd5" class="cell" data-execution_count="30">
+<div id="c6a16e8b" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the following modules, whenever there is a command which confuses you, feel free to write <code>search command</code> or <code>help command</code> to redirect to the documentation for reference.</p>

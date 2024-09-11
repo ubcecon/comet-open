@@ -786,11 +786,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">6.0 Intro</h2>
-<div id="f789c095" class="cell" data-execution_count="1">
+<div id="f066a8d2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ea9c7618" class="cell" data-execution_count="2">
+<div id="356fada7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -807,7 +807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Import the data using commands specific to the file type.</li>
 </ol>
 <p>Let’s run these commands now so we are all ready to do our analysis.</p>
-<div id="af544646" class="cell" data-execution_count="3">
+<div id="325330c0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Below you will need to include the path on your own computer to where the data <span class="kw">is</span> stored between the quotation marks.</span>
@@ -841,22 +841,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-dummy-variables-using-generate" class="level3">
 <h3 class="anchored" data-anchor-id="creating-dummy-variables-using-generate">6.2.3 Creating Dummy Variables using <code>generate</code></h3>
 <p>As an example, let’s create a dummy variable which indicates if the observation is identified as female. To do this, we are going to use the command <code>generate</code> which generates a completely new variable.</p>
-<div id="3c2bbb86" class="cell" data-execution_count="4">
+<div id="9a73277d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>generate female <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> sex <span class="op">==</span> <span class="st">"F"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What Stata does here is that it defines our dummy variable as 1 whenever the condition <code>sex == "F"</code> holds. However, we didn’t tell Stata what to do if the condition <code>sex == "M"</code> does not hold! Let’s do that below.</p>
-<div id="87ddfb3e" class="cell" data-execution_count="5">
+<div id="bb0cf3d3" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>generate female <span class="op">=</span> <span class="dv">0</span> <span class="cf">if</span> sex <span class="op">==</span> <span class="st">"M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Whoops! We got an error. This says that our variable is already defined. Stata does this because it doesn’t want us to accidentally overwrite an existing variable. Whenever we want to replace an existing variable, we have to use the command <code>replace</code>.</p>
-<div id="23baf279" class="cell" data-execution_count="6">
+<div id="e9221fa4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>replace female <span class="op">=</span> <span class="dv">0</span> <span class="cf">if</span> sex <span class="op">==</span> <span class="st">"M"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There is another, simpler way to create a dummy variable, which is shown below.</p>
-<div id="5c992cb2" class="cell" data-execution_count="7">
+<div id="4ebd2c70" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>replace female <span class="op">=</span> ( sex <span class="op">==</span> <span class="st">"F"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -871,13 +871,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-multiple-dummy-variables-using-tabulate" class="level3">
 <h3 class="anchored" data-anchor-id="creating-multiple-dummy-variables-using-tabulate">6.2.4 Creating Multiple Dummy Variables using <code>tabulate</code></h3>
 <p>We already talked about how to create dummy variables with <code>generate</code> and <code>replace</code>. Let’s see how this can be done for a whole set of dummy variables. For our example, we will create one dummy for each region identified in the data set.</p>
-<div id="0a98c42c" class="cell" data-execution_count="8">
+<div id="2b4e7234" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>tabulate region, generate(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This command generated five new dummy variables, one for each region category. We asked Stata to call these variables “reg”, and so these five new variables are called <em>reg1</em>, <em>reg2</em>, <em>reg3</em>, <em>reg4</em>, and <em>reg5</em>. We can run the command <code>describe</code> alongside each of these variables, or we can simply run <code>describe reg*</code>, which provides information for all variables starting with “reg”. Stata has helpfully labeled these variables with data labels from the region variable. Sometimes, we might want to change the names for our own project to something that is more meaningful to us.</p>
-<div id="016ca61b" class="cell" data-execution_count="9">
+<div id="73c6f2a3" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>describe reg<span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -887,29 +887,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generating-variables-based-on-expressions" class="level2">
 <h2 class="anchored" data-anchor-id="generating-variables-based-on-expressions">6.3 Generating Variables Based on Expressions</h2>
 <p>Sometimes we want to generate variables after some transformations (e.g.&nbsp;squaring, taking logs, combining different variables). We can do that by simply writing the expression for the desired transformation. For example, let’s create a new variable that is simply the natural log of earnings.</p>
-<div id="08f5d005" class="cell" data-execution_count="10">
+<div id="ca9754ed" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>generate log_earnings <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="744afa78" class="cell" data-execution_count="11">
+<div id="3ff8867b" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>summarize earnings log_earnings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try a second example. Let’s create a new variable that is the number of years since the year the individual started working.</p>
-<div id="cfcebf94" class="cell" data-execution_count="12">
+<div id="e8338c81" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>generate experience_proxy <span class="op">=</span> year <span class="op">-</span> start_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0a4fffd8" class="cell" data-execution_count="13">
+<div id="ba8411bf" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>summarize experience_proxy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Try this out for yourself! Can you create a variable that indicates the number of years until/since the training program?</p>
-<div id="7a5f0df7" class="cell" data-execution_count="14">
+<div id="199e85a2" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span><span class="cf">try</span> here<span class="op">!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -918,7 +918,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="following-good-naming-conventions">6.4 Following Good Naming Conventions</h2>
 <p>Choosing good names for our variables is more important, and harder, than we might think! Some of the variables in an original data set may have very unrecognizable names, which can be confusing when conducting research. In these cases, changing them early on is preferable. We will also be creating our own variables, such as dummy variables for qualitative measures, and we will want to be careful about giving them good names. This will become even more pertinent once we start generating tables, since we will want all of our variables to have high-quality names that will easily carry over to a paper for ease of comprehension on the reader’s part.</p>
 <p>Luckily, we can always rename our variables with the command <code>rename</code>. Let’s try to rename one of the dummy variables we just created above. Maybe we know that if region = 3 then the region is in the west.</p>
-<div id="46c6eb62" class="cell" data-execution_count="15">
+<div id="c6997112" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>rename reg3 west</span>
@@ -932,13 +932,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-variable-labels" class="level2">
 <h2 class="anchored" data-anchor-id="creating-variable-labels">6.5 Creating Variable Labels</h2>
 <p>It is important that anyone using our data set knows what each variable measures. We can add a new label, or change a variable label, at any time by using the label variable command. Continuing the example from above, if we create a new dummy variable indicating whether people are female, we will want to add a label to this new variable. To do this, the appropriate command would be:</p>
-<div id="d4a22425" class="cell" data-execution_count="16">
+<div id="db5eb625" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>label variable female <span class="st">"Female Dummy"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we describe the data, we will see this extra information in the variable label column. See for yourself!</p>
-<div id="c4fa2369" class="cell" data-execution_count="17">
+<div id="8b6b88de" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>describe female</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

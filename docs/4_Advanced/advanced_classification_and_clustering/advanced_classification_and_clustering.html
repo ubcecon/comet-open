@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2022-10-18">
+<meta name="description" content="This notebook introduces the classification and clustering models, especially for economic and sociological datasets.">
 
-<title>3.3 - Advanced - Classification and Clustering – COMET</title>
+<title>4.1 - Advanced - Classification and Clustering – COMET</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -640,6 +642,18 @@ window.Quarto = {
  <span class="menu-text">Word Embeddings (R)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../project\docs\4_Advanced\advanced_synthetic_control\advanced_synthetic_control.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Synthetic Controls</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -688,7 +702,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html">Classification and Clustering</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">3.3 - Advanced - Classification and Clustering</h1>
+<h1 class="title">4.1 - Advanced - Classification and Clustering</h1>
   <div class="quarto-categories">
     <div class="quarto-category">advanced</div>
     <div class="quarto-category">R</div>
@@ -698,11 +712,28 @@ window.Quarto = {
   </div>
   </div>
 
+<div>
+  <div class="description">
+    This notebook introduces the classification and clustering models, especially for economic and sociological datasets.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta column-body">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>COMET Team <br> <em>Colby Chambers, Jonathan Graves</em> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">18 October 2022</p>
+    </div>
+  </div>
   
     
   </div>
@@ -712,10 +743,6 @@ window.Quarto = {
 </header>
 
 
-<ul>
-<li><strong>Authors</strong>: COMET Team (Colby Chambers, Jonathan Graves)</li>
-<li><strong>Last Update</strong>: 18 October 2022</li>
-</ul>
 <section id="prerequisites" class="level3">
 <h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
 <ul>
@@ -729,8 +756,8 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h3>
 <p>After completing this notebook, you will be able to:</p>
 <ul>
-<li>Understand clustering and its purpose through the common method of K-means clustering.</li>
-<li>Apply K-means clustering to predict rates of recidivism.</li>
+<li>Understand clustering and its purpose through the common method of <span class="math inline">\(K\)</span>-means clustering.</li>
+<li>Apply <span class="math inline">\(K\)</span>-means clustering to predict rates of recidivism.</li>
 </ul>
 </section>
 <section id="references" class="level3">

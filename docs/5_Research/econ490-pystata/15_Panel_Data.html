@@ -820,11 +820,11 @@ window.Quarto = {
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">15.0 Intro</h2>
 <p>This module uses the <a href="https://www.rug.nl/ggdc/productivity/pwt/?lang=en">Penn World Tables</a> which measure income, input, output, and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, download this data in the specified Stata format.</p>
-<div id="0d4078ee" class="cell" data-execution_count="1">
+<div id="1eb1b2aa" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="112e7bbc" class="cell" data-execution_count="2">
+<div id="2b0f874f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -855,7 +855,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="preparing-our-data-for-panel-analysis">15.2 Preparing Our Data for Panel Analysis</h2>
 <p>The first step in any panel data analysis is to identify which variable is the panel variable and which variable is the time variable. The panel variable is the identifier of the units that are observed over time. The second step is indicating that information to Stata.</p>
 <p>We are going to use the Penn World Data (discussed above) in this example. In that data set, the panel variable is either <em>country</em> or <em>countrycode</em>, and the time variable is <em>year</em>.</p>
-<div id="80564ac5" class="cell" data-execution_count="3">
+<div id="3c255971" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear<span class="op">*</span></span>
@@ -865,7 +865,7 @@ window.Quarto = {
 </div>
 <p>When the decribe command executed, did you see that the variable <em>year</em> is an integer (i.e.&nbsp;a number like 2020) and that <em>country</em> or <em>countrycode</em> are string variables (i.e.&nbsp;they are words like “Canada”)? Specifying the panel and time variables requires that both of the variables we are using are coded as numeric variables, and so our first step is to create a new numeric variable that represents the country variable.</p>
 <p>To do this, we can use the <code>encode</code> command that we saw in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/06_Creating_Variables.html">Module 6</a>.</p>
-<div id="00bdf680" class="cell" data-execution_count="4">
+<div id="c66f7aa7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>encode countrycode, gen(ccode) </span>
@@ -874,7 +874,7 @@ window.Quarto = {
 </div>
 <p>We can see in our data editor that this command created a unique code for each country and saved it in a variable that we have named <em>ccode</em>. For example, in the data editor we can see that Canada was given the code 31 and Brazil was given the code 25.</p>
 <p>Now we are able to proceed with specifying both our panel and time variables by using the command <code>xtset</code>. With this command, we first list the panel variable and then the time variable, followed by the interval of observation.</p>
-<div id="5685938d" class="cell" data-execution_count="5">
+<div id="03e65f14" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>xtset ccode year, yearly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -888,7 +888,7 @@ window.Quarto = {
 <p>For now, we are going to focus on the skills we need to run our own panel data regressions. In section 15.6, there are more details about the econometrics of panel data regressions that may help with the understanding of these approaches. Please make sure you understand that theory before beginning your own research.</p>
 <p>Now that we have specified the panel and time variables we are working with, we can begin to run regressions using our panel data. For panel data regressions we simply replace <code>regress</code> witht the command <code>xtreg</code>.</p>
 <p>Let’s try this out by regressing the natural log of GDP per capita on the natural log of human capital. We have included the <code>describe</code> to help us understand the variables we are using in this exercise.</p>
-<div id="b5cbcf03" class="cell" data-execution_count="6">
+<div id="eb68798b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>describe rgdpe pop hc</span>
@@ -906,14 +906,14 @@ window.Quarto = {
 <p>We refer to shocks that are invariant based on some variable (e.g.&nbsp;household level shocks that don’t vary with year or time-specific shocks that don’t vary with household) as <strong>fixed-effects</strong>. For instance, we can define household fixed-effects, time fixed-effects, and so on. Notice that this is an assumption on the error terms, and as such, when we include fixed-effects to our specification they become part of the model we assume to be true.</p>
 <p>When we ran our regression of log real GDP per capita on log human capital from earlier, we were concerned about omitted variable bias and endogeneity. Specifically, we were concerned about distance from the equator positively impacting both human capital and real GDP per capita, in which case our measure of human capital would be correlated with our error term, preventing us from interpreting our regression result as causal. We are now able to add country fixed-effects to our regression to account for this and come closer to determining the pure effect of human capital on GDP growth. There are two ways to do this. Let’s look at the more obvious one first.</p>
 <p><strong>Approach 1</strong>: create a series of country dummy variables and include them in the regression. For example, we would have one dummy variable called “Canada” that would be equal to 1 if the country is Canada and 0 if not. We would have dummy variables for all but one of the countries in this data set to avoid perfect collinearity. Rather than defining all of these dummies manually and including them in our <code>regress</code> command, we can simply add <code>i.varname</code> into our regression. Stata will then manually create all of the country dummy variables for us.</p>
-<div id="7130a804" class="cell" data-execution_count="7">
+<div id="14ccd7e3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc i.ccode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The problem with this approach is that we end up with a huge table containing the coefficients of every country dummy, none of which we care about. We are interested in the relationship between GDP and human capital, not the mean values of GDP for each country relative to the omitted one. Luckily for us, a well-known result is that controlling for fixed-effects is equivalent to adding multiple dummy variables. This leads us into the second approach to including fixed-effects in a regression.</p>
 <p><strong>Approach 2</strong>: We can alternatively apply fixed-effects to the regression by adding <code>fe</code> as an option on the regression.</p>
-<div id="9bdad00c" class="cell" data-execution_count="8">
+<div id="60127f11" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -923,7 +923,7 @@ window.Quarto = {
 <section id="random-effects-models" class="level3">
 <h3 class="anchored" data-anchor-id="random-effects-models">15.3.2 Random-Effects Models</h3>
 <p>One type of model we can also run is a <strong>random-effects model</strong>. The main difference between a random and fixed-effects model is that, with the random-effects model, differences across countries are assumed to be random. This allows us to treat time-invariant variables such as latitude as control variables. To run a random-effects model, just add <code>re</code> as an option in <code>xtreg</code> like below.</p>
-<div id="2b6cc3a1" class="cell" data-execution_count="9">
+<div id="e529daae" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, re</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -931,7 +931,7 @@ window.Quarto = {
 <p>As we can see, with this data and choice of variables, there is little difference in results between all of these models.</p>
 <p>This, however, will not always be the case. The test to determine if you should use the fixed-effects model (fe) or the random-effects model (re) is called the Hausman test.</p>
 <p>To run this test in Stata, start by running a fixed-effects model and ask Stata to store the estimation results under then name “fixed”:</p>
-<div id="4d24df0b" class="cell" data-execution_count="10">
+<div id="d2003334" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span>
@@ -939,7 +939,7 @@ window.Quarto = {
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>estimates store fixed </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, run a random-effects model and again ask Stata to store the estimation results as “random”:</p>
-<div id="b9b11c5c" class="cell" data-execution_count="11">
+<div id="190a55c6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, re </span>
@@ -947,7 +947,7 @@ window.Quarto = {
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>estimates store random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, run the command for the Hausman test, which compares the two sets of estimates:</p>
-<div id="42232fd1" class="cell" data-execution_count="12">
+<div id="9985cc88" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>hausman fixed random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -959,7 +959,7 @@ window.Quarto = {
 <p>Let’s say we have run a panel data regression with fixed-effects, and we think that no more needs to be done to control for factors that are constant across our cross-sectional variables (i.e.&nbsp;countries) at any one point in time (i.e.&nbsp;years). However, for very long series (for example those over 20 years), we will want to check that time dummy variables are not also needed.</p>
 <p>The Stata command <code>testparm</code> tests whether the coefficients on three or more variables are equal to zero. When used after a fixed-effects panel data regression that includes time dummies, <code>testparm</code> will tell us if the dummies are equal to 0. If they are equal to zero, then no time-fixed-effects are needed. If they are not, we will want to include them in all of our regressions.</p>
 <p>As we have already learned, we can add <code>i.year</code> to include a new dummy variable for each year and include that in our regression. Now, let’s test to see if that is necessary in the fixed-effects regression by running the command for <code>testparm</code>.</p>
-<div id="02c2cc66" class="cell" data-execution_count="13">
+<div id="6174cc38" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc i.year</span>
@@ -973,19 +973,19 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="creating-new-panel-variables">15.4 Creating New Panel Variables</h2>
 <p>Panel data also provides us with a new source of variation: variation over time. This means that we have access to a wide variety of variables we can include. For instance, we can create lags (variables in previous periods) and leads (variables in future periods). Once we have defined our panel data set using the <code>xtset</code> command (which we did earlier) we can create the lags using <code>Lnumber.variable</code> and the leads using <code>Fnumber.variable</code>.</p>
 <p>For example, let’s create a new variable that lags the natural log of GDP per capita by one period.</p>
-<div id="47e4b845" class="cell" data-execution_count="14">
+<div id="e89ab50a" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>generate lag1_lngdp <span class="op">=</span> L1.lngdp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we wanted to lag this same variable ten periods, we would write it as such:</p>
-<div id="87572af0" class="cell" data-execution_count="15">
+<div id="976aff35" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>generate lag10_lngdp <span class="op">=</span> L10.lngdp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can include lagged variables directly in our regression if we believe that past values of real GDP per capita influence current levels of real GDP per capita.</p>
-<div id="1de2e860" class="cell" data-execution_count="16">
+<div id="e89d89a8" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp L1.lngdp L10.lngdp lnhc i.year, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -993,19 +993,19 @@ window.Quarto = {
 <p>While we included lags from the previous period and 10 periods back as examples, we can use any period for our lags. In fact, including lag variables as controls for recent periods such as one lag back and two lags back is the most common choice for inclusion of past values of independent variables as controls.</p>
 <p>Finally, these variables are useful if we are trying to measure the growth rate of a variable. Recall that the growth rate of a variable X is just equal to <span class="math inline">\(ln(X_{t}) - ln(X_{t-1})\)</span> where the subscripts indicate time.</p>
 <p>For example, if we want to now include the natural log of the population growth rate in our regression, we can create that new variable by taking the natural log of the population growth rate <span class="math inline">\(ln(pop_{t}) - ln(pop_{t-1})\)</span></p>
-<div id="213c486c" class="cell" data-execution_count="17">
+<div id="6cfa381d" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>generate lnn <span class="op">=</span> ln(ln(pop)<span class="op">-</span>ln(L1.pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another variable that might also be useful is the natural log of the growth rate of GDP per capita.</p>
-<div id="10321146" class="cell" data-execution_count="18">
+<div id="cef441f6" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>generate dlngdp<span class="op">=</span>ln(lngdp <span class="op">-</span> L1.lngdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s put this all together in a regression and see what results we get:</p>
-<div id="54acafe2" class="cell" data-execution_count="19">
+<div id="63e8ac06" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>xtreg dlngdp L1.lngdp lnhc lnn i.year, fe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1017,13 +1017,13 @@ window.Quarto = {
 <section id="heteroskedasticity" class="level3">
 <h3 class="anchored" data-anchor-id="heteroskedasticity">15.5.1 Heteroskedasticity</h3>
 <p>As always, when running regressions, we must consider whether our residuals are heteroskedastic (not constant for all values of <span class="math inline">\(X\)</span>). To test our panel data regression for heteroskedasticity in the residuals, we need to calculate a modified Wald statistic. Fortunately, there is a Stata package available for installation that will make this test very easy for us to conduct. To install this package into your version of Stata, simply type:</p>
-<div id="9ca5316f" class="cell" data-execution_count="20">
+<div id="33763e20" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ssc install xttest3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s now test this with our original regression, the regression of log real GDP per capita on log human capital with the inclusion of fixed-effects.</p>
-<div id="da146595" class="cell" data-execution_count="21">
+<div id="fe8b70c0" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>xtreg lngdp lnhc, fe</span>
@@ -1032,7 +1032,7 @@ window.Quarto = {
 <p>The null hypothesis is homoskedasticity (or constant variance of the error term). From the output above, we can see that we reject the null hypothesis and conclude that the residuals in this regression are heteroskedastic.</p>
 <p>The best method for dealing with heteroskedasticity in panel data regression is by using generalized least squares, or GLS. There are a number of techniques to estimate GLS equations in Stata, but the recommended approach is the Prais-Winsten method.</p>
 <p>This is easily implemented by replacing the command <code>xtreg</code> with <code>xtpcse</code> and including the option <code>het</code>.</p>
-<div id="9cf3f7e8" class="cell" data-execution_count="22">
+<div id="28919b40" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>xtpcse lngdp lnhc, het</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1044,19 +1044,19 @@ window.Quarto = {
 <p><span class="math display">\[ Y_t = \alpha + \beta X_t + \varepsilon_t \]</span></p>
 <p>can have errors that not only are heteroskedastic (i.e.&nbsp;that depend on observables <span class="math inline">\(X_t\)</span>) but can also be correlated across time. For instance, if <span class="math inline">\(Y_t\)</span> was income, then <span class="math inline">\(\varepsilon_t\)</span> may represent income shocks (including transitory and permanent components). The permanent income shocks are, by definition, very persistent over time. This would mean that <span class="math inline">\(\varepsilon_{t-1}\)</span> affects (and thus is correlated with) shocks in the next period <span class="math inline">\(\varepsilon_t\)</span>. This problem is called serial correlation or autocorrelation, and if it exists, the assumptions of the regression model (i.e.&nbsp;unbiasedness, consistency, etc.) are violated. This can take the form of regressions where a variable is correlated with lagged versions of the same variable.</p>
 <p>To test our panel data regression for serial correlation, we need to run a Woolridge test. Fortunately, there are multiple packages in Stata available for installation that make this test automatic to conduct. Run the command below to see some of these packages.</p>
-<div id="52066960" class="cell" data-execution_count="23">
+<div id="038b355b" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>search xtserial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can choose any one of these packages and follow the (brief) instructions to install it. Once it’s installed, we can conduct the Woolridge test for autocorrelation below.</p>
-<div id="e1023fcc" class="cell" data-execution_count="24">
+<div id="adc8a0b2" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>xtserial lngdp lnhc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The null hypothesis is that there is no serial correlation between residuals. From the output, we can see that we reject the null hypothesis and conclude the variables are correlated with lagged versions of themselves. One method for dealing with this is by using the same Prais-Winsten method to estimate a GLS equation. This is easily implemented by replacing the command <code>xtreg</code> with <code>xtpcse</code> and including the option <code>corr(ar1)</code>.</p>
-<div id="71528169" class="cell" data-execution_count="25">
+<div id="36893bc3" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>xtpcse lngdp lnhc, het corr(ar1) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1071,14 +1071,14 @@ window.Quarto = {
 <p>In the regressions that we have been running in this example, we have found that the level of human capital is correlated with the level of GDP per capita. But have we proven that having high human capital causes countries to be wealthier? Or is is possible that wealthier countries can afford to invest in human capital? This is known as the issue of <strong>reverse causality</strong>, and arises when our independent variable determines our dependent variable.</p>
 <p>The Granger Causality test allows use to unpack some of the causality in these regressions. While understanding how this test works is beyond the scope of this notebook, we can look at an example using this data.</p>
 <p>The first thing we need to do is ensure that our panel is balanced. In the Penn World Tables, there are no missing values for real GDP and for population, but there are missing values for human capital. We can balance our panel by simply dropping all of the observations that do not include that measure.</p>
-<div id="e43b3266" class="cell" data-execution_count="26">
+<div id="6a948205" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>drop <span class="cf">if</span> hc<span class="op">==</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we can run the test that is provided by Stata for Granger Causality: <code>xtgcause</code>. We need to install this package before we begin using the same approach you used with <code>xtserial</code> above.</p>
 <p>Now let’s test the causality between GDP and human capital!</p>
-<div id="be3fe3ce" class="cell" data-execution_count="27">
+<div id="8d7c9670" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>xtgcause lngdp lnhc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

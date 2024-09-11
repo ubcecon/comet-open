@@ -784,11 +784,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">7.0 Intro</h2>
-<div id="4ce90545" class="cell" data-execution_count="1">
+<div id="150f830f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="18fbfdfa" class="cell" data-execution_count="2">
+<div id="a44fdf17" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -805,7 +805,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>In this module, we will go over how to calculate these statistics using the fake data set introduced in the previous lecture. Recall that this data set is simulating information of workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
 <p>Let’s begin by loading that data set into Stata:</p>
-<div id="a89fb9d5" class="cell" data-execution_count="3">
+<div id="90199e64" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
@@ -818,7 +818,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When we are working on a particular project, it is important to know how to create variables that are computed for a group rather than an individual or an observation. For instance, we may have a data set that is divided by individual and by year. We might want the variables to show us the statistics of a particular individual throughout the years or the statistics of all individuals each year.</p>
 <p>Stata provides a function to easily compute such statistics. The key to this analysis is the pre-command <code>by</code>. A pre-command is simply a prefix that tells Stata how we want it to run the command. In the case of <code>by</code>, we tell Stata to run the command on the subsets of data. The only requirement to using this pre-command is to ensure that the data is sorted the correct way.</p>
 <p>Let’s take a look at our data by using the <code>browse</code> command we learned in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/05_Opening_Datasets.html">Module 5</a>.</p>
-<div id="a396776c" class="cell" data-execution_count="4">
+<div id="b209467d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -826,26 +826,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We can tell here that the data is sorted by the variable <em>workerid</em>.</p>
 <p>We use the pre-command <code>by</code> alongside the command <code>generate</code> to develop these group-compounded variables.</p>
 <p>If we use variables other than <em>workerid</em> (the variable by which the data is sorted) to group our new variable, we will not be able to generate the new variable. We can see this error when we run the command below.</p>
-<div id="68502144" class="cell" data-execution_count="5">
+<div id="fc2bd7c0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>capture drop var_one <span class="op">//</span>recall that capture drop tells Stata to ignore <span class="bu">any</span> errors <span class="cf">if</span> var_one does <span class="kw">not</span> exist, <span class="kw">and</span> to drop it <span class="cf">if</span> it does</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>by year: generate var_one <span class="op">=</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we want to group by year, Stata expects us to sort the data such that all observations corresponding to the same year are next to each other. We can use the <code>sort</code> pre-command as follows.</p>
-<div id="4b208164" class="cell" data-execution_count="6">
+<div id="4c260137" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sort year </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s take a look at our data now.</p>
-<div id="61f08acb" class="cell" data-execution_count="7">
+<div id="c70b78af" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try the command above again, now with the sorted data.</p>
-<div id="14182672" class="cell" data-execution_count="8">
+<div id="2a1cad9a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>capture drop var_one </span>
@@ -855,26 +855,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We could have also used the pre-command <code>bysort</code> instead of sorting the data with <code>sort</code> and then using <code>by</code>. Everything is done in one step!</p>
 <p>Let’s sort the data, so it is reverted back to the same ordering scheme as when we started (by <em>workerid</em>), and generate our new variable again.</p>
 <p>Stata also lets us sort by two variables. The following block of code tells Stata to first <code>sort</code> the data by <em>workerid</em>, and then within each <em>workerid</em>, to sort the data by <em>year</em>.</p>
-<div id="85653c6d" class="cell" data-execution_count="9">
+<div id="42c280f3" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sort workerid year </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="674bb52a" class="cell" data-execution_count="10">
+<div id="c70e0486" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>capture drop var_one </span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>bysort year: generate var_one <span class="op">=</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The variable we have created is not interesting by any means. It simply takes the value of 1 everywhere. In fact, we haven’t done anything that we couldn’t have done with <code>gen var_one=1</code>. We can see this by using the <code>summarize</code> command.</p>
-<div id="b0cf7d2e" class="cell" data-execution_count="11">
+<div id="ae19908d" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>summarize var_one</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may not be aware, but Stata records the observation number as a hidden variable (a scalar) called <i>_n</i> and the total number of observations as <i>_N</i>.</p>
 <p>Let’s take a look at these by creating two newvariables: one that is the observation number and one that is the total number of observations.</p>
-<div id="3c7dc4ee" class="cell" data-execution_count="12">
+<div id="dbabb808" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>capture drop obs_number </span>
@@ -883,13 +883,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>capture drop tot_obs</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>generate tot_obs <span class="op">=</span> _N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ffc172a1" class="cell" data-execution_count="13">
+<div id="64c9f309" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As expected, the numbering of observations is sensitive to the way that the data is sorted! The cool thing is that whenever we use the pre-command <code>by</code>, the scalars <i>_n</i> and <i>_N</i> record the observation number and total number of observations for each group separately. Let’s check that below:</p>
-<div id="cf266a41" class="cell" data-execution_count="14">
+<div id="db345dfc" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>capture drop obs_number </span>
@@ -898,18 +898,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>capture drop tot_obs</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>bysort workerid: generate tot_obs <span class="op">=</span> _N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="155a71d0" class="cell" data-execution_count="15">
+<div id="be4e9409" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we can see, some workers are observed only 2 times in the data (they were only surveyed in two years), whereas other workers are observed 8 times (they were surveyed in 8 years). By knowing (and recording in a variable) the number of times a worker has been observed, we can do some analysis based on this information. For example, in some cases you might be interested in keeping only workers who are observed across all time periods. In this case, you could use the command:</p>
-<div id="627cecae" class="cell" data-execution_count="16">
+<div id="0bfd985d" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>keep <span class="cf">if</span> tot_obs<span class="op">==</span><span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e097fd20" class="cell" data-execution_count="17">
+<div id="61c8f892" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -920,19 +920,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The command <code>egen</code> is used whenever we want to create variables which require access to some functions (e.g.&nbsp;mean, standard deviation, min). The basic syntax works as follows:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">bysort</span> groupvar: <span class="kw">egen</span> new_var = <span class="kw">function</span>() , options</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Let’s see an example where we create a new variable called <em>avg_earnings</em>, which is the mean of earnings for every worker. We will need to reload our data since we dropped many observations above when we used the <code>keep</code> command.</p>
-<div id="7ea9170d" class="cell" data-execution_count="18">
+<div id="fcfc4f65" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>use <span class="st">"fake_data.dta"</span>, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="853c97a8" class="cell" data-execution_count="19">
+<div id="ead46c30" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>capture drop avg_earnings</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>bysort workerid: egen avg_earnings <span class="op">=</span> mean(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fda9df9c" class="cell" data-execution_count="20">
+<div id="6d004b32" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>capture drop total_earnings</span>
@@ -940,7 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>By definition, these commands will create variables that use information across different observations. You can check the list of available functions by writing <code>help egen</code> in the Stata command window.</p>
 <p>In this documentation, we can see that there are some functions that do not allow for <code>by</code>. For example, suppose we want to create the total sum across different variables in the same row. We do this below by taking the sum of <em>start_year</em>, <em>region</em>, and <em>treated</em>.</p>
-<div id="6cb715b5" class="cell" data-execution_count="21">
+<div id="a5c56137" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>cap drop sum_of_vars</span>
@@ -948,7 +948,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The variable we are creating for the example has no particular meaning, but what we need to notice is that the function <code>rowtotal()</code> only sums the non-missing values in our variables. This means that if there is a missing value in any of the three variables, the sum only occurs between the two variables that do not have the missing value. We could also write this command as <code>gen sum_of_vars = start_year + region + treated</code>; however, if there is a missing value (<code>.</code>) in <em>start_year</em>, <em>region</em>, or <em>treated</em>, then the generated value for <em>sum_of_vars</em> will also be a missing value. The answer lies in the missing observations. If we sum any number with a missing value (<code>.</code>), then the sum will also be missing when using <code>generate</code>, but not when using <code>egen</code>.</p>
 <p>Just as with <code>sort</code>, we can also use <code>by</code> with multiple variables. Doing so tells Stata to run the command over all combinations of subgroups. Here will use <em>year</em> and <em>region</em> in one command. This tells Stata to generate a new variable for each <em>year</em>-<em>region</em> combination.</p>
-<div id="b87239f3" class="cell" data-execution_count="22">
+<div id="8db7473e" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>capture drop regionyear_earnings</span>
@@ -963,12 +963,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb24"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">collapse</span> (statistic1) new_name = existing_variable (statistic2) new_name2 = existing_variable2 ... [<span class="kw">pweight</span> =     weight_variable], <span class="kw">by</span>(<span class="fu">group</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can find a full list of possible statistics that <code>collapse</code> can take by running the command <code>help collapse</code>. We can also learn more about using weights by typing <code>help weight</code>.</p>
 <p>Let’s suppose we want to create a data set at the region-year level using information in the current data set, but we want to use the sample weights that were provided with our data (<em>sample_weight</em>). First, we decide which statistics we want to keep from the original data set. For the sake of explanation, let’s suppose we want to keep the average earnings, the variance of earnings, and the total employment. We will have three new variables: <em>avg_earnings</em>, <em>sd_earnings</em>, <em>tot_emp</em>. We write the following:</p>
-<div id="31a6b61b" class="cell" data-execution_count="23">
+<div id="a72f7e2e" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>collapse (mean) avg_earnings <span class="op">=</span> earnings (sd) sd_earnings <span class="op">=</span> earnings (count) tot_emp <span class="op">=</span> earnings [pweight <span class="op">=</span> sample_weight], by(region year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="37d5f419" class="cell" data-execution_count="24">
+<div id="b9006190" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -980,7 +980,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reshaping" class="level2">
 <h2 class="anchored" data-anchor-id="reshaping">7.5 Reshaping</h2>
 <p>We have collapsed our data and so we need to import the data again to gain access to the full data set.</p>
-<div id="2499ce1b" class="cell" data-execution_count="25">
+<div id="15d70c72" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
@@ -990,7 +990,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Notice that the nature of this particular data set is panel form; individuals have been followed over many years. Sometimes we are interested in working with a cross section (i.e.&nbsp;we have 1 observation per worker which includes all of the years). Is there a simple way to go back and forth between these two? Yes!</p>
 <p>The command’s name is <code>reshape</code> and has two main forms: <code>wide</code> and <code>long</code>. <code>wide</code> data is cross-sectional in nature, whereas <code>long</code> is the usual panel.</p>
 <p>Suppose we want to record the earnings of workers while keeping the information across years. This entails transforming our panel data into a cross sectional data set. We want one observation per worker, where each observation has all of the years. This is a <code>wide</code> transformation.</p>
-<div id="a9c47e84" class="cell" data-execution_count="26">
+<div id="81fa3601" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>reshape wide earnings region age start_year sample_weight quarter_birth, i(workerid) j(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -998,7 +998,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="alert alert-warning">
 <strong>Warning:</strong> This command acts on all of the variables in our data set. If we don’t include them in the list, Stata will assume that they do not vary across <em>i</em> (in this case <em>workerid</em>). If we don’t check this beforehand, we may get an error message!
 </div>
-<div id="99dd35d0" class="cell" data-execution_count="27">
+<div id="07d46c53" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1006,24 +1006,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>There are so many missing values in the data! Should we worry? Not at all. As a matter of fact, we learned at the beginning of this module that many workers are not observed across all years. That’s what these missing values are representing.</p>
 <p>Notice that the variable <em>year</em> which was part of the command line (the <code>j(year)</code> part) has disappeared. We now have one observation per worker, with their information recorded across years in a cross-sectional way.</p>
 <p>How do we go from a <code>wide</code> data set to a regular panel form? We will use the <code>reshape long</code> command. Note that to do this, we need to specify the prefix variables. These are formally known as <code>stubs</code> in Stata. They are the variables that all share the same prefix (in this case, <em>year</em>), that will be transformed into one variable. When we write <code>j(year)</code>, Stata will create a new variable called <em>year</em>.</p>
-<div id="d9c145dc" class="cell" data-execution_count="28">
+<div id="79e905c0" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>reshape <span class="bu">long</span> earnings region age  start_year sample_weight, i(workerid) j(year) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="015ad21d" class="cell" data-execution_count="29">
+<div id="52be82d9" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that we now have an observation for every worker in every year, although we know some workers are only observed in a subset of these. This is known as a <strong>balanced panel</strong>.</p>
 <p>To retrieve the original data set, we get rid of such observations with missing values.</p>
-<div id="1f1a3863" class="cell" data-execution_count="30">
+<div id="f82618b1" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>keep <span class="cf">if</span> <span class="op">!</span>missing(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ec2cc47c" class="cell" data-execution_count="31">
+<div id="c5edebcd" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1034,21 +1034,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sort" class="level3">
 <h3 class="anchored" data-anchor-id="sort">7.6.1. Sort</h3>
 <p>To develop group-compounded variables, we first need to ensure that we sort the observations by the variable. Not sorting the obserations will return an error code.</p>
-<div id="23a7b740" class="cell" data-execution_count="32">
+<div id="dd95a10c" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>capture drop var</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>by sex: generate var <span class="op">=</span> _n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The correct method of of generating compounded variables is below:</p>
-<div id="a8b6adab" class="cell" data-execution_count="33">
+<div id="37b0ee3b" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>capture drop var</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>bysort sex: generate var <span class="op">=</span> _n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Take a look at it below:</p>
-<div id="d3412ca9" class="cell" data-execution_count="34">
+<div id="5baee060" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>summarize var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1057,18 +1057,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reshape-error" class="level3">
 <h3 class="anchored" data-anchor-id="reshape-error">7.6.2. Reshape Error</h3>
 <p>Reshaping data can be tricky and doing so incorrectly can cause many variables to be dropped in the proccess. The command <code>reshape error</code> can be used to identify the issues encountered when reshaping data.</p>
-<div id="ec76cafe" class="cell" data-execution_count="35">
+<div id="2f83c82c" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>use <span class="st">"fake_data.dta"</span>, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0b6029c3" class="cell" data-execution_count="36">
+<div id="99fd8f08" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>reshape wide earnings sex, i(year) j(workerid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="255ac7c9" class="cell" data-execution_count="37">
+<div id="e96d2ec8" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>reshape error</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-07-26">
 <meta name="description" content="This module goes over the theory of panel data analysis as well as how to apply the theory to real-world data. We look into panel regressions, fixed effects, a few other regression topics with panel data.">
 
-<title>3.11 - Advanced - Panel Data – COMET</title>
+<title>3.3 - Advanced - Panel Data – COMET</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +67,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
+<link href="../../../project/docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.qmd" rel="next">
+<link href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" rel="prev">
 <link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -139,7 +141,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -340,10 +342,325 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html">Panel Data</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn by Skill Level</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Started: Introduction to Data, R, and Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to JupyterNotebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 2)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_beginner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Beginner: Using R and Data in Applied Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Central Tendency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dispersion and Dependence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_intermediate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intermediate: Econometrics and Modeling Using R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Issues in Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/index/index_geog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geographic Computation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chi-Square Test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_06_Ttest/Lab_06_Ttest.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">t-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_03_Regression/Lab_03_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Climate_Disasters/Climate_Disasters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wrangling and Visualizing Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_advanced.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Modules</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Differences In Differences</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variables I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variables II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large Language Model APIs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Differencing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Training LLMS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentiment Analysis Using LLMs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transcription (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vocalization (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (R)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../project\docs\4_Advanced\advanced_synthetic_control\advanced_synthetic_control.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Synthetic Controls</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -373,11 +690,11 @@ window.Quarto = {
 <div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="advanced_panel_data.ipynb" download="advanced_panel_data.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html">Panel Data</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">3.11 - Advanced - Panel Data</h1>
+<h1 class="title">3.3 - Advanced - Panel Data</h1>
   <div class="quarto-categories">
     <div class="quarto-category">advanced</div>
     <div class="quarto-category">R</div>
@@ -396,7 +713,7 @@ window.Quarto = {
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
@@ -1310,6 +1627,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" class="pagination-link" aria-label="Word Embeddings (R)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Word Embeddings (R)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../project\docs\4_Advanced\advanced_synthetic_control\advanced_synthetic_control.qmd" class="pagination-link" aria-label="Synthetic Controls">
+        <span class="nav-page-text">Synthetic Controls</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
