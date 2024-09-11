@@ -2,7 +2,7 @@
 title: 3.2.2 - Advanced - Instrumental Variables 2
 author: COMET Team <br> _Names_
 date: 2024-06-03
-version: XX.XX
+version: 1.0
 description: An introduction to estimating causal effects with instrumental variables on Jupyter and R.
 categories: [advanced, R, instrumental variables, causality, 2SLS, regression]
 format: 

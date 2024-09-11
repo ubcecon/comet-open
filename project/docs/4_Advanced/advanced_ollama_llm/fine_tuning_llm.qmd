@@ -1,13 +1,14 @@
 ---
-title: Fine-Tuning Large Language Models for Sentiment Analysis
+title: 4.6 - Advanced - Fine-Tuning Large Language Models for Sentiment Analysis
 date: 29 July 2024
 authors: <i>COMET Team</i></br> Irene Berezin
-description: 'An introduction to Sentiment analysis and fine-tuning using BERT, in python.'
+description: 'An introduction to fine-tuning LLMs using BERT, in Python.'
 categories:
   - python
   - fine-tuning
   - sentiment-analysis
   - LLMs
+  - AI
 format:
   html: default
   ipynb:
@@ -16,7 +17,6 @@ format:
         display_name: Python
         language: python3
         name: python3
-
 ---
 
 

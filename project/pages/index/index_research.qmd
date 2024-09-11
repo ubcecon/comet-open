@@ -6,7 +6,7 @@ listing:
   type: grid
   image-placeholder: placeholder_images/placeholder.png
   contents:
-  - ../../docs/5_Research/econ490-stata/*.ipynb
+  - ../../docs/5_Research/econ490-stata/*.qmd
   categories: true
   fields: [image, title, date, description]
   sort-ui: [title, date]
