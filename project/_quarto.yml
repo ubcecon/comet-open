@@ -229,7 +229,7 @@ website:
           - text: Panel Data
             file: docs\4_Advanced\advanced_panel_data\advanced_panel_data.qmd
           - text: Synthetic Controls
-            file: project\docs\4_Advanced\advanced_synthetic_control\advanced_synthetic_control.qmd
+            file: docs\4_Advanced\advanced_synthetic_control\advanced_synthetic_control.qmd
 
 
     - title: "Learn by Class"
