@@ -81,7 +81,7 @@ HINT: *In your prompt specify that you don't want a long response. Without that,
 Here are a few questions you can use to check your understanding. Run the cell below before attempting the multiple choice questions.
 
 ```{python}
-from v2_tests import Tests
+from advanced_llm_apis2_tests.py import Tests
 ```
 
 ### Question 1
