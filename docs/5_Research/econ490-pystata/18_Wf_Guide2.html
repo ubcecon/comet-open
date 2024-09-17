@@ -796,11 +796,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">18.0 Intro</h2>
-<div id="a06602da" class="cell" data-execution_count="1">
+<div id="19041d27" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="547592ce" class="cell" data-execution_count="2">
+<div id="88512fa9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co">## make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -870,7 +870,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="compiling-do-files-with-the-master-do-file" class="level3">
 <h3 class="anchored" data-anchor-id="compiling-do-files-with-the-master-do-file">18.3.1 Compiling Do-Files with the Master Do-File</h3>
 <p>We can think of the master do-file, <code>0_master.do</code>, as a “compiler”: it runs all, or some, of the do-files for everything in our project. This master do-file file should be structured something like this:</p>
-<div id="518e0d32" class="cell" data-execution_count="3">
+<div id="ce57e9bd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Project info <span class="op">*/</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -901,7 +901,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <li>Each sub-directory’s path has its own global; for example, the path to the data folder is called <em>data</em>. Note that we don’t need to specify the full file path for each sub-directory, as it would be already included in the main folder. For example, for the data folder, we can simply use <code>${proj_main}/data</code>.</li>
 </ul>
 <p>Here is an example. Be sure to edit this information for your own project!</p>
-<div id="6fb34e25" class="cell" data-execution_count="4">
+<div id="2f3cb5a3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">*********************</span></span>
@@ -918,7 +918,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> log_dir <span class="st">"$</span><span class="sc">{proj_main}</span><span class="st">/logfiles"</span>              <span class="op">//</span> Log<span class="op">-</span><span class="bu">file</span> path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Setting up the directory using globals can be very useful. Imagine that in the do-file called <code>1_build_data.do</code>, we want to load our data set saved under the file name <em>fake_data.csv</em> in the data folder <em>data</em> in a sub-directory called <em>raw</em>. Instead of defining the full file path of <em>fake_data.csv</em>, we can conveniently use our globals as follows:</p>
-<div id="fe9c6d62" class="cell" data-execution_count="5">
+<div id="41e7913d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> delimit using ${datadir}<span class="op">/</span>raw<span class="op">/</span>fake_data.csv, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -929,12 +929,12 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <p>The final component of the master do-file is the running of the do-files. Here, we go over a simple example without using the project settings. The optional approach with those settings is further below.</p>
 <p>As we saw in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/02_Working_Dofiles.html">Module 2</a>, we run a do-file by using the command <code>do</code> followed by the file path of the appropriate do-file.</p>
 <p>For example, if we wanted to run the do-file that builds the data (<code>1_build_data.do</code>) that is stored in the folder indicated by the global <code>do_dir</code>, we would use the following command:</p>
-<div id="5e2082f5" class="cell" data-execution_count="6">
+<div id="49fac177" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>do <span class="st">"$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In our master do-file, we would include the code for running all the do-files like this:</p>
-<div id="d81ab2e3" class="cell" data-execution_count="7">
+<div id="6447f1ed" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
@@ -954,7 +954,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <p><a href="https://lthub.ubc.ca/guides/microsoft-onedrive-student-guide/">UBC Microsoft OneDrive</a> is a secure file-hosting service that allows us to store, share, and synchronize files and folders from any connected devices. You can learn how to store files on this service from the link provided above, but here we are going to cover how to access these files directly from Stata on any computer.</p>
 <p>To begin, we need to follow the instructions for our operating system to install the Microsoft OneDrive application on any computer that we want to work on. Once we have complete this process, we will see a new folder in our computer directory which contains all of the files in our OneDrive folder.</p>
 <p>To see how this works, we can edit the command below to access that directory on our computer. You will need to determine the file path on your computer and edit the example path here. When we run this command, Stata will understand that it should use this directory moving forward. We have also included <code>dir</code> so that we can see our folders in that directory. If we have already set up the folders for our project, we will see them there.</p>
-<div id="f1e21148" class="cell" data-execution_count="8">
+<div id="9c9849eb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cd <span class="st">"/Users/fake_user/Library/CloudStorage/OneDrive-UBC"</span></span>
@@ -975,7 +975,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <h3 class="anchored" data-anchor-id="commenting">18.4.1 Commenting</h3>
 <p>Leaving comments will not only help us remember what we have done, but it will help our group members, TAs, instructors, and supervisors understand our thought process.</p>
 <p>There are three ways to comment in a Stata do-file:</p>
-<div id="f089cccd" class="cell" data-execution_count="9">
+<div id="3b73da5e" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> comments on individual lines</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -987,7 +987,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also use a series of asterisks <code>*</code> to format our do file and partition your code. In the <code>0_master.do</code> example we saw earlier, the directory settings were highlighted as such. See the example again below:</p>
-<div id="19731ff4" class="cell" data-execution_count="10">
+<div id="3f804c53" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">********************</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Directory Settings</span>
@@ -995,12 +995,12 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 </div>
 <p>Formatting do-files in this manner creates visual bookmarks and highlights different sections of our script.</p>
 <p>Another use for comments is to “comment out” code that we might be testing or might need later. Use an asterisk to comment out a line:</p>
-<div id="0ebd4a34" class="cell" data-execution_count="11">
+<div id="409998ea" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>gen log_earnings <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or comment out a block of code:</p>
-<div id="b50e7b6d" class="cell" data-execution_count="12">
+<div id="cc71dc69" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>label variable workerid <span class="st">"ID"</span></span>
@@ -1010,7 +1010,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Most importantly, we should leave comments before and after our code to explain what we did!</p>
-<div id="0793d7ac" class="cell" data-execution_count="13">
+<div id="055204f7" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Open Raw Data</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> delimit using <span class="st">"$</span><span class="sc">{datadir}</span><span class="st">/raw/fake_data.csv"</span>, clear</span>
@@ -1022,13 +1022,13 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="splitting-the-code-across-lines" class="level3">
 <h3 class="anchored" data-anchor-id="splitting-the-code-across-lines">18.4.2 Splitting the Code Across Lines</h3>
 <p>In Stata, we can split code across multiple lines using three forward slashes <code>///</code>. This can be particularly useful when making graphs. Let’s see an example to understand why. Imagine we want to create a graph overlaying information for treated workers and untreated workers, such that they are marked with two different colors (we covered in detail how to do this in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>. The line of code to do it is:</p>
-<div id="d198665d" class="cell" data-execution_count="14">
+<div id="b27d728e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings <span class="cf">if</span> <span class="op">!</span>treated), ylabel(<span class="co">#8) xlabel(#10) ytitle("Log-earnings") xtitle("Year") legend( label(1 "Treated") label(2 "Control"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Making a graph has a lot of small components, all clustered together in a single line of code. If we had to go back and change the number of ticks for the x-axis <code>xlabel(#)</code>, it is safe to say it might take us a moment to parse through all this code.</p>
 <p>Now, let’s format this code block using <code>///</code> to split it across multiple lines:</p>
-<div id="10587dc4" class="cell" data-execution_count="15">
+<div id="5d01e20d" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>twoway <span class="op">///</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated) , <span class="op">///</span></span>
@@ -1042,7 +1042,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="indent-and-space-our-code" class="level3">
 <h3 class="anchored" data-anchor-id="indent-and-space-our-code">18.4.3 Indent and Space our Code</h3>
 <p>Using indentations in our code and spacing it neatly can improve its readability with little effort. We can use the <code>tab</code> button on our keyboard to indent and organize our code. Let’s reformat the last example to see this in action.</p>
-<div id="98715f64" class="cell" data-execution_count="16">
+<div id="05e3a781" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>twoway                                              <span class="op">///</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span></span>
@@ -1064,7 +1064,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="putting-it-all-together" class="level3">
 <h3 class="anchored" data-anchor-id="putting-it-all-together">18.4.4 Putting it All Together</h3>
 <p>Let’s review a final example which combines all the code styling tools we have discussed so far:</p>
-<div id="ede2235e" class="cell" data-execution_count="17">
+<div id="b54ea3cd" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>twoway                                              <span class="op">///</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span>     <span class="op">//</span> log earnings, treated vs control group</span>
@@ -1095,7 +1095,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <li><em>Store</em> globals that will switch on and off the creation of log-files (<code>store_log_build</code>, etc.).</li>
 </ol>
 <p>These process settings will look like this:</p>
-<div id="879ce96e" class="cell" data-execution_count="18">
+<div id="93d2349c" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="op">*******************</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Project Settings:</span>
@@ -1134,7 +1134,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="run-settings" class="level3">
 <h3 class="anchored" data-anchor-id="run-settings">18.5.2 <em>run</em> settings</h3>
 <p>Let’s consider how we might now run our do-files in the master do-file if we are using the <code>run</code> settings.</p>
-<div id="5a999942" class="cell" data-execution_count="19">
+<div id="11df04bd" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
@@ -1159,7 +1159,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <p>There’s one missing piece in this story. The comments in the settings say that assigning a value of <code>0</code> to a global skips that action. You may have noticed, however, that the <code>[if]</code> statement would return as FALSE for any value of <code>global run_build</code> as long as it is not equal to 1.</p>
 <p>We could set <code>global run_build = 8</code> and Stata would still return the statement <code>${run_build}==1</code> as FALSE. The question remains: when does <code>0</code> become relevant?</p>
 <p>To understand this, we have to think of our master do-file as a very long script that links all the other do-files together. Let’s consider a scenario where we want to skip the build step. This means our script begins with <code>2_descriptive.do</code>; however, <code>2_descriptive.do</code> includes commands to work with the data set we opened in <code>1_build_data.do</code>. Note that we don’t open the data set in the beginning of each do-file over and over again. This means we need to add a condition in the beginning of the <code>2_descriptive.do</code> script where we open the correct data set in the event we skip the first step.</p>
-<div id="a4336744" class="cell" data-execution_count="20">
+<div id="896ae4d2" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> {</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">"$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta"</span>, clear</span>
@@ -1167,7 +1167,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 </div>
 <p>This clearly defines a situation where, if we skip the build data step, then we load the correct data set in Stata to run <code>2_descriptive.do</code> .</p>
 <p>Similarly, if we were to skip the first two steps, then we would have to load the correct data set to run the results (i.e.&nbsp;step 3). We include the following command in the beginning of <code>3_results.do</code> to address this problem.</p>
-<div id="63bb9da7" class="cell" data-execution_count="21">
+<div id="1372a3ba" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span> ${run_descriptive}<span class="op">==</span><span class="dv">0</span> {</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">"$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta"</span>, clear</span>
@@ -1179,7 +1179,7 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <h3 class="anchored" data-anchor-id="store_log-settings">18.5.3 <em>store_log</em> settings</h3>
 <p>Now let’s take a look at the <code>store_log</code> settings, which help us automate the process of storing log-files.</p>
 <p>Imagine that all do-files except <code>0_master.do</code> include the <code>log</code> command in the beginning and end of the file. The <code>log</code> command is nested within an <code>[if]</code> statement related to the global settings, exactly like we saw earlier.</p>
-<div id="0d7cc819" class="cell" data-execution_count="22">
+<div id="820c488b" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>If log setting <span class="kw">is</span> activated, we record a log <span class="bu">file</span> <span class="kw">in</span> the log folder</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${store_log_descriptive}<span class="op">==</span><span class="dv">1</span> {</span>
