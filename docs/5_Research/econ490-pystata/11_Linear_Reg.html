@@ -311,9 +311,13 @@ window.Quarto = {
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip"><i class="bi bi-clipboard-data" role="img">
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip"><i class="bi bi-clipboard-data" role="img">
 </i> 
  <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open">
+ <span class="dropdown-text">Github Repository</span></a>
   </li>  
     </ul>
   </li>
@@ -744,7 +748,7 @@ window.Quarto = {
   <li><a href="#wrap-up-table" id="toc-wrap-up-table" class="nav-link" data-scroll-target="#wrap-up-table">11.7 Wrap-up Table</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="11_Linear_Reg.ipynb" download="11_Linear_Reg.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="11_Linear_Reg.ipynb" download="11_Linear_Reg.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
@@ -815,11 +819,11 @@ window.Quarto = {
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">11.0 Intro</h2>
-<div id="c182e628" class="cell" data-execution_count="1">
+<div id="1171533d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="aa0f8d77" class="cell" data-execution_count="2">
+<div id="8bda20ef" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -964,7 +968,7 @@ logearnings_{j} = b_0 + b_1\{region_{j}=1\} + b_2 age_{j}  + \hat{u_{j}},
 <section id="ordinary-least-squares-regressions-with-stata" class="level2">
 <h2 class="anchored" data-anchor-id="ordinary-least-squares-regressions-with-stata">11.4 Ordinary Least Squares Regressions with Stata</h2>
 <p>For this module, we will be using the fake data set. Recall that this data is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
-<div id="1a8fbc51" class="cell" data-execution_count="3">
+<div id="3105a219" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear <span class="op">*</span></span>
@@ -977,7 +981,7 @@ logearnings_{j} = b_0 + b_1\{region_{j}=1\} + b_2 age_{j}  + \hat{u_{j}},
 <div class="sourceCode" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">regress</span> dep_varname indep_varname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Feel free to look at the help file to see the different options that this command provides!</p>
 <p>Let’s start by creating a new variable that is the natural log of earnings and then run our regression. We are using the log of earnings since earnings has a highly skewed distribution, and applying a log transformation allows us to more normally distribute our earnings variable. This will be helpful for a variety of analytical pursuits.</p>
-<div id="7cf6ba1b" class="cell" data-execution_count="4">
+<div id="0c41decc" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>gen logearn <span class="op">=</span> log(earnings)</span>
@@ -992,7 +996,7 @@ logearnings_{j} = b_0 + b_1\{region_{j}=1\} + b_2 age_{j}  + \hat{u_{j}},
 <p>The command <code>regress</code> also allows us to list multiple covariates. When we want to carry out a multivariate regression, we write:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">regress</span> dep_varname indep_varname1 indep_varname2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>and so on.</p>
-<div id="298a591b" class="cell" data-execution_count="5">
+<div id="3a6ace41" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>regress logearn age treated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1025,14 +1029,14 @@ t = \frac{ \hat{\beta} - 0 }{StdErr}
 <h3 class="anchored" data-anchor-id="interpreting-coefficients">11.4.3 Interpreting Coefficients</h3>
 <p>While we have explored univariate and multivariate regressions of a log dependent variable and non-log independent variables (known as a log-linear model), the variables in linear regressions can take on many other forms. Each of these forms, whether a transformation of variables or not, influences how we can interpret these <span class="math inline">\(\beta\)</span> coefficient estimates.</p>
 <p>For instance, look at the following regression:</p>
-<div id="44182556" class="cell" data-execution_count="6">
+<div id="9e860da4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>regress earnings age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is a classic single variable regression with no transformations (e.g.&nbsp;log) applied to the variables. In this regression, a one-unit change in the independent variable leads to a <span class="math inline">\(\beta\)</span> unit change in the dependent variable. As such, we can interpret our coefficients in the following way: an extra year of <em>age</em> increases <em>earnings</em> by 1046.49 on average. The average earnings of individuals with age equal to 0 is 35484, which we have already discussed is not economically meaningful. The incredibly low p-value for the coefficient on age also indicates that this is a statistically significant effect.</p>
 <p>Next, let’s look at the following regression, where a log transformation has now been applied to the independent variable and not the dependent variable:</p>
-<div id="9f1c3857" class="cell" data-execution_count="7">
+<div id="0bf83b12" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>generate logage <span class="op">=</span> log(age)</span>
@@ -1041,14 +1045,14 @@ t = \frac{ \hat{\beta} - 0 }{StdErr}
 </div>
 <p>This is known as a linear-log regression, since only the independent variable has been transformed. It is a mirror image of the log-linear model we first looked at when we took the log of earnings. In this regression, we can say that a 1 unit increase in <em>logage</em> leads to a 37482 increase in <em>earnings</em>, or that a 1% increase in age leads to an increase in earnings of 374.82. To express this more neatly, a 10% increase in age leads to an increase in earnings of about 3750, or a 100% increase in age (doubling of age) leads to an increase in earnings of about 37500.</p>
 <p>We can even have a log-log regression, wherein both the dependent and independent variables in question have been transformed into log format.</p>
-<div id="9e52f2f9" class="cell" data-execution_count="8">
+<div id="3557926c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>regress logearn logage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When interpreting the coefficients in this regression, we can say that a 1 unit increase in <em>logage</em> leads to a 0.52 unit increase in <em>logearn</em>, or that a 1% increase in age leads to a 0.52% increase in earnings. To express this more neatly, we can also say that a 10% increase in age leads to a 5.2% increase in earnings, or that a 100% increase in age (doubling of age) leads to a 52% increase in earnings.</p>
 <p>Additionally, while we have been looking at log transformations, we can apply other transformations to our variables. Suppose that we believe that age is not linearly related to earnings. Instead, we believe that age may have a quadratic relationship with earnings. We can define another variable for this term and then include it in our regression to create a multivariate regression as follows.</p>
-<div id="cbfb5ebf" class="cell" data-execution_count="9">
+<div id="c88d1e78" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>generate agesqr <span class="op">=</span> age<span class="op">^</span><span class="dv">2</span></span>
@@ -1076,7 +1080,7 @@ earnings_i = \beta_0 + \beta_1age_i + \beta_2age^2_i + \mu_i,
 <p>Our sample weights will be commonly coded as an additional variable in our data set such as <em>weight_pct</em>, however sometimes this is not the case, and we will need to select the variable ourselves. Please reach out to an instructor, TA, or supervisor if you think this is the case. To include probability weights in regression analysis, we can simply include the following command immediately after our independent variable(s):</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">regress</span> <span class="fu">y</span> x [pw = weight_pct]   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can do that with the variable <em>sample_weight</em> which is provided to us in the “fake_data” data set, re-running the regression of <em>logearnings</em> on <em>age</em> and <em>treated</em> from above.</p>
-<div id="fd5366e2" class="cell" data-execution_count="10">
+<div id="d324cd43" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>regress logearn age treated [pw <span class="op">=</span> sample_weight]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1600,7 +1604,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-project/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
