@@ -21,7 +21,7 @@ website:
   search: true
   page-navigation: true
   reader-mode: false
-  repo-url: https://github.com/ubcecon/comet-project
+  repo-url: https://github.com/ubcecon/comet-open
   #repo-actions: [edit, issue]
   repo-actions: [issue]
   favicon: media/comet_favicon.png
@@ -108,8 +108,10 @@ website:
             icon: cloud-download
           - text: "---"
           - text: Project Datasets
-            href: https://github.com/ubcecon/comet-project/archive/refs/heads/data-only.zip
+            href: https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip
             icon: clipboard-data
+          - text: Github Repository
+            href: https://github.com/ubcecon/comet-open
 
       - text: " | "
         href: "#"
