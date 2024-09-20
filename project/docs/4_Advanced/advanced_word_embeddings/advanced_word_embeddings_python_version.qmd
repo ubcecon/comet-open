@@ -18,12 +18,12 @@ _Python Version_
 <img src="media/word_embedding_cover_art.png" width="1000"/>
 </div>
 
-_This notebook was prepared by Laura Nelson in collaboration with [UBC COMET](https://comet.arts.ubc.ca/) team members: Jonathan Graves, Angela Chen and Anneke Dresselhuis_
+_This notebook was prepared by Laura Nelson in collaboration with [UBC COMET](https://comet.arts.ubc.ca/) team members: Jonathan Graves, Angela Chen, Anneke Dresselhuis and Jane Platt_
 
 
 ## Prerequisites
 
-1. Some familiarity programming in R
+1. Some familiarity programming in Python
 2. Some familarity with natural language processing
 3. No computational text experience necessary!
 
@@ -31,11 +31,11 @@ _This notebook was prepared by Laura Nelson in collaboration with [UBC COMET](ht
 
 In the notebook you will 
 
-1. Familiarize yourself with concepts such as word embeddings (WE) vector-space model of language, natural language processing (NLP) and how they relate to small and large language models (LMs) 
-1. Import and pre-process a textual dataset for use in word embedding 
-1. Use word2vec to build a simple language model for examining patterns and biases textual datasets
-1. Identify and select methods for saving and loading models
-1. Use critical and reflexive thinking to gain a deeper understanding of how the inherent social and cultural biases of language are reproduced and mapped into language computation models
+1. Familiarize yourself with concepts such as word embeddings (WE), vector-space model of language, natural language processing (NLP), and how they relate to small and large language models (LMs) 
+2. Import and pre-process a textual dataset for use in word embeddings
+3. Use word2vec to build a simple language model for examining patterns and biases in textual datasets
+4. Identify and select methods for saving and loading models
+5. Use critical and reflexive thinking to gain a deeper understanding of how the inherent social and cultural biases of language are reproduced and mapped into language computation models
 
 ## Outline
 
@@ -47,9 +47,8 @@ The primary corpus we will use consists of the <a href="http://txtlab.org/?p=601
 
 ## Key Terms
 Before we dive in, feel free to familiarize yourself with the following key terms and how they relate to each other.
-</div>
+
 <img src="media/ai_key_terms.png" width="500"/>
-</div>
 
 **Artificial Intelligence (AI):** is a broad category that includes the study and development of computer systems that can copy intelligent human behaviour (adapted from [_Oxford Learners Dictionary_](https://www.oxfordlearnersdictionaries.com/definition/english/ai#:~:text=%2F%CB%8Ce%C9%AA%20%CB%88a%C9%AA%2F-,%2F%CB%8Ce%C9%AA%20%CB%88a%C9%AA%2F,way%20a%20human%20brain%20does.))
 
@@ -65,29 +64,22 @@ Before we dive in, feel free to familiarize yourself with the following key term
 
 Building off of the definition above, word embeddings are one way that humans can represent language in a way that is legible to a machine. More specifically, word embeddings are an NLP approach that use vectors to store textual data in multiple dimensions; by existing in the multi-dimensional space of vectors, word embeddings are able to include important semantic information within a given numeric representation.
 
-For example, if we are trying to answer a research question about how popular a term is on the web at a given time, we might use a simple word frequency analysis to count how many times the word "candidate" shows up in tweets during a defined electoral period. However, if we wanted to gain a more nuanced understanding of what kind of language, biases or attitudes contextualize the term, "candidate" in discourse, we would need to use a method like word embedding to encode meaning into our understanding of how people have talked about candidates over time. Instead of describing our text as a series of word counts, we would treat our text like coordinates in space, where similar words and concepts are closer to each other, and words that are different from each other are further away.
+For example, if we are trying to answer a research question about how popular a term is on the web at a given time, we might use a simple word frequency analysis to count how many times the word "candidate" shows up in tweets during a defined electoral period. However, if we wanted to gain a more nuanced understanding of what kind of language, biases or attitudes contextualize the term "candidate" in discourse, we would need to use a method like word embedding to encode meaning into our understanding of how people have talked about candidates over time. Instead of describing our text as a series of word counts, we would treat our text like coordinates in space, where similar words and concepts are closer to each other, and words that are different from each other are further away.
 
-![Comparing word frequency count and word embedding methods](media/word_frequency_vs_word_embeddings.png)
-
-## What are Word Embeddings?
-
-Building off of the definition above, word embeddings are one way that humans can represent language in a way that is legible to a machine. More specifically, word embeddings are an NLP approach that use vectors to store textual data in multiple dimensions; by existing in the multi-dimensional space of vectors, word embeddings are able to include important semantic information within a given numeric representation.
-
-For example, if we are trying to answer a research question about how popular a term is on the web at a given time, we might use a simple word frequency analysis to count how many times the word "candidate" shows up in tweets during a defined electoral period. However, if we wanted to gain a more nuanced understanding of what kind of language, biases or attitudes contextualize the term, "candidate" in discourse, we would need to use a method like word embedding to encode meaning into our understanding of how people have talked about candidates over time. Instead of describing our text as a series of word counts, we would treat our text like coordinates in space, where similar words and concepts are closer to each other, and words that are different from each other are further away.
-
-![Comparing word frequency count and word embedding methods](media/word_frequency_vs_word_embeddings.png)
+<img src="media/word_frequency_vs_word_embeddings.png" width="500"/>
 
 For example, in the visualization above, a word frequency count returns the number of times the word "candidate" or "candidates" is used in a sample text corpus. When a word embedding is made from the same text corpus, we are able to map related concepts and phrases that are closely related to "candidate" as neighbours, while other words and phrases such as "experimental study" (which refers to the research paper in question, and not to candidates specifically) are further away. 
 
 Here is another example of how different, but related words might be represented in a word embedding:
-<img src = "media/w2v-Analogies.png">
+
+<img src="media/w2v-Analogies.png">
 
 ## Making a Word Embedding
 So, how do word embeddings work? To make a word embedding, an input word gets compressed into a dense vector.
 
-![Creating a word embedding vector](media/creating_a_word_embedding.png)
+<img src="media/creating_a_word_embedding.png" width="500"/>
 
-The magic and mystery of the word embedding process is that often the vectors produced during the model embed qualities of a word or phrase that are not interpretable by humans. However, for our purposes, having the text in vector format is all we need. With this format, we can perform tests like cosine similarity and other kinds of operations. Such operations can reveal many different kinds of relationships between words, as we'll examine a bit later.
+The magic and mystery of the word embedding process is that often the vectors produced during the model embed qualities of a word or phrase that are not interpretable by humans. However, for our purposes, having the text in vector format is all we need. With this format, we can perform tests like cosine similarity (which we will explain below) and other kinds of operations. Such operations can reveal many different kinds of relationships between words, as we'll examine a bit later.
 
 ## Using word2vec
 
@@ -95,7 +87,7 @@ Word2vec is one NLP technique that is commonly used to generate word embeddings.
 
 The series of algorithms inside of the word2vec model try to describe and acquire parameters for a given word in terms of the text that appear immediately to the right and left in actual sentences. Essentially, it learns how to predict text.
 
-Without going too deep into the algorithm, suffice it to say that it involves a two-step process: 
+Without going too deep into the algorithm, suffice to say that it involves a two-step process: 
 
 1. First, the input word gets compressed into a dense vector, as seen in the simplified diagram, "Creating a Word Embedding," above. 
 2. Second, the vector gets decoded into the set of context words. Keywords that appear within similar contexts will have similar vector representations in between steps. 
@@ -104,17 +96,13 @@ Imagine that each word in a novel has its meaning determined by the ones that su
 
 The two main model architectures of word2vec are **Continuous Bag of Words (CBOW)** and **Skip-Gram**, which can be distinguished partly by their input and output during training. 
 
-**CBOW** takes the context words (for example, "Call","Ishmael") as a single input and tries to predict the word of interest ("me").
+**CBOW** takes the context words (for example, "Call" and "Ishmael") as a single input and tries to predict the word of interest ("me").
 
-<div>
 <img src="media/CBOW.gif" width="500"/>
-</div>
 
-**Skip-Gram** does the opposite, taking a word of interest as its input (for example, "me") and tries to learn how to predict its context words ("Call","Ishmael"). 
+**Skip-Gram** does the opposite, taking a word of interest as its input (for example, "me") and tries to learn how to predict its context words ("Call" and "Ishmael"). 
 
-<div>
 <img src="media/SG.gif" width="500"/>
-</div>
 
 In general, CBOW is is faster and does well with frequent words, while Skip-Gram potentially represents rare words better.
 
@@ -153,9 +141,8 @@ Note: the script uses default value for each argument.
 Let's begin our analysis!
 
 ## Excercise #1: Eggs, Sausages and Bacon
-<div>
+
 <img src="media/eggs_bacon_sausages.png" width="750"/>
-<div>
 
 To begin, we are going to load a few packages that are necessary for our analysis. Please run the code cells below.
 
@@ -202,16 +189,15 @@ At a glance, a couple of points are lying closer to one another. We used the wor
 This raises a question: how can we operationalize our intuition that the spatial distance presented here expresses topical similarity?
 
 ## Cosine Similarity
-The most common measurement of distance between points is their [Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity). Cosine similarity can operate on textual data that contain word vectors and allows us to identify how similar documents are to each other, for example. Cosine Similarity thus helps us understand how much content overlap a set of documents have with one another. For example, imagine that we were to draw an arrow from the origin of the graph - point (0,0) - to the dot representing each text. This arrow is called a _vector_. 
+The most common measurement of distance between points is their [Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity). Cosine similarity can operate on textual data that contain word vectors and allows us to identify how similar documents are to each other, for example. Cosine similarity thus helps us understand how much content overlap a set of documents have with one another. For example, imagine that we were to draw an arrow from the origin of the graph - point (0,0) - to the dot representing each text. This arrow is called a _vector_. 
 
 Mathematically, this can be represented as: 
-<div>
+
 <img src='media/Dot-Product.png' >
 
 Using our example above, we can see that the angle from (0,0) between Novel C and Novel A (orange triangle) is smaller than between Novel A and Novel B (navy triangle) or between Novel C and Novel B (both triangles together).
-<div>
+
 <img src="media/annotated_scatterplot.png" width="400"/>
-<div>
 
 Because this similarity measurement uses the cosine of the angle between vectors, the magnitude is not a matter of concern (this feature is really helpful for text vectors that can often be really long!). Instead, the output of cosine similarity yields a value between 0 and 1 (we don't have to work with something confusing like 18º!) that can be easily interpreted and compared - and thus we can also avoid the troubles associated with other dimensional distance measures such as [Euclidean Distance](https://en.wikipedia.org/wiki/Euclidean_distance).
 
@@ -226,8 +212,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 ```{python}
 #| tags: []
-# So we will subtract the similarities from 1
-
 cos_sim = cosine_similarity(dtm_df)
 ```
 
@@ -396,14 +380,14 @@ del feature_list
 In this exercise, we'll use an English-language subset from a dataset about novels created by [Andrew Piper](https://www.mcgill.ca/langlitcultures/andrew-piper). Specifically we'll look at 150 novels by British and American authors spanning the years 1771-1930. These texts reside on disk, each in a separate plaintext file. Metadata is contained in a spreadsheet distributed with the novel files.
 
 #### Metadata Columns
-<ol><li>Filename: Name of file on disk</li>
-<li>ID: Unique ID in Piper corpus</li>
-<li>Language: Language of novel</li>
-<li>Date: Initial publication date</li>
-<li>Title: Title of novel</li>
-<li>Gender: Authorial gender</li>
-<li>Person: Textual perspective</li>
-<li>Length: Number of tokens in novel</li></ol>
+1. Filename: Name of file on disk
+2. ID: Unique ID in Piper corpus
+3. Language: Language of novel
+4. Date: Initial publication date
+5. Title: Title of novel
+6. Gender: Authorial gender
+7. Person: Textual perspective
+8. Length: Number of tokens in novel
 
 ```{python}
 #| tags: []
@@ -428,7 +412,6 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 
 ```{python}
 #| tags: []
-# New libarary (not in Anaconda: gensim)
 import gensim
 ```
 
@@ -562,8 +545,7 @@ To train the model, we would run:
 ```
 # Train word2vec model from txtLab corpus
 
-model = gensim.models.Word2Vec(sentences, vector_size=100, window=5, \
-                               min_count=25, sg=1, alpha=0.025, epochs=5, batch_words=10000)
+model = gensim.models.Word2Vec(sentences, vector_size=100, window=5, min_count=25, sg=1, alpha=0.025, epochs=5, batch_words=10000)
 ```
 
 However, this is both slow and memory intensive, so instead we will load pre-trained data.
@@ -618,7 +600,7 @@ model.doesnt_match(['pride','prejudice', 'whale'])
 ```
 
 ### Multiple Valences
-A word embedding may encode both primary and secondary meanings that are both present at the same time. In order to identify secondary meanings in a word, we can subtract the vectors of primary (or simply unwanted) meanings. For example, we may wish to remove the sense of <em>river bank</em> from the word <em>bank</em>. This would be written mathetmatically as <em>RIVER - BANK</em>, which in <em>gensim</em>'s interface lists <em>RIVER</em> as a positive meaning and <em>BANK</em> as a negative one.
+A word embedding may encode both primary and secondary meanings that are both present at the same time. In order to identify secondary meanings in a word, we can subtract the vectors of primary (or simply unwanted) meanings. For example, we may wish to remove the sense of <em>river bank</em> from the word <em>bank</em>. This would be written mathetmatically as <em>BANK - RIVER</em>, which in <em>gensim</em>'s interface lists <em>BANK</em> as a positive meaning and <em>RIVER</em> as a negative one.
 
 ```{python}
 #| tags: []
@@ -690,8 +672,7 @@ len(model.key_to_index)
 #| tags: []
 # For interpretability, we'll select words that already have a semantic relation
 
-her_tokens = [token for token,weight in model.most_similar(positive=['she','her','hers','herself'], \
-                                                       negative=['he','him','his','himself'], topn=50)]
+her_tokens = [token for token,weight in model.most_similar(positive=['she','her','hers','herself'], negative=['he','him','his','himself'], topn=50)]
 ```
 
 ```{python}
@@ -764,7 +745,6 @@ for i in range(len(vectors)):
 # Save current model for later use
 
 model.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt')
-#model.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt') # deprecated
 ```
 
 ```{python}
@@ -775,7 +755,6 @@ model.save_word2vec_format('resources/word2vec.txtlab_Novel150_English.txt')
 # Made available by Ryan Heuser: http://ryanheuser.org/word-vectors-1/
 
 ecco_model = gensim.models.KeyedVectors.load_word2vec_format('resources/word2vec.ECCO-TCP.txt')
-#ecco_model = gensim.models.Word2Vec.load_word2vec_format('resources/word2vec.ECCO-TCP.txt') # deprecated
 ```
 
 ```{python}
@@ -812,7 +791,7 @@ model.most_similar('motorcar')
 
 ```{python}
 #| tags: []
-## EX. How does our model answer the analogy: MADRID is to SPAIN as PARIS is to __________
+## EX. How does our model answer the analogy: MADRID is to SPAIN as PARIS is to __________?
 
 ## Q.  What has our model learned about nation-states?
 
@@ -856,7 +835,7 @@ model.most_similar(positive=['learning', 'virtue'], negative=['riches'])
 ## Concluding Remarks and Resources
 Throughout this notebook we have seen how a number of mathematical operations can be used to explore word2vec's word embeddings. Hopefully this notebook has allowed you to see how the inherent biases of language become coded into word embeddings and systems that use word embeddings cannot be treated as search engines. 
 
-While getting inside the technics of these computational processes can enable us to answer a set of new, interesting questions dealing with semantics, there are many other questions that remain unanswered.
+While getting inside the techniques of these computational processes can enable us to answer a set of new, interesting questions dealing with semantics, there are many other questions that remain unanswered.
 
 For example:
 * Many language models are built using text from large, online corpora (such as Wikipedia, which is known to have a contributor basis that is majority white, college-educated men) - what kind of impact might this have on a language model?
@@ -873,9 +852,7 @@ For example:
 This notebook has been built using the following materials:
 - Arseniev-Koehler, A., & Foster, J. G. (2020). Sociolinguistic Properties of Word Embeddings [Preprint]. SocArXiv. https://doi.org/10.31235/osf.io/b8kud
 - Schiffers, R., Kern, D., & Hienert, D. (2023). Evaluation of Word Embeddings for the Social Sciences (arXiv:2302.06174). arXiv. http://arxiv.org/abs/2302.06174
-
 - Anwla, P. K. (2019, October 22). Challenges in word2vec Model. TowardsMachineLearning. https://towardsmachinelearning.org/performance-problems-in-word2vec-model/
-
 - Chandran, S. (2021, November 16). Introduction to Text Representations for Language Processing—Part 2. Medium. https://towardsdatascience.com/introduction-to-text-representations-for-language-processing-part-2-54fe6907868
 
 
