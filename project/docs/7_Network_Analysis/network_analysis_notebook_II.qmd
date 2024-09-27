@@ -1,0 +1,422 @@
+---
+title: Networks and NetworkX II
+date: '2024-09-26'
+description: This notebook is an continuation of basic network analysis in Python.
+categories:
+  - Python
+  - network analysis
+format:
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: Python
+        language: python3
+        name: python3
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.16.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: Python
+    name: python3
+---
+
+This notebook continues in demonstrating more advanced concepts in network analysis pertaining to archeology and provides a hands-on tutorial to using the NetworkX Python library for these applications.
+
+### 0. Prerequisites
+
+- Read through and follow the instructions in the pre-reading 
+- Have read through the first Networks and NetworkX module
+
+We will continue where we left off in Networks and NetworkX and continute looking at applications of Network analysis for anthropoligal purposes. 
+
+### 1 Libraries
+
+Here we are importing libraries necessary to run our upcoming code. 
+
+```{python}
+#import libraries needed for the notebook 
+import matplotlib.pyplot as plt 
+import matplotlib.patches as mpatches 
+import networkx as nx 
+import pandas as pd
+import numpy as np
+import geopandas as gpd
+import contextily as ctx
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import community as community_louvain
+import random
+import contextily as ctx
+import matplotlib.animation as animation
+from ipywidgets import interact, FloatRangeSlider, Layout
+```
+
+
+### 2. Importing our Dataset 
+
+We are using the same dataset from the first notebook, just with different applications. Importantly the process of uploading and manipulating the dataset is identical to the first notebook. Below is a large codeblock which will output our more zoomed in map of the Aegean sea from the first notebook.
+
+```{python}
+
+# Load data and create our graph
+df_edges = pd.read_excel("vistorian_network.xls")
+G = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION")
+
+# Load and process location data
+df_pos = pd.read_excel("vistorian_locations.xls", index_col=0)
+gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
+gdf_pos = gdf_pos.to_crs('EPSG:3857')
+
+# Create boundaries
+min_x, min_y = 1858948, 4055442
+max_x, max_y = 3336323, 5175704
+
+# Filter GeoDataFrame and make a subgraph
+gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
+filtered_nodes = gdf_pos_filtered.index.tolist()
+G_sub = G.subgraph(filtered_nodes)
+
+# Prepare positions for the subgraph
+positions_filtered = {loc: (gdf_pos_filtered.loc[loc].geometry.x, gdf_pos_filtered.loc[loc].geometry.y) for loc in gdf_pos_filtered.index}
+
+# Plot the filtered subgraph
+fig, ax = plt.subplots(figsize=(9, 9))
+gdf_pos_filtered.plot(ax=ax, alpha=0)
+ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
+
+nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.1)
+nx.draw_networkx_nodes(G_sub, pos=positions_filtered, ax=ax, node_size=60, node_color="red", edgecolors="black", alpha=0.8)
+
+plt.show()
+```
+### 3 What is the number of edges?
+
+Another question which is not immediatly apparent looking at the graph above is how many edges each node has? This can be computed and can be helpful for analysis as by just looking at the graph it is impossible to count the lines. To use this we use a command in NetworkX `nx.core_number` which find the core number of each node. 
+
+The core number of a node is the largest value k for which the node belongs to a k-core. A k-core is a maximal subgraph in which all vertices have degree at least k. Computing this will give us the amount of edges for each node. 
+
+```{python}
+# Define a function to count edges for each node, two parameters: G (Graphical object) and K(edges)
+def count_nodes_with_k_edges(G, k):
+    G = G.copy()
+    G.remove_edges_from(nx.selfloop_edges(G))
+    core_numbers = nx.core_number(G)
+    count = sum(1 for cn in core_numbers.values() if cn >= k)
+    
+    return count
+
+# Using df_pos to set a range for the process
+gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
+gdf_pos = gdf_pos.to_crs('EPSG:3857')
+
+# This is the range
+min_x, min_y = 1858948, 4055442
+max_x, max_y = 3336323, 5175704
+
+gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y] 
+filtered_nodes = gdf_pos_filtered.index.tolist()
+
+# Create a subgraph of our filtered nodes
+G_sub = G.subgraph(filtered_nodes) 
+
+# Print degree of each node
+print("\nDegree of each node in the filtered subgraph:")
+for node in G_sub.nodes():
+    print(f"Node {node}: {G_sub.degree(node)} edges")
+```
+
+ This output is also helpful because for the coming sections we will need the individual node names. 
+
+## 4 Path Analysis 
+
+What is path analysis? In this context it is finding the shortest, average or longest path between two or more nodes. 
+
+### 4.1 Path Analysis on a small graph
+
+We can use path analysis to find shortest path from a point or average path lenght. We are using new notation in our `nx.Graph` function we are adding a lenght between points which is shown as 
+`('B', 'D', LENGHT)` this lenght will be shown in the graph and has to be taken into account for finding the shortest path. 
+
+The other new important command fron NetworkX we are using is `nx.shortest_path` which takes a start and end point then finds the lenght and shortest path between them. We will look for the shortest path from node A to node F. 
+
+```{python}
+# Create a graph with lenghts associated with each edge
+G = nx.Graph()
+edges = [
+    ('A', 'B', 6), ('A', 'C', 5), ('B', 'C', 7), ('B', 'D', 6),
+    ('C', 'D', 6), ('C', 'E', 7), ('D', 'E', 8), ('D', 'F', 6),
+    ('E', 'F', 5)
+    ]
+G.add_weighted_edges_from(edges)
+
+#Fixed positions so that the graph does not change each time the code runs
+pos = {
+    'A': (0, 0),
+    'B': (1, 1),
+    'C': (2, 0),
+    'D': (3, 1),
+    'E': (4, 0),
+    'F': (5, 1)
+}
+
+def find_shortest_path(G, start, end):
+        path = nx.shortest_path(G, start, end, weight='weight')
+        length = nx.shortest_path_length(G, start, end, weight='weight')
+        return path, length
+   
+def calculate_average_path_length(G):
+    return nx.average_shortest_path_length(G, weight='weight')
+
+def main():
+    # Find shortest path
+    start, end = 'A', 'F'
+    path, length = find_shortest_path(G, start, end)
+    if path:
+        print(f"Shortest path from {start} to {end}: {' -> '.join(path)}")
+        print(f"Path length: {length}")
+    else:
+        print(f"No path found between {start} and {end}")
+
+    # Calculate average path length
+    avg_path_length = calculate_average_path_length(G)
+    print(f"Average path length: {avg_path_length:.2f}")
+
+    # Visualize the graph
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=16, font_weight='bold')
+    edge_labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+    plt.title("Shortest Path Example Graph")
+    plt.axis('off')
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+```
+
+### 4.2 Path Analysis on our data
+
+Let's say we are intested in finding the shortest path from Veloukovo in mainland Greece to Delos (an island in the Aegean). If we were to just look at the graph it would be difficult to find. The code below will find the shortest path. 
+
+Once again we will use `nx.shortest_path` this can also be easily edited to find the shortest path from any node name. It can be done by editing the variables `start` and `end`. 
+
+```{python}
+# Find shortest path from Veloukovo to Delos
+Start = "Veloukovo"
+End = "Delos"
+
+# use a full path
+G_full = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION")
+
+G_sub = G_full.subgraph(filtered_nodes)
+
+shortest_path = nx.shortest_path(G_full, source=Start, target=End)
+
+# Calculate the path length
+path_length = nx.shortest_path_length(G_full, source=Start, target=End)
+
+# Print the shortest path and length
+print(f"Shortest path from {Start} to {End}:")
+print(" -> ".join(shortest_path))
+print(f"Path length: {path_length}")
+```
+
+If we want to visualy demonstate this distance we can plot it on the map with a blue line. The code below will do this and using the command `nx.draw_networkx_edges` we can draw a blue line to demonstate the optimal path. 
+```{python}
+
+#Create a full map
+G_full = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION")
+
+G_sub = G_full.subgraph(filtered_nodes)
+
+#Find the positions of Nodes
+positions = {loc: (gdf_pos_filtered.loc[loc].geometry.x, gdf_pos_filtered.loc[loc].geometry.y) for loc in gdf_pos_filtered.index}
+
+# Plot the graph
+fig, ax = plt.subplots(figsize=(8, 8))
+
+# Plot filtered nodes and edges
+nx.draw_networkx_edges(G_sub, pos=positions, ax=ax, alpha=0.1)
+nx.draw_networkx_nodes(G_sub, pos=positions, ax=ax, node_size=20, node_color="red", alpha=0.6)
+
+# Highlight the shortest path (only the part within the filtered area)
+path_edges = list(zip(shortest_path, shortest_path[1:]))
+path_edges_filtered = [edge for edge in path_edges if edge[0] in filtered_nodes and edge[1] in filtered_nodes]
+nx.draw_networkx_edges(G_sub, pos=positions, ax=ax, edgelist=path_edges_filtered, edge_color='blue', width=2)
+
+# Highlight Veloukovo and Delos if they're in the filtered area
+highlight_nodes = [node for node in ["Veloukovo", "Delos"] if node in filtered_nodes]
+nx.draw_networkx_nodes(G_sub, pos=positions, ax=ax, nodelist=highlight_nodes, 
+                       node_color="yellow", node_size=100, edgecolors="black")
+
+# Add labels for Veloukovo and Delos if they're in the filtered area
+labels = {node: node for node in highlight_nodes}
+nx.draw_networkx_labels(G_sub, pos=positions, ax=ax, labels=labels, 
+                        font_size=10, font_weight="bold")
+ax.axis('off')
+ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
+ax.set_xlim(min_x, max_x)
+ax.set_ylim(min_y, max_y)
+
+plt.tight_layout()
+plt.show()
+```
+
+Our dataset is very interconnected with most nodes having over 20 edges, but for a less interconnected network this analysis could prove very useful to find the shortest path. 
+
+## 5 Diffusion 
+
+Another application of network analysis is to do with the diffusion of innovation, ideas or a disease through a network. We will demonstrate it below with a gif. The code is complicated, but the goal for it is to act as an interesting demonstarting of what is possible with Network Analysis. 
+
+```{python}
+#Import specific libraries to create a gif
+import matplotlib.animation as animation
+from IPython.display import HTML, display
+import base64
+
+# Create a function to simulate the diffusion
+def simulate_diffusion(G, initial_infected, steps, infection_probability):
+    infected = set(initial_infected)
+    infection_times = {node: 0 for node in initial_infected}
+    
+    for step in range(1, steps + 1):
+        new_infected = set()
+        for node in infected:
+            for neighbor in G.neighbors(node):
+                if neighbor not in infected and neighbor not in new_infected:
+                    if random.random() < infection_probability:
+                        new_infected.add(neighbor)
+                        infection_times[neighbor] = step
+        infected.update(new_infected)
+        yield infected, infection_times
+
+def update(frame):
+    infected, infection_times = frame
+    colors = ['red' if node in infected else 'blue' for node in G.nodes()]
+    ax.clear()
+    nx.draw(G, pos, node_color=colors, with_labels=True, ax=ax)
+    ax.set_title(f"Time step: {max(infection_times.values())}")
+    return ax
+
+# Create a graph
+G = nx.karate_club_graph()
+pos = nx.spring_layout(G)
+
+# Set up the initial infected nodes and parameters
+initial_infected = [0]
+infection_probability = 0.15
+steps = 30
+
+# Set up the figure and axis
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Create the animation
+ani = animation.FuncAnimation(
+    fig, 
+    update, 
+    frames=simulate_diffusion(G, initial_infected, steps, infection_probability),
+    interval=750, 
+    repeat=False,
+    save_count=steps
+)
+
+# Save the animation as GIF
+ani.save('diffusion_process.gif', writer='pillow')
+print("Animation saved as 'diffusion_process.gif'")
+
+# Display the saved GIF in the notebook
+with open("diffusion_process.gif", "rb") as file:
+    gif_data = file.read()
+    encoded_gif = base64.b64encode(gif_data).decode('utf-8')
+    display(HTML(f'<img src="data:image/gif;base64,{encoded_gif}" width="600">'))
+
+plt.close(fig)
+```
+
+Above is a demonstration of diffusion across a graph, you can customize the infection rate, which nodes start infected and the shape of the graph itself. 
+
+
+
+## 6. Interactive Network Exploration
+
+
+Using Python and Network Analysis you can construct interesting and interactive graphical displays. These range from zoom sliders, hoverable names and `OTHERS`
+
+
+### 6.1 Interactive Zoom Slider
+
+Here we will have interactive bars on the top of the screen demonstrating X and Y ranges which can be changed and the graph will zoom in accordingly. This is very helpful as when zoomed the graph ignores edges which run off the page making ledgibility much easier.
+
+
+```{python}
+# Define bounding box for filtered view
+min_x, min_y = 1858948, 4055442
+max_x, max_y = 3336323, 5175704
+
+
+def plot_network(x_range, y_range):
+    # Filter GeoDataFrame and create subgraph
+    gdf_pos_filtered = gdf_pos.cx[x_range[0]:x_range[1], y_range[0]:y_range[1]]
+    filtered_nodes = gdf_pos_filtered.index.tolist()
+    G_sub = G.subgraph(filtered_nodes)
+
+
+    # Prepare positions for the filtered subgraph
+    positions_filtered = {loc: (gdf_pos_filtered.loc[loc].geometry.x, gdf_pos_filtered.loc[loc].geometry.y) for loc in gdf_pos_filtered.index}
+
+
+    # Plot the filtered subgraph on a real-world map
+    fig, ax = plt.subplots(figsize=(12, 12))
+    gdf_pos_filtered.plot(ax=ax, alpha=0)
+    ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
+
+
+    nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.5)
+    nx.draw_networkx_nodes(G_sub, pos=positions_filtered, ax=ax, node_size=60, node_color="red", edgecolors="black", alpha=0.8)
+
+
+    plt.title(f"Network Overlay on Real-World Map (Nodes: {len(G_sub.nodes)}, Edges: {len(G_sub.edges)})")
+    plt.axis('off')
+    plt.show()
+
+
+# Create interactive sliders
+x_slider = FloatRangeSlider(
+    value=[min_x + 100000, max_x - 100000],
+    min=min_x,
+    max=max_x,
+    step=(max_x - min_x) / 100,
+    description='X Range:',
+    layout=Layout(width='500px')
+)
+
+
+y_slider = FloatRangeSlider(
+    value=[min_y + 100000, max_y - 100000],
+    min=min_y,
+    max=max_y,
+    step=(max_y - min_y) / 100,
+    description='Y Range:',
+    layout=Layout(width='500px')
+)
+
+
+# Display interactive widget
+interact(plot_network, x_range=x_slider, y_range=y_slider)
+```
+
+## 7. Citations
+
+Al-Taie, M. Z., & Kadry, S. (2017). Python for graph and network analysis. In Advanced information and knowledge processing. https://doi.org/10.1007/978-3-319-53004-8
+
+Ashkan et al. “Animate Graph Diffusion with NetworkX.” Stack Overflow, 1 Dec. 1960, stackoverflow.com/questions/31815454/animate-graph-diffusion-with-networkx. 
+
+Georgiev, Petko. “NetworkX: Network Analysis with Python.” Cambridge, Feb. 2015, www.cl.cam.ac.uk/teaching/1415/L109/l109-tutorial_2015.pdf. 
+
+McKinney, Trenton. “Introduction to Network Analysis in Python.” Trenton McKinney Github, 22 May 2020, trenton3983.github.io/posts/intro-network-analysis/. 
+
+“Networkx/Networkx: Network Analysis in Python.” GitHub, github.com/networkx/networkx. Accessed 26 Sept. 2024. 
