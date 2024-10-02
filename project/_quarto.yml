@@ -94,17 +94,20 @@ website:
       - icon: play
         text: Launch COMET
         menu:
-          - text: Launch on JupyterOpen
+          - text: Launch on JupyterOpen (with Data)
+            href: "https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&urlpath=lab%2Ftree%2Fcomet-notebooks%2F&branch=main"
+            icon: cloud-check
+          - text: Launch on JupyterOpen (lite)
             href: "https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=lab%2Ftree%2Fcomet-project%2F&branch=main"
             icon: cloud-check
           - text: Launch on Syzygy
             href: "https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&urlpath=lab%2Ftree%2Fcomet-project%2F&branch=main"
             icon: gear
-          - text: Launch on Collab
-            href: "https://colab.research.google.com/github/ubcecon/comet-project/blob/main/"
+          - text: Launch on Colab
+            href: "https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/"
             icon: google
           - text: Launch Locally
-            href: "https://github.com/ubcecon/comet-project/archive/refs/heads/main.zip"
+            href: "https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip"
             icon: cloud-download
           - text: "---"
           - text: Project Datasets
