@@ -30,14 +30,14 @@ This notebook introduces key concepts in network analysis pertaining to archeolo
 
 ## 0. Prerequisites
 
-- Read through and follow the instructions in the pre-reading 
-  - Have python and jupyter set up on your device
-  - Have created the `networks` environment
-- If you have not done this, see the pre-reading
+- Read through and follow the instructions in the pre-reading.
+  - Have Python and Jupyter set up on your device.
+  - Have created the `networks` environment.
+- If you have not done this, see the pre-reading.
 
 ## 1. What is Network analysis?
 
-**Network Analysis** is a set of techniques used to study the structure and dynamics of networks. **Networks** are collections of objects/locations/entities (called nodes) connected by relationships (called edges). Network analysis has applications in various fields, including sociology, biology, computer science, and more.
+**Network Analysis** is a set of techniques used to study the structure and dynamics of networks. **Networks** are collections of objects/locations/entities (called _nodes_) connected by relationships (called _edges_). Network analysis has applications in many fields, including sociology, biology, economics, computer science, and more.
 
  <figure>
   <img src="images/networks.png" alt="Network" style="width:80%">
@@ -45,7 +45,7 @@ This notebook introduces key concepts in network analysis pertaining to archeolo
 across time in the greater Arizona/New Mexico area of the US (From Mills et al. 2013, Fig. 2) </figcaption>
 </figure> 
 
-**Network science in archeology** is traditional network science used under an archeological context. Per Brighmans and Peeples, archeological network science falls within the discipline of archeology and is not a discipline of it's own: "network science applied to archaeological research is a subset of archaeological research: it does not happen in isolation, it is not immune to the limitations of archaeological data nor does it replace archaeological theory" (2023).
+**Network science in archeology** is traditional network science used in an archeological context. According to Brighmans and Peeples (2023), archeological network science falls within the discipline of archeology and is not a discipline of its own: "[N]etwork science applied to archaeological research is a subset of archaeological research: it does not happen in isolation, it is not immune to the limitations of archaeological data nor does it replace archaeological theory."
 
  <figure>
   <img src="images/abstraction_of_NA_research_process.png" alt="Archeological network science research process" style="width:80%">
@@ -109,12 +109,12 @@ across time in the greater Arizona/New Mexico area of the US (From Mills et al. 
 
 ### 1.2 NetworkX
 
-NetworkX is a python library that is used for the creation, manipulation, and visualization of complex networks. It provides tools to work with both undirected and directed networks, perform network-related calculations, and visualize the results. 
+`NetworkX` is a Python library that is used for the creation, manipulation, and visualization of complex networks. It provides tools to work with both undirected and directed networks, perform network-related calculations, and visualize the results. 
 
 
 #### 1.2.1 Importing NetworkX
 
-We can import NetworkX using the `import` command. At the same time, we'll also import the `matplotlib.pyplot` library, for plotting graphs. Additionally, we'll import `pandas` for basic data wrangling, and `numpy` for math. The `as` command allows us to use networkx commands without needing to type out `networkx` each time. Additionally, we'll import the `community_louvain` package for the louvain clustering algorithm. Along with some other libraries for our code to function. 
+We can import NetworkX using the `import` command. At the same time, we'll also import the `matplotlib.pyplot` library, for plotting graphs. Additionally, we'll import `pandas` for basic data wrangling, and `numpy` for math. The `as` command allows us to use `networkx` commands without needing to type out `networkx` each time. Additionally, we'll import the `community_louvain` package for the _louvain_ clustering algorithm. Along with some other libraries for our code to function. 
 
 
 ```{python}
@@ -217,7 +217,7 @@ print(f"Average degree: {sum(dict(er_graph.degree()).values()) / n:.2f}")
 
 ```
 
-There are more commands in NetworkX to generate random graphs, but the two above demonstrate two common methods of random graph generations. The first being a set ammount of nodes and edges and the second being a set amount of nodes and then a probability of edge creation between them. 
+There are more commands in NetworkX to generate random graphs, but the two above demonstrate two common methods of random graph generations. The first being a set number of nodes and edges and the second being a set number of nodes and a probability of edge creation between them. 
 
 ## 2. Degrees, Density and Weights
 
@@ -225,7 +225,7 @@ There are more commands in NetworkX to generate random graphs, but the two above
 
 The **degree** of a node is the number of edges that are connected to a node. The degree of a node $N$ is denoted as $deg(N)$. The maximum degree of a network $G$ is denoted by $\Delta(G)$ and is the degree of the node with the highest degree in the network. Conversely, the minimum degree is denoted as $\delta(G)$. 
 
-- If a node on a graph with $n$ nodes has a degree $n-1$ it is called a *dominating vertex*. Not every graph has a dominating vertex. 
+- If a node on a graph with $n$ nodes has degree $n-1$ it is called a *dominating vertex*. Not every graph has a dominating vertex. 
 
 We can see the degree of each node by running `dict(G.degree())`. This create a dictionary of key-value pairs for our network, where each key is the name of the node and the value is it's respective degree. 
 
@@ -302,18 +302,27 @@ nx.draw(G, pos = position, node_color=color_map, with_labels=True)
 ### 2.2 Density
 
 Density is defined as: 
-    $$Density=\frac{Number\:of\:Possible\:Edges}{Number\:of\:Actual\: Edges}​$$
- 
- In an undirected graph, the total number of edges is $\frac{V\times(V-1)}{2}$, where V is the total number of nodes.
- In a directed graph, the total number of edges is $V\times(V-1)$, because a connection between point A and point B can either be *from* point A *to* point B, or *to* point A *from* point B (hence multiplying by 2). 
- 
- - Note that self-loops (edges from and to the same node) are counted in the total number of edges but not in the maximum number of edges so graphs can have a density greater than 1.
 
- The formula for undirected graph density is thus:
- $$\frac{2E}{V(V-1)}$$
+$$
+\text{Density} = \frac{\text{Number of Possible Edges}}{\text{Number of Actual Edges}}
+​$$
+ 
+In an undirected graph, the total number of edges is $\frac{V\times(V-1)}{2}$, where V is the total number of nodes.
+In a directed graph, the total number of edges is $V\times(V-1)$, because a connection between point A and point B can either be *from* point A *to* point B, or *to* point A *from* point B (hence multiplying by 2). 
+ 
+- Note that self-loops (edges from and to the same node) are counted in the total number of edges but not in the maximum number of edges so graphs can have a density greater than 1.
 
- And for directed graphs, it is:
- $$\frac{E}{V(V-1)}$$
+The formula for undirected graph density is:
+
+$$
+\frac{2E}{V(V-1)}
+$$
+
+And for directed graphs, it is:
+
+$$
+\frac{E}{V(V-1)}
+$$
 
  Where $E$ is the number of edges in our graph and $V$ is the number of nodes.
 
@@ -417,7 +426,7 @@ plt.ylabel('Node Index')
 
 ## 4. Working with archeological datasets
 
-The ICRATES database of tablewares in the Roman East is a dataset of red slip tablewares between the late Hellenistic and late Roman periods in the east Mediterranean (Bes, 2015). The dataset is in fact comprised of two datasets: the first is a dataset of nodes with their respected connections, as well as weights for each edge and other information. The second dataset contains geographical coordinates for each node in the network. We will use these coordinates to add a geospacial component to our analysis, by placing each node in it's respective geographical coordinates and adding a map overlay. We begin by demonstrating how to import and visualize the dataset in python, and then introduce various centrality and connectivity measures.
+The ICRATES database of tablewares in the Roman East is a dataset of red slip tablewares between the late Hellenistic and late Roman periods in the east Mediterranean (Bes, 2015). The dataset is in fact comprised of two datasets: the first is a dataset of nodes with their respected connections, as well as weights for each edge and other information. The second dataset contains geographical coordinates for each node in the network. We will use these coordinates to add a geospatial component to our analysis, by placing each node in it's respective geographical coordinates and adding a map overlay. We begin by demonstrating how to import and visualize the dataset in python, and then introduce various centrality and connectivity measures.
 
 Importantly, the nodes in the first dataset are categorized by time period. We will initially focus on a singular time period, but will showcase how to graph multiple time frames towards the end of the notebook.
 
@@ -651,6 +660,7 @@ plt.show()
 ### 5.1 Network Distance and Eccentricity 
 
 Before talking about centrality, we first need to talk a bit about *distance*. **Distance**, also known as **Geodesic distance**, is defined as the number of edges traversed by the shortest path between two nodes.
+
 - The distance between a node and itself is 0.
 - The distance between a node and a node for which no shortest path exists (such as a node that is disconnected from other nodes) is $\infty$.
 - The distance between a node and it's neighbor is 1.
@@ -815,7 +825,7 @@ print("difference:", max(original_degrees)-min(original_degrees))
 
 ### 5.3 Closeness Centrality 
 
-**Closeness centrality** is, in short, a measure of how close a node is to all other nodes in the network. It can be computed as the "sum of the geodesic distances of a node to all other nodes in the network". A node is thus *important* if it is *close to all other nodes in the network*. One flaw of closeness centrality is that while it is a useful indicator of node importance in small networks, it produces little variation in large networks with many edges. This is particularly evident in our example network:
+**Closeness centrality** is a measure of how close a node is to all other nodes in the network. It can be computed as the "sum of the geodesic distances of a node to all other nodes in the network". A node is *important* if it is *close to all other nodes in the network*. One flaw of closeness centrality is that while it is a useful indicator of node importance in small networks, it produces little variation in large networks with many edges. This is particularly evident in our example network:
 
 ```{python}
 #Import a library so the code works
@@ -1023,7 +1033,7 @@ plt.show()
 
 **Eigenvector centrality** is a measure of the influence of a node in a network by considering not just how many connections it has (as we did with degree centrality), but also the importance of those connections: A node with high eigenvector centrality is connected to many nodes that themselves have high centrality, making it more influential in spreading information or resources. Unlike simpler measures like degree centrality, which only counts connections, eigenvector centrality looks at the overall structure of the network. It helps identify key players in a network who might not have the most connections but are well-connected to other important nodes. 
 
-The term "eigenvector" in eigenvector centrality comes from linear algebra: an eigenvector is a special kind of vector taken from a network's adjacency matrix. Each element in this eigenvector represents a node's centrality in the network.
+The term "eigenvector" in comes from linear algebra: an eigenvector is a special kind of vector taken from a network's adjacency matrix. Each element in this eigenvector represents a node's centrality in the network.
 
 ```{python}
 #Bring in data
@@ -1251,7 +1261,7 @@ axes[0, 1].legend(handles=[patch], loc='upper left')
 - A **clique** is a subset of nodes within a graph where every node is directly connected to every other node in the subset. This means that in a clique, all possible edges between the nodes are present, making it a maximally connected subgraph.
     -  All nodes are that are by themselves are inherently a clique (a 1-clique)
 
-- In undirected graphs, a **k-core** is a subgraph in which every node is connected to at least $k$ other nodes within the subgraph. The k-core is obtained by iteratively removing all nodes with a degree less than $k$ until no more nodes can be removed. 
+- In undirected graphs, a **$k$-core** is a subgraph in which every node is connected to at least $k$ other nodes within the subgraph. The $k$-core is obtained by iteratively removing all nodes with a degree less than $k$ until no more nodes can be removed. 
 
 ```{python}
 #Create our network
