@@ -114,7 +114,7 @@ NetworkX is a python library that is used for the creation, manipulation, and vi
 
 #### 1.2.1 Importing NetworkX
 
-We can import NetworkX using the `import` command. At the same time, we'll also import the `matplotlib.pyplot` library, for plotting graphs. Additionally, we'll import `pandas` for basic data wrangling, and `numpy` for math. The `as` command allows us to use networkx commands without needing to type out `networkx` each time. Additionally, we'll import the `community_louvain` package for the louvain clustering algorithm. 
+We can import NetworkX using the `import` command. At the same time, we'll also import the `matplotlib.pyplot` library, for plotting graphs. Additionally, we'll import `pandas` for basic data wrangling, and `numpy` for math. The `as` command allows us to use networkx commands without needing to type out `networkx` each time. Additionally, we'll import the `community_louvain` package for the louvain clustering algorithm. Along with some other libraries for our code to function. 
 
 
 ```{python}
@@ -164,44 +164,60 @@ nx.draw(G, pos = position, with_labels = True) # `pos` argument assigns a positi
 
 ### 1.3 Creating Random Graphs
 
-Instead of creating a graph with predetermined positions of nodes and edges we can also generate a random graph with a set amount of nodes and edges. Below you can change the amount of nodes and edges by changing num_nodes and num_edges. To do this we define a function called `generate_random_graph` which takes two parameters `num_nodes` and `num_edges` which correspond to the number of nodes and edges we wish to have in our new graph. 
+Instead of creating a graph with predetermined positions of nodes and edges we can also generate a random graph with a set amount of nodes and edges. Below you can change the amount of nodes and edges by changing `n` and `d` which correspond to the number of nodes and the  degree (number of edges) that each node has. 
+
+The first most basic command we will use is the  `nx.random_regular_graph` command. Which generates a random regular graph. 
 
 ```{python}
-# Define a function 
-def generate_random_graph(num_nodes, num_edges):
-    G = nx.Graph()
-    G.add_nodes_from(range(num_nodes))
-    
-    edges_added = 0
-    while edges_added < num_edges:
-        node1 = random.randint(0, num_nodes - 1)
-        node2 = random.randint(0, num_nodes - 1)
-        
-        if node1 != node2 and not G.has_edge(node1, node2):
-            G.add_edge(node1, node2)
-            edges_added += 1
-    
-    return G
+# Set a seed for reproducibility
+random.seed(42)
 
-# Values can of nodes and edges can be changed here
-num_nodes = 5
-num_edges = 12
+# Parameters
+n = 20  # number of nodes
+d = 3   # degree of each node
 
-random_graph = generate_random_graph(num_nodes, num_edges)
+# Generate the random regular graph
+rr_graph = nx.random_regular_graph(d, n)
 
-# Plot our new graph
-plt.figure(figsize=(8, 8))
-position = nx.spring_layout(random_graph, seed=42)
-nx.draw(random_graph, pos=position, with_labels=True, node_color='lightblue', 
-        node_size=500, font_size=12, font_weight='bold')
-edge_labels = nx.get_edge_attributes(random_graph, 'weight')
-nx.draw_networkx_edge_labels(random_graph, position, edge_labels=edge_labels)
-
-plt.title("Random Graph", fontsize=16)
-plt.axis('off')
-plt.tight_layout()
+# Visualize the graph, you can change the size, color, font and node size. 
+plt.figure(figsize=(8, 6)) 
+nx.draw(rr_graph, with_labels=True, node_color='lightgreen', node_size=500, font_size=10, font_weight='bold')
+plt.title("Random Regular Graph")
 plt.show()
+
+# Print some basic information about the graph
+print(f"Number of nodes: {rr_graph.number_of_nodes()}")
+print(f"Number of edges: {rr_graph.number_of_edges()}")
+print(f"Degree of each node: {d}")
 ```
+
+Another option is using the Erdős-Rényi model which can be accessed using the `nx.erdos_renyi_graph(n, p)` command. This command has two inputs n and p. N is the number of nodes and p is the probability of edge creation to each node. 
+
+```{python}
+# Set a seed for reproducibility
+random.seed(43)
+
+# Parameters
+n = 20  # number of nodes
+p = 0.2  # probability of edge creation
+
+# Generate the Erdős-Rényi random graph
+er_graph = nx.erdos_renyi_graph(n, p)
+
+# Visualize the graph
+plt.figure(figsize=(8, 6))
+nx.draw(er_graph, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold')
+plt.title("Erdős-Rényi Random Graph")
+plt.show()
+
+# Print some basic information about the graph
+print(f"Number of nodes: {er_graph.number_of_nodes()}")
+print(f"Number of edges: {er_graph.number_of_edges()}")
+print(f"Average degree: {sum(dict(er_graph.degree()).values()) / n:.2f}")
+
+```
+
+There are more commands in NetworkX to generate random graphs, but the two above demonstrate two common methods of random graph generations. The first being a set ammount of nodes and edges and the second being a set amount of nodes and then a probability of edge creation between them. 
 
 ## 2. Degrees, Density and Weights
 
@@ -532,7 +548,7 @@ subgraph_edges = list(G_sub_weighted.edges()) #listing all the edges in the subg
 filtered_edges = df_edges[df_edges['edge_tuple'].isin(subgraph_edges)] #filtering df_edges to only contain edges in the subgraph
 filtered_edges.reset_index(drop=True, inplace=True) #the index gets all sliced up when filtering rows, this makes it normal again
 
-edge_colors = []
+edge_colors = [] #create an empty set which contains the colors of the artifacts ESB, ESC
 for type in filtered_edges['TYPE']: 
     if type == 'ESB':
         edge_colors.append('maroon')
@@ -541,6 +557,7 @@ for type in filtered_edges['TYPE']:
     else:
         edge_colors.append('plum') 
 
+# Set the weights of the edges
 weights = filtered_edges['WEIGHT']
 adjusted_weights = []
 for weight in weights:
@@ -551,17 +568,17 @@ fig, ax = plt.subplots(figsize=(9, 9))
 gdf_pos_filtered.plot(ax=ax, alpha=0)
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
-
+#Plot the network on the graph
 nx.draw_networkx_nodes(G_sub_weighted, pos=positions_filtered, ax=ax, node_size=60, node_color="red", edgecolors="black", alpha=0.8)
 nx.draw_networkx_edges(G_sub_weighted, pos=positions_filtered, ax=ax, width=adjusted_weights, edge_color=edge_colors, alpha=0.3)
 
-
+#Show our graph
 patch_maroon = mpatches.Patch(color='maroon', label='ESB') 
 patch_navy = mpatches.Patch(color='navy', label='ESC') 
 plt.legend(handles=[patch_maroon, patch_navy])
 plt.show()
 
-
+#Print information about the types of edges
 print(adjusted_weights)
 print(filtered_edges)
 ```
@@ -658,15 +675,18 @@ plt.legend(handles=[blue_patch, red_patch])
 nx.draw(G_example, node_color=color_map, with_labels=True)
 ```
 
-If we color the nodes of our aerian sea pottery network by eccentricity, we see an interesting result:
+If we color the nodes of our Aegean sea pottery network by eccentricity, we see an interesting result:
 
 ```{python}
+#Bring in our data to be used
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
+#Set a bounding box on our data
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Use the bounding box on our data
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y] 
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
@@ -675,6 +695,7 @@ G_sub_eccentricity = G.subgraph(filtered_nodes)
 eccentricities = nx.eccentricity(G_sub_eccentricity) #calculating eccentricities
 eccentricities_array = np.array(list(eccentricities.values()))
 
+#Set a colour map for different values of eccentricity in our network
 color_map = []
 for eccentricity in eccentricities_array:
     if eccentricity == 1:
@@ -686,6 +707,7 @@ for eccentricity in eccentricities_array:
     else:
         color_map.append("grey")
 
+#Filter oyur graph
 positions_filtered = {}
 for loc in gdf_pos_filtered.index:
     x = gdf_pos_filtered.loc[loc].geometry.x
@@ -696,13 +718,14 @@ fig, ax = plt.subplots(figsize=(9, 9))
 gdf_pos_filtered.plot(ax=ax, alpha=0)
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
+#Draw our graph with different colours for eccentricity
 nx.draw_networkx_edges(G_sub_eccentricity, pos=positions_filtered, ax=ax, alpha=0.1)
 nx.draw_networkx_nodes(G_sub_eccentricity, pos=positions_filtered, node_color=color_map, ax=ax, node_size=60, edgecolors="black", alpha=0.8)
 
 patch = mpatches.Patch(color='slateblue', label='eccentricity = 2') 
 plt.legend(handles=[patch])
 
-
+#show the graph
 plt.show()
 ```
 
@@ -717,22 +740,27 @@ Note that the networkX `nx.degree_centrality()` function normalizes each node's 
 We can calculate the degree centrality of all our nodes in our network:
 
 ```{python}
+#Bring in our dataset
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
+#Set a bounding box to limit the scope of the graph
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Filter our graph using the bounding box 
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y] 
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
 G_sub = G.subgraph(filtered_nodes) 
 
+#Find the centrality values 
 centrality = nx.degree_centrality(G_sub)
 centrality_values = np.array(list(centrality.values()))
 n = len(centrality_values)
 original_degrees = centrality_values * (n - 1)
 
+#Colour our map based on the degree centrality 
 color_map=[]
 for degree in original_degrees:
     if degree == max(original_degrees):
@@ -743,6 +771,7 @@ for degree in original_degrees:
 
 cmap = plt.cm.winter
 
+#Filter our graph 
 positions_filtered = {}
 for loc in gdf_pos_filtered.index:
     x = gdf_pos_filtered.loc[loc].geometry.x
@@ -778,6 +807,7 @@ patch = mpatches.Patch(color='indianred', label='maximum degree (degree = 36)')
 plt.legend(handles=[patch], loc='center left', bbox_to_anchor=(10, 3))
 plt.show()
 
+#Print some information about our graph
 print("minimum degree:", min(original_degrees))
 print("maximum degree:", max(original_degrees))
 print("difference:", max(original_degrees)-min(original_degrees))
@@ -788,21 +818,28 @@ print("difference:", max(original_degrees)-min(original_degrees))
 **Closeness centrality** is, in short, a measure of how close a node is to all other nodes in the network. It can be computed as the "sum of the geodesic distances of a node to all other nodes in the network". A node is thus *important* if it is *close to all other nodes in the network*. One flaw of closeness centrality is that while it is a useful indicator of node importance in small networks, it produces little variation in large networks with many edges. This is particularly evident in our example network:
 
 ```{python}
+#Import a library so the code works
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+
+#Bring in our data
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
+#Bounding Box
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Filter our graph using bounding box
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
 G_sub = G.subgraph(filtered_nodes) 
 
+# Find centrality 
 centrality = nx.closeness_centrality(G_sub)
 centrality_values = np.array(list(centrality.values()))
 
+#Set a colour for different values of centrality 
 color_map=[]
 for degree in centrality_values:
     if degree == max(centrality_values):
@@ -826,7 +863,7 @@ gdf_pos_filtered.plot(ax=ax, alpha=0)
 
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
-
+#Draw our edges
 edges= nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.1)
 nodes = nx.draw_networkx_nodes(G_sub, pos=positions_filtered, node_color=color_map, cmap=cmap, ax=ax, node_size=60, edgecolors="black", alpha=1)
 
@@ -847,6 +884,8 @@ patch = mpatches.Patch(color='indianred', label='maximum closeness (closeness = 
 plt.legend(handles=[patch], loc='center left', bbox_to_anchor=(7, 3))
 plt.show()
 
+
+#Print information about our graph
 print("minumim closeness:", min(original_degrees))
 print("maximum closeness:", max(original_degrees))
 print("difference:", max(original_degrees)-min(original_degrees))
@@ -864,11 +903,14 @@ Note that, for undirected graphs, two adjacent nodes can only have one path betw
 Consider the graph below:
 
 ```{python}
+
+#Define our network
 G_betweenness_example = nx.Graph()
 edges_list = [(0,1),(0,2),(0,3),(0,4),(1,2),(2,3),(3,4),(1,4),(2,4),(1,3),(4,5),(5,6)]
 G_betweenness_example.add_edges_from(edges_list)
 pos = nx.spring_layout(G_betweenness_example, seed=1000)
 
+#Draw our graph
 nx.draw(G_betweenness_example,pos=pos, with_labels=True, edgecolors="black", node_color="bisque", node_size=800)
 ```
 
@@ -879,19 +921,24 @@ centrality
 ```
 
 ```{python}
+#Define our network
 G_betweenness_example = nx.Graph()
 edges_list = [(0,1),(0,2),(0,3),(0,4),(1,2),(2,3),(3,4),(1,4),(2,4),(1,3),(4,5),(5,6)]
 G_betweenness_example.add_edges_from(edges_list)
 pos = nx.spring_layout(G_betweenness_example, seed=1000)
 
+#Find the centrality values for our nodes
 centrality = nx.betweenness_centrality(G_betweenness_example, normalized=False)
 centrality_values = np.array(list(centrality.values()))
 cmap="BuPu"
 
+#Put labels on our network
 labels = {}
 for node in G_betweenness_example.nodes():
     labels[node] = centrality_values[node]
 
+
+#Draw our graph using `nx.draw`
 nx.draw(G_betweenness_example,pos=pos, node_color=centrality_values, edgecolors="black", cmap=cmap, node_size=800)
 nx.draw_networkx_labels(G_betweenness_example, pos, labels=labels, font_color="orangered")
 ```
@@ -901,24 +948,28 @@ We can see that node 4 does indeed have the highest betweenness centrality. The 
 Coloring the nodes in our archeology dataset by betweenness centrality, we get:
 
 ```{python}
+#Bring in our data
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
-
+#Bounding box
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Filter graph using bounding box
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y] 
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
 G_sub = G.subgraph(filtered_nodes) 
 
+#Find centrality values and place them into an array.
 centrality = nx.betweenness_centrality(G_sub)
 centrality_values = np.array(list(centrality.values()))
 n = len(centrality_values)
 original_degrees = centrality_values * (n - 1)
 
+#Colour our values based on centrality
 color_map=[]
 for degree in original_degrees:
     if degree == max(original_degrees):
@@ -929,6 +980,7 @@ for degree in original_degrees:
 
 cmap = plt.cm.winter
 
+#Filter our new network
 positions_filtered = {}
 for loc in gdf_pos_filtered.index:
     x = gdf_pos_filtered.loc[loc].geometry.x
@@ -943,6 +995,7 @@ gdf_pos_filtered.plot(ax=ax, alpha=0)
 
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
+# Create our edges and nodes
 edges= nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.1)
 nodes = nx.draw_networkx_nodes(G_sub, pos=positions_filtered, node_color=color_map, cmap=cmap, ax=ax, node_size=60, edgecolors="black", alpha=1)
 
@@ -960,6 +1013,7 @@ sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array(original_degrees)
 plt.colorbar(sm, cax=axins, orientation="vertical")
 
+#Plot our graph
 patch = mpatches.Patch(color='indianred', label='maximum betweenness (betweenness = 2.621)') 
 plt.legend(handles=[patch], loc='center left', bbox_to_anchor=(7, 3))
 plt.show()
@@ -972,23 +1026,26 @@ plt.show()
 The term "eigenvector" in eigenvector centrality comes from linear algebra: an eigenvector is a special kind of vector taken from a network's adjacency matrix. Each element in this eigenvector represents a node's centrality in the network.
 
 ```{python}
+#Bring in data
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
-
-
+#Bounding Box
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Filter using bounding box
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
 G_sub = G.subgraph(filtered_nodes) 
 
+#Find the eigenvector centrality in our graph
 centrality = nx.eigenvector_centrality(G_sub)
 centrality_values = np.array(list(centrality.values()))
 
+# Colour our nodes
 color_map=[]
 for degree in centrality_values:
     if degree == max(centrality_values):
@@ -999,6 +1056,7 @@ for degree in centrality_values:
 
 cmap = plt.cm.winter
 
+#Filter the graph
 positions_filtered = {}
 for loc in gdf_pos_filtered.index:
     x = gdf_pos_filtered.loc[loc].geometry.x
@@ -1013,6 +1071,7 @@ gdf_pos_filtered.plot(ax=ax, alpha=0)
 
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
+#Draw our edges and nodes
 edges= nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.1)
 nodes = nx.draw_networkx_nodes(G_sub, pos=positions_filtered, node_color=color_map, cmap=cmap, ax=ax, node_size=60, edgecolors="black", alpha=1)
 
@@ -1030,6 +1089,7 @@ sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array(original_degrees)
 plt.colorbar(sm, cax=axins, orientation="vertical")
 
+#Plot our graph 
 patch = mpatches.Patch(color='indianred', label='maximum betweenness (betweenness = 2.621)') 
 plt.legend(handles=[patch], loc='center left', bbox_to_anchor=(7, 3))
 plt.show()
@@ -1040,18 +1100,22 @@ plt.show()
 Lastly, let's clean up our centrality graphs by putting them together into one graph. We'll also use a directed version of our graph, to see how that changes the results. 
 
 ```{python}
+#Bring in our data
 df_edges = pd.read_excel("vistorian_network.xls")
 df_pos = pd.read_excel("vistorian_locations.xls", index_col=0)
 
+#Define the graph
 G_directed = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION", create_using=nx.DiGraph())
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
+#Create a bounding box and filter the graph using it
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
+#Plot the now directed points
 G_filtered = G_directed.subgraph(filtered_nodes)
 positions_filtered = {loc: (gdf_pos_filtered.loc[loc].geometry.x, gdf_pos_filtered.loc[loc].geometry.y) for loc in gdf_pos_filtered.index}
 
@@ -1060,6 +1124,8 @@ fig.set_facecolor('lightblue')
 for ax in axes.flatten():
     gdf_pos_filtered.plot(ax=ax, alpha=0)
     ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
+
+#The codes below are from the above sections (more notes can be found there on what each code block does)
 
 # Plotting Degree Centrality
 degree_centrality = nx.degree_centrality(G_filtered)
@@ -1188,49 +1254,60 @@ axes[0, 1].legend(handles=[patch], loc='upper left')
 - In undirected graphs, a **k-core** is a subgraph in which every node is connected to at least $k$ other nodes within the subgraph. The k-core is obtained by iteratively removing all nodes with a degree less than $k$ until no more nodes can be removed. 
 
 ```{python}
+#Create our network
 G_cliques_example = nx.Graph()
 edges_list = [(0,1),(0,2),(0,3),(0,4),(1,2),(2,3),(3,4),(1,4),(2,4),(1,3),(4,5),(5,6)]
 G_cliques_example.add_edges_from(edges_list)
 pos = nx.spring_layout(G_cliques_example, seed=1000)
 
+#Find our cliques and print where they are
 cliques = [x for x in nx.find_cliques(G_cliques_example)]
 print(cliques)
-           
+
+#Draw our graph      
 nx.draw(G_cliques_example,pos=pos, with_labels=True, edgecolors="black", node_color = "bisque", cmap=cmap, node_size=800)
 ```
 
 We can see that there are three cliques in this network: $(4, 0, 1, 2, 3)$, $(4, 5)$, and $(6, 5)$:
 
 ```{python}
+#Set the figure size (24,6) not (8,6) because we have 3 graphs to show
 fig, axes = plt.subplots(1, 3, figsize=(24, 6))
 fig.set_facecolor('lightblue')
 
+#Create our network
 G_cliques_example = nx.Graph()
 edges_list = [(0,1),(0,2),(0,3),(0,4),(1,2),(2,3),(3,4),(1,4),(2,4),(1,3),(4,5),(5,6)]
 G_cliques_example.add_edges_from(edges_list)
 pos = nx.spring_layout(G_cliques_example, seed=1000)
 
+#Find our cliques and print them
 cliques = [x for x in nx.find_cliques(G_cliques_example)]
 print(cliques)
 
+#Colour our cliques
 clique_1 = ["mediumseagreen", "mediumseagreen", "mediumseagreen", "mediumseagreen", "mediumseagreen", "bisque", "bisque"]
 clique_2 = ["bisque", "bisque", "bisque",  "bisque", "mediumseagreen", "mediumseagreen", "bisque"]
 clique_3 = ["bisque", "bisque", "bisque", "bisque",  "bisque", "mediumseagreen", "mediumseagreen"]
-           
+
+#Draw our cliques       
 nx.draw(G_cliques_example, ax=axes[0], pos=pos, with_labels=True, edgecolors="black", node_color = clique_1, cmap=cmap, node_size=800)
 nx.draw(G_cliques_example, ax=axes[1], pos=pos, with_labels=True, edgecolors="black", node_color = clique_2, cmap=cmap, node_size=800)
 nx.draw(G_cliques_example, ax=axes[2], pos=pos, with_labels=True, edgecolors="black", node_color = clique_3, cmap=cmap, node_size=800)
 ```
 
 ```{python}
+#Create our example graph
 G_cliques_example = nx.Graph()
 edges_list = [(0,1),(0,2),(0,3),(0,4),(1,2),(2,3),(3,4),(1,4),(2,4),(1,3),(4,5),(5,6)]
 G_cliques_example.add_edges_from(edges_list)
 pos = nx.spring_layout(G_cliques_example, seed=1000)
 
+#Find the cliques
 cliques = [x for x in nx.find_cliques(G_cliques_example)]
 print(cliques)
 
+#For loop
 node_counts = {}
 for clique in cliques: #for each clique in the list of cliques...
     for node in clique: # for each node in each clique...
@@ -1239,6 +1316,7 @@ for clique in cliques: #for each clique in the list of cliques...
         else:
             node_counts[node] = 1 #if it isn't, dont change
 
+#Colour our nodes
 colors = []
 for node in G_cliques_example.nodes():
     if node_counts[node] == 1:
@@ -1249,7 +1327,8 @@ for node in G_cliques_example.nodes():
         colors.append("orange")
     else:
         colors.append("red")
-           
+
+#Draw our network           
 nx.draw(G_cliques_example,pos=pos, with_labels=True, edgecolors="black", node_color = colors, cmap=cmap, node_size=800)
 patch_green = mpatches.Patch(color='lightgreen', label='node in one clique') 
 patch_forest = mpatches.Patch(color='forestgreen', label='node in two cliques') 
@@ -1262,10 +1341,12 @@ Let's repeat the same process as the example above on our archeology dataset:
 ```{python}
 G_sub_cliques = G.subgraph(filtered_nodes) 
 
+#Set the plot size
 fig, ax = plt.subplots(figsize=(9, 9))
 gdf_pos_filtered.plot(ax=ax, alpha=0)
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
+#Find our cliques
 cliques = [x for x in nx.find_cliques(G_sub_cliques)]
 print(cliques)
 
@@ -1277,6 +1358,7 @@ for clique in cliques: #for each clique in the list of cliques...
     for node in clique: # for each node in each clique...
         node_counts[node] += 1 #if it is in the dictionary, increase it's value by 1
 
+#Set the colours  for different cliques
 colors = []
 max_values = max(node_counts.values()) 
 min_values = min(node_counts.values())
@@ -1290,9 +1372,11 @@ for node in G_sub_cliques.nodes():
         normalized_value = count / max_values
         colors.append(plt.cm.PuBu(normalized_value))
 
+#Draw our network
 nx.draw_networkx_edges(G_sub_cliques, pos=positions_filtered, ax=ax, alpha=0.1)
 nx.draw_networkx_nodes(G_sub_cliques, pos=positions_filtered, ax=ax, node_size=60, node_color=colors, edgecolors="black", alpha=0.8)
 
+#Make a legend in the corner of the graph with labels
 patch_forestgreen = mpatches.Patch(color='forestgreen', label=f"Minimum number of cliques: {min_values}") 
 patch_salmon = mpatches.Patch(color='salmon', label=f"Maximum number of cliques: {max_values}") 
 plt.legend(handles=[patch_salmon, patch_forestgreen])
@@ -1311,6 +1395,7 @@ sm = plt.cm.ScalarMappable(cmap="PuBu", norm=norm)
 sm.set_array(node_counts_values)
 plt.colorbar(sm, cax=axins, orientation="vertical")
 
+#Plot our graph
 plt.show()
 ```
 
@@ -1329,12 +1414,14 @@ First, each node is assigned to its own community, and nodes are then iterativel
 ```{python}
 G_sub_louvain = G.subgraph(filtered_nodes) 
 
+#Set our figure size
 fig, ax = plt.subplots(figsize=(9, 9))
 gdf_pos_filtered.plot(ax=ax, alpha=0)
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
 partition = community_louvain.best_partition(G_sub_louvain) #applying louvain
 
+#Colour map of possible colors with values associated with it
 color_map = {
     0: "coral",
     1: "cornflowerblue",
@@ -1342,17 +1429,20 @@ color_map = {
     3: "crimson",
     4: "purple"}
 
+#Set node colors
 node_colors = []
 for node in G_sub_louvain.nodes():
     cluster_id = partition[node]  # Get the cluster ID for the node
     color = color_map[cluster_id]  # Get the corresponding color from the color_map
     node_colors.append(color)
 
+#Draw our network
 nx.draw_networkx_edges(G_sub_louvain, pos=positions_filtered, ax=ax, alpha=0.1)
 nx.draw_networkx_nodes(G_sub_louvain, pos=positions_filtered, 
                        ax=ax, node_size=60, node_color=node_colors,edgecolors="black", alpha=0.8)
 print(partition)
 
+#Make a legend in the corner with color values and show our graph 
 patch_coral = mpatches.Patch(color='coral', label="Community 0") 
 patch_cornflower = mpatches.Patch(color='cornflowerblue', label="Community 1") 
 patch_limegreen = mpatches.Patch(color='limegreen', label="Community 2") 
@@ -1367,8 +1457,8 @@ clusters = {}
 for node, cluster in partition.items():
     if cluster not in clusters:     # If the cluster is not already in the dictionary, add it
         clusters[cluster] = []
-    clusters[cluster].append(node)
-print("community_0:", clusters[0])
+    clusters[cluster].append(node)    
+print("community_0:", clusters[0]) #Prints the names of nodes in each community 0,1,2 
 print("community_1:", clusters[1])
 print("community_2:", clusters[2])
 ```

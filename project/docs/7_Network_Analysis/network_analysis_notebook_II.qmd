@@ -32,6 +32,7 @@ This notebook continues in demonstrating more advanced concepts in network analy
 
 - Read through and follow the instructions in the pre-reading 
 - Have read through the first Networks and NetworkX module
+- If neither of those have been completed go back to those modules first
 
 We will continue where we left off in Networks and NetworkX and continute looking at applications of Network analysis for anthropoligal purposes. 
 
@@ -51,11 +52,11 @@ import contextily as ctx
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import community as community_louvain
 import random
-import contextily as ctx
 import matplotlib.animation as animation
 from ipywidgets import interact, FloatRangeSlider, Layout
+from shapely.geometry import box
+import plotly.graph_objects as go
 ```
-
 
 ### 2. Importing our Dataset 
 
@@ -89,14 +90,16 @@ fig, ax = plt.subplots(figsize=(9, 9))
 gdf_pos_filtered.plot(ax=ax, alpha=0)
 ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 
+#Draw our network
 nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.1)
 nx.draw_networkx_nodes(G_sub, pos=positions_filtered, ax=ax, node_size=60, node_color="red", edgecolors="black", alpha=0.8)
 
+#Show the plot
 plt.show()
 ```
 ### 3 What is the number of edges?
 
-Another question which is not immediatly apparent looking at the graph above is how many edges each node has? This can be computed and can be helpful for analysis as by just looking at the graph it is impossible to count the lines. To use this we use a command in NetworkX `nx.core_number` which find the core number of each node. 
+A question which is not immediatly apparent looking at the graph above is how many edges each node has? This can be computed and can be helpful for analysis as by just looking at the graph it is impossible to count the lines. To use this we use a command in NetworkX `nx.core_number` which find the core number of each node. 
 
 The core number of a node is the largest value k for which the node belongs to a k-core. A k-core is a maximal subgraph in which all vertices have degree at least k. Computing this will give us the amount of edges for each node. 
 
@@ -114,10 +117,11 @@ def count_nodes_with_k_edges(G, k):
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 
-# This is the range
+# This is the range (Bounding Box)
 min_x, min_y = 1858948, 4055442
 max_x, max_y = 3336323, 5175704
 
+#Filter the graph using the bounds above
 gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y] 
 filtered_nodes = gdf_pos_filtered.index.tolist()
 
@@ -141,56 +145,67 @@ What is path analysis? In this context it is finding the shortest, average or lo
 We can use path analysis to find shortest path from a point or average path lenght. We are using new notation in our `nx.Graph` function we are adding a lenght between points which is shown as 
 `('B', 'D', LENGHT)` this lenght will be shown in the graph and has to be taken into account for finding the shortest path. 
 
-The other new important command fron NetworkX we are using is `nx.shortest_path` which takes a start and end point then finds the lenght and shortest path between them. We will look for the shortest path from node A to node F. 
+The other new important command fron NetworkX we are using is `nx.shortest_path` which takes a start and end point then finds the lenght and shortest path between them. We will look for the shortest path from node 9 to node 5. Then using the command `nx.draw_networkx_edges` we will highlight the shortest path in blue.  
 
 ```{python}
-# Create a graph with lenghts associated with each edge
-G = nx.Graph()
-edges = [
-    ('A', 'B', 6), ('A', 'C', 5), ('B', 'C', 7), ('B', 'D', 6),
-    ('C', 'D', 6), ('C', 'E', 7), ('D', 'E', 8), ('D', 'F', 6),
-    ('E', 'F', 5)
-    ]
-G.add_weighted_edges_from(edges)
+import networkx as nx
+import matplotlib.pyplot as plt
+import random
 
-#Fixed positions so that the graph does not change each time the code runs
-pos = {
-    'A': (0, 0),
-    'B': (1, 1),
-    'C': (2, 0),
-    'D': (3, 1),
-    'E': (4, 0),
-    'F': (5, 1)
-}
+# Set a random seed for reproducibility
+random.seed(3)
 
+# Create a random regular graph
+n = 12  # number of nodes
+d = 3   # degree of each node
+G = nx.random_regular_graph(d, n)
+
+# Assign random weights to edges
+for (u, v) in G.edges():
+    G[u][v]['weight'] = random.randint(1, 10)
+
+#Define a function which finds the shortest path
 def find_shortest_path(G, start, end):
+    try:
         path = nx.shortest_path(G, start, end, weight='weight')
         length = nx.shortest_path_length(G, start, end, weight='weight')
         return path, length
-   
-def calculate_average_path_length(G):
-    return nx.average_shortest_path_length(G, weight='weight')
+    except nx.NetworkXNoPath:
+        return None, None
 
 def main():
-    # Find shortest path
-    start, end = 'A', 'F'
+    # Create a random regular graph
+    n = 10  # number of nodes (increased to at least 10)
+    d = 3   # degree of each node
+    G = nx.random_regular_graph(d, n)
+
+    # Assign random weights to edges
+    for (u, v) in G.edges():
+        G[u][v]['weight'] = random.randint(1, 10)
+
+    # Find shortest path from node 4 to node 9
+    start, end = 9, 5
     path, length = find_shortest_path(G, start, end)
     if path:
-        print(f"Shortest path from {start} to {end}: {' -> '.join(path)}")
+        print(f"Shortest path from {start} to {end}: {' -> '.join(map(str, path))}")
         print(f"Path length: {length}")
-    else:
-        print(f"No path found between {start} and {end}")
-
-    # Calculate average path length
-    avg_path_length = calculate_average_path_length(G)
-    print(f"Average path length: {avg_path_length:.2f}")
-
+  
     # Visualize the graph
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(G, seed=42)
+    
+    # Draw the graph
     nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=16, font_weight='bold')
+    
+    # Draw edge labels
     edge_labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
-    plt.title("Shortest Path Example Graph")
+    
+    # Highlight the shortest path in blue
+    if path:
+        path_edges = list(zip(path, path[1:]))
+        nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='b', width=2)
+    
+    plt.title("Random Regular Graph with Shortest Path")
     plt.axis('off')
     plt.show()
 
@@ -248,12 +263,12 @@ path_edges = list(zip(shortest_path, shortest_path[1:]))
 path_edges_filtered = [edge for edge in path_edges if edge[0] in filtered_nodes and edge[1] in filtered_nodes]
 nx.draw_networkx_edges(G_sub, pos=positions, ax=ax, edgelist=path_edges_filtered, edge_color='blue', width=2)
 
-# Highlight Veloukovo and Delos if they're in the filtered area
+# Highlight Veloukovo and Delos 
 highlight_nodes = [node for node in ["Veloukovo", "Delos"] if node in filtered_nodes]
 nx.draw_networkx_nodes(G_sub, pos=positions, ax=ax, nodelist=highlight_nodes, 
                        node_color="yellow", node_size=100, edgecolors="black")
 
-# Add labels for Veloukovo and Delos if they're in the filtered area
+# Add labels for Veloukovo and Delos
 labels = {node: node for node in highlight_nodes}
 nx.draw_networkx_labels(G_sub, pos=positions, ax=ax, labels=labels, 
                         font_size=10, font_weight="bold")
@@ -262,6 +277,7 @@ ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
 ax.set_xlim(min_x, max_x)
 ax.set_ylim(min_y, max_y)
 
+#Show our graph
 plt.tight_layout()
 plt.show()
 ```
@@ -277,6 +293,9 @@ Another application of network analysis is to do with the diffusion of innovatio
 import matplotlib.animation as animation
 from IPython.display import HTML, display
 import base64
+
+# Add a random seed for reproducability everytime our code runs
+random.seed(3)
 
 # Create a function to simulate the diffusion
 def simulate_diffusion(G, initial_infected, steps, infection_probability):
@@ -339,75 +358,115 @@ plt.close(fig)
 
 Above is a demonstration of diffusion across a graph, you can customize the infection rate, which nodes start infected and the shape of the graph itself. 
 
-
-
 ## 6. Interactive Network Exploration
 
+Using Python and Network Analysis you can construct interesting and interactive graphical displays. These range from zoom sliders, hoverable names and `OTHERS`. The code is complicated and should more serve to give ideas on what can be done for anthropolgical applications using Python and network analysis. 
 
-Using Python and Network Analysis you can construct interesting and interactive graphical displays. These range from zoom sliders, hoverable names and `OTHERS`
+### 6.1 A pannable and zoomable map
 
+We can use python to create a pannable and zoomable map of a random graph.  
+```{python}
 
-### 6.1 Interactive Zoom Slider
+import plotly.graph_objects as go
+import networkx as nx
 
-Here we will have interactive bars on the top of the screen demonstrating X and Y ranges which can be changed and the graph will zoom in accordingly. This is very helpful as when zoomed the graph ignores edges which run off the page making ledgibility much easier.
+G = nx.random_geometric_graph(200, 0.125)
+edge_x = []
+edge_y = []
+for edge in G.edges():
+    x0, y0 = G.nodes[edge[0]]['pos']
+    x1, y1 = G.nodes[edge[1]]['pos']
+    edge_x.extend([x0, x1, None])
+    edge_y.extend([y0, y1, None])
 
+edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=0.5, color='#888'), hoverinfo='none', mode='lines')
+
+node_x = [x for x, y in nx.get_node_attributes(G, 'pos').values()]
+node_y = [y for x, y in nx.get_node_attributes(G, 'pos').values()]
+node_trace = go.Scatter(x=node_x, y=node_y, mode='markers', hoverinfo='text', marker=dict(showscale=True, colorscale='YlGnBu', size=10))
+
+fig = go.Figure(data=[edge_trace, node_trace],
+                layout=go.Layout(showlegend=False, hovermode='closest',
+                                 margin=dict(b=20,l=5,r=5,t=40)))
+fig.show()
+```
+
+At the top right of the map you have options on what you can do, you can filter using a box or lasso, download it, or just pan/zoom looking at the network.  
+
+### 6.2 An interactive display of our data
 
 ```{python}
-# Define bounding box for filtered view
-min_x, min_y = 1858948, 4055442
-max_x, max_y = 3336323, 5175704
+from shapely.geometry import box
+import geopandas as gpd
+import plotly.graph_objects as go
+import plotly.express as px
+import plotly.io as pio
 
+# Create a box geometry
+bbox_geometry = box(min_x, min_y, max_x, max_y)
 
-def plot_network(x_range, y_range):
-    # Filter GeoDataFrame and create subgraph
-    gdf_pos_filtered = gdf_pos.cx[x_range[0]:x_range[1], y_range[0]:y_range[1]]
-    filtered_nodes = gdf_pos_filtered.index.tolist()
-    G_sub = G.subgraph(filtered_nodes)
+# Create a GeoDataFrame with the box geometry
+bbox = gpd.GeoDataFrame(geometry=[bbox_geometry], crs=gdf_pos.crs)
 
+# Filter GeoDataFrame and create subgraph
+gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
+filtered_nodes = gdf_pos_filtered.index.tolist()
+G_sub = G.subgraph(filtered_nodes)
 
-    # Prepare positions for the filtered subgraph
-    positions_filtered = {loc: (gdf_pos_filtered.loc[loc].geometry.x, gdf_pos_filtered.loc[loc].geometry.y) for loc in gdf_pos_filtered.index}
+# Now convert to EPSG:4326 for plotting
+gdf_pos_filtered = gdf_pos_filtered.to_crs('EPSG:4326')
 
+# Create edge traces
+edge_traces = []
+for edge in G_sub.edges():
+    x0, y0 = gdf_pos_filtered.loc[edge[0], 'geometry'].x, gdf_pos_filtered.loc[edge[0], 'geometry'].y
+    x1, y1 = gdf_pos_filtered.loc[edge[1], 'geometry'].x, gdf_pos_filtered.loc[edge[1], 'geometry'].y
+    edge_trace = go.Scattermapbox(
+        lon=[x0, x1],
+        lat=[y0, y1],
+        mode='lines',
+        line=dict(width=1, color='rgba(136, 136, 136, 0.5)'),
+        hoverinfo='none'
+    )
+    edge_traces.append(edge_trace)
 
-    # Plot the filtered subgraph on a real-world map
-    fig, ax = plt.subplots(figsize=(12, 12))
-    gdf_pos_filtered.plot(ax=ax, alpha=0)
-    ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
-
-
-    nx.draw_networkx_edges(G_sub, pos=positions_filtered, ax=ax, alpha=0.5)
-    nx.draw_networkx_nodes(G_sub, pos=positions_filtered, ax=ax, node_size=60, node_color="red", edgecolors="black", alpha=0.8)
-
-
-    plt.title(f"Network Overlay on Real-World Map (Nodes: {len(G_sub.nodes)}, Edges: {len(G_sub.edges)})")
-    plt.axis('off')
-    plt.show()
-
-
-# Create interactive sliders
-x_slider = FloatRangeSlider(
-    value=[min_x + 100000, max_x - 100000],
-    min=min_x,
-    max=max_x,
-    step=(max_x - min_x) / 100,
-    description='X Range:',
-    layout=Layout(width='500px')
+# Create node trace
+node_trace = go.Scattermapbox(
+    lon=gdf_pos_filtered.geometry.x,
+    lat=gdf_pos_filtered.geometry.y,
+    mode='markers',
+    marker=dict(
+        size=10,
+        color='red',
+        opacity=0.8
+    ),
+    text=[f"Node: {node}" for node in G_sub.nodes()],
+    hoverinfo='text'
 )
 
+# Create the figure
+fig = go.Figure(data=edge_traces + [node_trace])
 
-y_slider = FloatRangeSlider(
-    value=[min_y + 100000, max_y - 100000],
-    min=min_y,
-    max=max_y,
-    step=(max_y - min_y) / 100,
-    description='Y Range:',
-    layout=Layout(width='500px')
+# Update layout to use mapbox
+fig.update_layout(
+    mapbox=dict(
+        style="open-street-map",
+        center=dict(lon=gdf_pos_filtered.geometry.x.mean(), lat=gdf_pos_filtered.geometry.y.mean()),
+        zoom=7
+    ),
+    showlegend=False,
+    margin={"l":0,"r":0,"t":0,"b":0}
 )
 
+fig.show()
 
-# Display interactive widget
-interact(plot_network, x_range=x_slider, y_range=y_slider)
+# Print some information for verification
+print(f"Number of filtered nodes: {len(gdf_pos_filtered)}")
+print(f"Number of edges in subgraph: {len(G_sub.edges())}")
+
 ```
+
+On this map you can zoom in and hover over nodes. DOES NOT RENDER EDGES RIGHT NOW IN QUARTO. 
 
 ## 7. Citations
 
@@ -420,3 +479,77 @@ Georgiev, Petko. “NetworkX: Network Analysis with Python.” Cambridge, Feb. 2
 McKinney, Trenton. “Introduction to Network Analysis in Python.” Trenton McKinney Github, 22 May 2020, trenton3983.github.io/posts/intro-network-analysis/. 
 
 “Networkx/Networkx: Network Analysis in Python.” GitHub, github.com/networkx/networkx. Accessed 26 Sept. 2024. 
+
+
+## Unfinished
+Currently this code works better in the quarto preview, but is still missing edges. 
+
+```{python}
+
+from shapely.geometry import box
+import geopandas as gpd
+import plotly.graph_objects as go
+import plotly.express as px
+import plotly.io as pio
+
+# Set the default renderer
+pio.renderers.default = "notebook"
+
+# Create a box geometry
+bbox_geometry = box(min_x, min_y, max_x, max_y)
+
+# Create a GeoDataFrame with the box geometry
+bbox = gpd.GeoDataFrame(geometry=[bbox_geometry], crs=gdf_pos.crs)
+
+# Filter GeoDataFrame and create subgraph
+gdf_pos_filtered = gdf_pos.cx[min_x:max_x, min_y:max_y]
+filtered_nodes = gdf_pos_filtered.index.tolist()
+G_sub = G.subgraph(filtered_nodes)
+
+# Now convert to EPSG:4326 for plotting
+gdf_pos_filtered = gdf_pos_filtered.to_crs('EPSG:4326')
+
+# Extract coordinates
+gdf_pos_filtered['lon'] = gdf_pos_filtered.geometry.x
+gdf_pos_filtered['lat'] = gdf_pos_filtered.geometry.y
+
+# Create edge traces
+edge_traces = []
+for edge in G_sub.edges():
+    x0, y0 = gdf_pos_filtered.loc[edge[0], ['lon', 'lat']]
+    x1, y1 = gdf_pos_filtered.loc[edge[1], ['lon', 'lat']]
+    edge_trace = go.Scattermapbox(
+        lon=[x0, x1],
+        lat=[y0, y1],
+        mode='lines',
+        line=dict(width=1, color='rgba(136, 136, 136, 0.5)'),
+        hoverinfo='none'
+    )
+    edge_traces.append(edge_trace)
+
+# Create the figure using Plotly Express
+fig = px.scatter_mapbox(gdf_pos_filtered, 
+                        lat="lat", 
+                        lon="lon", 
+                        hover_name=gdf_pos_filtered.index,
+                        zoom=7,
+                        height=600)
+
+# Add edge traces
+fig.add_traces(edge_traces)
+
+# Update layout
+fig.update_layout(
+    mapbox_style="open-street-map",
+    showlegend=False,
+    margin={"l":0,"r":0,"t":0,"b":0}
+)
+
+# Show the figure
+fig.show()
+
+# Print some information for verification
+print(f"Number of filtered nodes: {len(gdf_pos_filtered)}")
+print(f"Number of edges in subgraph: {len(G_sub.edges())}")
+
+```
