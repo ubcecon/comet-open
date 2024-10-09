@@ -1,6 +1,6 @@
 # COMET Project: Developing interactive learning modules for hands-on-econometrics skills
 
-Welcome to the repository the COMET project.  This repository houses all our materials for Jupyter-based notebooks to support teaching introductory and intermediate econometrics courses.  You can find the URL at [comet.arts.ubc.ca](https://comet.arts.ubc.ca).
+Welcome to the repository of the COMET project.  This repository houses all our materials for Jupyter-based notebooks to support teaching introductory and intermediate econometrics courses.  You can find the URL at [comet.arts.ubc.ca](https://comet.arts.ubc.ca).
 
 This project was made possible by the students at the University of British Columbia as part of a [teaching and learning enhancement](https://tlef.ubc.ca/) grant.
 
@@ -21,10 +21,10 @@ It is very important that you follow these guidelines when committing work to th
 
 #$ Repository Organization
 
-This repository is organized into several distinct parts, housed on the `main` branch's `root` directory.
+This repository is organized into several distinct parts, housed in the `main` branch's `root` directory.
 
 * The directory `meta/` contains non-project specific files, such as our linter.
-* The directory `project/` contains all the the main project files.  These are organized into two parts:
+* The directory `project/` contains all the main project files.  These are organized into two parts:
   * The sub-directory `docs/` contains all our project content, mainly notebook files.
   * All other files and directories contain the code to build and maintain the website.
 

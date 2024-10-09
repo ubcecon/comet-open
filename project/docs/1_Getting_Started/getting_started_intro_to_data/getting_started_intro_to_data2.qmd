@@ -44,7 +44,7 @@ library(haven)
 
 The World Development Indicators (WDI) is the primary World Bank collection of development indicators, compiled from officially recognized international sources.
 
-We have used World Bank's DataBank applet to select and import some macro and development-related time series data for the countries Canada, India, Mexico, South Africa, and Zimbabwe for years 2014-2022.
+We have used the World Bank's DataBank applet to select and import some macro and development-related time series data for the countries Canada, India, Mexico, South Africa, and Zimbabwe for years 2014-2022.
 
 ```{r, message = FALSE}
 # importing required packages
@@ -67,7 +67,7 @@ head(wdi, 10)
 dim(wdi)
 ```
 
-The data frame is in long format. Each unique value in `Series_Name` an entry for a row, and not a column. As an example:
+The data frame is in long format. Each unique value in `Series_Name` is an entry for a row, and not a column. As an example:
 
 
 | Country | Year | Var | Value |
@@ -93,7 +93,7 @@ A simpler version of the data frame in a **wide-format** could look like this:
 
 While `Series_Name` contains descriptions for each of the series in the data frame, `Series_Code` offers a handy way to group variables.
 
-Our `Series_Code` variable follow a taxonomy system. For example, any code starting with `AG` belongs to a *family of series* related to the state of agriculture in that country. Let's see the unique series families and their sub series names.
+Our `Series_Code` variable follows a taxonomy system. For example, any code starting with `AG` belongs to a *family of series* related to the state of agriculture in that country. Let's see the unique series families and their sub series names.
 
 ```{r}
 Series_Families <- wdi %>%
@@ -156,7 +156,7 @@ select(access_wdi, c("Country_Code", "Series_Code", "count_na"))
 
 This data frame shows that we don't have *any* data for series beginning with the `SE` (Schooling) prefix.
 
-> **Think Deeper**: how could you be systematic when choosing whether to drop or not NA values? Our panel datasets is indexed by country and series, and we're interested in yearly values over time. Think about the options we have to drop NAs: (1) Dropping a series altogether (2) Dropping specific countries (3) Dropping specific rows (i.e., country-series pairs)...
+> **Think Deeper**: how could you be systematic when choosing whether to drop or not NA values? Our panel dataset is indexed by country and series, and we're interested in yearly values over time. Think about the options we have to drop NAs: (1) Dropping a series altogether (2) Dropping specific countries (3) Dropping specific rows (i.e., country-series pairs)...
 
 Let's create an array with `Series_Code` to be dropped from our dataset.
 
@@ -185,7 +185,7 @@ filtered_access_wdi
 
 Now the only variables left in this data frame are the `EG` variables, which indicate the levels of access to electricity and other power sources within the countries.
 
-This dataset is clearly not appropriate to answer question about the access to the overall access to institutions; however, it could be extremely useful if the scope of the research is narrowed to access to power utilities. For example, we could use the dataset to visualize the growth in access to energy across the countries over the last 5 years.
+This dataset is clearly not appropriate to answer questions about overall access to institutions; however, it could be extremely useful if the scope of the research is narrowed to access to power utilities. For example, we could use the dataset to visualize the growth in access to energy across the countries over the last 5 years.
 
 ### Test your knowledge
 
@@ -250,7 +250,7 @@ test_2()
 
 ## Part 2: Merging data frames in R
 
-Now let's take a step back and consider an example of merging data frames. Our WDI data set has macro information on *national incomes*, *CABs*, *Bank Capital to Assets Ratios,* and various kinds of *CPIA* ratings. Let's extract that data and merge it with data from the Quarterly Public Debt (QPD) data base. The QPD is exactly what you think it is: a record of sovereign debt managed by the World Bank and the International Monetary Fund (IMF).
+Now let's take a step back and consider an example of merging data frames. Our WDI data set has macro information on *national incomes*, *CABs*, *Bank Capital to Assets Ratios,* and various kinds of *CPIA* ratings. Let's extract that data and merge it with data from the Quarterly Public Debt (QPD) database. The QPD is exactly what you think it is: a record of sovereign debt managed by the World Bank and the International Monetary Fund (IMF).
 
 First, to our `wdi` dataset.
 
@@ -293,10 +293,10 @@ The series data in QPD is stored on a quarter-by-year basis. We can aggregate th
 
 > **Note**: R usually throws an error if you're telling it to sum over certain rows/columns that include NA values. We resolve this by setting the parameter `na.rm = TRUE`, which literally means "NA remove is TRUE". 
 
-Before we aggregate the data, let's check the number of periods for which data is missing. Again, we'll look at the country-series combinations. We do that below with a loop, telling R to *manually* go over each unique row, count the number of NAs along the period columns, and then store the result in another dataframe called `status`. 
+Before we aggregate the data, let's check the number of periods for which data is missing. Again, we'll look at the country-series combinations. We do that below with a loop, telling R to *manually* go over each unique row, count the number of NAs along the period columns, and then store the result in another data frame called `status`. 
 
 ```{r}
-status <- data.frame()    # empty data-frame that is placeholder for the final data
+status <- data.frame()    # empty data frame that is placeholder for the final data
 Series_Codes <- qpd$Series_Code %>% unique()    # gets all `Series_Codes` to iterate over
 Countries <- qpd$Country_Code %>% unique()     # gets all `Country_Codes` to iterate over 
 
@@ -315,7 +315,7 @@ for (country_code in Countries) {
         
         na_count <- sum(is.na(cols_to_check))    # finally, store the value of NAs
         result <- data.frame(Country_Code = country_code, Series_Code = series_code, na_count = na_count)
-        status <- rbind(status, result)    # appends the result to the status dataframe and iterate over
+        status <- rbind(status, result)    # appends the result to the status data frame and iterate over
   }
 }
 
@@ -333,7 +333,7 @@ status_to_drop
 
 These are the countries-series pairs which we must drop from the data-frame.
 
-> **Note**: by storing our exploration's results in `status`, we can re-visit our decision to drop values anytime we want. Such proper documentation builds trust around the validity of the aggregate computations!
+> **Note**: by storing our exploration's results in `status`, we can revisit our decision to drop values anytime we want. Such proper documentation builds trust around the validity of the aggregate computations!
 
 Let's now use `anti_join()` to drop any rows from `qpd` that match the `Country_Code`, `Series_Code` pairs in `status_to_drop`. 
 
@@ -342,9 +342,9 @@ qpd_filtered <- anti_join(qpd, status_to_drop, by = c("Country_Code", "Series_Co
 qpd_filtered
 ```
 
-> **Note**: `anti_join()` is a function that removes rows from a dataframe that have matching values in specified columns with another dataframe. In this context, it is used to drop rows from qpd that match the `Country_Code` and `Series_Code` pairs in `status_to_drop`, resulting in the filtered dataframe `qpd_filtered`.
+> **Note**: `anti_join()` is a function that removes rows from a data frame that have matching values in specified columns with another data frame. In this context, it is used to drop rows from qpd that match the `Country_Code` and `Series_Code` pairs in `status_to_drop`, resulting in the filtered data frame `qpd_filtered`.
       
-The code below tells R how to manually go over each unique combination of `Country`, `Series_Code` values and aggregate quaterly values by year. To learn exactly what each line does, head to the Appendix!
+The code below tells R how to manually go over each unique combination of `Country`, `Series_Code` values and aggregate quarterly values by year. To learn exactly what each line does, head to the Appendix!
 
 ```{r}
 # pivot the data from wide to long format, creating separate rows for each quarterly value
@@ -423,7 +423,7 @@ Take a look at the image below to learn about other methods for merging.
 
 ![Merging Methods - COMET Team](media/join_visual.png)
 
-As illustrated in the image, a `full_join()` and `right_join()` are great for merging data sources in situations when we are particularly interested in the issue of missing matches.For simpler cases, `inner_join()` is ideal when you only want to include fully matched observations in the final data set.
+As illustrated in the image, a `full_join()` and `right_join()` are great for merging data sources in situations when we are particularly interested in the issue of missing matches. For simpler cases, `inner_join()` is ideal when you only want to include fully matched observations in the final data set.
 
 ### Test your knowledge
 
