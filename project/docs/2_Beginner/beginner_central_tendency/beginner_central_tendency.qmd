@@ -37,7 +37,7 @@ After completing this notebook, you will be able to:
 
 ## Introduction
 
-In this notebook, we will introduce the idea of **central tendency**. In statistics, central tendency refers to the idea of how different interpretations of the term "middle" can be used to describe a probability distribution or dataset. In this notebook, we'll think about central tendency in terms of numerical values which describe a given subset of dataset. This concept is important because we often deal with incredibly large datasets that are too big to describe in their entirety. In this light, it's crucial to have summary statistics that we can use to describe the general behavior of variables. Before we continue, let's import our familiar Canadian census dataset using the tools we've learned already.
+In this notebook, we will introduce the idea of **central tendency**. In statistics, central tendency refers to the idea of how different interpretations of the term "middle" can be used to describe a probability distribution or dataset. In this notebook, we'll think about central tendency in terms of numerical values which describe a given subset of data. This concept is important because we often deal with incredibly large datasets that are too big to describe in their entirety. In this light, it's crucial to have summary statistics that we can use to describe the general behavior of variables. Before we continue, let's import our familiar Canadian census dataset using the tools we've learned already.
 
 ```{r, message = FALSE}
 # only run the following three commands if you have not already installed these packages
@@ -527,13 +527,13 @@ Which is the most suitable measure of central tendency for the variables below?
 - `veteran` variable wherein 1 indicates that the individual is a veteran and 0 otherwise
 - `education` variable where there are distinct categories (i.e., High School Education, Bachelor's Degree, Master's Degree, etc...)
 - `height` variable indicating the height of each individual
-- `wealth` variable indicating the net worth of an individua
+- `wealth` variable indicating the net worth of an individual
 
   (A) mean
   (B) median
   (C) mode
 
-Answer with a sequence of letters corresponding the best measure of central tendency that would fit each of the aforementioned variables. For example: "AAAA"
+Answer with a sequence of letters corresponding to the best measure of central tendency that would fit each of the aforementioned variables. For example: "AAAA"
 
 ```{r}
 #| eval: false

@@ -82,7 +82,7 @@ test_12 <- function() {
   ans <- digest(answer_12)
   case_when(
     ans == "75f1160e72554f4270c809f041c7a776" ~
-    "Try again! It is not equally likely that a person is 3 ft. or 6ft. ",
+    "Try again! It is not equally likely that a person is 3ft. or 6ft. ",
     ans == "3a5505c06543876fe45598b5e5e5195d" ~
     "Try again! It is not equally likely that a person is making $25,000 or $100,000",
     ans == "475bf9280aab63a82af60791302736f6" ~
@@ -120,7 +120,7 @@ test_16 <- function() {
   ans <- digest(answer_16)
   case_when(
     ans == "75f1160e72554f4270c809f041c7a776" ~
-    "Yes, this is correct! ",
+    "Yes, this is correct!",
     ans == "3a5505c06543876fe45598b5e5e5195d" ~
     "Try again! This distribution approaches a normal distribution in large samples.",
     ans == "475bf9280aab63a82af60791302736f6" ~

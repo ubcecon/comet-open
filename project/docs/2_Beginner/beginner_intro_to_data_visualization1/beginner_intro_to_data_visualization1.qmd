@@ -264,7 +264,7 @@ Let's work through a few more examples together. We'll also learn how to adjust 
 
 ## Part 2: Building a Visualization
 
-It's important to note that we should build a visualization piece-by-piece and making adjustments along the way. Don't worry about getting it completely right on the first try!
+It's important to note that we should build a visualization piece-by-piece and make adjustments along the way. Don't worry about getting it completely right on the first try!
 
 Let's say we are interested in creating a visualization that answers the following question: **What is the relationship between GDP per capita and human capital in the world today?**
 
@@ -317,7 +317,7 @@ figure <- figure + labs(x = "Human Capital",
                             text = element_text(
                                 size = 15)) #increases text size: try playing around with this number!
 
-# note: you can set aethestics to be simple functions of variables!
+# note: you can set aesthetics to be simple functions of variables!
 ```
 
 After running the previous cell, nothing was printed in our notebook; this is because we need to assign our visualization! Right now, it's just data and properties. Let's test it out by adding our `geom_point()` layer:
@@ -335,7 +335,7 @@ figure + geom_point(aes(
                     size = pop,)) # assigns the size of the point to be relative to the population values
 ```
 
-Now let's make colour of each point change as the employment (`emp`) rate changes so that darker colors would represent higher labour force utilization. Again, we can do this by assigning the aesthetic:
+Now let's make the color of each point change as the employment (`emp`) rate changes so that darker colors would represent higher labour force utilization. Again, we can do this by assigning the aesthetic:
 
 ```{r}
 
@@ -346,7 +346,7 @@ figure <- figure + geom_point(aes(
 figure
 ```
 
-Great work! If we wanted to change the colours, we can set colours in R is using palettes. The list of all the palette options are:
+Great work! If we wanted to change the colours, we can set colours in R using palettes. The list of all the palette options are:
 
 ```{r}
 
@@ -384,7 +384,7 @@ Once we've decided that our graph can successfully answer our economic question,
 1.  The first part of the argument `"file_name.file_format"` is where we decide on the name and file format to be saved in the Jupyter workspace.
     -   You can add `"folder/file_name.file_format"` to save to a specific folder: the format depends on the context you plan to use the visualization in. Images are typically stored in either **raster** or **vector** formats. See [*Data Science: A First Introduction*.](https://datasciencebook.ca/viz.html#saving-the-visualization)
 
-**Raster images** are represented as a 2-D grid of square pixels, each with its own color. Compressed rastor images are "lossy" if the image cannot be perfectly re-created but differences are minimal. "Lossless" formats, on the other hand, allow a perfect display of the original image.
+**Raster images** are represented as a 2-D grid of square pixels, each with its own color. Compressed raster images are "lossy" if the image cannot be perfectly re-created but differences are minimal. "Lossless" formats, on the other hand, allow a perfect display of the original image.
 
 Common raster file types:
 
@@ -405,7 +405,7 @@ Common vector file types:
 |      | Raster Image                                                                       | Vector Image                                                               |
 |-----------|-------------------------------|-------------------------------|
 | Pros | Takes the same amount of space and time to load regardless of the image's content. | High quality image: you can zoom in/scale up without compromising quality. |
-| Cons | May look "pixelated" when zoomed in.                                               | May take longer to load depending on complexity of the image is.           |
+| Cons | May look "pixelated" when zoomed in.                                               | May take longer to load depending on the complexity of the image.           |
 
 2.  The second part of the argument, `my_plot` specifies which plot in our analysis we'd like to export.
 
@@ -419,7 +419,7 @@ Try uncommenting the code section below and saving our "Global GDP per capita an
 # ggsave("gdp_hc_plot.png", figure, width = 15, height = 9)
 ```
 
-Did you see file appear in the directory? Now try saving the same graph as an `.svg` in the code cell below.
+Did you see a file appear in the directory? Now try saving the same graph as an `.svg` in the code cell below.
 
 ```{r}
 
@@ -430,7 +430,7 @@ As we have seen, R makes it easy to create high-quality, impactful graphics. We'
 
 ### Test your knowledge
 
-For this part of the notebook, we'll build a chart together. The chart we'll build is to describe the relationship between a country's price level and it's GDP per capita in 2019. A stylized fact of Economics says that countries with higher GDP per capita tend to have higher price levels, an effect we call the **Penn Effect**. Let's check if that's true in our data.
+For this part of the notebook, we'll build a chart together. The chart we'll build is to describe the relationship between a country's price level and its GDP per capita in 2019. A stylized fact of Economics says that countries with higher GDP per capita tend to have higher price levels, an effect we call the **Penn Effect**. Let's check if that's true in our data.
 
 In this example, let's focus on consumption - let's use real consumption as a proxy for GDP and the price level for consumption as a proxy for the price level.
 
@@ -566,14 +566,14 @@ options(repr.plot.width = 15, repr.plot.height = 9)
 
 ```
 
-It does seem like countries with higher consumption per capital are associated with higher price levels!
+It does seem like countries with higher consumption per capita are associated with higher price levels!
 
-Now, you'll make your own visualization using the Penn dataset. The topic of your visualization should be **the relationship between the economic development of China and United States over time.**
+Now, you'll make your own visualization using the Penn dataset. The topic of your visualization should be **the relationship between the economic development of China and the United States over time.**
 
 Some variables you might want to consider are:
 
 -   `year`: the year of observation
--   `rtfpna`: total factor productivity [(here's a link, if you're ECON 102 is rusty)](https://en.wikipedia.org/wiki/Total_factor_productivity)
+-   `rtfpna`: total factor productivity [(here's a link, if your ECON 102 is rusty)](https://en.wikipedia.org/wiki/Total_factor_productivity)
 -   `rgdpe`: real GDP (expenditure-based)
 -   `pop`: population
 -   `ccon`: real consumption of households

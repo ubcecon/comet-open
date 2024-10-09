@@ -149,7 +149,7 @@ mean(census_data$wages, na.rm = TRUE)
 sd(census_data$wages, na.rm = TRUE) 
 ```
 
-We have a pretty large standard deviation - even larger than our mean! This tells us that most of the Canadians in the data set have a wage which lies approximately \$64275.27 away from the mean of \$54482.52.
+We have a pretty large standard deviation - even larger than our mean! This tells us that most of the Canadians in the data set have a wage which lies approximately $64275.27$ away from the mean of $54482.52$.
 
 This large standard deviation tells us that there is high variation in wages and that some of them are very far from the mean. This can be for many reasons, but one possibility is that we have **outliers** in the data set: extreme values of the variable `wages`. This is common for wage distributions in the presence of income inequality.
 
@@ -323,7 +323,7 @@ A correlation coefficient ranges from -1 to 1, which tells us two things:
 
 ![Three scatter plots are shown demonstrating positive, negative and no correlation"](media/correlation_examples.png)
 
-We can also easily visualize the correlation between two variables by plotting scatter plot with a trend line via the `ggplot()` function.
+We can also easily visualize the correlation between two variables by plotting a scatter plot with a trend line via the `ggplot()` function.
 
 ```{r}
 # scatterplot of market income against wages
@@ -345,7 +345,7 @@ Now we can see the apparent positive correlation!
 
 Is the following statement True or False?
 
-The correlation coefficient adjusts the measure of covariance so that it can measure linear relatinoships.
+The correlation coefficient adjusts the measure of covariance so that it can measure linear relationships.
 
 ```{r}
 #| eval: false

@@ -32,11 +32,10 @@ library(tidyverse)
 :::{.callout-warning}
 ## Work in Progress
 
-We haven't written self-test for this unit yet!  You'll have to check with your friends if you've got them right or not!
+We haven't written self-tests for this unit yet!  You'll have to check with your friends if you've got them right or not!
 
 * Want to submit some?  [Contact us!](mailto:comet.project@ubc.ca)
 :::
-
 
 ## Introduction to Central Tendency
 
@@ -60,7 +59,7 @@ In order to understand the concepts of central tendency and use them, we'll need
 glimpse(swiss)
 ```
 
-`swiss` is a data set with records for socio-economic indicators for each of 47 French-speaking provinces of Switzerland at about 1888. Each of these uniquely recognized administrative divisions are called _cantons_. This data set like a guidebook, giving us insights into each canton's characteristics. As a budding economist building your statistical arsenal, the `swiss` data set is the perfect place to start!
+`swiss` is a data set with records for socio-economic indicators for each of 47 French-speaking provinces of Switzerland at about 1888. Each of these uniquely recognized administrative divisions are called _cantons_. This dataset is like a guidebook, giving us insights into each canton's characteristics. As a budding economist building your statistical arsenal, the `swiss` data set is the perfect place to start!
 
 Aside from just looking at your data set, one of the more helpful ways to understand your data set is to visualize it. Across the 47 cantons, let's try to observe the `Agriculture` variable in our data set, which stands for "% of males involved in agriculture as occupation", and see how it varies. 
 
@@ -102,7 +101,7 @@ education_plot <- ggplot(swiss) +
 education_plot
 ```
 
-These graphs allow us to observe the distribution of the observations across the different levels in our variables. For instance, we can observe that for `Agriculture`, observations between 60 - 70 tends to have the highest frequency. Or on the other hand, most of the observations in the `Education` variable are in the 0 - 10 area. 
+These graphs allow us to observe the distribution of the observations across the different levels in our variables. For instance, we can observe that for `Agriculture`, observations between 60 - 70 tend to have the highest frequency. Or on the other hand, most of the observations in the `Education` variable are in the 0 - 10 area. 
 
 What does this all mean? How do we interpret all of these? To do this, we'll take assistance of a few statistical concepts, namely: **Mean, Median, and Mode**, all of which are different interpretations of the word middle. Mean, Median, and Mode are the three primary concepts in the idea of central tendency.
 
@@ -121,7 +120,7 @@ Middle_of_agriculture <- ?
 
 ### Mean 
 
-At its core, the mean^[Specifically, the _arithmetic mean_.] is a simple concept – it is what you get when you distribute the total equally among every entry in the data set. Or alteratively, when you sum all of the observations in a data set, then divide by the number of observations in that data set. Formulaically, 
+At its core, the mean^[Specifically, the _arithmetic mean_.] is a simple concept – it is what you get when you distribute the total equally among every entry in the data set. Or alternatively, when you sum all of the observations in a data set, then divide by the number of observations in that data set. Formulaically, 
 
 $$
 \overline{X} = \frac{1}{n}\sum_{i=1}^{n} X_i =  \frac{\text{Sum of Value of All Data Points}}{\text{Total Number of Data Points}}
@@ -129,7 +128,7 @@ $$
 
 Here, $\sum$ stands for summation, and $\overline{X}$ is what is used to represent the mean. While this may be enough for you to understand the concept, we can nuance this explanation a slight bit and make it more intuitive to interpret!
 
-> **Check Your Understanding**: can you see why the two explanations for mean given above are the same?
+> **Check Your Understanding**: can you see why the two explanations for the mean given above are the same?
 
 Let's imagine a scenario within the context of our `swiss` dataset.  If we considered all the cantons in Switzerland, what education level would a "typical" canton have?  This is the **Mean Education Rate**. In R, the Mean is calculated quite simply through the `mean` function:
 
@@ -273,7 +272,7 @@ education_plot +
 
 ### Outlier Robustness
 
-One important property of the median is that it is **robust to outliers**, unlike the mean.  This make sense, since it only has to do with the _rank_ of observations: it doesn't matter how high the highest value is, or how low the lowest value is.
+One important property of the median is that it is **robust to outliers**, unlike the mean.  This makes sense, since it only has to do with the _rank_ of observations: it doesn't matter how high the highest value is, or how low the lowest value is.
 
 We can see this with our `swiss` education situation before.  Try it!
 
@@ -302,9 +301,9 @@ However, this is also the problem with mode.  A data set's relationship with mod
 * It might not have a mode if no value repeats...
 * be **uni-modal** if one value dominates in frequency... 
 * **bi-modal** if two values tie in their recurrence...
-* or even **multi-modal** if multiple values share the highest frequency.
+* or even **multimodal** if multiple values share the highest frequency.
 
-In R, we can calculate the mode without relying on external packages, since unlike the `mean` or the `median` function, there is no `mode` function.  But mode is so simple, we can create one ourself.
+In R, we can calculate the mode without relying on external packages, since unlike the `mean` or the `median` function, there is no `mode` function.  But mode is so simple, we can create one ourselves.
 
 Consider a function that first creates a frequency table of the data set in question. It then identifies the maximum frequency from this table. Using this frequency, it's possible to extract the modes, which are the values that appear with this maximum frequency. Here's how it might look:
 
@@ -328,7 +327,7 @@ modes_education <- calculate_mode(swiss$Education)
 modes_education
 ```
 
-Therefore, as our function correctly interprets, the Mode for the Education variable is 7. This means that the among the cantons, a lot of them have 7% draftees who are educated above the primary school level. 
+Therefore, as our function correctly interprets, the Mode for the Education variable is 7. This means that among the cantons, a lot of them have 7% draftees who are educated above the primary school level. 
 
 ## Getting All of Central Tendency Together
 

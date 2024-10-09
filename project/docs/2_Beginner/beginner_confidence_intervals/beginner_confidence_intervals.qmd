@@ -96,7 +96,7 @@ $$
 \text{point estimate} \pm \text{margin of error}
 $$
 
-We add and subtract a **margin of error** from our point estimate to find the **lower bound** and **upper bound** of our confidence interval estimate. The calculation for the margin of error varies depending on the sample statistic. Let's look at few important special cases: the confidence intervals for the sample mean, sample proportion, and sample variance.
+We add and subtract a **margin of error** from our point estimate to find the **lower bound** and **upper bound** of our confidence interval estimate. The calculation for the margin of error varies depending on the sample statistic. Let's look at a few important special cases: the confidence intervals for the sample mean, sample proportion, and sample variance.
 
 ## Part 2: Confidence Intervals for the Sample Mean
 
@@ -150,7 +150,7 @@ where
 - $s$ is the sample standard deviation
 - $n$ is the sample size
 
-To illustrate, let's construct a 95% confidence interval for the sample mean of the variable `wages`. We can use the function `mean()` calculate its mean, which will serve as our point estimate.
+To illustrate, let's construct a 95% confidence interval for the sample mean of the variable `wages`. We can use the function `mean()` to calculate its mean, which will serve as our point estimate.
 
 ```{r}
 # calculating the sample mean of wages
@@ -186,7 +186,7 @@ upper_bound
 
 We are 95% confident that the mean wage of all Canadians ranges between $55708$ and $55293$. We also know this is a valid confidence interval estimate because our `wages` variable and the procedure for sampling meets all of the three criteria outlined:
 
-1.  Random sampling: Satistics Canada (the source for this data) utilizes random sampling
+1.  Random sampling: Statistics Canada (the source for this data) utilizes random sampling
 2.  Our sample size is $n > 30$ and thus we don't even need to check the distribution of `wages`
 3.  Our observations are independent because our sample size $n$ is less than 10% of the total population (the total population of Canada is about 38 million)
 
@@ -217,7 +217,7 @@ answer_1 <- "t"
 test_1()
 ```
 
-Matilda finds a sample mean of 280 pages and sample variance of 400 pages. She wants to construct a 90% confidence interval for her sample mean. What will be the upper and lower bounds of this interval (assuming its a valid confidence interval)?
+Matilda finds a sample mean of 280 pages and sample variance of 400 pages. She wants to construct a 90% confidence interval for her sample mean. What will be the upper and lower bounds of this interval (assuming it's a valid confidence interval)?
 
 ```{r}
 #| eval: false
@@ -305,7 +305,7 @@ where
 
 > **Think deeper**: why is there only one case for confidence intervals of sample proportions?
 
-Let's calculate a 95% confidence interval for the sample proportion of the variable `pkids` from our `census_data`. `pkids == 1` for when the respondent lives in a houlsehold with kids, and `pkids == 0` otherwise. We can calculate our sample proportion, which serves as our point estimate for the confidence interval.
+Let's calculate a 95% confidence interval for the sample proportion of the variable `pkids` from our `census_data`. `pkids == 1` for when the respondent lives in a household with kids, and `pkids == 0` otherwise. We can calculate our sample proportion, which serves as our point estimate for the confidence interval.
 
 ```{r}
 # calculating our sample proportion of observations with pkids == 1
@@ -428,7 +428,7 @@ where
 - $\chi^2$ is the critical value from the chi-squared distribution with $n - 1$ degrees of freedom
 - $1 - \alpha$ is the confidence level
 
-> **Note**: Constructing this type of confidence interval is different than previous instances with the sample mean and sample proportion. This is because, unlike the sample mean and sample proportion, the sample variance follows a **non-normal distribution**: the $\chi^2$ distribution.
+> **Note**: Constructing this type of confidence interval is different from previous instances with the sample mean and sample proportion. This is because, unlike the sample mean and sample proportion, the sample variance follows a **non-normal distribution**: the $\chi^2$ distribution.
 
 Let's construct a 95% confidence interval for the sample variance of `mrkinc`. Our procedure will follow exactly the steps above. First, let's calculate the sample variance:
 
@@ -722,7 +722,7 @@ Main takeaway is that the confidence interval is an *estimator* and not an offic
 
 This is not true since our confidence level indicates the long run percentage of constructed confidence intervals which contain our true parameter but says nothing about the spread of our actual data. To find the range within which 95% of our data lie, we must consult a histogram for the population and calculate percentiles.
 
-For instance, if our data is quite bimodaly distributed (around half of our data is clustered far to the left of our mean, and the other half is clustered far to the right of our mean), our calculated 95% confidence interval will likely contain very little (much less than 95%) of the data.
+For instance, if our data is quite bimodal distributed (around half of our data is clustered far to the left of our mean, and the other half is clustered far to the right of our mean), our calculated 95% confidence interval will likely contain very little (much less than 95%) of the data.
 
 The confidence level does **not** determine the spread of the actual data
 
@@ -730,14 +730,14 @@ The confidence level does **not** determine the spread of the actual data
 
 *If we have a confidence level of 95%, a confidence interval calculated from a sample of 500 observations will more likely contain the true parameter than a confidence interval calculated from a sample of 100 observations.*
 
-We know from the previous section that a confidence interval generated from the sample $n = 500$ will be narrower than one generated from $n = 100$. However, a confidence level by definition is the percentage of calculated intervals we expect to contain the true parameter of interest if we calculated these intervals over and over. This means any one interval from a sample of $n = 100$ has a 95% chance of containing the true parameter, just as any one interval from a sample of $n = 500$ has a 95% chance of containing the true paramater. Each interval (the wider one from $n = 100$ and narrower one from $n= 500$) has a chance of containing the true parameter relative to all other calculated intervals for that same sample size.
+We know from the previous section that a confidence interval generated from the sample $n = 500$ will be narrower than one generated from $n = 100$. However, a confidence level by definition is the percentage of calculated intervals we expect to contain the true parameter of interest if we calculated these intervals over and over. This means any one interval from a sample of $n = 100$ has a 95% chance of containing the true parameter, just as any one interval from a sample of $n = 500$ has a 95% chance of containing the true parameter. Each interval (the wider one from $n = 100$ and narrower one from $n= 500$) has a chance of containing the true parameter relative to all other calculated intervals for that same sample size.
 
 Hence, whether we have an interval from a sample of $n = 100$ or $n = 500$, we are still 95% confident in both cases that the true parameter lies within that interval. The probability of a given interval containing the true parameter is not affected by the sample size. This probability only changes when we change our confidence level.
 
 ::: callout-note
 ## 🔎 **Let's think critically**
 
-- 🟠 Every research context will drastically shape how confidence intervals are approached. As we have seen, the volume and quality of data affect how accurate data analyses can be, and many rules of thumb in data science are simply that - rules of thumb, as opposed to hardfacts about how to report statistics.
+- 🟠 Every research context will drastically shape how confidence intervals are approached. As we have seen, the volume and quality of data affect how accurate data analyses can be, and many rules of thumb in data science are simply that - rules of thumb, as opposed to hard facts about how to report statistics.
 - 🟠 What are some situations where you want to know that something is true with nearly 100% confidence?
 - 🟠 What are some situations where the uncertainty of statistic is maybe not so bad?
 - 🟠 What does it *really* mean to have something within or outside of a confidence interval?
