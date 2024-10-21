@@ -77,7 +77,7 @@ Here are some of the common file extensions and import functions in R:
 head(SFS_data, 5)
 ```
 
-> **Note**: `head(df, n)` displays first n rows of the data frame. Other popular methods include `glance()` and `print()`.
+> **Note**: `head(df, n)` displays the first n rows of the data frame. Other popular methods include `glance()` and `print()`.
 
 ```{r}
 # you can read the documentation for a given function by adding a question-mark before its name
@@ -88,7 +88,7 @@ head(SFS_data, 5)
 
 ## Part 2: Exploratory Data Analysis in R
 
-There are a routine of steps you should generally follow as part of your *EDA* or *Exploratory Data Analysis.* Normally, you would analyze and visualize the variation, correlation, and distribution of your variables of interest. We do this to gain an intuitive understanding of the data before we undetake any formal hypothesis tests or model-fitting.
+There are a routine of steps you should generally follow as part of your *EDA* or *Exploratory Data Analysis.* Normally, you would analyze and visualize the variation, correlation, and distribution of your variables of interest. We do this to gain an intuitive understanding of the data before we undertake any formal hypothesis tests or model-fitting.
 
 Let's think of our key variables of interest. We're interested in estimating the effect of gender on differences in earnings. 
 
@@ -158,7 +158,7 @@ sumtbl <- sumtable(df_gender_on_wealth, out = "kable")
 sumtbl
 ```
 
-This is like having a birds-eye view at our data. As a researcher, we should take note of outliers and other irregularities and ask how those issues might affect the *validity* of our models and tests.
+This is like having a birds-eye view of our data. As a researcher, we should take note of outliers and other irregularities and ask how those issues might affect the *validity* of our models and tests.
 
 > **Note**: see Appendix for a common method to remove outliers using Z-score thresholds.
 
@@ -206,7 +206,7 @@ However, we shouldn't *yet* draw any conclusive statements about the relationshi
 
 As researchers, we should ask if the differences in the mean or median incomes for the two groups are significant at all. We can then go a bit further and test if education indeed widens the gap or not.
 
-> **Think Deeper**: how you would specify the null and alternative hypotheses?
+> **Think Deeper**: how would you specify the null and alternative hypotheses?
 
 ### Test your knowledge
 
@@ -314,9 +314,9 @@ f <- f + facet_grid(. ~ university)    # add a grid by education
 f
 ```
 
-It smells like the wealth gap between the two types of households widens for groups that have obtained an university degree.
+It smells like the wealth gap between the two types of households widens for groups that have obtained a university degree.
 
-Similarly, let's look at the difference in wealth gap in percentage terms. We use `results` generated in previous cell (the $4 \times 4$ table) as the inputs this time. We need to load the package `scales` to use the function `percent`.
+Similarly, let's look at the difference in wealth gap in percentage terms. We use `results` generated in the previous cell (the $4 \times 4$ table) as the inputs this time. We need to load the package `scales` to use the function `percent`.
 
 ```{r, message = FALSE}
 library(scales)
@@ -329,13 +329,13 @@ percentage_table <- SFS_data %>%
 percentage_table
 ```
 
-Notice the signs are both negative. Hence, on average, female-led households have less wealth regardless of whether they have an university degree or not.
+Notice the signs are both negative. Hence, on average, female-led households have less wealth regardless of whether they have a university degree or not.
 
 More importantly, based on our data, female-led households with university degrees on average have 28% less wealth than male-led households with university degrees. Comparing the two groups given they don't have university degrees, the gap is quite smaller: 18%.
 
-So, we have shown that the gap widens by about 10% when conditioned for university degree.
+So, we have shown that the gap widens by about 10% when conditioned for a university degree.
 
-Let's test this further by creating sub-samples of "university degree" and "no university degree" respectively and then running formal two sample t-test.
+Let's test this further by creating sub-samples of "university degree" and "no university degree" respectively and then running a formal two sample t-test.
 
 ```{r}
 university_data <- filter(SFS_data, university == "Yes") # university only data 
@@ -449,7 +449,7 @@ fund_performance
 Create a subset of the data with the returns for 2015. Rename the column to `investment_returns`. Store your answer in `fp_15`.
 
 ```{r}
-# fell free to use this cell if you need 
+# feel free to use this cell if you need 
 ```
 ```{r}
 #| eval: false
@@ -477,7 +477,7 @@ test_2()
 Calculate the mean and median return of funds in 2015. Store your answers in `mean_ret` and `median_ret`, respectively.
 
 ```{r}
-# fell free to use this cell if you need 
+# feel free to use this cell if you need 
 ```
 ```{r}
 #| eval: false
@@ -582,7 +582,7 @@ But wait! Do you notice anything interesting about this dataset? Investigate the
 fund_performance
 ```
 
-There are no funds with negative performance in the dataset! It's likely that the NAs have replaced the observations with negative returns. How that might affect our analysis of fund performance? Think about the biases that could have introduced in our mean and statistical test calculations.
+There are no funds with negative performance in the dataset! It's likely that the NAs have replaced the observations with negative returns. How might that affect our analysis of fund performance? Think about the biases that could have been introduced in our mean and statistical test calculations.
 
 ### Appendix
 

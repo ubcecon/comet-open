@@ -76,7 +76,7 @@ Probability is an area of study that deals with the mathematics of chance or pre
 
 To begin, let's familiarize ourselves with some of the basic terms used in the study of probability.
 
--   **Random**: an situation is random if we know the possible results it can have, but not which particular result has or will occur.
+-   **Random**: a situation is random if we know the possible results it can have, but not which particular result has or will occur.
 -   **Trial**: a single occasion where we observe a random situation. Since the situation is random, the result of the trial cannot be predicted with certainty
 -   **Outcome**: the result measured or reported from the trial
 -   **Sample space**: all possible outcomes for a trial
@@ -595,7 +595,7 @@ $$
 
 In calculating permutations, we assume we will not repeat elements. There is only one Pink salmon in the pond, therefore it can only show up once in our equation. The equation for permutations changes, however, when the number the list of elements contains repetitions.
 
-![A comparison of two ponds, displaying how the number of permutations changes when there are repetitions in the dataset"](media/diagrams/permutations_repetitions.png){fig-alt="A visualisation showing how the number of permutations was is reduced when a repeat of the element (two of the same salmon species) are introduced"}
+![A comparison of two ponds, displaying how the number of permutations changes when there are repetitions in the dataset"](media/diagrams/permutations_repetitions.png){fig-alt="A visualization showing how the number of permutations was is reduced when a repeat of the element (two of the same salmon species) are introduced"}
 
 Above are two fish ponds containing different fish, and the associated permutations of three using all the fish in the pond. On the left, there are no repeated species, but on the right, there are two pink salmon. Using our equation without accounting for the repeated species, we would see the same number of permutations for both ponds. Visually, though, we can tell that some of the permutations on the left side have repeated.
 
@@ -1218,7 +1218,7 @@ For example, we might want to know how many BC residents are concerned about the
 
 As we've established, a parameter may be challenging or impossible to compute directly. We don't have the resources to ask every BC resident to answer this question. Instead, we can estimate this information by taking the measurements from a representative **sample** of the population. A sample is a subset of individuals which have been selected from the population. When we use a sample to summarize a characteristic of the data, it is called a **statistic**. We understand that this sample can be used to make conclusions about the larger population, and this is the basis of **statistical inference**.
 
-![A diagram which shows that the sample is a representation of the population.](media/diagrams/population_sample.png){fig-alt="A diagram displaying how sample data is taken from a larger populuation"}
+![A diagram which shows that the sample is a representation of the population.](media/diagrams/population_sample.png){fig-alt="A diagram displaying how sample data is taken from a larger population"}
 
 The above statistic is given as a **proportion**, and expresses the share of an outcome of a variable in relation to the whole. We formally use $\pi$ to denote a proportion when we're talking about a proportion of the population, and $\hat{p}$ when we're talking about the proportion of a sample. We can calculate proportions using:
 
@@ -1294,7 +1294,7 @@ We can display these results as a histogram to better understand them.
 histogram_5_samples #run this cell to view the our five_sample_histogram
 ```
 
-Suppose we kept repeated this with new samples asking this same question, and continued calculating this proportion. The results are displayed below.
+Suppose we kept repeating this with new samples asking this same question, and continued calculating this proportion. The results are displayed below.
 
 ```{r}
 #| eval: false
