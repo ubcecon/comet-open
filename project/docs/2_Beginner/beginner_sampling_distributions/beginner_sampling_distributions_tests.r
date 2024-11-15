@@ -19,28 +19,28 @@ test_2 <- function() {
 
 test_3 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_3), "493dcce701d8b08fdd7f1de99e091d8f")
+    expect_equal(digest(answer_3), "4679f693970819ff9d9fd35e1ef900f3")
   })
   print("Success!")
 }
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_4), "128b504d1987c32af0db4bb0f6d75794")
+    expect_equal(digest(answer_4), "77f2bb4b0d574be2739fa0e35b9c673a")
   })
   print("Success!")
 }
 
 test_5 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_5), "c6826c34155e5768ccae9b18f9745795")
+    expect_equal(digest(answer_5), "2d0d61812ea3ae636c44b6d7eff1c719")
   })
   print("Success!")
 }
 
 test_6 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_6), "9cff45aea79578643ef29bf8e0492192")
+    expect_equal(digest(answer_6), "3e3207188056fc819ed90a154a26f40e")
   })
   print("Success!")
 }
@@ -60,7 +60,7 @@ test_7 <- function(){
 
 test_8 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_8), "682d26a162e230869a86bf9657b4c7c3")
+    expect_equal(digest(answer_8), "630f53fab2fb1c26b9feff126ea69459")
   })
   print("Success!")
 }

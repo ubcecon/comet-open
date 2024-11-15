@@ -182,7 +182,7 @@ basic_plot_test <- basic_plot_test <- ggplot(data = NA_data,
         labs(x = "Year",  
              y = "Real GDP per capita (expenditure-based)",
              fill = "Country",
-             color = "Country", # THIS IS THE EDIT
+             color = "Country",
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
         theme(text = element_text(size = 15))

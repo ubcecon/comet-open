@@ -141,7 +141,7 @@ test_1()
 #| tags: [answer]
 #| eval: false
 
-answer_1 <- '' # your answer here('true' or 'false')
+answer_1 <- 'true' # your answer here('true' or 'false')
 
 test_1()
 ```
@@ -657,9 +657,9 @@ test_11()
 #| tags: [answer]
 #| eval: false
 
-answer_e <- 10 # your answer here
+answer_11 <- 10 # your answer here
 
-test_e()
+test_11()
 ```
 
 ## PART 3: DATA
@@ -792,7 +792,11 @@ There are many different types of data, which depend on the kinds of values stor
 **Time series data** are data which contain values for a single individual over time. For example, the below table shows the changes over time to a single salmon stock.
 
 ```{r}
-head(population_data)
+population_data <- read.csv("datasets/salmon_populations.csv") #load the salmon data
+```
+
+```{r}
+head(population_data) # run this cell to view some tabular data!
 ```
 
 **Panel data** are data which contain values for multiple observations over time.
@@ -1298,6 +1302,7 @@ Suppose we kept repeating this with new samples asking this same question, and c
 
 ```{r}
 #| eval: false
+sample_data <- read.csv("datasets/sample_proportions.csv")
 View(sample_data) ## run this cell to view the dataset
 ```
 
