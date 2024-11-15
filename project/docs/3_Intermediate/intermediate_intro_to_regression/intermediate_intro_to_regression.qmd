@@ -36,12 +36,7 @@ By the end of this notebook, you will be able to:
 -   Explain how adding variables to a model changes the results
 
 > Note that the data in this exercise is provided under the Statistics
-Canada Open License: \> [[<sup>1</sup>](#fn1s)Statistics Canada, Survey
-of Financial Security, 2019, 2021. Reproduced and distributed on an "as
-is" basis with the permission of Statistics Canada.Adapted from
-Statistics Canada, Survey of Financial Security, 2019, 2021. This does
-not constitute an endorsement by Statistics Canada of this
-product.]{#fn1}
+Canada Open License: \> [[<sup>1</sup>](#fn1s)Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019-2021. This does not constitute an endorsement by Statistics Canada of this product.]{#fn1}
 
 ```{r, message = FALSE}
 library(tidyverse)
@@ -52,7 +47,7 @@ source("intermediate_intro_to_regression_tests.r")
 ```
 
 ```{r, message = FALSE}
-SFS_data <- read_dta("../datasets_intermediate/SFS_2019_Eng.dta")  #this code is discussed in module 1
+SFS_data <- read_dta("../datasets_intermediate/SFS_2019_Eng.dta")  #basic data cleaning, covered in previous modules
 
 SFS_data <- filter(SFS_data, !is.na(SFS_data$pefmtinc))
 SFS_data <- rename(SFS_data, income_before_tax = pefmtinc)
@@ -76,15 +71,11 @@ SFS_data$education <- as_factor(SFS_data$education)
 
 ## Part 1: Learning About Regressions
 
-What is a regression? What is the relationship of a regression to other
-statistical concepts? How do we use regressions to answer economic
-questions?
+What is a regression? What is the relationship of a regression to other statistical concepts? How do we use regressions to answer economic questions?
 
-In this notebook, we will explore these questions using data from the 2019 Survey of Financial Security (SFS). If you did module *1.0.1 Beginner Introduction to Statistics using R* you might recall we used it to learn more about the gender wealth gap between
-male and female lead households. You don't need to work through the module in order to follow along, but if you didn't do it and you feel you might benefit from a statistical refresher - now would be a great time for a little refresher. 
+In this notebook, we will explore these questions using data from the 2019 Survey of Financial Security (SFS). If you did module *1.0.1 Beginner Introduction to Statistics using R* you might recall we used it to learn more about the gender wealth gap between male and female lead households. You don't need to work through the module in order to follow along, but if you didn't do it and you feel you might benefit from a statistical refresher - now would be a great time for a little refresher. 
 
-Either way, we'll begin our analysis by exploring the relationship between wealth
-and income. Let's start off with a visualization:
+Either way, we'll begin our analysis by exploring the relationship between wealth and income. Let's start off with a visualization:
 
 ```{r}
 options(repr.plot.width=8,repr.plot.height=8) #controls the image size
@@ -96,60 +87,30 @@ f + geom_point()
 
 ```
 
-> *Think Deeper*: What do you see here? Is there anything about this
-> relationship that sticks out to you? Why does it have the shape it
-> does?
+> *Think Deeper*: What do you see here? Is there anything about this relationship that sticks out to you? Why does it have the shape it does?
 
-You can probably tell that there is definitely some relationship between
-wealth and after-tax income - but it can be difficult to visualize using
-a scatterplot alone. There are far too many points to make out a
-discernable pattern or relationship here.
+You can probably tell that there is definitely some relationship between wealth and after-tax income - but it can be difficult to visualize using a scatterplot alone. There are far too many points to make out a discernable pattern or relationship here.
 
 ### Regression Models
 
-This is where a **regression model** comes in. A regression model
-specifies the relationship between two variables. For example, a linear
-relationship would be:
+This is where a **regression model** comes in. A regression model specifies the relationship between two variables. For example, a linear relationship would be:
 
-$$ W_i = \beta_0 + \beta_1I_i$$
+$$ W_i = \beta_0 + \beta_1I_i
+$$
 
-Where $W_i$ is wealth of family $i$, and $I_i$ is their after-tax
-income. In econometrics, we typically refer to $W_i$ as the **outcome**
-variable, and $I_i$ as the **explanatory** variable; you may have also
-heard the terms *dependent* and *independent* variables respectively,
-but these aren't actually very good descriptions of what these variables
-are in econometrics which is why we won't use them here.
+Where $W_i$ is wealth of family $i$, and $I_i$ is their after-tax income. In econometrics, we typically refer to $W_i$ as the **outcome** variable, and $I_i$ as the **explanatory** variable; you may have also heard the terms *dependent* and *independent* variables respectively, but these aren't actually very good descriptions of what these variables are in econometrics which is why we won't use them here.
 
-A model like this is our description of what this relationship is - but
-it depends on two unknowns: $\beta_0$, $\beta_1$.
+A model like this is our description of what this relationship is - but it depends on two unknowns: $\beta_0$, $\beta_1$.
 
--   $\beta_0$ and $\beta_1$ are **parameters** of the model: they are
-    numbers that determine the relationship (intercept and slope,
-    respectively) between $W_i$ and $I_i$
--   This is a *linear* relationship because the model we have specified
-    uses coefficients that are characteristic of linear model formulas -
-    note that there are many other kinds of models beyond the linear
-    type seen here.
+-   $\beta_0$ and $\beta_1$ are **parameters** of the model: they are numbers that determine the relationship (intercept and slope, respectively) between $W_i$ and $I_i$
+-   This is a *linear* relationship because the model we have specified uses coefficients that are characteristic of linear model formulas - note that there are many other kinds of models beyond the linear type seen here.
 
-It is unlikely, if not impossible, for the relationship we observe here
-to completely explain everything about our data. We also need to include
-a term which captures everything that is *not* described by the
-relationship we described in the model. This is called the *residual*
-term (meaning "leftover").
+It is unlikely, if not impossible, for the relationship we observe here to completely explain everything about our data. We also need to include a term which captures everything that is *not* described by the relationship we described in the model. This is called the *residual* term (meaning "leftover").
 
--   The $\epsilon_i$ is the **residual**: it is a component that
-    corresponds to the part of the data which is *not* described by the
-    model
--   Residual terms will usually have certain assumed properties that
-    allow us to estimate the model
+-   The $\epsilon_i$ is the **residual**: it is a component that corresponds to the part of the data which is *not* described by the model
+-   Residual terms will usually have certain assumed properties that allow us to estimate the model
 
-Conceptually, you can think about a regression as two parts: the part of
-the relationship explained by your model ($W_i = \beta_0 + \beta_1 I_i$)
-and the part which is not explained ($\epsilon_i$). The process of
-"fitting" or estimating a regression model refers to finding values for
-$\beta_0$ and $\beta_1$ such that as little as possible of the model is
-explained by the residual term. We write the complete regression
-equation by combining the two parts of the model:
+Conceptually, you can think about a regression as two parts: the part of the relationship explained by your model ($W_i = \beta_0 + \beta_1 I_i$) and the part which is not explained ($\epsilon_i$). The process of "fitting" or estimating a regression model refers to finding values for $\beta_0$ and $\beta_1$ such that as little as possible of the model is explained by the residual term. We write the complete regression equation by combining the two parts of the model:
 
 $$
 W_i = \beta_0 + \beta_1 I_i + \epsilon_i
@@ -157,44 +118,24 @@ $$
 
 The goal of regression analysis is to:
 
-1.  Estimate this equation (and especially the model parameters) as
-    accurately as possible.
-2.  Learn about the relationship between $W_i$ and $I_i$ from the
-    results of that estimation
+1.  Estimate this equation (and especially the model parameters) as accurately as possible.
+2.  Learn about the relationship between $W_i$ and $I_i$ from the results of that estimation
 
-There are many ways to define "as accurately as possible" and similarly
-there are many ways to "estimate" the equation. In this course, we often
-use *ordinary least squares* (OLS) as our estimation method which can be
-understood as the following:
+There are many ways to define "as accurately as possible" and similarly there are many ways to "estimate" the equation. In this course, we often use *ordinary least squares* (OLS) as our estimation method which can be understood as the following:
 
 $$
 (\hat{\beta_0},\hat{\beta_1}) = \arg \min_{\beta_0,\beta_1} \sum_{i=1}^{n} (W_i - \beta_0 - \beta_1 I_i)^2 =\arg \min_{b_0,b_1} \sum_{i=1}^{n} (\epsilon_i)^2
 $$
 
-It is just the calculus way of writing "choose $\beta_0$ and $\beta_1$
-(call them $\hat{\beta_0},\hat{\beta_1}$) such that they minimize the
-sum of the squared residuals". Ultimately, the goal of doing a
-regression is to explain as much as possible using the parameters
-($\beta_0, \beta_1$) and as little as possible using $\epsilon_i$.
-Through this equation, we have transformed our statistical problem into
-a calculus problem, one that can can be solved, for example, by taking
-derivatives.
+It is just the calculus way of writing "choose $\beta_0$ and $\beta_1$ (call them $\hat{\beta_0}, \hat{\beta_1}$) such that they minimize the sum of the squared residuals". Ultimately, the goal of doing a regression is to explain as much as possible using the parameters ($\beta_0, \beta_1$) and as little as possible using $\epsilon_i$. Through this equation, we have transformed our statistical problem into a calculus problem, one that can be solved, for example, by taking derivatives.
 
-There are many, many ways to solve this estimation problem - most of
-which are built into R. Before getting into how we can estimate using R
-commands, we'll discuss on how we can estimate manually.
+There are many, many ways to solve this estimation problem - most of which are built into R. Before getting into how we can estimate using R commands, we'll discuss on how we can estimate manually.
 
 ### Example: Manual Estimation
 
-If we think about the residuals as a gauge of error in our model
-(remember we want to think about the error in absolute terms), we can
-look at the scatterplot and guess how the model might perform based on
-how small or large the residuals are from the regression line. As you
-can probably imagine, this is not the most efficient nor the most
-accurate way to solve our estimate problem!
+If we think about the residuals as a gauge of error in our model (remember we want to think about the error in absolute terms), we can look at the scatterplot and guess how the model might perform based on how small or large the residuals are from the regression line. As you can probably imagine, this is not the most efficient nor the most accurate way to solve our estimate problem!
 
-Try to get the best fit you can by playing around with the following
-example.
+Try to get the best fit you can by playing around with the following example.
 
 ```{r}
 #set the value of B_0 and B_1 with these values
@@ -225,9 +166,7 @@ f <- f + geom_point() + geom_line(color = "#330974", data = fitted_line) #style 
 f #prints our graph with the line
 ```
 
-As we change our $\beta_0, \beta_1$, notice how the best fit line
-changes as well. The closer we fit our line to the data the lower SSE we
-have.
+As we change our $\beta_0, \beta_1$, notice how the best fit line changes as well. The closer we fit our line to the data the lower SSE we have.
 
 ### Interactive Visualization of OLS
 
@@ -236,11 +175,8 @@ Understanding OLS is fundamental to understanding regressions and other topics i
 To demonstrate this, we will use a small scatter plot with just 4 points.
 
 - The straight line through the scatter plot is modelled by the simple regression formula $B_0 + B_1X$.
-
 - Since it's nearly impossible for a regression to perfectly predict the relationship between two variables, we will almost always include an **unobservable error** $e_i$ with our regression estimation. This is the vertical distance between the regression line and the actual data points.
-
 - Hence each of the points can be modelled by the equation $Y_i = B_0 + B_1X + e_i$.
-
 - Instead of minimizing the error terms, we will try to minimize the squared errors which are represented by the size of those red boxes.
 
 Try your own values for `beta_0` and `beta_1`. Make sure to try the values only roughly within the specified range. The actual value of `beta_0` and `beta_1` that minimize the residual sum of squares is 0.65 and 0.82 respectively. The code block below also displays the area of the red boxes; deviation from these optimal values will increase the area of the red boxes.
@@ -340,10 +276,7 @@ Take a close look at the results. Identify the following elements:
 -   The standard errors of the parameters
 -   The %-of the data explained by the model
 
-> **Test Your Knowledge**: What %-of the variance in wealth is explained
-> by the model?\
-> Write the percentage in *decimal form* and include all decimals given
-> by the model (example, x.xxx - where x are numbers)
+> **Test Your Knowledge**: What %-of the variance in wealth is explained by the model?\ Write the percentage in *decimal form* and include all decimals given by the model (example, x.xxx - where x are numbers)
 
 ```{r}
 #| classes: "question"
@@ -353,7 +286,6 @@ answer1 <- ???   #answer goes here
 test_1()
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
@@ -362,24 +294,20 @@ answer1 <- 0.2139 #answer goes here
 answer1=round(answer1,2)
 test_1()
 ```
-:::
 
-The underlying model and the parameters tells us about the relationship
-between the different values:
+The underlying model and the parameters tell us about the relationship between the different values:
 
-$$W_i = 169826.16 + 9.96 I_i + \epsilon_i$$
+$$W_i = 169826.16 + 9.96 I_i + \epsilon_i
+$$
 
 Notice, for example:
 
-$$\frac{\partial W_i}{\partial I_i} = \beta_1 = 9.96$$
+$$\frac{\partial W_i}{\partial I_i} = \beta_1 = 9.96
+$$
 
-In other words, when incomes goes up by 1 dollar, we would expect that
-the wealth accumulated for this given family will rise by 9.96 dollars.
-This kind of analysis is key to interpreting what this model is telling
-us.
+In other words, when incomes go up by 1 dollar, we would expect that the wealth accumulated for this given family will rise by 9.96 dollars. This kind of analysis is key to interpreting what this model is telling us.
 
-Finally, let's visualize our fitted model on the scatterplot from
-before. How does it compare to your original model?
+Finally, let's visualize our fitted model on the scatterplot from before. How does it compare to your original model?
 
 ```{r}
 options(repr.plot.width=10,repr.plot.height=8) #style preferences
@@ -390,29 +318,23 @@ fitted_line2 = data.frame(income_before_tax = SFS_data$income_before_tax, wealth
 f <- ggplot(data = SFS_data, aes(x = income_before_tax, y = wealth)) + xlab("Wealth") + ylab("Income before tax")+scale_x_continuous() #defines our x and y
 f <- f + geom_point() + geom_line(color = "#070069", data = fitted_line) + geom_line(color = "#ff0000", data = fitted_line2) #style preferences
 
-f #prints  graph
+f #prints graph
 ```
 
-As you can see - there's a very close relationship between
-`after_tax_income` and `wealth`. The red line is a regression line of
-wealth and after_tax_income.
+As you can see - there's a very close relationship between `after_tax_income` and `wealth`. The red line is a regression line of wealth and after_tax_income.
 
-Notice as well we have negative values? Negative income and negative
-wealth is weird. We will deal with this later.
+Notice as well that we have negative values. Negative income and negative wealth is weird. We will deal with this later.
 
 ## Part 2: Simple Regressions and $t$-Tests
 
 Previously, we looked at the relationship between market income and wages. However, these are both *quantitative* variables. What if we wanted to work with a *qualitative* variable like `gender`?
 
-Regression models can still incorporate this kind of variable - which is
-good, because (as the Census makes clear) this is the most common type
-of variable in real-world data. How is this possible?
+Regression models can still incorporate this kind of variable - which is good, because (as the Census makes clear) this is the most common type of variable in real-world data. How is this possible?
 
-Let's start out with the simplest kind of qualitative variable: a
-**dummy** (0 or 1) variable. Let's use Male = $0$ and Female = $1$.
-Consider the regression equation:
+Let's start out with the simplest kind of qualitative variable: a **dummy** (0 or 1) variable. Let's use Male = $0$ and Female = $1$. Consider the regression equation:
 
-$$W_i = \beta_0 + \beta_1 G_i + \epsilon_i ~, \text{where}\ G_i \ \text{is Gender}$$
+$$W_i = \beta_0 + \beta_1 G_i + \epsilon_i ~, \text{where}\ G_i \ \text{is Gender}
+$$
 
 Consider the conditional expectation:
 
@@ -424,7 +346,7 @@ $$
 E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1 \cdot 0 + \epsilon_i
 $$
 
-By the OLS reggression assumptions, we have that $E[\epsilon_i|G_i] = 0 $, so:
+By the OLS regression assumptions, we have that $E[\epsilon_i|G_i] = 0 $, so:
 
 $$
 E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1
@@ -442,20 +364,11 @@ $$
 
 What this tells us:
 
-1.  We can include **dummy** variables in regressions just like
-    quantitative variables
-2.  The coefficients on the dummy variable have meaning in terms of the
-    regression model
-3.  The coefficients measure the (average) difference in the dependent
-    variable between the two levels of the dummy variable
+1.  We can include **dummy** variables in regressions just like quantitative variables
+2.  The coefficients on the dummy variable have meaning in terms of the regression model
+3.  The coefficients measure the (average) difference in the dependent variable between the two levels of the dummy variable
 
-We can estimate this relationship of gender and wealth using R. As we
-investigate the wealth gap between male and female lead households, we
-might expect to see a negative sign on the coefficient - that is, if we
-anticipate that female lead households will have less wealth than male
-lead households.
-
-
+We can estimate this relationship of gender and wealth using R. As we investigate the wealth gap between male and female lead households, we might expect to see a negative sign on the coefficient - that is, if we anticipate that female lead households will have less wealth than male lead households.
 
 ```{r}
 regression2 <- lm(wealth ~ gender, data = SFS_data)
@@ -465,8 +378,7 @@ summary(regression2)
 
 What do you see here?
 
-> **Test Your Knowledge**: What is the difference in average wealth
-> between male and female lead households?
+> **Test Your Knowledge**: What is the difference in average wealth between male and female lead households?
 
 ```{r}
 #| classes: "question"
@@ -477,7 +389,6 @@ answer2 <-  ???  # your answer here
 test_2()
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
@@ -487,10 +398,8 @@ answer2 <- -235286
 answer2=round(answer2,2)
 test_2()
 ```
-:::
 
-The number might seem familiar if you remember what we learned about a
-$t$-test from earlier. Remember this result?
+The number might seem familiar if you remember what we learned about a $t$-test from earlier. Remember this result?
 
 ```{r}
 t1 = t.test(
@@ -505,29 +414,20 @@ t1
 t1$estimate[1] - t1$estimate[2]
 ```
 
-Look closely at this result, and the result above. What do you see? What
-is the relationship here?
+Look closely at this result, and the result above. What do you see? What is the relationship here?
 
-This is a very important result because a dummy variable regression is
-an example a two sample comparison. Why is this? Recall:
+This is a very important result because a dummy variable regression is an example a two sample comparison. Why is this? Recall:
 
-$$\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}]$$
+$$\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}]
+$$
 
-The regression coefficient of $\beta_1$ can be interpreted as a
-comparison of two means. This is exactly the same as what the $t$-test
-is doing. Comparing two means by different groups - groups which are
-specified by $G_i = \text{Male}$ or $G_i = \text{Female}$.
+The regression coefficient of $\beta_1$ can be interpreted as a comparison of two means. This is exactly the same as what the $t$-test is doing. Comparing two means by different groups - groups which are specified by $G_i = \text{Male}$ or $G_i = \text{Female}$.
 
-In other words, another way of thinking about a regression is as a
-`super` comparison of means test. However, regressions can handle
-analysis using qualitative (dummy) variables as a well as quantitative
-variables, which regular comparison of means tests cannot handle.
+In other words, another way of thinking about a regression is as a `super` comparison of means test. However, regressions can handle analysis using qualitative (dummy) variables as a well as quantitative variables, which regular comparison of means tests cannot handle.
 
 ### Multiple Levels
 
-Okay, but what if you have a qualitative variable that takes on *more*
-than two levels? For example, the `education` variable includes four
-different education classes.
+Okay, but what if you have a qualitative variable that takes on *more* than two levels? For example, the `education` variable includes four different education classes.
 
 ```{r}
 SFS_data %>%
@@ -535,36 +435,20 @@ group_by(education) %>%
 summarize(number_of_observations = n())
 ```
 
-In this case, the idea is that you can replace a qualitative variable by
-a *set of dummies*. Consider the following set of variables:
+In this case, the idea is that you can replace a qualitative variable by a *set of dummies*. Consider the following set of variables:
 
 -   `d_1`: Is highest education less than high school? (Yes/No)
 -   `d_2`: Is highest education high school? (Yes/No)
 -   `d_3`: Is highest education non-university post-secondary? (Yes/No)
 -   `d_4`: Is highest education university? (Yes/No)
 
-These four dummy variables capture the same information as the
-qualitative variable `education`. In other words, if we were told the
-value of `education` we could discern which of these dummies were `Yes`
-or `No`, and vice-versa. In fact, if wetake a closer look, we'll notice
-that we actually only need three of the four to figure our the value of
-`education`. For example, if I told you that `d_4`, `d_3`, `d_2` were
-all "No", what would the value of `education` be?
+These four dummy variables capture the same information as the qualitative variable `education`. In other words, if we were told the value of `education` we could discern which of these dummies were `Yes` or `No`, and vice-versa. In fact, if wetake a closer look, we'll notice that we actually only need three of the four to figure out the value of `education`. For example, if I told you that `d_4`, `d_3`, `d_2` were all "No", what would the value of `education` be?
 
-In other words, one of the dummies is redundant in helping us understand
-the qualitative variable. This property is important; we usually will
-omit one possible dummy to include only the minimum number of variables
-needed to explain the qualitative variable in question. This omitted
-dummy is called the **base level**. If we forget about this and still
-add 4 dummy variables, we would be committing a dummy variable trap.
+In other words, one of the dummies is redundant in helping us understand the qualitative variable. This property is important; we usually will omit one possible dummy to include only the minimum number of variables needed to explain the qualitative variable in question. This omitted dummy is called the **base level**. If we forget about this and still add 4 dummy variables, we would be committing a dummy variable trap.
 
--   Which one should be the base level? It doesn't matter, from a
-    technical perspective.
+-   Which one should be the base level? It doesn't matter, from a technical perspective.
 
-> **Test Your Knowledge**: suppose you have a qualitative variable with
-> $k$ distinct levels. What is the minimum number of *possible* ways to
-> represent a set of dummies if you don't want to include any redundant
-> variables?
+> **Test Your Knowledge**: suppose you have a qualitative variable with $k$ distinct levels. What is the minimum number of *possible* ways to represent a set of dummies if you don't want to include any redundant variables?
 
 -   **A**: $k$
 -   **B**: $k-1$
@@ -579,7 +463,6 @@ answer2.5 <- ??? # type in your answer here
 test_2.5()
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
@@ -588,20 +471,12 @@ answer2.5 <- "B" # type in your answer here
 
 test_2.5()
 ```
-:::
 
-In general, in R, most commands will automatically handle this process
-of creating dummies from qualitative variables. As you saw with the
-simple regression, R created them for you. You can also create dummies
-using a variety of commands, if necessary - but in general, if you tell
-R that your variables are factors, it will automatically handle the
-creation of dummies properly.
+In general, in R, most commands will automatically handle this process of creating dummies from qualitative variables. As you saw with the simple regression, R created them for you. You can also create dummies using a variety of commands, if necessary - but in general, if you tell R that your variables are factors, it will automatically handle the creation of dummies properly.
 
-Technically, the example above which includes multiple variables is
-called a **multiple regression** model, which we haven't covered yet.
+Technically, the example above which includes multiple variables is called a **multiple regression** model, which we haven't covered yet.
 
-Let's explore regression some more, in the following series of
-exercises.
+Let's explore regression some more, in the following series of exercises.
 
 ## Part 3: Weighting
 
@@ -615,7 +490,7 @@ count(SFS_data)
 
 In our case, the SFS surveyed 10,141 individuals. However, the [population of Canada in 2019 was 37.6 million people](https://www150.statcan.gc.ca/n1/pub/11-627-m/11-627-m2019061-eng.htm). While completing the census is a legal obligation which is typically good at capturing practically all inhabitants, the SFS is voluntary and may or may not represent the population well (e.g. perhaps the super wealthy or those in destitute poverty are underrepresented, or marginalized groups are less likely to respond to government surveys about something as personal as your wealth). 
 
-Whatever the case may be, we'll want to adjust, "weight", our sample to make it more representative of the population (and we'll use the census as our benchmark). Luckily for us, Statcan is aware of this potential issue, and has included pre-made/recommended weights for us to use! 
+Whatever the case may be, we'll want to adjust, "weight", our sample to make it more representative of the population (and we'll use the census as our benchmark). Luckily for us, StatCan is aware of this potential issue, and has included pre-made/recommended weights for us to use! 
 
 To see what happens when we include weights we simply add a straightforward argument `weight = x` in the `lm()`function, where `x` is the name of your weighting variable. (If for some reason your weights are contained in a different dataset than the rest of your data you could use `weight = other_dataset$x` to specify the correct weights).
 
@@ -653,19 +528,16 @@ In general, weighting is a powerful tool that can help us correct for biases in 
 
 ### Activity 1
 
-Last week, we briefly explored the idea of the wealth gap and explored
-the idea that it could be caused by some income related factors. We can
-now examine this issue directly using regressions. Run a regression with
-\* before tax income \* on male and female lead households.
+Last week, we briefly explored the idea of the wealth gap and explored the idea that it could be caused by some income related factors. We can now examine this issue directly using regressions. Run a regression with \* before tax income \* on male and female lead households.
 
-<em>Tested objects:</em> `regm` (the regression for males).<em>Tested
-objects:</em> `regf` (the regression for females).
+<em>Tested objects:</em> `regm` (the regression for males).
+<em>Tested objects:</em> `regf` (the regression for females).
 
 ```{r}
 #| classes: "question"
 #| eval: false
-# Quiz 1
 
+# Quiz 1
 # Regression for males
 regm <- lm(??? ~ income_before_tax, filter(SFS_data, ??? == "Male")) 
 # Replace "..." with the appropriate variables 
@@ -683,30 +555,28 @@ test_3() # Quiz1
 test_4() # Quiz2
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
 
 #Quiz 1
 #Regression for males
-regm <- lm( wealth ~ income_before_tax, data = filter(SFS_data, gender == 'Male')) #what should you replace. notice this is a multiple reggression.
+regm <- lm( wealth ~ income_before_tax, data = filter(SFS_data, gender == 'Male')) #what should you replace. notice this is a multiple regression.
 
+#Quiz 2
 #Regression for females
 regf <- lm(wealth ~ income_before_tax, data = filter(SFS_data, gender == 'Female')) ## copy the above, making the appropriate changes
 
 summary(regm) #Allow us to view regm's coefficient estimates
-summary(regf) #Same as above, but for regf\n",
+summary(regf) #Same as above, but for regf",
 
 test_3() #Quiz1
 test_4() #Quiz2
 ```
-:::
 
 #### Short Answer 1
 
-**Prompt:** How do we interpret the coefficient estimate on `income` in
-each of these regressions?
+**Prompt:** How do we interpret the coefficient estimate on `income` in each of these regressions?
 
 <font style="color:red">Answer in red here!</font>
 
@@ -714,34 +584,22 @@ each of these regressions?
 #| eval: false
 #| classes: "question"
 
-answer_1 <- #fill in your short answer
+short_answer_1 <- #fill in your short answer
 
 ```
 
-::: answer
-Answer: In this case the coefficient on before tax income is how we
-expect wealth to change for a given change in income. So, for each new
-dollar of income we expect the male lead households to acquire 5.3
-dollars of wealth, and female lead households to acquire 9.4 dollars of
-wealth. Also notice the intercepts are different. There may be some
-left-out factors or the relation is non-linear, which would mean
-$\beta_1$ is not really the instantaneous rate of change.
-:::
+
+Answer: In this case the coefficient on before tax income is how we expect wealth to change for a given change in income. So, for each new dollar of income we expect the male lead households to acquire 5.3 dollars of wealth, and female lead households to acquire 9.4 dollars of wealth. Also notice the intercepts are different. There may be some left-out factors or the relation is non-linear, which would mean $\beta_1$ is not really the instantaneous rate of change.
 
 ### Activity 2
 
-We might think that income inequality between females and males might
-depend on the educational gaps between these two groups. In this
-activity, we will explore how the income gap varies by education. First,
-let's see the factor levels of the `education`:
+We might think that income inequality between females and males might depend on the educational gaps between these two groups. In this activity, we will explore how the income gap varies by education. First, let's see the factor levels of the `education`:
 
 ```{r}
 levels(SFS_data$education) # Run this
 ```
 
-As we can see, there are a few education groups in this dataframe. Let's
-estimate the income gap (with no controls) for each of the four groups
-separately:
+As we can see, there are a few education groups in this dataframe. Let's estimate the income gap (with no controls) for each of the four groups separately:
 
 -   Less than high school
 -   High school
@@ -756,7 +614,7 @@ Notice we don't need to do 4 regressions we could just do three.
 #| classes: "question"
 #| eval: false
 
-#reg1 is a regression performed on people, with a less than high scchool education
+#reg1 is a regression performed on people, with a less than high school education
 reg1 <- lm(??? ~ ???, data = filter(SFS_data, education == "Less than high school")) #what should replace the ...
 #reg2 is the same as rege1,but we are looking at people with a high school education
 reg2 <- lm(??? ~ ???, data = filter(SFS_data, education == "High school")) #fill in the blanks
@@ -771,13 +629,12 @@ sum30 <- summary(reg2)
 sum40 <- summary(reg3)
 sum50 <- summary(reg4)
 
-test_9() 
-test_10() 
-test_11() 
-test_12() 
+test_5()
+test_6()
+test_7()
+test_8() 
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
@@ -796,10 +653,11 @@ sum30 <- summary(reg2)
 sum40 <- summary(reg3)
 sum50 <- summary(reg4)
 
-test_12() #Quiz3
-test_16() #Quiz4 
+test_5()
+test_6()
+test_7()
+test_8() 
 ```
-:::
 
 The code below will tabulate a brief summary of each regression:
 
@@ -818,9 +676,7 @@ tibble(Educ_Group, Income_Gap, Std._Error, t_Value, p_Value) #it's like a table 
 
 #### Short Answer 2
 
-**Prompt**: What happens to the income gap as we move across eduction
-groups? What might explain these changes? (hint: think back to module
-1!)
+**Prompt**: What happens to the income gap as we move across education groups? What might explain these changes? (hint: think back to module 1!)
 
 <font style="color:red">Answer in red here!</font>
 
@@ -828,36 +684,24 @@ groups? What might explain these changes? (hint: think back to module
 #| eval: false
 #| classes: "question"
 
-answer_3 <- #fill in your short answer
+short_answer_2 <- #fill in your short answer
 
 ```
 
-::: answer
-Answer: The Income Gap appears to increase, however this is simply
-because income increases, in percent terms the income gap decreases
-(from module 1)
-:::
+Answer: The Income Gap appears to increase, however this is simply because income increases, in percent terms the income gap decreases (from module 1)
 
 ### Activity 3
 
-As we observed in last week's worksheet, the income gap could differ by
-education level. Since there are many education categories, however, we
-may not want to examine this by running a regression for each education
-level separately.
+As we observed in last week's worksheet, the income gap could differ by education level. Since there are many education categories, however, we may not want to examine this by running a regression for each education level separately.
 
-Instead, we could run a single regression and add education level as a
-second regressor, $E_i$:
+Instead, we could run a single regression and add education level as a second regressor, $E_i$:
 
-$$I_i = \beta_0 + \beta_1 G_i + \beta_2 E_i + \epsilon_i$$
+$$I_i = \beta_0 + \beta_1 G_i + \beta_2 E_i + \epsilon_i
+$$
 
-This is actually a **multiple regression**, which we will learn about
-next week - but from the point of the this lesson, the idea is that it
-is "run" in R essentially in the same way as a simple regression.
-Estimate the regression model above without $E_i$, then re-estimate the
-model with $E_i$ added. **USE INCOME BEFORE TAX**.
+This is actually a **multiple regression**, which we will learn about later - but from the point of this lesson, the idea is that it is "run" in R essentially in the same way as a simple regression. Estimate the regression model above without $E_i$, then re-estimate the model with $E_i$ added. **USE INCOME BEFORE TAX**.
 
-<em>Tested objects:</em> `reg2A` (regression without controls), `reg2B`
-(regression with controls).
+<em>Tested objects:</em> `reg2A` (regression without controls), `reg2B` (regression with controls).
 
 ```{r}
 #| eval: false
@@ -872,11 +716,10 @@ summary(reg2A)
 summary(reg2B)
 #this will look ugly; try to look carefully at the output
 
-test_7()
-test_8() 
+test_9()
+test_10() 
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
@@ -893,17 +736,13 @@ summary(reg2A)
 summary(reg2B)
 #this will look ugly; try to look carefully at the output
 
-
-
-test_7()
-test_8() #Quiz 5
+test_9()
+test_10() 
 ```
-:::
 
 #### Short Answer 3
 
-Prompt: Compare the estimated income gap with and without $E_i$ in the
-regression. What happens to the gap when we add $E_i$?
+Prompt: Compare the estimated income gap with and without $E_i$ in the regression. What happens to the gap when we add $E_i$?
 
 <font style="color:red">Answer in red here!</font>
 
@@ -911,51 +750,37 @@ regression. What happens to the gap when we add $E_i$?
 #| eval: false
 #| classes: "question"
 
-answer_4 <- #fill in your short answer
+short_answer_3 <- #fill in your short answer
 
 ```
 
-::: answer
 Answer: The gender-income gap has increased; notice the stand error's
 have increased. This means it's harder to have certainty what the income
 gap is once we control for education.
-:::
-
-
-
 
 ### Theoretical Activity 1
 
-When we deal with large quantitative variables, we often take the
-natural log of it:
+When we deal with large quantitative variables, we often take the natural log of it:
 
 ```{r}
 W = log(SFS_data$wealth[SFS_data$wealth>0]) 
 ```
 
-You may recall that the derivative of the log of a variable is
-approximately equal to percentage change in the variables:
+You may recall that the derivative of the log of a variable is approximately equal to percentage change in the variables:
 
-$$\frac{dln(x)}{dx} \approx \frac{\Delta x}{x}$$
+$$\frac{dln(x)}{dx} \approx \frac{\Delta x}{x}
+$$
 
-Thus, when we find the marginal effect of some continuous regressor
-$X_i$ (say, `income`):
+Thus, when we find the marginal effect of some continuous regressor $X_i$ (say, `income`):
 
-$$ln(W_i) = \beta_0 + \beta_1 I_i + \epsilon_i \implies \frac{\Delta W_i}{W_i} \approx \beta_1 \Delta I_{i}$$
+$$ln(W_i) = \beta_0 + \beta_1 I_i + \epsilon_i \implies \frac{\Delta W_i}{W_i} \approx \beta_1 \Delta I_{i}
+$$
 
-This allows us to interpret the changes in a continuous variable as
-associated with a percentage change in wealth; for instance, if we
-estimate a coefficient of $0.02$ on `income_before_tax`, we say that
-when a family's income before tax increases by 1 CAD, the corresponding
-wealth increases by 2 percent on average.
+This allows us to interpret the changes in a continuous variable as associated with a percentage change in wealth; for instance, if we estimate a coefficient of $0.02$ on `income_before_tax`, we say that when a family's income before tax increases by 1 CAD, the corresponding wealth increases by 2 percent on average.
 
-Notice as well we are now talking about percent changes, rather than
-units.
+Notice we are now talking about percent changes, rather than units.
 
-Let's generate two variables that take the natural log of the wealth
-<em>and</em> market income from the `SFS_data` dataframe (hint: use a
-technique that we introduced last week). Then, estimate the effect of
-logarithmic market income on logarithmic wealth.
+Let's generate two variables that take the natural log of the wealth <em>and</em> market income from the `SFS_data` dataframe (hint: use a technique that we introduced last week). Then, estimate the effect of logarithmic market income on logarithmic wealth.
 
 <em>Tested Objects:</em> `lnreg`
 
@@ -966,15 +791,11 @@ SFS_data <- SFS_data %>%
                mutate(lnwealth = log(SFS_data$wealth)) # what goes here?
 ```
 
-Notice warning message "NaNs produced". NaN means "Not a Number". This
-happens because we had negative income and negative wealth. No matter
-how low our incomes are, the more we work, wealth and income should
-increase.
+Notice warning message "NaNs produced". NaN means "Not a Number". This happens because we had negative income and negative wealth. No matter how low our incomes are, the more we work, wealth and income should increase.
 
 ```{r}
 #| eval: false
 #| classes: "question"
-
 
 # fix NANs
 SFS_data_logged <- SFS_data %>%
@@ -984,17 +805,14 @@ SFS_data_logged <- SFS_data %>%
 # Log Regression 
 lnreg <- lm(lnwealth ~ ???, data = SFS_data_logged) #the new and improved regression
 
-
 summary(lnreg)
 
-test_5() #Quiz7
+test_11()
 ```
 
-::: answer
 ```{r}
 #| eval: false
 #| classes: "answer"
-
 
 # fix NANs
 SFS_data_logged <- SFS_data %>%
@@ -1004,18 +822,15 @@ SFS_data_logged <- SFS_data %>%
 # Log Regression 
 lnreg <- lm(lnwealth ~ lnincome, data = SFS_data_logged) # fill me in in
 
-
 summary(lnreg)
 
-test_5() #Quiz7
+test_11()
 
 ```
-:::
 
 #### Short Answer 4
 
-Prompt: How do we interpret each of these estimates? (Hint: what does a
-1-unit change in the explanatory variable mean here?)
+Prompt: How do we interpret each of these estimates? (Hint: what does a 1-unit change in the explanatory variable mean here?)
 
 <font style="color:red"> Answer here in red</font>
 
@@ -1023,45 +838,27 @@ Prompt: How do we interpret each of these estimates? (Hint: what does a
 #| eval: false
 #| classes: "question"
 
-answer_5 <- #fill in your short answer
+short_answer_4 <- #fill in your short answer
 
 ```
 
-::: answer
-Answer: Intercept: The intercept estimate represents the expected value
-of the response variable (lnwealth) when the predictor variable
-(lnincome) is zero. In this case, the estimated intercept is 6.17242.
-Since the logarithm of wealth (lnwealth) is being used, it means that
-when the logarithm of income (lnincome) is zero, the expected value of
-the logarithm of wealth is 6.17242.
+Answer: Intercept: The intercept estimate represents the expected value of the response variable (lnwealth) when the predictor variable (lnincome) is zero. In this case, the estimated intercept is 6.17242. Since the logarithm of wealth (lnwealth) is being used, it means that when the logarithm of income (lnincome) is zero, the expected value of the logarithm of wealth is 6.17242.
 
-lnincome: The coefficient estimate for lnincome is 0.61532. It
-represents the estimated change in the response variable (lnwealth) for
-a one-unit increase in the predictor variable (lnincome). Therefore, for
-every one-unit increase in the logarithm of income, the estimated change
-in the logarithm of wealth is 0.61532.
-:::
+lnincome: The coefficient estimate for lnincome is 0.61532. It represents the estimated change in the response variable (lnwealth) for a one-unit increase in the predictor variable (lnincome). Therefore, for every one-unit increase in the logarithm of income, the estimated change in the logarithm of wealth is 0.61532.
 
 ### Optional: Bonus Activity 4
 
-You have learned about a linear regression model of income; however,
-income often follows a Pareto distribution. For now, using a linear
-approximation to find the wage gap is fine. We may want to know stuff
-about the underlying distribution of income in male and female lead
-households, however. Here's the PDF of pareto distribution:
+You have learned about a linear regression model of income; however, income often follows a Pareto distribution. For now, using a linear approximation to find the wage gap is fine. We may want to know stuff about the underlying distribution of income in male and female lead households, however. Here's the PDF of pareto distribution:
 
-$$f(x) = {\displaystyle {\frac {\alpha x_{\mathrm {m} }^{\alpha }}{x^{\alpha +1}}}} $$
+$$f(x) = {\displaystyle {\frac {\alpha x_{\mathrm {m} }^{\alpha }}{x^{\alpha +1}}}} 
+$$
 
-Ok, now with regression remember we said that we estimate the parameter
-given the data. To do this we said you could use Calcus or methods other
-than OLS. Here the probability of the data can be approximated by
-assuming independence between each $x_i$. If we do this, the probability
-of the data is given by:
+Ok, now with regression remember we said that we estimate the parameter given the data. To do this we said you could use Calculus or methods other than OLS. Here the probability of the data can be approximated by assuming independence between each $x_i$. If we do this, the probability of the data is given by:
 
-$$\Pi_{i=1}^n f(x)$$
+$$\Pi_{i=1}^n f(x)
+$$
 
-Now we can just make a function in r and optimize over it which performs
-essentially the same operation as a linear regression.
+Now we can just make a function in r and optimize over it which performs essentially the same operation as a linear regression.
 
 ```{r}
 #| scrolled: true
@@ -1089,7 +886,7 @@ calc(x)
 ```
 
 ```{r}
-ell <- function(a,q,xm,n) { # we use the log function of the pareto distrubtion instead
+ell <- function(a,q,xm,n) { # we use the log function of the pareto distribution instead
     d=(n*log(a))
     b=(-1)*(a+1)*q
     c=a*log(xm)*n 
@@ -1114,8 +911,10 @@ a_men
 
 The theoretical mean of the Pareto distribution is,
 
-$$ \frac{\alpha x_m}{\alpha -1} $$ Can you calculate the expected income
-gap with the Pareto distribution assumption?
+$$ \frac{\alpha x_m}{\alpha -1} 
+$$ 
+
+Can you calculate the expected income gap with the Pareto distribution assumption?
 
 ```{r}
 xmw=40000

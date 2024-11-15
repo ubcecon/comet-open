@@ -106,7 +106,7 @@ test_4 <- function() {
   print("Success!")
 }
 
-test_5 <- function() {
+test_11 <- function() {
   test_that("Solution is incorrect", {
     expect_equal(digest(round(lnreg$coefficients,2)), '52308ed21f0b1e637ffb6a5a825c4e9e')
   })
@@ -114,14 +114,14 @@ test_5 <- function() {
 }
 
 
-test_7 <- function() {
+test_9 <- function() {
   test_that("Solution is incorrect", {
     expect_equal(digest(round(reg2A$coefficients,2)), '1a2d224b3da69ace473379ce54546bb4')
   })
   print("Success!")
 }
 
-test_8 <- function() {
+test_10 <- function() {
   test_that("Solution is incorrect", {
     expect_equal(digest(round(reg2B$coefficients[1],2)), "683d5cec07eaf7aad55da0e92dd9bc77")
   })
@@ -129,28 +129,26 @@ test_8 <- function() {
 }
 
 
-test_9 <- function() {
+test_5 <- function() {
   test_that("reg1 is incorrect.", {
     expect_equal(digest(round(reg1$coefficients[["(Intercept)"]],2)), "5f5c851b554e0088964082daed2e0933")
   })
   print("Success!")
 }
-test_10 <- function() {
+test_6 <- function() {
   test_that("reg2 is incorrect", {
     expect_equal(digest(round(reg2$coefficients[["(Intercept)"]],2)), "a321bc349934553897e6c60016451791")
   })
   print("Success!")
 }
-test_11 <- function() {
+test_7 <- function() {
   test_that("reg3 is incorrect", {
     expect_equal(digest(round(reg3$coefficients[["(Intercept)"]],2)), "98fb68d065ae89d71b712dade301b1dd")
   })
   print("Success!")
 }
 
-
-
-test_12 <- function() {
+test_8 <- function() {
   test_that("reg4 is incorrect", {
     expect_equal(digest(round(reg4$coefficients[["(Intercept)"]],2)), "d5d08137848d4bd938911428277c48fe")
   })

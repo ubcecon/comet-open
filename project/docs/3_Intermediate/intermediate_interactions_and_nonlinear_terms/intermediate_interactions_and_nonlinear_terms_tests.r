@@ -48,5 +48,3 @@ test_7 <- function() {
   })
   print("Success!")
 }
-
-
