@@ -13,7 +13,7 @@ test_1 <- function() {
 
 test_4 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg_LESS), '7ef0f8d46b652195aa7340bcf9340a61')
+    expect_equal(digest(reg_LESS), "cf1829ebfea06a34d670471c16367bc7")
   })
   print("Success!")
 }
@@ -21,14 +21,14 @@ test_4 <- function() {
 
 test_5 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg_HS), '4b9ba86e43b7a43ac4ae778c571266ae')
+    expect_equal(digest(reg_HS), "ca0ef80393a482fe6a299b69ab9374f8")
   })
   print("Success!")
 }
 
 test_6 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg_NU), '6791390661fcbed87e3a3eea05337789')
+    expect_equal(digest(reg_NU), "dfadec6bab303513637fdf70e319f5a1")
   })
   print("Success!")
 }
@@ -36,34 +36,34 @@ test_6 <- function() {
 
 test_7 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg_U), 'ced3ee3867deba3375a08212c8426ad6')
+    expect_equal(digest(reg_U), "3d2023189710af9b7b6679f7ded2e880")
   })
   print("Success!")
 }
 
 test_8 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg2), '5da2b8e1d868eba551f80532d68e359e')
+    expect_equal(digest(reg2), "b9882924c973123dbe67191213a17319")
   })
   print("Success!")
 }
 
 test_14 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg3), '1fe712c3569f180890f84e0892e14268')
+    expect_equal(digest(reg3), "b6a9e5ca6bf48bb4f94ac1e2c7d32c07")
   })
   print("Success!")
 }
 
 test_17 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg4), '7711b9967c1bc23644f3dd0dca101772')
+    expect_equal(digest(reg4), "972ba3db121e78411e75e6fee893377d")
   })
   print("Success!")
 }
 test_20 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(reg5), '3daee8abecd1039e0d98a4ebb50e86a8')
+    expect_equal(digest(reg5), "02210f5126c5ea69e4cd850da0ddcad1")
   })
   print("Success!")
 }
