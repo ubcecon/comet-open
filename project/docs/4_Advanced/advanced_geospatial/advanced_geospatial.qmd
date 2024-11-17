@@ -32,7 +32,7 @@ After completing this notebook, you will be able to:
 
 ### References
 
--   [Geocomputation with R](https://r.geocompx.org/intro)
+- [Geocomputation with R](https://r.geocompx.org/intro)
 
 ## Introduction
 
@@ -53,7 +53,7 @@ source('advanced_geospatial_tests.r')
 
 ## Part 1: Geospatial Data
 
-Geospatial data is data coded to represent physical objects. For example, let's say we're interested in analyzing the accessibility of healthcare in BC. A dataset containing locations of emergency departments (coded in longitude and latitude coordinates) and population density per municipality would consitute a geospatial dataset. We could use the geospatial data to estimate the share of BC residents within 10km of an emergency department. That analysis would involve calculating relationships between physical objects (i.e., location of emergency departments) and overlaying numeric data (i.e., population density per municipality) on the physical objects. 
+Geospatial data is data coded to represent physical objects. For example, let's say we're interested in analyzing the accessibility of healthcare in BC. A dataset containing locations of emergency departments (coded in longitude and latitude coordinates) and population density per municipality would constitute a geospatial dataset. We could use the geospatial data to estimate the share of BC residents within 10km of an emergency department. That analysis would involve calculating relationships between physical objects (i.e., location of emergency departments) and overlaying numeric data (i.e., population density per municipality) on the physical objects. 
 
 The first step to learning how to conduct geospatial analyses like this in R is to understand how geospatial data is stored - that's what we'll cover in this section.
 
@@ -69,7 +69,7 @@ Vector data is most widely used in the social sciences because applications in p
 Vector data codes geospatial objects with the following elements:
 
 - **Points**, coded as `c(x, y)`: the most basic element, used when the area of the objects are not meaningful (e.g., locations of emergency departments in BC).
-- **Linestrings**, coded as  `rbind(c(x1, y1), c(x2, y2), c(x3, y3))`: a series of points, used when the length of an object is meaningful but the area is not (e.g., rivers, roads).
+- **Linestrings**, coded as `rbind(c(x1, y1), c(x2, y2), c(x3, y3))`: a series of points, used when the length of an object is meaningful but the area is not (e.g., rivers, roads).
 - **Polygons**, coded as `list(rbind(c(x1, y1), c(x2, y2), c(x3, y3), c(x1, y1)))`: a series of *closed* points, used when the area of an object is meaningful (e.g., Canadian provinces, metropolitan areas, protected areas).
 
 > **Note**: to be closed objects, polygons need to start and end at the same points; notice above that the polygon starts at `c(x1, y1)` and also ends at `c(x1, y1)`.
@@ -138,7 +138,7 @@ Since we have coded our elements as geospatial data, we can now plot the points 
 plot(sfc_obj)
 ```
 
-Let's take a look at the ouput of `sfc_obj`.
+Let's take a look at the output of `sfc_obj`.
 ```{r}
 sfc_obj
 ```
@@ -364,7 +364,7 @@ In this section, we're going to estimate the value of apartment characteristics 
 
 Typically, economists rely on market prices to estimate consumers' marginal willingness to pay for a good. When the good in question is not traded in markets, economists must resort to other strategies. One of those strategies is the **hedonic pricing method**. 
 
-The main assumption of hedonic pricing is that *the total price of a good equals the sum of the prices of its components*. Using this assumption, we can deconstruct the price of a good traded in markets and attribute part of the total price to each of its non-traded component parts. For example, we can model the price of an apartment as a function of it's size, view, age, location, number of bathrooms, proximity to public service, etc. If we take two apartments that are exactly equal but only differ on their view (e.g., one might be in the 2nd floor and the other on the 30th floor of the same building), their difference in price must be the added value of the view. If we have data on the prices and attributes of several apartments, we could leverage hedonic pricing to estimate how much consumers value a nice view.
+The main assumption of hedonic pricing is that *the total price of a good equals the sum of the prices of its components*. Using this assumption, we can deconstruct the price of a good traded in markets and attribute part of the total price to each of its non-traded component parts. For example, we can model the price of an apartment as a function of its size, view, age, location, number of bathrooms, proximity to public service, etc. If we take two apartments that are exactly equal but only differ on their view (e.g., one might be on the 2nd floor and the other on the 30th floor of the same building), their difference in price must be the added value of the view. If we have data on the prices and attributes of several apartments, we could leverage hedonic pricing to estimate how much consumers value a nice view.
 
 > **Think Deeper**: what are the other underlying assumptions of hedonic pricing? When might it not be appropriate to use this method to value non-traded goods?
 

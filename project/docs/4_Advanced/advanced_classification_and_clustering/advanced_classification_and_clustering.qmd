@@ -36,7 +36,6 @@ After completing this notebook, you will be able to:
 * Cluster-then-predict for classification tasks. https://towardsdatascience.com/cluster-then-predict-for-classification-tasks-142fdfdc87d6
 * Ideal Choice for K. https://www.guru99.com/r-k-means-clustering.html
 
-
 ## Introduction 
 
 Many statistical models deal exclusively with data that is quantitative (numerical) in nature.  For example, a comparison of means ($t$-test) might evaluate the difference in _average_ incomes of two groups: a quantitative measure.  However, many questions of interest involve trying to predict _qualitative_ outcomes: will a person be arrested or not? Which university degree will they pursue?  Answering these kinds of questions requires us to predict the qualities an individual will have, which in statistics is called **classification** (the process of placing observations into distinct categories based on certain traits).
@@ -308,14 +307,11 @@ What is this algorithm picking up?  It's likely a complex combination of a coupl
   
 In other words, the system is likely picking up **existing cultural** relationships, rather than any true causal relationship.   This may be why Propublica found:
 
->[S]ignificant racial disparities ... in forecasting who would re-offend, the algorithm made mistakes with black and white defendants at roughly the same rate but in very different ways.
->
-> * The formula was particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants.
-> * White defendants were mislabeled as low risk more often than black defendants.
+* [S]ignificant racial disparities ... in forecasting who would re-offend, the algorithm made mistakes with black and white defendants at roughly the same rate but in very different ways.
+* The formula was particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants.
+* White defendants were mislabeled as low risk more often than black defendants.
 
 This is called **algorithmic bias**: the algorithm is innately biased against black defendants.  You will notice this is _despite the fact_ that race was never used in the construction of the clusters. The bias notably arises from the relationship race has with _other factors_ in the model.
-
-
 
 Moreover, it's highly dependent on the algorithm used. Let's try a different model (called _linear probability_):
 
