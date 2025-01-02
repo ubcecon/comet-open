@@ -1,0 +1,17 @@
+---
+title: "2.2 - Intermediate - Working with Stargazer"
+author: COMET Team <br> _Jane Platt, Alex Haddon, Jonathan Graves_
+date: TBD
+description: TBD
+categories: [econ 326, intermediate, R]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
+---
+
+## Outline
