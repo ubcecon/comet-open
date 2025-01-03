@@ -68,7 +68,7 @@ Below are a few key terms that define and contextualize components of the techni
 
 > For example, when the operation $1+1$ is typed into a JupyterNotebook, the web browser (that you are viewing the notebook in) sends a request to the kernel (for this notebook, the *R* kernel is being used) which computes the request and sends the answer back to your notebook, producing the result: $2$.
 
-One final term to consider as you begin using notebooks for econometrics is **reproducibility**. Reproducibility is a core priority in empirical economics and data science. It means ensuring the creation of analyses that can reliably re-produce the same results when analyzing the same data at a later time; reproducibility is a key component of the scientific method. Notebooks allow us to write executable code, attach multimedia and leave meaningful text annotations and discussion throughout our analysis, all of which contribute to a reproducible and transparent data workflow.
+One final term to consider as you begin using notebooks for econometrics is **reproducibility**. Reproducibility is a core priority in empirical economics and data science. It means ensuring the creation of analyses that can reliably reproduce the same results when analyzing the same data at a later time; reproducibility is a key component of the scientific method. Notebooks allow us to write executable code, attach multimedia and leave meaningful text annotations and discussion throughout our analysis, all of which contribute to a reproducible and transparent data workflow.
 
 ::: callout-note
 ### 🔎 **Let's think critically**
@@ -155,7 +155,7 @@ Now try this one:
 # Replace ... with your answer
 # Your answer should be a single digit
 
-answer_2 <- "..."
+answer_2 <- ...
 
 test_2()
 ```
@@ -248,7 +248,7 @@ The rule of thumb, then, is to ***always write and execute code from the start t
 
 ### Directories
 
-Notebooks are stored in **directories** in JupyterHub. It can be helpful to think about JupyterHub as an actual hub - that is, a place where different hub users (holding individual Jupyter accounts) can gather to share and collaborate on files. Directories store files in a similar way that a folder on our computer does. The only difference is, with JupyterHub, the cloud-based format allows directories to be used either individually or collaboratively. The directory browser is located on the lefthand side of the notebook interface and can be used to store other files including:
+Notebooks are stored in **directories** in JupyterHub. It can be helpful to think about JupyterHub as an actual hub - that is, a place where different hub users (holding individual Jupyter accounts) can gather to share and collaborate on files. Directories store files in a similar way that a folder on our computer does. The only difference is, with JupyterHub, the cloud-based format allows directories to be used either individually or collaboratively. The directory browser is located on the left hand side of the notebook interface and can be used to store other files including:
 
 -   Images
 -   Data Files
@@ -309,7 +309,7 @@ To export your file, go to **File** \> **Save and Export As...** \> Then select 
 
 A few notes about writing your own Notebooks:
 
--   Cells can be added to notebooks (when the cell is selected, indicated by a blue highlight on the lefthand side) by using the `+` arrow near the top right of the the window (not the blue button). Alternatively, you can use the `a` key to add a cell above your current cell, and `b` to add a cell below your current cell.
+-   Cells can be added to notebooks (when the cell is selected, indicated by a blue highlight on the left hand side) by using the `+` arrow near the top right of the window (not the blue button). Alternatively, you can use the `a` key to add a cell above your current cell, and `b` to add a cell below your current cell.
 -   Cells can be deleted by right-clicking on the cell and selecting **Delete Cells**. Alternatively, you can double click the `d` key to delete a current cell.
 -   A cell's status (as either a code or markdown cell) is always indicated and can be changed in the dropdown bar of the menu.
 

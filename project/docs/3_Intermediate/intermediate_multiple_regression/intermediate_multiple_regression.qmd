@@ -124,7 +124,7 @@ dummy_gender = as.numeric(SFS_data$gender)-1  # what is this line of code doing?
 # male is 0
 
 regression3 <- lm(data = SFS_data, dummy_gender ~ Education) # the effect of education on gender
-# this is actually be a very important regression model called "linear probability"
+# this is actually a very important regression model called "linear probability"
 # we will learn more about it later in the course
 
 stargazer(regression1, regression2, regression3, title="Comparison of Regression Results",
@@ -312,7 +312,7 @@ Look closely at these results.  You will notice that the coefficients on `gender
 
 This result is a consequence of the **Frisch-Waugh-Lovell theorem** about OLS - a variant of which is referred to as the "regression anatomy" equation.
 
-For our purposes, it does a very useful thing: it gives us a concrete way of thinking about what "controls" are doing: they are "subtracting" part of the variation from both the outcome and other explanatory variables.  In OLS, this is *exactly* what is happening - but for all variables at once! If you don't get it, don't worry about it too much. What is important is now we have a way to disentangle the effects on wealth, weather it be gender or education. 
+For our purposes, it does a very useful thing: it gives us a concrete way of thinking about what "controls" are doing: they are "subtracting" part of the variation from both the outcome and other explanatory variables.  In OLS, this is *exactly* what is happening - but for all variables at once! If you don't get it, don't worry about it too much. What is important is now we have a way to disentangle the effects on wealth, whether it be gender or education. 
 
 ## Part 2: Hands-On
 
@@ -375,7 +375,6 @@ As you can see, the residual from regressing `financial_asset ~ Education + stoc
 
 If we think about this, it makes sense: these "controls" are all the types of financial assets you could have!  So, if I tell you about them, you will immediately know the total value of my financial assets. 
 
-
 This means that the final step of the multiple regression would be trying to solve this equation:
 
 $$
@@ -430,6 +429,7 @@ summary(multiple_model_1)
 Let’s say we have new data and we want to predict the wealth for these new observations. We’ll create a new data frame with the new data points and use the ```predict()``` function to make predictions. 
 
 We will create three new data points:
+
 - a female individual with a university education
 - a male individual with a non-university education
 - a male individual with a university education
@@ -475,7 +475,7 @@ We will revisit this later in the course, since it only really makes sense in th
 
 ## Part 3: Exercises
 
-This sections has both written and coding exercises for you to test your knowledge about multiple regression. The answers to the written exercises are on the last section of the notebook.
+This section has both written and coding exercises for you to test your knowledge about multiple regression. The answers to the written exercises are on the last section of the notebook.
 
 ### Questions
 
@@ -491,7 +491,7 @@ Where $D_i$ is a dummy variable.  Recall that Assumption 1 implies that $E[\epsi
 2.  What is the difference between these two terms?
 3.  Interpret what the coefficient $\beta_2$ means in this regression, using your answers in 1 and 2.
 
-To explore the mechanics of multiple regressions, let's return to the analysis that we did in Module 1; that is, let's re-examine the relationship between the gender income gap and education. 
+4-8. To explore the mechanics of multiple regressions, let's return to the analysis that we did in Module 1; that is, let's re-examine the relationship between the gender income gap and education. 
 
 Run a simple regression for the gender income gap (with a single regressor) for each education level. Use `income_before_tax` as the dependent variable. Then, run a multiple regression for the gender income gap that includes `education` as a control.
 
@@ -600,7 +600,7 @@ SFS_data <-
 SFS_data$agegr <- relevel(SFS_data$agegr, ref = "Under 30") # set "Under 30" as default factor level
 ```
 
-Add `agegr` to the given multiple regression and compare it with the model that we estimated in the previous activity.
+14. Add `agegr` to the given multiple regression and compare it with the model that we estimated in the previous activity.
 
 Tested Objects: `reg3` (the same multiple regression that we estimated before, but with age added as a control).
 
@@ -635,7 +635,7 @@ test_14()
 
 16. Suppose that one of your fellow researchers argues that `employment` (employment status) should be added to the multiple regression as a control. That way, they reason, we can account for differences between employed and unemployed workers. Do you agree with their reasoning?
 
-Let's test this argument directly. Add `employment` as a control to the multiple regression with all previous controls. Estimate this new regression (`reg4`).
+17. Let's test this argument directly. Add `employment` as a control to the multiple regression with all previous controls. Estimate this new regression (`reg4`).
 
 ```{r}
 #| eval: false
@@ -672,7 +672,7 @@ glimpse(SFS_data) # run me
 
 19. Do you agree with your roommate's argument? Why or why not?
  
-Let's back up our argument with regression analysis. Estimate a regression that has the same controls as `reg3` from the previous activity, but add `pasrbuyg` as a control as well.
+20. Let's back up our argument with regression analysis. Estimate a regression that has the same controls as `reg3` from the previous activity, but add `pasrbuyg` as a control as well.
 
 What is "pasrbuyg"?
 ```{r}
@@ -745,7 +745,7 @@ In multiple regression, the intercept means male-lead households with high schoo
 
 12. Because there may be omitted variables that correlate with $Gender$. Maybe the omitted variables are the true reasons why there is an income gap, but we since do not control these variables, the coefficient estimate of $Gender$ is not correct.
 
-13. `age` is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omit `age`, the coefficient estimate of `gender` can be biased.
+13. `age` is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omits `age`, the coefficient estimate of `gender` can be biased.
 
 14. Coding exercise
 

@@ -69,7 +69,7 @@ test_9 <- function() {
     case_when(ans == "88d2821508a6625b093500c3e4d8d684" ~
                "Success!",
               ans == "7b7f5dcec7ebe086fa5140a717aab222" ~
-               "Not quite! Remember to add parenthesis to indicate the order of the operations.",
+               "Not quite! Remember to add parentheses to indicate the order of the operations.",
               TRUE ~ "Incorrect! Review your answer and try again.")
 }
 

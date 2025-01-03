@@ -46,7 +46,7 @@ Drawing insights from data requires information to be presented in a way that is
 1.  Observations where data for key variables are missing are removed or stored in a different data set (e.g., `df_raw`). *Missing data* can create bias in your analysis.
 2.  Data set is *tidy*, i.e., each row captures only one observation and each column captures only one variable/characteristic of the observation. Data scraped and collected manually or using automation often comes in *untidy* shapes (e.g., two variables might be placed in the same column separated with a hyphen `-`).
 
-In this notebook, we teach you how to load data sets properly in R and then clean them using some common methods from the `haven` and `tidyverse` packages.
+In this notebook, we teach you how to load datasets properly in R and then clean them using some common methods from the `haven` and `tidyverse` packages.
 
 ## Part 1: Introduction to data in R
 
@@ -160,7 +160,7 @@ Look at line `pr` in the output from `glimpse` above:
 
 The `pr` variable in the Census data stands for province. Do these look much like Canadian provinces to you? We can see the variable type is `<dbl+lbl>`: this is a *labeled double*. Let's transform this variable type into factors.
 
-There are three ways to change variables types into factor variables.
+There are three ways to change variable types into factor variables.
 
 1.  We can change a specific variable inside a dataframe to a factor by using the `as_factor` command
 
@@ -217,7 +217,7 @@ Here is our final dataset, all cleaned up! Notice that some of the variables (e.
 
 ### Creating new variables
 
-Another important clean-up task is to make new variables. The best way to create a new variables is using the `mutate` command.
+Another important clean-up task is to make new variables. The best way to create a new variable is using the `mutate` command.
 
 The `mutate` command is an efficient way of manipulating the columns of our data frame. We can use it to create new columns out of existing columns or with completely new inputs. The structure of the mutate command is as follows:
 
@@ -239,7 +239,7 @@ Do you see our new variable at the bottom? Nice!
 
 ### Test your knowledge
 
-In the following code, what is (1) the name of the new variable created, (2) the inputs used to make the new variable, and (3) the function used to transform the inputs in the values of the new varible?
+In the following code, what is (1) the name of the new variable created, (2) the inputs used to make the new variable, and (3) the function used to transform the inputs in the values of the new variable?
 
 (A) grade_adjusted, grade and 2, mutate
 (B) mutate, grade and 2, mutate
@@ -348,9 +348,9 @@ glimpse(census_data)
 
 ### Test your knowledge
 
-Overwrite the existing `has_kids` variable with an new `has_kids` variable but with type factor.
+Overwrite the existing `has_kids` variable with a new `has_kids` variable but with type factor.
 
-> **Hint**: To overwrite a variable create a new variable with the same name as the name of the variable you want to ovewrite. 
+> **Hint**: To overwrite a variable, create a new variable with the same name as the name of the variable you want to overwrite. 
 
 ```{r}
 # use this cell to write your code

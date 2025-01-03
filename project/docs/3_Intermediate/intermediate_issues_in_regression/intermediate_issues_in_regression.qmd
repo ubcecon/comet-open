@@ -25,7 +25,7 @@ format:
 ### Outcomes
 
 - Understand the origin and meaning of multicollinearity in regression models
-- Perform simple tests for multicollinerarity using VIF
+- Perform simple tests for multicollinearity  using VIF
 - Be able to demonstrate common methods to fix or resolve collinear data
 - Understand the origin and meaning of heteroskedasticity in regression models
 - Perform a variety of tests for heteroskedasticity
@@ -34,13 +34,10 @@ format:
 
 ### References
 
-- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
+- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
 - Stargazer package is due to: Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer
 
 ```{r, message = FALSE}
-# load the data and set it up
-
-```{r}
 #| output: false
 #load the data and set it up
 library(car)
@@ -49,12 +46,13 @@ library(haven)
 library(stargazer)
 library(lmtest)
 library(sandwich)
-```
-
-```{r, message = FALSE}
 source("intermediate_issues_in_regression_functions.r")
 source("intermediate_issues_in_regression_tests.r")
-SFS_data <- read_dta("../datasets_intermediate/SFS_2019_Eng.dta")
+```
+
+```{r}
+#data prep!
+SFS_data <- read_dta("datasets_intermediate/SFS_2019_Eng.dta")
 SFS_data <- clean_up_data(SFS_data) # massive data cleanup
 ```
 
@@ -74,22 +72,23 @@ $$
 
 You find the estimates of the coefficients in this model using OLS; i.e., solving an equation like:
 
-$$ \min_{\beta_0, \beta_1} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 X_i)^2 $$
+$$ \min_{\beta_0, \beta_1} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 X_i)^2 
+$$
 
 Under the OLS regression assumptions, this has a unique solution; i.e you can find unique values for $\beta_0$ and $\beta_1$.  
 
 However, what if you wrote an equation like this:
 
- $$
- \beta_a=\beta_0+\beta_1
- $$
+$$
+\beta_a=\beta_0+\beta_1
+$$
 
- We can then rewrite  as $Y_i = \beta_0 + \beta_1 + \beta_2 X_i + \epsilon_i$
+We can then rewrite as $Y_i = \beta_0 + \beta_1 + \beta_2 X_i + \epsilon_i$
 
+This _seems_ like it would be fine, but remember what you are doing: trying to find a _line_ of best fit.  The problem is that this equation does not define a unique line; the "intercept" is $\beta_0 + \beta_1$.  There are two "parameters" ($\beta_0, \beta_1$) for a single "characteristic" (the intercept).  This means that the resulting OLS problem:
 
-This _seems_ like it would be fine, but remember what you are doing: trying to find a _line_ of best fit.  The problem is that this equation does not define a unique line; the "intercept" is $\beta_0 + \beta_1$.  There are two "parameters" ($\beta_0, \beta_1$) for a single "characteristics" (the intercept).  This means that the resulting OLS problem:
-
-$$ \min_{\beta_0, \beta_1, \beta_2} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 - \beta_2 X_i)^2 $$
+$$ \min_{\beta_0, \beta_1, \beta_2} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 - \beta_2 X_i)^2 
+$$
 
 Does not have a unique solution.  In algebraic terms, it means you can find many representations of a line with two intercept parameters.  This is referred to in econometrics as a lack of **identification**; multicollinearity is one way that identification can fail in regression models.
 
@@ -124,7 +123,7 @@ Notice how the residuals look *exactly* the same - despite these being from (pur
 
 Okay, you're probably thinking, that makes sense - but just don't write down an equation like that.  After all, it seems somewhat artificial that we added an extra intercept term.
 
-However, multicollinearly can occur with _any_ set of variables in the model; not just the intercept.  For example, suppose you have a multiple regression:
+However, multicollinearity can occur with _any_ set of variables in the model; not just the intercept.  For example, suppose you have a multiple regression:
 
 $$
 Y_ i = \beta_0 + \beta_1 X_{1,i} + \beta_2  X_{2,i} + \beta_3  X_{3,i} + \epsilon_i
@@ -198,7 +197,6 @@ $$
 
 Notice that in this relationship it holds _for all_ values of $i$.  However, what if it held for *nearly* all $i$ instead?  In that case, we would still have a solution to the equation... but there would be a problem.  Let's look at this in the simple regression case.  
 
-
 $$
 Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
 $$
@@ -252,7 +250,7 @@ axis(1, at=seq(0, n-1, by = 10), labels=seq(0.5, 1.00, by = 10*r))
 
 Why does this happen?  The reason actually has to do with *information*.
 
-When you estimate a regression, you are using the variation in the data to estimate each of the parameters.  As the variation falls, the estimation gets less and less precise, because you are using less and less data to make an evaluation.  The magnitude of this problem can be quantified using the **VIF** or **variance inflation factor** for each of the variables in question. Graphically you can think of regression as drawing a best fit line through data points. Now if the variance is $0$ in the data, there is just one data point. If you remember from high school you need two points to draw a line, so with $0$ variance the OLS problem becomes ill-defined.
+When you estimate a regression, you are using the variation in the data to estimate each of the parameters.  As the variation falls, the estimation gets less and less precise, because you are using less and less data to make an evaluation.  The magnitude of this problem can be quantified using the **VIF** or **variance inflation factor** for each of the variables in question. Graphically you can think of regression as drawing a best fit line through data points. Now if the variance is $0$ in the data, there is just one data point. If you remember from high school, you need two points to draw a line, so with $0$ variance the OLS problem becomes ill-defined.
 
 We can calculate this directly in R by using the ``vif`` function.  Let's look at the collinearity in our model:
 
@@ -285,10 +283,9 @@ regression3 <- lm(income_before_tax ~ income_after_tax, data = SFS_data)
 ggplot(data = SFS_data, aes(x = as.numeric(income_after_tax), y = as.numeric(regression3$residuals))) + geom_point() + labs(x = "After-tax income", y = "Residuals")
 ```
 
-This obviously does not look like a distribution which is unchanging as income after tax changes.  This is a good "eyeball test" for heteroskedasticty.  Why does heteroskedasticity arise?  For many reasons:
+This obviously does not look like a distribution which is unchanging as income after tax changes.  This is a good "eyeball test" for heteroskedasticity.  Why does heteroskedasticity arise?  For many reasons:
 
 1.  It can be a property of the data; it just happens that some values show more variation, due to the process which creates the data.  One of the most common ways this can arise is where there are several different economic processes creating the data.  
-
 2.  It can be because of an unobserved variable.  This is similar to above; if we can quantify that process in a variable or a description, we have left it out.  This could create bias in our model, but it will also show up in the standard errors in this way.
 3.  It can be because of your model specification.  Models, by their very nature, can be heteroskedastic (or not); we will explore one important example later in this worksheet.
 4.  There are many other reasons, which we won't get into here.
@@ -316,7 +313,7 @@ As you can see, that didn't work out.  This is pretty typical: when you transfor
 
 For example, in a *log-log* model, we are saying "there's a multiplicative relationship"... but that probably doesn't make sense here.  This is one of the reasons why data transformations are not usually a good way to fix this problem unless you have a very clear idea of what the transformation *should* be.
 
-The most robust (no pun intended) way is to simply use standard errors which are robust to heteroskedasticity.  There are actually a number of different versions of these (which you don't need to know about), but they are all called **HC** or **hetereoskedasticity-corrected** standard errors.  In economics, we typically adopt White's versions of these (called **HC1** in the literature); these are often referred to in economics papers as "robust" standard errors (for short).
+The most robust (no pun intended) way is to simply use standard errors which are robust to heteroskedasticity.  There are actually a number of different versions of these (which you don't need to know about), but they are all called **HC** or **heteroskedasticity-corrected** standard errors.  In economics, we typically adopt White's versions of these (called **HC1** in the literature); these are often referred to in economics papers as "robust" standard errors (for short).
 
 This is relatively easy to do in R.  Basically, you run your model, as normal, and then re-test the coefficients to get the correct error using the ``coeftest`` command, but specifying which kind of errors you want to use.  Here is an example:
 
@@ -394,11 +391,11 @@ ggplot(data = SFS_data, aes(x = as.numeric(income_before_tax), y = fitted)) + ge
 
 Notice how that as $y$ gets larger as the fitted value drops.  If someone has an income of over 1 million dollars, they would be predicted to have a negative probability of being a female - which is impossible.
 
-This is why you *always* must use robust standard errors in these models - even if a test says otherwise. Let's think about what is happening here, well remember the example of  imperfect collinearity, we're the was $1-k$ chance of $x$ being 15 and k of $x$ being 20. Now remember x was co-linear to $\beta_0$, and this caused large standard errors. In this scenario the probability of a someone being female given they earn over a million dollars a year is very small. This because few female lead has household earn over a million dollars a year as a percent of the total households earning over a million dollars a year.
+This is why you *always* must use robust standard errors in these models - even if a test says otherwise. Let's think about what is happening here, well remember the example of imperfect collinearity, we're the was $1-k$ chance of $x$ being 15 and k of $x$ being 20. Now remember x was co-linear to $\beta_0$, and this caused large standard errors. In this scenario the probability of a someone being female given they earn over a million dollars a year is very small. This because few female lead has household earn over a million dollars a year as a percent of the total households earning over a million dollars a year.
 
 ## Part 3: Exercises
 
-This sections has both written and coding exercises for you to test your knowledge about issues in regressions. The answers to the written exercises are on the last section of the notebook.
+This section has both written and coding exercises for you to test your knowledge about issues in regressions. The answers to the written exercises are on the last section of the notebook.
 
 ### Questions
 
@@ -428,7 +425,7 @@ SFS_data200 <- head(SFS_data, 200) %>%
     mutate(M_F = as.numeric(gender)) # everyone in the first 200 observations as, male or female
 ```
 
-Run the regression between family income and the gender of the major earner described above.
+2. Run the regression between family income and the gender of the major earner described above.
 
 Tested Objects: `reg1`.
 
@@ -463,7 +460,7 @@ Now, let's suppose we drop 50 more observations:
 SFS_data150 <- head(SFS_data200, 150)
 ```
 
-Run the regression model again and compare it with the previous regression.
+4. Run the regression model again and compare it with the previous regression.
 
 Tested Objects: `reg2`.
 
@@ -491,7 +488,7 @@ test_4()
 
 5. What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?
 
-Next, increase the sample size back to its full size and run the regression once again.
+6. Next, increase the sample size back to its full size and run the regression once again.
 
 Tested Objects: `reg3`.
 
@@ -557,7 +554,7 @@ resiplot + geom_point() + geom_hline(yintercept = 0) + scale_x_discrete(guide = 
 
 10. Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?
 
-To test for heteroskedasticity formally, let's perform the White Test. First, store the residuals from the previous regression in `SFS_data`.
+11. To test for heteroskedasticity formally, let's perform the White Test. First, store the residuals from the previous regression in `SFS_data`.
 
 Tested Objects: `SFS_data` (checks to see that residuals were added properly).
 
@@ -583,7 +580,7 @@ head(SFS_data$resid, 10)
 test_11() 
 ```
 
-Next, generate a variable for the squared residuals, then run the required auxiliary regression.
+12. Next, generate a variable for the squared residuals, then run the required auxiliary regression.
 
 Tested Objects: `WT` (the auxiliary regression).
 

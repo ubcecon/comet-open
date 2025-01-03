@@ -52,9 +52,23 @@ test_6 <- function() {
   print("Success!")
 }
 
+test_6.1 <- function() {
+  test_that("Solution is incorrect.", {
+    expect_equal(digest(answer_6.1), "def2fbc829828dbfb34b6812623cae7d")
+  })
+  print("Success!")
+}
+
+test_6.2 <- function() {
+  test_that("Solution is incorrect.", {
+    expect_equal(digest(answer_6.2), "d8427c27197a76311f498e200e8fd982")
+  })
+  print("Success!")
+}
+
 test_7 <- function() {
     answer_7 <- case_when(
-        digest(answer_7) == "def2fbc829828dbfb34b6812623cae7d" ~ list(1, ""),
+        digest(answer_7) == "4332568af35d6a56121bcaca08bf25a3" ~ list(1, ""),
         digest(answer_7) == "2022775b58600cf7bb16c462b7c418b7" ~ list(0, "This would be the probability of catching a coho given it's a wild salmon."),
         digest(answer_7) == "522dbf08f17812fee06f0991cf0481af" ~ list(0, "This would be the probability of catching a wild salmon, given it's a sockeye. Remember that order matters."),
         digest(answer_7) == "6a8e65e0821e8011c0f04d886dce9323" ~ list(0, "This would be the probability of catching a salmon that is both wild and coho, from the total population. Remember, we've placed a condition that we're drawing from the sample of wild salmon only."),
@@ -68,14 +82,14 @@ test_7 <- function() {
 
 test_8 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_8), "d8427c27197a76311f498e200e8fd982")
+    expect_equal(digest(answer_8), "c1357071979ffea410a8e0a047474381")
   })
   print("Success!")
 }
 
 test_9 <- function() {
     answer_9 <- case_when(
-        digest(answer_9) == "4332568af35d6a56121bcaca08bf25a3" ~ list(1, ""),
+        digest(answer_9) == "4bdb128c943f718f5b8f347bb4b7641b" ~ list(1, ""),
         digest(answer_9) == "c1357071979ffea410a8e0a047474381" ~ list(0, "Remember, in this case, having a sockeye salmon at the first level does not preclude having one at another level. The salmon types can repeat!"),
         TRUE ~ list(0, ""),
         )
@@ -87,14 +101,14 @@ test_9 <- function() {
 
 test_10 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_10), "c1357071979ffea410a8e0a047474381")
+    expect_equal(digest(answer_10), "7710de4fa4cd6b09b8acf709568abdaf")
   })
   print("Success!")
 }
 
 test_11 <- function() {
     answer_11 <- case_when(
-        digest(answer_11) == "4bdb128c943f718f5b8f347bb4b7641b" ~ list(1, ""),
+        digest(answer_11) == "2522027d230e3dfe02d8b6eba1fd73e1" ~ list(1, ""),
         digest(answer_11) == "0aee9b78301d7ec8998971363be87c03" ~ list(0, "This is 3 factorical, which is what we would get if we wanted a permutation of three which had only three possibile elements. Try again."),
         TRUE ~ list(0, ""),
         )
@@ -106,14 +120,14 @@ test_11 <- function() {
 
 test_12 <- function() {
   test_that("Solution is incorrect. Hint n = the total number of elements in the equation, not accounting for the repetitions. a and b are where you will account for the number of repetitions for different elements of the given list.", {
-    expect_equal(digest(answer_12), "7710de4fa4cd6b09b8acf709568abdaf")
+    expect_equal(digest(answer_12), "5f3cce822c12054ce3a5b6b540c532fa")
   })
   print("Success!")
 }
 
 test_13 <- function() {
   test_that("Solution is incorrect. Remember that the total number of possible elements (n) includes all salmon species, and the number of elements being taken (r) is the number of elements in the combination.", {
-    expect_equal(digest(answer_13), "2522027d230e3dfe02d8b6eba1fd73e1")
+    expect_equal(digest(answer_13), "e1f4ee07574db81a0bccbb017c304408")
   })
   print("Success!")
 }
@@ -121,7 +135,7 @@ test_13 <- function() {
 
 test_14 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_14), "5f3cce822c12054ce3a5b6b540c532fa")
+    expect_equal(digest(answer_14), "756b2fb61ce2c2a915beba9d8a3e12c7")
   })
   print("Success!")
 }
@@ -129,49 +143,49 @@ test_14 <- function() {
 
 test_15 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_15), "e1f4ee07574db81a0bccbb017c304408")
+    expect_equal(digest(answer_15), "105e39daecbfa9d3cf679cadbc5c1813")
   })
   print("Success!")
 }
 
 test_16 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_16), "756b2fb61ce2c2a915beba9d8a3e12c7")
+    expect_equal(digest(answer_16), "55c7264469cb597ed8d928e6d42bcbbf")
   })
   print("Success!")
 }
 
 test_17 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_17), "105e39daecbfa9d3cf679cadbc5c1813")
+    expect_equal(digest(answer_17), "55c7264469cb597ed8d928e6d42bcbbf")
   })
   print("Success!")
 }
 
 test_18 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_18), "55c7264469cb597ed8d928e6d42bcbbf")
+    expect_equal(digest(answer_18), "425aea52f7e75538ab6eb7c80e9cf364")
   })
   print("Success!")
 }
 
 test_19 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_19), "55c7264469cb597ed8d928e6d42bcbbf")
+    expect_equal(digest(answer_19), "f5c1f0a8793b3f7a19c2032e4fa71647")
   })
   print("Success!")
 }
 
 test_20 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_20), "425aea52f7e75538ab6eb7c80e9cf364")
+    expect_equal(digest(answer_20), "af566de2eb7f0768e23af3965a803f2c")
   })
   print("Success!")
 }
 
 test_21 <- function() {
   test_that("Solution is incorrect", {
-    expect_equal(digest(answer_21), "c4610994a10887ba0479044c79e8ff45")
+    expect_equal(digest(answer_21), "21684aabad4e79d93546f3b31c41144a")
   })
   print("Success!")
 }

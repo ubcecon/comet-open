@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We as members, contributors, and organizers pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+We as members, contributors, and organisers pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, colour, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
@@ -10,7 +10,7 @@ We pledge to act and interact in ways that contribute to an open, welcoming, div
 
 All participants in our events and communications are expected to show respect and courtesy to others. All interactions should be professional regardless of platform: either online or in-person. In order to foster a positive and professional learning environment we encourage the following kinds of behaviours in all project-related events and platforms.
 
-Examples of behavior that contributes to a positive environment for our community include:
+Examples of behaviour that contributes to a positive environment for our community include:
 
 * Demonstrating empathy and kindness toward other people
 * Being respectful of differing opinions, viewpoints, and experiences
@@ -18,7 +18,7 @@ Examples of behavior that contributes to a positive environment for our communit
 * Accepting responsibility for our mistakes, and learning from the experience
 * Focusing on what is best not just for us as individuals, but for the overall community
 
-Examples of unacceptable behavior include:
+Examples of unacceptable behaviour include:
 
 * The use of sexualized language or imagery, and sexual attention or advances of any kind
 * Insulting or derogatory comments, or personal attacks
@@ -35,17 +35,17 @@ Examples of unacceptable behavior include:
 
 ## Enforcement Responsibilities
 
-Project leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take immediate corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
+Project leaders are responsible for clarifying and enforcing our standards of acceptable behaviour and will take immediate corrective action in response to any behaviour that they deem inappropriate, threatening, offensive, or harmful.
 
 Project leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
 
 ## Scope
 
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
+This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official email address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the projecy leaders responsible for enforcement via email. All project leaders are obligated to respect the privacy and security of the reporter of any incident.
+Instances of abusive, harassing, or otherwise unacceptable behaviour may be reported to the project leaders responsible for enforcement via email. All project leaders are obligated to respect the privacy and security of the reporter of any incident.
 
 
 ## Attribution

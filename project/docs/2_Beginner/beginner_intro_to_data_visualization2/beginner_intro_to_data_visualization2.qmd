@@ -182,7 +182,7 @@ basic_plot_test <- basic_plot_test <- ggplot(data = NA_data,
         labs(x = "Year",  
              y = "Real GDP per capita (expenditure-based)",
              fill = "Country",
-             color = "Country", # THIS IS THE EDIT
+             color = "Country",
              title = "Canada & US Real GDP per Capita over Time") +
         geom_col(position = "dodge") +
         theme(text = element_text(size = 15))
@@ -194,7 +194,7 @@ answer_1 <- basic_plot_test
 test_1()
 ```
 
-## Part 2: Adjusting Feautures of our Visualization
+## Part 2: Adjusting Features of our Visualization
 
 We also learned about the `theme()` function, which allows us to modify components of a theme such as text. One `theme()` argument we've already covered is `text = element_text()`, which specifies text attributes that broadly apply to all text components in a graph (titles, labels, captions, ...).
 
@@ -357,7 +357,7 @@ facet_plot <- ggplot(data = g7_data,
 facet_plot
 ```
 
-Faceting allows us to arrange charts to make comparisons clearly. Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded difficult to observe the nuances between countries.
+Faceting allows us to arrange charts to make comparisons clearly. Without faceting, a consolidated line chart of all G7 countries such as the one below might look overcrowded and difficult to observe the nuances between countries.
 
 ```{r}
 
@@ -396,8 +396,8 @@ The function `geom_smooth()` creates a trendline that aids the eye in spotting p
 
 - `method =` specifies the type of smoothing we want to use - in this notebook, we'll use linear regression using the `lm` function
 - `se =` uses a logical argument to specify the presence of a standard error/confidence band (default is `TRUE`)
-- `colour =` specifies the colour of the trendline
-- `fill =` specifies the colour of the confidence band
+- `color =` specifies the color of the trendline
+- `fill =` specifies the color of the confidence band
 
 ## Part 3: Chart Design
 
@@ -409,7 +409,7 @@ Before we move into some case studies, we'll examine a few more design tips and 
     -   E.g., Option 2 (the upwards triangle icon) could indicate growth or movement upwards, whereas option 6 (the downwards triangle icon) could indicate decline or movement downwards.
 
 The shape options are listed in the chart below - the default, as we've seen before, is 19, a simple circle.
-Note that numbers 21-25 are shapes that have both fill and outline colour options which can be helpful if we are trying to make our data points stand out better.
+Note that numbers 21-25 are shapes that have both fill and outline color options which can be helpful if we are trying to make our data points stand out better.
 This is particularly useful if we are working with a large data set.
 
 ![Geom point shape options](media/pch_options.png)
@@ -440,10 +440,10 @@ intermediate_scatterplot <- ggplot(data = NA_data,
 intermediate_scatterplot
 ```
 
-### Colour
+### Color
 
 In our last notebook, we introduced the `RColorBrewer` theme options and specifications such as `"blue"` or `"Set3"`.
-Colours can also be set using hexadecimal colour codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
+Colors can also be set using hexadecimal color codes, which are six digit codes that store information about a color by various levels of red (R), green (G), and blue (B) like this: (#RRGGBB).
 
 For example:
 
@@ -453,14 +453,14 @@ For example:
 
 Key points to remember:
 
--   Choose diverse colours when making comparisons
--   Use colour hue (i.e., the lightness or darkness of a colour) when demonstrating concentration or other quantitative measures
--   Too many colours may distract your audience from the main message of the visualization (less than 10 is recommended)
--   Be aware of colour semantics which can vary depending on culture
+-   Choose diverse colors when making comparisons
+-   Use color hue (i.e., the lightness or darkness of a color) when demonstrating concentration or other quantitative measures
+-   Too many colors may distract your audience from the main message of the visualization (less than 10 is recommended)
+-   Be aware of color semantics which can vary depending on culture
     - For example, in the West, green might be used to indicate growth, while red might be used to indicate loss or warning
--   While the default background colour for visualization in R is a pale grey colour, a white background can make a visualization look a bit cleaner and allow colours to stand out better
+-   While the default background color for visualization in R is a pale grey color, a white background can make a visualization look a bit cleaner and allow colors to stand out better
 
-To change our background colour, we can add layers to our ggplot visualizations with functions from the package `ggthemes()`. Some of the functions include: 
+To change our background color, we can add layers to our ggplot visualizations with functions from the package `ggthemes()`. Some of the functions include: 
 
 - `theme_bw()` white background, grey gridlines, black graph border
 - `theme_minimal()` white background, grey gridlines, no graph border
@@ -471,16 +471,16 @@ To change our background colour, we can add layers to our ggplot visualizations 
 
 You can read more about [ggthemes](https://mran.microsoft.com/snapshot/2016-12-28/web/packages/ggthemes/vignettes/ggthemes.html) here.
 
-When working with colours, it's important use colours that accommodate those who are colourblind.
+When working with colors, it's important to use colors that accommodate those who are colorblind.
 
-We can view a list of colourblind friendly palettes using the following command:
+We can view a list of colorblind friendly palettes using the following command:
 
 ```{r}
 
 display.brewer.all(colorblindFriendly = TRUE)
 ```
 
-Alternatively, once we have completed and exported a visualization, we can run it through a [Colour Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/) like this one to test if our visualization looks okay from the perspective of those who have different colour blindness or impairment conditions.
+Alternatively, once we have completed and exported a visualization, we can run it through a [Color Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/) like this one to test if our visualization looks okay from the perspective of those who have different color blindness or impairment conditions.
 
 ### Test your knowledge
 
@@ -495,7 +495,7 @@ Let's see if we can use our tools to recreate a graph similar to the one below u
 
 list_of_countries <- c("Peru", "Brazil", "Paraguay", "Colombia", "Uruguay", "Guatemala", "Chile", "Argentina", "Suriname", "Ecuador", "Bolivia", "Venezuela (Bolivarian Republic of)", "Mexico", "Nicaragua", "El Salvador", "Honduras", "Guyana", "Dominican Republic")
 
-# filter our data for a subset of African and South American Countires
+# filter our data for a subset of African and South American Countries
 casestudy_data <- filter(pwt_data, year == 2019, country %in% list_of_countries) %>%
 select(country, hc, rgdpe, pop)
 ```
@@ -514,7 +514,7 @@ scatter <- ggplot(casestudy_data, aes(x = hc, y = rgdpe/pop, size = pop)) +
          size = "Population (million)", 
          title = "Human Capital and GDP per Capita in Latin America",
          subtitle = "Data from 2019") +
-    geom_smooth(method = lm, se = FALSE, colour = "black", size = 0.5)
+    geom_smooth(method = lm, se = FALSE, color = "black", size = 0.5)
     
 suppressWarnings(print(scatter))
 ```
@@ -651,10 +651,10 @@ Here is the plot that you have to replicate.
 ```{r}
 #| echo: false
 confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
-    geom_point(colour = "red", size = 3) + # set our data points to be a distinct colour from our confidence interval
+    geom_point(color = "red", size = 3) + # set our data points to be a distinct color from our confidence interval
     labs(x = "Human Capital", y = "GDP per Capita", fill = "", title = "Human Capital and GDP Per Capita in Canada",
         subtitle = "1950-2019", caption = "95% confidence interval") +
-    geom_smooth(method = lm, se = TRUE, colour = "black", size = 0.99, fill = "black") + # compute trendlines for the data
+    geom_smooth(method = lm, se = TRUE, color = "black", size = 0.99, fill = "black") + # compute trendlines for the data
     theme_minimal() + # select a theme with a light grid background
     theme(text = element_text(size = 20), plot.caption = element_text(color = "grey")) # create a plot caption describing the confidence band d
      
@@ -672,10 +672,10 @@ Try to replicate it yourself and then compare it to the actual code below. Don't
 ```{r}
 #| eval: false
 confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
-    geom_point(colour = "red", size = 3) + # set our data points to be a distinct colour from our confidence interval
+    geom_point(color = "red", size = 3) + # set our data points to be a distinct color from our confidence interval
     labs(x = "Human Capital", y = "GDP per Capita", fill = "", title = "Human Capital and GDP Per Capita in Canada",
         subtitle = "1950-2019", caption = "95% confidence interval") +
-    geom_smooth(method = lm, se = TRUE, colour = "black", size = 0.99, fill = "black") + # compute trendlines for the data
+    geom_smooth(method = lm, se = TRUE, color = "black", size = 0.99, fill = "black") + # compute trendlines for the data
     theme_minimal() + # select a theme with a light grid background
     theme(text = element_text(size = 20), plot.caption = element_text(color = "grey")) # create a plot caption describing the confidence band d
     options(repr.plot.width = 15, repr.plot.height = 9) 

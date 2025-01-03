@@ -84,7 +84,7 @@ x <- rnorm(10000, 0, 1)    # draw 10,000 observations from the random normal dis
 population <- data.frame(x)    # store it in a data frame
 ```
 
-We should have a population mean of 0, and standard deviation of 1. We can also visualize our distribution using a histogram for the **population distribution**. In this example, our population distribution should be normally distributed, centered around 0, with the mean represeted as a blue line on the histogram.
+We should have a population mean of 0, and standard deviation of 1. We can also visualize our distribution using a histogram for the **population distribution**. In this example, our population distribution should be normally distributed, centered around 0, with the mean represented as a blue line on the histogram.
 
 ```{r}
 
@@ -149,7 +149,7 @@ Next we will create a distribution of sample means through repeated random sampl
 
 In this exercise:
 
-1.  Create an object `a` which is a draw from the unifom distribution, with 5,000 observations between 10 and 20, using the random seed 20. Store your answer in `answer_1`.
+1.  Create an object `a` which is a draw from the uniform distribution, with 5,000 observations between 10 and 20, using the random seed 20. Store your answer in `answer_1`.
 2.  Take a simple random sample of size 30 from our population, and calculate the sample mean and store it in an object `answer_2`
 
 ```{r}
@@ -219,9 +219,9 @@ Let's say we can draw many samples of size $n$ from our normal distribution popu
 
 A sampling distribution of a statistic is a probability distribution based on repeated independent samples of size $n$ from a population of size $N$. We can now produce a distribution of sample means based on repeated and independent simple random samples from our population.
 
-If we take enough samples, we will find that the mean of the sampling distribution will be nearly equal the mean of our population distribution (our population parameter). With an infinite number of random samples, the mean of the sampling distribution will be exactly equal to the population parameter.
+If we take enough samples, we will find that the mean of the sampling distribution will be nearly equal to the mean of our population distribution (our population parameter). With an infinite number of random samples, the mean of the sampling distribution will be exactly equal to the population parameter.
 
-As samples sizes increase, the standard error of the sampling distribution decreases. In other words, a larger sized sample $n$ would have a lower probability of having a sample estimate far away from the true population parameter. This is a very important concept in statistical inference and econometrics.
+As sample sizes increase, the standard error of the sampling distribution decreases. In other words, a larger sized sample $n$ would have a lower probability of having a sample estimate far away from the true population parameter. This is a very important concept in statistical inference and econometrics.
 
 #### Scenario 1: Population is normally distributed
 
@@ -354,7 +354,7 @@ answer_3
 test_3()
 ```
 
-Because the number of samples we drew from our population is constant, we saw that the mean of our sampling distribution was roughly equivalent to the true population mean for all of our examples. As we increased our samples size, the standard error decreased.
+Because the number of samples we drew from our population is constant, we saw that the mean of our sampling distribution was roughly equivalent to the true population mean for all of our examples. As we increased our sample's size, the standard error decreased.
 
 -   Having a low standard error means that the probability of having a sample produce a sample estimate that is far away from the true population parameter is very low.
 
@@ -373,7 +373,7 @@ A few things to note about increasing the number of samples:
 1. The mean of the sampling distribution comes closer to the true value of the population parameter.
 2. The sampling distribution will resemble a normal distribution curve regardless of the shape of the original population distribution (note that this is just the *sampling distribution* that starts to look more like a normal curve, and not the *population distribution*).
 
-This exercise will be nearly identical to above except now our population will be random uniformly distributed. For this exercise, we will see how varying the samples taken affects the sampling distribution. We can achieve this in R using the `runif()` function to create a uniform distribution.
+This exercise will be nearly identical to above except now our population will be randomly uniformly distributed. For this exercise, we will see how varying the samples taken affects the sampling distribution. We can achieve this in R using the `runif()` function to create a uniform distribution.
 
 ```{r}
 
@@ -472,7 +472,7 @@ unif_sampling_dist_500_1000 <- unif_reps_500_1000 %>%
 unif_sampling_dist_500_1000
 ```
 
-Notice how the difference between the mean of the sampling distribution and the true value of the population parameter become closer and closer as we increase the number of samples drawn. As mentioned above, we can also see that the sampling distribution curve more strongly resembles a normal distribution curve as we increase the number of samples drawn. This is true regardless of the fact that we began with a population that was uniformly distributed.
+Notice how the difference between the mean of the sampling distribution and the true value of the population parameter becomes closer and closer as we increase the number of samples drawn. As mentioned above, we can also see that the sampling distribution curve more strongly resembles a normal distribution curve as we increase the number of samples drawn. This is true regardless of the fact that we began with a population that was uniformly distributed.
 
 ```{r}
 SIZE <- 500
@@ -631,11 +631,11 @@ test_7()
 
 ### Review of Most Important Concepts
 
-- The **population** is the collection of all individuals or entities we are interested in studying. From the above example, the population is entire population of Canada.
+- The **population** is the collection of all individuals or entities we are interested in studying. From the above example, the population is the entire population of Canada.
 
 - A **population parameter** is a particular quantity from the population that we're interested in. In our example, this is the average height of the population.
 
-- A **simple sample** is a small subset of the population which we use to get the **sample estimate** of the parameter we are interested in. Since we are often unable to conduct a comprehensive census in the real world, we have to use the sample estimates as an estimate for the population parameter.
+- A **simple sample** is a small subset of the population which we use to get the **sample estimate** of the parameters we are interested in. Since we are often unable to conduct a comprehensive census in the real world, we have to use the sample estimates as an estimate for the population parameter.
 
 - A **sampling distribution** is the distribution of the possible values of the sample estimate. In a hypothetical world, we assume that we are able to take many samples of size `n` from the same population and attain a sample estimate from all of those samples. When we plot those sample estimates on a histogram, we get a **sampling distribution**. When we take many samples, we find that the mean of the sampling distribution (the most frequently observed estimate of the population parameter) is very close to the actual value of the population parameter.
 
@@ -643,9 +643,9 @@ test_7()
 
 ### Part 2: Central Limit Theorem (CLT) and the Law of Large Numbers (LLN)
 
-The **Central Limit Theorem** tells us that no matter the distribution of the population, with sufficient sample size (usually above 30 and no more than 5% of the population), the distribution of sample means will tend towards a normal distributions.
+The **Central Limit Theorem** tells us that no matter the distribution of the population, with sufficient sample size (usually above 30 and no more than 5% of the population), the distribution of sample means will tend towards a normal distribution.
 
-> **Note**: When sampling more than 5% of a population, we should use the Finite Population Correct Factor (FPC). This is because the Central Limit Thereom does not hold, and the standard error will be too large: FPC = $\left(\frac{N-n}{N-1}\right)^{\frac{1}{2}}$.
+> **Note**: When sampling more than 5% of a population, we should use the Finite Population Correction Factor (FPC). This is because the Central Limit Theorem does not hold, and the standard error will be too large: FPC = $\left(\frac{N-n}{N-1}\right)^{\frac{1}{2}}$.
 
 The **Law of Large Numbers** tells us that with a sufficiently large number of repeated and independent random samples, the mean of our distribution of sample means will tend toward the population mean! Notice the visualization of our sample mean as we increase $R$ in the example below!
 
@@ -662,7 +662,7 @@ means <- vector(,r) # Create empty vector to store sample means
 sample_mean <- vector(,r)
 
 for (val in R) { # loop over all values in R 
-    means[val] = mean(slice_sample(population_unif, n = num)$y) # Take a sample of size n from the population, caluclate the mean, and store in vector means, with index of the current iteration
+    means[val] = mean(slice_sample(population_unif, n = num)$y) # Take a sample of size n from the population, calculate the mean, and store in vector means, with index of the current iteration
     sample_mean[val] <- mean(means[1:val]) # Running value of sample mean at index equal to current iteration
 }
 
@@ -752,7 +752,7 @@ paste("This is the mean of our sample: ", mean(boot_main_sample$x))
 
 Now, we want to know the uncertainty behind this estimate. Thinking back to our sampling distribution, how would we know if our sample estimate is close to the true population parameter? It's entirely possible we got a sample estimate in the tails of the sampling distribution. To understand the uncertainty around our sample estimate, we must compute the standard error.
 
-Let's draw bootstrap samples from our sample. The code is largely similar from before, except the key difference that we now add `replace = TRUE` to our `rep_sample_n` function. This tells R to allow replacement when taking samples.
+Let's draw bootstrap samples from our sample. The code is largely similar from before, except the key difference is that we now add `replace = TRUE` to our `rep_sample_n` function. This tells R to allow replacement when taking samples.
 
 ```{r}
 boot_samples <- boot_main_sample %>%
@@ -778,7 +778,7 @@ boot_sampling_dist <- boot_means %>%
                       geom_histogram(bins = 50, color = "black", fill = "gray") + 
                       geom_vline(xintercept = 0, colour="blue", linetype = "solid", lwd = 1) + 
                       geom_vline(xintercept = mean(boot_means$mean), colour="red", linetype = "dashed", lwd = 1) +
-                      ggtitle("Boostrap Sampling Distribution")
+                      ggtitle("Bootstrap Sampling Distribution")
 
 grid.arrange(boot_sampling_dist, sampling_dist_500_1000 + ggtitle("Sampling Distribution"))
 ```

@@ -2,7 +2,7 @@
 title: '2.5 - Intermediate - Interactions and Non-linear Terms'
 author: 'COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves_'
 date: 8 December 2022
-description: 'How do we specific non-linear models?  Why would we want to do so?  This notebooks covers non-linear and interaction models, including marginal effects and related issues.'
+description: 'How do we specific non-linear models?  Why would we want to do so?  This notebook covers non-linear and interaction models, including marginal effects and related issues.'
 categories: [econ 326, multiple regression, regression, controls, intermediate, R, interaction terms, non-linear terms, polynomial terms, continuous variable]
 format: 
   html: default
@@ -32,7 +32,7 @@ In this worksheet, you will learn:
 
 ### References
 
-- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
+- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
 
 - Stargazer package is due to: Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://cran.r-project.org/web/packages/stargazer/index.html
 
@@ -55,7 +55,7 @@ SFS_data <- clean_up_data()
 
 One of the most common extensions to multiple regression models is to include **interaction** terms.  What is an interaction term?  It's basically a term which represents the product of two (or more) variables in a model.
 
-For example, if we have a dummy variable for being a female ($F_i$) and a dummy variable for having a university degree ($D_i$), the _interaction_ of these two variables is the product $D_i \times F_i$.  This can seem complicated but it also has a simple interpretation: it is now a dummy for being _both_ a female and having a university degree.  You can see why this is true:
+For example, if we have a dummy variable for being a female ($F_i$) and a dummy variable for having a university degree ($D_i$), the _interaction_ of these two variables is the product $D_i \times F_i$.  This can seem complicated, but it also has a simple interpretation: it is now a dummy for being _both_ a female and having a university degree.  You can see why this is true:
 
 $$ 
 D_i \times F_i = 1 \iff D_i = 1 \text{ and } F_i = 1
@@ -69,12 +69,12 @@ $$
 
 At this point, you can see that this is just a multiple regression model - the only difference is that one of the variables is a combination of the other variables.  From an estimation perspective, there's no issue - you can use OLS to estimate a model with interaction terms, just like simple regressions.  However, as we have seen, there are important differences when it comes to the *interpretation* of these models.  Let's learn more about this in this worksheet.
 
-There are (in general) two ways to create interactions in R: (i) manually (i.e. creating a new variables which is $D_i \times F_i$ then adding it to the regression), or (ii) using the built-in tools in R.  However, method (i) is a trap!  You should never use this method.  Why?  There are two reasons:
+There are (in general) two ways to create interactions in R: (i) manually (i.e. creating a new variable which is $D_i \times F_i$ then adding it to the regression), or (ii) using the built-in tools in R.  However, method (i) is a trap!  You should never use this method.  Why?  There are two reasons:
 
 1.  The main reason is that R (and you, the analyst) lose track of the relationship between the created interaction variable and the underlying variables.  This means that you can't use other tools to analyze this relationship (there are many packages such as `margins` which allow you to investigate complex interactions) which is a big loss.  You also can't perform post-regression analysis on the underlying variables in a simple way anymore.
 2.  The second reason is that it's easy to make mistakes.  You might define the interaction incorrectly (possible!).  However, it's more of an issue if later on you change the underlying variables and then forget to re-compute the interactions.  It also makes your code harder to read.
 
-Bottom line: don't do it.  Interaction in R are easy to create: you simply use the `:` or `*` operator when defining an interaction term.  
+Bottom line: don't do it.  Interactions in R are easy to create: you simply use the `:` or `*` operator when defining an interaction term.  
 
 - The `:` operator creates the interaction(s) of the two variables in question
 - The `*` operation creates the interactions(s) _and_ the main effects of the variables as well
@@ -88,7 +88,7 @@ For example, let's look at a regression model which interacts gender and educati
 SFS_data <- SFS_data %>% # creates a Education dummy variable
                mutate( 
                Education = case_when(
-                     education == "University" ~ "University", # the ~ seperates the original from the new name
+                     education == "University" ~ "University", # the ~ separates the original from the new name
                      education == "Non-university post-secondary" ~ "Non-university",
                      education == "High school" ~ "Non-university",
                      education == "Less than high school" ~ "Non-university")) %>%
@@ -275,7 +275,7 @@ Which is a linear regression model!  What this say is actually very important: l
 
 ## Part 3: Exercises
 
-This sections has both written and coding exercises for you to test your knowledge about interactions and non-linear terms in regression models. The answers to the written exercises are on the last section of the notebook.
+This section has both written and coding exercises for you to test your knowledge about interactions and non-linear terms in regression models. The answers to the written exercises are on the last section of the notebook.
 
 ### Questions
 
@@ -318,8 +318,8 @@ reg1 <- lm(???, data = SFS_data)
 summary(reg0)
 summary(reg1)
 
+test_1()
 test_2()
-test_3()
 ```
 
 ```{r}
@@ -332,8 +332,8 @@ reg1 <- lm(wealth ~ gender+Education+province+gender:Education+gender:province, 
 summary(reg0)
 summary(reg1)
 
+test_1()
 test_2()
-test_3()
 ```
 
 4. How do we interpret the coefficient estimate on `gender:Education`? What education level do female-lead households appear to be most discriminated in? How might we explain this intuitively?
@@ -351,7 +351,7 @@ SFS_data$business <- relevel(SFS_data$business, ref = "No") # co not change; mak
 reg2 <- lm(???, data = SFS_data)
 
 summary(reg2)
-test_6()
+test_3()
 ```
 
 ```{r}
@@ -364,7 +364,7 @@ reg2 <- lm(wealth ~ education+business+education:business, data = SFS_data)
 
 summary(reg2)
 
-test_6()
+test_3()
 ```
 
 7. Do returns to education increase when people are entrepreneurs? Explain why or why not with reference to the regression estimates.
@@ -421,7 +421,7 @@ reg3A <- lm(???, data = SFS_data2)
 
 summary(reg3A)
 
-test_8() 
+test_4() 
 ```
 
 ```{r}
@@ -434,7 +434,7 @@ reg3A <- lm(income_before_tax ~ gender+agegr, data = SFS_data2)
 
 summary(reg3A)
 
-test_8()
+test_4()
 ```
 
 
@@ -454,8 +454,8 @@ reg3F <- lm(..., data = filter(SFS_data2, gender == "Female"))
 summary(reg3M)
 summary(reg3F)
 
-test_10()
-test_11() 
+test_5()
+test_6() 
 ```
 ```{r}
 #| eval: false
@@ -467,8 +467,8 @@ reg3F <- lm(income_before_tax ~ agegr, data = filter(SFS_data2, gender == "Femal
 summary(reg3M)
 summary(reg3F)
 
-test_10()
-test_11() 
+test_5()
+test_6() 
 ```
 
 12. Do these regression estimates support your argument? Explain.
@@ -485,7 +485,7 @@ reg4 <- lm(???, data = SFS_data2)
 
 summary(reg4)
 
-test_13() 
+test_7() 
 ```
 
 ```{r}
@@ -496,7 +496,7 @@ reg4 <- lm(income_before_tax ~ gender+agegr+gender:agegr, data = SFS_data2)
 
 summary(reg4)
 
-test_13() 
+test_7() 
 ```
 
 14. According to the regression you estimated above, what is the nature of the sex wage gap?
