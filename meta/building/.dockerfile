@@ -5,10 +5,8 @@ WORKDIR /app
 COPY ./meta/building/renv.lock ./project ./
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl gdebi-core libgl1 libglx-mesa0 libxt6 python3-venv \
-    && python3 -m venv .venv \
-    && source .venv/bin/activate \
-    && python3 -m pip install jupyter \
+    curl gdebi-core libgl1 libglx-mesa0 libxt6 python3-pip \
+    && python3 -m pip install --break-system-packages jupyter \
     && curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \
     && gdebi -n quarto-linux-amd64.deb \
     && rm quarto-linux-amd64.deb \
