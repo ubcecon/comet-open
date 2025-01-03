@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -125,7 +125,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -757,7 +756,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-1-data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-data-cleaning">Part 1: Data Cleaning</h2>
 <p>The World Development Indicators (WDI) is the primary World Bank collection of development indicators, compiled from officially recognized international sources.</p>
-<p>We have used World Bank’s DataBank applet to select and import some macro and development-related time series data for the countries Canada, India, Mexico, South Africa, and Zimbabwe for years 2014-2022.</p>
+<p>We have used the World Bank’s DataBank applet to select and import some macro and development-related time series data for the countries Canada, India, Mexico, South Africa, and Zimbabwe for years 2014-2022.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing required packages</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
@@ -777,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wdi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The data frame is in long format. Each unique value in <code>Series_Name</code> an entry for a row, and not a column. As an example:</p>
+<p>The data frame is in long format. Each unique value in <code>Series_Name</code> is an entry for a row, and not a column. As an example:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -852,7 +851,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Note</strong>: look up the functions <code>pivot_wider()</code> and <code>pivot_longer()</code> to learn how to switch between long and wide formats.</p>
 </blockquote>
 <p>While <code>Series_Name</code> contains descriptions for each of the series in the data frame, <code>Series_Code</code> offers a handy way to group variables.</p>
-<p>Our <code>Series_Code</code> variable follow a taxonomy system. For example, any code starting with <code>AG</code> belongs to a <em>family of series</em> related to the state of agriculture in that country. Let’s see the unique series families and their sub series names.</p>
+<p>Our <code>Series_Code</code> variable follows a taxonomy system. For example, any code starting with <code>AG</code> belongs to a <em>family of series</em> related to the state of agriculture in that country. Let’s see the unique series families and their sub series names.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Series_Families <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">mutate</span>(<span class="at">Series_Family =</span> <span class="fu">substr</span>(<span class="st">`</span><span class="at">Series_Code</span><span class="st">`</span>, <span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span>    <span class="co"># substring first two characters</span></span>
@@ -904,7 +903,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This data frame shows that we don’t have <em>any</em> data for series beginning with the <code>SE</code> (Schooling) prefix.</p>
 <blockquote class="blockquote">
-<p><strong>Think Deeper</strong>: how could you be systematic when choosing whether to drop or not NA values? Our panel datasets is indexed by country and series, and we’re interested in yearly values over time. Think about the options we have to drop NAs: (1) Dropping a series altogether (2) Dropping specific countries (3) Dropping specific rows (i.e., country-series pairs)…</p>
+<p><strong>Think Deeper</strong>: how could you be systematic when choosing whether to drop or not NA values? Our panel dataset is indexed by country and series, and we’re interested in yearly values over time. Think about the options we have to drop NAs: (1) Dropping a series altogether (2) Dropping specific countries (3) Dropping specific rows (i.e., country-series pairs)…</p>
 </blockquote>
 <p>Let’s create an array with <code>Series_Code</code> to be dropped from our dataset.</p>
 <div class="cell">
@@ -929,7 +928,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>filtered_access_wdi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now the only variables left in this data frame are the <code>EG</code> variables, which indicate the levels of access to electricity and other power sources within the countries.</p>
-<p>This dataset is clearly not appropriate to answer question about the access to the overall access to institutions; however, it could be extremely useful if the scope of the research is narrowed to access to power utilities. For example, we could use the dataset to visualize the growth in access to energy across the countries over the last 5 years.</p>
+<p>This dataset is clearly not appropriate to answer questions about overall access to institutions; however, it could be extremely useful if the scope of the research is narrowed to access to power utilities. For example, we could use the dataset to visualize the growth in access to energy across the countries over the last 5 years.</p>
 </section>
 <section id="test-your-knowledge" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge">Test your knowledge</h3>
@@ -970,7 +969,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-2-merging-data-frames-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-merging-data-frames-in-r">Part 2: Merging data frames in R</h2>
-<p>Now let’s take a step back and consider an example of merging data frames. Our WDI data set has macro information on <em>national incomes</em>, <em>CABs</em>, <em>Bank Capital to Assets Ratios,</em> and various kinds of <em>CPIA</em> ratings. Let’s extract that data and merge it with data from the Quarterly Public Debt (QPD) data base. The QPD is exactly what you think it is: a record of sovereign debt managed by the World Bank and the International Monetary Fund (IMF).</p>
+<p>Now let’s take a step back and consider an example of merging data frames. Our WDI data set has macro information on <em>national incomes</em>, <em>CABs</em>, <em>Bank Capital to Assets Ratios,</em> and various kinds of <em>CPIA</em> ratings. Let’s extract that data and merge it with data from the Quarterly Public Debt (QPD) database. The QPD is exactly what you think it is: a record of sovereign debt managed by the World Bank and the International Monetary Fund (IMF).</p>
 <p>First, to our <code>wdi</code> dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># identify the relevant series families </span></span>
@@ -1006,9 +1005,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>Note</strong>: R usually throws an error if you’re telling it to sum over certain rows/columns that include NA values. We resolve this by setting the parameter <code>na.rm = TRUE</code>, which literally means “NA remove is TRUE”.</p>
 </blockquote>
-<p>Before we aggregate the data, let’s check the number of periods for which data is missing. Again, we’ll look at the country-series combinations. We do that below with a loop, telling R to <em>manually</em> go over each unique row, count the number of NAs along the period columns, and then store the result in another dataframe called <code>status</code>.</p>
+<p>Before we aggregate the data, let’s check the number of periods for which data is missing. Again, we’ll look at the country-series combinations. We do that below with a loop, telling R to <em>manually</em> go over each unique row, count the number of NAs along the period columns, and then store the result in another data frame called <code>status</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()    <span class="co"># empty data-frame that is placeholder for the final data</span></span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()    <span class="co"># empty data frame that is placeholder for the final data</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Series_Codes <span class="ot">&lt;-</span> qpd<span class="sc">$</span>Series_Code <span class="sc">%&gt;%</span> <span class="fu">unique</span>()    <span class="co"># gets all `Series_Codes` to iterate over</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>Countries <span class="ot">&lt;-</span> qpd<span class="sc">$</span>Country_Code <span class="sc">%&gt;%</span> <span class="fu">unique</span>()     <span class="co"># gets all `Country_Codes` to iterate over </span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1027,7 +1026,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        na_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(cols_to_check))    <span class="co"># finally, store the value of NAs</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Country_Code =</span> country_code, <span class="at">Series_Code =</span> series_code, <span class="at">na_count =</span> na_count)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        status <span class="ot">&lt;-</span> <span class="fu">rbind</span>(status, result)    <span class="co"># appends the result to the status dataframe and iterate over</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        status <span class="ot">&lt;-</span> <span class="fu">rbind</span>(status, result)    <span class="co"># appends the result to the status data frame and iterate over</span></span>
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
@@ -1043,7 +1042,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>These are the countries-series pairs which we must drop from the data-frame.</p>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: by storing our exploration’s results in <code>status</code>, we can re-visit our decision to drop values anytime we want. Such proper documentation builds trust around the validity of the aggregate computations!</p>
+<p><strong>Note</strong>: by storing our exploration’s results in <code>status</code>, we can revisit our decision to drop values anytime we want. Such proper documentation builds trust around the validity of the aggregate computations!</p>
 </blockquote>
 <p>Let’s now use <code>anti_join()</code> to drop any rows from <code>qpd</code> that match the <code>Country_Code</code>, <code>Series_Code</code> pairs in <code>status_to_drop</code>.</p>
 <div class="cell">
@@ -1051,9 +1050,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>qpd_filtered</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: <code>anti_join()</code> is a function that removes rows from a dataframe that have matching values in specified columns with another dataframe. In this context, it is used to drop rows from qpd that match the <code>Country_Code</code> and <code>Series_Code</code> pairs in <code>status_to_drop</code>, resulting in the filtered dataframe <code>qpd_filtered</code>.</p>
+<p><strong>Note</strong>: <code>anti_join()</code> is a function that removes rows from a data frame that have matching values in specified columns with another data frame. In this context, it is used to drop rows from qpd that match the <code>Country_Code</code> and <code>Series_Code</code> pairs in <code>status_to_drop</code>, resulting in the filtered data frame <code>qpd_filtered</code>.</p>
 </blockquote>
-<p>The code below tells R how to manually go over each unique combination of <code>Country</code>, <code>Series_Code</code> values and aggregate quaterly values by year. To learn exactly what each line does, head to the Appendix!</p>
+<p>The code below tells R how to manually go over each unique combination of <code>Country</code>, <code>Series_Code</code> values and aggregate quarterly values by year. To learn exactly what each line does, head to the Appendix!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot the data from wide to long format, creating separate rows for each quarterly value</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>qpd_long <span class="ot">&lt;-</span> qpd_filtered <span class="sc">%&gt;%</span></span>
@@ -1127,7 +1126,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Merging Methods - COMET Team</figcaption>
 </figure>
 </div>
-<p>As illustrated in the image, a <code>full_join()</code> and <code>right_join()</code> are great for merging data sources in situations when we are particularly interested in the issue of missing matches.For simpler cases, <code>inner_join()</code> is ideal when you only want to include fully matched observations in the final data set.</p>
+<p>As illustrated in the image, a <code>full_join()</code> and <code>right_join()</code> are great for merging data sources in situations when we are particularly interested in the issue of missing matches. For simpler cases, <code>inner_join()</code> is ideal when you only want to include fully matched observations in the final data set.</p>
 <section id="test-your-knowledge-1" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge-1">Test your knowledge</h3>
 <p>Debug the code below to calculate the mean of the vector <code>set</code>. Store the answer in <code>answer_3</code>.</p>
@@ -1296,8 +1295,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1413,7 +1410,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -818,16 +817,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-hypothesis-testing-procedure">The Hypothesis Testing Procedure</h2>
 <p>A hypothesis test always involves two hypotheses: the <strong>null hypothesis</strong> and the <strong>alternative hypothesis</strong>.</p>
 <ul>
-<li><p>The null hypothesis (<span class="math inline">\({H_0}\)</span>) expresses a “default” claim which is to be tested</p></li>
-<li><p>The hypothesis (<span class="math inline">\({H_1}\)</span>) expresses the contrary to the null hypothesis. Typically, our alternative hypothesis expresses what we may hope to prove about our data.</p></li>
+<li>The null hypothesis (<span class="math inline">\({H_0}\)</span>) expresses a “default” claim which is to be tested</li>
+<li>The hypothesis (<span class="math inline">\({H_1}\)</span>) expresses the contrary to the null hypothesis. Typically, our alternative hypothesis expresses what we may hope to prove about our data.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Example</strong>: Perhaps we suspect that the mean wage of Canadian men is greater than $50,000 per year</p>
-<ul>
-<li><p>Null hypothesis (<span class="math inline">\({H_0}\)</span>): The mean wage of Canadian men is less than or equal to 50,000.</p></li>
-<li><p>The hypothesis (<span class="math inline">\({H_1}\)</span>): The mean wage of Canadian men is greater than 50,000.</p></li>
-<li><p>If we find sufficient evidence in the data to reject the null hypothesis, we can argue with a certain degree of certainty that we should favour this alternative hypothesis. If we don’t find this strong evidence, we fail to reject the null hypothesis (and our suspicion is probably false).</p></li>
-</ul>
+<p><strong>Example</strong>: Perhaps we suspect that the mean wage of Canadian men is greater than $50,000 per year - Null hypothesis (<span class="math inline">\({H_0}\)</span>): The mean wage of Canadian men is less than or equal to 50,000. - The hypothesis (<span class="math inline">\({H_1}\)</span>): The mean wage of Canadian men is greater than 50,000. - If we find sufficient evidence in the data to reject the null hypothesis, we can argue with a certain degree of certainty that we should favour this alternative hypothesis. If we don’t find this strong evidence, we fail to reject the null hypothesis (and our suspicion is probably false).</p>
 </blockquote>
 <p>To determine whether we should reject the null hypothesis in favour of the alternative hypothesis, we need two key features:</p>
 <ol type="1">
@@ -843,16 +837,16 @@ window.Quarto = {
 <p>Together, these two features provide the criterion under which we can accept or reject our null hypothesis. We can implement these using the following approaches:</p>
 <p>There are two common approaches we can use when testing a hypothesis:</p>
 <ul>
-<li><p>The <strong>critical value approach (rejection region)</strong></p></li>
-<li><p>The <span class="math inline">\(p\)</span>-value approach.</p></li>
+<li>The <strong>critical value approach (rejection region)</strong></li>
+<li>The <span class="math inline">\(p\)</span>-value approach.</li>
 </ul>
 <p>Both have their uses, and we will demonstrate both in this notebook. They also have a series of steps, some of which they share in common.</p>
 </section>
 <section id="steps-in-hypothesis-testing" class="level2">
 <h2 class="anchored" data-anchor-id="steps-in-hypothesis-testing">Steps in Hypothesis Testing</h2>
 <ul>
-<li><p>Steps 1-3 apply identically to <em>both</em> the critical value and <span class="math inline">\(p\)</span>-value approaches</p></li>
-<li><p>Step 4, the interpretation step, diverges between the two approaches.</p></li>
+<li>Steps 1-3 apply identically to <em>both</em> the critical value and <span class="math inline">\(p\)</span>-value approaches</li>
+<li>Step 4, the interpretation step, diverges between the two approaches.</li>
 </ul>
 <p>We will start with one important type of test: the <strong>one sample</strong> <span class="math inline">\(t\)</span>-test. This kind of test is used to evaluate statements about whether the population average is equal to a particular value - for instance, our example above with average wages being greater than $50,000. This test is appropriate in situations where:</p>
 <ol type="1">
@@ -867,9 +861,9 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="our-example">Our Example</h3>
 <p>Let’s work with our Census data, and suppose that our census data represents the <strong>entire Canadian population</strong> and we have no prior knowledge of it.</p>
 <ul>
-<li><p>Let’s pretend we do not observe any population values from our census data, just like in real life where it is impossible to observe population parameters!</p></li>
-<li><p>We will randomly select a sample of observations from our census data (the population) to represent our sample.</p></li>
-<li><p>We can then test to see if the average wage in our sample data is equal to the hypothesized average wage of the population as a whole. Let’s draw a random sample first!</p></li>
+<li>Let’s pretend we do not observe any population values from our census data, just like in real life where it is impossible to observe population parameters!</li>
+<li>We will randomly select a sample of observations from our census data (the population) to represent our sample.</li>
+<li>We can then test to see if the average wage in our sample data is equal to the hypothesized average wage of the population as a whole. Let’s draw a random sample first!</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># ensures the reproducibility of our code </span></span>
@@ -929,14 +923,14 @@ H_{1}: \mu \neq 54000
 <li>$ {H_1}: ^{education} &gt; 12 $</li>
 </ol>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>answer_0 <span class="ot">&lt;-</span> ...  <span class="co"># fill in th e.. with your answer of either 1, 2 or 3 </span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>answer_0 <span class="ot">&lt;-</span> ...  <span class="co"># fill in the.. with your answer of either 1, 2 or 3 </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test_0</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="step-2-choose-a-significance-level-alpha" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-choose-a-significance-level-alpha">Step 2: Choose a Significance Level <span class="math inline">\(\alpha\)</span></h2>
-<p>Before any calculation of test statistics, we must choose a <strong>significance leve</strong>l.</p>
+<p>Before any calculation of test statistics, we must choose a <strong>significance level</strong>.</p>
 <ul>
 <li><p>This is the probability of seeing a sample statistic at least as extreme as the one we find from our data when we assume that our null hypothesis is actually true.</p></li>
 <li><p>We most commonly set our significance level at 0.05, or 5%, but other common values include 1%, 10% and even 20%.</p></li>
@@ -950,7 +944,7 @@ H_{1}: \mu \neq 54000
 \]</span></p>
 <section id="step-3-compute-the-test-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-compute-the-test-statistic">Step 3: Compute the Test Statistic</h3>
-<p>This is the most mathematical step, requiring some calculation. Our <strong>test statistic</strong> gives us a numeric benchmark at which we can reject our null hypothesis in Step 4. Calculating the test statistic is quick, but it is important to understand the intuition behind it and how it is derived.</p>
+<p>This is the most mathematical step, requiring some calculation. Our <strong>test statistic</strong> gives us a numeric benchmark at which we can reject our null hypothesis in Step 4. Calculating the test statistic is quick but it is important to understand the intuition behind it and how it is derived.</p>
 <p>When we calculate our test statistic with the one-sample <span class="math inline">\(t\)</span>-test we use the following approach:</p>
 <ol type="1">
 <li>Take our sample statistic</li>
@@ -968,7 +962,7 @@ H_{1}: \mu \neq 54000
 <li><p><span class="math inline">\(\mu_{0}\)</span> is the population mean we are assuming to be true under the null hypothesis</p></li>
 <li><p><span class="math inline">\(H_{0} : \mu = \mu_{0}\)</span>, <span class="math inline">\(s\)</span> is the sample standard deviation and <span class="math inline">\(n\)</span> is the sample size.</p></li>
 </ul>
-<p>Again, the formula for calculating the test statistic will be will differ depending on the test being performed, the size of our sample, and whether our hypothesis is about a population mean, proportion, or variance.</p>
+<p>Again, the formula for calculating the test statistic will differ depending on the test being performed, the size of our sample, and whether our hypothesis is about a population mean, proportion, or variance.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the t-statistic/critical value for the one sample t-test</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> (<span class="fu">mean</span>(sample_data<span class="sc">$</span>wages) <span class="sc">-</span> <span class="dv">54000</span>)<span class="sc">/</span>(<span class="fu">sd</span>(sample_data<span class="sc">$</span>wages)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">100</span>))</span>
@@ -1010,9 +1004,9 @@ H_{1}: \mu \neq 54000
 </div>
 <p>The first diagram shows where we can reject a null hypothesis such as <span class="math inline">\(H_{0}:\mu = \mu_{0}\)</span> in favour of the alternative hypothesis <span class="math inline">\(H_{1}:\mu &lt; \mu_{0}\)</span>.</p>
 <ul>
-<li><p>Null hypothesis: <span class="math inline">\(\mu \leq\mu_0\)</span></p></li>
-<li><p>Alternative: <span class="math inline">\(\mu &gt; \mu_0\)</span>.</p></li>
-<li><p>The value which had an <span class="math inline">\(\alpha\)</span>-percent of lying above it is called the critical value, and the red region represents the rejection region.</p></li>
+<li>Null hypothesis: <span class="math inline">\(\mu \leq\mu_0\)</span></li>
+<li>Alternative: <span class="math inline">\(\mu &gt; \mu_0\)</span>.</li>
+<li>The value which had an <span class="math inline">\(\alpha\)</span>-percent of lying above it is called the critical value, and the red region represents the rejection region.</li>
 </ul>
 </section>
 <section id="one-sided-test-right-tailed" class="level4">
@@ -1026,8 +1020,8 @@ H_{1}: \mu \neq 54000
 </div>
 <p>This second diagram shows us where we can reject a null hypothesis such as <span class="math inline">\(H_{0}:\mu = \mu_{0}\)</span> in favour of the alternative hypothesis <span class="math inline">\(H_{1}:\mu &gt; \mu_{0}\)</span>.</p>
 <ul>
-<li><p>If our calculated test statistic falls in this red rejection region, it is “more extreme” than the critical value corresponding to our chosen significance level. This means we can can reject the null hypothesis in favour of the alternative hypothesis.</p></li>
-<li><p>If our calculated test statistic falls within the white region, we fail to reject our null.</p></li>
+<li>If our calculated test statistic falls in this red rejection region, it is “more extreme” than the critical value corresponding to our chosen significance level. This means we can reject the null hypothesis in favour of the alternative hypothesis.</li>
+<li>If our calculated test statistic falls within the white region, we fail to reject our null.</li>
 </ul>
 </section>
 <section id="two-sided-test" class="level4">
@@ -1074,14 +1068,14 @@ H_{1}: \mu \neq 54000
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="at">p=</span><span class="fl">0.025</span>, <span class="at">df=</span><span class="dv">99</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p>We can see from the above that our test statistic of about 0.72 fits within the upper and lower bound critical values of -1.98 and 1.98.</p></li>
-<li><p>Therefore the sample statistic is conditioned on the null hypothesis being true.</p></li>
-<li><p>We thus do not have strong evidence to reject the null hypothesis.</p></li>
-<li><p>We say that our sample mean is <strong>not</strong> <strong>statistically significant</strong>.</p>
+<li>We can see from the above that our test statistic of about 0.72 fits within the upper and lower bound critical values of -1.98 and 1.98.</li>
+<li>Therefore the sample statistic is conditioned on the null hypothesis being true.</li>
+<li>We thus do not have strong evidence to reject the null hypothesis.</li>
+<li>We say that our sample mean is <strong>not</strong> <strong>statistically significant</strong>.</li>
+</ul>
 <div>
 <p>Statistically significant results are those which we find upon rejecting the null hypothesis.</p>
-</div></li>
-</ul>
+</div>
 </section>
 </section>
 <section id="the-p-value-approach" class="level3">
@@ -1089,7 +1083,7 @@ H_{1}: \mu \neq 54000
 <ul>
 <li>In this approach, we again use our test statistic to make inferences about our population. However, we no longer rely on the diagrams above.</li>
 <li>We instead calculate what is called a <span class="math inline">\(p\)</span>-value: A number between 0 and 1 indicating the probability of observing a value at least as extreme as the test statistic if <span class="math inline">\({H_0}\)</span> is true. - For example, a <span class="math inline">\(p\)</span>-value of 0.05 would mean that if the <span class="math inline">\({H_0}\)</span> is true, there is a 5% chance of getting a test-statistic as extreme or more extreme than the one we obtained.</li>
-<li>Small <span class="math inline">\(p\)</span>-values provide evidence to reject the null hypothesis, since they indicate that the observed data is not likely if the hypothesis was true. Recall that in hypothesis testing we are trying to find evidence to reject the null hypothesis. A lower <span class="math inline">\(p\)</span>-value provide evidence to reject the null hypothesis. Formally, if the <span class="math inline">\(p\)</span>-value is less than or equal to our significance level <span class="math inline">\(\alpha\)</span>, the null hypothesis is rejected; otherwise, the null hypothesis is not rejected.</li>
+<li>Small <span class="math inline">\(p\)</span>-values provide evidence to reject the null hypothesis, since they indicate that the observed data is not likely if the hypothesis was true. Recall that in hypothesis testing we are trying to find evidence to reject the null hypothesis. A lower <span class="math inline">\(p\)</span>-value provides evidence to reject the null hypothesis. Formally, if the <span class="math inline">\(p\)</span>-value is less than or equal to our significance level <span class="math inline">\(\alpha\)</span>, the null hypothesis is rejected; otherwise, the null hypothesis is not rejected.</li>
 </ul>
 <p>For example,</p>
 <p>To find the <span class="math inline">\(p\)</span>-value associated with a t-score in R, we can use the <code>pt()</code> function:</p>
@@ -1145,26 +1139,24 @@ H_{1}: \mu \neq 54000
 <li>If we had different results (ie: a <span class="math inline">\(p\)</span>-value &lt; 0.05 or test statistic very large in magnitude), we would say that the probability of finding the particular sample mean under the null being true is incredibly unlikely. This sample mean would thus be a statistically significant result which we could try with a high degree of uncertainty, allowing us to reject the null in favor of the alternative hypothesis.</li>
 </ul>
 <blockquote class="blockquote">
-<p>Note: In this example, the <span class="math inline">\(p\)</span>-value was about 0.47.</p>
-<ul>
-<li>This does not mean that the probability the null hypothesis is true is 47%.</li>
-</ul>
-<!-- -->
-<ul>
-<li><p>Rather, it means that if the null hypothesis is true, the probability of seeing a sample mean at least as far away from 54000 is 47%.</p></li>
-<li><p>Therefore, since it is quite likely to pull a sample mean this large by chance, we cannot reject the null and we do not have statistically significant results.</p></li>
-</ul>
+<p>Note: In this example, the <span class="math inline">\(p\)</span>-value was about 0.47. - This does not mean that the probability the null hypothesis is true is 47%. - Rather, it means that if the null hypothesis is true, the probability of seeing a sample mean at least as far away from 54000 is 47%. - Therefore, since it is quite likely to pull a sample mean this large by chance, we cannot reject the null and we do not have statistically significant results.</p>
 </blockquote>
 </section>
 <section id="example-2-two-sample-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="example-2-two-sample-t-test">Example 2: Two Sample <span class="math inline">\(t\)</span>-test</h2>
 <ul>
-<li><p>Unlike the one-sample <span class="math inline">\(t\)</span>-test where we use a sample mean point estimate to test a hypothesis about a population mean, the two-sample <span class="math inline">\(t\)</span>-test uses two sample means to test a hypothesis about whether the means of two independent populations differ from each another.</p></li>
+<li><p>Unlike the one-sample <span class="math inline">\(t\)</span>-test where we use a sample mean point estimate to test a hypothesis about a population mean, the two-sample <span class="math inline">\(t\)</span>-test uses two sample means to test a hypothesis about whether the means of two independent populations differ from each other.</p></li>
 <li><p>We will use the two sample unpooled <span class="math inline">\(t\)</span>-test with unequal variances when we know:</p>
 <ul>
-<li><p>1. That both populations are normally distributed (or the sum of their sample sizes exceeds 40, invoking normality),</p></li>
-<li><p>2. That the observations are independent between the two groups (i.e.&nbsp;observations are not paired between populations),</p></li>
-<li><p>3. And we assume that both population standard deviations, while unknown, are different.</p></li>
+<li><ol type="1">
+<li>That both populations are normally distributed (or the sum of their sample sizes exceeds 40, invoking normality),</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>That the observations are independent between the two groups (i.e.&nbsp;observations are not paired between populations),</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>And we assume that both population standard deviations, while unknown, are different.</li>
+</ol></li>
 </ul></li>
 </ul>
 <p>For this example, we will test the hypothesis that there is no difference between the mean wages of Canadians and Non-Canadians. We will set this up against a two-sided alternative.</p>
@@ -1177,7 +1169,7 @@ H_{1}: \mu_{Canadian} \neq \mu_{Non-Canadian}
 <p><span class="math display">\[
 \alpha = 0.05
 \]</span></p>
-<p>Again, we will assume our census data represents our population and take two random samples from it, each of which will consistent exclusively of Canadians or Non-Canadians.</p>
+<p>Again, we will assume our census data represents our population and take two random samples from it, each of which will consist exclusively of Canadians or Non-Canadians.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># ensures the reproducibility of our code (we get the same sample if we start with that same seed each time you run the same process)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1206,16 +1198,18 @@ H_{1}: \mu_{Canadian} \neq \mu_{Non-Canadian}
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x=</span>sample_cad<span class="sc">$</span>wages, <span class="at">y=</span>sample_noncad<span class="sc">$</span>wages, <span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our <span class="math inline">\(t\)</span>-test yields a <span class="math inline">\(p\)</span>-value of about 0.1478, greater than our significance level of 0.05. Thus, our result is not statistically significant and we cannot reject our null hypothesis.</p>
-<div class="line-block">~Note: This reveals nothing about why this is the case and does not control for any relevant factors. You will learn more about this in upcoming courses.~</div>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> This reveals nothing about why this is the case and does not control for any relevant factors. You will learn more about this in upcoming courses.</p>
+</blockquote>
 <ul>
-<li><p>We ran this <span class="math inline">\(t\)</span>-test on two independent populations (Canadians and Non-Canadians).</p></li>
-<li><p>Alternatively, if we want to compare the means of dependent populations and test whether or not they are the same, we can employ the <code>y ~ x</code> option to our <code>t.test()</code> function.</p>
+<li>We ran this <span class="math inline">\(t\)</span>-test on two independent populations (Canadians and Non-Canadians).</li>
+<li>Alternatively, if we want to compare the means of dependent populations and test whether or not they are the same, we can employ the <code>y ~ x</code> option to our <code>t.test()</code> function.
 <ul>
-<li><p>The dependent variable is on the left of the tilde (<code>~</code>)</p></li>
-<li><p>The independent variable (or variables) is on the right of the tilde (<code>~</code>)</p></li>
+<li>The dependent variable is on the left of the tilde (<code>~</code>)</li>
+<li>The independent variable (or variables) is on the right of the tilde (<code>~</code>)</li>
 </ul></li>
-<li><p>We also need to specify within the <code>t.test()</code> function arguments to the options <code>paired</code> and <code>var.equal</code>.</p></li>
-<li><p>Both of these are set to FALSE by default, but we can change one or both of them to TRUE if we believe that our two samples come in pairs (a specific case of dependent samples) or the variances of the two populations are equal.</p></li>
+<li>We also need to specify within the <code>t.test()</code> function arguments to the options <code>paired</code> and <code>var.equal</code>.</li>
+<li>Both of these are set to FALSE by default, but we can change one or both of them to TRUE if we believe that our two samples come in pairs (a specific case of dependent samples) or the variances of the two populations are equal.</li>
 </ul>
 <blockquote class="blockquote">
 <p><strong>Note</strong>: The dependent sample t-test is also called the paired sample t-test ie: before-treatment and after-treatment patient groups in medical research.</p>
@@ -1261,11 +1255,8 @@ H_{1}: \mu_{graduated} \neq \mu_{didn't \ graduate}
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Moving forward with your two-sided hypothesis test, you find a sample mean statistic of 60000 for those who graduated high school and 25000 for those who didn’t graduate high school.</li>
-</ul>
-<!-- -->
-<ul>
-<li>You find for your chosen significance level and distribution of sample means for each population that the resulting test statistic in your test is 1.5, while the critical values from the student’s t-distribution are -2 and 2 respectively.</li>
+<li><p>Moving forward with your two-sided hypothesis test, you find a sample mean statistic of 60000 for those who graduated high school and 25000 for those who didn’t graduate high school.</p></li>
+<li><p>You find for your chosen significance level and distribution of sample means for each population that the resulting test statistic in your test is 1.5, while the critical values from the student’s t-distribution are -2 and 2 respectively.</p></li>
 </ul>
 <p>Should you reject the null hypothesis that there is no statistically significant difference between the mean earnings of each population?</p>
 <div class="cell question">
@@ -1280,7 +1271,7 @@ H_{1}: \mu_{graduated} \neq \mu_{didn't \ graduate}
 <p>Another parameter we can make hypotheses about is the correlation coefficient. We can use hypothesis testing to test inferences about the correlation between two variables by analyzing random samples.</p>
 <p>Let’s do this with <code>wages</code> and <code>mrkinc</code>.</p>
 <blockquote class="blockquote">
-<p><sub>Recall&nbsp;two&nbsp;variables&nbsp;are&nbsp;highly&nbsp;positively&nbsp;correlated&nbsp;if&nbsp;their&nbsp;correlation&nbsp;coefficient&nbsp;is&nbsp;close&nbsp;to&nbsp;1,&nbsp;while&nbsp;they&nbsp;are&nbsp;highly&nbsp;negatively&nbsp;correlated&nbsp;if&nbsp;it&nbsp;is&nbsp;close&nbsp;to&nbsp;-1.</sub></p>
+<p><strong>Recall</strong>&nbsp;two&nbsp;variables&nbsp;are&nbsp;highly&nbsp;positively&nbsp;correlated&nbsp;if&nbsp;their&nbsp;correlation&nbsp;coefficient&nbsp;is&nbsp;close&nbsp;to&nbsp;1,&nbsp;while&nbsp;they&nbsp;are&nbsp;highly&nbsp;negatively&nbsp;correlated&nbsp;if&nbsp;it&nbsp;is&nbsp;close&nbsp;to&nbsp;-1.</p>
 </blockquote>
 <p>Let’s suppose that we have reason to believe that <code>wages</code> and <code>mrkinc</code> are quite correlated (hence their correlation coefficient is not 0).</p>
 <p>To find support for this, we will set this up as an alternative hypothesis to be supported after rejecting the null hypothesis that there is no correlation. To determine this we have to work to reject our null hypothesis. Let’s set up the hypotheses below.</p>
@@ -1312,7 +1303,7 @@ H_{1}: \mu_{graduated} \neq \mu_{didn't \ graduate}
 <h2 class="anchored" data-anchor-id="type-i-and-type-ii-errors">Type I and Type II Errors</h2>
 <p>One thing that is crucial to remember is that our hypothesis test may not always be correct. While a hypothesis test provides strong evidence for us to reject or fail to reject a null hypothesis, it is not concrete.</p>
 <div>
-<p>We never say that we “accept” the null hypothesis, instead preferring to say that we “fail to reject” the null hypothesis when no strong evidence exists against it.</p>
+We never say that we “accept” the null hypothesis, instead preferring to say that we “fail to reject” the null hypothesis when no strong evidence exists against it.
 </div>
 <p>Similarly, we never say that we “accept” the alternative hypothesis, only that we “reject the null hypothesis in favour of the alternative hypothesis”.</p>
 <p>Neither hypothesis can conclusively be proven as true or false. Therefore, we may occasionally make incorrect decisions about rejecting or failing to reject a null hypothesis.</p>
@@ -1358,22 +1349,15 @@ H_{1}: \mu_{graduated} \neq \mu_{didn't \ graduate}
 <li>Probability of Type II error increases when we may <strong>not have had enough statistical power</strong>, such as when our sample size is too small, our level of significance is too high, or we are using a test that is not sensitive enough to detect a true difference.</li>
 <li>The probability of making a type II error is denoted as <span class="math inline">\(1 - \alpha\)</span> or <span class="math inline">\(\beta\)</span>, while the probability of correctly rejecting a false null hypothesis is <span class="math inline">\(1 - \beta\)</span> and is known as the power of the test.</li>
 </ul>
-<blockquote class="blockquote">
 <div>
-<p>Note:</p>
-<ul>
-<li><p>A higher confidence level and a lower significance level decreases <span class="math inline">\(\alpha\)</span>, Type I error risk, but increases <span class="math inline">\(\beta\)</span>,Type II error risk.</p></li>
-<li><p>A higher statistical power decreases <span class="math inline">\(\beta\)</span>, Type II error risk, but increases <span class="math inline">\(\alpha\)</span>, Type I error risk.</p></li>
-<li><p>For a fixed sample size, the smaller the <span class="math inline">\(\alpha\)</span>, the larger the <span class="math inline">\(\beta\)</span>.</p></li>
-<li><p>Hence, there is a constant tradeoff between making type I and II errors.</p></li>
-<li><p>Remember we select <span class="math inline">\(\alpha\)</span> , our significance level and hence the probability of falsely rejecting a true null hypothesis before we even calculate our test statistic. However, we can never select for the probability of failing to reject a false null, <span class="math inline">\(\beta\)</span>. This probability instead emerges in the testing process.</p></li>
-</ul>
-</div>
+<blockquote class="blockquote">
+<p>Note: - A higher confidence level and a lower significance level decreases <span class="math inline">\(\alpha\)</span>, Type I error risk, but increases <span class="math inline">\(\beta\)</span>,Type II error risk. - A higher statistical power decreases <span class="math inline">\(\beta\)</span>, Type II error risk, but increases <span class="math inline">\(\alpha\)</span>, Type I error risk. - For a fixed sample size, the smaller the <span class="math inline">\(\alpha\)</span>, the larger the <span class="math inline">\(\beta\)</span>. - Hence, there is a constant tradeoff between making type I and II errors. - Remember we select <span class="math inline">\(\alpha\)</span> , our significance level and hence the probability of falsely rejecting a true null hypothesis before we even calculate our test statistic. However, we can never select for the probability of failing to reject a false null, <span class="math inline">\(\beta\)</span>. This probability instead emerges in the testing process.</p>
 </blockquote>
+</div>
 </section>
 <section id="exercise-3" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-3">Exercise</h3>
-<p>Suppose you choose a 5% significance level and conduct a one sample t-test with <span class="math inline">\(p\)</span>-value of 0.13 and correctly reject the null hypothesis, but then concludes that the results are not statistically significant. What error have you made?</p>
+<p>Suppose you choose a 5% significance level and conduct a one sample t-test with <span class="math inline">\(p\)</span>-value of 0.13 and correctly reject the null hypothesis, but then conclude that the results are not statistically significant. What error have you made?</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>answer_4 <span class="ot">&lt;-</span> <span class="st">"x"</span> <span class="co"># your answer of "type 1" or "type 2" in place of "x" here</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1466,8 +1450,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1583,7 +1565,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

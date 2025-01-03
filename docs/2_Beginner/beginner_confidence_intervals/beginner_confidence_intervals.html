@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -845,7 +844,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \text{point estimate} \pm \text{margin of error}
 \]</span></p>
-<p>We add and subtract a <strong>margin of error</strong> from our point estimate to find the <strong>lower bound</strong> and <strong>upper bound</strong> of our confidence interval estimate. The calculation for the margin of error varies depending on the sample statistic. Let’s look at few important special cases: the confidence intervals for the sample mean, sample proportion, and sample variance.</p>
+<p>We add and subtract a <strong>margin of error</strong> from our point estimate to find the <strong>lower bound</strong> and <strong>upper bound</strong> of our confidence interval estimate. The calculation for the margin of error varies depending on the sample statistic. Let’s look at a few important special cases: the confidence intervals for the sample mean, sample proportion, and sample variance.</p>
 </section>
 </section>
 <section id="part-2-confidence-intervals-for-the-sample-mean" class="level2">
@@ -897,7 +896,7 @@ window.Quarto = {
 <li><span class="math inline">\(s\)</span> is the sample standard deviation</li>
 <li><span class="math inline">\(n\)</span> is the sample size</li>
 </ul>
-<p>To illustrate, let’s construct a 95% confidence interval for the sample mean of the variable <code>wages</code>. We can use the function <code>mean()</code> calculate its mean, which will serve as our point estimate.</p>
+<p>To illustrate, let’s construct a 95% confidence interval for the sample mean of the variable <code>wages</code>. We can use the function <code>mean()</code> to calculate its mean, which will serve as our point estimate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating the sample mean of wages</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(census_data<span class="sc">$</span>wages)</span>
@@ -930,7 +929,7 @@ window.Quarto = {
 </div>
 <p>We are 95% confident that the mean wage of all Canadians ranges between <span class="math inline">\(55708\)</span> and <span class="math inline">\(55293\)</span>. We also know this is a valid confidence interval estimate because our <code>wages</code> variable and the procedure for sampling meets all of the three criteria outlined:</p>
 <ol type="1">
-<li>Random sampling: Satistics Canada (the source for this data) utilizes random sampling</li>
+<li>Random sampling: Statistics Canada (the source for this data) utilizes random sampling</li>
 <li>Our sample size is <span class="math inline">\(n &gt; 30\)</span> and thus we don’t even need to check the distribution of <code>wages</code></li>
 <li>Our observations are independent because our sample size <span class="math inline">\(n\)</span> is less than 10% of the total population (the total population of Canada is about 38 million)</li>
 </ol>
@@ -946,7 +945,7 @@ window.Quarto = {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">test_1</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Matilda finds a sample mean of 280 pages and sample variance of 400 pages. She wants to construct a 90% confidence interval for her sample mean. What will be the upper and lower bounds of this interval (assuming its a valid confidence interval)?</p>
+<p>Matilda finds a sample mean of 280 pages and sample variance of 400 pages. She wants to construct a 90% confidence interval for her sample mean. What will be the upper and lower bounds of this interval (assuming it’s a valid confidence interval)?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here are the values you need to calculate</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> </span>
@@ -1000,7 +999,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><strong>Think deeper</strong>: why is there only one case for confidence intervals of sample proportions?</p>
 </blockquote>
-<p>Let’s calculate a 95% confidence interval for the sample proportion of the variable <code>pkids</code> from our <code>census_data</code>. <code>pkids == 1</code> for when the respondent lives in a houlsehold with kids, and <code>pkids == 0</code> otherwise. We can calculate our sample proportion, which serves as our point estimate for the confidence interval.</p>
+<p>Let’s calculate a 95% confidence interval for the sample proportion of the variable <code>pkids</code> from our <code>census_data</code>. <code>pkids == 1</code> for when the respondent lives in a household with kids, and <code>pkids == 0</code> otherwise. We can calculate our sample proportion, which serves as our point estimate for the confidence interval.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating our sample proportion of observations with pkids == 1</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">sum</span>(census_data<span class="sc">$</span>pkids <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">nrow</span>(census_data)</span>
@@ -1081,7 +1080,7 @@ window.Quarto = {
 <li><span class="math inline">\(1 - \alpha\)</span> is the confidence level</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: Constructing this type of confidence interval is different than previous instances with the sample mean and sample proportion. This is because, unlike the sample mean and sample proportion, the sample variance follows a <strong>non-normal distribution</strong>: the <span class="math inline">\(\chi^2\)</span> distribution.</p>
+<p><strong>Note</strong>: Constructing this type of confidence interval is different from previous instances with the sample mean and sample proportion. This is because, unlike the sample mean and sample proportion, the sample variance follows a <strong>non-normal distribution</strong>: the <span class="math inline">\(\chi^2\)</span> distribution.</p>
 </blockquote>
 <p>Let’s construct a 95% confidence interval for the sample variance of <code>mrkinc</code>. Our procedure will follow exactly the steps above. First, let’s calculate the sample variance:</p>
 <div class="cell">
@@ -1300,13 +1299,13 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="misconception-2">Misconception 2:</h3>
 <p><em>If we have a confidence level of 95%, 95% of our population data must lie within the calculated confidence interval</em>.</p>
 <p>This is not true since our confidence level indicates the long run percentage of constructed confidence intervals which contain our true parameter but says nothing about the spread of our actual data. To find the range within which 95% of our data lie, we must consult a histogram for the population and calculate percentiles.</p>
-<p>For instance, if our data is quite bimodaly distributed (around half of our data is clustered far to the left of our mean, and the other half is clustered far to the right of our mean), our calculated 95% confidence interval will likely contain very little (much less than 95%) of the data.</p>
+<p>For instance, if our data is quite bimodal distributed (around half of our data is clustered far to the left of our mean, and the other half is clustered far to the right of our mean), our calculated 95% confidence interval will likely contain very little (much less than 95%) of the data.</p>
 <p>The confidence level does <strong>not</strong> determine the spread of the actual data</p>
 </section>
 <section id="misconception-3" class="level3">
 <h3 class="anchored" data-anchor-id="misconception-3">Misconception 3:</h3>
 <p><em>If we have a confidence level of 95%, a confidence interval calculated from a sample of 500 observations will more likely contain the true parameter than a confidence interval calculated from a sample of 100 observations.</em></p>
-<p>We know from the previous section that a confidence interval generated from the sample <span class="math inline">\(n = 500\)</span> will be narrower than one generated from <span class="math inline">\(n = 100\)</span>. However, a confidence level by definition is the percentage of calculated intervals we expect to contain the true parameter of interest if we calculated these intervals over and over. This means any one interval from a sample of <span class="math inline">\(n = 100\)</span> has a 95% chance of containing the true parameter, just as any one interval from a sample of <span class="math inline">\(n = 500\)</span> has a 95% chance of containing the true paramater. Each interval (the wider one from <span class="math inline">\(n = 100\)</span> and narrower one from <span class="math inline">\(n= 500\)</span>) has a chance of containing the true parameter relative to all other calculated intervals for that same sample size.</p>
+<p>We know from the previous section that a confidence interval generated from the sample <span class="math inline">\(n = 500\)</span> will be narrower than one generated from <span class="math inline">\(n = 100\)</span>. However, a confidence level by definition is the percentage of calculated intervals we expect to contain the true parameter of interest if we calculated these intervals over and over. This means any one interval from a sample of <span class="math inline">\(n = 100\)</span> has a 95% chance of containing the true parameter, just as any one interval from a sample of <span class="math inline">\(n = 500\)</span> has a 95% chance of containing the true parameter. Each interval (the wider one from <span class="math inline">\(n = 100\)</span> and narrower one from <span class="math inline">\(n= 500\)</span>) has a chance of containing the true parameter relative to all other calculated intervals for that same sample size.</p>
 <p>Hence, whether we have an interval from a sample of <span class="math inline">\(n = 100\)</span> or <span class="math inline">\(n = 500\)</span>, we are still 95% confident in both cases that the true parameter lies within that interval. The probability of a given interval containing the true parameter is not affected by the sample size. This probability only changes when we change our confidence level.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1319,7 +1318,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>🟠 Every research context will drastically shape how confidence intervals are approached. As we have seen, the volume and quality of data affect how accurate data analyses can be, and many rules of thumb in data science are simply that - rules of thumb, as opposed to hardfacts about how to report statistics.</li>
+<li>🟠 Every research context will drastically shape how confidence intervals are approached. As we have seen, the volume and quality of data affect how accurate data analyses can be, and many rules of thumb in data science are simply that - rules of thumb, as opposed to hard facts about how to report statistics.</li>
 <li>🟠 What are some situations where you want to know that something is true with nearly 100% confidence?</li>
 <li>🟠 What are some situations where the uncertainty of statistic is maybe not so bad?</li>
 <li>🟠 What does it <em>really</em> mean to have something within or outside of a confidence interval?</li>
@@ -1414,8 +1413,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1531,7 +1528,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

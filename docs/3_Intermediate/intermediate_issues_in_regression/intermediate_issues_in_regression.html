@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -716,7 +715,7 @@ window.Quarto = {
     <div class="quarto-category">R</div>
     <div class="quarto-category">vif</div>
     <div class="quarto-category">robust standard errors</div>
-    <div class="quarto-category">White’s test</div>
+    <div class="quarto-category">White's test</div>
     <div class="quarto-category">Breusch-Pagan test</div>
     <div class="quarto-category">linear probability model</div>
   </div>
@@ -767,7 +766,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="outcomes">Outcomes</h3>
 <ul>
 <li>Understand the origin and meaning of multicollinearity in regression models</li>
-<li>Perform simple tests for multicollinerarity using VIF</li>
+<li>Perform simple tests for multicollinearity using VIF</li>
 <li>Be able to demonstrate common methods to fix or resolve collinear data</li>
 <li>Understand the origin and meaning of heteroskedasticity in regression models</li>
 <li>Perform a variety of tests for heteroskedasticity</li>
@@ -778,29 +777,27 @@ window.Quarto = {
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>
 <ul>
-<li>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</li>
+<li>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</li>
 <li>Stargazer package is due to: Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data and set it up</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the data and set it up</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"intermediate_issues_in_regression_functions.r"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"intermediate_issues_in_regression_tests.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the data and set it up</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data prep!</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"datasets_intermediate/SFS_2019_Eng.dta"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">clean_up_data</span>(SFS_data) <span class="co"># massive data cleanup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"intermediate_issues_in_regression_functions.r"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"intermediate_issues_in_regression_tests.r"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../datasets_intermediate/SFS_2019_Eng.dta"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">clean_up_data</span>(SFS_data) <span class="co"># massive data cleanup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(SFS_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(SFS_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this notebook, we will explore several important issues in multiple regression models, and explore how to identify, evaluate, and correct them where appropriate. It is important to remember that there can be many other issues that arise in specific regression models; as you learn more about econometrics and create your own research questions, different issues will arise. Consider these as “examples” for some of the most common issues that arise in regression models.</p>
 </section>
@@ -812,45 +809,47 @@ window.Quarto = {
 Y_i = \beta_0 + \beta_1 X_1 + \epsilon_i
 \]</span></p>
 <p>You find the estimates of the coefficients in this model using OLS; i.e., solving an equation like:</p>
-<p><span class="math display">\[ \min_{\beta_0, \beta_1} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 X_i)^2 \]</span></p>
+<p><span class="math display">\[ \min_{\beta_0, \beta_1} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 X_i)^2
+\]</span></p>
 <p>Under the OLS regression assumptions, this has a unique solution; i.e you can find unique values for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
 <p>However, what if you wrote an equation like this:</p>
 <p><span class="math display">\[
 \beta_a=\beta_0+\beta_1
 \]</span></p>
 <p>We can then rewrite as <span class="math inline">\(Y_i = \beta_0 + \beta_1 + \beta_2 X_i + \epsilon_i\)</span></p>
-<p>This <em>seems</em> like it would be fine, but remember what you are doing: trying to find a <em>line</em> of best fit. The problem is that this equation does not define a unique line; the “intercept” is <span class="math inline">\(\beta_0 + \beta_1\)</span>. There are two “parameters” (<span class="math inline">\(\beta_0, \beta_1\)</span>) for a single “characteristics” (the intercept). This means that the resulting OLS problem:</p>
-<p><span class="math display">\[ \min_{\beta_0, \beta_1, \beta_2} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 - \beta_2 X_i)^2 \]</span></p>
+<p>This <em>seems</em> like it would be fine, but remember what you are doing: trying to find a <em>line</em> of best fit. The problem is that this equation does not define a unique line; the “intercept” is <span class="math inline">\(\beta_0 + \beta_1\)</span>. There are two “parameters” (<span class="math inline">\(\beta_0, \beta_1\)</span>) for a single “characteristic” (the intercept). This means that the resulting OLS problem:</p>
+<p><span class="math display">\[ \min_{\beta_0, \beta_1, \beta_2} \sum_{i=1}^n(Y_i - \beta_0 - \beta_1 - \beta_2 X_i)^2
+\]</span></p>
 <p>Does not have a unique solution. In algebraic terms, it means you can find many representations of a line with two intercept parameters. This is referred to in econometrics as a lack of <strong>identification</strong>; multicollinearity is one way that identification can fail in regression models.</p>
 <p>You can see this in the following example, which fits an OLS estimate of <code>wealth</code> and <code>income_before_tax</code> then compares the fit to a regression with two intercepts. Try changing the values to see what happens.</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong>: Make sure to understand what the example below is doing. Notice how the results are exactly the same, no matter what the value of <code>k</code> is?</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(wealth <span class="sc">~</span> income_before_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>b_0 <span class="ot">&lt;-</span> reg<span class="sc">$</span>coef[[<span class="dv">1</span>]]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> reg<span class="sc">$</span>coef[[<span class="dv">2</span>]]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>resid1 <span class="ot">&lt;-</span> SFS_data<span class="sc">$</span>wealth <span class="sc">-</span> b_0 <span class="sc">-</span> b_1<span class="sc">*</span>SFS_data<span class="sc">$</span>income_before_tax</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="co">#change me! </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>b_0 <span class="ot">=</span> (reg<span class="sc">$</span>coef[[<span class="dv">1</span>]])<span class="sc">/</span><span class="dv">2</span> <span class="sc">-</span> k</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">=</span> (reg<span class="sc">$</span>coef[[<span class="dv">1</span>]])<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> k </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">=</span> reg<span class="sc">$</span>coef[[<span class="dv">2</span>]]</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>resid2 <span class="ot">&lt;-</span>SFS_data<span class="sc">$</span>wealth <span class="sc">-</span> b_0 <span class="sc">-</span> b_1 <span class="sc">-</span> b_2<span class="sc">*</span>SFS_data<span class="sc">$</span>income_before_tax</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> resid1), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Residuals from 1 Variable Model"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> resid2), <span class="at">color =</span> <span class="st">"red"</span>)  <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Residuals from 2 Variable Model"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(wealth <span class="sc">~</span> income_before_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>b_0 <span class="ot">&lt;-</span> reg<span class="sc">$</span>coef[[<span class="dv">1</span>]]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> reg<span class="sc">$</span>coef[[<span class="dv">2</span>]]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>resid1 <span class="ot">&lt;-</span> SFS_data<span class="sc">$</span>wealth <span class="sc">-</span> b_0 <span class="sc">-</span> b_1<span class="sc">*</span>SFS_data<span class="sc">$</span>income_before_tax</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="co">#change me! </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>b_0 <span class="ot">=</span> (reg<span class="sc">$</span>coef[[<span class="dv">1</span>]])<span class="sc">/</span><span class="dv">2</span> <span class="sc">-</span> k</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">=</span> (reg<span class="sc">$</span>coef[[<span class="dv">1</span>]])<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> k </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">=</span> reg<span class="sc">$</span>coef[[<span class="dv">2</span>]]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>resid2 <span class="ot">&lt;-</span>SFS_data<span class="sc">$</span>wealth <span class="sc">-</span> b_0 <span class="sc">-</span> b_1 <span class="sc">-</span> b_2<span class="sc">*</span>SFS_data<span class="sc">$</span>income_before_tax</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> resid1), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Residuals from 1 Variable Model"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> resid2), <span class="at">color =</span> <span class="st">"red"</span>)  <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Residuals from 2 Variable Model"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how the residuals look <em>exactly</em> the same - despite these being from (purportedly) two different models. This is because they not really two different models! They <em>identify</em> the same model!</p>
 <p>Okay, you’re probably thinking, that makes sense - but just don’t write down an equation like that. After all, it seems somewhat artificial that we added an extra intercept term.</p>
-<p>However, multicollinearly can occur with <em>any</em> set of variables in the model; not just the intercept. For example, suppose you have a multiple regression:</p>
+<p>However, multicollinearity can occur with <em>any</em> set of variables in the model; not just the intercept. For example, suppose you have a multiple regression:</p>
 <p><span class="math display">\[
 Y_ i = \beta_0 + \beta_1 X_{1,i} + \beta_2  X_{2,i} + \beta_3  X_{3,i} + \epsilon_i
 \]</span></p>
@@ -884,18 +883,18 @@ Y_ i = \beta_0 + \beta_1 (0.4 X_{2,i} + 12 X_{3,i}) + \beta_2  X_{2,i} + \beta_3
 <p>In all of these cases, you need to go back to your original regression model and re-evaluate what you are trying to do in order to simplify the model or correct the error.</p>
 <p>Consider the following regression model, in which we want to study whether or not there is a penalty for families led by someone who is younger is the SFS Data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ya =</span> <span class="fu">case_when</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"Less than high school"</span>  <span class="sc">~</span> <span class="st">"Yes"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"High school"</span> <span class="sc">~</span> <span class="st">"Yes"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"Non-university post-secondary"</span> <span class="sc">~</span> <span class="st">"No"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No"</span> <span class="co"># this is for all other cases</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ya =</span> <span class="fu">as_factor</span>(ya))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> ya <span class="sc">+</span> education , <span class="at">data =</span> SFS_data)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ya =</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"Less than high school"</span>  <span class="sc">~</span> <span class="st">"Yes"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"High school"</span> <span class="sc">~</span> <span class="st">"Yes"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        education <span class="sc">==</span> <span class="st">"Non-university post-secondary"</span> <span class="sc">~</span> <span class="st">"No"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No"</span> <span class="co"># this is for all other cases</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ya =</span> <span class="fu">as_factor</span>(ya))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> ya <span class="sc">+</span> education , <span class="at">data =</span> SFS_data)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Can you see why the multi-collinearity is occurring here? Try to write down an equation which points out what the problem is in this regression - why is it multi-collinear? How could you fix this problem by changing the model?</p>
 <blockquote class="blockquote">
@@ -933,33 +932,33 @@ Var(X_i) = (X_i - \bar{X_i})^2 = k (15 - \bar{X_i})^2 + (1-k)(20 - \bar{X_i})^2
 \]</span></p>
 <p>Okay, that looks awful - so let’s plot a graph of <span class="math inline">\(s_b\)</span> versus <span class="math inline">\(k\)</span> (when <span class="math inline">\(n = 1000\)</span>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">6</span>,<span class="at">repr.plot.height=</span><span class="dv">4</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.01</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>eq <span class="ot">=</span> <span class="cf">function</span>(k){(<span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1000-2</span>))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">25</span><span class="sc">*</span>(k<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>k)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>k)<span class="sc">*</span>k<span class="sc">^</span><span class="dv">2</span>))<span class="sc">-</span><span class="dv">1</span>)}</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">1.00</span>, <span class="at">by =</span> r)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(s)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">eq</span>(s), <span class="at">type=</span><span class="st">'l'</span>,  <span class="at">xlab=</span><span class="st">"Values of K"</span>, <span class="at">ylab=</span><span class="st">"Standard Error"</span>, <span class="at">xaxt =</span> <span class="st">"n"</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">seq</span>(<span class="dv">0</span>, n<span class="dv">-1</span>, <span class="at">by =</span> <span class="dv">10</span>), <span class="at">labels=</span><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">1.00</span>, <span class="at">by =</span> <span class="dv">10</span><span class="sc">*</span>r))</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># You will notice that the plot actually diverges to infinity</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Try making R smaller to show this fact!</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the value at 1 increases</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">6</span>,<span class="at">repr.plot.height=</span><span class="dv">4</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.01</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>eq <span class="ot">=</span> <span class="cf">function</span>(k){(<span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1000-2</span>))<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">25</span><span class="sc">*</span>(k<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>k)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>k)<span class="sc">*</span>k<span class="sc">^</span><span class="dv">2</span>))<span class="sc">-</span><span class="dv">1</span>)}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">1.00</span>, <span class="at">by =</span> r)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(s)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">eq</span>(s), <span class="at">type=</span><span class="st">'l'</span>,  <span class="at">xlab=</span><span class="st">"Values of K"</span>, <span class="at">ylab=</span><span class="st">"Standard Error"</span>, <span class="at">xaxt =</span> <span class="st">"n"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">seq</span>(<span class="dv">0</span>, n<span class="dv">-1</span>, <span class="at">by =</span> <span class="dv">10</span>), <span class="at">labels=</span><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">1.00</span>, <span class="at">by =</span> <span class="dv">10</span><span class="sc">*</span>r))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># You will notice that the plot actually diverges to infinity</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Try making R smaller to show this fact!</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the value at 1 increases</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Why does this happen? The reason actually has to do with <em>information</em>.</p>
-<p>When you estimate a regression, you are using the variation in the data to estimate each of the parameters. As the variation falls, the estimation gets less and less precise, because you are using less and less data to make an evaluation. The magnitude of this problem can be quantified using the <strong>VIF</strong> or <strong>variance inflation factor</strong> for each of the variables in question. Graphically you can think of regression as drawing a best fit line through data points. Now if the variance is <span class="math inline">\(0\)</span> in the data, there is just one data point. If you remember from high school you need two points to draw a line, so with <span class="math inline">\(0\)</span> variance the OLS problem becomes ill-defined.</p>
+<p>When you estimate a regression, you are using the variation in the data to estimate each of the parameters. As the variation falls, the estimation gets less and less precise, because you are using less and less data to make an evaluation. The magnitude of this problem can be quantified using the <strong>VIF</strong> or <strong>variance inflation factor</strong> for each of the variables in question. Graphically you can think of regression as drawing a best fit line through data points. Now if the variance is <span class="math inline">\(0\)</span> in the data, there is just one data point. If you remember from high school, you need two points to draw a line, so with <span class="math inline">\(0\)</span> variance the OLS problem becomes ill-defined.</p>
 <p>We can calculate this directly in R by using the <code>vif</code> function. Let’s look at the collinearity in our model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wealth <span class="sc">~</span>  income_before_tax <span class="sc">+</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wealth <span class="sc">~</span>  income_before_tax <span class="sc">+</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income after tax on wealth: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_after_tax,SFS_data<span class="sc">$</span>wealth),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income before tax on wealth: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_before_tax,SFS_data<span class="sc">$</span>wealth),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income before tax on income after tax: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_before_tax,SFS_data<span class="sc">$</span>income_after_tax),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income after tax on wealth: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_after_tax,SFS_data<span class="sc">$</span>wealth),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income before tax on wealth: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_before_tax,SFS_data<span class="sc">$</span>wealth),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation factor of income before tax on income after tax: "</span>,<span class="fu">vif</span>(regression2,SFS_data<span class="sc">$</span>income_before_tax,SFS_data<span class="sc">$</span>income_after_tax),<span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice the extremely large VIF. This would indicate that you have a problem with collinearity in your data.</p>
 <blockquote class="blockquote">
@@ -972,45 +971,46 @@ Var(X_i) = (X_i - \bar{X_i})^2 = k (15 - \bar{X_i})^2 + (1-k)(20 - \bar{X_i})^2
 <h2 class="anchored" data-anchor-id="part-2-heteroskedasticity">Part 2: Heteroskedasticity</h2>
 <p><strong>Heteroskedasticity</strong> (Het-er-o-sked-as-ti-city) is another common problem in many economic models. It refers to the situation in which the distribution of the residuals changes as the explanatory variables change. Usually, we could visualize this problem by drawing a residual plot and a fan or cone shape indicates the presence of heteroskedasticity. For example, consider this regression:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>regression3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(income_after_tax), <span class="at">y =</span> <span class="fu">as.numeric</span>(regression3<span class="sc">$</span>residuals))) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"After-tax income"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>regression3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(income_after_tax), <span class="at">y =</span> <span class="fu">as.numeric</span>(regression3<span class="sc">$</span>residuals))) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"After-tax income"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This obviously does not look like a distribution which is unchanging as income after tax changes. This is a good “eyeball test” for heteroskedasticty. Why does heteroskedasticity arise? For many reasons:</p>
+<p>This obviously does not look like a distribution which is unchanging as income after tax changes. This is a good “eyeball test” for heteroskedasticity. Why does heteroskedasticity arise? For many reasons:</p>
 <ol type="1">
-<li><p>It can be a property of the data; it just happens that some values show more variation, due to the process which creates the data. One of the most common ways this can arise is where there are several different economic processes creating the data.</p></li>
-<li><p>It can be because of an unobserved variable. This is similar to above; if we can quantify that process in a variable or a description, we have left it out. This could create bias in our model, but it will also show up in the standard errors in this way.</p></li>
-<li><p>It can be because of your model specification. Models, by their very nature, can be heteroskedastic (or not); we will explore one important example later in this worksheet.</p></li>
-<li><p>There are many other reasons, which we won’t get into here.</p></li>
+<li>It can be a property of the data; it just happens that some values show more variation, due to the process which creates the data. One of the most common ways this can arise is where there are several different economic processes creating the data.<br>
+</li>
+<li>It can be because of an unobserved variable. This is similar to above; if we can quantify that process in a variable or a description, we have left it out. This could create bias in our model, but it will also show up in the standard errors in this way.</li>
+<li>It can be because of your model specification. Models, by their very nature, can be heteroskedastic (or not); we will explore one important example later in this worksheet.</li>
+<li>There are many other reasons, which we won’t get into here.</li>
 </ol>
 <p>Whatever the reason it exists, you need to correct for it - if you don’t, while your coefficients will be OK, your standard errors will be incorrect. You can do this in a few ways. The first way is to try to change your variables that the “transformed” model (a) makes economic sense, and (b) no longer suffers from heteroskedasticity. For example, perhaps a <em>log-log</em> style model might work here:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(income_before_tax <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="co"># getting rid of NAs</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">lnincome_before_tax =</span> <span class="fu">log</span>(income_before_tax))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(income_after_tax <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">lnincome_after_tax =</span> <span class="fu">log</span>(income_after_tax))</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>regression4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(lnincome_before_tax <span class="sc">~</span> lnincome_after_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> lnincome_before_tax, <span class="at">y =</span> regression4<span class="sc">$</span>residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Log of before-tax income"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(income_before_tax <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="co"># getting rid of NAs</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">lnincome_before_tax =</span> <span class="fu">log</span>(income_before_tax))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(income_after_tax <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">lnincome_after_tax =</span> <span class="fu">log</span>(income_after_tax))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>regression4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(lnincome_before_tax <span class="sc">~</span> lnincome_after_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> lnincome_before_tax, <span class="at">y =</span> regression4<span class="sc">$</span>residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Log of before-tax income"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p><strong>Think Deeper</strong>: Do the errors of this model seem homoskedastic?</p>
 </blockquote>
 <p>As you can see, that didn’t work out. This is pretty typical: when you transform a model by changing the variables, what you are really doing is adjusting how you think the data process should be described so that it’s no longer heteroskedastic. If you aren’t correct with this, you won’t fix the problem.</p>
 <p>For example, in a <em>log-log</em> model, we are saying “there’s a multiplicative relationship”… but that probably doesn’t make sense here. This is one of the reasons why data transformations are not usually a good way to fix this problem unless you have a very clear idea of what the transformation <em>should</em> be.</p>
-<p>The most robust (no pun intended) way is to simply use standard errors which are robust to heteroskedasticity. There are actually a number of different versions of these (which you don’t need to know about), but they are all called <strong>HC</strong> or <strong>hetereoskedasticity-corrected</strong> standard errors. In economics, we typically adopt White’s versions of these (called <strong>HC1</strong> in the literature); these are often referred to in economics papers as “robust” standard errors (for short).</p>
+<p>The most robust (no pun intended) way is to simply use standard errors which are robust to heteroskedasticity. There are actually a number of different versions of these (which you don’t need to know about), but they are all called <strong>HC</strong> or <strong>heteroskedasticity-corrected</strong> standard errors. In economics, we typically adopt White’s versions of these (called <strong>HC1</strong> in the literature); these are often referred to in economics papers as “robust” standard errors (for short).</p>
 <p>This is relatively easy to do in R. Basically, you run your model, as normal, and then re-test the coefficients to get the correct error using the <code>coeftest</code> command, but specifying which kind of errors you want to use. Here is an example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>regression5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression5)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(regression5, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(regression5, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>regression5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression5)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(regression5, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(regression5, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As you can see, the standard errors (and significance tests) give different results; in particular, the HC1 errors are almost 10-times larger than the uncorrected errors. In this particular model, it didn’t make much of a different to the conclusions (even though it changed the <span class="math inline">\(t\)</span> statistics a lot), but it can sometimes change your results.</p>
 <section id="testing-for-heteroskedasticity" class="level3">
@@ -1022,13 +1022,13 @@ Var(X_i) = (X_i - \bar{X_i})^2 = k (15 - \bar{X_i})^2 + (1-k)(20 - \bar{X_i})^2
 </ol>
 <p>Both of them are, conceptually, very similar. Let’s try (2) for the above regression:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data) </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>resid_sq <span class="ot">&lt;-</span> (regression2<span class="sc">$</span>residuals)<span class="sc">^</span><span class="dv">2</span> <span class="co"># get the residuals then square it</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>regression3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(resid_sq <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data) <span class="co"># make the residuals a function of X</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>regression2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>resid_sq <span class="ot">&lt;-</span> (regression2<span class="sc">$</span>residuals)<span class="sc">^</span><span class="dv">2</span> <span class="co"># get the residuals then square it</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>regression3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(resid_sq <span class="sc">~</span> income_after_tax, <span class="at">data =</span> SFS_data) <span class="co"># make the residuals a function of X</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Inspecting the results, we can see from the <span class="math inline">\(F\)</span>-statistic that we can strongly reject the assumption of homoskedasticity. This is denoted by the 3 asterisks. This data looks like it’s heteroskedastic, because the residuals can be predicted using the explanatory variables.</p>
 <p>There is one very important note:</p>
@@ -1047,24 +1047,24 @@ D_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \epsilon_i
 <p>These models are quite useful because the coefficients have the interpretation as being the change in the probability of the dummy condition occurring. For example, we previously regressed <code>gender</code> (of male or female) in these models to investigate the wealth gap. However, this can easily cause a problem when estimated using OLS - the value of <span class="math inline">\(D_i\)</span> must be 0 or 1, and the fitted values (which are probabilities) must be between 0 and 1.</p>
 <p>However, <em>nothing</em> in the OLS model forces this to be true. If you estimate a value for <span class="math inline">\(\beta_1\)</span>, if you have an <span class="math inline">\(X_{1,i}\)</span> that is high or low enough, the fitted values will be above or below 1 or 0 (respectively). This implies that <em>mechanically</em> you have heteroskedasticity because high or low values of the explanatory variables will ALWAYS fit worse than intermediate values. For example, let’s look at the fitted values from this regression:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">M_F =</span> <span class="fu">case_when</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"Male"</span>  <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"Female"</span> <span class="sc">~</span> <span class="dv">1</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data[<span class="fu">complete.cases</span>(SFS_data<span class="sc">$</span>gender,SFS_data<span class="sc">$</span>income_before_tax), ]</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>gender)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>income_before_tax <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>income_before_tax)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>regression6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(gender <span class="sc">~</span> income_before_tax, <span class="at">data =</span> SFS_data)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(regression6, SFS_data)</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression6)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(income_before_tax), <span class="at">y =</span> fitted)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"before tax income"</span>, <span class="at">y =</span> <span class="st">"Predicted Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">M_F =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"Male"</span>  <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"Female"</span> <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data[<span class="fu">complete.cases</span>(SFS_data<span class="sc">$</span>gender,SFS_data<span class="sc">$</span>income_before_tax), ]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>gender)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>income_before_tax <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>income_before_tax)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>regression6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(gender <span class="sc">~</span> income_before_tax, <span class="at">data =</span> SFS_data)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(regression6, SFS_data)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression6)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(income_before_tax), <span class="at">y =</span> fitted)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"before tax income"</span>, <span class="at">y =</span> <span class="st">"Predicted Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how that as <span class="math inline">\(y\)</span> gets larger as the fitted value drops. If someone has an income of over 1 million dollars, they would be predicted to have a negative probability of being a female - which is impossible.</p>
 <p>This is why you <em>always</em> must use robust standard errors in these models - even if a test says otherwise. Let’s think about what is happening here, well remember the example of imperfect collinearity, we’re the was <span class="math inline">\(1-k\)</span> chance of <span class="math inline">\(x\)</span> being 15 and k of <span class="math inline">\(x\)</span> being 20. Now remember x was co-linear to <span class="math inline">\(\beta_0\)</span>, and this caused large standard errors. In this scenario the probability of a someone being female given they earn over a million dollars a year is very small. This because few female lead has household earn over a million dollars a year as a percent of the total households earning over a million dollars a year.</p>
@@ -1072,7 +1072,7 @@ D_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \epsilon_i
 </section>
 <section id="part-3-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-exercises">Part 3: Exercises</h2>
-<p>This sections has both written and coding exercises for you to test your knowledge about issues in regressions. The answers to the written exercises are on the last section of the notebook.</p>
+<p>This section has both written and coding exercises for you to test your knowledge about issues in regressions. The answers to the written exercises are on the last section of the notebook.</p>
 <section id="questions" class="level3">
 <h3 class="anchored" data-anchor-id="questions">Questions</h3>
 <p>Multicollinearity may seem to be an abstract concept, so let’s explore this issue with a practical example.</p>
@@ -1092,50 +1092,54 @@ M_F = \beta_0 + \beta_1 I_{bi} + \beta_2 I_{ai} + \epsilon_i
 </ol>
 <p>Before we continue, let’s reduce the sample size of our data set to 200 observations. We will also revert <code>gender</code> into a numeric variable:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>SFS_data200 <span class="ot">&lt;-</span> <span class="fu">head</span>(SFS_data, <span class="dv">200</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">M_F =</span> <span class="fu">as.numeric</span>(gender)) <span class="co"># everyone in the first 200 observations as, male or female</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>SFS_data200 <span class="ot">&lt;-</span> <span class="fu">head</span>(SFS_data, <span class="dv">200</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">M_F =</span> <span class="fu">as.numeric</span>(gender)) <span class="co"># everyone in the first 200 observations as, male or female</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Run the regression between family income and the gender of the major earner described above.</p>
+<ol start="2" type="1">
+<li>Run the regression between family income and the gender of the major earner described above.</li>
+</ol>
 <p>Tested Objects: <code>reg1</code>.</p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???, <span class="at">data =</span> SFS_data200) </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???, <span class="at">data =</span> SFS_data200) </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>What do you notice about the characteristics of the estimated regression? Does anything point to your concern being valid?</li>
 </ol>
 <p>Now, let’s suppose we drop 50 more observations:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>SFS_data150 <span class="ot">&lt;-</span> <span class="fu">head</span>(SFS_data200, <span class="dv">150</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>SFS_data150 <span class="ot">&lt;-</span> <span class="fu">head</span>(SFS_data200, <span class="dv">150</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Run the regression model again and compare it with the previous regression.</p>
+<ol start="4" type="1">
+<li>Run the regression model again and compare it with the previous regression.</li>
+</ol>
 <p>Tested Objects: <code>reg2</code>.</p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???) </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???) </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
-<li>What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?</li>
+<li><p>What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?</p></li>
+<li><p>Next, increase the sample size back to its full size and run the regression once again.</p></li>
 </ol>
-<p>Next, increase the sample size back to its full size and run the regression once again.</p>
 <p>Tested Objects: <code>reg3</code>.</p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data[<span class="fu">complete.cases</span>(SFS_data<span class="sc">$</span>income_after_tax), ] <span class="co">#do not modify this code</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>income_after_tax <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>income_after_tax) <span class="co"># do not modify this code</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>reg3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???) </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg3)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_6</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data[<span class="fu">complete.cases</span>(SFS_data<span class="sc">$</span>income_after_tax), ] <span class="co">#do not modify this code</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>income_after_tax <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(SFS_data<span class="sc">$</span>income_after_tax) <span class="co"># do not modify this code</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>reg3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???) </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg3)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_6</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="7" type="1">
 <li>Did this change eliminate the concern? How do you know?</li>
@@ -1156,44 +1160,46 @@ I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
 </ol>
 <p>Run the regression below, and graph the residuals against the level of schooling.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the regression</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>reg5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> education, <span class="at">data =</span> SFS_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the regression</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>reg5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax <span class="sc">~</span> education, <span class="at">data =</span> SFS_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>reg5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax<span class="sc">~</span>education, <span class="at">data =</span> SFS_data)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>resiplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(reg5, <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> .resid)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Education Level"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Income (Residuals)"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>resiplot <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>reg5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax<span class="sc">~</span>education, <span class="at">data =</span> SFS_data)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>resiplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(reg5, <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> .resid)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Education Level"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Income (Residuals)"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>resiplot <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="10" type="1">
-<li>Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?</li>
+<li><p>Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?</p></li>
+<li><p>To test for heteroskedasticity formally, let’s perform the White Test. First, store the residuals from the previous regression in <code>SFS_data</code>.</p></li>
 </ol>
-<p>To test for heteroskedasticity formally, let’s perform the White Test. First, store the residuals from the previous regression in <code>SFS_data</code>.</p>
 <p>Tested Objects: <code>SFS_data</code> (checks to see that residuals were added properly).</p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(SFS_data, <span class="at">resid =</span> ???)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SFS_data<span class="sc">$</span>resid, <span class="dv">10</span>) <span class="co">#Displays the residuals in the dataframe</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_11</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(SFS_data, <span class="at">resid =</span> ???)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SFS_data<span class="sc">$</span>resid, <span class="dv">10</span>) <span class="co">#Displays the residuals in the dataframe</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_11</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, generate a variable for the squared residuals, then run the required auxiliary regression.</p>
+<ol start="12" type="1">
+<li>Next, generate a variable for the squared residuals, then run the required auxiliary regression.</li>
+</ol>
 <p>Tested Objects: <code>WT</code> (the auxiliary regression).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax<span class="sc">~</span>gender<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> gender <span class="sc">+</span> education<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span>education<span class="sc">+</span> education<span class="sc">*</span>gender, <span class="at">data =</span> SFS_data)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">=</span> reg5<span class="sc">$</span>residuals</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>rsq<span class="ot">=</span>(resid)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(income_before_tax<span class="sc">~</span>gender<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> gender <span class="sc">+</span> education<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span>education<span class="sc">+</span> education<span class="sc">*</span>gender, <span class="at">data =</span> SFS_data)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">=</span> reg5<span class="sc">$</span>residuals</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>rsq<span class="ot">=</span>(resid)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>rsq <span class="ot">&lt;-</span> rsq</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>WT <span class="ot">&lt;-</span> <span class="fu">lm</span>(rsq <span class="sc">~</span> ???, <span class="at">data =</span>SFS_data) <span class="co"># fill me in</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(WT)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_12</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>rsq <span class="ot">&lt;-</span> rsq</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>WT <span class="ot">&lt;-</span> <span class="fu">lm</span>(rsq <span class="sc">~</span> ???, <span class="at">data =</span>SFS_data) <span class="co"># fill me in</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(WT)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_12</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" type="1">
 <li><p>What does the white test suggest?</p></li>
@@ -1348,8 +1354,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1465,7 +1469,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

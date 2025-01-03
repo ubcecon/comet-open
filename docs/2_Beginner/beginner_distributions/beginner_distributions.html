@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -881,7 +880,7 @@ window.Quarto = {
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>table_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now let’s try creating a graph to show the data. PDFs are best visualized with histograms. To show a histogram with the probabilites in the y-axis we use the function <code>geom_bar</code>.</p>
+<p>Now let’s try creating a graph to show the data. PDFs are best visualized with histograms. To show a histogram with the probabilities in the y-axis we use the function <code>geom_bar</code>.</p>
 <blockquote class="blockquote">
 <p>Refer to <em>Introduction to Visualization</em> for a refresher.</p>
 </blockquote>
@@ -945,7 +944,7 @@ window.Quarto = {
 <li>0 or (0%) is the probability that the random variable is less or equal to the smallest value of the variable</li>
 <li>1 or (100%) is the total probability that the random variable is less or equal to the biggest value of the variable</li>
 </ul></li>
-<li><p>Therefore, if we have a variable <span class="math inline">\(X\)</span> that can take the value of <span class="math inline">\(x\)</span>, the CDF is is the probability that <span class="math inline">\(X\)</span> will take a value less than or equal to <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Therefore, if we have a variable <span class="math inline">\(X\)</span> that can take the value of <span class="math inline">\(x\)</span>, the CDF is the probability that <span class="math inline">\(X\)</span> will take a value less than or equal to <span class="math inline">\(x\)</span>.</p></li>
 </ul>
 <p>Since we use the lowercase <span class="math inline">\(f(y)\)</span> to represent the PDF of <span class="math inline">\(y\)</span>, we use the uppercase <span class="math inline">\(F(y)\)</span> to represent the CDF of <span class="math inline">\(y\)</span>. Mathematically, since <span class="math inline">\(f_{X}(x)\)</span> denotes the probability density function of <span class="math inline">\(X\)</span>, then the probability that <span class="math inline">\(X\)</span> falls between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> where <span class="math inline">\(a \leq b\)</span> is:</p>
 <p><span class="math display">\[
@@ -971,7 +970,7 @@ window.Quarto = {
 <section id="joint-probability-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="joint-probability-distribution">Joint Probability Distribution</h3>
 <p>In this case, the <strong>joint distribution</strong> is the probability distribution on all possible values that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, can take on.</p>
-<p>Lets suppose both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are discrete random variables which can take on values from 1-3. We show the joint probability table (<span class="math inline">\(X\)</span> on vertical axis, and <span class="math inline">\(Y\)</span> on horizontal) below:</p>
+<p>Let’s suppose both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are discrete random variables which can take on values from 1-3. We show the joint probability table (<span class="math inline">\(X\)</span> on vertical axis, and <span class="math inline">\(Y\)</span> on horizontal) below:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1133,14 +1132,14 @@ x &amp; \text{if } 0 \leq x \leq 1,\\
 <li><code>immstat</code> takes values 1 == non-immigrant; 2 == immigrant; 3 == NA</li>
 <li><code>kol</code> takes values 1 == english only; 2 == french only; 3 == both french and english</li>
 </ul>
-<p>What is the probability that someone is both an immigrant and knows both English and French? Answer in fractional from.</p>
+<p>What is the probability that someone is both an immigrant and knows both English and French? Answer in fractional form.</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your answer for the probability (in fractional format, i.e. 10% = 1/10) here</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>answer_4 <span class="ot">&lt;-</span> ... </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>What is the probability that someone is an immigrant given that they know only English? Answer in fractional from.</p>
+<p>What is the probability that someone is an immigrant given that they know only English? Answer in fractional form.</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your answer for the probability (in fractional format, i.e. 10% = 1/10) here</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>answer_5 <span class="ot">&lt;-</span> ... </span>
@@ -1224,7 +1223,7 @@ x &amp; \text{if } 0 \leq x \leq 1,\\
 <li><p>The variable’s density curve is therefore a rectangle, with constant height across the interval and 0 height elsewhere.</p></li>
 <li><p>Since the area under the curve must be equal to 1, the length of the interval determines the height of the curve.</p></li>
 </ul>
-<p>Let’s see how this kind of distribution might look like.</p>
+<p>Let’s see what this kind of distribution might look like.</p>
 <ul>
 <li>First, we will generate random values from this distribution using the function <code>runif()</code>.</li>
 <li>This command is written as <code>runif(n, min = , max = )</code>, where <code>n</code> is the number of observations, and <code>max</code> and <code>min</code> provide the interval between which the random variables are picked from.</li>
@@ -1233,7 +1232,7 @@ x &amp; \text{if } 0 \leq x \leq 1,\\
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>example_unif <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10000</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">100</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(example_unif, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">'x'</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="at">main =</span> <span class="st">"Empirical PDF for uniform random values on [0,100]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>While each number within the specified range is equally likely to be drawn, by random chance, some ranges of numbers are drawn more frequently others, hence the bars are not all the exact same height. The shape of the distribution will change each time you re-run the previous code cell.</p>
+<p>While each number within the specified range is equally likely to be drawn, by random chance, some ranges of numbers are drawn more frequently than others, hence the bars are not all the exact same height. The shape of the distribution will change each time you re-run the previous code cell.</p>
 <p>If we know the underlying distribution, we can infer many characteristics of the data. For instance, suppose we have a uniform random variable <span class="math inline">\(X\)</span> defined on the interval <span class="math inline">\((10,50)\)</span>.</p>
 <p>Since the interval has a width of 40, the curve must have a height of <span class="math inline">\(\frac{1}{40} = 0.025\)</span> over the interval and 0 elsewhere. The probability that <span class="math inline">\(X \leq 25\)</span> is the area between 10 and 25, or <span class="math inline">\((25-10)\cdot 0.025 = 0.375\)</span>.</p>
 <section id="pdf" class="level4">
@@ -1266,7 +1265,7 @@ x &amp; \text{if } 0 \leq x \leq 1,\\
 </section>
 <section id="normal-gaussian-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="normal-gaussian-distribution">Normal (Gaussian) Distribution</h3>
-<p>We first saw the normal distribution in the <em>Central Tendency</em> notebook. The normal distribution is fundamental to many statistic processes as many random variables in natural and social sciences are normally distributed (e.g, height and SAT scores both follow a normal distribution). We refer to this type of distribution as “normal” because it is symmetrical and bell-shaped.</p>
+<p>We first saw the normal distribution in the <em>Central Tendency</em> notebook. The normal distribution is fundamental to many statistical processes as many random variables in natural and social sciences are normally distributed (e.g, height and SAT scores both follow a normal distribution). We refer to this type of distribution as “normal” because it is symmetrical and bell-shaped.</p>
 <p>A normal distribution is <strong>parameterized</strong> by its mean <span class="math inline">\(\mu\)</span> and its standard deviation <span class="math inline">\(\sigma\)</span>, and it is expressed as <span class="math inline">\(N(\mu,\sigma)\)</span>. We cannot calculate the normal distribution without knowing the mean and the standard deviation.</p>
 <p>The PDF has a complex equation, which can be written as:</p>
 <p><span class="math display">\[
@@ -1344,7 +1343,7 @@ f(x; \mu, \sigma) = \displaystyle \frac{x^{-(x-\mu)^{2}/(2\sigma^{2})}}{\sigma\s
 </section>
 <section id="students-t-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="students-t-distribution">Student’s <span class="math inline">\(t\)</span>-Distribution</h3>
-<p>The <strong>Student’s t-distribution</strong> is a continuous distribution that occurs when we estimate the sampling distribution of a normally distributed population with a small sample size and an unknown standard deviation. This is an important concept that we will explore in a future notebooks.</p>
+<p>The <strong>Student’s t-distribution</strong> is a continuous distribution that occurs when we estimate the sampling distribution of a normally distributed population with a small sample size and an unknown standard deviation. This is an important concept that we will explore in a future notebook.</p>
 <p>The <span class="math inline">\(t\)</span>-distribution is based on the number of observations and the degrees of freedom.</p>
 <p>A degree of freedom (<span class="math inline">\(\nu\)</span>) is the maximum number of logically independent values. You can think of it as the number of values that need to be known in order for the remaining values to be determined. For example, let’s say you have 3 data points and you know that their average value is 5. If you randomly select two of the values (let’s say, 4 and 5) even without sampling the last data point, you know that its value needs to be 6. Hence, there is “no freedom” in the last data point.</p>
 <p>In the case of the <span class="math inline">\(t\)</span>-distribution, the degree(s) of freedom are calculated as <span class="math inline">\(\nu = n-1\)</span>, with <span class="math inline">\(n\)</span> being the sample size.</p>
@@ -1375,7 +1374,7 @@ f(x; \mu, \sigma) = \displaystyle \frac{x^{-(x-\mu)^{2}/(2\sigma^{2})}}{\sigma\s
 </section>
 <section id="cdf-2" class="level4">
 <h4 class="anchored" data-anchor-id="cdf-2">CDF</h4>
-<p>The <code>pt()</code> function calculates the entire CDF curve of a t-distributed random <em>variable</em> and gives the probability of a t-distributed random <em>number</em> that is less than value of a given number.</p>
+<p>The <code>pt()</code> function calculates the entire CDF curve of a t-distributed random <em>variable</em> and gives the probability of a t-distributed random <em>number</em> that is less than the value of a given number.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a> ex_pt <span class="ot">&lt;-</span> <span class="fu">pt</span>(ex.tvalues, <span class="at">df =</span> <span class="dv">799</span>)   <span class="co"># calculating CDF</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(ex_pt, <span class="at">type =</span> <span class="st">"l"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1386,12 +1385,12 @@ f(x; \mu, \sigma) = \displaystyle \frac{x^{-(x-\mu)^{2}/(2\sigma^{2})}}{\sigma\s
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> ex_qt <span class="ot">&lt;-</span> <span class="fu">qt</span>(ex.qtvalues, <span class="at">df =</span> <span class="dv">99</span>)  <span class="co"># calculating the ppf</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(ex_qt, <span class="at">type =</span> <span class="st">"l"</span>) <span class="co"># plotting the ppf </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Beyond these three common distributions, there are many other types of distributions, such as the chi-square and f distributions. In some cases we may also have variables that do not fit any common distribution. In those cases, we describe those distributions as non-parametrical.</p>
+<p>Beyond these three common distributions, there are many other types of distributions, such as the chi-square and f distributions. In some cases we may also have variables that do not fit any common distribution. In those cases, we describe those distributions as non-parametric.</p>
 </section>
 </section>
 <section id="test-your-knowledge-1" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge-1">Test your knowledge</h3>
-<p>Which of the following random variables are most likely to be uniformally distributed?</p>
+<p>Which of the following random variables are most likely to be uniformly distributed?</p>
 <ol type="A">
 <li>The height of a UBC student</li>
 <li>The wages of a UBC student</li>
@@ -1540,8 +1539,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1657,7 +1654,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

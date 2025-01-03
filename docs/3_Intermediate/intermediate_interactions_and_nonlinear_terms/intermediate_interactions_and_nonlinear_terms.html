@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="COMET Team   Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonathan Graves">
 <meta name="dcterms.date" content="2022-12-08">
-<meta name="description" content="How do we specific non-linear models? Why would we want to do so? This notebooks covers non-linear and interaction models, including marginal effects and related issues.">
+<meta name="description" content="How do we specific non-linear models? Why would we want to do so? This notebook covers non-linear and interaction models, including marginal effects and related issues.">
 
 <title>2.5 - Intermediate - Interactions and Non-linear Terms – COMET</title>
 <style>
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -154,7 +154,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -719,7 +718,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    How do we specific non-linear models? Why would we want to do so? This notebooks covers non-linear and interaction models, including marginal effects and related issues.
+    How do we specific non-linear models? Why would we want to do so? This notebook covers non-linear and interaction models, including marginal effects and related issues.
   </div>
 </div>
 
@@ -772,7 +771,7 @@ window.Quarto = {
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>
 <ul>
-<li><p>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</p></li>
+<li><p>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</p></li>
 <li><p>Stargazer package is due to: Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://cran.r-project.org/web/packages/stargazer/index.html</p></li>
 </ul>
 <div class="cell">
@@ -794,7 +793,7 @@ window.Quarto = {
 <section id="part-1-interactions-in-regression-models" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-interactions-in-regression-models">Part 1: Interactions in Regression Models</h2>
 <p>One of the most common extensions to multiple regression models is to include <strong>interaction</strong> terms. What is an interaction term? It’s basically a term which represents the product of two (or more) variables in a model.</p>
-<p>For example, if we have a dummy variable for being a female (<span class="math inline">\(F_i\)</span>) and a dummy variable for having a university degree (<span class="math inline">\(D_i\)</span>), the <em>interaction</em> of these two variables is the product <span class="math inline">\(D_i \times F_i\)</span>. This can seem complicated but it also has a simple interpretation: it is now a dummy for being <em>both</em> a female and having a university degree. You can see why this is true:</p>
+<p>For example, if we have a dummy variable for being a female (<span class="math inline">\(F_i\)</span>) and a dummy variable for having a university degree (<span class="math inline">\(D_i\)</span>), the <em>interaction</em> of these two variables is the product <span class="math inline">\(D_i \times F_i\)</span>. This can seem complicated, but it also has a simple interpretation: it is now a dummy for being <em>both</em> a female and having a university degree. You can see why this is true:</p>
 <p><span class="math display">\[
 D_i \times F_i = 1 \iff D_i = 1 \text{ and } F_i = 1
 \]</span></p>
@@ -803,12 +802,12 @@ D_i \times F_i = 1 \iff D_i = 1 \text{ and } F_i = 1
 Y_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 D_i \times F_i + \epsilon_i
 \]</span></p>
 <p>At this point, you can see that this is just a multiple regression model - the only difference is that one of the variables is a combination of the other variables. From an estimation perspective, there’s no issue - you can use OLS to estimate a model with interaction terms, just like simple regressions. However, as we have seen, there are important differences when it comes to the <em>interpretation</em> of these models. Let’s learn more about this in this worksheet.</p>
-<p>There are (in general) two ways to create interactions in R: (i) manually (i.e.&nbsp;creating a new variables which is <span class="math inline">\(D_i \times F_i\)</span> then adding it to the regression), or (ii) using the built-in tools in R. However, method (i) is a trap! You should never use this method. Why? There are two reasons:</p>
+<p>There are (in general) two ways to create interactions in R: (i) manually (i.e.&nbsp;creating a new variable which is <span class="math inline">\(D_i \times F_i\)</span> then adding it to the regression), or (ii) using the built-in tools in R. However, method (i) is a trap! You should never use this method. Why? There are two reasons:</p>
 <ol type="1">
 <li>The main reason is that R (and you, the analyst) lose track of the relationship between the created interaction variable and the underlying variables. This means that you can’t use other tools to analyze this relationship (there are many packages such as <code>margins</code> which allow you to investigate complex interactions) which is a big loss. You also can’t perform post-regression analysis on the underlying variables in a simple way anymore.</li>
 <li>The second reason is that it’s easy to make mistakes. You might define the interaction incorrectly (possible!). However, it’s more of an issue if later on you change the underlying variables and then forget to re-compute the interactions. It also makes your code harder to read.</li>
 </ol>
-<p>Bottom line: don’t do it. Interaction in R are easy to create: you simply use the <code>:</code> or <code>*</code> operator when defining an interaction term.</p>
+<p>Bottom line: don’t do it. Interactions in R are easy to create: you simply use the <code>:</code> or <code>*</code> operator when defining an interaction term.</p>
 <ul>
 <li>The <code>:</code> operator creates the interaction(s) of the two variables in question</li>
 <li>The <code>*</code> operation creates the interactions(s) <em>and</em> the main effects of the variables as well</li>
@@ -819,7 +818,7 @@ Y_i = \beta_0 + \beta_1 F_i + \beta_2 D_i + \beta_3 D_i \times F_i + \epsilon_i
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> SFS_data <span class="sc">%&gt;%</span> <span class="co"># creates a Education dummy variable</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>( </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">Education =</span> <span class="fu">case_when</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                     education <span class="sc">==</span> <span class="st">"University"</span> <span class="sc">~</span> <span class="st">"University"</span>, <span class="co"># the ~ seperates the original from the new name</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                     education <span class="sc">==</span> <span class="st">"University"</span> <span class="sc">~</span> <span class="st">"University"</span>, <span class="co"># the ~ separates the original from the new name</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                     education <span class="sc">==</span> <span class="st">"Non-university post-secondary"</span> <span class="sc">~</span> <span class="st">"Non-university"</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                     education <span class="sc">==</span> <span class="st">"High school"</span> <span class="sc">~</span> <span class="st">"Non-university"</span>,</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                     education <span class="sc">==</span> <span class="st">"Less than high school"</span> <span class="sc">~</span> <span class="st">"Non-university"</span>)) <span class="sc">%&gt;%</span></span>
@@ -957,7 +956,7 @@ Y_i = \beta_0 + \beta_1 X_i + \beta_2 X_i^2 + \cdots + \beta_k X_i^k+ \epsilon_i
 </section>
 <section id="part-3-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-exercises">Part 3: Exercises</h2>
-<p>This sections has both written and coding exercises for you to test your knowledge about interactions and non-linear terms in regression models. The answers to the written exercises are on the last section of the notebook.</p>
+<p>This section has both written and coding exercises for you to test your knowledge about interactions and non-linear terms in regression models. The answers to the written exercises are on the last section of the notebook.</p>
 <section id="questions" class="level3">
 <h3 class="anchored" data-anchor-id="questions">Questions</h3>
 <p>Consider the following regression model:</p>
@@ -989,8 +988,8 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg0)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_1</span>()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
 <li><p>How do we interpret the coefficient estimate on <code>gender:Education</code>? What education level do female-lead households appear to be most discriminated in? How might we explain this intuitively?</p></li>
@@ -1003,7 +1002,7 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???, <span class="at">data =</span> SFS_data)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">test_6</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="7" type="1">
 <li>Do returns to education increase when people are entrepreneurs? Explain why or why not with reference to the regression estimates.</li>
@@ -1048,7 +1047,7 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg3A)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_8</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="9" type="1">
 <li>What is the relationship between age and wages? Between sex and earnings? Is there a significant wage gap? Why might the regression above not give us the “full picture” of the sex wage gap?</li>
@@ -1062,8 +1061,8 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg3M)</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg3F)</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_10</span>()</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_11</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_5</span>()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_6</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="12" type="1">
 <li>Do these regression estimates support your argument? Explain.</li>
@@ -1075,7 +1074,7 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg4)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_13</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_7</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="14" type="1">
 <li>According to the regression you estimated above, what is the nature of the sex wage gap?</li>
@@ -1218,8 +1217,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1335,7 +1332,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -154,7 +154,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -780,7 +779,7 @@ window.Quarto = {
 <li>Explain how adding variables to a model changes the results</li>
 </ul>
 <blockquote class="blockquote">
-<p>Note that the data in this exercise is provided under the Statistics Canada Open License: &gt; <span id="fn1"><a href="#fn1s"><sup>1</sup></a>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada.Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.</span></p>
+<p>Note that the data in this exercise is provided under the Statistics Canada Open License: &gt; <span id="fn1"><a href="#fn1s"><sup>1</sup></a>Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an “as is” basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019-2021. This does not constitute an endorsement by Statistics Canada of this product.</span></p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -790,7 +789,7 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"intermediate_intro_to_regression_tests.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../datasets_intermediate/SFS_2019_Eng.dta"</span>)  <span class="co">#this code is discussed in module 1</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../datasets_intermediate/SFS_2019_Eng.dta"</span>)  <span class="co">#basic data cleaning, covered in previous modules</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(SFS_data, <span class="sc">!</span><span class="fu">is.na</span>(SFS_data<span class="sc">$</span>pefmtinc))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>SFS_data <span class="ot">&lt;-</span> <span class="fu">rename</span>(SFS_data, <span class="at">income_before_tax =</span> pefmtinc)</span>
@@ -833,7 +832,8 @@ window.Quarto = {
 <section id="regression-models" class="level3">
 <h3 class="anchored" data-anchor-id="regression-models">Regression Models</h3>
 <p>This is where a <strong>regression model</strong> comes in. A regression model specifies the relationship between two variables. For example, a linear relationship would be:</p>
-<p><span class="math display">\[ W_i = \beta_0 + \beta_1I_i\]</span></p>
+<p><span class="math display">\[ W_i = \beta_0 + \beta_1I_i
+\]</span></p>
 <p>Where <span class="math inline">\(W_i\)</span> is wealth of family <span class="math inline">\(i\)</span>, and <span class="math inline">\(I_i\)</span> is their after-tax income. In econometrics, we typically refer to <span class="math inline">\(W_i\)</span> as the <strong>outcome</strong> variable, and <span class="math inline">\(I_i\)</span> as the <strong>explanatory</strong> variable; you may have also heard the terms <em>dependent</em> and <em>independent</em> variables respectively, but these aren’t actually very good descriptions of what these variables are in econometrics which is why we won’t use them here.</p>
 <p>A model like this is our description of what this relationship is - but it depends on two unknowns: <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>.</p>
 <ul>
@@ -858,7 +858,7 @@ W_i = \beta_0 + \beta_1 I_i + \epsilon_i
 <p><span class="math display">\[
 (\hat{\beta_0},\hat{\beta_1}) = \arg \min_{\beta_0,\beta_1} \sum_{i=1}^{n} (W_i - \beta_0 - \beta_1 I_i)^2 =\arg \min_{b_0,b_1} \sum_{i=1}^{n} (\epsilon_i)^2
 \]</span></p>
-<p>It is just the calculus way of writing “choose <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> (call them <span class="math inline">\(\hat{\beta_0},\hat{\beta_1}\)</span>) such that they minimize the sum of the squared residuals”. Ultimately, the goal of doing a regression is to explain as much as possible using the parameters (<span class="math inline">\(\beta_0, \beta_1\)</span>) and as little as possible using <span class="math inline">\(\epsilon_i\)</span>. Through this equation, we have transformed our statistical problem into a calculus problem, one that can can be solved, for example, by taking derivatives.</p>
+<p>It is just the calculus way of writing “choose <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> (call them <span class="math inline">\(\hat{\beta_0}, \hat{\beta_1}\)</span>) such that they minimize the sum of the squared residuals”. Ultimately, the goal of doing a regression is to explain as much as possible using the parameters (<span class="math inline">\(\beta_0, \beta_1\)</span>) and as little as possible using <span class="math inline">\(\epsilon_i\)</span>. Through this equation, we have transformed our statistical problem into a calculus problem, one that can be solved, for example, by taking derivatives.</p>
 <p>There are many, many ways to solve this estimation problem - most of which are built into R. Before getting into how we can estimate using R commands, we’ll discuss on how we can estimate manually.</p>
 </section>
 <section id="example-manual-estimation" class="level3">
@@ -900,10 +900,10 @@ W_i = \beta_0 + \beta_1 I_i + \epsilon_i
 <p>Understanding OLS is fundamental to understanding regressions and other topics in econometrics. Let’s try and understand the formula for OLS above through a more visual approach.</p>
 <p>To demonstrate this, we will use a small scatter plot with just 4 points.</p>
 <ul>
-<li><p>The straight line through the scatter plot is modelled by the simple regression formula <span class="math inline">\(B_0 + B_1X\)</span>.</p></li>
-<li><p>Since it’s nearly impossible for a regression to perfectly predict the relationship between two variables, we will almost always include an <strong>unobservable error</strong> <span class="math inline">\(e_i\)</span> with our regression estimation. This is the vertical distance between the regression line and the actual data points.</p></li>
-<li><p>Hence each of the points can be modelled by the equation <span class="math inline">\(Y_i = B_0 + B_1X + e_i\)</span>.</p></li>
-<li><p>Instead of minimizing the error terms, we will try to minimize the squared errors which are represented by the size of those red boxes.</p></li>
+<li>The straight line through the scatter plot is modelled by the simple regression formula <span class="math inline">\(B_0 + B_1X\)</span>.</li>
+<li>Since it’s nearly impossible for a regression to perfectly predict the relationship between two variables, we will almost always include an <strong>unobservable error</strong> <span class="math inline">\(e_i\)</span> with our regression estimation. This is the vertical distance between the regression line and the actual data points.</li>
+<li>Hence each of the points can be modelled by the equation <span class="math inline">\(Y_i = B_0 + B_1X + e_i\)</span>.</li>
+<li>Instead of minimizing the error terms, we will try to minimize the squared errors which are represented by the size of those red boxes.</li>
 </ul>
 <p>Try your own values for <code>beta_0</code> and <code>beta_1</code>. Make sure to try the values only roughly within the specified range. The actual value of <code>beta_0</code> and <code>beta_1</code> that minimize the residual sum of squares is 0.65 and 0.82 respectively. The code block below also displays the area of the red boxes; deviation from these optimal values will increase the area of the red boxes.</p>
 <div class="cell">
@@ -995,19 +995,20 @@ W_i = \beta_0 + \beta_1 I_i + \epsilon_i
 <li>The %-of the data explained by the model</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Test Your Knowledge</strong>: What %-of the variance in wealth is explained by the model?<br>
-Write the percentage in <em>decimal form</em> and include all decimals given by the model (example, x.xxx - where x are numbers)</p>
+<p><strong>Test Your Knowledge</strong>: What %-of the variance in wealth is explained by the model?&nbsp;Write the percentage in <em>decimal form</em> and include all decimals given by the model (example, x.xxx - where x are numbers)</p>
 </blockquote>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>answer1 <span class="ot">&lt;-</span> ???   <span class="co">#answer goes here</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">test_1</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The underlying model and the parameters tells us about the relationship between the different values:</p>
-<p><span class="math display">\[W_i = 169826.16 + 9.96 I_i + \epsilon_i\]</span></p>
+<p>The underlying model and the parameters tell us about the relationship between the different values:</p>
+<p><span class="math display">\[W_i = 169826.16 + 9.96 I_i + \epsilon_i
+\]</span></p>
 <p>Notice, for example:</p>
-<p><span class="math display">\[\frac{\partial W_i}{\partial I_i} = \beta_1 = 9.96\]</span></p>
-<p>In other words, when incomes goes up by 1 dollar, we would expect that the wealth accumulated for this given family will rise by 9.96 dollars. This kind of analysis is key to interpreting what this model is telling us.</p>
+<p><span class="math display">\[\frac{\partial W_i}{\partial I_i} = \beta_1 = 9.96
+\]</span></p>
+<p>In other words, when incomes go up by 1 dollar, we would expect that the wealth accumulated for this given family will rise by 9.96 dollars. This kind of analysis is key to interpreting what this model is telling us.</p>
 <p>Finally, let’s visualize our fitted model on the scatterplot from before. How does it compare to your original model?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">10</span>,<span class="at">repr.plot.height=</span><span class="dv">8</span>) <span class="co">#style preferences</span></span>
@@ -1018,10 +1019,10 @@ Write the percentage in <em>decimal form</em> and include all decimals given by 
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> SFS_data, <span class="fu">aes</span>(<span class="at">x =</span> income_before_tax, <span class="at">y =</span> wealth)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Wealth"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Income before tax"</span>)<span class="sc">+</span><span class="fu">scale_x_continuous</span>() <span class="co">#defines our x and y</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#070069"</span>, <span class="at">data =</span> fitted_line) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#ff0000"</span>, <span class="at">data =</span> fitted_line2) <span class="co">#style preferences</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>f <span class="co">#prints  graph</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>f <span class="co">#prints graph</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As you can see - there’s a very close relationship between <code>after_tax_income</code> and <code>wealth</code>. The red line is a regression line of wealth and after_tax_income.</p>
-<p>Notice as well we have negative values? Negative income and negative wealth is weird. We will deal with this later.</p>
+<p>Notice as well that we have negative values. Negative income and negative wealth is weird. We will deal with this later.</p>
 </section>
 </section>
 <section id="part-2-simple-regressions-and-t-tests" class="level2">
@@ -1029,7 +1030,8 @@ Write the percentage in <em>decimal form</em> and include all decimals given by 
 <p>Previously, we looked at the relationship between market income and wages. However, these are both <em>quantitative</em> variables. What if we wanted to work with a <em>qualitative</em> variable like <code>gender</code>?</p>
 <p>Regression models can still incorporate this kind of variable - which is good, because (as the Census makes clear) this is the most common type of variable in real-world data. How is this possible?</p>
 <p>Let’s start out with the simplest kind of qualitative variable: a <strong>dummy</strong> (0 or 1) variable. Let’s use Male = <span class="math inline">\(0\)</span> and Female = <span class="math inline">\(1\)</span>. Consider the regression equation:</p>
-<p><span class="math display">\[W_i = \beta_0 + \beta_1 G_i + \epsilon_i ~, \text{where}\ G_i \ \text{is Gender}\]</span></p>
+<p><span class="math display">\[W_i = \beta_0 + \beta_1 G_i + \epsilon_i ~, \text{where}\ G_i \ \text{is Gender}
+\]</span></p>
 <p>Consider the conditional expectation:</p>
 <p><span class="math display">\[
 E[W_i|G_i = \text{Male}] = \beta_0 + \beta_1 \cdot 1 + \epsilon_i
@@ -1037,7 +1039,7 @@ E[W_i|G_i = \text{Male}] = \beta_0 + \beta_1 \cdot 1 + \epsilon_i
 <p><span class="math display">\[
 E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1 \cdot 0 + \epsilon_i
 \]</span></p>
-<p>By the OLS reggression assumptions, we have that $E[_i|G_i] = 0 $, so:</p>
+<p>By the OLS regression assumptions, we have that $E[_i|G_i] = 0 $, so:</p>
 <p><span class="math display">\[
 E[W_i|G_i = \text{Female}] = \beta_0 + \beta_1
 \]</span></p>
@@ -1085,7 +1087,8 @@ E[W_i|G_i = \text{Male}] = \beta_0
 </div>
 <p>Look closely at this result, and the result above. What do you see? What is the relationship here?</p>
 <p>This is a very important result because a dummy variable regression is an example a two sample comparison. Why is this? Recall:</p>
-<p><span class="math display">\[\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}]\]</span></p>
+<p><span class="math display">\[\beta_1 = E[W_i|G_i = \text{Female}] - E[W_i|G_i = \text{Male}]
+\]</span></p>
 <p>The regression coefficient of <span class="math inline">\(\beta_1\)</span> can be interpreted as a comparison of two means. This is exactly the same as what the <span class="math inline">\(t\)</span>-test is doing. Comparing two means by different groups - groups which are specified by <span class="math inline">\(G_i = \text{Male}\)</span> or <span class="math inline">\(G_i = \text{Female}\)</span>.</p>
 <p>In other words, another way of thinking about a regression is as a <code>super</code> comparison of means test. However, regressions can handle analysis using qualitative (dummy) variables as a well as quantitative variables, which regular comparison of means tests cannot handle.</p>
 <section id="multiple-levels" class="level3">
@@ -1103,7 +1106,7 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <li><code>d_3</code>: Is highest education non-university post-secondary? (Yes/No)</li>
 <li><code>d_4</code>: Is highest education university? (Yes/No)</li>
 </ul>
-<p>These four dummy variables capture the same information as the qualitative variable <code>education</code>. In other words, if we were told the value of <code>education</code> we could discern which of these dummies were <code>Yes</code> or <code>No</code>, and vice-versa. In fact, if wetake a closer look, we’ll notice that we actually only need three of the four to figure our the value of <code>education</code>. For example, if I told you that <code>d_4</code>, <code>d_3</code>, <code>d_2</code> were all “No”, what would the value of <code>education</code> be?</p>
+<p>These four dummy variables capture the same information as the qualitative variable <code>education</code>. In other words, if we were told the value of <code>education</code> we could discern which of these dummies were <code>Yes</code> or <code>No</code>, and vice-versa. In fact, if wetake a closer look, we’ll notice that we actually only need three of the four to figure out the value of <code>education</code>. For example, if I told you that <code>d_4</code>, <code>d_3</code>, <code>d_2</code> were all “No”, what would the value of <code>education</code> be?</p>
 <p>In other words, one of the dummies is redundant in helping us understand the qualitative variable. This property is important; we usually will omit one possible dummy to include only the minimum number of variables needed to explain the qualitative variable in question. This omitted dummy is called the <strong>base level</strong>. If we forget about this and still add 4 dummy variables, we would be committing a dummy variable trap.</p>
 <ul>
 <li>Which one should be the base level? It doesn’t matter, from a technical perspective.</li>
@@ -1135,7 +1138,7 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(SFS_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In our case, the SFS surveyed 10,141 individuals. However, the <a href="https://www150.statcan.gc.ca/n1/pub/11-627-m/11-627-m2019061-eng.htm">population of Canada in 2019 was 37.6 million people</a>. While completing the census is a legal obligation which is typically good at capturing practically all inhabitants, the SFS is voluntary and may or may not represent the population well (e.g.&nbsp;perhaps the super wealthy or those in destitute poverty are underrepresented, or marginalized groups are less likely to respond to government surveys about something as personal as your wealth).</p>
-<p>Whatever the case may be, we’ll want to adjust, “weight”, our sample to make it more representative of the population (and we’ll use the census as our benchmark). Luckily for us, Statcan is aware of this potential issue, and has included pre-made/recommended weights for us to use!</p>
+<p>Whatever the case may be, we’ll want to adjust, “weight”, our sample to make it more representative of the population (and we’ll use the census as our benchmark). Luckily for us, StatCan is aware of this potential issue, and has included pre-made/recommended weights for us to use!</p>
 <p>To see what happens when we include weights we simply add a straightforward argument <code>weight = x</code> in the <code>lm()</code>function, where <code>x</code> is the name of your weighting variable. (If for some reason your weights are contained in a different dataset than the rest of your data you could use <code>weight = other_dataset$x</code> to specify the correct weights).</p>
 <p>Let’s remind ourselves of what we found in <code>regression1</code></p>
 <div class="cell">
@@ -1167,33 +1170,33 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <section id="activity-1" class="level3">
 <h3 class="anchored" data-anchor-id="activity-1">Activity 1</h3>
 <p>Last week, we briefly explored the idea of the wealth gap and explored the idea that it could be caused by some income related factors. We can now examine this issue directly using regressions. Run a regression with * before tax income * on male and female lead households.</p>
-<p><em>Tested objects:</em> <code>regm</code> (the regression for males).<em>Tested objects:</em> <code>regf</code> (the regression for females).</p>
+<p><em>Tested objects:</em> <code>regm</code> (the regression for males). <em>Tested objects:</em> <code>regf</code> (the regression for females).</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Quiz 1</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression for males</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>regm <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> income_before_tax, <span class="fu">filter</span>(SFS_data, ??? <span class="sc">==</span> <span class="st">"Male"</span>)) </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace "..." with the appropriate variables </span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#remember answers are case sensitive!</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Quiz 2</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression for females</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>regf <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> income_before_tax, <span class="at">data =</span> <span class="fu">filter</span>(SFS_data, ??? <span class="sc">==</span> <span class="st">"Female"</span>)) </span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#remember answers are case sensitive!</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regm) <span class="co"># Allow us to view regm's coefficient estimates</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regf) <span class="co"># Same as above, but for regf</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>() <span class="co"># Quiz1</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() <span class="co"># Quiz2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression for males</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>regm <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> income_before_tax, <span class="fu">filter</span>(SFS_data, ??? <span class="sc">==</span> <span class="st">"Male"</span>)) </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace "..." with the appropriate variables </span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#remember answers are case sensitive!</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quiz 2</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression for females</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>regf <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> income_before_tax, <span class="at">data =</span> <span class="fu">filter</span>(SFS_data, ??? <span class="sc">==</span> <span class="st">"Female"</span>)) </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#remember answers are case sensitive!</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regm) <span class="co"># Allow us to view regm's coefficient estimates</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regf) <span class="co"># Same as above, but for regf</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>() <span class="co"># Quiz1</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() <span class="co"># Quiz2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="short-answer-1" class="level4">
 <h4 class="anchored" data-anchor-id="short-answer-1">Short Answer 1</h4>
 <p><strong>Prompt:</strong> How do we interpret the coefficient estimate on <code>income</code> in each of these regressions?</p>
 <p><font style="color:red">Answer in red here!</font></p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>answer_1 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>short_answer_1 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Answer: In this case the coefficient on before tax income is how we expect wealth to change for a given change in income. So, for each new dollar of income we expect the male lead households to acquire 5.3 dollars of wealth, and female lead households to acquire 9.4 dollars of wealth. Also notice the intercepts are different. There may be some left-out factors or the relation is non-linear, which would mean <span class="math inline">\(\beta_1\)</span> is not really the instantaneous rate of change.</p>
 </section>
 </section>
 <section id="activity-2" class="level3">
@@ -1212,7 +1215,7 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <p><em>Tested objects:</em> <code>rege2</code> (High School), <code>rege4</code> (University)</p>
 <p>Notice we don’t need to do 4 regressions we could just do three.</p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#reg1 is a regression performed on people, with a less than high scchool education</span></span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#reg1 is a regression performed on people, with a less than high school education</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> ???, <span class="at">data =</span> <span class="fu">filter</span>(SFS_data, education <span class="sc">==</span> <span class="st">"Less than high school"</span>)) <span class="co">#what should replace the ...</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#reg2 is the same as rege1,but we are looking at people with a high school education</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(??? <span class="sc">~</span> ???, <span class="at">data =</span> <span class="fu">filter</span>(SFS_data, education <span class="sc">==</span> <span class="st">"High school"</span>)) <span class="co">#fill in the blanks</span></span>
@@ -1227,10 +1230,10 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>sum40 <span class="ot">&lt;-</span> <span class="fu">summary</span>(reg3)</span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>sum50 <span class="ot">&lt;-</span> <span class="fu">summary</span>(reg4)</span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">test_9</span>() </span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">test_10</span>() </span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">test_11</span>() </span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">test_12</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">test_5</span>()</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">test_6</span>()</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">test_7</span>()</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">test_8</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The code below will tabulate a brief summary of each regression:</p>
 <div class="cell">
@@ -1246,19 +1249,21 @@ E[W_i|G_i = \text{Male}] = \beta_0
 </div>
 <section id="short-answer-2" class="level4">
 <h4 class="anchored" data-anchor-id="short-answer-2">Short Answer 2</h4>
-<p><strong>Prompt</strong>: What happens to the income gap as we move across eduction groups? What might explain these changes? (hint: think back to module 1!)</p>
+<p><strong>Prompt</strong>: What happens to the income gap as we move across education groups? What might explain these changes? (hint: think back to module 1!)</p>
 <p><font style="color:red">Answer in red here!</font></p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>answer_3 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>short_answer_2 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Answer: The Income Gap appears to increase, however this is simply because income increases, in percent terms the income gap decreases (from module 1)</p>
 </section>
 </section>
 <section id="activity-3" class="level3">
 <h3 class="anchored" data-anchor-id="activity-3">Activity 3</h3>
 <p>As we observed in last week’s worksheet, the income gap could differ by education level. Since there are many education categories, however, we may not want to examine this by running a regression for each education level separately.</p>
 <p>Instead, we could run a single regression and add education level as a second regressor, <span class="math inline">\(E_i\)</span>:</p>
-<p><span class="math display">\[I_i = \beta_0 + \beta_1 G_i + \beta_2 E_i + \epsilon_i\]</span></p>
-<p>This is actually a <strong>multiple regression</strong>, which we will learn about next week - but from the point of the this lesson, the idea is that it is “run” in R essentially in the same way as a simple regression. Estimate the regression model above without <span class="math inline">\(E_i\)</span>, then re-estimate the model with <span class="math inline">\(E_i\)</span> added. <strong>USE INCOME BEFORE TAX</strong>.</p>
+<p><span class="math display">\[I_i = \beta_0 + \beta_1 G_i + \beta_2 E_i + \epsilon_i
+\]</span></p>
+<p>This is actually a <strong>multiple regression</strong>, which we will learn about later - but from the point of this lesson, the idea is that it is “run” in R essentially in the same way as a simple regression. Estimate the regression model above without <span class="math inline">\(E_i\)</span>, then re-estimate the model with <span class="math inline">\(E_i\)</span> added. <strong>USE INCOME BEFORE TAX</strong>.</p>
 <p><em>Tested objects:</em> <code>reg2A</code> (regression without controls), <code>reg2B</code> (regression with controls).</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple regression (just gender)</span></span>
@@ -1271,16 +1276,17 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2B)</span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#this will look ugly; try to look carefully at the output</span></span>
 <span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">test_7</span>()</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">test_8</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">test_9</span>()</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">test_10</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="short-answer-3" class="level4">
 <h4 class="anchored" data-anchor-id="short-answer-3">Short Answer 3</h4>
 <p>Prompt: Compare the estimated income gap with and without <span class="math inline">\(E_i\)</span> in the regression. What happens to the gap when we add <span class="math inline">\(E_i\)</span>?</p>
 <p><font style="color:red">Answer in red here!</font></p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>answer_4 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>short_answer_3 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Answer: The gender-income gap has increased; notice the stand error’s have increased. This means it’s harder to have certainty what the income gap is once we control for education.</p>
 </section>
 </section>
 <section id="theoretical-activity-1" class="level3">
@@ -1290,11 +1296,13 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>W <span class="ot">=</span> <span class="fu">log</span>(SFS_data<span class="sc">$</span>wealth[SFS_data<span class="sc">$</span>wealth<span class="sc">&gt;</span><span class="dv">0</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may recall that the derivative of the log of a variable is approximately equal to percentage change in the variables:</p>
-<p><span class="math display">\[\frac{dln(x)}{dx} \approx \frac{\Delta x}{x}\]</span></p>
+<p><span class="math display">\[\frac{dln(x)}{dx} \approx \frac{\Delta x}{x}
+\]</span></p>
 <p>Thus, when we find the marginal effect of some continuous regressor <span class="math inline">\(X_i\)</span> (say, <code>income</code>):</p>
-<p><span class="math display">\[ln(W_i) = \beta_0 + \beta_1 I_i + \epsilon_i \implies \frac{\Delta W_i}{W_i} \approx \beta_1 \Delta I_{i}\]</span></p>
+<p><span class="math display">\[ln(W_i) = \beta_0 + \beta_1 I_i + \epsilon_i \implies \frac{\Delta W_i}{W_i} \approx \beta_1 \Delta I_{i}
+\]</span></p>
 <p>This allows us to interpret the changes in a continuous variable as associated with a percentage change in wealth; for instance, if we estimate a coefficient of <span class="math inline">\(0.02\)</span> on <code>income_before_tax</code>, we say that when a family’s income before tax increases by 1 CAD, the corresponding wealth increases by 2 percent on average.</p>
-<p>Notice as well we are now talking about percent changes, rather than units.</p>
+<p>Notice we are now talking about percent changes, rather than units.</p>
 <p>Let’s generate two variables that take the natural log of the wealth <em>and</em> market income from the <code>SFS_data</code> dataframe (hint: use a technique that we introduced last week). Then, estimate the effect of logarithmic market income on logarithmic wealth.</p>
 <p><em>Tested Objects:</em> <code>lnreg</code></p>
 <div class="cell">
@@ -1313,26 +1321,29 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Log Regression </span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>lnreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(lnwealth <span class="sc">~</span> ???, <span class="at">data =</span> SFS_data_logged) <span class="co">#the new and improved regression</span></span>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lnreg)</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="fu">test_5</span>() <span class="co">#Quiz7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lnreg)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="fu">test_11</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="short-answer-4" class="level4">
 <h4 class="anchored" data-anchor-id="short-answer-4">Short Answer 4</h4>
 <p>Prompt: How do we interpret each of these estimates? (Hint: what does a 1-unit change in the explanatory variable mean here?)</p>
 <p><font style="color:red"> Answer here in red</font></p>
 <div class="cell question">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>answer_5 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>short_answer_4 <span class="ot">&lt;-</span> <span class="co">#fill in your short answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Answer: Intercept: The intercept estimate represents the expected value of the response variable (lnwealth) when the predictor variable (lnincome) is zero. In this case, the estimated intercept is 6.17242. Since the logarithm of wealth (lnwealth) is being used, it means that when the logarithm of income (lnincome) is zero, the expected value of the logarithm of wealth is 6.17242.</p>
+<p>lnincome: The coefficient estimate for lnincome is 0.61532. It represents the estimated change in the response variable (lnwealth) for a one-unit increase in the predictor variable (lnincome). Therefore, for every one-unit increase in the logarithm of income, the estimated change in the logarithm of wealth is 0.61532.</p>
 </section>
 </section>
 <section id="optional-bonus-activity-4" class="level3">
 <h3 class="anchored" data-anchor-id="optional-bonus-activity-4">Optional: Bonus Activity 4</h3>
 <p>You have learned about a linear regression model of income; however, income often follows a Pareto distribution. For now, using a linear approximation to find the wage gap is fine. We may want to know stuff about the underlying distribution of income in male and female lead households, however. Here’s the PDF of pareto distribution:</p>
-<p><span class="math display">\[f(x) = {\displaystyle {\frac {\alpha x_{\mathrm {m} }^{\alpha }}{x^{\alpha +1}}}} \]</span></p>
-<p>Ok, now with regression remember we said that we estimate the parameter given the data. To do this we said you could use Calcus or methods other than OLS. Here the probability of the data can be approximated by assuming independence between each <span class="math inline">\(x_i\)</span>. If we do this, the probability of the data is given by:</p>
-<p><span class="math display">\[\Pi_{i=1}^n f(x)\]</span></p>
+<p><span class="math display">\[f(x) = {\displaystyle {\frac {\alpha x_{\mathrm {m} }^{\alpha }}{x^{\alpha +1}}}}
+\]</span></p>
+<p>Ok, now with regression remember we said that we estimate the parameter given the data. To do this we said you could use Calculus or methods other than OLS. Here the probability of the data can be approximated by assuming independence between each <span class="math inline">\(x_i\)</span>. If we do this, the probability of the data is given by:</p>
+<p><span class="math display">\[\Pi_{i=1}^n f(x)
+\]</span></p>
 <p>Now we can just make a function in r and optimize over it which performs essentially the same operation as a linear regression.</p>
 <div class="cell" data-scrolled="true">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">filter</span>(SFS_data,gender<span class="sc">==</span><span class="st">'Female'</span>)</span>
@@ -1355,7 +1366,7 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ell <span class="ot">&lt;-</span> <span class="cf">function</span>(a,q,xm,n) { <span class="co"># we use the log function of the pareto distrubtion instead</span></span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ell <span class="ot">&lt;-</span> <span class="cf">function</span>(a,q,xm,n) { <span class="co"># we use the log function of the pareto distribution instead</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    d<span class="ot">=</span>(n<span class="sc">*</span><span class="fu">log</span>(a))</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    b<span class="ot">=</span>(<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span>(a<span class="sc">+</span><span class="dv">1</span>)<span class="sc">*</span>q</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    c<span class="ot">=</span>a<span class="sc">*</span><span class="fu">log</span>(xm)<span class="sc">*</span>n </span>
@@ -1376,7 +1387,9 @@ E[W_i|G_i = \text{Male}] = \beta_0
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>a_men</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The theoretical mean of the Pareto distribution is,</p>
-<p><span class="math display">\[ \frac{\alpha x_m}{\alpha -1} \]</span> Can you calculate the expected income gap with the Pareto distribution assumption?</p>
+<p><span class="math display">\[ \frac{\alpha x_m}{\alpha -1}
+\]</span></p>
+<p>Can you calculate the expected income gap with the Pareto distribution assumption?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>xmw<span class="ot">=</span><span class="dv">40000</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>xmm<span class="ot">=</span><span class="dv">65000</span></span>
@@ -1471,8 +1484,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1588,7 +1599,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -719,7 +718,6 @@ window.Quarto = {
     <div class="quarto-category">beginner</div>
     <div class="quarto-category">R</div>
     <div class="quarto-category">interquartile range</div>
-    <div class="quarto-category">beginner</div>
   </div>
   </div>
 
@@ -870,7 +868,7 @@ s_{x} = \sqrt{s_{x}^2} = \sqrt{\frac{\sum_{i = 1}^{n} (x_i - \overline{x})^2}{n 
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the standard deviation of wages</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(census_data<span class="sc">$</span>wages, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We have a pretty large standard deviation - even larger than our mean! This tells us that most of the Canadians in the data set have a wage which lies approximately $64275.27 away from the mean of $54482.52.</p>
+<p>We have a pretty large standard deviation - even larger than our mean! This tells us that most of the Canadians in the data set have a wage which lies approximately <span class="math inline">\(64275.27\)</span> away from the mean of <span class="math inline">\(54482.52\)</span>.</p>
 <p>This large standard deviation tells us that there is high variation in wages and that some of them are very far from the mean. This can be for many reasons, but one possibility is that we have <strong>outliers</strong> in the data set: extreme values of the variable <code>wages</code>. This is common for wage distributions in the presence of income inequality.</p>
 <blockquote class="blockquote">
 <p><strong>To Remember</strong>: the standard deviation is small when the data are all concentrated close to the mean, while the standard deviation is large when the data are spread out away from the mean.</p>
@@ -1021,7 +1019,7 @@ r_{x,y} = \frac{\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}{\sqrt{\
 <figcaption>Three scatter plots are shown demonstrating positive, negative and no correlation”</figcaption>
 </figure>
 </div>
-<p>We can also easily visualize the correlation between two variables by plotting scatter plot with a trend line via the <code>ggplot()</code> function.</p>
+<p>We can also easily visualize the correlation between two variables by plotting a scatter plot with a trend line via the <code>ggplot()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot of market income against wages</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(census_data, <span class="fu">aes</span>(<span class="at">x =</span> mrkinc, <span class="at">y =</span> wages)) <span class="sc">+</span></span>
@@ -1038,7 +1036,7 @@ r_{x,y} = \frac{\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}{\sqrt{\
 <section id="test-your-knowledge-2" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge-2">Test your knowledge</h3>
 <p>Is the following statement True or False?</p>
-<p>The correlation coefficient adjusts the measure of covariance so that it can measure linear relatinoships.</p>
+<p>The correlation coefficient adjusts the measure of covariance so that it can measure linear relationships.</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>answer_3 <span class="ot">&lt;-</span>  <span class="st">"..."</span> <span class="co"># enter "True" or "False"</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1168,8 +1166,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1285,7 +1281,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

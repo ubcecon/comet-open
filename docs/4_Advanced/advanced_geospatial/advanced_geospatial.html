@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -788,7 +787,7 @@ window.Quarto = {
 </section>
 <section id="part-1-geospatial-data" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-geospatial-data">Part 1: Geospatial Data</h2>
-<p>Geospatial data is data coded to represent physical objects. For example, let’s say we’re interested in analyzing the accessibility of healthcare in BC. A dataset containing locations of emergency departments (coded in longitude and latitude coordinates) and population density per municipality would consitute a geospatial dataset. We could use the geospatial data to estimate the share of BC residents within 10km of an emergency department. That analysis would involve calculating relationships between physical objects (i.e., location of emergency departments) and overlaying numeric data (i.e., population density per municipality) on the physical objects.</p>
+<p>Geospatial data is data coded to represent physical objects. For example, let’s say we’re interested in analyzing the accessibility of healthcare in BC. A dataset containing locations of emergency departments (coded in longitude and latitude coordinates) and population density per municipality would constitute a geospatial dataset. We could use the geospatial data to estimate the share of BC residents within 10km of an emergency department. That analysis would involve calculating relationships between physical objects (i.e., location of emergency departments) and overlaying numeric data (i.e., population density per municipality) on the physical objects.</p>
 <p>The first step to learning how to conduct geospatial analyses like this in R is to understand how geospatial data is stored - that’s what we’ll cover in this section.</p>
 <section id="vector-vs-raster-data" class="level3">
 <h3 class="anchored" data-anchor-id="vector-vs-raster-data">Vector vs Raster Data</h3>
@@ -864,7 +863,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sfc_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Let’s take a look at the ouput of <code>sfc_obj</code>.</p>
+<p>Let’s take a look at the output of <code>sfc_obj</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sfc_obj</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1057,7 +1056,7 @@ window.Quarto = {
 <section id="theory" class="level3">
 <h3 class="anchored" data-anchor-id="theory">Theory</h3>
 <p>Typically, economists rely on market prices to estimate consumers’ marginal willingness to pay for a good. When the good in question is not traded in markets, economists must resort to other strategies. One of those strategies is the <strong>hedonic pricing method</strong>.</p>
-<p>The main assumption of hedonic pricing is that <em>the total price of a good equals the sum of the prices of its components</em>. Using this assumption, we can deconstruct the price of a good traded in markets and attribute part of the total price to each of its non-traded component parts. For example, we can model the price of an apartment as a function of it’s size, view, age, location, number of bathrooms, proximity to public service, etc. If we take two apartments that are exactly equal but only differ on their view (e.g., one might be in the 2nd floor and the other on the 30th floor of the same building), their difference in price must be the added value of the view. If we have data on the prices and attributes of several apartments, we could leverage hedonic pricing to estimate how much consumers value a nice view.</p>
+<p>The main assumption of hedonic pricing is that <em>the total price of a good equals the sum of the prices of its components</em>. Using this assumption, we can deconstruct the price of a good traded in markets and attribute part of the total price to each of its non-traded component parts. For example, we can model the price of an apartment as a function of its size, view, age, location, number of bathrooms, proximity to public service, etc. If we take two apartments that are exactly equal but only differ on their view (e.g., one might be on the 2nd floor and the other on the 30th floor of the same building), their difference in price must be the added value of the view. If we have data on the prices and attributes of several apartments, we could leverage hedonic pricing to estimate how much consumers value a nice view.</p>
 <blockquote class="blockquote">
 <p><strong>Think Deeper</strong>: what are the other underlying assumptions of hedonic pricing? When might it not be appropriate to use this method to value non-traded goods?</p>
 </blockquote>
@@ -1264,8 +1263,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1381,7 +1378,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

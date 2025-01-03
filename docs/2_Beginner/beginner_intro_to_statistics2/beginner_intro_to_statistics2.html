@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -814,7 +813,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SFS_data, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: <code>head(df, n)</code> displays first n rows of the data frame. Other popular methods include <code>glance()</code> and <code>print()</code>.</p>
+<p><strong>Note</strong>: <code>head(df, n)</code> displays the first n rows of the data frame. Other popular methods include <code>glance()</code> and <code>print()</code>.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can read the documentation for a given function by adding a question-mark before its name</span></span>
@@ -826,7 +825,7 @@ window.Quarto = {
 </section>
 <section id="part-2-exploratory-data-analysis-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-exploratory-data-analysis-in-r">Part 2: Exploratory Data Analysis in R</h2>
-<p>There are a routine of steps you should generally follow as part of your <em>EDA</em> or <em>Exploratory Data Analysis.</em> Normally, you would analyze and visualize the variation, correlation, and distribution of your variables of interest. We do this to gain an intuitive understanding of the data before we undetake any formal hypothesis tests or model-fitting.</p>
+<p>There are a routine of steps you should generally follow as part of your <em>EDA</em> or <em>Exploratory Data Analysis.</em> Normally, you would analyze and visualize the variation, correlation, and distribution of your variables of interest. We do this to gain an intuitive understanding of the data before we undertake any formal hypothesis tests or model-fitting.</p>
 <p>Let’s think of our key variables of interest. We’re interested in estimating the effect of gender on differences in earnings.</p>
 <ul>
 <li><p><strong>Independent variable</strong>: gender of the highest income earner</p></li>
@@ -888,7 +887,7 @@ window.Quarto = {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sumtbl <span class="ot">&lt;-</span> <span class="fu">sumtable</span>(df_gender_on_wealth, <span class="at">out =</span> <span class="st">"kable"</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sumtbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This is like having a birds-eye view at our data. As a researcher, we should take note of outliers and other irregularities and ask how those issues might affect the <em>validity</em> of our models and tests.</p>
+<p>This is like having a birds-eye view of our data. As a researcher, we should take note of outliers and other irregularities and ask how those issues might affect the <em>validity</em> of our models and tests.</p>
 <blockquote class="blockquote">
 <p><strong>Note</strong>: see Appendix for a common method to remove outliers using Z-score thresholds.</p>
 </blockquote>
@@ -931,7 +930,7 @@ window.Quarto = {
 <p>However, we shouldn’t <em>yet</em> draw any conclusive statements about the relationships between gender (of the main income earner), income, education and other variables such as wealth.</p>
 <p>As researchers, we should ask if the differences in the mean or median incomes for the two groups are significant at all. We can then go a bit further and test if education indeed widens the gap or not.</p>
 <blockquote class="blockquote">
-<p><strong>Think Deeper</strong>: how you would specify the null and alternative hypotheses?</p>
+<p><strong>Think Deeper</strong>: how would you specify the null and alternative hypotheses?</p>
 </blockquote>
 </section>
 <section id="test-your-knowledge" class="level3">
@@ -1019,8 +1018,8 @@ window.Quarto = {
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It smells like the wealth gap between the two types of households widens for groups that have obtained an university degree.</p>
-<p>Similarly, let’s look at the difference in wealth gap in percentage terms. We use <code>results</code> generated in previous cell (the <span class="math inline">\(4 \times 4\)</span> table) as the inputs this time. We need to load the package <code>scales</code> to use the function <code>percent</code>.</p>
+<p>It smells like the wealth gap between the two types of households widens for groups that have obtained a university degree.</p>
+<p>Similarly, let’s look at the difference in wealth gap in percentage terms. We use <code>results</code> generated in the previous cell (the <span class="math inline">\(4 \times 4\)</span> table) as the inputs this time. We need to load the package <code>scales</code> to use the function <code>percent</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1031,10 +1030,10 @@ window.Quarto = {
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>percentage_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice the signs are both negative. Hence, on average, female-led households have less wealth regardless of whether they have an university degree or not.</p>
+<p>Notice the signs are both negative. Hence, on average, female-led households have less wealth regardless of whether they have a university degree or not.</p>
 <p>More importantly, based on our data, female-led households with university degrees on average have 28% less wealth than male-led households with university degrees. Comparing the two groups given they don’t have university degrees, the gap is quite smaller: 18%.</p>
-<p>So, we have shown that the gap widens by about 10% when conditioned for university degree.</p>
-<p>Let’s test this further by creating sub-samples of “university degree” and “no university degree” respectively and then running formal two sample t-test.</p>
+<p>So, we have shown that the gap widens by about 10% when conditioned for a university degree.</p>
+<p>Let’s test this further by creating sub-samples of “university degree” and “no university degree” respectively and then running a formal two sample t-test.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>university_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(SFS_data, university <span class="sc">==</span> <span class="st">"Yes"</span>) <span class="co"># university only data </span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>nuniversity_data <span class="ot">&lt;-</span> <span class="fu">filter</span>(SFS_data, university <span class="sc">==</span> <span class="st">"No"</span>) <span class="co"># non university data</span></span>
@@ -1112,7 +1111,7 @@ window.Quarto = {
 </div>
 <p>Create a subset of the data with the returns for 2015. Rename the column to <code>investment_returns</code>. Store your answer in <code>fp_15</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fell free to use this cell if you need </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># feel free to use this cell if you need </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fp_15 <span class="ot">&lt;-</span> fund_performance <span class="sc">%&gt;%</span></span>
@@ -1124,7 +1123,7 @@ window.Quarto = {
 </div>
 <p>Calculate the mean and median return of funds in 2015. Store your answers in <code>mean_ret</code> and <code>median_ret</code>, respectively.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fell free to use this cell if you need </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># feel free to use this cell if you need </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mean_ret <span class="ot">&lt;-</span> <span class="fu">...</span>(...)</span>
@@ -1167,7 +1166,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fund_performance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>There are no funds with negative performance in the dataset! It’s likely that the NAs have replaced the observations with negative returns. How that might affect our analysis of fund performance? Think about the biases that could have introduced in our mean and statistical test calculations.</p>
+<p>There are no funds with negative performance in the dataset! It’s likely that the NAs have replaced the observations with negative returns. How might that affect our analysis of fund performance? Think about the biases that could have been introduced in our mean and statistical test calculations.</p>
 </section>
 <section id="appendix" class="level3">
 <h3 class="anchored" data-anchor-id="appendix">Appendix</h3>
@@ -1285,8 +1284,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1402,7 +1399,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

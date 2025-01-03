@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -153,7 +153,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -453,7 +452,7 @@ Work in Progress
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We haven’t written self-test for this unit yet! You’ll have to check with your friends if you’ve got them right or not!</p>
+<p>We haven’t written self-tests for this unit yet! You’ll have to check with your friends if you’ve got them right or not!</p>
 <ul>
 <li>Want to submit some? <script type="text/javascript">
 <!--
@@ -480,7 +479,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(swiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><code>swiss</code> is a data set with records for socio-economic indicators for each of 47 French-speaking provinces of Switzerland at about 1888. Each of these uniquely recognized administrative divisions are called <em>cantons</em>. This data set like a guidebook, giving us insights into each canton’s characteristics. As a budding economist building your statistical arsenal, the <code>swiss</code> data set is the perfect place to start!</p>
+<p><code>swiss</code> is a data set with records for socio-economic indicators for each of 47 French-speaking provinces of Switzerland at about 1888. Each of these uniquely recognized administrative divisions are called <em>cantons</em>. This dataset is like a guidebook, giving us insights into each canton’s characteristics. As a budding economist building your statistical arsenal, the <code>swiss</code> data set is the perfect place to start!</p>
 <p>Aside from just looking at your data set, one of the more helpful ways to understand your data set is to visualize it. Across the 47 cantons, let’s try to observe the <code>Agriculture</code> variable in our data set, which stands for “% of males involved in agriculture as occupation”, and see how it varies.</p>
 <p>For this, we’ll rely on a plot that is known as a <strong>histogram</strong>. A histogram is a plot that groups data into ranges or “bins” and showcases the frequency of our data points within these ranges. Let’s go ahead and visualize it!</p>
 <div class="cell">
@@ -516,7 +515,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>education_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These graphs allow us to observe the distribution of the observations across the different levels in our variables. For instance, we can observe that for <code>Agriculture</code>, observations between 60 - 70 tends to have the highest frequency. Or on the other hand, most of the observations in the <code>Education</code> variable are in the 0 - 10 area.</p>
+<p>These graphs allow us to observe the distribution of the observations across the different levels in our variables. For instance, we can observe that for <code>Agriculture</code>, observations between 60 - 70 tend to have the highest frequency. Or on the other hand, most of the observations in the <code>Education</code> variable are in the 0 - 10 area.</p>
 <p>What does this all mean? How do we interpret all of these? To do this, we’ll take assistance of a few statistical concepts, namely: <strong>Mean, Median, and Mode</strong>, all of which are different interpretations of the word middle. Mean, Median, and Mode are the three primary concepts in the idea of central tendency.</p>
 <blockquote class="blockquote">
 <p><strong>Test Your Knowledge</strong>: Before you move on, where does the “middle” of the data look like for <code>Education</code>? <code>Agriculture</code>? Write down your answers, and see how the relate to the numerical statistics we will compute below.</p>
@@ -532,13 +531,13 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <h2 class="anchored" data-anchor-id="the-key-ideas-of-central-tendency">The Key Ideas of Central Tendency</h2>
 <section id="mean" class="level3">
 <h3 class="anchored" data-anchor-id="mean">Mean</h3>
-<p>At its core, the mean<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is a simple concept – it is what you get when you distribute the total equally among every entry in the data set. Or alteratively, when you sum all of the observations in a data set, then divide by the number of observations in that data set. Formulaically,</p>
+<p>At its core, the mean<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is a simple concept – it is what you get when you distribute the total equally among every entry in the data set. Or alternatively, when you sum all of the observations in a data set, then divide by the number of observations in that data set. Formulaically,</p>
 <p><span class="math display">\[
 \overline{X} = \frac{1}{n}\sum_{i=1}^{n} X_i =  \frac{\text{Sum of Value of All Data Points}}{\text{Total Number of Data Points}}
 \]</span></p>
 <p>Here, <span class="math inline">\(\sum\)</span> stands for summation, and <span class="math inline">\(\overline{X}\)</span> is what is used to represent the mean. While this may be enough for you to understand the concept, we can nuance this explanation a slight bit and make it more intuitive to interpret!</p>
 <blockquote class="blockquote">
-<p><strong>Check Your Understanding</strong>: can you see why the two explanations for mean given above are the same?</p>
+<p><strong>Check Your Understanding</strong>: can you see why the two explanations for the mean given above are the same?</p>
 </blockquote>
 <p>Let’s imagine a scenario within the context of our <code>swiss</code> dataset. If we considered all the cantons in Switzerland, what education level would a “typical” canton have? This is the <strong>Mean Education Rate</strong>. In R, the Mean is calculated quite simply through the <code>mean</code> function:</p>
 <div class="cell">
@@ -647,7 +646,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 </div>
 <section id="outlier-robustness" class="level3">
 <h3 class="anchored" data-anchor-id="outlier-robustness">Outlier Robustness</h3>
-<p>One important property of the median is that it is <strong>robust to outliers</strong>, unlike the mean. This make sense, since it only has to do with the <em>rank</em> of observations: it doesn’t matter how high the highest value is, or how low the lowest value is.</p>
+<p>One important property of the median is that it is <strong>robust to outliers</strong>, unlike the mean. This makes sense, since it only has to do with the <em>rank</em> of observations: it doesn’t matter how high the highest value is, or how low the lowest value is.</p>
 <p>We can see this with our <code>swiss</code> education situation before. Try it!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the median for education in the original data</span></span>
@@ -670,9 +669,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <li>It might not have a mode if no value repeats…</li>
 <li>be <strong>uni-modal</strong> if one value dominates in frequency…</li>
 <li><strong>bi-modal</strong> if two values tie in their recurrence…</li>
-<li>or even <strong>multi-modal</strong> if multiple values share the highest frequency.</li>
+<li>or even <strong>multimodal</strong> if multiple values share the highest frequency.</li>
 </ul>
-<p>In R, we can calculate the mode without relying on external packages, since unlike the <code>mean</code> or the <code>median</code> function, there is no <code>mode</code> function. But mode is so simple, we can create one ourself.</p>
+<p>In R, we can calculate the mode without relying on external packages, since unlike the <code>mean</code> or the <code>median</code> function, there is no <code>mode</code> function. But mode is so simple, we can create one ourselves.</p>
 <p>Consider a function that first creates a frequency table of the data set in question. It then identifies the maximum frequency from this table. Using this frequency, it’s possible to extract the modes, which are the values that appear with this maximum frequency. Here’s how it might look:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>calculate_mode <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
@@ -693,7 +692,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x4
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>modes_education</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Therefore, as our function correctly interprets, the Mode for the Education variable is 7. This means that the among the cantons, a lot of them have 7% draftees who are educated above the primary school level.</p>
+<p>Therefore, as our function correctly interprets, the Mode for the Education variable is 7. This means that among the cantons, a lot of them have 7% draftees who are educated above the primary school level.</p>
 </section>
 <section id="getting-all-of-central-tendency-together" class="level2">
 <h2 class="anchored" data-anchor-id="getting-all-of-central-tendency-together">Getting All of Central Tendency Together</h2>
@@ -820,8 +819,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -937,7 +934,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

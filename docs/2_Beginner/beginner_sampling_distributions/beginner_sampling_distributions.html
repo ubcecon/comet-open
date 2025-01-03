@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -818,7 +817,7 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x)    <span class="co"># store it in a data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We should have a population mean of 0, and standard deviation of 1. We can also visualize our distribution using a histogram for the <strong>population distribution</strong>. In this example, our population distribution should be normally distributed, centered around 0, with the mean represeted as a blue line on the histogram.</p>
+<p>We should have a population mean of 0, and standard deviation of 1. We can also visualize our distribution using a histogram for the <strong>population distribution</strong>. In this example, our population distribution should be normally distributed, centered around 0, with the mean represented as a blue line on the histogram.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>table <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)) <span class="sc">%&gt;%</span></span>
@@ -871,7 +870,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="test-your-knowledge">Test your knowledge</h3>
 <p>In this exercise:</p>
 <ol type="1">
-<li>Create an object <code>a</code> which is a draw from the unifom distribution, with 5,000 observations between 10 and 20, using the random seed 20. Store your answer in <code>answer_1</code>.</li>
+<li>Create an object <code>a</code> which is a draw from the uniform distribution, with 5,000 observations between 10 and 20, using the random seed 20. Store your answer in <code>answer_1</code>.</li>
 <li>Take a simple random sample of size 30 from our population, and calculate the sample mean and store it in an object <code>answer_2</code></li>
 </ol>
 <div class="cell question">
@@ -903,8 +902,8 @@ window.Quarto = {
 <p>Remember that when we survey a sample, we are only observing a subset of the population and determining a sample estimate based off that sample. Hence, If we surveyed a different 1000 Canadian residents every time, we would certainly get a different estimate for the average height of a Canadian resident.</p>
 <p>Let’s say we can draw many samples of size <span class="math inline">\(n\)</span> from our normal distribution population. Every time we draw a new sample, we get a different estimate of the mean. Now, if we were to plot each of those estimates onto a histogram, we would get a <strong>sampling distribution</strong>.</p>
 <p>A sampling distribution of a statistic is a probability distribution based on repeated independent samples of size <span class="math inline">\(n\)</span> from a population of size <span class="math inline">\(N\)</span>. We can now produce a distribution of sample means based on repeated and independent simple random samples from our population.</p>
-<p>If we take enough samples, we will find that the mean of the sampling distribution will be nearly equal the mean of our population distribution (our population parameter). With an infinite number of random samples, the mean of the sampling distribution will be exactly equal to the population parameter.</p>
-<p>As samples sizes increase, the standard error of the sampling distribution decreases. In other words, a larger sized sample <span class="math inline">\(n\)</span> would have a lower probability of having a sample estimate far away from the true population parameter. This is a very important concept in statistical inference and econometrics.</p>
+<p>If we take enough samples, we will find that the mean of the sampling distribution will be nearly equal to the mean of our population distribution (our population parameter). With an infinite number of random samples, the mean of the sampling distribution will be exactly equal to the population parameter.</p>
+<p>As sample sizes increase, the standard error of the sampling distribution decreases. In other words, a larger sized sample <span class="math inline">\(n\)</span> would have a lower probability of having a sample estimate far away from the true population parameter. This is a very important concept in statistical inference and econometrics.</p>
 <section id="scenario-1-population-is-normally-distributed" class="level4">
 <h4 class="anchored" data-anchor-id="scenario-1-population-is-normally-distributed">Scenario 1: Population is normally distributed</h4>
 <p>We will need to take <span class="math inline">\(R\)</span> independent simple random samples of size <span class="math inline">\(n\)</span> from our <code>population</code> of size <span class="math inline">\(N\)</span>, to produce our sampling distribution (<span class="math inline">\(R\)</span> observations).</p>
@@ -1012,7 +1011,7 @@ window.Quarto = {
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Because the number of samples we drew from our population is constant, we saw that the mean of our sampling distribution was roughly equivalent to the true population mean for all of our examples. As we increased our samples size, the standard error decreased.</p>
+<p>Because the number of samples we drew from our population is constant, we saw that the mean of our sampling distribution was roughly equivalent to the true population mean for all of our examples. As we increased our sample’s size, the standard error decreased.</p>
 <ul>
 <li><p>Having a low standard error means that the probability of having a sample produce a sample estimate that is far away from the true population parameter is very low.</p>
 <ul>
@@ -1030,7 +1029,7 @@ window.Quarto = {
 <li>The mean of the sampling distribution comes closer to the true value of the population parameter.</li>
 <li>The sampling distribution will resemble a normal distribution curve regardless of the shape of the original population distribution (note that this is just the <em>sampling distribution</em> that starts to look more like a normal curve, and not the <em>population distribution</em>).</li>
 </ol>
-<p>This exercise will be nearly identical to above except now our population will be random uniformly distributed. For this exercise, we will see how varying the samples taken affects the sampling distribution. We can achieve this in R using the <code>runif()</code> function to create a uniform distribution.</p>
+<p>This exercise will be nearly identical to above except now our population will be randomly uniformly distributed. For this exercise, we will see how varying the samples taken affects the sampling distribution. We can achieve this in R using the <code>runif()</code> function to create a uniform distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># Draw 10,000 observations from the random uniform distribution between 0 and 1</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1122,7 +1121,7 @@ window.Quarto = {
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>unif_sampling_dist_500_1000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice how the difference between the mean of the sampling distribution and the true value of the population parameter become closer and closer as we increase the number of samples drawn. As mentioned above, we can also see that the sampling distribution curve more strongly resembles a normal distribution curve as we increase the number of samples drawn. This is true regardless of the fact that we began with a population that was uniformly distributed.</p>
+<p>Notice how the difference between the mean of the sampling distribution and the true value of the population parameter becomes closer and closer as we increase the number of samples drawn. As mentioned above, we can also see that the sampling distribution curve more strongly resembles a normal distribution curve as we increase the number of samples drawn. This is true regardless of the fact that we began with a population that was uniformly distributed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>SIZE <span class="ot">&lt;-</span> <span class="dv">500</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>REPS <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
@@ -1211,18 +1210,18 @@ window.Quarto = {
 <section id="review-of-most-important-concepts" class="level3">
 <h3 class="anchored" data-anchor-id="review-of-most-important-concepts">Review of Most Important Concepts</h3>
 <ul>
-<li><p>The <strong>population</strong> is the collection of all individuals or entities we are interested in studying. From the above example, the population is entire population of Canada.</p></li>
+<li><p>The <strong>population</strong> is the collection of all individuals or entities we are interested in studying. From the above example, the population is the entire population of Canada.</p></li>
 <li><p>A <strong>population parameter</strong> is a particular quantity from the population that we’re interested in. In our example, this is the average height of the population.</p></li>
-<li><p>A <strong>simple sample</strong> is a small subset of the population which we use to get the <strong>sample estimate</strong> of the parameter we are interested in. Since we are often unable to conduct a comprehensive census in the real world, we have to use the sample estimates as an estimate for the population parameter.</p></li>
+<li><p>A <strong>simple sample</strong> is a small subset of the population which we use to get the <strong>sample estimate</strong> of the parameters we are interested in. Since we are often unable to conduct a comprehensive census in the real world, we have to use the sample estimates as an estimate for the population parameter.</p></li>
 <li><p>A <strong>sampling distribution</strong> is the distribution of the possible values of the sample estimate. In a hypothetical world, we assume that we are able to take many samples of size <code>n</code> from the same population and attain a sample estimate from all of those samples. When we plot those sample estimates on a histogram, we get a <strong>sampling distribution</strong>. When we take many samples, we find that the mean of the sampling distribution (the most frequently observed estimate of the population parameter) is very close to the actual value of the population parameter.</p></li>
 <li><p>Increasing the sample size decreases our standard error. When we increase the number of samples drawn from the population, the mean of the sampling distribution progresses closer and closer to the population parameter and our sampling distribution has a closer resemblance to a normal distribution curve.</p></li>
 </ul>
 </section>
 <section id="part-2-central-limit-theorem-clt-and-the-law-of-large-numbers-lln" class="level3">
 <h3 class="anchored" data-anchor-id="part-2-central-limit-theorem-clt-and-the-law-of-large-numbers-lln">Part 2: Central Limit Theorem (CLT) and the Law of Large Numbers (LLN)</h3>
-<p>The <strong>Central Limit Theorem</strong> tells us that no matter the distribution of the population, with sufficient sample size (usually above 30 and no more than 5% of the population), the distribution of sample means will tend towards a normal distributions.</p>
+<p>The <strong>Central Limit Theorem</strong> tells us that no matter the distribution of the population, with sufficient sample size (usually above 30 and no more than 5% of the population), the distribution of sample means will tend towards a normal distribution.</p>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: When sampling more than 5% of a population, we should use the Finite Population Correct Factor (FPC). This is because the Central Limit Thereom does not hold, and the standard error will be too large: FPC = <span class="math inline">\(\left(\frac{N-n}{N-1}\right)^{\frac{1}{2}}\)</span>.</p>
+<p><strong>Note</strong>: When sampling more than 5% of a population, we should use the Finite Population Correction Factor (FPC). This is because the Central Limit Theorem does not hold, and the standard error will be too large: FPC = <span class="math inline">\(\left(\frac{N-n}{N-1}\right)^{\frac{1}{2}}\)</span>.</p>
 </blockquote>
 <p>The <strong>Law of Large Numbers</strong> tells us that with a sufficiently large number of repeated and independent random samples, the mean of our distribution of sample means will tend toward the population mean! Notice the visualization of our sample mean as we increase <span class="math inline">\(R\)</span> in the example below!</p>
 <div class="cell">
@@ -1237,7 +1236,7 @@ window.Quarto = {
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">vector</span>(,r)</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (val <span class="cf">in</span> R) { <span class="co"># loop over all values in R </span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    means[val] <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">slice_sample</span>(population_unif, <span class="at">n =</span> num)<span class="sc">$</span>y) <span class="co"># Take a sample of size n from the population, caluclate the mean, and store in vector means, with index of the current iteration</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    means[val] <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">slice_sample</span>(population_unif, <span class="at">n =</span> num)<span class="sc">$</span>y) <span class="co"># Take a sample of size n from the population, calculate the mean, and store in vector means, with index of the current iteration</span></span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    sample_mean[val] <span class="ot">&lt;-</span> <span class="fu">mean</span>(means[<span class="dv">1</span><span class="sc">:</span>val]) <span class="co"># Running value of sample mean at index equal to current iteration</span></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -1310,7 +1309,7 @@ window.Quarto = {
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"This is the mean of our sample: "</span>, <span class="fu">mean</span>(boot_main_sample<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we want to know the uncertainty behind this estimate. Thinking back to our sampling distribution, how would we know if our sample estimate is close to the true population parameter? It’s entirely possible we got a sample estimate in the tails of the sampling distribution. To understand the uncertainty around our sample estimate, we must compute the standard error.</p>
-<p>Let’s draw bootstrap samples from our sample. The code is largely similar from before, except the key difference that we now add <code>replace = TRUE</code> to our <code>rep_sample_n</code> function. This tells R to allow replacement when taking samples.</p>
+<p>Let’s draw bootstrap samples from our sample. The code is largely similar from before, except the key difference is that we now add <code>replace = TRUE</code> to our <code>rep_sample_n</code> function. This tells R to allow replacement when taking samples.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>boot_samples <span class="ot">&lt;-</span> boot_main_sample <span class="sc">%&gt;%</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rep_sample_n</span>(<span class="at">size =</span> <span class="dv">500</span>, <span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
@@ -1333,7 +1332,7 @@ window.Quarto = {
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">50</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray"</span>) <span class="sc">+</span> </span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour=</span><span class="st">"blue"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(boot_means<span class="sc">$</span>mean), <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">ggtitle</span>(<span class="st">"Boostrap Sampling Distribution"</span>)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">ggtitle</span>(<span class="st">"Bootstrap Sampling Distribution"</span>)</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(boot_sampling_dist, sampling_dist_500_1000 <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Sampling Distribution"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1478,8 +1477,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1595,7 +1592,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

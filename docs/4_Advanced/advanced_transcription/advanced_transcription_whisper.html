@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -154,7 +154,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -843,14 +842,14 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <h3 class="anchored" data-anchor-id="loading-audio-samples">3.1 Loading audio samples</h3>
 <p>It’s always a good idea to at least partially listen to the audio we wish to transcribe, to make sure that the audio file has no issues.</p>
 <p>Lets start off by loading some of the audio samples provided in this module. We’ll do this using the <code>IPython</code> library, which should already be installed on your device. If the code fails to run, run the following line of code in the conda prompt: <code>pip install ipython</code>.</p>
-<div id="5fc26f48" class="cell" data-execution_count="1">
+<div id="3c1754e7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> IPython</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>IPython.display.Audio(<span class="st">"audio samples/mixkit-cartoon-kitty-begging-meow-92.wav"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># warning: Turn down your volume as the audio may be loud!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is another example, this time from a longer <a href="https://www.youtube.com/watch?v=a32RLgqNfGs">ColdFusion Youtube video</a>.</p>
-<div id="95117009" class="cell" data-execution_count="2">
+<div id="00956df2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> IPython</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>IPython.display.Audio(<span class="st">"audio samples/The Boeing Scandal Just Got A LOT Worse.mp3"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -861,7 +860,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <h3 class="anchored" data-anchor-id="preprocessing-audio">3.2 Preprocessing audio</h3>
 <p>A <em>sampling rate</em> is the number of samples per second (or per other unit) taken from a continuous signal (the actual audio) to make a discrete signal (the audio recording)<span class="math inline">\(^{[7]}\)</span>. It’s important to note that Whisper transcription is designed to work on <strong>16kHz audio samples</strong>. Since not all audio is 16kHz, we need to check the sampling rate of our audio file, and if it is not 16kHz, we can resample audio to the correct sampling rate using the librosa library.</p>
 <p>Let’s start off by checking the sampling rate of the kitty audio sample:</p>
-<div id="2cb70bf3" class="cell" data-execution_count="3">
+<div id="285a06e1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> librosa</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> soundfile</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -872,7 +871,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sampling rate:"</span>, sr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We see that the sampling rate, in this audio sample, is well above the 16khz sampling rate that Whisper requires. Thus, we need to convert it to the proper sampling rate of 16kHz. We’ll do this using the <code>librosa</code> package.</p>
-<div id="79e58992" class="cell" data-execution_count="4">
+<div id="5f937e5f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> librosa</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> soundfile <span class="im">as</span> sf</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -887,7 +886,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>output_file_path <span class="op">=</span> <span class="st">"audio samples/mixkit-cartoon-kitty-begging-meow-92_resamples.wav"</span>  <span class="co"># Path to save the resampled audio file</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>sf.write(output_file_path, y_resampled, <span class="dv">16000</span>)  <span class="co"># Save the resampled audio to a WAV file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2f0d9d5b" class="cell" data-execution_count="5">
+<div id="672a1f0d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples/mixkit-cartoon-kitty-begging-meow-92_resamples.wav"</span>  </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="va">None</span>)  <span class="co"># Load the audio file and get the new sampling rate</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -895,13 +894,13 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 </div>
 <hr>
 <p>This also works on MP3 files, such as the coldfusion video we played earlier:</p>
-<div id="0050e9a4" class="cell" data-execution_count="6">
+<div id="9ebae971" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples/House debates CPC motion of non-confidence against Trudeau's carbon tax CANADIAN POLITICS.mp3"</span>  <span class="co"># Replace "your_audio_file.wav" with the path to your audio file</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="va">None</span>)  <span class="co"># Load the audio file and get the original sampling rate</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sampling rate:"</span>, sr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3340d407" class="cell" data-execution_count="7">
+<div id="19c6a6eb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the audio file</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples/House debates CPC motion of non-confidence against Trudeau's carbon tax CANADIAN POLITICS.mp3"</span>  </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="dv">44100</span>)  <span class="co"># Load the audio file with the current sampling rate</span></span>
@@ -913,7 +912,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>output_file_path <span class="op">=</span> <span class="st">"audio samples/House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN POLITICS_resampled.mp3"</span>  <span class="co"># Path to save the resampled audio file</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>sf.write(output_file_path, y_resampled, <span class="dv">16000</span>)  <span class="co"># Save the resampled audio to a mp3 file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3984c115" class="cell" data-execution_count="8">
+<div id="0db27e6f" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples/House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN POLITICS_resampled.mp3"</span>  </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="va">None</span>)  <span class="co"># Load the audio file and get the original sampling rate</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -932,20 +931,20 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <section id="transcribing-short-form-audio" class="level3">
 <h3 class="anchored" data-anchor-id="transcribing-short-form-audio">4.1 Transcribing short form audio</h3>
 <p>Let’s begin transcribing our first audio sample. We’ll be using a trimmed 25 second audio sample from the Wall Street Journal. As mentioned, it’s always a good idea to start off by listening to our audio sample before transcribing it.</p>
-<div id="e5bf3216" class="cell" data-execution_count="9">
+<div id="f904bb10" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> IPython</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>IPython.display.Audio(<span class="st">"audio samples/WSJ-23andme_resampled.wav"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="preprocessing" class="level4">
 <h4 class="anchored" data-anchor-id="preprocessing">4.1.1 Preprocessing</h4>
 <p>You’ll notice that the file in question is an mp4 file rather than a mp3/wav file, meaning that the original file contains both audio and video. This isn’t an issue as we can convert it to a mp3/wav file during the preprocessing step.</p>
-<div id="6a2dd518" class="cell" data-execution_count="10">
+<div id="9e70ed75" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples\WSJ-23andme.mp4"</span>  </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="va">None</span>)  <span class="co"># Load the audio file and get the original sampling rate</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sampling rate:"</span>, sr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a3bf1527" class="cell" data-execution_count="11">
+<div id="aebcad27" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> soundfile <span class="im">as</span> sf</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the audio file</span></span>
@@ -959,7 +958,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>output_file_path <span class="op">=</span> <span class="st">"audio samples/WSJ-23andme_resampled.wav"</span>  <span class="co"># Path to save the resampled audio file</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>sf.write(output_file_path, y_resampled, <span class="dv">16000</span>)  <span class="co"># Save the resampled audio to a WAV file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="28a8d9a4" class="cell" data-execution_count="12">
+<div id="cc42c897" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>audio_file_path <span class="op">=</span> <span class="st">"audio samples/WSJ-23andme_resampled.wav"</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y, sr <span class="op">=</span> librosa.load(audio_file_path, sr<span class="op">=</span><span class="va">None</span>)  <span class="co"># Load the audio file and get the original sampling rate</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -972,7 +971,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <ol type="1">
 <li><strong>Model specifications:</strong> We start with initializing a PyTorch model for transcription, selecting either GPU or CPU based on availability. We then specify the pre-trained model we wish to use, with options for optimizing memory usage and ensuring safety in tensor operations.</li>
 </ol>
-<div id="22d31579" class="cell" data-execution_count="13">
+<div id="c3f162ea" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -994,7 +993,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <li><strong>Pipeline:</strong> We then create a pipeline for automatic speech recognition using the specified model, tokenizer, and feature extractor, utilizing the specified torch data type and device for computation.</li>
 </ol>
 <p>A <strong><em>pipeline</em></strong> is a series of interconnected steps or processes designed to accomplish a specific task efficiently. The <i>huggingface</i> audio transcription pipeline is structured to take raw audio inputs and convert them into transcriptions using automatic speech recognition. You can read more about the pipeline used in this tutorial <a href="https://huggingface.co/docs/transformers/main/en/pipeline_tutorial">here</a>.</p>
-<div id="44a195a1" class="cell" data-execution_count="14">
+<div id="ce6c1825" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> pipeline( </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"automatic-speech-recognition"</span>, <span class="co">#specifies what we want our model to do</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
@@ -1009,7 +1008,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <li><strong>Transcription:</strong> Finally, we <em>pipe</em> our audio sample into our pipeline, and generate an output.</li>
 </ol>
 <p>Note that steps 1 and 2 will only need to be ran once in a given notebook, unless you need to change the model specifications at a later point.</p>
-<div id="96c9559e" class="cell" data-execution_count="15">
+<div id="8d8acc46" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> pipe(<span class="st">"audio samples/WSJ-23andme_resampled.wav"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result[<span class="st">"text"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1024,7 +1023,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <img src="images/audio segmentation.png" alt="segmentation" width="400">
 </center>
 <p>We will modify our code by adding the following lines of code to our pipeline: <code>chunk_length_s=25,</code> <code>batch_size=16,</code> and <code>stride_length_s=(4, 2)</code>. The <code>chunk_length_s</code> argument specifies the length of each individual chunk to be cut from our audio sample. The <code>stride_length_s</code> argument specifies the length of each <em>stride</em>, the overlapping section between individual chunks. The <code>batch_size</code> argument specifies how many chunks whisper should process at once.</p>
-<div id="9d686346" class="cell" data-execution_count="16">
+<div id="adb3debb" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> pipeline( </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"automatic-speech-recognition"</span>, <span class="co">#specifies what we want our model to do</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
@@ -1039,7 +1038,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s test out our long-form transcription model on the parliamentary debate sample we saw earlier.</p>
-<div id="0cc35efa" class="cell" data-execution_count="17">
+<div id="ec80553c" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> pipe(<span class="st">"audio samples/House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN POLITICS_resampled.mp3"</span> )</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result[<span class="st">"text"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1085,25 +1084,25 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <section id="diarization" class="level3">
 <h3 class="anchored" data-anchor-id="diarization">5.2 Diarization</h3>
 <p>Let’s transcribe and diarize the CBC interview we played earlier. The first thing we must do is import the pipeline from pyannote and authenticate ourselves.</p>
-<div id="9022ae7e" class="cell" data-execution_count="18">
+<div id="9c63095e" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyannote.audio <span class="im">import</span> Pipeline</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> Pipeline.from_pretrained(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pyannote/speaker-diarization-3.1"</span>,</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    use_auth_token<span class="op">=</span><span class="st">"INSERT_TOKEN_HERE"</span>) <span class="co">#replace this with your authentication token!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll also need to specify the number of speakers in the audio. If you are unsure about the number of speakers, you can enter <code>none</code> for one or all of the categories below. The pipeline segment below <em>diarizes</em> our audio into the individual speakers, without transcribing it.</p>
-<div id="08ae5f61" class="cell" data-execution_count="19">
+<div id="8bb10b6d" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>who_speaks_when <span class="op">=</span> pipeline(<span class="st">"audio samples\House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN_POLITICS_resampled.mp3"</span>,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                      num_speakers<span class="op">=</span><span class="dv">2</span>,  </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                      min_speakers<span class="op">=</span><span class="dv">2</span>,  </span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                      max_speakers<span class="op">=</span><span class="dv">2</span>)  <span class="co">#since this code is diarizing the entire audio file, it may take a while to run!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can take a look at the contents of our audio by running the result of the pipeline. We can see that there are two speakers in this interview.</p>
-<div id="baebdc36" class="cell" data-execution_count="20">
+<div id="2d4f2bf1" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>who_speaks_when</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we’ve diarized our audio sample, let’s transcribe it using whisper. We’ll also add timestamps and speaker identifiers. The OpenAI whisper model is better suited for diarization, therefore, we’ll be working with the whisper-small model rather than the distill-whisper model.</p>
-<div id="ef2114a5" class="cell" data-execution_count="21">
+<div id="a91e77f6" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load OpenAI Whisper ASR</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> whisper</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1111,7 +1110,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># see https://github.com/openai/whisper/</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> whisper.load_model(<span class="st">"small"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8a667444" class="cell" data-execution_count="22">
+<div id="0554768f" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>audio_file <span class="op">=</span> <span class="st">"audio samples\House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN_POLITICS_resampled.mp3"</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyannote.audio <span class="im">import</span> Audio</span>
@@ -1122,7 +1121,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>segment<span class="sc">.</span>start<span class="sc">:06.1f}</span><span class="ss">s </span><span class="sc">{</span>segment<span class="sc">.</span>end<span class="sc">:06.1f}</span><span class="ss">s </span><span class="sc">{</span>speaker<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>) <span class="co">#formats start and end times</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we can see, the individual speakers have successfully been segmented. However, the resulting output is a bit untidy. Let’s clean it up by assigning names to our two speakers, fixing the timestamps, and adding vertical spacing between each speaker.</p>
-<div id="313e5348" class="cell" data-execution_count="23">
+<div id="ce063901" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyannote.audio <span class="im">import</span> Audio</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rename_speaker(speaker):</span>
@@ -1156,7 +1155,7 @@ This is the model that we will be using in this notebook, due to it’s relevanc
 <section id="optional-converting-asr-transcription-output-into-a-pdf-document" class="level3">
 <h3 class="anchored" data-anchor-id="optional-converting-asr-transcription-output-into-a-pdf-document">5.2.1 (Optional) Converting ASR transcription output into a PDF document</h3>
 <p>The sample code below uses the reportlab library to automatically convert generated output into a PDF, and serves as an example of an application for ASR transcription. As metioned, proof-reading is still very important, as transcriptions may have errors. Feel free to edit the formatting to your liking. Make sure to install <em>reportlab</em> using <code>pip install reportlab</code> if it is not installed already.</p>
-<div id="81c1189e" class="cell" data-execution_count="24">
+<div id="14660f89" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyannote.audio <span class="im">import</span> Audio</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> reportlab.lib.pagesizes <span class="im">import</span> letter</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> reportlab.platypus <span class="im">import</span> SimpleDocTemplate, Paragraph</span>
@@ -1332,8 +1331,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1449,7 +1446,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

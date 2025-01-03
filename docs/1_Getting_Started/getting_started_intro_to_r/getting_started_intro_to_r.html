@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -866,7 +865,7 @@ window.Quarto = {
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Take note of the order in which the values are filled it; it might be unexpected!</p>
+<p>Take note of the order in which the values are filled in; it might be unexpected!</p>
 <p>Just like with vectors, we can also access parts of the matrix. If you look at the cell output above, you will see some notation like <code>[1,]</code> or <code>[,2]</code>. These are the <em>rows</em> and <em>columns</em> of the matrix. We can refer to them using this notation. We can also refer to elements using <code>[1,2]</code>. Again, this is very similar to the mathematical notation for matrices.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If we want to access specific parts of the matrix:</span></span>
@@ -890,7 +889,7 @@ window.Quarto = {
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse data structure of m</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The output of <code>str(m)</code> begins by displaying that the data in the matrix is of an numeric (num) type. The <code>[1:2, 1:3]</code> shows the structre of the rows and columns. The final part displays the values in the matrix.</p>
+<p>The output of <code>str(m)</code> begins by displaying that the data in the matrix is of a numeric (num) type. The <code>[1:2, 1:3]</code> shows the structure of the rows and columns. The final part displays the values in the matrix.</p>
 </section>
 <section id="working-with-lists" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-lists">Working with Lists</h3>
@@ -928,7 +927,7 @@ window.Quarto = {
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#access the named property "a_matrix"</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>my_list<span class="sc">$</span>a_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You will notice that this <em>only</em> works for named object - which is particularly convenient for data frames, which we will discuss next.</p>
+<p>You will notice that this <em>only</em> works for named objects - which is particularly convenient for data frames, which we will discuss next.</p>
 </section>
 <section id="working-with-dataframes" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-dataframes">Working with Dataframes</h3>
@@ -989,9 +988,9 @@ window.Quarto = {
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_3</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
-<li>Given the matrix below, extract the element on the 30th row and 10th column, store it in a object called <code>first</code>.</li>
-<li>Extract the element on the 27th row and 13th column, store it in a object called <code>second</code>.</li>
-<li>Extract the element on the 12th row and 33rd column, store it in a object called <code>third</code>.</li>
+<li>Given the matrix below, extract the element on the 30th row and 10th column, store it in an object called <code>first</code>.</li>
+<li>Extract the element on the 27th row and 13th column, store it in an object called <code>second</code>.</li>
+<li>Extract the element on the 12th row and 33rd column, store it in an object called <code>third</code>.</li>
 <li>Create a vector with the three elements and store it in the object <code>answer_4</code>.</li>
 </ol>
 <div class="cell question">
@@ -1073,7 +1072,7 @@ window.Quarto = {
 </div>
 <section id="operations" class="level3">
 <h3 class="anchored" data-anchor-id="operations">Operations</h3>
-<p>In R, we can also perform <strong>operations</strong> on objects; the type of an object defines what operations are valid. All of the basic mathematical and logical operations you are familiar with are example of these, but there are many more. For example:</p>
+<p>In R, we can also perform <strong>operations</strong> on objects; the type of an object defines what operations are valid. All of the basic mathematical and logical operations you are familiar with are examples of these, but there are many more. For example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># creates an object named "a" assigned to the value: 4</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="co"># creates an object named "b" assigned to the value: 6</span></span>
@@ -1144,7 +1143,7 @@ window.Quarto = {
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">print</span>(k)</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The function (1) takes the inputs <code>(x,y)</code> given by the user (2) assigns the value of 2 times <code>x</code> plus <code>y</code> to some object <code>k</code> (3) prints the object <code>k</code>. We can call this function with any paramaters we want (as long as it is a number), and the function will output the operations for the inputs we specified. For example, let’s call the function for the values <code>x = 2</code> and <code>y = 3</code>.</p>
+<p>The function (1) takes the inputs <code>(x,y)</code> given by the user (2) assigns the value of 2 times <code>x</code> plus <code>y</code> to some object <code>k</code> (3) prints the object <code>k</code>. We can call this function with any parameters we want (as long as it is a number), and the function will output the operations for the inputs we specified. For example, let’s call the function for the values <code>x = 2</code> and <code>y = 3</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_function</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1405,8 +1404,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1522,7 +1519,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

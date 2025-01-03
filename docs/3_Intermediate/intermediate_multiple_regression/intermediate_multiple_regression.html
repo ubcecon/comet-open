@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -155,7 +155,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -857,7 +856,7 @@ window.Quarto = {
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># male is 0</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>regression3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> SFS_data, dummy_gender <span class="sc">~</span> Education) <span class="co"># the effect of education on gender</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># this is actually be a very important regression model called "linear probability"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># this is actually a very important regression model called "linear probability"</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># we will learn more about it later in the course</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(regression1, regression2, regression3, <span class="at">title=</span><span class="st">"Comparison of Regression Results"</span>,</span>
@@ -994,7 +993,7 @@ Gender_i = \gamma_0 + \gamma_1 Edu_i + v_i
 <p><strong>Think Deeper</strong>: what if we had done this experiment another way (<code>wealth</code> and <code>Education</code> on <code>gender</code>)? Which coefficients would match? Why?</p>
 </blockquote>
 <p>This result is a consequence of the <strong>Frisch-Waugh-Lovell theorem</strong> about OLS - a variant of which is referred to as the “regression anatomy” equation.</p>
-<p>For our purposes, it does a very useful thing: it gives us a concrete way of thinking about what “controls” are doing: they are “subtracting” part of the variation from both the outcome and other explanatory variables. In OLS, this is <em>exactly</em> what is happening - but for all variables at once! If you don’t get it, don’t worry about it too much. What is important is now we have a way to disentangle the effects on wealth, weather it be gender or education.</p>
+<p>For our purposes, it does a very useful thing: it gives us a concrete way of thinking about what “controls” are doing: they are “subtracting” part of the variation from both the outcome and other explanatory variables. In OLS, this is <em>exactly</em> what is happening - but for all variables at once! If you don’t get it, don’t worry about it too much. What is important is now we have a way to disentangle the effects on wealth, whether it be gender or education.</p>
 </section>
 </section>
 <section id="part-2-hands-on" class="level2">
@@ -1085,7 +1084,12 @@ Gender_i = \gamma_0 + \gamma_1 Edu_i + v_i
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multiple_model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s say we have new data and we want to predict the wealth for these new observations. We’ll create a new data frame with the new data points and use the <code>predict()</code> function to make predictions.</p>
-<p>We will create three new data points: - a female individual with a university education - a male individual with a non-university education - a male individual with a university education</p>
+<p>We will create three new data points:</p>
+<ul>
+<li>a female individual with a university education</li>
+<li>a male individual with a non-university education</li>
+<li>a male individual with a university education</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new data frame with sample data points for prediction</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1121,7 +1125,7 @@ Gender_i = \gamma_0 + \gamma_1 Edu_i + v_i
 </section>
 <section id="part-3-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-exercises">Part 3: Exercises</h2>
-<p>This sections has both written and coding exercises for you to test your knowledge about multiple regression. The answers to the written exercises are on the last section of the notebook.</p>
+<p>This section has both written and coding exercises for you to test your knowledge about multiple regression. The answers to the written exercises are on the last section of the notebook.</p>
 <section id="questions" class="level3">
 <h3 class="anchored" data-anchor-id="questions">Questions</h3>
 <p>Suppose you have a regression model that looks like:</p>
@@ -1134,7 +1138,7 @@ Y_i = \beta_0 + \beta_1 X_{i} + \beta_2 D_{i} + \epsilon_i
 <li>What is the difference between these two terms?</li>
 <li>Interpret what the coefficient <span class="math inline">\(\beta_2\)</span> means in this regression, using your answers in 1 and 2.</li>
 </ol>
-<p>To explore the mechanics of multiple regressions, let’s return to the analysis that we did in Module 1; that is, let’s re-examine the relationship between the gender income gap and education.</p>
+<p>4-8. To explore the mechanics of multiple regressions, let’s return to the analysis that we did in Module 1; that is, let’s re-examine the relationship between the gender income gap and education.</p>
 <p>Run a simple regression for the gender income gap (with a single regressor) for each education level. Use <code>income_before_tax</code> as the dependent variable. Then, run a multiple regression for the gender income gap that includes <code>education</code> as a control.</p>
 <p>Tested objects: <code>reg_LESS</code> (simple regression; less than high school), <code>reg_HS</code> (high school diploma), <code>reg_NU</code> (Non-university post-secondary), <code>reg_U</code> (university), <code>reg2</code> (multiple regression).</p>
 <div class="cell question">
@@ -1202,7 +1206,9 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>agegr <span class="ot">&lt;-</span> <span class="fu">relevel</span>(SFS_data<span class="sc">$</span>agegr, <span class="at">ref =</span> <span class="st">"Under 30"</span>) <span class="co"># set "Under 30" as default factor level</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Add <code>agegr</code> to the given multiple regression and compare it with the model that we estimated in the previous activity.</p>
+<ol start="14" type="1">
+<li>Add <code>agegr</code> to the given multiple regression and compare it with the model that we estimated in the previous activity.</li>
+</ol>
 <p>Tested Objects: <code>reg3</code> (the same multiple regression that we estimated before, but with age added as a control).</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add Age as Control</span></span>
@@ -1218,8 +1224,8 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <ol start="15" type="1">
 <li><p>Compare the two regressions in the table above. What happens to the estimated gender income gap when we add age as a control? What might explain this effect?</p></li>
 <li><p>Suppose that one of your fellow researchers argues that <code>employment</code> (employment status) should be added to the multiple regression as a control. That way, they reason, we can account for differences between employed and unemployed workers. Do you agree with their reasoning?</p></li>
+<li><p>Let’s test this argument directly. Add <code>employment</code> as a control to the multiple regression with all previous controls. Estimate this new regression (<code>reg4</code>).</p></li>
 </ol>
-<p>Let’s test this argument directly. Add <code>employment</code> as a control to the multiple regression with all previous controls. Estimate this new regression (<code>reg4</code>).</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add in the order before, with employment last</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>reg4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(???, <span class="at">data =</span> SFS_data)</span>
@@ -1237,9 +1243,9 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(SFS_data) <span class="co"># run me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="19" type="1">
-<li>Do you agree with your roommate’s argument? Why or why not?</li>
+<li><p>Do you agree with your roommate’s argument? Why or why not?</p></li>
+<li><p>Let’s back up our argument with regression analysis. Estimate a regression that has the same controls as <code>reg3</code> from the previous activity, but add <code>pasrbuyg</code> as a control as well.</p></li>
 </ol>
-<p>Let’s back up our argument with regression analysis. Estimate a regression that has the same controls as <code>reg3</code> from the previous activity, but add <code>pasrbuyg</code> as a control as well.</p>
 <p>What is “pasrbuyg”?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dictionary</span>(<span class="st">"pasrbuyg"</span>) <span class="co"># run me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1289,7 +1295,7 @@ E[Y_i|X_i,D_i=0]&amp;=\beta_{0}+\beta_{1}E[X_{i}|X_{i},D_{i}=0]
 <p>In multiple regression, the intercept means male-lead households with high school degree earn 84,169 dollars on average. For the coefficient of <code>educationLess than High school</code>, it means if male is the main earner, then the average incomes they will earn are <span class="math inline">\(84,169 + 31,811 = 52,358\)</span> dollars. Then for female with high school degree, the average before-tax income is <span class="math inline">\(84,169-37,638 = 46,531\)</span> dollars. We can interpret coefficient estimates of <code>educationNon-university post-secondary</code> and <code>educationUniversity</code> in a similar way.</p>
 <ol start="12" type="1">
 <li><p>Because there may be omitted variables that correlate with <span class="math inline">\(Gender\)</span>. Maybe the omitted variables are the true reasons why there is an income gap, but we since do not control these variables, the coefficient estimate of <span class="math inline">\(Gender\)</span> is not correct.</p></li>
-<li><p><code>age</code> is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omit <code>age</code>, the coefficient estimate of <code>gender</code> can be biased.</p></li>
+<li><p><code>age</code> is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omits <code>age</code>, the coefficient estimate of <code>gender</code> can be biased.</p></li>
 <li><p>Coding exercise</p></li>
 <li><p>After we control age, the estimated gender income gap shrinks. This means some of the income gap may come from difference in age, rather than gender gap.</p></li>
 <li><p>The reasoning is correct.</p></li>
@@ -1388,8 +1394,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1505,7 +1509,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

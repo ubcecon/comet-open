@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -153,7 +153,6 @@ window.Quarto = {
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -797,10 +796,10 @@ window.Quarto = {
 </div>
 <section id="difference-in-differences" class="level2">
 <h2 class="anchored" data-anchor-id="difference-in-differences">Difference-in-Differences</h2>
-<p>To demonstrate how DID works and the consequences of misspecification, I require data where I know the true parameter values. Therefore this again necessitates using simulated data rather than real-life data.</p>
+<p>To demonstrate how DID works and the consequences of misspecification, we require data where we know the true parameter values. Therefore this again necessitates using simulated data rather than real-life data.</p>
 <section id="generating-panel-structured-data" class="level3">
 <h3 class="anchored" data-anchor-id="generating-panel-structured-data">Generating Panel-Structured Data</h3>
-<p>Panel-Structured data have both an unit and a time index. The features that matter are that there should be a common time trend component and an additional time trend component specific only to the “treated” group. For our purposes, it can be more helpful to think of the “treated” group as simply the “group of interest” who may have been differentially affected by something that changed between the “before” and the “after” period(s). The minimum number of time periods you require to run a DID estimator is <span class="math inline">\(2\)</span>, but the definition of a “period” is not constrained to “usual” time units like months and years. For example, if you have the privilege of working with linked census data, then your period may be decadal or quinquennial, while if you work with stock market data your period may be as fine as minutes or seconds.</p>
+<p>Panel-Structured data have both a unit and a time index. Additionally, there should be a common time trend component and an additional time trend component specific only to the “treated” group. For our purposes, it can be more helpful to think of the “treated” group as simply the “group of interest” who may have been differentially affected by something that changed between the “before” and the “after” period(s). The minimum number of time periods we need to run a DID estimator is <span class="math inline">\(2\)</span>, but the definition of a “period” is not constrained to “usual” time units like months and years. For example, if we have the privilege of working with linked census data, then our period may be decadal or quinquennial, while if we work with stock market data our period may be as fine as minutes or seconds.</p>
 <p>Note also that panel-structured data is not restricted to a unit-by-time structure. It is also possible to have a group-by-unit panel structured data. Examples include twins in a family unit, students in a class, patients and their primary physicians, <em>et cetera</em>. In this case, <code>i</code> below indexes the group instead of the unit and <code>T</code> indexes the unit within the group instead of time.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">998</span>)</span>
@@ -814,7 +813,7 @@ window.Quarto = {
 </section>
 <section id="summary-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h3>
-<p>A quick overview of the synthetic data. To an approximation, this data set tries to simulate a height and weight data set. <code>hgt</code> is short for height (measured in meters; m), <code>wgt</code> for weight (measured in kilograms; kg), <code>diet</code> implies we are considering the effect of a diet. As is intuitive, evaluating the effect of a diet is an appropriate case for DID because diets take time to show their effects. We also clearly need height as a control because all else equal, a healthy but taller person should weigh more than a healthy but shorter person. <code>i</code> and <code>T</code> are our person and time indexes.</p>
+<p>Let’s first take a quick overview of the simulated data. This dataset tries to simulate a height and weight dataset. <code>hgt</code> is short for height (measured in meters; m), <code>wgt</code> for weight (measured in kilograms; kg), <code>diet</code> implies we are considering the effect of a diet. As is intuitive, evaluating the effect of a diet is an appropriate case for DID because diets take time to show their effects. We also clearly need height as a control because all else equal, a healthy but taller person should weigh more than a healthy but shorter person. <code>i</code> and <code>T</code> are our person and time indexes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sim.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -822,17 +821,17 @@ window.Quarto = {
 </section>
 <section id="difference-in-differences-estimator" class="level2">
 <h2 class="anchored" data-anchor-id="difference-in-differences-estimator">Difference-in-Differences Estimator</h2>
-<p>Recap that DID is the following model. We estimate</p>
+<p>The DID estimator looks as follows. We estimate</p>
 <p><span class="math display">\[
     \theta = \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 1, T_{i} = 1}_{D_{i} = 1}] - \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 1, T_{i} = 0}_{D_{i} = 0}].
 \]</span></p>
-<p>This is a model for when we have a treatment implemented in between two periods where we observe the units. However as before there will be bias without further adjustments to the method. The main bias with estimators that make use of the temporal dimension of the data is that naïve estimators conflate the true effect with time trends.</p>
-<p>To give an intuition, suppose we want to measure the effect of drinking milk daily on height growth in young children. The problem is that young children are developing and naturally grow taller regardless of their diet (unless they are severely malnourished). Therefore a naïve estimator conflates this natural time trend with the real effect of the target diet and can spuriously estimate a positive effect of drinking milk when it could very well be the case that the true effect is zero or even negative.</p>
-<p>Mathematically, we see the bias in the PO model by</p>
+<p>This is a model for when we have a treatment implemented in between two periods where we observe the units. However, as before, there will be bias without further adjustments to the method. The main bias with estimators that make use of the temporal dimension of the data is that naïve estimators conflate the true effect with time trends.</p>
+<p>To give an intuition, suppose we want to measure the effect of drinking milk daily on height growth in young children. The problem is that young children are developing and naturally grow taller regardless of their diet (unless they are severely malnourished). Therefore, a naïve estimator conflates this natural time trend with the real effect of the target diet and can spuriously estimate a positive effect of drinking milk when it could very well be the case that the true effect is zero or even negative.</p>
+<p>Mathematically, we see the bias in the potential-outcomes model by</p>
 <p><span class="math display">\[
     \theta = \underbrace{\mathbb{E}[Y_{1,i}(1) \mid T_{i} = 1] - \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1]}_{ATET} + \underbrace{\mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 0]}_{Bias}.
 \]</span></p>
-<p>The bias is clearly coming from the unobserved time trend. How do we deal with it given that the comparison estimator already implicitly makes use of a time period indicator? The answer is we postulate the existence of a counterfactual group for which we do indeed observe them being untreated in both periods, but their time trend is identical to the group of interest:</p>
+<p>The bias is clearly coming from the unobserved time trend. How do we deal with it given that the comparison estimator already implicitly makes use of a time period indicator? The answer is that we postulate the existence of a counterfactual group for which we do indeed observe them being untreated in both periods, but their time trend is identical to the group of interest:</p>
 <p><span class="math display">\[
     \mathbb{E}[Y_{0,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{0,i}(0) \mid T_{i} = 0] = \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 0]
 \]</span></p>
@@ -855,7 +854,7 @@ window.Quarto = {
 <p><span class="math display">\[
     ATET = \mathbb{E}[Y_{i,1} - Y_{i,0} \mid G_{i} = 1] - \mathbb{E}[Y_{i,1} - Y_{i,0} \mid G_{i} = 0].
 \]</span></p>
-<p>This tells us precisely how to estimate the ATET using the DID estimator using a simple <span class="math inline">\(t\)</span>-test:</p>
+<p>This tells us precisely how to estimate the Average Treatment Effect on the Treated (ATET) using the DID estimator using a simple <span class="math inline">\(t\)</span>-test:</p>
 <ol type="1">
 <li>Generate <span class="math inline">\(\Delta Y_{i} = Y_{i,1} - Y_{i,0}\)</span>.</li>
 <li>Test <span class="math inline">\(\overline{\Delta Y_{i}} \mid_{G_{i} = 1}\)</span> versus <span class="math inline">\(\overline{\Delta Y_{i}} \mid_{G_{i} = 0}\)</span>.</li>
@@ -877,16 +876,16 @@ window.Quarto = {
 </section>
 <section id="interpreting-the-results" class="level3">
 <h3 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h3>
-<p>Recall that the simple <span class="math inline">\(t\)</span>-test method does not use controls, so this level of accuracy is unexpected. Note, in general the DID estimator without controls does not yield the same results as the DID estimator with controls when applied to real-world data.</p>
+<p>Recall that the simple <span class="math inline">\(t\)</span>-test method does not use controls, so this level of accuracy is unexpected. Note, in general, the DID estimator without controls does not yield the same results as the DID estimator with controls when applied to real-world data.</p>
 <p>The estimate is simply interpreted as the estimated ATET. The diet decreases the weight of the group undertaking the diet by <span class="math inline">\(2.97\)</span> kg. In your own cases, what the treatment, outcome, treated group, and units are depends on your question and data.</p>
 </section>
 <section id="naïve-comparison-measure-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="naïve-comparison-measure-estimator">Naïve Comparison Measure Estimator</h3>
-<p>I will first present several wrong ways to use panel data and show empirically why you should not be doing these things if your interest is in the ATET. One way is to estimate a comparison measure for the “after” period only:</p>
+<p>Let’s first look several wrong ways to use panel data and show empirically why we should not be doing these things if our interest is in the ATET. One way is to estimate a comparison measure for the “after” period only:</p>
 <p><span class="math display">\[
     \theta_{after} = \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 1, T_{i} = 1}_{D_{i} = 1}] - \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 0, T_{i} = 1}_{D_{i} = 0}].
 \]</span></p>
-<p>This is of course going to be biased because you can see that in the PO model this corresponds to</p>
+<p>This is of course going to be biased because you can see that, in the potential-outcomes model, this corresponds to</p>
 <p><span class="math display">\[
     \theta_{after} = \underbrace{\mathbb{E}[Y_{1,i}(1) \mid T_{i} = 1] - \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1]}_{ATET} + \underbrace{\mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{0,i}(0) \mid T_{i} = 1]}_{Bias}.
 \]</span></p>
@@ -902,7 +901,7 @@ window.Quarto = {
 </section>
 <section id="naïve-before-after-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="naïve-before-after-estimator">Naïve Before-After Estimator</h3>
-<p>The second wrong way is to do exactly what was described at the start of this section,</p>
+<p>The second wrong way to estimate a DID is to do exactly what was described at the start of this section,</p>
 <p><span class="math display">\[
     \theta = \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 1, T_{i} = 1}_{D_{i} = 1}] - \mathbb{E}[Y_{i} \mid \underbrace{G_{i} = 1, T_{i} = 0}_{D_{i} = 0}].
 \]</span></p>
@@ -931,8 +930,8 @@ window.Quarto = {
     &amp; = \underbrace{\mathbb{E}[Y_{1,i}(1)] - \mathbb{E}[Y_{1,i}(0)]}_{ATET} + \underbrace{\mathbb{E}[Y_{1,i}(0)] - \mathbb{E}[Y_{0,i}(0)]}_{Bias}.
 \end{align*}\]</span></p>
 <p>This points to a selection bias intuition. If you believe there is no unobserved selection into treatment, then this model is correct. In most cases this is not true.</p>
-<p>This may then prompt the question: intuitively the saturated model solves this problem and you have learnt in lectures that it does. Why? The idea again goes back to the parallel trends assumption. We assume that the selection bias is constant over time. As such, the “before” period observation where both groups are untreated provides an estimate of the selection bias, which we can then remove from this biased estimator to obtain the unbiased estimate of the ATET.</p>
-<p>This intuition should not also reveal something very interesting to those paying attention: the DID estimator circumvents selection bias entirely. You do not need an experimental set-up without selection bias to use DID!</p>
+<p>This may then prompt the question: intuitively, the saturated model solves this problem. Why? The idea again goes back to the parallel trends assumption. We assume that the selection bias is constant over time. As such, the “before” period observation where both groups are untreated provides an estimate of the selection bias, which we can then remove from this biased estimator to obtain the unbiased estimate of the ATET.</p>
+<p>This intuition should also reveal something very interesting: the DID estimator circumvents selection bias entirely. You do not need an experimental set-up without selection bias to use DID!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(</span>
@@ -967,7 +966,7 @@ window.Quarto = {
 </section>
 <section id="comparing-estimators" class="level3">
 <h3 class="anchored" data-anchor-id="comparing-estimators">Comparing Estimators</h3>
-<p>The following table shows all the misspecified models and the correct specification. (1) is the naïve comparison estimator, (2) is the before-after estimator, (3) is the linear model estimator without the interaction term, (4) is the fully specified model, and (5) is what the <span class="math inline">\(t\)</span>-test implicitly estimates.</p>
+<p>The following table shows all the mispecified models and the correct specification. (1) is the naïve comparison estimator, (2) is the before-after estimator, (3) is the linear model estimator without the interaction term, (4) is the fully specified model, and (5) is what the <span class="math inline">\(t\)</span>-test implicitly estimates.</p>
 <p>Again, note that (4) and (5) will in general not produce the same ATET estimate in most real-world data sets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wgt <span class="sc">~</span> hgt <span class="sc">+</span> diet, <span class="at">data =</span> <span class="fu">filter</span>(sim.data, Treatment <span class="sc">==</span> <span class="dv">1</span>))</span>
@@ -992,7 +991,7 @@ window.Quarto = {
 <p>The logic of DID can be extended to the case where we observe multiple post-treatment periods. If we think that the ATET is heterogeneous over time, we can estimate an ATET for each period observed. This gives rise to the Event Study estimator. It is so named because this is often used to study the effect of a specific event—usually policy changes and natural disasters—and trace out its effects over many periods. While there is currently an active literature looking at problems with this estimator, we concern ourselves primarily with the simplest case where the treatment occurs only once and we observe the treated group and a counterfactual never-treated group for several periods before and after the event.</p>
 <section id="load-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-data">Load Data</h3>
-<p>By convention, for a panel-structured data with more than two periods, period <span class="math inline">\(0\)</span> is when the treatment is implemented and all other period numbers refer to the number of periods after (before if negative) treatment implementation.</p>
+<p>By convention, for a panel-structured data with more than two periods, period <span class="math inline">\(0\)</span> is when the treatment is implemented and all other period numbers refer to the number of periods after (positive) and before (negative) treatment implementation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">999</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sim.data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">i =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>), <span class="at">hgt =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="fl">1.68</span>, <span class="fl">0.09</span>), <span class="at">u =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
@@ -1011,11 +1010,11 @@ window.Quarto = {
 </section>
 <section id="wrongly-using-the-difference-in-differences-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="wrongly-using-the-difference-in-differences-estimator">Wrongly Using the Difference-in-Differences Estimator</h3>
-<p>Intuitively, of course the plain DID estimator is a misspecification if we believe that the ATET is heterogeneous over time. We know what the wrongly estimated ATET will be using the Law of Iterated Expectations:</p>
+<p>Intuitively, of course the plain DID estimator is a misspecification if we believe that the ATET is heterogeneous over time. Using the Law of Iterated Expectations, we know what the wrongly estimated ATET will be:</p>
 <p><span class="math display">\[
     \mathbb{E}[\Delta_{i} \mid G_{i} = 1] = \mathbb{E}_{T}[\mathbb{E}[\Delta_{i} \mid G_{i} = 1, T] \mid G_{i} = 1].
 \]</span></p>
-<p>Hence, as in this simulated data set, if the time trend of the treatment effect is not monotonic, we can have unexpected results by misspecifying a case of truly heterogeneous treatment effects using the homogeneous treatment effect estimator.</p>
+<p>Hence, as in this simulated data set, if the time trend of the treatment effect is not monotonic, we can have unexpected results by incorrectly specifying a case of truly heterogeneous treatment effects using the homogeneous treatment effect estimator.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sim.data <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">T =</span> <span class="fu">if_else</span>(Treatment <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
@@ -1025,15 +1024,15 @@ window.Quarto = {
 </section>
 <section id="event-study-with-t-tests" class="level3">
 <h3 class="anchored" data-anchor-id="event-study-with-t-tests">Event Study with <span class="math inline">\(t\)</span>-Tests</h3>
-<p>The <span class="math inline">\(t\)</span>-Test version of the Event Study estimator is straightforward. Because what we are essentially interested in is</p>
+<p>The <span class="math inline">\(t\)</span>-Test version of the Event Study estimator is straightforward. What we are essentially interested in is</p>
 <p><span class="math display">\[
     ATET(t) = \left( \mathbb{E}[Y_{i} \mid G_{i} = 1, T_{i} = t] - \mathbb{E}[Y_{i} \mid G_{i} = 1, T_{i} = -1] \right) - \left( \mathbb{E}[Y_{i} \mid G_{i} = 0, T_{i} = t] - \mathbb{E}[Y_{i} \mid G_{i} = 0, T_{i} = -1] \right)
 \]</span></p>
 <p>which we can rewrite as</p>
 <p><span class="math display">\[
-    ATET(t) = \mathbb{E}[Y_{i,t} - Y_{i,-1} \mid G_{i} = 1] - \mathbb{E}[Y_{i,t} - Y_{i,-1} \mid G_{i} = 0],
+    ATET(t) = \mathbb{E}[Y_{i,t} - Y_{i,-1} \mid G_{i} = 1] - \mathbb{E}[Y_{i,t} - Y_{i,-1} \mid G_{i} = 0].
 \]</span></p>
-<p>it implies that what we want to do is simply to first restrict our data set to the periods <span class="math inline">\(t\)</span> and <span class="math inline">\(-1\)</span>, then use the regular DID estimator on this subset, and repeat this exercise for all periods before and after <span class="math inline">\(-1\)</span>.</p>
+<p>This implies that what we want to do is simply to first restrict our data set to the periods <span class="math inline">\(t\)</span> and <span class="math inline">\(-1\)</span>, then use the regular DID estimator on this subset, and repeat this exercise for all periods before and after <span class="math inline">\(-1\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(</span>
@@ -1049,7 +1048,7 @@ window.Quarto = {
 </section>
 <section id="interpreting-the-results-1" class="level3">
 <h3 class="anchored" data-anchor-id="interpreting-the-results-1">Interpreting the Results</h3>
-<p>The <span class="math inline">\(t\)</span>-test analogue of the Event Study estimator also highlights intuitively how we need to think about and interpret the estimator. The ATET estimate for each period is interpreted with respect to the base period, which in this case is the period just before the treatment is implemented. In this case,</p>
+<p>The <span class="math inline">\(t\)</span>-test analogue of the Event Study estimator also highlights intuitively how we need to think about and interpret the estimator. The ATET estimate for each period is interpreted with respect to the base period, which in this case is the period just before the treatment is implemented. Here,</p>
 <ol type="1">
 <li>The diet actually increases the weight of those on the diet by <span class="math inline">\(1.12\)</span> kg on average in the period they start the diet.</li>
 <li>The diet still increases the weight of those on the diet by <span class="math inline">\(0.748\)</span> kg on average relative to before starting the diet after <span class="math inline">\(1\)</span> period (let’s say, months).</li>
@@ -1071,8 +1070,7 @@ window.Quarto = {
 </section>
 <section id="heterogeneity-over-groups-the-triple-difference-estimator" class="level2">
 <h2 class="anchored" data-anchor-id="heterogeneity-over-groups-the-triple-difference-estimator">Heterogeneity Over Groups: the Triple Difference Estimator</h2>
-<p>You have seen one way to discuss the Triple Differences estimator. Here I present another.</p>
-<p>Suppose we are interested in not only the ATET, but also how the ATET differs across certain groups of interest. An example is whether certain policies help to close the gender wage gap: what this implicitly asks is whether</p>
+<p>Suppose we are interested in not only the ATET, but also how the ATET differs across certain groups of interest. An example is whether a certain policy, which only affects some individuals, helps to close the gender wage gap: what this implicitly asks is whether</p>
 <p><span class="math display">\[
     ATET(female) &gt; ATET(male).
 \]</span></p>
@@ -1088,7 +1086,7 @@ window.Quarto = {
 </ol>
 <section id="load-data-1" class="level3">
 <h3 class="anchored" data-anchor-id="load-data-1">Load Data</h3>
-<p>The data requirements for Triple Differences is similar to that of DID, except you also require another grouping axis that exhibits variation over the treatment assignment indicator. In other words, it cannot be the case that that grouping variable is collinear with the treatment assignment indicator—then how exactly are you supposed to separate the effect of the group from the effect of the treatment?</p>
+<p>The data requirements for Triple Differences are similar to that of DID, except we also require another grouping axis that exhibits variation over the treatment assignment indicator. In other words, it cannot be the case that that grouping variable is collinear with the treatment assignment indicator—for example, if we want to understand the gendered impact of a policy, that policy cannot only impact one gender.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">999</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sim.data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">i =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>), <span class="at">u =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
@@ -1106,7 +1104,7 @@ window.Quarto = {
 <p><span class="math display">\[
     \mathbb{E}[\Delta_{i} \mid G_{i} = 1] = \mathbb{E}_{K}[\mathbb{E}[\Delta_{i} \mid G_{i} = 1, K] \mid G_{i} = 1].
 \]</span></p>
-<p>In this case, it may look like there was a mistake because <span class="math inline">\(-2.5\)</span> is less than either <span class="math inline">\(-2\)</span> or <span class="math inline">\(-1.2\)</span>, but recall from the Regressions notebook that the proper way to interpret coefficients under interaction terms tells us that in fact the effect of the diet on the two sexes are <span class="math inline">\(-2\)</span> and <span class="math inline">\(-3.2\)</span> respectively. Therefore the biased estimate of <span class="math inline">\(-2.5\)</span> adheres to the Law of Iterated Expectations well.</p>
+<p>In this case, it may look like there was a mistake because <span class="math inline">\(-2.5\)</span> is less than either <span class="math inline">\(-2\)</span> or <span class="math inline">\(-1.2\)</span>, but recall from the module on regressions that the proper way to interpret coefficients under interaction terms tells us that in fact the effect of the diet on the two sexes are <span class="math inline">\(-2\)</span> and <span class="math inline">\(-3.2\)</span> respectively. Therefore the biased estimate of <span class="math inline">\(-2.5\)</span> adheres to the Law of Iterated Expectations well.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sim.data <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(wgt <span class="sc">~</span> hgt <span class="sc">+</span> Treatment <span class="sc">*</span> diet, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
@@ -1115,7 +1113,7 @@ window.Quarto = {
 </section>
 <section id="triple-difference-intuition-with-t-tests" class="level3">
 <h3 class="anchored" data-anchor-id="triple-difference-intuition-with-t-tests">Triple Difference Intuition with <span class="math inline">\(t\)</span>-Tests</h3>
-<p>Before we move into regression analysis, which can be harder to interpret, look at some <span class="math inline">\(t\)</span>-test results to get a bearing on your intuitions. Each row corresponds to one of the sexes. The first column of the table is the heterogeneous weight loss estimate of each sex. Then, the Triple Difference estimator is simply the difference in the two weight loss estimates. The estimate corresponds to the coefficient on the triple interaction term in our data simulation code, as expected, and can be interpreted in one of two ways. The first is outlined in the notes, corresponding to the true treatment effect after partialling out group effects as well. The second is outlined here, corresponding to the additional weight loss due to the diet on females compared to males.</p>
+<p>Before we move into regression analysis, which can be harder to interpret, we’ll look at some <span class="math inline">\(t\)</span>-test results to get a bearing on the intuitions. Each row corresponds to one of the sexes. The first column of the table is the heterogeneous weight loss estimate of each sex. Then, the Triple Difference estimator is simply the difference in the two weight loss estimates. The estimate corresponds to the coefficient on the triple interaction term in our data simulation code, as expected, and can be interpreted in one of two ways. The first is outlined in the notes, corresponding to the true treatment effect after separating out group effects as well. The second is outlined here, corresponding to the additional weight loss due to the diet on females compared to males.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t.test</span>(</span>
@@ -1144,7 +1142,7 @@ window.Quarto = {
 </section>
 <section id="comparing-misspecified-estimators-under-triple-differences" class="level3">
 <h3 class="anchored" data-anchor-id="comparing-misspecified-estimators-under-triple-differences">Comparing Misspecified Estimators under Triple Differences</h3>
-<p>The following two tables shows how various ways of misspecifying the model when the true CEF corresponds to the heterogeneous ATET/Triple Difference case results in biased estimates. You are encouraged to figure out if you can compute the biased estimates theoretically yourself to check your understanding of how the DID model works in general.</p>
+<p>The following two tables shows how various ways of misspecifying the model when the true CEF corresponds to the heterogeneous ATET/Triple Difference case results in biased estimates. Try to figure out if you can compute the biased estimates theoretically to check your understanding of how the DID model works in general!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wgt <span class="sc">~</span> hgt <span class="sc">+</span> Treatment <span class="sc">*</span> diet, <span class="at">data =</span> sim.data)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wgt <span class="sc">~</span> hgt <span class="sc">+</span> Treatment <span class="sc">*</span> diet, <span class="at">data =</span> sim.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">'female'</span>))</span>
@@ -1184,12 +1182,12 @@ window.Quarto = {
 </section>
 <section id="using-repeated-cross-section-data" class="level2">
 <h2 class="anchored" data-anchor-id="using-repeated-cross-section-data">Using Repeated Cross-Section Data</h2>
-<p>Return to the DID model for a bit,</p>
+<p>Let’s return to the DID model for a bit.</p>
 <p><span class="math display">\[
     ATET = \left( \mathbb{E}[Y_{i} \mid G_{i} = 1, T_{i} = 1] - \mathbb{E}[Y_{i} \mid G_{i} = 1, T_{i} = 0] \right) - \left( \mathbb{E}[Y_{i} \mid G_{i} = 0, T_{i} = 1] - \mathbb{E}[Y_{i} \mid G_{i} = 0, T_{i} = 0] \right).
 \]</span></p>
-<p>Nothing in this equation indicates that the individuals at <span class="math inline">\(T = 1\)</span> has to be the same as the individuals at <span class="math inline">\(T = 0\)</span>. The implication is that it is possible to do DID with repeated cross-section data. Recap, repeated cross-section data is simply data where you have collected data from samples in multiple periods, but the sample in each period is a different sample. Unlike panel data, while you have a time index in the data there are no longitudinal observations at the unit level.</p>
-<p>The model in theory suggests two ways to run DID. I will discuss each in turn.</p>
+<p>Nothing in this equation indicates that the individuals at <span class="math inline">\(T = 1\)</span> have to be the same as the individuals at <span class="math inline">\(T = 0\)</span>. The implication is that it is possible to do DID with repeated cross-section data. Recall that repeated cross-section data is simply data where you have collected data from samples in multiple periods, but the sample in each period is a different sample. Unlike panel data, where you have a time index in the data, there are no longitudinal observations at the unit level.</p>
+<p>The model in theory suggests two ways to run DID.</p>
 <section id="generating-repeated-cross-section-data" class="level3">
 <h3 class="anchored" data-anchor-id="generating-repeated-cross-section-data">Generating Repeated Cross-Section Data</h3>
 <p>Data for repeated cross-section data is similar to panel data, except that instead of generating the unit first and then reusing the units over time you simply generate a new set of units in each time period.</p>
@@ -1205,7 +1203,7 @@ window.Quarto = {
 </section>
 <section id="did-on-repeated-cross-section-using-ols" class="level3">
 <h3 class="anchored" data-anchor-id="did-on-repeated-cross-section-using-ols">DID on Repeated Cross-Section using OLS</h3>
-<p>This is straightforward. As long as the sample in each period are independent, representative samples and you know which group in the “before” period would be given the treatment if you could observe them in the “after” period, then DID using OLS works the same way as in the panel data case.</p>
+<p>This is straightforward. As long as the samples in each period are independent, representative samples and you know which group in the “before” period would be given the treatment if you could observe them in the “after” period, then DID using OLS works the same way as in the panel data case.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sim.data <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(wgt <span class="sc">~</span> hgt <span class="sc">+</span> Treatment <span class="sc">*</span> diet, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
@@ -1214,7 +1212,7 @@ window.Quarto = {
 </section>
 <section id="did-using-a-2-times-2-table" class="level3">
 <h3 class="anchored" data-anchor-id="did-using-a-2-times-2-table">DID using a <span class="math inline">\(2 \times 2\)</span> Table</h3>
-<p>What I refer to as the <span class="math inline">\(2 \times 2\)</span> table is:</p>
+<p>The <span class="math inline">\(2 \times 2\)</span> table is:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 21%">
@@ -1251,8 +1249,8 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>The principal problem is not in the point estimates. These are straightforward. The estimates for the central four cells are simply the four conditional means of the outcome variable. Then the estimates for the marginal cells are simply either row-wise or column-wise differences between the conditional means and the estimate of the ATET is the DID estimator using the conditional mean estimates in place of the true conditional expectations.</p>
-<p>The main problem is the question: How do you know that the ATET estimate is statistically significant? In other words, you want to test</p>
+<p>The principal problem is not in the point estimates. These are straightforward. The estimates for the central four cells are simply the four conditional means of the outcome variable. The estimates for the marginal cells are simply either row-wise or column-wise differences between the conditional means and the estimate of the ATET is the DID estimator using the conditional mean estimates in place of the true conditional expectations.</p>
+<p>The main problem is, how do we know that the ATET estimate is statistically significant? In other words, we want to test</p>
 <p><span class="math display">\[\begin{align*}
     H_{0} &amp; : \left( \mu_{Y}(1,1) - \mu_{Y}(1,0) \right) - \left( \mu_{Y}(0,1) - \mu_{Y}(0,0) \right) = 0 \\
     H_{1} &amp; : \left( \mu_{Y}(1,1) - \mu_{Y}(1,0) \right) - \left( \mu_{Y}(0,1) - \mu_{Y}(0,0) \right) \ne 0.
@@ -1265,20 +1263,20 @@ window.Quarto = {
 <p><span class="math display">\[
     Var(\overline{X} + \overline{Y}) = Var(\overline{X}) + Var(\overline{Y}).
 \]</span></p>
-<p>If the data was collected well, in many cases we can assume that <span class="math inline">\(\overline{Y}\mid_{G=0,T=0}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=0,T=1}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=1,T=0}\)</span>, and <span class="math inline">\(\overline{Y}\mid_{G=1,T=1}\)</span>, are indeed independent. Which then implies that the SE of the estimator should just be</p>
+<p>If the data was collected well, in many cases we can assume that <span class="math inline">\(\overline{Y}\mid_{G=0,T=0}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=0,T=1}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=1,T=0}\)</span>, and <span class="math inline">\(\overline{Y}\mid_{G=1,T=1}\)</span>, are indeed independent, which then implies that the SE of the estimator should just be</p>
 <p><span class="math display">\[
     SE\left( \left( \overline{Y}\mid_{G=1,T=1} - \overline{Y}\mid_{G=1,T=0} \right) - \left( \overline{Y}\mid_{G=0,T=1} - \overline{Y}\mid_{G=0,T=0} \right) \right) = \sqrt{ Var\left(\overline{Y}\mid_{G=0,T=0}\right) + Var\left(\overline{Y}\mid_{G=0,T=1}\right) + Var\left(\overline{Y}\mid_{G=1,T=0}\right) + Var\left(\overline{Y}\mid_{G=1,T=1}\right) }.
 \]</span></p>
-<p>We can compute the second term. Each variance term is effectively just the squared SE of a conditional mean. Recall from the conditional expectations notebook that this is computed simply as <code>varmean = var(X[G = g &amp; T = t], na.rm = TRUE) / sum(G = g &amp; T = t &amp; !is.na(X))</code>.</p>
-<p>Finally, we need a distribution. If you remember what you should have learnt about the <span class="math inline">\(t\)</span>-test before, you would know that in only one case is the degrees of freedom the straightforward <span class="math inline">\(df_{1} + df_{2} - 2\)</span>. In all other cases there is a specific formula that does not necessarily yield an integer DF. What do we then do here? You have two main options without going too deeply into theory unrelated to this course:</p>
+<p>We can compute the second term. Each variance term is effectively just the squared SE of a conditional mean. Recall from earlier modules that this is computed simply as <code>varmean = var(X[G = g &amp; T = t], na.rm = TRUE) / sum(G = g &amp; T = t &amp; !is.na(X))</code>.</p>
+<p>Finally, we need a distribution. Recall that, in only one case, the degrees of freedom are the straightforward <span class="math inline">\(df_{1} + df_{2} - 2\)</span>. In all other cases there is a specific formula that does not necessarily yield an integer DF. What do we then do here? There are two main options:</p>
 <ol type="1">
-<li>Assume that something analogous works for your situation as well, so that you compute your DF as <span class="math display">\[
+<li><p>Assume that something analogous works for your situation as well, so that you compute your DF as <span class="math display">\[
 df_{0,0} + df_{0,1} + df_{1,0} + df_{1,1} - 4.
-\]</span></li>
-<li>Ignore the DF and assume that you have sufficient variables (as a rule-of-thumb, do you have at least <span class="math inline">\(50\)</span> observations in each of the four groups?) so that you can assume that some Law of Large Numbers holds and therefore the distribution of the test statistic is approximately Normal.</li>
+\]</span></p></li>
+<li><p>Ignore the DF and assume that you have sufficient variables (as a rule-of-thumb, do you have at least <span class="math inline">\(50\)</span> observations in each of the four groups?) so that you can assume that some Law of Large Numbers holds and therefore the distribution of the test statistic is approximately Normal.</p></li>
 </ol>
-<p>These give rise to the following procedure that should be roughly appropriate for this level:</p>
-<ol start="0" type="1">
+<p>These give rise to the following procedure:</p>
+<ol type="1">
 <li>Compute <span class="math inline">\(\overline{Y}\mid_{G=1,T=1}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=1,T=0}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=0,T=1}\)</span>, <span class="math inline">\(\overline{Y}\mid_{G=0,T=0}\)</span>, <span class="math inline">\(Var\left(\overline{Y}\mid_{G=0,T=0}\right)\)</span>, <span class="math inline">\(Var\left(\overline{Y}\mid_{G=0,T=1}\right)\)</span>, <span class="math inline">\(Var\left(\overline{Y}\mid_{G=1,T=0}\right)\)</span>, and <span class="math inline">\(Var\left(\overline{Y}\mid_{G=1,T=1}\right)\)</span>.</li>
 <li>Compute <span class="math inline">\(\theta = \left( \overline{Y}\mid_{G=1,T=1} - \overline{Y}\mid_{G=1,T=0} \right) - \left( \overline{Y}\mid_{G=0,T=1} - \overline{Y}\mid_{G=0,T=0} \right)\)</span>.</li>
 <li>Compute <span class="math inline">\(s^{2} = \sqrt{ Var\left(\overline{Y}\mid_{G=0,T=0}\right) + Var\left(\overline{Y}\mid_{G=0,T=1}\right) + Var\left(\overline{Y}\mid_{G=1,T=0}\right) + Var\left(\overline{Y}\mid_{G=1,T=1}\right) }\)</span>.</li>
@@ -1366,12 +1364,12 @@ df_{0,0} + df_{0,1} + df_{1,0} + df_{1,1} - 4.
 </section>
 <section id="summary-for-repeated-cross-section" class="level3">
 <h3 class="anchored" data-anchor-id="summary-for-repeated-cross-section">Summary for Repeated Cross-Section</h3>
-<p>Clearly, you can compute the DID estimator manually with repeated cross-section data and it yields estimates of similar quality to what OLS provides. If doing it manually is your preference, go ahead. Otherwise, you should also take away from this section that OLS works just as well for repeated cross-section data. The presentation of the manual method is really just to show you in detail how the underlying statistics of this estimator works.</p>
+<p>Clearly, you can compute the DID estimator manually with repeated cross-section data and it yields estimates of similar quality to what OLS provides. If doing it manually is your preference, go ahead. Otherwise, you should also take away from this section that OLS works just as well for repeated cross-section data. The presentation of the manual method is really just to show you in detail how the underlying statistics of this estimator work.</p>
 </section>
 </section>
 <section id="when-parallel-trends-fails" class="level2">
 <h2 class="anchored" data-anchor-id="when-parallel-trends-fails">When Parallel Trends Fails</h2>
-<p>The key and only assumption for DID is parallel trends,</p>
+<p>The key and only assumption for DID is parallel trends:</p>
 <p><span class="math display">\[
     \mathbb{E}[Y_{0,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{0,i}(0) \mid T_{i} = 0] = \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 1] - \mathbb{E}[Y_{1,i}(0) \mid T_{i} = 0].
 \]</span></p>
@@ -1382,7 +1380,7 @@ df_{0,0} + df_{0,1} + df_{1,0} + df_{1,1} - 4.
 <p>When parallel trends is not satisfied, there is no longer any guarantee that the trends for the two groups are in the same direction, such that DID reduces the bias in the estimator. In fact, if the two groups intuitively trend in opposite directions, DID exacerbates the bias. Can you think of situations where your treated and never-treated groups naturally trend in different directions over time?</p>
 <section id="load-data-2" class="level3">
 <h3 class="anchored" data-anchor-id="load-data-2">Load Data</h3>
-<p>I will now simulate some data to simulate the case where parallel trends fails.</p>
+<p>Let’s take a look at some data where parallel trends fails.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">998</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sim.data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">i =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>), <span class="at">hgt =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="fl">1.63</span>, <span class="fl">0.08</span>), <span class="at">u =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
@@ -1396,7 +1394,7 @@ df_{0,0} + df_{0,1} + df_{1,0} + df_{1,1} - 4.
 </section>
 <section id="the-t-test-fails" class="level3">
 <h3 class="anchored" data-anchor-id="the-t-test-fails">The <span class="math inline">\(t\)</span>-Test Fails</h3>
-<p>Intuitively, because the divergence in time trends is due to unaccounted for changes in other covariates, the <span class="math inline">\(t\)</span>-test will be badly biased because it is not considering the possibility that other confounding factors may change differently between the groups over time. This again reflects the core intuition of the parallel trends assumption: the selection bias in treatment assignment has to be constant over time.</p>
+<p>Intuitively, because the divergence in time trends is due to unaccounted-for changes in other covariates, the <span class="math inline">\(t\)</span>-test will be badly biased because it is not considering the possibility that other confounding factors may change differently between the groups over time. This again reflects the core intuition of the parallel trends assumption: the selection bias in treatment assignment has to be constant over time.</p>
 <p>In this case, because the time trends of the diet and non-diet group move in opposite directions, the simple DID (first row) is more biased than either the naïve comparison measure (second row) or the before-after estimator (third row).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>diff.data <span class="ot">&lt;-</span> sim.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Treatment <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">-</span> sim.data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Treatment <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">diet =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1425,7 +1423,7 @@ df_{0,0} + df_{0,1} + df_{1,0} + df_{1,1} - 4.
 </section>
 <section id="the-regression-method-still-works" class="level3">
 <h3 class="anchored" data-anchor-id="the-regression-method-still-works">The Regression Method Still Works</h3>
-<p>As you will see below, the regression method with controls still obtains the desired estimate. In fact, if you are paying attention, the OLS estimator gets the correct estimate despite misspecifying the form which height enters the model. This really gets to the heart of how closely linked regression methods (not just linear regression) and the CEF are. Notice that the regression model with controls is really estimating this:</p>
+<p>As we will see below, the regression method with controls still obtains the desired estimate. In fact, the OLS estimator gets the correct estimate despite misspecifying how height enters the model. This really gets to the heart of how closely linked regression methods (not just linear regression) and the CEF are. Notice that the regression model with controls is really estimating this:</p>
 <p><span class="math display">\[
     ATET = \left( \mathbb{E}[Y_{i} \mid X_{i}, G_{i} = 1, T_{i} = 1] - \mathbb{E}[Y_{i} \mid X_{i}, G_{i} = 1, T_{i} = 0] \right) - \left( \mathbb{E}[Y_{i} \mid X_{i}, G_{i} = 0, T_{i} = 1] - \mathbb{E}[Y_{i} \mid X_{i}, G_{i} = 0, T_{i} = 0] \right).
 \]</span></p>
@@ -1584,8 +1582,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1701,7 +1697,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-7e7dc768f2871c181612adf2ed73633f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -126,7 +126,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">COMET</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -760,7 +759,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Observations where data for key variables are missing are removed or stored in a different data set (e.g., <code>df_raw</code>). <em>Missing data</em> can create bias in your analysis.</li>
 <li>Data set is <em>tidy</em>, i.e., each row captures only one observation and each column captures only one variable/characteristic of the observation. Data scraped and collected manually or using automation often comes in <em>untidy</em> shapes (e.g., two variables might be placed in the same column separated with a hyphen <code>-</code>).</li>
 </ol>
-<p>In this notebook, we teach you how to load data sets properly in R and then clean them using some common methods from the <code>haven</code> and <code>tidyverse</code> packages.</p>
+<p>In this notebook, we teach you how to load datasets properly in R and then clean them using some common methods from the <code>haven</code> and <code>tidyverse</code> packages.</p>
 </section>
 <section id="part-1-introduction-to-data-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-introduction-to-data-in-r">Part 1: Introduction to data in R</h2>
@@ -833,7 +832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Look at line <code>pr</code> in the output from <code>glimpse</code> above:</p>
 <pre><code>pr      &lt;dbl+lbl&gt; 35, 35, 11, 24, 35, 35, 35, 10, 35, 35, 59, 59, 46, 24, 59</code></pre>
 <p>The <code>pr</code> variable in the Census data stands for province. Do these look much like Canadian provinces to you? We can see the variable type is <code>&lt;dbl+lbl&gt;</code>: this is a <em>labeled double</em>. Let’s transform this variable type into factors.</p>
-<p>There are three ways to change variables types into factor variables.</p>
+<p>There are three ways to change variable types into factor variables.</p>
 <ol type="1">
 <li>We can change a specific variable inside a dataframe to a factor by using the <code>as_factor</code> command</li>
 </ol>
@@ -888,7 +887,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <section id="creating-new-variables" class="level3">
 <h3 class="anchored" data-anchor-id="creating-new-variables">Creating new variables</h3>
-<p>Another important clean-up task is to make new variables. The best way to create a new variables is using the <code>mutate</code> command.</p>
+<p>Another important clean-up task is to make new variables. The best way to create a new variable is using the <code>mutate</code> command.</p>
 <p>The <code>mutate</code> command is an efficient way of manipulating the columns of our data frame. We can use it to create new columns out of existing columns or with completely new inputs. The structure of the mutate command is as follows:</p>
 <pre><code>census_data &lt;- census_data %&gt;%
         mutate(new_variable_name = function(...))</code></pre>
@@ -904,7 +903,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="test-your-knowledge-1" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge-1">Test your knowledge</h3>
-<p>In the following code, what is (1) the name of the new variable created, (2) the inputs used to make the new variable, and (3) the function used to transform the inputs in the values of the new varible?</p>
+<p>In the following code, what is (1) the name of the new variable created, (2) the inputs used to make the new variable, and (3) the function used to transform the inputs in the values of the new variable?</p>
 <ol type="A">
 <li>grade_adjusted, grade and 2, mutate</li>
 <li>mutate, grade and 2, mutate</li>
@@ -981,9 +980,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="test-your-knowledge-2" class="level3">
 <h3 class="anchored" data-anchor-id="test-your-knowledge-2">Test your knowledge</h3>
-<p>Overwrite the existing <code>has_kids</code> variable with an new <code>has_kids</code> variable but with type factor.</p>
+<p>Overwrite the existing <code>has_kids</code> variable with a new <code>has_kids</code> variable but with type factor.</p>
 <blockquote class="blockquote">
-<p><strong>Hint</strong>: To overwrite a variable create a new variable with the same name as the name of the variable you want to ovewrite.</p>
+<p><strong>Hint</strong>: To overwrite a variable, create a new variable with the same name as the name of the variable you want to overwrite.</p>
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use this cell to write your code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1106,8 +1105,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1223,7 +1220,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
