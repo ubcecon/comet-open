@@ -15,7 +15,6 @@ format:
         display_name: Python 3 (ipykernel)
         language: python3
         name: python3
-jupyter: python3
 ---
 
 ## What are LLMs?
