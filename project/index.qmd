@@ -32,11 +32,14 @@ nocite: |
 ![](media/single_loop.gif){width="300" fig-align="center"}
 
 ::: {.callout-warning}
-## Work in Progress
-We are currently rebuilding parts of this site and adding content.  Some of the links and files might be broken, or might not work anymore.
+## Spring 2025 Update
+
+We have recently updated and fixed several notebooks and other issues on the website.
 
 * If you have an old version of the GitHub project on your Jupyter account, you should delete it and load the new version.
 * Links to the website may not be working currently.
+
+(_Last Update_: 2024-01-03)
 :::
 
 
