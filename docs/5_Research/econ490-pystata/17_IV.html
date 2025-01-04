@@ -811,11 +811,11 @@ window.Quarto = {
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">17.0 Intro</h2>
-<div id="5ecc10a7" class="cell" data-execution_count="1">
+<div id="e01283eb" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d17c15db" class="cell" data-execution_count="2">
+<div id="6884e2a9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -860,7 +860,7 @@ X_i = \underbrace{\hat{X}_i}_\text{exogenous part} + \underbrace{\hat{e}_i}_\tex
 <strong>Warning</strong>: We can run 2SLS following the steps above, but when we want to do inference we need to be sure we’re using the true residuals in the structural equation <span class="math inline">\(\hat{u}_i\)</span>. The built-in Stata commands <code>ivregress</code> and <code>ivreg2</code> automatically give us the right residuals.
 </div>
 <p>Let’s see how to estimate this in Stata. Once again, we can use our fictional data set simulating wages of workers in the years 1982-2012 in a fictional country.</p>
-<div id="12c46d35" class="cell" data-execution_count="3">
+<div id="9acc09fc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear<span class="op">*</span> </span>
@@ -875,12 +875,12 @@ X_i = \underbrace{\hat{X}_i}_\text{exogenous part} + \underbrace{\hat{e}_i}_\tex
 <p>where instead of <code>&lt;Y&gt;</code>, <code>&lt;X&gt;</code>, and <code>&lt;Z&gt;</code>, we write the names of the corresponding dependent, independent, and instrument variables of our model.</p>
 <p>We now have to choose an IV that can work in our setting. A well-known example for an instrument for years of schooling is studied by Angrist and Krueger (1991): they propose using <span class="math inline">\(Z\)</span>, the quarter of birth. The premise behind their IV is that students are required to enter school in the <em>year they turn 6</em> but not necessarily when they are <em>already</em> 6 years old, creating a relationship between quarter of birth and schooling. At the same time, the time of the year one is born shouldn’t affect one’s earnings aside from its effect on schooling.</p>
 <p>Let’s see how to estimate a simple IV in Stata using our data and each one of the commands <code>ivregress</code> and <code>ivreg2</code>.</p>
-<div id="43305028" class="cell" data-execution_count="4">
+<div id="d0e0831f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ivregress <span class="dv">2</span><span class="er">sls</span> earnings (schooling <span class="op">=</span> quarter_birth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="806e68e5" class="cell" data-execution_count="5">
+<div id="d616504d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ivreg2 earnings (schooling <span class="op">=</span> quarter_birth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -892,12 +892,12 @@ X_i = \underbrace{\hat{X}_i}_\text{exogenous part} + \underbrace{\hat{e}_i}_\tex
 <h2 class="anchored" data-anchor-id="weak-instrument-test">17.2 Weak Instrument Test</h2>
 <p>While we cannot really test for the exclusion restriction, we can check whether our instrument is relevant. We do that by looking directly at the coefficients in the first stage.</p>
 <p>In Stata, we only need to add the option <code>first</code> to get an explicit output for the first stage.</p>
-<div id="b51464e0" class="cell" data-execution_count="6">
+<div id="e0862d1a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ivregress <span class="dv">2</span><span class="er">sls</span> earnings (schooling <span class="op">=</span> quarter_birth), first</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="09ca3882" class="cell" data-execution_count="7">
+<div id="a681980a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ivreg2 earnings (schooling <span class="op">=</span> quarter_birth), first</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

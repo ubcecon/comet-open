@@ -785,17 +785,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Note:</strong> The best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter Notebooks will not produce a graph that we can see when we execute the commands on this page. The most we can do is export image files to a directory on our computer. We will see these commands whenever a graph is produced below.
 </div>
 <p>We’ll continue working with the fake data set we have been using as we work on developing our research skills. Recall that this data set is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
-<div id="23a5da45" class="cell" data-execution_count="1">
+<div id="58ceb859" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1b9dfbcf" class="cell" data-execution_count="2">
+<div id="4f0a0bd0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9e20e773" class="cell" data-execution_count="3">
+<div id="b18ed5fd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>use fake_data, clear </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -805,7 +805,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-1" class="level2">
 <h2 class="anchored" data-anchor-id="example-1">10.1 Example 1</h2>
 <p>For this example, we want to generate two graphs with the same schema (they are the same type of graph and use the same variables as their x and y axis) and combine them using the <code>graph combine</code> command. Let’s begin by setting up the data. We are going to first generate a new variable that shows the logarithm of workers’ earnings. As explained in previous modules, collapsing data is irreversible; therefore, we can <code>preserve</code> the data set before we collapse it. Then, once we don’t want to use the collapsed version of the data set anymore, we can <code>restore</code> it back to the original data set we preserved. Therefore, we are going to preserve our data set and then collapse it by variables <code>treated</code> and <code>year</code>. This way our data has two unique identifiers, <code>treated</code> and <code>year</code>.</p>
-<div id="1105e690" class="cell" data-execution_count="4">
+<div id="95524128" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>generate log_earnings <span class="op">=</span> log(earnings)</span>
@@ -817,7 +817,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Now that we have our data prepared, we can start generating the two graphs and combining them using the <code>graph combine</code> command. We want these graphs to compare log-earnings between the control and treated groups in regions 1 and 2. To do this, we can create one graph that compares log-earnings between control and treated groups in region 1 and another that does the same comparison for region 2.</p>
 <p>Note that because the commands are so long it is clearer for us to break them up and run them using <code>///</code>. We can’t execute multi-line commands in the Command Window; so we will need to include them in a do-file. Note that we also indent the lines to make it easier to read the complete command.</p>
-<div id="69169e6b" class="cell" data-execution_count="5">
+<div id="8124afb6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">1</span> <span class="op">***</span></span>
@@ -831,7 +831,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        aspectratio(<span class="dv">1</span>)                                              <span class="op">///</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        title(<span class="st">"Region 1"</span>) name(<span class="st">"R1"</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f06ceaef" class="cell" data-execution_count="6">
+<div id="fc0be485" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">2</span> <span class="op">***</span></span>
@@ -847,7 +847,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We added a number of options here to make the graphs look appealing. You can learn more about these options in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>.</p>
 <p>Now let’s see what it looks like when we combine these graphs together into one panel. The syntax for <code>graph combine</code> goes as follows: <code>graph combine name_of_graph1 name_of_graph2 ..., [options]</code>, where the <code>[options]</code> describe how we want to position our graphs. More information can be found by running <code>help graph combine</code> in the Stata Command Cindow.</p>
-<div id="697e842e" class="cell" data-execution_count="7">
+<div id="4eca103f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Combine graphs <span class="op">***</span></span>
@@ -866,12 +866,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-2" class="level2">
 <h2 class="anchored" data-anchor-id="example-2">10.2 Example 2</h2>
 <p>For this example, we want to combine graphs that do not follow the same schema. Let’s say we are interested in seeing if there is any relationship between the distribution of earnings (<em>log_earnings</em>) and how worker’s earnings change over time in region 1. Which graphs do you think would best present this information?</p>
-<div id="6990fc16" class="cell" data-execution_count="8">
+<div id="879079dd" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>restore       <span class="op">//</span> do you remember what restore does?        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7797002d" class="cell" data-execution_count="9">
+<div id="560036e2" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>histogram log_earnings <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>,   <span class="op">///</span></span>
@@ -879,14 +879,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">"histogram1"</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s create our second graph.</p>
-<div id="54af1c07" class="cell" data-execution_count="10">
+<div id="841951ca" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>preserve              </span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>collapse (mean) log_earnings, by(region year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b50298ee" class="cell" data-execution_count="11">
+<div id="c3dc3a15" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>), <span class="op">///</span></span>
@@ -895,7 +895,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">"plot1"</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we combine <code>histogram1</code> with <code>plot1</code>.</p>
-<div id="6e2865f8" class="cell" data-execution_count="12">
+<div id="48e7da1a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>graph combine histogram1 plot1, cols(<span class="dv">2</span>) title(<span class="st">"Region 1"</span>) name(newcombine, replace)</span>
