@@ -1,0 +1,410 @@
+---
+title: GTSummary
+date: '2025-01-02'
+description: GTSummary
+format:
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: R
+        name: R
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.16.1
+  kernelspec:
+    display_name: R 
+    language: R
+    name: R
+---
+
+Potential Outline
+- Intro + Description of GTsummary and it's capabilities
+  - Show what will be in the notebook
+- Install package + Dataset 
+- Basic data exploration capabilites 
+    - Add stuff like p_values or Anova, etc other tests
+- Stratified Summaries (Grouped by certain characteristics)
+- Change look of tables 
+    - Modify variables, footnotes, themes etc other customization things
+- Regression Models summaries
+- Export tables 
+- 325/326 Example
+
+Install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver chooseUS (OR). 
+```{r}
+#Run this cell to install necessary packages
+install.packages("jsonlite")
+install.packages("rlang")
+install.packages("gtsummary")
+install.packages("dplyr") 
+install.packages("tidyverse")
+install.packages("NHANES")
+```
+
+Run the packages 
+```{r}
+library(jsonlite)
+library(rlang)
+library(gtsummary)
+library(dplyr)
+library(tidyverse)
+library(NHANES)
+library(gt)
+```
+
+For this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
+This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
+
+```{r}
+#Check if the data is properly loaded
+data(NHANES)
+head(NHANES, 20)
+```
+
+Here we will make a basic summary table of the varaibles Age, BMI, Weight, Race1, Education, Gender which will show a basic 
+overview of the dataste along with this we will have first mean and then in brackets standard deviation and for specific 
+variables percent of n within each category. 
+
+```{r}
+# Load the NHANES data
+data(NHANES)
+
+# Create a summary table for selected variables with our NHANES dataset
+summary_table <- NHANES %>%
+  select(Age, BMI, Weight, Race1, Education, Gender) %>% #Here we select the variables we want on our summary table
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits = all_continuous() ~ 1,
+    missing = "no"
+  ) %>%
+  modify_header(label = "**Variable**") %>% #Using  modify_header we can change the label
+  bold_labels()
+
+# Print the summary table
+summary_table
+```
+
+To show a more complex table we can also use the by command to sort by if the observation has diabetes
+This is called stratifying by group varaibles. Here the key function is "by" where by setting it to the variable Diabetes we can show 
+the summary statostocs for three different groups Overall, No Diabetes and Diagnosed with Diabetes. 
+
+We can also use the commmand add_ to add certain statistics to our table for instance here we will use add_n() to show how many people in the dataset have 
+diabetes. We can use add_ for different things apart from number of observations for instance add_p will show p values. More information on what can be added
+can be found at https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html under the header "{gtsummary} functions to add information."
+
+```{r}
+#Same as before make a table variable and select variables in the dataset using select(...)
+summary_table2 <- NHANES %>%
+  select(Age, BMI, Weight, Race1, Gender, Diabetes) %>%
+  tbl_summary(
+    by = Diabetes, #Here we can stratify our table by people who have diabetes. 
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n}"
+    ),
+    digits = all_continuous() ~ 1,
+    missing = "no"
+  ) %>%
+  add_overall() %>%
+  add_n() %>% #Add Number of Observations
+  modify_header(label = "**Variable**") %>%
+  bold_labels() %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Diabetes Status**") #modify_spanning_header is the overall title of our table
+
+#Print the table
+summary_table2
+```
+
+We can also make custom headers and footnotes using the command modify_header, modify_footnote and modify_caption. 
+```{r}
+#Same as before but we to focus our code we will start from our output of the stratified table from summary_table2. 
+summary_table3 <- summary_table2 %>%
+  modify_header(
+    stat_0 ~ "**All Observations**", 
+    stat_1 ~ "**No Diabetes**", 
+    stat_2 ~ "**Diagnosed with Diabetes**"
+  ) %>%
+  modify_footnote( 
+    all_stat_cols() ~ "Median (IQR) for continuous variables; n (%) for categorical variables" #Here we change the footnote
+  ) %>%
+  modify_caption("**Table 1. Demographic and Clinical Characteristics**") #And here we change the overall title
+
+# Print the table 
+summary_table3
+```
+
+We can also change stylistic choices, this is the same table as before information wise, but it has been substantially changed visually.  
+GTSummary offers many options to change the look of our tables. Below is an example where we will drastically change the look of the table
+using the commands tab_options and tab_style, you are free to experiment and change the code here to see how the colors, borders and 
+labels can change. 
+
+```{r}
+summary_table4 <- NHANES %>%
+  select(Age, BMI, Weight, Race1, Gender, Diabetes) %>%
+  tbl_summary(
+    by = Diabetes,
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n}"
+    ),
+    digits = all_continuous() ~ 1,
+    missing = "no"
+  ) %>%
+  add_overall() %>%
+  add_n() %>%
+  modify_header(label = "**Variable**") %>%
+  bold_labels() %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Diabetes Status**") %>%
+  modify_header(
+    stat_0 ~ "**All Observations**", 
+    stat_1 ~ "**No Diabetes**", 
+    stat_2 ~ "**Diabetes**"
+  ) %>%
+  modify_footnote(
+    all_stat_cols() ~ "Median (IQR) for continuous variables; n (%) for categorical variables"
+  ) %>%
+  modify_caption("**Table 1. Demographic and Clinical Characteristics**") %>%
+  as_gt() %>%
+  gt::tab_options( #Change tab options like font, font size, header styles 
+    table.font.name = "Arial",
+    table.font.size = 12,
+    heading.title.font.size = 16,
+    column_labels.font.weight = "bold",
+    table.border.top.style = "solid",
+    table.border.bottom.style = "solid",
+    column_labels.border.top.style = "solid",
+    column_labels.border.bottom.style = "solid",
+    data_row.padding = gt::px(10),
+    source_notes.font.size = 10,
+    table.width = gt::pct(100)
+  ) %>%
+  gt::tab_style( #Change colors of the cells 
+    style = list(
+      gt::cell_fill(color = "lightblue"),
+      gt::cell_text(weight = "bold")
+    ),
+    locations = gt::cells_column_labels()
+  ) %>%
+  gt::tab_style( 
+    style = gt::cell_text(color = "navy"),
+    locations = gt::cells_body(
+      columns = gt::vars(stat_0)
+    )
+  ) %>%
+  gt::tab_style( #Change cell border colors 
+    style = gt::cell_borders(
+      sides = "right",
+      color = "grey",
+      weight = gt::px(1)
+    ),
+    locations = gt::cells_body(
+      columns = gt::everything()
+    )
+  )
+
+# Print the table 
+summary_table4
+
+```
+
+Apart from summary tables GTSummary can also be used for regression analysis. Here we will continue to use the NHANES dataset and 
+the regression formula we will use is: 
+
+# Maybe Not working we will see
+
+\begin{equation}
+\text{TotChol} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{BMI} + \beta_3 \cdot \text{Alcohol12PlusYr} + \beta_4 \cdot \text{PhysActive} + \beta_5 \cdot \text{SleepHrsNight} + \varepsilon
+\end{equation}
+
+Here we will make a simple table showing our regression results, with our beta coefficient, 95%CI, and p-value. 
+
+```{r}
+# Prepare the data
+nhanes_data <- NHANES %>%
+  select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>% #Select variables like above
+  na.omit()  # Remove rows with missing values
+
+# Our regression model from above
+model <- lm(TotChol ~ Age + BMI + Alcohol12PlusYr + PhysActive + SleepHrsNight, data = nhanes_data)
+
+# Create a summary table using gtsummary
+tbl_summary <- tbl_regression(model, 
+               label = list(
+                 Age ~ "Age (years)",
+                 BMI ~ "Body Mass Index",
+                 Alcohol12PlusYr ~ "Alcohol consumption (12+ drinks/year)",
+                 PhysActive ~ "Physically active",
+                 SleepHrsNight ~ "Sleep hours per night"
+               )) %>%
+  add_global_p() %>% #Add a p-value
+  bold_p(t = 0.05) %>%
+  bold_labels() %>%
+  modify_header(label = "**Variable**") %>% #Change headers like for summary tables
+  modify_spanning_header(c("estimate", "conf.low", "conf.high") ~ "**Coefficient (95% CI)**") %>% #Spaning header
+  modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Caption
+
+# Print the table
+tbl_summary
+```
+
+Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values
+currently it is three and we can not clearly see the result of our regression analysis. Let's make it 5 for the Beta's and coefficient values. 
+Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
+```{r}
+# Prepare the data for our model
+nhanes_data <- NHANES %>%
+  select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>% #Select Variables 
+  na.omit()  # Remove rows with missing values
+
+# Regression Model like above
+model <- lm(TotChol ~ Age + BMI + Alcohol12PlusYr + PhysActive + SleepHrsNight, data = nhanes_data)
+
+# GT table
+tbl_summary2 <- tbl_regression(model, 
+               label = list( #Labels for our variables 
+                 Age ~ "Age (years)",
+                 BMI ~ "Body Mass Index",
+                 Alcohol12PlusYr ~ "Alcohol consumption (12+ drinks/year)",
+                 PhysActive ~ "Physically active",
+                 SleepHrsNight ~ "Sleep hours per night"
+               )) %>%
+  modify_fmt_fun(estimate ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_fmt_fun(c(conf.low, conf.high) ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_column_unhide(columns = c(statistic, std.error)) %>% #Here we add standard Errors
+  modify_header(statistic ~ "**t-value**", std.error ~ "**SE**") %>% #Here we add t-value and SE
+  modify_fmt_fun(statistic ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_fmt_fun(std.error ~ function(x) style_sigfig(x, digits = 5)) %>%
+  add_global_p() %>% #P-values
+  bold_p(t = 0.05) %>%
+  bold_labels() %>%
+  modify_header(label = "**Variable**") %>% #Like above modify labels for header
+  modify_spanning_header(c("estimate", "conf.low", "conf.high") ~ "**Coefficients and Findings**") %>% #Like above modify labels for spanning header 
+  modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Like above modify labels for caption
+
+# Print our new table
+tbl_summary2
+```
+
+Just like above we can do all kinds of cosemtic changes to our new regression summary tables for instance we can change colors or fonts.
+Once again feel free to change fonts or colors and see how the end result changes. 
+
+```{r}
+library(dplyr)
+library(gtsummary)
+library(gt)
+library(NHANES)
+
+# Prepare the data
+nhanes_data <- NHANES %>%
+  select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>%
+  na.omit()  # Remove rows with missing values
+
+# Regression Model
+model <- lm(TotChol ~ Age + BMI + Alcohol12PlusYr + PhysActive + SleepHrsNight, data = nhanes_data)
+
+# Create and modify the gtsummary table
+tbl_summary3 <- tbl_regression(model,
+               label = list( #Labels for our varaibles 
+                 Age ~ "Age (years)",
+                 BMI ~ "Body Mass Index",
+                 Alcohol12PlusYr ~ "Alcohol consumption (12+ drinks/year)",
+                 PhysActive ~ "Physically active",
+                 SleepHrsNight ~ "Sleep hours per night"
+               )) %>%
+  modify_fmt_fun(estimate ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_fmt_fun(c(conf.low, conf.high) ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_column_unhide(columns = c(statistic, std.error)) %>%
+  modify_header( #Headers
+    label ~ "**Variable**",
+    estimate ~ "**Beta**",
+    std.error ~ "**SE**",
+    statistic ~ "**t-value**",
+    p.value ~ "**p-value**"
+  ) %>%
+  modify_fmt_fun(statistic ~ function(x) style_sigfig(x, digits = 5)) %>%
+  modify_fmt_fun(std.error ~ function(x) style_sigfig(x, digits = 5)) %>%
+  add_global_p() %>%
+  bold_p(t = 0.05) %>%
+  bold_labels() %>%
+  modify_spanning_header(c(estimate, conf.low, conf.high) ~ "**Coefficients and Findings**") %>% #Spanning Header
+  modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Caption of Table
+
+# Convert to gt object and apply gt-specific cosmetic modifications
+final_table <- tbl_summary3 %>%
+  as_gt() %>% #as_gt allows us to make more customizations
+  opt_stylize(style = 6, color = "blue") %>%
+  tab_style(
+    style = list(cell_fill(color = "lightgreen"), cell_text(weight = "bold")),
+    locations = cells_body(columns = estimate, rows = estimate > 0)
+  ) %>%
+  tab_options( #Tab options like fonts, font size, header font, and pixel sizes of cells
+    table.font.name = "Arial",
+    table.font.size = 12,
+    heading.title.font.size = 16,
+    column_labels.font.weight = "bold",
+    table.border.top.style = "solid",
+    table.border.bottom.style = "solid",
+    column_labels.border.top.style = "solid",
+    column_labels.border.bottom.style = "solid",
+    data_row.padding = px(10),
+    source_notes.font.size = 10,
+    table.width = pct(100)
+  ) %>%
+  tab_style( #Colors 
+    style = list(
+      cell_fill(color = "darkblue"),
+      cell_text(color = "white", weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "navy"),
+    locations = cells_body(
+      columns = estimate
+    )
+  ) %>%
+  tab_style( 
+    style = cell_borders(
+      sides = "right",
+      color = "grey",
+      weight = px(1)
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) %>%
+  tab_style( #Fill colors
+    style = list(
+      cell_fill(color = "darkblue"),
+      cell_text(color = "white", weight = "bold")
+    ),
+    locations = cells_column_spanners()
+  )
+
+# Print the final table
+final_table
+```
+
+We can also save and export tables using the gtsave command. Below we can save our first table as the file example_table1.png
+
+```{r}
+tbl_save <- summary_table #Set variable so the table can be saved
+
+tbl_save %>%
+  as_gt() %>% #Convert as into GTSummary doc
+  gt::gtsave(filename = "example_table1.png") # Save as PNG image using gtsave
+```
+
+likewise you can save as a Word table using the package "flextable" and the command save_as_docx, and as an Excel file using the package "openxlsx" and the command as_hux_xlsx
+
+
+325/326 example usage
