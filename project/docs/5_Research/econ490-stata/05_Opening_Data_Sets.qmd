@@ -223,7 +223,7 @@ We can save any opened data set in Stata format by writing `save using "some_dir
 Try saving the data we have been working on in a new folder named "cleaned_data".
 
 ```{stata}
-save using "insert_directory/dataset_name.dta", replace
+save "insert_directory/dataset_name.dta", replace
 ```
 
 We can also save files in different formats with the `export excel` and `export delimited` commands. Look at the help documentation for more details.
