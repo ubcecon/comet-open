@@ -743,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="connecting-to-the-llm-api">Connecting to the LLM API</h2>
 <p>Define a function to query the model by specifying the correct model as well as the prompt we want to pass to the model.</p>
 <p>NOTE: Make sure that you have the ollama application open and running locally before you try and make an API call or else you will get an error likely stating your connection has been “refused”.</p>
-<div id="78111a5a" class="cell" data-execution_count="1">
+<div id="15e6da4c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the required library (ollama)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -755,13 +755,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The output of our API call to <code>ollama</code> comes in the <a href="https://www.json.org/json-en.html">JSON</a> form which stands for JavaScript Object Notation. Essentially the output is split into a series of pairs consisting of a field name, colon, and then the value. For example, the output of our API call has <code>'model':'llama3'</code> as one of the entries meaning that the model we used to generate the response is llama3. If we want just the response to be the output we can specify that in our print statement using the code below:</p>
-<div id="18204c5f" class="cell" data-execution_count="2">
+<div id="322a0f72" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only show the response from llama3</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response[<span class="st">'message'</span>][<span class="st">'content'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now you try! Fill in the code skeleton with the correct code.</p>
 <p>HINT: <em>In your prompt specify that you don’t want a long response. Without that, ollama can take a very long time, especially if your machine is slower, as it is running locally rather than connecting to external servers.</em></p>
-<div id="58421099" class="cell" data-execution_count="3">
+<div id="56281160" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#response = ollama.chat(</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     model= ...,</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     messages=[{'role': 'user', 'content': ...}])</span></span>
@@ -775,14 +775,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="multiple-choice-questions" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-choice-questions">Multiple Choice Questions</h2>
 <p>Here are a few questions you can use to check your understanding. Run the cell below before attempting the multiple choice questions.</p>
-<div id="6024c5f5" class="cell" data-execution_count="4">
+<div id="2c6385dd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> advanced_llm_apis2_tests.py <span class="im">import</span> Tests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="question-1" class="level3">
 <h3 class="anchored" data-anchor-id="question-1">Question 1</h3>
 <p>The output in JSON form uses the dictionary data type. What key (or sequence of keys) in the dictionary holds the output of the model? - A) [‘model’] - B) [‘message’] - C) [‘message’][‘content’] - D) [‘content’] - E) [‘content’][‘message’] - F) [‘model’][‘message’]</p>
 <p><em>Enter your answer below as a a string with one of A,B,C,D,E,F ie. “A”</em></p>
-<div id="4524f087" class="cell" data-execution_count="5">
+<div id="7633ba87" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>answer1 <span class="op">=</span> <span class="co">#your answer here </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Tests.test1(answer1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -806,7 +806,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol></li>
 </ul>
 <p><em>Enter your answer below as a a string with one of A,B,C,D ie. “A”</em></p>
-<div id="bb6dc328" class="cell" data-execution_count="6">
+<div id="1a980b2c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>answer2 <span class="op">=</span> <span class="co">#your answer here </span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Tests.test2(answer2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -826,7 +826,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1" class="level4">
 <h4 class="anchored" data-anchor-id="step-1">Step 1</h4>
 <p>First we will need to install various packages that will allow the PDF to be read and interpreted by the LLM. If you are interested in how this process works, feel free to open up the functions file as well as check out other lessons on word embeddings and creating RAGs.</p>
-<div id="8072779d" class="cell" data-execution_count="7">
+<div id="d2956f06" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>q unstructured langchain</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>q <span class="st">"unstructured[all-docs]"</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">--</span>q langchain_community langchain_text_splitters chromadb</span>
@@ -838,7 +838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-2" class="level4">
 <h4 class="anchored" data-anchor-id="step-2">Step 2</h4>
 <p>Now we will import the pdf using the <code>load_file(...)</code> function.</p>
-<div id="486e1e2e" class="cell" data-execution_count="8">
+<div id="aa6d4206" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> v2_functions <span class="im">import</span> load_file</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"WEF_The_Global_Risks_Report_2024.pdf"</span></span>
@@ -856,7 +856,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-3" class="level4">
 <h4 class="anchored" data-anchor-id="step-3">Step 3</h4>
 <p>We will now embed to text into vectors and create a database from which the LLM will pull information from. We are essentially “translating” the contents of the pdf into a readable text for the LLM to use. Here, we use the function <code>process_and_store_pdf(...)</code>.</p>
-<div id="a4014712" class="cell" data-execution_count="9">
+<div id="54e02170" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> v2_functions <span class="im">import</span> process_and_store_pdf</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ollama pull nomic<span class="op">-</span>embed<span class="op">-</span>text</span>
@@ -867,7 +867,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-4" class="level4">
 <h4 class="anchored" data-anchor-id="step-4">Step 4</h4>
 <p>Now, we need to specify that we will be using the <code>llama3</code> LLM model and then use the function <code>setup_retriever_and_chain(..., ...)</code> which will make calls to the API to answer our prompts. Then, we will try answering a few prompts using the LLM!</p>
-<div id="d4b7bfda" class="cell" data-execution_count="10">
+<div id="331ab710" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> v2_functions <span class="im">import</span> setup_retriever_and_chain</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># specify LLM model</span></span>
@@ -896,7 +896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-6-optional" class="level4">
 <h4 class="anchored" data-anchor-id="step-6-optional">Step 6 (Optional)</h4>
 <p>If we wanted to restart with a different pdf, we would need to delete all the existing embeddings we made and you can do so by running the code below.</p>
-<div id="4cb3915b" class="cell" data-execution_count="11">
+<div id="4f02724a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset the embeddings with this line of code</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># vector_database.delete_collection()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

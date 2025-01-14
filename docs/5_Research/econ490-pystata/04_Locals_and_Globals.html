@@ -793,11 +793,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">4.0 Intro</h2>
-<div id="8a4ad0d6" class="cell" data-execution_count="1">
+<div id="664ae946" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ecf1e78a" class="cell" data-tags="[]" data-execution_count="2">
+<div id="b69d417c" class="cell" data-tags="[]" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -816,7 +816,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="storing-results" class="level3">
 <h3 class="anchored" data-anchor-id="storing-results">4.2.1 Storing Results</h3>
 <p>The first use of local macros is to store the results of our code. Most Stata commands have hidden results stored after they are run. We can then put those into local macros to use later. Consider the following example:</p>
-<div id="f317defd" class="cell" data-execution_count="3">
+<div id="b1600733" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sysuse auto, clear</span>
@@ -824,34 +824,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>summarize price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we ran <code>summarize</code> above, Stata produced output that was stored in several local variables. We can access those stored results with the command <code>return list</code> (for regular commands) or <code>ereturn list</code> (for estimation commands, which we’ll cover later in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/11_Linear_Reg.html">Module 11</a>. Since <code>summarize</code> is not an estimation command, we can run the following:</p>
-<div id="78083fea" class="cell" data-execution_count="4">
+<div id="fc5f8787" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="bu">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that Stata has reported that variables have been stored as scalars, where a scalar is simply a quantity.</p>
 <p>If we want Stata to tell us the mean price from the automobile data set that was just calculated using <code>summarize</code>, we can use the following:</p>
-<div id="e7bf47c8" class="cell" data-execution_count="5">
+<div id="8861cf88" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>display <span class="cf">return</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now store that scalar as a local, and use that local in other Stata commands:</p>
-<div id="0677a68d" class="cell" data-execution_count="6">
+<div id="2987125d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>local price_mean <span class="op">=</span> <span class="cf">return</span>(mean)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>display <span class="st">"The mean of price variable is `price_mean'."</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also modify the format of our local, so that the average price is rounded to the closest integer and there is a comma separator for thousand units. We do so by typing <code>%5.0fc</code>. To learn more about different formats in Stata, type <code>help format</code>.</p>
-<div id="3d3550f6" class="cell" data-execution_count="7">
+<div id="b835f690" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>local price_mean_formatted : display <span class="op">%</span><span class="fl">5.0</span><span class="er">fc</span> <span class="cf">return</span>(mean)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>display <span class="st">"The average price is `price_mean_formatted'."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Imagine that we wanted to create a new variable that is equal to the price minus the mean of that same variable. We would do this if we wanted to de-mean that variable or, in other words, create a new price variable that has a mean of zero. To do this, we could use the <code>generate</code> command along with the local we just created to do exactly that:</p>
-<div id="97d50a53" class="cell" data-execution_count="8">
+<div id="059efeac" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>local price_mean <span class="op">=</span> <span class="cf">return</span>(mean)</span>
@@ -860,7 +860,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note that there is no output when we run this command.</p>
 <p>If we try to run this command a second time, we will get an error because Stata doesn’t want us to accidentally overwrite an existing variable. In order to correct this problem, we need to use the command <code>replace</code> instead of the command <code>generate</code>. Try it yourself above!</p>
 <p>Let’s take a look at the mean of our new variable using <code>summarize</code> again.</p>
-<div id="5d341f0c" class="cell" data-execution_count="9">
+<div id="2a061633" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>su price_demean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -872,20 +872,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When we looked at loops in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/03_Stata_Essentials.html">Module 3</a>, we took a look at the second popular use of locals. Specifically, our examples of <code>foreach</code>, <code>forvalues</code>, and <code>while</code> use locals to iterate over strings or integers.</p>
 <p>In this subsection, we will see how to use locals both <strong>inside</strong> of a loop (these locals are automatically generated by Stata) and <strong>outside</strong> of the loop (when we store the list of values into a local for the loop to loop from).</p>
 <p>Consider the following common application here involving a categorical variable that can take on 5 possible values.</p>
-<div id="62e6c2f9" class="cell" data-execution_count="10">
+<div id="177ab45b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>summarize rep78</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that if we run the command that we used to display the mean of price, we will now get a different value. Try it yourself!</p>
 <p>There are times when we might want to save all of the possible categorical values in a local. When we use the <code>levelsof</code> command as is done below, we can create a new local with a name that we choose. Here, that name is <em>levels_rep</em>.</p>
-<div id="217a9975" class="cell" data-execution_count="11">
+<div id="e8d35070" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>levelsof rep78, local(levels_rep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can do different things with this new list of values. For instance, we can now summarize a variable based on every distinct value of <em>rep78</em>, by creating a loop using <code>foreach</code> and looping through all the values of the newly created local.</p>
-<div id="b73e6173" class="cell" data-execution_count="12">
+<div id="708082cf" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>foreach x <span class="kw">in</span> `levels_rep<span class="st">' {</span></span>
@@ -907,24 +907,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="storing-lists">4.3.1 Storing Lists</h3>
 <p>Globals are used to store lists of variable names, paths, and/or directories that we need for our research project.</p>
 <p>Consider the following example where we create a global called <em>covariates</em> that is simply a list of two variable names:</p>
-<div id="c93c4c26" class="cell" data-execution_count="13">
+<div id="ffd53d3b" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> covariates <span class="st">"rep78 foreign"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now use this global anywhere we want to invoke the two variables specified. When we want to indicate that we are using a global, we refer to this type of macro with the dollar sign symbol <code>$</code>.</p>
 <p>Here we <code>summarize</code> these two variables.</p>
-<div id="085f4c42" class="cell" data-execution_count="14">
+<div id="3f632405" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>summarize ${covariates}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the empty cell below, <code>describe</code> these three variables using the macro we have just created.</p>
-<div id="cb0e6611" class="cell" data-execution_count="15">
+<div id="2a80df38" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that lists of variables can be very useful when we estimate multiple regression models. Suppose that we want to estimate how price changes with mileage, controlling for the car origin and the trunk space. We can store all our control variables in one global called <em>controls</em> and then call that global directly when estimating our regression.</p>
-<div id="8eb08ee8" class="cell" data-execution_count="16">
+<div id="8a7821c7" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> controls trunk foreign</span>
@@ -937,20 +937,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Globals are useful to store file paths. We will see more of them in the module of project workflow (<a href="https://comet.arts.ubc.ca/docs/Research/econ490-stata/18_Wf_Guide2.html">Module 18</a>).</p>
 <p>In the following example, we are saving the file path for the folder where our data is stored in a global called <em>datadirectory</em> and the file path where we want to save our results in a global called <em>outputdirectory</em>.</p>
 <p>Note that this is a fictional example, so no output will be produced.</p>
-<div id="42e4c4c3" class="cell" data-execution_count="17">
+<div id="52928323" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> datadirectory C:\project\mydata<span class="op">\</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> outputdirectory C:\project\output<span class="op">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can use the global <em>datadirectory</em> to load our data more easily:</p>
-<div id="85230561" class="cell" data-execution_count="18">
+<div id="182db701" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>use <span class="st">"$datadirectory\data.dta"</span>, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Similarly, once we have finished editing our data, we can store our results in the folder saved within the global <em>outputdirectory</em>:</p>
-<div id="a6b32aea" class="cell" data-execution_count="19">
+<div id="433c7b87" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>save using <span class="st">"$outputdirectory\output.dta"</span>, replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -961,17 +961,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="common-mistakes">4.4 Common Mistakes</h2>
 <p>The most common mistake that happens when using locals or globals is to accidentally save an empty macro. In those cases, the local or global will contain no value. This can happen if we run only some lines of the do-file in our local machine, as the local macros defined in the original do-file are not defined in the smaller subset of the do-file that we are running. These errors can happen if we run Stata on our local machine, but not if we run our code on JupyterLab. To avoid this kind of mistake, run your do-file entirely, not pieces of it.</p>
 <p>Another common mistake is to save the wrong values in our local variable. Stata always updates the automatically created locals in <code>return list</code> or <code>ereturn list</code>. In the following example, we fail to save the average price because Stata has updated the value of <code>return(mean)</code> with the average length.</p>
-<div id="c2a7ea38" class="cell" data-execution_count="20">
+<div id="02c7c862" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>summarize price length</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2728f02d" class="cell" data-execution_count="21">
+<div id="871b138d" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="bu">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2e914137" class="cell" data-execution_count="22">
+<div id="eb7c22df" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>local price_mean <span class="op">=</span> r(mean)</span>
@@ -982,13 +982,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="wrap-up">4.5 Wrap Up</h2>
 <p>In this module, we learned how Stata has its own set of variables that have some very useful applications. We will see these macros throughout the following modules. You will also use them in your own research project.</p>
 <p>To demonstrate how useful macros can be, we can use our <em>covariates</em> global to run a very simple regression in which <em>price</em> is the dependent variable and the explanatory variables are <em>rep78</em> and <em>foreign</em>. That command using our macro would be:</p>
-<div id="60c6c41c" class="cell" data-execution_count="23">
+<div id="67ccae7f" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>regress price ${covariates}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we only wanted to include observations where price is above average, then using the local we created earlier in this module the regression would be:</p>
-<div id="0ff7e013" class="cell" data-execution_count="24">
+<div id="780fe856" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>regress price ${covariates} <span class="cf">if</span> price <span class="op">&gt;</span> `price_mean<span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

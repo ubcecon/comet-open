@@ -883,7 +883,7 @@ export delimited using "fake_data.csv", replace</code></pre>
 <h2 class="anchored" data-anchor-id="saving-data-sets">5.5 Saving Data Sets</h2>
 <p>We can save any opened data set in Stata format by writing <code>save using "some_directory/dataset_name.dta", replace</code>. The replace option overwrites a previous version of the file to keep our save current.</p>
 <p>Try saving the data we have been working on in a new folder named “cleaned_data”.</p>
-<pre class="{stata}"><code>save using "insert_directory/dataset_name.dta", replace</code></pre>
+<pre class="{stata}"><code>save "insert_directory/dataset_name.dta", replace</code></pre>
 <p>We can also save files in different formats with the <code>export excel</code> and <code>export delimited</code> commands. Look at the help documentation for more details.</p>
 </section>
 <section id="errors" class="level2">

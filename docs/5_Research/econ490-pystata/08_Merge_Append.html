@@ -786,11 +786,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">8.0 Intro</h2>
-<div id="9557b092" class="cell" data-execution_count="1">
+<div id="8defdbc3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">'C:\Program Files\Stata18/'</span>,<span class="st">'se'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="15d35db6" class="cell" data-execution_count="2">
+<div id="310aab70" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">'/Applications/Stata/utilities'</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -806,7 +806,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>In this notebook, we will learn how to undertake these two approaches to combining data sets: using <code>merge</code> and <code>append</code>.</p>
 <p>We’ll continue working with our fake data. Recall that this data set is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
-<div id="9b1cfe1a" class="cell" data-execution_count="3">
+<div id="be459dd9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clear<span class="op">*</span></span>
@@ -821,34 +821,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="check-the-data-sets-unique-identifiers">8.2.1 Check the Data Set’s Unique Identifiers</h3>
 <p>The key to merging data sets is to understand which variable(s) uniquely identifies each observation. This (or these) variable(s) are called the unique identifiers.</p>
 <p>Let’s look at our data.</p>
-<div id="7fc584a0" class="cell" data-execution_count="4">
+<div id="ae8e0e14" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here we can see that each observation in the “fake_data” data set is identified by the variables <em>workerid</em> and <em>year</em> (worker-year pairs).</p>
 <p>We can check to see if this is correct using the command <code>duplicates report</code>.</p>
-<div id="33744239" class="cell" data-execution_count="5">
+<div id="4f1c364e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>duplicates report workerid year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What this table shows is that there are 138,138 <em>workerid-year</em> combinations (which is exactly equal to all of our observations). This means that every observation we have corresponds to a worker in a particular year.</p>
 <p>Let’s compare this to a different data set we made in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/07_Within_Group.html">Module 7</a> using the <code>collapse</code> command. Run the cell below to recreate that data set.</p>
-<div id="a5033790" class="cell" data-execution_count="6">
+<div id="e8961e7d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>generate log_earnings <span class="op">=</span> log(earnings)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>collapse (mean) avg_log_earnings<span class="op">=</span>log_earnings (count) total_employment <span class="op">=</span> log_earnings, by(region year)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>label var avg_log_earnings <span class="st">"Average Log-earnings in Region-Year Cell"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7a81889e" class="cell" data-execution_count="7">
+<div id="7835b740" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>browse <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case, it seems that every observation corresponds to a region and year combination. Again, we can use <code>duplicates report</code> to see if the variables <em>region</em> and <em>year</em> uniquely identify all observations.</p>
-<div id="de1f4312" class="cell" data-execution_count="8">
+<div id="bba36cd7" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>duplicates report region year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -870,7 +870,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We begin by having the master data opened in our current Stata session. For the sake example, let’s suppose we want to set “fake_data” as the master data set, and use “region-year” as the using data set. We will recreate “region-year” below.</p>
 <p>We already know that the “fake_data” data set’s unique identifiers are <em>workerid</em> and <em>year</em>, while the “region-year” data set’s unique identifiers are <em>region</em> and <em>year</em>. The variables we use to link both data sets have to be the unique identifiers that are present in both data sets. Because <em>workerid</em> does not exist in the region-level data set, we will use the variables <em>region</em> and <em>year</em> for our merge.</p>
 <p>This means that for every region in the using data set, there will be many observations in the individual level (master) data set to be matched. Therefore, this will be a <code>m:1</code> merge.</p>
-<div id="2ca29374" class="cell" data-execution_count="9">
+<div id="e5532fd8" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>use fake_data, clear </span>
@@ -879,7 +879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>label var avg_log_earnings <span class="st">"Average Log-earnings in Region-Year Cell"</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>save region_year_data, replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="464c4504" class="cell" data-execution_count="10">
+<div id="8d38c9e0" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>use fake_data, clear  <span class="op">//</span> This sets this data <span class="bu">set</span> <span class="im">as</span> the master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -887,7 +887,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>merge</code> commands are written as follows:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> 1:1 unique_id1 unique_id2 ... <span class="kw">using</span> using_dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Let’s now merge the “region_year_data” to “fake_data” using an <code>m:1</code> merge.</p>
-<div id="7c08f09c" class="cell" data-execution_count="11">
+<div id="5c007340" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>merge m:<span class="dv">1</span> region year using region_year_data </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -895,14 +895,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s analyze the table above. It says that there were 406,963 observations in the master data which couldn’t be matched to any observation in the using data set. This is due to the fact that our data set at the region-year level does not have information for some years.</p>
 <p>Furthermore, the table shows that every observation from the using data set got matched to some observation in the master data set. The total number of matched observations is roughly 2.5 million. All of this information gets recorded in a new variable named <i>_merge</i>. Because of this, it is good practice to write <code>capture drop _merge</code> before running a merge command.</p>
 <p>Think about the following question: would we get the same results if we switched the master and using datasets?</p>
-<div id="0d9765b7" class="cell" data-execution_count="12">
+<div id="ccdfec55" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>use region_year_data, clear</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>merge <span class="dv">1</span>:m region year using fake_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Indeed, we get the same information. We typically want to restrict to observations that were correctly matched across data sets.</p>
-<div id="d16cbbd6" class="cell" data-execution_count="13">
+<div id="461e202e" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>keep <span class="cf">if</span> _merge<span class="op">==</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

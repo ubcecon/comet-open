@@ -775,15 +775,15 @@ summarize price</code></pre>
 <pre class="{stata}"><code>return list</code></pre>
 <p>Notice that Stata has reported that variables have been stored as scalars, where a scalar is simply a quantity.</p>
 <p>If we want Stata to tell us the mean price from the automobile data set that was just calculated using <code>summarize</code>, we can use the following:</p>
-<pre class="{stata}"><code>display return(mean)</code></pre>
+<pre class="{stata}"><code>display r(mean)</code></pre>
 <p>We can now store that scalar as a local, and use that local in other Stata commands:</p>
-<pre class="{stata}"><code>local price_mean = return(mean)
+<pre class="{stata}"><code>local price_mean = r(mean)
 display "The mean of price variable is `price_mean'." </code></pre>
 <p>We can also modify the format of our local, so that the average price is rounded to the closest integer and there is a comma separator for thousand units. We do so by typing <code>%5.0fc</code>. To learn more about different formats in Stata, type <code>help format</code>.</p>
-<pre class="{stata}"><code>local price_mean_formatted : display %5.0fc return(mean)
+<pre class="{stata}"><code>local price_mean_formatted : display %5.0fc r(mean)
 display "The average price is `price_mean_formatted'."</code></pre>
 <p>Imagine that we wanted to create a new variable that is equal to the price minus the mean of that same variable. We would do this if we wanted to de-mean that variable or, in other words, create a new price variable that has a mean of zero. To do this, we could use the <code>generate</code> command along with the local we just created to do exactly that:</p>
-<pre class="{stata}"><code>local price_mean = return(mean)
+<pre class="{stata}"><code>local price_mean = r(mean)
 generate price_demean = price - `price_mean'</code></pre>
 <p>Note that there is no output when we run this command.</p>
 <p>If we try to run this command a second time, we will get an error because Stata doesn’t want us to accidentally overwrite an existing variable. In order to correct this problem, we need to use the command <code>replace</code> instead of the command <code>generate</code>. Try it yourself above!</p>
@@ -846,10 +846,10 @@ global outputdirectory C:\project\output\</code></pre>
 <section id="common-mistakes" class="level2">
 <h2 class="anchored" data-anchor-id="common-mistakes">4.4 Common Mistakes</h2>
 <p>The most common mistake that happens when using locals or globals is to accidentally save an empty macro. In those cases, the local or global will contain no value. This can happen if we run only some lines of the do-file in our local machine, as the local macros defined in the original do-file are not defined in the smaller subset of the do-file that we are running. These errors can happen if we run Stata on our local machine, but not if we run our code on JupyterLab. To avoid this kind of mistake, run your do-file entirely, not pieces of it.</p>
-<p>Another common mistake is to save the wrong values in our local variable. Stata always updates the automatically created locals in <code>return list</code> or <code>ereturn list</code>. In the following example, we fail to save the average price because Stata has updated the value of <code>return(mean)</code> with the average length.</p>
+<p>Another common mistake is to save the wrong values in our local variable. Stata always updates the automatically created locals in <code>return list</code> or <code>ereturn list</code>. In the following example, we fail to save the average price because Stata has updated the value of <code>r(mean)</code> with the average length.</p>
 <pre class="{stata}"><code>summarize price length</code></pre>
 <pre class="{stata}"><code>return list</code></pre>
-<pre class="{stata}"><code>local price_mean = return(mean)
+<pre class="{stata}"><code>local price_mean = r(mean)
 display "The average price is `price_mean'." </code></pre>
 </section>
 <section id="wrap-up" class="level2">
