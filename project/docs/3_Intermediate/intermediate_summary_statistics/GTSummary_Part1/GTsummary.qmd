@@ -38,10 +38,14 @@ Install necessary packages, you may be prompted to choose a CRAN mirror, just ch
 
 ### References
 
-- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
-
-Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
-This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
+-   von Bergmann J (2024). _VancouvR: Access the 'City of Vancouver' Open
+ Data API_. R package version 0.1.8,
+ <https://CRAN.R-project.org/package=VancouvR>.
+-   von Bergmann, J., Dmitry Shkolnik, and Aaron Jacobs (2021).
+  cancensus: R package to access, retrieve, and work with Canadian
+  Census data and geography. v0.4.2.
+  - Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
+  This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
 
 ```{r}
 #Run this cell to install necessary packages
