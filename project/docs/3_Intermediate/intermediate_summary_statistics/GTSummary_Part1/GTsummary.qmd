@@ -23,20 +23,26 @@ jupyter:
     name: R
 ---
 
-Potential Outline
+## Outline
 - Intro + Description of GTsummary and it's capabilities
-  - Show what will be in the notebook
-- Install package + Dataset 
-- Basic data exploration capabilites 
-    - Add stuff like p_values or Anova, etc other tests
+- Install packages + Datasets
+- Basic data exploration
+- Add statistics like p_values or Anova, etc 
 - Stratified Summaries (Grouped by certain characteristics)
-- Change look of tables 
-    - Modify variables, footnotes, themes etc other customization things
+- Change look of tables: Modify variables, footnotes, themes, etc
 - Regression Models summaries
 - Export tables 
-- 325/326 Example
+- Applied example for econ 326, 490
 
 Install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver chooseUS (OR). 
+
+### References
+
+- Statistics Canada, Survey of Financial Security, 2019, 2021. Reproduced and distributed on an "as is" basis with the permission of Statistics Canada. Adapted from Statistics Canada, Survey of Financial Security, 2019, 2021. This does not constitute an endorsement by Statistics Canada of this product.
+
+Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
+This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
+
 ```{r}
 #Run this cell to install necessary packages
 install.packages("jsonlite")
@@ -45,6 +51,10 @@ install.packages("gtsummary")
 install.packages("dplyr") 
 install.packages("tidyverse")
 install.packages("NHANES")
+install.packages("gtsummary")
+install.packages('cardx')
+install.packages("IRdisplay")
+install.packages('VancouvR')
 ```
 
 Run the packages 
@@ -56,10 +66,16 @@ library(dplyr)
 library(tidyverse)
 library(NHANES)
 library(gt)
+library(cancensus)
+library(dplyr)
+library(sf)
+library(haven)
+library(stargazer)
+library(cardx)
+library(VancouvR)
+
 ```
 
-For this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
-This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
 
 ```{r}
 #Check if the data is properly loaded
@@ -68,7 +84,7 @@ head(NHANES, 20)
 ```
 
 Here we will make a basic summary table of the varaibles Age, BMI, Weight, Race1, Education, Gender which will show a basic 
-overview of the dataste along with this we will have first mean and then in brackets standard deviation and for specific 
+overview of the dataset along with this we will have first mean and then in brackets standard deviation and for specific 
 variables percent of n within each category. 
 
 ```{r}
@@ -125,6 +141,7 @@ summary_table2
 ```
 
 We can also make custom headers and footnotes using the command modify_header, modify_footnote and modify_caption. 
+
 ```{r}
 #Same as before but we to focus our code we will start from our output of the stratified table from summary_table2. 
 summary_table3 <- summary_table2 %>%
@@ -216,10 +233,7 @@ summary_table4
 
 ```
 
-Apart from summary tables GTSummary can also be used for regression analysis. Here we will continue to use the NHANES dataset and 
-the regression formula we will use is: 
-
-# Maybe Not working we will see
+Apart from summary tables GTSummary can also be used for regression analysis. Here we will continue to use the NHANES dataset, and the regression formula we will use is: 
 
 \begin{equation}
 \text{TotChol} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{BMI} + \beta_3 \cdot \text{Alcohol12PlusYr} + \beta_4 \cdot \text{PhysActive} + \beta_5 \cdot \text{SleepHrsNight} + \varepsilon
@@ -259,6 +273,7 @@ tbl_summary
 Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values
 currently it is three and we can not clearly see the result of our regression analysis. Let's make it 5 for the Beta's and coefficient values. 
 Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
+
 ```{r}
 # Prepare the data for our model
 nhanes_data <- NHANES %>%
@@ -294,8 +309,7 @@ tbl_summary2 <- tbl_regression(model,
 tbl_summary2
 ```
 
-Just like above we can do all kinds of cosemtic changes to our new regression summary tables for instance we can change colors or fonts.
-Once again feel free to change fonts or colors and see how the end result changes. 
+Just like above we can do all kinds of cosmetic changes to our new regression summary tables; for instance we can change colors or fonts. Once again feel free to change fonts or colors and see how the end result changes. 
 
 ```{r}
 library(dplyr)
@@ -407,4 +421,146 @@ tbl_save %>%
 likewise you can save as a Word table using the package "flextable" and the command save_as_docx, and as an Excel file using the package "openxlsx" and the command as_hux_xlsx
 
 
-325/326 example usage
+## Part 2: Example usage for econ 326, 490
+
+Finally, let's take a look at how we can use summary statistics tables for the applied sections of econ 490 and econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](). 
+
+```{r}
+API_KEY = "" #place your API key in the quotation marks here, and run the cell
+```
+
+Let's load in the data:
+
+```{r}
+source("intermediate_summary_statistics_functions.R")
+```
+
+```{r}
+census_data <- get_dataset(api_key) #the get_dataset() function code is fairly long, but can be helpful for projects in 326/490. 
+# The full code can be found in the functions.R file underneath this notebook.
+
+census_data <- census_data|>
+drop_na()|>
+glimpse()
+```
+
+Suppose, for our project, we were interested in determining if a greater proportion of people cycling to work is associated with a greater income, adjusted for age, education, and population density. Note the columns ending in `_commute`. These represent the number of walkers/bikers/drivers living within a given census area. `total_reported_commute` is the total number of individuals within each census district that reported their commute method to StatsCanada in the 2016 census. The first thing we want to check is that the sum of all `_commute` columns adds up to `total_reported_commute`. This will allow us to check for missing values, as well as, more importantly, that the vectors we picked for our analysis from the cancesus API are indeed the correct ones:
+
+
+```{r}
+mismatch <- census_data %>%
+  mutate(commute_sum = car_commute_driver + car_commute_driven +
+           pt_commute + walk_commute + bike_commute + other_commute) %>%
+  filter(commute_sum != total_reported_commute)|>
+  mutate(mismatch_amount = as.numeric(total_reported_commute - commute_sum))|>
+  mutate(commute_sum = as.numeric(commute_sum))|>
+  mutate(total_reported_commute = as.numeric(total_reported_commute))|>
+  select(commute_sum, total_reported_commute, mismatch_amount)
+
+mismatch <- mismatch|>
+as_tibble()|>
+select(!geometry)
+
+glimpse(mismatch)
+```
+
+We see that every row is slightly mismatched: people are either reporting more than one type of commute, or are reporting commute types that are not collected in the census (example, not commuting at all, or working from home). Let's create a summary statistic table using `gtsummary` to figure out the scale of the differences.  
+
+```{r}
+
+summary_table <- mismatch |>
+  select(commute_sum, total_reported_commute, mismatch_amount) |>
+  tbl_summary(
+    type = all_continuous() ~ "continuous2",  # we use continuous2 for multiple stats
+    statistic = list(all_continuous() ~ c("{mean}", "{min}", "{max}")),
+    digits = all_continuous() ~ 2,
+    label = list(
+      commute_sum ~ "Total Commute",
+      total_reported_commute ~ "Reported Commute",
+      mismatch_amount ~ "Mismatch Amount"
+    )
+  )|>
+    as_gt() |> 
+    gt::as_raw_html() |> 
+    display_html()
+
+summary_table
+```
+
+Great! We see that the sum of all commute types is about 61 people more than the total amount of people who reported their method of commuting for each census area. This suggests that individuals are reporting more than one type of commute. Lastly, we'll put together a table of summary statistics for all our variables. Recall our research question: We are interested in determining if a increase in proportion of cyclists commuting to work per capita is correlated with increases in average income. Hence, we can exclude non-cycling modes of transport from our summary statistic table. We'll begin by some minor data wranging:
+
+```{r}
+
+census_data <- census_data |>
+mutate(bike_prop = bike_commute / total_reported_commute)|> #getting the proportion of cyclists
+as_tibble() |>
+drop_na() |>
+glimpse()
+
+```
+
+Lastly, let's put everything together into a summary statistics table:
+
+```{r}
+summary_table_2 <- census_data|>
+  select(population_density, income, education, bike_prop) |>
+  tbl_summary(
+    type = all_continuous() ~ "continuous2",  # continuous2 for multiple stats
+    statistic = list(all_continuous() ~ c("{mean}", "{min}", "{max}")),
+    digits = all_continuous() ~ 2,
+    label = list(
+      population_density ~ "Population Density",
+      income ~ "Income (in 100k CAD)",
+      education ~ "Education Level",
+      bike_prop ~ "Proportion of Bikers"
+    )
+  )|>
+    as_gt() |> 
+    gt::as_raw_html() |> 
+    display_html()
+
+summary_table_2
+```
+
+Looks great! Now suppose we wanted to isolate the summary statistics for census areas which have a bikeway passing through them and compare with census areas which do not have a bikeway (IE, include a dummy variable for presence of bikeways for each census area). 
+
+```{r}
+census_data_bikes <- get_bikes(api_key)
+census_data_bikes <- census_data_bikes|>
+as_tibble()
+glimpse(census_data_bikes)
+# like the other function, get_bikes() is very long. the full code can be found in the adjacent .R file.
+```
+
+We will once again repeat the same process for generating our summary statistics table, this time with two columns. 
+
+```{r}
+summary_table_3 <- census_data_bikes  |>
+  select(population_density, income, education, bike_prop, has_bike_lane) |> # Include the dummy variable
+  tbl_summary(
+    by = has_bike_lane,  # Stratify by the dummy variable
+     type = all_continuous() ~ "continuous2",  # continuous2 for multiple stats
+    statistic = list(all_continuous() ~ c("{mean}", "{min}", "{max}")),
+    digits = all_continuous() ~ 2,
+    label = list(
+      population_density ~ "Population Density",
+      income ~ "Income (in 100k CAD)",
+      education ~ "Education Level",
+      bike_prop ~ "Proportion of Bikers"
+    )
+  ) |>
+  modify_header(!!!list(
+      label ~ "**Variable**",  
+      stat_1 ~ "Bike Lanes: No",  
+      stat_2 ~ "Bike Lanes: Yes"  
+    )
+  ) |>
+  as_gt() |> 
+  gt::as_raw_html() |> 
+  display_html()
+
+summary_table_3
+```
+
+We now have a completed summary table!
+

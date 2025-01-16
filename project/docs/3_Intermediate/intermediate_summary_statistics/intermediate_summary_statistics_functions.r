@@ -1,8 +1,9 @@
-library(cancensus)
-library(sf)
 
 
 get_dataset <- function(API_KEY){
+library(cancensus)
+library(dplyr)
+library(sf)
 
     options(cancensus.api_key=API_KEY)
     options(cancensus.cache_path = "/cache")
@@ -33,17 +34,16 @@ get_dataset <- function(API_KEY){
 }
 
 
-
-
 get_bikes <- function(API_KEY) {
-  library(dplyr)
-  library(sf)
-  library(cancensus)
+library(cancensus)
+library(dplyr)
+library(sf)
+library(VancouvR)
 
   options(cancensus.api_key = API_KEY)
   options(cancensus.cache_path = "/cache")
+
   
-  # 1) Get Vancouver census data
   census_data <- get_census(
     dataset = "CA16",
     regions = list(CSD = "5915022"), 
@@ -57,11 +57,9 @@ get_bikes <- function(API_KEY) {
     level = "DA"
   )
 
-  # 2) Get bikeways as sf
   bikes <- get_cov_data("bikeways") |>
     st_as_sf()
   
-  # 3) Clean up census data
   census_data_clean <- census_data |>
     rename(
             name = 'GeoUID',
@@ -88,29 +86,23 @@ get_bikes <- function(API_KEY) {
       geometry
     )
   
-  # 4) Match CRS
   census_data_clean <- st_transform(census_data_clean, st_crs(bikes))
   
-  # 5) Spatial join + aggregate back to 1 row per DA
-  census_data_clean <- st_join(census_data_clean, bikes, left = TRUE) %>%
-    mutate(has_bike_lane = if_else(!is.na(object_id), 1, 0)) %>%
-    group_by(name) %>%
+  census_data_clean <- st_join(census_data_clean, bikes, left = TRUE) |>
+    mutate(has_bike_lane = if_else(!is.na(object_id), 1, 0)) |>
+    group_by(name) |>
     summarize(
-      #  Ensure total_reported_commute is included:
       across(population_density:total_reported_commute, first),
       has_bike_lane = max(has_bike_lane),
       geometry = st_union(geometry)
     )
 
-  # 6) Final selection & transformations
   census_data_clean <- census_data_clean |>
     select(
-      # Keep columns you want to do further math on
       population_density, age, income, education, 
       bike_commute, total_reported_commute, has_bike_lane, geometry
     ) |>
-    mutate(bike_prop = bike_commute / total_reported_commute) |>  # proportion of cyclists
-    # If you truly want to drop geometry, do that AFTER any spatial steps
+    mutate(bike_prop = bike_commute / total_reported_commute) |>  
     as_tibble() |>
     select(
       -bike_commute, 
@@ -119,8 +111,7 @@ get_bikes <- function(API_KEY) {
     ) |>
     drop_na() |>
     distinct()
-  
-  # 7) Return final output
+
   return(census_data_clean)
 }
 
