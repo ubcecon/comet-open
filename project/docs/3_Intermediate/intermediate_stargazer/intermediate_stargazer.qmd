@@ -15,3 +15,37 @@ format:
 ---
 
 ## Outline
+
+## Introduction: 
+One crucial part of any research project is presenting the results to others in ways that are accessible and easy to understand. This notebook will go over how to use *stargazer*, which is a convenient package built for R that allows us to present the results of regressions in simple, well-formatted tables using very little code. 
+
+For the purposes of this notebook, we'll be using data from another module: [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). We suggest taking a look at this before getting started if you'd like more information on where the data came from and how it was cleaned! 
+
+Let's get started by importing all of the packages that we will use through out this module!
+
+```{r}
+
+# If any of the packages happened to not be installed for you, use the command install.packages() with the name of the packages, like 'stargazer'
+
+library(ggplot2) 
+library(haven)
+library(stargazer)
+library(tidyverse)
+library(car)
+library(vtable)
+library(corrplot)
+library(lmtest)
+
+```
+
+## Note:
+Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
+
+## Development and the Planet
+Following a 2019 scientific report which revealed an alarming rate of climate change in the country, the [Government of Canada declared a national climate emergency.] (https://globalnews.ca/news/5401586/canada-national-climate-emergency/) Canada has been far from the only one to take notice and when it comes to the environment; threat of climate change continues to take priority at an international level. All over the world, people are seeking to better understand the causes and impacts of climate change, and looking for ways to mitigate and adapt to how these changes will affect our lives. In particular, the greenhouse gas carbon dioxide [$CO_2$] gets a lot of attention. While there are many other gasses that contribute to to the atmospheric greenhouse effect, [$CO_2$] is one of the most immediate concerns because of its role in industrialization and energy use. 
+
+Gross domestic product (GDP), is a measure that you're likely very familiar with at this point. As a measure production, GDP is often used to infer the health of an economy or to some degree, the prosperity of the people operating within it. In general, a rising GDP is a desirable outcome. However, we might wonder whether all other outcomes associated with a higher GDP are desirable. In this project, we will be examining the connection between the production of [$CO_2$] and GDP in Canada.
+
+<span style="color:#CC7A00" >  ****🔎 Let’s think critically**** </span>
+> 🟠  GDP is commonly considered to *not* be a zero-sum measure, meaning that a rising GDP in one country does not mean another country's GDP has to fall. What are the limitations on GDP growth, then? 
+> 🟠  What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about economic growth in general? 
