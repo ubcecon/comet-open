@@ -50,17 +50,17 @@ In order to follow this guide you must be able to browse all of your files.
 
 #### 1.2 Find the path to your Stata app
 
-1. Open your hard drive icon on your desktop 
+1. Open your new hard drive icon on your desktop 
 
 ![Macintosh HD logo on Desktop](images_for_stata_kernel_qmd/Macintosh-HD.png)
 
-2. Navigate to our Stata installation 
+2. Navigate to the Stata installation 
 3. Write down to path for the Stata Installation it should look similar to `/Applications/Stata/StataSE.app/Contents/MacOS/StataSE`
 4. **Write this path down and save it for later you will need it. Also make sure it is case sensitive as macOS is case sensitive.**
 
 #### 1.3 Show hidden files and folders on Mac
 
-1. Open Terminal from the Applications > Utilities folder. (Or Command + Space and type in Terminal).
+1. Open Terminal from the Applications -> Utilities folder. (Or Command + Space and type in Terminal).
 2. Type in the following command 
 
 ```bash
@@ -68,7 +68,7 @@ defaults write com.apple.Finder AppleShowAllFiles YES
 ```
 3. Now restart you computer for the change to take place
 
-You will now be able to see all folders including the hidden ones like your OS and other things Mac does not by default show the user. Most importantly the /usr/local/opt folder where by default the anaconda3 instalation is. 
+You will now be able to see all folders including the hidden ones like your OS and other things that Mac doesent show by default. Most importantly the /usr/local/opt folder where by default the anaconda3 instalation is. 
 
 More information about this step can be found in this [Article](https://macpaw.com/how-to/access-opt-folder-on-mac). 
 
@@ -96,7 +96,7 @@ They will show where your Anaconda installation is
 
 2. Once you have the path follow it by clicking on Macintosh HD on your desktop and going to it. The path will look similar to `/opt/anaconda3/envs/stata_r_env/lib/python3.x/site-packages/stata_kernel`. The x in python3 will be the version number of Python. 
 
-3. Once inside of the stata_kernel folder open `config.py` to do this you will need a code editor of some kind. Some free options are Sublime Text, VSCode, Brackets just choose one which is simple and then open the file.   
+3. Once inside of the stata_kernel folder open `config.py` to do this you will need a code editor. Some free options are Sublime Text, VSCode, or Brackets just choose one which is simple and then open the file.   
 4. Once the file is open replace the value of the variable `stata_path` with your stata path which you wrote down earlier. 
 
 The code which you are looking for is on line 84 
@@ -129,6 +129,8 @@ stata_path = YOUR PATH HERE
 ```
 **This time do not include 'r and apostrophes. Except for the stata_path do not change anything else**. 
 
+4. Save and close the file
+
 #### 1.6 Seeing if it worked. 
 1. Open Terminal (Command + Space and type in Terminal). 
 2. Type in 
@@ -159,7 +161,7 @@ Below is the section for a Windows computer.
 #### 2.1 Finding your path to the main Stata installation 
 1. In the file explorer find your path to the .exe file for Stata. The path should look like `C:\Program Files\Stata18\Stata-SE64.exe`. Write it down and save it for later.
 
-**Importat: Do not type Stata into your windows search and right click on it and select `open file location` this will not be the correct path.**
+**Important: Do not type Stata into your windows search and right click on it and select `open file location` this will not be the correct path.**
 
 The path will most likely be the folder `Program Files` under your default drive. 
 
@@ -211,6 +213,7 @@ Line 2 of the file will look like
 stata_path = YOUR PATH HERE
 ```
 **This time do not include 'r and apostrophes. Except for the stata_path do not change anything else**. 
+
 4. Save and close the file 
 
 #### 2.6 Seeing if it worked. 
