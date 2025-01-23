@@ -42,13 +42,9 @@ library(lmtest)
 Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
 
 ## Development and the Planet
-Following a 2019 scientific report which revealed an alarming rate of climate change in the country, the [Government of Canada declared a national climate emergency.] (https://globalnews.ca/news/5401586/canada-national-climate-emergency/) Canada has been far from the only one to take notice and when it comes to the environment; threat of climate change continues to take priority at an international level. All over the world, people are seeking to better understand the causes and impacts of climate change, and looking for ways to mitigate and adapt to how these changes will affect our lives. In particular, the greenhouse gas carbon dioxide [$CO_2$] gets a lot of attention. While there are many other gasses that contribute to to the atmospheric greenhouse effect, [$CO_2$] is one of the most immediate concerns because of its role in industrialization and energy use. 
+For this module, we will be continuing with the project started in [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). This project studied the connection between the production of [$CO_2$] and GDP in Canada.
 
-Gross domestic product (GDP), is a measure that you're likely very familiar with at this point. As a measure production, GDP is often used to infer the health of an economy or to some degree, the prosperity of the people operating within it. In general, a rising GDP is a desirable outcome. However, we might wonder whether all other outcomes associated with a higher GDP are desirable. In this project, we will be examining the connection between the production of [$CO_2$] and GDP in Canada.
-
-<span style="color:#CC7A00" >  ****🔎 Let’s think critically**** </span>
-> 🟠  GDP is commonly considered to *not* be a zero-sum measure, meaning that a rising GDP in one country does not mean another country's GDP has to fall. What are the limitations on GDP growth, then? 
-> 🟠  What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about economic growth in general? 
+As the [Government of Canada declared a national climate emergency](https://globalnews.ca/news/5401586/canada-national-climate-emergency/), the greenhouse gas carbon dioxide [$CO_2$] has gotten a lot of attention. While there are many other gasses that contribute to to the atmospheric greenhouse effect, [$CO_2$] is one of the most immediate concerns because of its role in industrialization and energy use. In general, a rising GDP is a desirable outcome, but we might wonder whether all other outcomes associated with a higher GDP are advantageous. What are the implications of assuming that there can infinite GDP growth when it's connected to finite measures such as the amount of [$CO_2$] that can be sustainably produced and recaptured? Is this just a reflection of what our current energy sources and technology allow, or is there more to the story in how we think about economic growth in general? 
 
 ## Summary Statistics
 It is really important to first create a summary of the data which we can do using the `stargazer` package. Before doing so,  we want to import and clean the data which was done in a separate notebook you can look at here: [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). Now we can use the commmand `stargazer(<your data frame here>)` to get summary statistics for your dataset. 
@@ -56,17 +52,48 @@ It is really important to first create a summary of the data which we can do usi
 > _Note_: Below we used `as.data.frame(<your data frame here>)` to covert the data frame into a readable format for `stargazer`. Your table won't look right unless you do this!
 
 ```{r}
+#First we will import the data
+raw_co2_df <- as.data.frame(read_csv("../datasets_projects/CO2_data.csv"))
 
-raw_co2_df <- as.data.frame(read_csv("/Users/alexhaddon/GitHub/comet-open/project/docs/6_Projects/datasets_projects/CO2_data.csv"))
-
+#Second, we will select the variables we need for analysis
 co2_df <- select(raw_co2_df, c("province", "CO2", "GDP", "electricity", "population"))
-
-stargazer(co2_df, type = "text", title = "Descriptive Statistics", digits = 1, covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"))
-
 ```
 
+We can easily create a table of summary statistics using the `stargazer` package. All we need to do is run the commang `stargazer(data)`. Try it below!
 
+```{r}
+summary1 <- stargazer(co2_df)
+```
 
+This looks weird - that is because `stargazer`'s default output is in LaTex form. If you are using LaTex, you can copy the output below directly into your file. However, if you are using other software, it will be easier to output your table in text form. To do so, we can specify that we want the `type = "text"`. Try this below!
+
+```{r}
+summary2 <- stargazer(co2_df, type = "text")
+```
+
+It's starting to look pretty good! However, we're missing some things. Currently, our table has no title. We'll want to fix this. This is easy using the `stargazer` command. We just need to specify `title = "Whatever you Want!"`. See below:
+
+```{r}
+summary3 <- stargazer(co2_df, type = "text", title = "Descriptive Statstics")
+```
+
+In professional academic papers, we will want to make sure our tables are capable of standing alone. This means that anyone who looks at your table should be able to read it and understand it without having read any parts of your paper. Some things that make this easier include labelling your variables properly: using full words and not abbreviations, capitalizing, and including units. Let's relable the variables that we're using for this analysis by including the option `covariate.labels = c("Variable name 1", "Variable name 2", "Variable name 3", ...)`. 
+
+```{r}
+summary4 <- stargazer(co2_df, type = "text", title = "Descriptive Statistics", covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"))
+```
+
+Our table is looking good, but we have a lot of trailing zeroes. This will make our table harder to read, as it can be clunky and add unnecessary digits. To fix this, we can specify how many digits after the decimal we want. Let's say we want one digit after the decimal: just include `digits = 1`! 
+
+```{r}
+summary5 <- stargazer(co2_df, type = "text", title = "Descriptive Statistics", digits = 1, covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"))
+```
+
+The last thing we'll want to do is export this table to our local folder. This will make it easier to keep track of everything we're working on, and save our work for later. This can be done by adding the option `out = "filename.tex"` to the `stargazer` command. If you are using LaTex, you will want to select the option `type = "text"` and ensure that the output ends in `.tex`. The file will save to your working directory. 
+
+```{r}
+summary6 <- stargazer(co2_df, type = "text", title = "Descriptive Statistics", digits = 1, covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"), out = "descriptive")
+```
 
 
 
