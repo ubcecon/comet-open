@@ -1,5 +1,5 @@
 ---
-title: GTSummary
+title: GTSummary Summary Tables 
 date: '2025-01-02'
 description: GTSummary
 format:
@@ -23,35 +23,28 @@ jupyter:
     name: R
 ---
 
-## Outline
-- Intro + Description of GTsummary and it's capabilities
-- Install packages + Datasets
-- Basic data exploration
-- Add statistics like p_values or Anova, etc 
-- Stratified Summaries (Grouped by certain characteristics)
-- Change look of tables: Modify variables, footnotes, themes, etc
-- Regression Models summaries
-- Export tables 
-- Applied example for econ 326, 490
+### Prerequisites
+ - Intermediate knowledge of R and Basic Jupyter Skills 
+ - An understanding of Tables and Basic Statistics
+ - Knowledge of Regressions 
 
-Install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver chooseUS (OR). 
+### Outcomes 
+By the end of this notebook, you will be able to:
+- Install and Use the GTSummary Package
+- Use GTSummary to create basic summary tables 
+- Use GTSummary to create stratified tables 
+- Use GTSummary to customize the tables (Headers, Footnotes, colors and sizes)
+- Use GTSummary to create tables for regression output 
+- Use GTSummary to Create tables for Projects in classes like Econ 326 or Econ 490
 
-### References
 
--   von Bergmann J (2024). _VancouvR: Access the 'City of Vancouver' Open
- Data API_. R package version 0.1.8,
- <https://CRAN.R-project.org/package=VancouvR>.
--   von Bergmann, J., Dmitry Shkolnik, and Aaron Jacobs (2021).
-  cancensus: R package to access, retrieve, and work with Canadian
-  Census data and geography. v0.4.2.
-  - Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
-  This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
+Running the next code block will install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver choose US (OR). This will be all of the packages needed for the notebook. 
 
 ```{r}
 #Run this cell to install necessary packages
 install.packages("jsonlite")
 install.packages("rlang")
-install.packages("gtsummary")
+install.packages("gtsummary") #This is our key GTSummary package which is the topic of this notebook
 install.packages("dplyr") 
 install.packages("tidyverse")
 install.packages("NHANES")
@@ -61,11 +54,11 @@ install.packages("IRdisplay")
 install.packages('VancouvR')
 ```
 
-Run the packages 
+This will run the packages so we can use them for the code below. 
 ```{r}
 library(jsonlite)
 library(rlang)
-library(gtsummary)
+library(gtsummary) #This is our key GTSummary package which is the topic of this notebook
 library(dplyr)
 library(tidyverse)
 library(NHANES)
@@ -77,17 +70,16 @@ library(haven)
 library(stargazer)
 library(cardx)
 library(VancouvR)
-
 ```
 
-
+This is our dataset which we will be using for the first section of this notebook. Please run the cell below and see if the head command correctly displays the data. 
 ```{r}
 #Check if the data is properly loaded
 data(NHANES)
 head(NHANES, 20)
 ```
 
-Here we will make a basic summary table of the varaibles Age, BMI, Weight, Race1, Education, Gender which will show a basic 
+Here we will make a basic summary table with  the varaibles Age, BMI, Weight, Race1, Education, Gender which will show a basic 
 overview of the dataset along with this we will have first mean and then in brackets standard deviation and for specific 
 variables percent of n within each category. 
 
@@ -144,12 +136,12 @@ summary_table2 <- NHANES %>%
 summary_table2
 ```
 
-We can also make custom headers and footnotes using the command modify_header, modify_footnote and modify_caption. 
+We can also make custom headers and footnotes using the command modify_header, modify_footnote and modify_caption. This is shown in the codeblock below where we will create a table with a custom header, title and footnotes. 
 
 ```{r}
 #Same as before but we to focus our code we will start from our output of the stratified table from summary_table2. 
 summary_table3 <- summary_table2 %>%
-  modify_header(
+  modify_header( #This command will modify the header in the table
     stat_0 ~ "**All Observations**", 
     stat_1 ~ "**No Diabetes**", 
     stat_2 ~ "**Diagnosed with Diabetes**"
@@ -427,7 +419,7 @@ likewise you can save as a Word table using the package "flextable" and the comm
 
 ## Part 2: Example usage for econ 326, 490
 
-Finally, let's take a look at how we can use summary statistics tables for the applied sections of econ 490 and econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](). 
+Finally, let's take a look at how we can use summary statistics tables for the applied sections of Econ 490 and Econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](). 
 
 ```{r}
 API_KEY = "" #place your API key in the quotation marks here, and run the cell
@@ -568,3 +560,14 @@ summary_table_3
 
 We now have a completed summary table!
 
+
+### References
+
+-   von Bergmann J (2024). _VancouvR: Access the 'City of Vancouver' Open
+ Data API_. R package version 0.1.8,
+ <https://CRAN.R-project.org/package=VancouvR>.
+-   von Bergmann, J., Dmitry Shkolnik, and Aaron Jacobs (2021).
+  cancensus: R package to access, retrieve, and work with Canadian
+  Census data and geography. v0.4.2.
+  - Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
+  This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
