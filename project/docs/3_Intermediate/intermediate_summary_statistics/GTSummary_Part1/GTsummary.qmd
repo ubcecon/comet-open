@@ -23,6 +23,8 @@ jupyter:
     name: R
 ---
 
+## Outline
+
 ### Prerequisites
  - Intermediate knowledge of R and Basic Jupyter Skills 
  - An understanding of Tables and Basic Statistics
@@ -37,6 +39,11 @@ By the end of this notebook, you will be able to:
 - Use GTSummary to create tables for regression output 
 - Use GTSummary to Create tables for Projects in classes like Econ 326 or Econ 490
 
+## Part 1: Using GTSummary 
+Firstly let's introduce GTSummary: GTSummary is an R package designed to create publication-ready analytical and summary tables with ease and flexibility. It offers a powerful set of tools for data scientists, statisticians, and researchers working with R to summarize datasets, regression models, and more.
+It is one of the best packages at this task and is a useful tool to use for projects, research or other statistical uses. 
+
+Let's learn how to use it!
 
 Running the next code block will install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver choose US (OR). This will be all of the packages needed for the notebook. 
 
@@ -72,16 +79,18 @@ library(cardx)
 library(VancouvR)
 ```
 
-This is our dataset which we will be using for the first section of this notebook. Please run the cell below and see if the head command correctly displays the data. 
+This is our dataset which we will be using for the first section of this notebook. We have chosen this dataset as it is avaible within R as a package and does not have to be installed separately. The NHANES dataset is a subset of data from the National Health and Nutrition Examination Survey, a comprehensive study designed to assess the health and nutritional status of adults and children in the United States
+
+Please run the cell below and see if the head command correctly displays the data. 
 ```{r}
 #Check if the data is properly loaded
 data(NHANES)
 head(NHANES, 20)
 ```
 
-Here we will make a basic summary table with  the varaibles Age, BMI, Weight, Race1, Education, Gender which will show a basic 
-overview of the dataset along with this we will have first mean and then in brackets standard deviation and for specific 
-variables percent of n within each category. 
+### Summary Tables 
+
+Here we will make a basic summary table with the varaibles `Age, BMI, Weight, Race1, Education, Gender` which will show an overview of the dataset. Along with this we will have first mean and then in brackets standard deviation and for specific variables percent of n within each category. 
 
 ```{r}
 # Load the NHANES data
@@ -92,8 +101,8 @@ summary_table <- NHANES %>%
   select(Age, BMI, Weight, Race1, Education, Gender) %>% #Here we select the variables we want on our summary table
   tbl_summary(
     statistic = list(
-      all_continuous() ~ "{mean} ({sd})",
-      all_categorical() ~ "{n} ({p}%)"
+      all_continuous() ~ "{mean} ({sd})", #all continous variables will have mean and standard deviation 
+      all_categorical() ~ "{n} ({p}%)" #all categorical variables will have n and p included
     ),
     digits = all_continuous() ~ 1,
     missing = "no"
@@ -105,13 +114,9 @@ summary_table <- NHANES %>%
 summary_table
 ```
 
-To show a more complex table we can also use the by command to sort by if the observation has diabetes
-This is called stratifying by group varaibles. Here the key function is "by" where by setting it to the variable Diabetes we can show 
-the summary statostocs for three different groups Overall, No Diabetes and Diagnosed with Diabetes. 
+To show a more complex table we can also use the by command to sort by if the observation has diabetes. This is called stratifying by group varaibles. Here the key function is `by` where by setting it to the variable Diabetes we can show the summary statostocs for three different groups Overall, No Diabetes and Diagnosed with Diabetes. 
 
-We can also use the commmand add_ to add certain statistics to our table for instance here we will use add_n() to show how many people in the dataset have 
-diabetes. We can use add_ for different things apart from number of observations for instance add_p will show p values. More information on what can be added
-can be found at https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html under the header "{gtsummary} functions to add information."
+We can also use the commmand `add_` to add certain statistics to our table for instance here we will use `add_n()` to show how many people in the dataset have diabetes. We can use `add_` for different things apart from number of observations for instance `add_p` will show p values. More information on what can be added can be found at https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html under the header "{gtsummary} functions to add information."
 
 ```{r}
 #Same as before make a table variable and select variables in the dataset using select(...)
@@ -136,7 +141,7 @@ summary_table2 <- NHANES %>%
 summary_table2
 ```
 
-We can also make custom headers and footnotes using the command modify_header, modify_footnote and modify_caption. This is shown in the codeblock below where we will create a table with a custom header, title and footnotes. 
+We can also make custom headers and footnotes using the command `modify_header`, `modify_footnote`and `modify_caption`. This is shown in the codeblock below where we will create a table with a custom header, title and footnotes. 
 
 ```{r}
 #Same as before but we to focus our code we will start from our output of the stratified table from summary_table2. 
@@ -147,7 +152,7 @@ summary_table3 <- summary_table2 %>%
     stat_2 ~ "**Diagnosed with Diabetes**"
   ) %>%
   modify_footnote( 
-    all_stat_cols() ~ "Median (IQR) for continuous variables; n (%) for categorical variables" #Here we change the footnote
+    all_stat_cols() ~ "Median (IQR) for continuous variables; n (%) for categorical variables" #Here we change the footnote with the command modify_footnote
   ) %>%
   modify_caption("**Table 1. Demographic and Clinical Characteristics**") #And here we change the overall title
 
@@ -155,16 +160,13 @@ summary_table3 <- summary_table2 %>%
 summary_table3
 ```
 
-We can also change stylistic choices, this is the same table as before information wise, but it has been substantially changed visually.  
-GTSummary offers many options to change the look of our tables. Below is an example where we will drastically change the look of the table
-using the commands tab_options and tab_style, you are free to experiment and change the code here to see how the colors, borders and 
-labels can change. 
+We can also change stylistic choices, this is the same table as before information wise, but it has been substantially changed visually. GTSummary offers many options to change the look of our tables. Below is an example where we will drastically change the look of the table using the commands `tab_options` and `tab_style`, you are free to experiment and change the code here to see how the colors, borders and labels can change. 
 
 ```{r}
-summary_table4 <- NHANES %>%
-  select(Age, BMI, Weight, Race1, Gender, Diabetes) %>%
+summary_table4 <- NHANES %>% #create the variable 
+  select(Age, BMI, Weight, Race1, Gender, Diabetes) %>% #select variables 
   tbl_summary(
-    by = Diabetes,
+    by = Diabetes, #use the by command to stratify the table 
     statistic = list(
       all_continuous() ~ "{mean} ({sd})",
       all_categorical() ~ "{n}"
@@ -182,7 +184,7 @@ summary_table4 <- NHANES %>%
     stat_1 ~ "**No Diabetes**", 
     stat_2 ~ "**Diabetes**"
   ) %>%
-  modify_footnote(
+  modify_footnote( #change footnote label 
     all_stat_cols() ~ "Median (IQR) for continuous variables; n (%) for categorical variables"
   ) %>%
   modify_caption("**Table 1. Demographic and Clinical Characteristics**") %>%
@@ -229,13 +231,16 @@ summary_table4
 
 ```
 
+### Regression Tables 
 Apart from summary tables GTSummary can also be used for regression analysis. Here we will continue to use the NHANES dataset, and the regression formula we will use is: 
 
+$$
 \begin{equation}
 \text{TotChol} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{BMI} + \beta_3 \cdot \text{Alcohol12PlusYr} + \beta_4 \cdot \text{PhysActive} + \beta_5 \cdot \text{SleepHrsNight} + \varepsilon
 \end{equation}
+$$
 
-Here we will make a simple table showing our regression results, with our beta coefficient, 95%CI, and p-value. 
+Here we will make a simple table showing our regression results, with our beta coefficients, 95%CIs, and p-values. 
 
 ```{r}
 # Prepare the data
@@ -248,7 +253,7 @@ model <- lm(TotChol ~ Age + BMI + Alcohol12PlusYr + PhysActive + SleepHrsNight, 
 
 # Create a summary table using gtsummary
 tbl_summary <- tbl_regression(model, 
-               label = list(
+               label = list( #Set labels for our variables 
                  Age ~ "Age (years)",
                  BMI ~ "Body Mass Index",
                  Alcohol12PlusYr ~ "Alcohol consumption (12+ drinks/year)",
@@ -260,15 +265,13 @@ tbl_summary <- tbl_regression(model,
   bold_labels() %>%
   modify_header(label = "**Variable**") %>% #Change headers like for summary tables
   modify_spanning_header(c("estimate", "conf.low", "conf.high") ~ "**Coefficient (95% CI)**") %>% #Spaning header
-  modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Caption
+  modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Changes the caption
 
 # Print the table
 tbl_summary
 ```
 
-Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values
-currently it is three and we can not clearly see the result of our regression analysis. Let's make it 5 for the Beta's and coefficient values. 
-Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
+Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values currently it is three and we can not clearly see the result of our regression analysis. Let's make it 5 for the Beta's and coefficient values. Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
 
 ```{r}
 # Prepare the data for our model
@@ -404,7 +407,7 @@ final_table <- tbl_summary3 %>%
 final_table
 ```
 
-We can also save and export tables using the gtsave command. Below we can save our first table as the file example_table1.png
+We can also save and export tables using the `gtsave command`. Below we can save our first table as the file `example_table1.png`
 
 ```{r}
 tbl_save <- summary_table #Set variable so the table can be saved
@@ -414,12 +417,14 @@ tbl_save %>%
   gt::gtsave(filename = "example_table1.png") # Save as PNG image using gtsave
 ```
 
-likewise you can save as a Word table using the package "flextable" and the command save_as_docx, and as an Excel file using the package "openxlsx" and the command as_hux_xlsx
+likewise you can save as a Word table using the package "flextable" and the command `save_as_docx`, and as an Excel file using the package "openxlsx" and the command `as_hux_xlsx`.
 
 
-## Part 2: Example usage for econ 326, 490
+## Part 2: Example usage for Econ 326 or Econ 490
 
-Finally, let's take a look at how we can use summary statistics tables for the applied sections of Econ 490 and Econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](). 
+Finally, let's take a look at how we can use summary statistics tables for the applied sections of Econ 490 and Econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](https://censusmapper.ca/users/sign_up). 
+
+More information about cancensus can be found at this [link](https://mountainmath.github.io/cancensus/).
 
 ```{r}
 API_KEY = "" #place your API key in the quotation marks here, and run the cell
@@ -559,7 +564,6 @@ summary_table_3
 ```
 
 We now have a completed summary table!
-
 
 ### References
 
