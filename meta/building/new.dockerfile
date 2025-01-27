@@ -1,5 +1,5 @@
 # Build stage
-FROM sub_new:latest as builder
+FROM sub_new:latest AS builder
 
 WORKDIR /app
 
