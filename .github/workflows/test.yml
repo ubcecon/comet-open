@@ -1,4 +1,4 @@
-name: Test Build
+name: Test Build for New Dockerfile (01-31-2025)
 
 on: workflow_dispatch
 
@@ -19,18 +19,19 @@ jobs:
             exit 1
           fi
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Build sub_new image
+        run: docker build -t sub_new:latest -f sub_new.dockerfile .
 
-      - name: Build and export
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: .dockerfile
-          tags: my-app-image:latest
-          outputs: type=local,dest=./artifacts
+      - name: Build main image
+        run: docker build -t my-app-image:latest -f .dockerfile .
 
-      - name: Display structure of downloaded files
+      - name: Test main image
+        run: |
+          docker run --rm my-app-image:latest ls /
+          mkdir -p ./artifacts
+          docker cp $(docker create --rm my-app-image:latest):/ ./artifacts
+
+      - name: Display structure of artifacts
         run: ls -R ./artifacts
 
       - name: Upload Artifacts
@@ -39,3 +40,4 @@ jobs:
           name: Render
           path: ./artifacts
           retention-days: 5
+
