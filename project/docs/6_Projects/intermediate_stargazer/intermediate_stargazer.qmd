@@ -2,7 +2,7 @@
 title: "2.2 - Intermediate - Working with Stargazer"
 author: COMET Team <br> _Jane Platt, Alex Haddon, Jonathan Graves_
 date: January 29, 2025
-description: This notebook goes over how to make neat and easily digestible regression and summary statistics tables in R using the `stargazer` package. 
+description: This notebook covers how to make neat and easily digestible regression and summary statistics tables in R using the `stargazer` package. 
 categories: [econ 326, intermediate, R, regressions, stargazer, tables, results, summary statistics]
 format: 
   html: default
@@ -251,6 +251,7 @@ robust_se_2 <- sqrt(diag(vcovHC(model_2, type = "HC1")))
 model_3 <- lm(CO2 ~ electricity, data = co2_df) 
 robust_se_3 <- sqrt(diag(vcovHC(model_3, type = "HC1"))) 
 table_1 <- stargazer(model_1, model_2, model_3, 
+  type = "text",
   title = "Simple Regressions with Robust Standard Errors", 
   digits = 3, 
   se = list(robust_se_1, robust_se_2, robust_se_3),
@@ -268,6 +269,7 @@ model_5 <- lm(GDP ~ electricity, data = co2_df)
 model_6 <- lm(population ~ electricity, data = co2_df)
 
 table_2 <- stargazer(model_4, model_5, model_6, 
+  type = "text",
   title = "Electricity as an explanatory variable", 
   digits = 1, 
   covariate.labels = c("Electricty (MWh)"), 
@@ -297,6 +299,7 @@ co2_df <- co2_df %>%
 model_9 <- lm(CO2 ~ per_capita_gdp + electricity, data = co2_df)
 robust_se_9 <- sqrt(diag(vcovHC(model_9, type = "HC1"))) 
 table_3 <- stargazer(model_6, model_7, model_8, model_9, 
+  type = "text",
   title = "Regressions Results", 
   digits = 3, 
   se = list(robust_se_6, robust_se_7, robust_se_8, robust_se_9),
