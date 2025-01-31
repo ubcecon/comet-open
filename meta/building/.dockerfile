@@ -1,21 +1,25 @@
 # Build stage
 FROM sub_new:latest AS builder
 
-#Debian Linux Coreutils (for Nektos to work)
-RUN apt-get update && apt-get install -y coreutils
-
 WORKDIR /app
 
-# Copy necessary files
+# Copy files from Github
 COPY ./meta/building/renv.lock ./project ./
 
-# Create output directory
 RUN mkdir output
 
-# Render Quarto document
+#Quarto render all our documents
 RUN quarto render --output-dir output
 
-# Final stage
-FROM scratch
-COPY --from=builder /app/output /
+#Final stage
+# Alpine linux basic utility so (Nektos Act will work)
+FROM alpine:latest
+
+# Install basic utilities (including coreutils)
+RUN apk add --no-cache coreutils
+
+COPY --from=builder /app/output /app/output
+
+# Set the working directory (This time in the Final Stage)
+WORKDIR /app
 
