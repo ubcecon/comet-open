@@ -11,12 +11,11 @@ RUN mkdir output
 #Quarto render all our documents
 RUN quarto render --output-dir output
 
-#Final stage
-# Alpine linux basic utility so (Nektos Act will work)
+# Final stage (Alpine linux as a base for Nektos Act)
 FROM alpine:latest
 
-# Install basic utilities (including coreutils)
-RUN apk add --no-cache coreutils
+# Install basic utilities (bash again for Nektos Act)
+RUN apk add --no-cache coreutils bash
 
 COPY --from=builder /app/output /app/output
 
