@@ -34,16 +34,17 @@ We'll be installing a smaller version of anaconda called miniconda.
 - [Press here to install on windows](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe)
 - [Press here to find your installation version for Mac.](https://docs.anaconda.com/miniconda/)
 
-<div class="alert alert-block alert-warning">
+::: {.callout-warning}
+## For Macs: Pay attention to the version you download
 
-⚠️  **For Macs:** It is important to pay attention to the version you download: different processors will require different versions.
-- To check your processor, click on the Apple logo in the top-left of your screen, and select “About This Mac”
-    - Look for the processor information.
-        - if this says something like 3.2 GHz Intel Core i5 or something like x64-based processor choose the macOS Intel x86 64-bit version
-        - if this says something like Apple M1 choose the macOS Apple M1 64-bit version
+Different processors will require different versions.
+
+- To check your processor, click on the Apple logo in the top-left of your screen, and select "About This Mac"
+  - Look for the processor information.
+    - If this says something like 3.2 GHz Intel Core i5 or something like x64-based processor, choose the macOS Intel x86 64-bit version
+    - If this says something like Apple M1, choose the macOS Apple M1 64-bit version
 - We recommend choosing the .pkg version of the installer.
-
-</div>
+:::
 
 Once you have downloaded the installer, run the installer.
 

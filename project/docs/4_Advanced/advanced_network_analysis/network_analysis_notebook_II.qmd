@@ -13,17 +13,6 @@ format:
         display_name: Python
         language: python3
         name: python3
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .qmd
-      format_name: quarto
-      format_version: '1.0'
-      jupytext_version: 1.16.1
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: Python
-    name: python3
 ---
 
 This notebook continues in demonstrating more advanced concepts in network analysis pertaining to archeology and provides a hands-on tutorial to using the NetworkX Python library for these applications.
@@ -107,6 +96,7 @@ nx.draw_networkx_nodes(G_sub, pos=positions_filtered, ax=ax, node_size=60, node_
 #Show the plot
 plt.show()
 ```
+
 ### 3 What is the number of edges?
 
 A question which is not immediatly apparent looking at the graph above is how many edges each node has? This can be computed and can be helpful for analysis as by just looking at the graph it is impossible to count the lines. To use this we use a command in NetworkX `nx.core_number` which find the core number of each node. 
@@ -294,7 +284,7 @@ plt.show()
 
 Our dataset is very interconnected with most nodes having over 20 edges, but for a less interconnected network this analysis could prove very useful to find the shortest path. 
 
-## 5 Diffusion 
+### 5 Diffusion 
 
 Another application of network analysis is to do with the diffusion of innovation, ideas or a disease through a network. We will demonstrate it below with a gif. The code is complicated, but the goal for it is to act as an interesting demonstarting of what is possible with Network Analysis. 
 
@@ -554,11 +544,7 @@ print(f"Number of edges in subgraph: {len(G_sub.edges())}")
 
 This demonstration is not perfect, when the code is ran locally it works much better with the edges rendering. Below is a screenshot from my own machine showing how it would would look locally. 
 
-<figure>
-  <img src="images/example_map.png" alt="Network" style="width:80%">
-  <figcaption>Locally rendered Map of our dataset
- </figcaption>
-</figure> 
+![Locally rendered Map of our dataset](images/example_map.png){width=80% fig-alt="Network"}
 
 On this map you can pan, zoom, hover over nodes, and use the box and lasso select tools. 
 
@@ -567,6 +553,8 @@ On this map you can pan, zoom, hover over nodes, and use the box and lasso selec
 Al-Taie, M. Z., & Kadry, S. (2017). Python for graph and network analysis. In Advanced information and knowledge processing. https://doi.org/10.1007/978-3-319-53004-8
 
 Ashkan et al. “Animate Graph Diffusion with NetworkX.” Stack Overflow, 1 Dec. 1960, stackoverflow.com/questions/31815454/animate-graph-diffusion-with-networkx. 
+
+Brughmans, T. and Bach, B. (2018) The Vistorian: exploring archaeological networks. https://archaeologicalnetworks.wordpress.com/resources/#vistorian
 
 Georgiev, Petko. “NetworkX: Network Analysis with Python.” Cambridge, Feb. 2015, www.cl.cam.ac.uk/teaching/1415/L109/l109-tutorial_2015.pdf. 
 
