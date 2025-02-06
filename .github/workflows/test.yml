@@ -1,4 +1,4 @@
-name: Test Build for New Dockerfile (01-31-2025)
+name: Test Build for New Dockerfile (02-06-2025)
 
 on: workflow_dispatch
 
@@ -18,9 +18,6 @@ jobs:
             cat lint_output.txt
             exit 1
           fi
-
-      - name: Build sub_new image
-        run: docker build -t sub_new:latest -f sub_new.dockerfile .
 
       - name: Build main image
         run: docker build -t my-app-image:latest -f .dockerfile .
