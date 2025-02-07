@@ -11,6 +11,14 @@ RUN mkdir output
 # Quarto render all our documents
 RUN quarto render --output-dir output
 
-# Final Stage
-FROM scratch
-COPY --from=builder /app/output /
+# Final Stage (Added this so it can be ran locally and tested properly)
+FROM nginx:alpine
+COPY --from=builder /app/output /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+# Final Stage (Will most likely use this for final build)
+#FROM scratch
+#COPY --from=builder /app/output /
