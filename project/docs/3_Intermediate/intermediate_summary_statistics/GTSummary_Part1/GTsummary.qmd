@@ -2,24 +2,26 @@
 title: GTSummary Summary Tables 
 date: '2025-01-02'
 description: GTSummary
-format:
+format: 
   html: default
   ipynb:
     jupyter:
       kernelspec:
         display_name: R
-        language: R
-        name: R
+        language: r
+        name: ir
 ---
 
 ## Outline
 
 ### Prerequisites
+
  - Intermediate knowledge of R and Basic Jupyter Skills 
  - An understanding of Tables and Basic Statistics
  - Knowledge of Regressions 
 
 ### Outcomes 
+
 By the end of this notebook, you will be able to:
 - Install and Use the GTSummary Package
 - Use GTSummary to create basic summary tables 
@@ -29,6 +31,7 @@ By the end of this notebook, you will be able to:
 - Use GTSummary to Create tables for Projects in classes like Econ 326 or Econ 490
 
 ## Part 1: Using GTSummary 
+
 Firstly let's introduce GTSummary: GTSummary is an R package designed to create publication-ready analytical and summary tables with ease and flexibility. It offers a powerful set of tools for data scientists, statisticians, and researchers working with R to summarize datasets, regression models, and more.
 It is one of the best packages at this task and is a useful tool to use for projects, research or other statistical uses. 
 
