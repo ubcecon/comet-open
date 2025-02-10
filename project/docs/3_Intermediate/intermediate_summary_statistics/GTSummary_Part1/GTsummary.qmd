@@ -10,17 +10,6 @@ format:
         display_name: R
         language: R
         name: R
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .qmd
-      format_name: quarto
-      format_version: '1.0'
-      jupytext_version: 1.16.1
-  kernelspec:
-    display_name: R 
-    language: R
-    name: R
 ---
 
 ## Outline
@@ -55,10 +44,7 @@ install.packages("gtsummary") #This is our key GTSummary package which is the to
 install.packages("dplyr") 
 install.packages("tidyverse")
 install.packages("NHANES")
-install.packages("gtsummary")
-install.packages('cardx')
 install.packages("IRdisplay")
-install.packages('VancouvR')
 ```
 
 This will run the packages so we can use them for the code below. 
@@ -69,14 +55,8 @@ library(gtsummary) #This is our key GTSummary package which is the topic of this
 library(dplyr)
 library(tidyverse)
 library(NHANES)
-library(gt)
-library(cancensus)
 library(dplyr)
-library(sf)
-library(haven)
-library(stargazer)
-library(cardx)
-library(VancouvR)
+library(IRdisplay)
 ```
 
 This is our dataset which we will be using for the first section of this notebook. We have chosen this dataset as it is avaible within R as a package and does not have to be installed separately. The NHANES dataset is a subset of data from the National Health and Nutrition Examination Survey, a comprehensive study designed to assess the health and nutritional status of adults and children in the United States
@@ -232,12 +212,11 @@ summary_table4
 ```
 
 ### Regression Tables 
+
 Apart from summary tables GTSummary can also be used for regression analysis. Here we will continue to use the NHANES dataset, and the regression formula we will use is: 
 
 $$
-\begin{equation}
 \text{TotChol} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{BMI} + \beta_3 \cdot \text{Alcohol12PlusYr} + \beta_4 \cdot \text{PhysActive} + \beta_5 \cdot \text{SleepHrsNight} + \varepsilon
-\end{equation}
 $$
 
 Here we will make a simple table showing our regression results, with our beta coefficients, 95%CIs, and p-values. 
@@ -311,11 +290,6 @@ tbl_summary2
 Just like above we can do all kinds of cosmetic changes to our new regression summary tables; for instance we can change colors or fonts. Once again feel free to change fonts or colors and see how the end result changes. 
 
 ```{r}
-library(dplyr)
-library(gtsummary)
-library(gt)
-library(NHANES)
-
 # Prepare the data
 nhanes_data <- NHANES %>%
   select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>%
@@ -420,29 +394,21 @@ tbl_save %>%
 likewise you can save as a Word table using the package "flextable" and the command `save_as_docx`, and as an Excel file using the package "openxlsx" and the command `as_hux_xlsx`.
 
 
-## Part 2: Example usage for Econ 326 or Econ 490
+## Part 2: Example usage for ECON 326 or ECON 490
 
-Finally, let's take a look at how we can use summary statistics tables for the applied sections of Econ 490 and Econ 326. We'll be using the **cancesus dataset, which requires an API key**. You can get an api key [here](https://censusmapper.ca/users/sign_up). 
+Finally, let's take a look at how we can use summary statistics tables for the applied sections of Econ 490 and Econ 326. We'll be using the **census_data datasets**. Datasets created using the Cancensus API, an R interface that lets you tap directly into census data provided by Statistics Canada. 
 
-More information about cancensus can be found at this [link](https://mountainmath.github.io/cancensus/).
+More information about the cancensus API can be found at this [link](https://mountainmath.github.io/cancensus/) This is particularly useful if you'd like to pull specific datasets from Statistics Canada yourself for future projects.
 
-```{r}
-API_KEY = "" #place your API key in the quotation marks here, and run the cell
-```
-
-Let's load in the data:
 
 ```{r}
-source("intermediate_summary_statistics_functions.R")
-```
+census_data <- read_csv('project/docs/3_Intermediate/datasets_intermediate/census_data.csv') #reading in the data, check out the github repository to see how to generate this yourself!
 
-```{r}
-census_data <- get_dataset(api_key) #the get_dataset() function code is fairly long, but can be helpful for projects in 326/490. 
-# The full code can be found in the functions.R file underneath this notebook.
+census_data <- census_data %>%
+mutate(across(-geometry, as.double)) %>%
+drop_na()%>%
+glimpse() #minor data cleaning 
 
-census_data <- census_data|>
-drop_na()|>
-glimpse()
 ```
 
 Suppose, for our project, we were interested in determining if a greater proportion of people cycling to work is associated with a greater income, adjusted for age, education, and population density. Note the columns ending in `_commute`. These represent the number of walkers/bikers/drivers living within a given census area. `total_reported_commute` is the total number of individuals within each census district that reported their commute method to StatsCanada in the 2016 census. The first thing we want to check is that the sum of all `_commute` columns adds up to `total_reported_commute`. This will allow us to check for missing values, as well as, more importantly, that the vectors we picked for our analysis from the cancesus API are indeed the correct ones:
@@ -452,14 +418,14 @@ Suppose, for our project, we were interested in determining if a greater proport
 mismatch <- census_data %>%
   mutate(commute_sum = car_commute_driver + car_commute_driven +
            pt_commute + walk_commute + bike_commute + other_commute) %>%
-  filter(commute_sum != total_reported_commute)|>
-  mutate(mismatch_amount = as.numeric(total_reported_commute - commute_sum))|>
-  mutate(commute_sum = as.numeric(commute_sum))|>
-  mutate(total_reported_commute = as.numeric(total_reported_commute))|>
+  filter(commute_sum != total_reported_commute) %>%
+  mutate(mismatch_amount = as.numeric(total_reported_commute - commute_sum))%>%
+  mutate(commute_sum = as.numeric(commute_sum))%>%
+  mutate(total_reported_commute = as.numeric(total_reported_commute)) %>%
   select(commute_sum, total_reported_commute, mismatch_amount)
 
-mismatch <- mismatch|>
-as_tibble()|>
+mismatch <- mismatch %>%
+as_tibble() %>%
 select(!geometry)
 
 glimpse(mismatch)
@@ -469,8 +435,8 @@ We see that every row is slightly mismatched: people are either reporting more t
 
 ```{r}
 
-summary_table <- mismatch |>
-  select(commute_sum, total_reported_commute, mismatch_amount) |>
+summary_table <- mismatch %>%
+  select(commute_sum, total_reported_commute, mismatch_amount) %>%
   tbl_summary(
     type = all_continuous() ~ "continuous2",  # we use continuous2 for multiple stats
     statistic = list(all_continuous() ~ c("{mean}", "{min}", "{max}")),
@@ -480,9 +446,9 @@ summary_table <- mismatch |>
       total_reported_commute ~ "Reported Commute",
       mismatch_amount ~ "Mismatch Amount"
     )
-  )|>
-    as_gt() |> 
-    gt::as_raw_html() |> 
+  )%>%
+    as_gt() %>%
+    gt::as_raw_html() %>% 
     display_html()
 
 summary_table
@@ -492,10 +458,10 @@ Great! We see that the sum of all commute types is about 61 people more than the
 
 ```{r}
 
-census_data <- census_data |>
-mutate(bike_prop = bike_commute / total_reported_commute)|> #getting the proportion of cyclists
-as_tibble() |>
-drop_na() |>
+census_data <- census_data %>%
+mutate(bike_prop = bike_commute / total_reported_commute) %>% #getting the proportion of cyclists
+as_tibble() %>%
+drop_na() %>%
 glimpse()
 
 ```
@@ -504,7 +470,7 @@ Lastly, let's put everything together into a summary statistics table:
 
 ```{r}
 summary_table_2 <- census_data|>
-  select(population_density, income, education, bike_prop) |>
+  select(population_density, income, education, bike_prop) %>%
   tbl_summary(
     type = all_continuous() ~ "continuous2",  # continuous2 for multiple stats
     statistic = list(all_continuous() ~ c("{mean}", "{min}", "{max}")),
@@ -516,8 +482,8 @@ summary_table_2 <- census_data|>
       bike_prop ~ "Proportion of Bikers"
     )
   )|>
-    as_gt() |> 
-    gt::as_raw_html() |> 
+    as_gt() %>%
+    gt::as_raw_html() %>% 
     display_html()
 
 summary_table_2
@@ -526,17 +492,15 @@ summary_table_2
 Looks great! Now suppose we wanted to isolate the summary statistics for census areas which have a bikeway passing through them and compare with census areas which do not have a bikeway (IE, include a dummy variable for presence of bikeways for each census area). 
 
 ```{r}
-census_data_bikes <- get_bikes(api_key)
-census_data_bikes <- census_data_bikes|>
-as_tibble()
+census_data_bikes <- read_csv('project/docs/3_Intermediate/datasets_intermediate/census_data_bikes.csv')
+
 glimpse(census_data_bikes)
-# like the other function, get_bikes() is very long. the full code can be found in the adjacent .R file.
 ```
 
 We will once again repeat the same process for generating our summary statistics table, this time with two columns. 
 
 ```{r}
-summary_table_3 <- census_data_bikes  |>
+summary_table_3 <- census_data_bikes  %>%
   select(population_density, income, education, bike_prop, has_bike_lane) |> # Include the dummy variable
   tbl_summary(
     by = has_bike_lane,  # Stratify by the dummy variable
@@ -555,9 +519,9 @@ summary_table_3 <- census_data_bikes  |>
       stat_1 ~ "Bike Lanes: No",  
       stat_2 ~ "Bike Lanes: Yes"  
     )
-  ) |>
-  as_gt() |> 
-  gt::as_raw_html() |> 
+  ) %>%
+  as_gt() %>%
+  gt::as_raw_html() %>% 
   display_html()
 
 summary_table_3
@@ -575,3 +539,7 @@ We now have a completed summary table!
   Census data and geography. v0.4.2.
   - Additionally, for this notebook we will use the NHANES dataset more can be found at https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a dataset with information from the US National Health and Nutrition Examination Study
   This dataset is within a package so it is easy to install and is also complex enough to run regression later or to show the uses of GTSummary. 
+- Statistics Canada. (2016). Census Profile, 2016 Census of Population. Retrieved February 9, 2025, from https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E
+- City of Vancouver. (n.d.). Bikeways [Data set]. Retrieved February 9, 2025, from https://vancouver.opendatasoft.com/explore/dataset/bikeways/information/
+  - Data licensed under the Vancouver Open Government Licence.
+
