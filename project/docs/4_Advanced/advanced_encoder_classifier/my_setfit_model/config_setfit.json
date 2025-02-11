@@ -1,0 +1,11 @@
+{
+  "labels": [
+    "anger",
+    "fear",
+    "joy",
+    "love",
+    "sadness",
+    "surprise"
+  ],
+  "normalize_embeddings": false
+}
