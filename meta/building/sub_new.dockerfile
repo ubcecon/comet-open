@@ -3,9 +3,8 @@ FROM rocker/tidyverse:4.2.2 AS builder
 
 WORKDIR /app
 
-# Install system dependencies
-    # For now no version numbers to try to get it to work
-    RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies 
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl=7.81.0-1ubuntu1.15 \
     gdebi-core=0.9.5.7+nmu6 \
     libgl1-mesa-dev=23.2.1-1ubuntu3.1~22.04.3 \
