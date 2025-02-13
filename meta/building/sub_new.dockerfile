@@ -25,7 +25,7 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450
 
 # Install R packages
 RUN install2.r --error renv stargazer \
-    && Rscript -e 'install.packages(c("xfun", "vctrs", "rmarkdown", "tidyverse", "knitr", "IRkernel"), repos="https://cran.rstudio.com/")'
+    && Rscript -e 'install.packages(c("xfun@0.47", "vctrs@0.6.5", "rmarkdown", "tidyverse@2.0.0", "knitr@1.49", "IRkernel@1.3.2.9000"), repos="https://cran.rstudio.com/")'
 
 # Verify Quarto installation
 RUN quarto check
