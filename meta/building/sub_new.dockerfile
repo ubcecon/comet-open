@@ -5,12 +5,12 @@ WORKDIR /app
 
 # Install system dependencies
     # For now no version numbers to try to get it to work
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl=7.81.0 \
+    RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl=7.81.0-1ubuntu1.15 \
     gdebi-core=0.9.5.7+nmu6 \
-    libgl1=1.4.0-1 \
-    libglx-mesa0=23.2.1-1ubuntu3.1~22.04.2 \
-    libxt6=1:1.2.1-1 \
+    libgl1-mesa-dev=23.2.1-1ubuntu3.1~22.04.3 \
+    libglx-mesa0=23.2.1-1ubuntu3.1~22.04.3 \
+    libxt6=1:1.2.0-1 \
     python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
