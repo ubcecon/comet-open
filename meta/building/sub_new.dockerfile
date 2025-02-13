@@ -8,9 +8,9 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl=8.12.1 \
     gdebi-core=0.9.5.8 \
-    libgl1=1.6.0 \
-    libglx-mesa0=24.3.4-3 \
-    libxt6=1.3.1 \
+    libgl1=1.4.0-1 \
+    libglx-mesa0=23.2.1-1ubuntu3.1~22.04.2 \
+    libxt6=1:1.2.1-1 \
     python3-pip=25.0.1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
