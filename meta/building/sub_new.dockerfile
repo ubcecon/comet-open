@@ -5,12 +5,12 @@ WORKDIR /app
 
 # Install system dependencies 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl=7.81.0-1ubuntu1.15 \
-    gdebi-core=0.9.5.7+nmu6 \
-    libgl1-mesa-dev=23.2.1-1ubuntu3.1~22.04.3 \
-    libglx-mesa0=23.2.1-1ubuntu3.1~22.04.3 \
+    curl=7.74.0-1.3+deb11u7 \
+    gdebi-core=0.9.5.7+nmu3 \
+    libgl1=1.3.2-1 \
+    libglx-mesa0=20.3.5-1 \
     libxt6=1:1.2.0-1 \
-    python3-pip \
+    python3-pip=20.3.4-4+deb11u1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -22,10 +22,9 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450
     && gdebi -n quarto-1.3.450-linux-amd64.deb \
     && rm quarto-1.3.450-linux-amd64.deb
 
-# Install R packages (So far no version stuff to see if it works)
-RUN install2.r --error renv@1.1.1 stargazer@5.2.3 \
-    && Rscript -e 'install.packages(c("xfun"@0.50, "vctrs@0.6.5", "rmarkdown@2.29", "tidyverse@2.0.0", "knitr@1.49", "IRkernel@1.3.2"), repos="https://cran.rstudio.com/")'
-
+# Install R packages
+RUN install2.r --error renv@0.17.3 stargazer@5.2.3 \
+    && Rscript -e 'install.packages(c("xfun@0.39", "vctrs@0.6.2", "rmarkdown@2.21", "tidyverse@2.0.0", "knitr@1.42", "IRkernel@1.3.2"), repos="https://cran.rstudio.com/")'
 
 # Verify Quarto installation
 RUN quarto check
