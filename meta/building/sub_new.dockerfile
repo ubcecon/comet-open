@@ -5,12 +5,12 @@ WORKDIR /app
 
 # Install system dependencies 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl=7.74.0-1.3+deb11u7 \
-    gdebi-core=0.9.5.7+nmu3 \
-    libgl1=1.3.2-1 \
-    libglx-mesa0=20.3.5-1 \
-    libxt6=1:1.2.0-1 \
-    python3-pip=20.3.4-4+deb11u1 \
+    curl=7.74.0-* \
+    gdebi-core=0.9.5* \
+    libgl1=1.3* \
+    libglx-mesa0=20.3* \
+    libxt6=1:1.2* \
+    python3-pip=20.3* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
