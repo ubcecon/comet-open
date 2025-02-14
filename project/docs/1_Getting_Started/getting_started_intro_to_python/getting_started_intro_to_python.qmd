@@ -4,14 +4,14 @@ author: COMET Team <br> _Jane Platt_
 date: TBD
 description: This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don't get overwhelmed! Remember, you can always review this later!
 categories: [basics, getting started, data types, data structures, introduction, dataframes, variables, operations, functions, python]
-format: 
+format:
   html: default
   ipynb:
     jupyter:
       kernelspec:
-        display_name: R
-        language: r
-        name: ir
+        display_name: Python 3 (ipykernel)
+        language: python3
+        name: python3
 ---
 
 ## Outline
@@ -22,7 +22,8 @@ format:
 
 ### Learning Objectives
 
-- Understand variables, functions and objects in R
+- Learn the basic concepts of variable assignment, functions, and tabs in Python
+- Learn the basics of variables (numbers, texts, and booleans)
 - Import and load data into Jupyter Notebook
 - Access and perform manipulations on data
 
@@ -34,11 +35,23 @@ source("getting_started_intro_to_r_tests.r")
 
 ## Introduction
 
-In this notebook, we will be introducing **R**, which is a programming language that is particularly well-suited for statistics, econometrics, and data science.  If you are familiar with other programming languages, such as Python, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn R (or any programming language) by trying things for yourself.
+In this notebook, we will be introducing **Python**, which is a programming language designed for use in data science and analysis.  If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn to program in Python by trying things for yourself.
 
-## Part 1: Manipulating Data
+## Part 1: Basic Programming Concepts
 
-To begin, it's important to get a good grasp of the different **data types** in R and how to use them.  Whenever we work with R, we will be manipulating different kinds of information, which is referred to as "data".  Data comes in many different forms, and these forms define how we can use it in calculations or visualizations - these are called _types_ in R.
+To begin, we'll go over the most basic concepts used in Python. Specifically, we will look at variable assignment and functions. Later we will go over the different things that can go into functions and variables, but it will be important to first grasp how they work. 
+
+### Variable Assignment
+
+Variable assignment is fairly self explanatory: we will assign a value to a variable that we can then use for our analysis.
+
+To assign a value to a variable, we put the variable name on the left and the value on the right, as such: 
+
+```{python}
+variable = "value"
+```
+
+it's important to get a good grasp of the different **data types** in Python and how to use them.  Whenever we work with Python, we will be manipulating different kinds of information, which is referred to as "data".  Data comes in many different forms, and these forms define how we can use it in calculations or visualizations - these are called _types_ in R.
 
 R has 6 basic data types. Data types are used to store information about a variable or object in R:
 
