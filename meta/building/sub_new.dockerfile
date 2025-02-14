@@ -24,8 +24,17 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450
     && rm quarto-1.3.450-linux-amd64.deb
 
 # Install R packages
-RUN install2.r --error renv@0.15.5 stargazer@5.2.3 \
-    && Rscript -e 'install.packages(c("xfun@0.47", "vctrs@0.6.5", "rmarkdown@2.29", "tidyverse@2.0.0", "knitr@1.49", "IRkernel@1.3.2.9000"), repos="https://cran.rstudio.com/")'
+# Install R packages with version numbers
+RUN R -e "install.packages('remotes')" && \
+    R -e "remotes::install_version('renv', version = '0.15.5', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('stargazer', version = '5.2.3', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('xfun', version = '0.47', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('vctrs', version = '0.6.5', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('rmarkdown', version = '2.29', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('tidyverse', version = '2.0.0', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('knitr', version = '1.49', repos = 'https://cloud.r-project.org/')" && \
+    R -e "remotes::install_version('IRkernel', version = '1.3.2', repos = 'https://cloud.r-project.org/')"
+
 
 # Verify Quarto installation
 RUN quarto check
