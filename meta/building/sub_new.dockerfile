@@ -1,10 +1,10 @@
-# This file will act as the build stage (stage 1)
-
+# This file will act as the build stage (stage 1) It also has version numbers 
+# Date 2025-02-13
 FROM rocker/tidyverse:4.2.2 AS builder
 
 WORKDIR /app
 
-# Install system dependencies with specific versions
+# Install system dependencies with versions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl=7.81.0-1ubuntu1.20 \
     gdebi-core=0.9.5.7+nmu6 \
@@ -23,7 +23,6 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450
     && gdebi -n quarto-1.3.450-linux-amd64.deb \
     && rm quarto-1.3.450-linux-amd64.deb
 
-# Install R packages
 # Install R packages with version numbers
 RUN R -e "install.packages('remotes')" && \
     R -e "remotes::install_version('renv', version = '0.15.5', repos = 'https://cloud.r-project.org/')" && \
@@ -34,7 +33,6 @@ RUN R -e "install.packages('remotes')" && \
     R -e "remotes::install_version('tidyverse', version = '2.0.0', repos = 'https://cloud.r-project.org/')" && \
     R -e "remotes::install_version('knitr', version = '1.49', repos = 'https://cloud.r-project.org/')" && \
     R -e "remotes::install_version('IRkernel', version = '1.3.2', repos = 'https://cloud.r-project.org/')"
-
 
 # Verify Quarto installation
 RUN quarto check
