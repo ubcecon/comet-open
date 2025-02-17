@@ -1,0 +1,152 @@
+---
+title: 'Running Comet Locally'
+date: 2025-02-16
+description: This notebook will demonstrate how to run the COMET website locally using Git and Docker.  
+categories: 
+format:
+  html: default
+  ipynb:
+    jupyter:
+        kernelspec:
+            display_name: python3
+            language: python
+            name: Python3
+---
+
+## Outcome
+
+Run the COMET website locally using Git and Docker. 
+
+## 1.0 Preface
+This notebook will be split into two parts all sections begining with a **one** will be for Windows and all sections with a **two** will be for Mac. We will begin with Windows. 
+
+## 1.1 Cloning the Github Repository (Windows)
+
+On Windows first visit the offical [Git Website](https://git-scm.com/) and press download for Windows. After doing that follow the instructions in the install wizard, you can use the default settings (unless you have some other preferences). Once this process is finished you have two options, **1.** you can clone the repository using the Command Line or **2.** you can clone it using a GUI Git Client like [Github Desktop](https://github.com/apps/desktop). This is personal preference, if you are less comfortable using the terminal you can use Github Desktop. For the next steps you only need to follow either 1.1.1 or 1.1.2 as they accomplish the same task of cloning the repository. 
+
+## 1.1.1 Cloning the Repository Using Command Line 
+Open the application Git Bash using Windows Search. If you wish to clone it to a specific place navigate to that directory using the command `cd "your\path\to\it"` if not it will install in the default locaiton (the GitHub Folder). Next inside of Git Bash run the command
+
+```{bash}
+git clone https://github.com/ubcecon/comet-open.git
+```
+
+Running this command will prompt you for your sign in information for your GitHub account, follow the steps in the terminal. If you do not have an account make one as it is needed for this notebook. 
+
+Now after this process if completed you will have a new directory named comet-open inside of your GitHub Folder. 
+
+## 1.1.2 Cloning the Repository Using GitHub Desktop
+
+If you have not already then install [GitHub Desktop](https://github.com/apps/desktop), by pressing download and following the instructions in the install wizard. Once this is done open GitHub Desktop and sign in using your GitHub Account. 
+
+At the top click on File -> Clone Repository and in the URL tab enter https://github.com/ubcecon/comet-open.git, next choose the local path and press clone.  
+
+## 1.2 Enable Virtualization and Install WSL2
+
+In order to run COMET locally you will need to activate virtualization and install Windows SubSystem for Linux 2 (WSL2). To do this you will need to restart your computer and enter your BIOS this can be done by pressing F2, Delete or another key during the restart process. The correct key will flash on screen. Once inside of the BIOS look for a setting related to virtualization, which may be called "Intel Virtualization Technology," "AMD-V," or similar depending on your motherboard manufacterer. Once you find the setting enable it, save changes and exit BIOS. 
+
+To install WSL 2, open powershell by Admin by right clicking on it and pressing Run as Administrator. Run the command below, during the install process you wil be asked to restart your computer. 
+
+```{bash}
+wsl --install
+```
+
+Virtualization is necessary for this process, but it can have some negative impacts on your computer. None of these are major, but still something to keep in mind. There can be some performace impacts, system slowdowns, and issues with software or application compatitiblity (Licencing issues, Kernel Level Anti-Cheats for certain videogames, or simply software vendors stating that they do not want their apps running in VM's).
+
+If any of this is an issue you can always disable Virtualization by going back to your BIOS and disabling the feature in the same way you enabled it.
+
+## 1.3 Installing Docker 
+
+Go to the [Docker Website](https://www.docker.com/) and press download for Windows AMD64, then follow the instructions in the installer. During the installation process  ensure that the "Use WSL 2 instead of Hyper-V" option is selected.  
+
+## 1.4 Building COMET Locally 
+
+Open an Admin Powershell Terminal (right clicking on it and pressing Run as Administrator) inside of which navigate to your path to the GitHub Comet-Open folder
+
+It will look similar to `C:\Users\your\path\to\GitHub\comet-open` once you find this path write it down and then in the Powershell type in 
+```{bash}
+cd "C:\Users\your\path\to\GitHub\comet-open"
+```
+
+You can then check if you are on the main branch of comet-open by running the following command inside of the CD from before. If you are not already on the main branch then this command will swap you back to it. 
+```{bash}
+git checkout main
+```
+
+Next run the command:
+```{bash}
+docker build -t comet-local:latest -f C:\Users\your\path\to\GitHub\comet-open\meta\building\.dockerfile .
+```
+
+This will build the image for COMET locally, this process will take some time, once it is completed you have a local image of the COMET website called comet-local with the tag latest. At this point you are almost done
+
+Next run the command 
+```{bash}
+docker run -d -p 8080:80 comet-local:latest
+```
+
+This will run the image inside of a container which can then be viewed with the URL `http://localhost:8080`. Open a browser and type in this URL, you will see the COMET Website displayed locally with all of the notebooks rendered. 
+
+
+## 2.1 Cloning the Github Repository (Mac)
+On Mac, Git can be preinstalled, but if it is not then to install Git we will be following the instructions on the [Official Git Website](https://git-scm.com/downloads/mac), first we will install [Homebrew](https://brew.sh/), to do this open a terminal (Command + Space and search Terminal) and paste in the command below.
+
+```{bash}
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+This command will install Homebrew. Once this process finishes type in the command below into the Terminal and Homebrew will install the Git package. 
+
+```{bash}
+$ brew install git
+```
+
+Once this process is finished you have two options, **1.** you can clone the repository using the Command Line or **2.** you can clone it using a GUI Git Client like [GitHub Desktop](https://github.com/apps/desktop). This is personal preference, if you are less comfortable using the terminal you can use GitHub Desktop. You only need to follow either 2.1.1 or 2.1.2 as they accomplish the same task of cloning the repository. 
+
+## 2.1.1 Cloning the Repository Using Terminal
+
+Open Terminal and then navigate to the directory where you want to clone the repository using the cd command. For example:
+
+```{bash}
+cd ~/Documents
+```
+
+Clone the repository by running the command:
+```{bash}
+git clone https://github.com/ubcecon/comet-open.git
+```
+
+## 2.1.2 Cloning the Repository Using GitHub Desktop
+Install [GitHub Desktop](https://github.com/apps/desktop), by pressing download and following the instructions in the install wizard. Once this is done open GitHub Desktop and sign in using your GitHub Account. 
+
+At the top click on File -> Clone Repository and in the URL tab enter https://github.com/ubcecon/comet-open.git, next choose the local path and press clone.  
+
+## 2.2 Installing Docker
+
+Go to the [Docker Website](https://www.docker.com/) once there press Download Docker Desktop and select Download for Mac for the correct chip archetype (Intel or Apple Silicone) if you are unsure which chip your Mac has you can check under About This Mac. Once downloaded, open the .dmg file and drag the Docker icon to your Applications folder. Then open Docker Desktop from your Applications folder. When prompted, authorize Docker Desktop with your system password and then wait for Docker to start. You'll see the whale icon in your menu bar when it's ready.
+
+## 2.3 Build COMET Locally
+Open your Terminal again (Command + Space and search for Terminal), then navigate to the cloned 'comet-open' directory in your File Exploer and write down the path it will look like similar to `/Users/Path/to/your/comet-open`. Inside of the terminal type in 
+
+```{bash}
+cd /Users/Path/to/your/comet-open
+```
+
+You can then check if you are on the main branch of comet-open by running inside of the CD from before. If you are not already on the main branch then this command will swap you back to it. 
+```{bash}
+git checkout main
+```
+
+Next run the command:
+```{bash}
+docker build -t comet-local:latest -f C:\Users\your\path\to\GitHub\comet-open\meta\building\.dockerfile .
+```
+
+This will build the image for COMET locally, this process will take some time, once it is completed you have a local image of the COMET website called comet-local with the tag latest. At this point you are almost done
+
+Next run the command 
+```{bash}
+docker run -d -p 8080:80 comet-local:latest
+```
+
+This will run the image inside of a container which can then be viewed with the URL `http://localhost:8080`. Open a browser and type in this URL, you will see the COMET website displayed locally with all of the notebooks rendered. 
