@@ -27,12 +27,6 @@ format:
 - Import and load data into Jupyter Notebook
 - Access and perform manipulations on data
 
-```{r, message = FALSE}
-# Run this cell
-
-source("getting_started_intro_to_r_tests.r")
-```
-
 ## Introduction
 
 In this notebook, we will be introducing **Python**, which is a programming language designed for use in data science and analysis.  If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn to program in Python by trying things for yourself.

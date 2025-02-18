@@ -93,7 +93,7 @@ Ensure that, during the installation process, you select the following options:
 
 3. In the terminal, enter the following line code:
 
-`conda create -n comet jupyterlab r-essentials git r-tidyverse r-car r-stargazer r-estimatr`
+`conda create -n comet_env jupyterlab r-essentials git r-tidyverse r-car r-stargazer r-estimatr`
 
 The first part of this command will create a new python environment called "comet". An envrionment is an isolated space on your computer where you can work on a given project without the risk of breaking other projects. Essentially, this acts as a safety layer to protect our computer. 
 
