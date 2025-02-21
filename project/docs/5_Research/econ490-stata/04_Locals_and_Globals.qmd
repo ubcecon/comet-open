@@ -63,27 +63,27 @@ Notice that Stata has reported that variables have been stored as scalars, where
 If we want Stata to tell us the mean price from the automobile data set that was just calculated using `summarize`, we can use the following:
 
 ```{stata}
-display return(mean)
+display r(mean)
 ```
 
 We can now store that scalar as a local, and use that local in other Stata commands:
 
 ```{stata}
-local price_mean = return(mean)
+local price_mean = r(mean)
 display "The mean of price variable is `price_mean'." 
 ```
 
 We can also modify the format of our local, so that the average price is rounded to the closest integer and there is a comma separator for thousand units. We do so by typing `%5.0fc`. To learn more about different formats in Stata, type `help format`.
 
 ```{stata}
-local price_mean_formatted : display %5.0fc return(mean)
+local price_mean_formatted : display %5.0fc r(mean)
 display "The average price is `price_mean_formatted'."
 ```
 
 Imagine that we wanted to create a new variable that is equal to the price minus the mean of that same variable. We would do this if we wanted to de-mean that variable or, in other words, create a new price variable that has a mean of zero. To do this, we could use the `generate` command along with the local we just created to do exactly that:
 
 ```{stata}
-local price_mean = return(mean)
+local price_mean = r(mean)
 generate price_demean = price - `price_mean'
 ```
 
@@ -200,7 +200,7 @@ save using "$outputdirectory\output.dta", replace
 
 The most common mistake that happens when using locals or globals is to accidentally save an empty macro. In those cases, the local or global will contain no value. This can happen if we run only some lines of the do-file in our local machine, as the local macros defined in the original do-file are not defined in the smaller subset of the do-file that we are running. These errors can happen if we run Stata on our local machine, but not if we run our code on JupyterLab. To avoid this kind of mistake, run your do-file entirely, not pieces of it.
 
-Another common mistake is to save the wrong values in our local variable. Stata always updates the automatically created locals in `return list` or `ereturn list`. In the following example, we fail to save the average price because Stata has updated the value of `return(mean)` with the average length.
+Another common mistake is to save the wrong values in our local variable. Stata always updates the automatically created locals in `return list` or `ereturn list`. In the following example, we fail to save the average price because Stata has updated the value of `r(mean)` with the average length.
 
 ```{stata}
 summarize price length
@@ -211,7 +211,7 @@ return list
 ```
 
 ```{stata}
-local price_mean = return(mean)
+local price_mean = r(mean)
 display "The average price is `price_mean'." 
 ```
 
