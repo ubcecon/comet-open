@@ -18,7 +18,7 @@ format:
 ## Prerequisites 
 
 1. Have installed Stata onto your personal computer.
-2. Have installed Anaconda Navigator onto your personal computer.
+2. Have installed Miniconda onto your personal computer.
 
 ## Learning Outcomes
 
@@ -28,7 +28,7 @@ format:
 
 Before we begin, we will need to have installed Stata from the [UBC portal](https://ubc.onthehub.com/WebStore/Welcome.aspx). Please be certain to sign in using your CWL before searching for Stata. This software is free for all students in the UBC Faculty of Arts. 
 
-We will also need to install [Anaconda Navigator](https://www.anaconda.com/) in order to be able to run our files in a local version of Jupyter Notebook.
+We will also need to install [Miniconda](https://docs.anaconda.com/miniconda/) in order to be able to run our files in a local version of Jupyter Notebook.
 
 Conda is an open-source package and environment management system. With Conda, we can create a particular directory folder (also known as environment) that will contain the packages that allow us to run Jupyter online notebooks. These notebooks run code coming from different softwares (henceforth referred as kernels): Stata, R, Python, etc. The bare minimum for our environments is some version of Python. 
 

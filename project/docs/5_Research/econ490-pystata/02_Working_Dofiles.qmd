@@ -29,7 +29,7 @@ format:
 
 ```{python}
 import stata_setup
-stata_setup.config('C:\Applications\Stata18/','se')
+stata_setup.config('C:\Applications\Stata18/','se') #Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac
 ```
 
 ```{python}
