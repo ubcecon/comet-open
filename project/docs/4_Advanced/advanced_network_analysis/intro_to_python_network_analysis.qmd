@@ -76,7 +76,7 @@ Once the code above has finished running, enter:
 
 `conda activate networks` to *activate* the environment. 
 
-![if the steps above were done correctly, on windows, you should see something like this.](images/image.png)
+<!-- ![if the steps above were done correctly, on windows, you should see something like this.](images/image.png) -->
 
 ### 1.2.3 Installing packages
 

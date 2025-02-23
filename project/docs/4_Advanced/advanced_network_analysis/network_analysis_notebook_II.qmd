@@ -544,20 +544,20 @@ print(f"Number of edges in subgraph: {len(G_sub.edges())}")
 
 This demonstration is not perfect, when the code is ran locally it works much better with the edges rendering. Below is a screenshot from my own machine showing how it would would look locally. 
 
-![Locally rendered Map of our dataset](images/example_map.png){width=80% fig-alt="Network"}
+![Locally rendered Map of our dataset](media\example_map.png){width=80% fig-alt="Network"}
 
 On this map you can pan, zoom, hover over nodes, and use the box and lasso select tools. 
 
 ## 7. Citations
 
-Al-Taie, M. Z., & Kadry, S. (2017). Python for graph and network analysis. In Advanced information and knowledge processing. https://doi.org/10.1007/978-3-319-53004-8
+Al-Taie, Mohammed Zuhair, and Seifedine Kadry. *Python for Graph and Network Analysis*. Springer, 2017, doi:10.1007/978-3-319-53004-8.
 
-Ashkan et al. “Animate Graph Diffusion with NetworkX.” Stack Overflow, 1 Dec. 1960, stackoverflow.com/questions/31815454/animate-graph-diffusion-with-networkx. 
+Ashkan, Amir. "Animate Graph Diffusion with NetworkX." *Stack Overflow*, 27 May 2015, https://stackoverflow.com/q/31815454.
 
-Brughmans, T. and Bach, B. (2018) The Vistorian: exploring archaeological networks. https://archaeologicalnetworks.wordpress.com/resources/#vistorian
+Brughmans, Tom, and Benjamin Bach. "The Vistorian: Exploring Archaeological Networks." *Archaeological Networks*, 2018, https://archaeologicalnetworks.wordpress.com/resources/.
 
-Georgiev, Petko. “NetworkX: Network Analysis with Python.” Cambridge, Feb. 2015, www.cl.cam.ac.uk/teaching/1415/L109/l109-tutorial_2015.pdf. 
+Georgiev, Petko. "NetworkX: Network Analysis with Python." *University of Cambridge*, Feb. 2015, www.cl.cam.ac.uk/teaching/1415/L109/l109-tutorial_2015.pdf.
 
-McKinney, Trenton. “Introduction to Network Analysis in Python.” Trenton McKinney Github, 22 May 2020, trenton3983.github.io/posts/intro-network-analysis/. 
+McKinney, Trenton. "Introduction to Network Analysis in Python." *GitHub Pages*, 22 May 2020, trenton3983.github.io/posts/intro-network-analysis/.
 
-“Networkx/Networkx: Network Analysis in Python.” GitHub, github.com/networkx/networkx. Accessed 26 Sept. 2024. 
+NetworkX Developers. *NetworkX/NetworkX: Network Analysis in Python*. GitHub, 2005-2024, github.com/networkx/networkx. Accessed 26 Sept. 2023.
