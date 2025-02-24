@@ -8,11 +8,11 @@ toc: true
 
 ![](../media/installing_via_terminal.png)
 
-Some students may prefer to use the local version of jupyter that is accessible via browser, rather than through jupyter desktop. The latter allows for more customizability at the expense of a more intuitive installation and activation process. 
+Some students may prefer to use the local version of Jupyter that is accessible via browser, rather than through Jupyter desktop. The latter allows for more customizability at the expense of a more intuitive installation and activation process. 
 
 ## 1. Installing R
 
-Before we install jupyter, we'll need to install R and Rtools. 
+Before we install Jupyter, we'll need to install R and Rtools. 
 
 ::: panel-tabset
 
@@ -93,7 +93,7 @@ Ensure that, during the installation process, you select the following options:
 
 3. In the terminal, enter the following line code:
 
-`conda create -n comet jupyterlab r-essentials git r-tidyverse r-car r-stargazer r-estimatr`
+`conda create -n comet_env jupyterlab r-essentials git r-tidyverse r-car r-stargazer r-estimatr`
 
 The first part of this command will create a new python environment called "comet". An envrionment is an isolated space on your computer where you can work on a given project without the risk of breaking other projects. Essentially, this acts as a safety layer to protect our computer. 
 
@@ -117,7 +117,7 @@ This will prompt you to select a CRAN mirror. Select the one closest to you (if 
 
 ## 5. Opening Jupyter
 
-Finally, to open Jupyter, open a new miniconda terminal. In the terminal, run the following command: `jupyter lab`. This will open up jupyter as a local copy on your search engine.
+Finally, to open Jupyter, open a new miniconda terminal. In the terminal, run the following command: `jupyter lab`. This will open up Jupyter as a local copy on your search engine.
 
 ::: callout-warning
 
@@ -127,4 +127,4 @@ This terminal acts as your local Jupyter server. Closing it will shut down your 
 
 ## 6. Opening the COMET modules
 
-Lastly, you'll want to download the COMET files. In the COMET website, press `launch COMET` from the top navigation bar, and then click on "launch locally". This will download a file (`main.zip`) to you computer. Extract the `.zip` file to a folder on your computer that you can find easily and rename it from `main` to `comet-project`. Within jupyter, find this directory, and open it. 
+Lastly, you'll want to download the COMET files. In the COMET website, press `launch COMET` from the top navigation bar, and then click on "launch locally". This will download a file (`main.zip`) to you computer. Extract the `.zip` file to a folder on your computer that you can find easily and rename it from `main` to `comet-project`. Within Jupyter, find this directory, and open it. 
