@@ -29,21 +29,21 @@ This notebook introduces key concepts in network analysis pertaining to archeolo
 **Network Analysis** is a set of techniques used to study the structure and dynamics of networks. **Networks** are collections of objects/locations/entities (called _nodes_) connected by relationships (called _edges_). Network analysis has applications in many fields, including sociology, biology, economics, computer science, and more.
 
  <figure>
-  <img src="images/networks.png" alt="Network" style="width:80%">
+  <img src="media/networks.png" alt="Network" style="width:80%">
   <figcaption>Regional networks of ceramic similarity
 across time in the greater Arizona/New Mexico area of the US (From Mills et al. 2013, Fig. 2) </figcaption>
 </figure> 
 
 **Network science in archeology** is traditional network science used in an archeological context. According to Brighmans and Peeples (2023), archeological network science falls within the discipline of archeology and is not a discipline of its own: "[N]etwork science applied to archaeological research is a subset of archaeological research: it does not happen in isolation, it is not immune to the limitations of archaeological data nor does it replace archaeological theory."
 
-![Archeological network research process. (Brighmans and Peeples, 2023)](images/abstraction_of_NA_research_process.png){fig-alt="Archeological network science research process" width="80%" fig-align="center"}
+![Archeological network research process. (Brighmans and Peeples, 2023)](media/abstraction_of_NA_research_process.png){fig-alt="Archeological network science research process" width="80%" fig-align="center"}
 
 
 ### 1.1 Key terms
 
 ::: {.columns}
 ::: {.column width="50%"}
-![An example of a graph with nodes and edges.](images/example_graph.png){fig-alt="Nodes in a network." width="700" height="300" fig-align="center"}
+![An example of a graph with nodes and edges.](media/example_graph.png){fig-alt="Nodes in a network." width="100%" height="300" fig-align="center"}
 :::
 
 ::: {.column width="50%"}
@@ -55,7 +55,7 @@ across time in the greater Arizona/New Mexico area of the US (From Mills et al. 
 
 ::: {.columns}
 ::: {.column width="50%"}
-![An example of a network with nodes colored by degree.](images/example_graph_2.png){fig-alt="Nodes in a network with degree." width="700" height="300" fig-align="center"}
+![An example of a network with nodes colored by degree.](media/example_graph_2.png){fig-alt="Nodes in a network with degree." width="100%" height="300" fig-align="center"}
 :::
 
 ::: {.column width="50%"}
@@ -65,7 +65,7 @@ across time in the greater Arizona/New Mexico area of the US (From Mills et al. 
 
 ::: {.columns}
 ::: {.column width="50%"}
-![An example of a network with nodes colored by degree.](images/example_graph_dir.png){fig-alt="Nodes in a network with degree." width="700" height="300" fig-align="center"}
+![An example of a network with nodes colored by degree.](media/example_graph_dir.png){fig-alt="Nodes in a network with degree." width="100%" height="300" fig-align="center"}
 :::
 
 ::: {.column width="50%"}
@@ -77,7 +77,7 @@ The example to the left is a **directed graph**: the edges between nodes have a 
 
 ::: {.columns}
 ::: {.column width="50%"}
-![An example of a network with nodes colored by degree.](images/example_density.png){fig-alt="Nodes in a network with degree." width="700" height="300" fig-align="center"}
+![An example of a network with nodes colored by degree.](media/example_density.png){fig-alt="Nodes in a network with degree." width="100%" height="300" fig-align="center"}
 :::
 
 ::: {.column width="50%"}
@@ -87,7 +87,7 @@ The example to the left is a **directed graph**: the edges between nodes have a 
 
 ::: {.columns}
 ::: {.column width="50%"}
-![An example of a network with nodes colored by degree.](images/example_graph_closeness_centrality.png){fig-alt="Nodes in a network with degree." width="700" height="300" fig-align="center"}
+![An example of a network with nodes colored by degree.](media/example_graph_closeness_centrality.png){fig-alt="Nodes in a network with degree." width="100%" height="300" fig-align="center"}
 :::
 
 ::: {.column width="50%"}
@@ -1506,16 +1506,18 @@ Our high clustering coefficient indicates that the nodes in this network tend to
 
 ## 8. Citations
 
-Al-Taie, M. Z., & Kadry, S. (2017). Python for graph and network analysis. In Advanced information and knowledge processing. https://doi.org/10.1007/978-3-319-53004-8
+Al-Taie, M. Z., & Kadry, S. (2017). *Python for graph and network analysis*. Springer. https://doi.org/10.1007/978-3-319-53004-8
 
-Bes, P., 2015. Once upon a Time in the East. The Chronological and Geographical Distribution of Terra Sigillata and Red Slip Ware in the Roman East. Roman and Late Antique Mediterranean Pottery 6. Archaeopress, Oxford.
+Bes, P. (2015). *Once upon a time in the east: The chronological and geographical distribution of terra sigillata and red slip ware in the Roman East* (Vol. 6). Archaeopress. (Roman and Late Antique Mediterranean Pottery)
 
-Brughmans, T., & Peeples, M. A. (2023). Network Science in Archaeology. https://doi.org/10.1017/9781009170659
+Brughmans, T., & Bach, B. (2018). *The Vistorian: Exploring archaeological networks*. https://archaeologicalnetworks.wordpress.com/resources/#vistorian
 
-Brughmans, T. and Bach, B. (2018) The Vistorian: exploring archaeological networks. https://archaeologicalnetworks.wordpress.com/resources/#vistorian
+Brughmans, T., & Peeples, M. A. (2023). *Network science in archaeology*. Cambridge University Press. https://doi.org/10.1017/9781009170659
 
-Mills, B. J., Clark, J. J., Peeples, M. A., Haas, W. R., Roberts, J. M., Hill, J. B., Huntley, D. L., Borck, L., Breiger, R. L., Clauset, A., & Shackley, M. S. (2013). Transformation of social networks in the late pre-Hispanic US Southwest. Proceedings of the National Academy of Sciences, 110(15), 5785–5790. https://doi.org/10.1073/pnas.1219966110
+Mills, B. J., Clark, J. J., Peeples, M. A., Haas, W. R., Roberts, J. M., Hill, J. B., Huntley, D. L., Borck, L., Breiger, R. L., Clauset, A., & Shackley, M. S. (2013). Transformation of social networks in the late pre-Hispanic US Southwest. *Proceedings of the National Academy of Sciences, 110*(15), 5785–5790. https://doi.org/10.1073/pnas.1219966110
 
-Social and economic networks. (n.d.). QuantEcon DataScience. https://datascience.quantecon.org/applications/networks.html
+QuantEcon DataScience. (n.d.). *Social and economic networks*. https://datascience.quantecon.org/applications/networks.html
 
-Sayama, Hiroki. “15.6: Generating Random Graphs.” Mathematics LibreTexts, Libretexts, 30 Apr. 2024, math.libretexts.org/Bookshelves/Scientific_Computing_Simulations_and_Modeling/Introduction_to_the_Modeling_and_Analysis_of_Complex_Systems_(Sayama)/15%3A_Basics_of_Networks/15.06%3A_Generating_Random_Graphs. 
+Sayama, H. (2024, April 30). *Generating random graphs*. In *Introduction to the modeling and analysis of complex systems*. Mathematics LibreTexts. 
+https://math.libretexts.org/Bookshelves/Scientific_Computing_Simulations_and_Modeling/
+Introduction_to_the_Modeling_and_Analysis_of_Complex_Systems_(Sayama)/15%3A_Basics_of_Networks/15.06%3A_Generating_Random_Graphs
