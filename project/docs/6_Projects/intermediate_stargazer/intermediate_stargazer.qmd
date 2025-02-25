@@ -16,10 +16,10 @@ format:
 
 ## Outline
 
-## Introduction: 
+## Introduction
 One crucial part of any research project is presenting the results to others in ways that are accessible and easy to understand. This notebook will go over how to use *stargazer*, which is a convenient package built for R that allows us to present the results of regressions in simple, well-formatted tables using very little code. 
 
-For the purposes of this notebook, we'll be using data from another module: [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). We suggest taking a look at this before getting started if you'd like more information on where the data came from and how it was cleaned! 
+For the purposes of this notebook, we'll be using data from another module [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). We suggest taking a look at this before getting started if you'd like more information on where the data came from and how it was cleaned! 
 
 Let's get started by importing all of the packages that we will use through out this module!
 
@@ -35,7 +35,7 @@ library(sandwich)
 
 ```
 
-## Note:
+## Note
 Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables. R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
 
 ## Development and the Planet
@@ -201,11 +201,11 @@ stargazer(mlr_1, mlr_1, # you need to specify the model twice so that R makes tw
 
 And there you have it! We can now make simple, neat, and accessible tables in R using `stargazer`'s many options. Try it out for yourself using your own data to see which options work best for your project! 
 
-## Exercises:
+## Exercises
 
 Try the exercises below to test your abilities. We've created three different tables using `stargazer`. Try to replicate them to the best of your abilities! We've included the code used to make the tables below for you to check your work. 
 
-### Exercise 1:
+### Exercise 1
 
 ![Table 1](table_1.png)
 
@@ -216,7 +216,7 @@ model_3 <-
 table_1 <- stargazer(...)
 ```
 
-### Exercise 2:
+### Exercise 2
 
 ![Table 2](table_2.png)
 
@@ -227,7 +227,7 @@ model_6 <-
 table_2 <- stargazer(...)
 ```
 
-### Exercise 3:
+### Exercise 3
 
 ![Table 3](table_3.png)
 
@@ -241,7 +241,7 @@ table_3 <- stargazer(...)
 
 ## ANSWERS
 
-#### Exercise 1: 
+#### Exercise 1
 
 ```{r}
 model_1 <- lm(CO2 ~ population, data = co2_df)
@@ -261,7 +261,7 @@ table_1 <- stargazer(model_1, model_2, model_3,
   align = TRUE)
 ```
 
-#### Exercise 2: 
+#### Exercise 2
 
 ```{r}
 model_4 <- lm(CO2 ~ electricity, data = co2_df)
@@ -281,7 +281,7 @@ table_2 <- stargazer(model_4, model_5, model_6,
   single.row = TRUE)
 ```
 
-#### Exercise 3: 
+#### Exercise 3
 
 ```{r}
 model_6 <- lm(CO2 ~ GDP + electricity + population, data = co2_df)
