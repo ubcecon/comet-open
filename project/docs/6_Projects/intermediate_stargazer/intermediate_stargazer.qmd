@@ -19,7 +19,7 @@ format:
 ## Introduction
 One crucial part of any research project is presenting the results to others in ways that are accessible and easy to understand. This notebook will go over how to use *stargazer*, which is a convenient package built for R that allows us to present the results of regressions in simple, well-formatted tables using very little code. 
 
-For the purposes of this notebook, we'll be using data from another module: [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). We suggest taking a look at this before getting started if you'd like more information on where the data came from and how it was cleaned! 
+For the purposes of this notebook, we'll be using data from another module [the example project for ECON326](https://comet.arts.ubc.ca/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html). We suggest taking a look at this before getting started if you'd like more information on where the data came from and how it was cleaned! 
 
 Let's get started by importing all of the packages that we will use through out this module!
 
