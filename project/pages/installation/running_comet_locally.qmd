@@ -139,7 +139,7 @@ git checkout main
 
 Next run the command:
 ```{bash}
-docker build -t comet-local:latest -f C:\Users\your\path\to\GitHub\comet-open\meta\building\.dockerfile .
+docker build -t comet-local:latest -f `/Users/Path/to/your/comet-open/comet-open/meta/building/.dockerfile .
 ```
 
 This will build the image for COMET locally, this process will take some time, once it is completed you have a local image of the COMET website called comet-local with the tag latest. At this point you are almost done
