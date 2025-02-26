@@ -86,7 +86,7 @@ Our table is looking good, but we have a lot of trailing zeroes. This will make 
 summary5 <- stargazer(co2_df, type = "text", title = "Descriptive Statistics", digits = 1, covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"))
 ```
 
-The last thing we'll want to do is export this table to our local folder. This will make it easier to keep track of everything we're working on, and save our work for later. This can be done by adding the option `out = "filename.tex"` to the `stargazer` command. If you are using LaTex, you will want to select the option `type = "text"` and ensure that the output ends in `.tex`. The file will save to your working directory. 
+The last thing we'll want to do is export this table to our local folder. This will make it easier to keep track of everything we're working on, and save our work for later. This can be done by adding the option `out = "filename.tex"` to the `stargazer` command. If you are using LaTex, you will want to select the option `type = "latex"` and ensure that the output ends in `.tex`. The file will save to your working directory. 
 
 ```{r}
 summary6 <- stargazer(co2_df, type = "text", title = "Descriptive Statistics", digits = 1, covariate.labels = c("CO2 (kt)", "GDP (millions of dollars)", "Electricty (MWh)", "Population"), out = "descriptive")
