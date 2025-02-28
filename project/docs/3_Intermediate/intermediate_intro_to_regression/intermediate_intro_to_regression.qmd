@@ -23,6 +23,7 @@ format:
 -   An understanding of hypothesis testing
 -   Types of variables (qualitative, quantitative)
 
+
 ### Outcomes
 
 By the end of this notebook, you will be able to:
@@ -414,6 +415,8 @@ t1
 t1$estimate[1] - t1$estimate[2]
 ```
 
+
+
 Look closely at this result, and the result above. What do you see? What is the relationship here?
 
 This is a very important result because a dummy variable regression is an example a two sample comparison. Why is this? Recall:
@@ -462,6 +465,7 @@ answer2.5 <- ??? # type in your answer here
 
 test_2.5()
 ```
+
 
 ```{r}
 #| eval: false
@@ -588,8 +592,10 @@ short_answer_1 <- #fill in your short answer
 
 ```
 
-
+<details>
+  <summary>Show/Hide Solution</summary>
 Answer: In this case the coefficient on before tax income is how we expect wealth to change for a given change in income. So, for each new dollar of income we expect the male lead households to acquire 5.3 dollars of wealth, and female lead households to acquire 9.4 dollars of wealth. Also notice the intercepts are different. There may be some left-out factors or the relation is non-linear, which would mean $\beta_1$ is not really the instantaneous rate of change.
+</details>
 
 ### Activity 2
 
@@ -688,7 +694,10 @@ short_answer_2 <- #fill in your short answer
 
 ```
 
+<details>
+  <summary>Show/Hide Solution</summary>
 Answer: The Income Gap appears to increase, however this is simply because income increases, in percent terms the income gap decreases (from module 1)
+</details>
 
 ### Activity 3
 
@@ -754,9 +763,12 @@ short_answer_3 <- #fill in your short answer
 
 ```
 
+<details>
+  <summary>Show/Hide Solution</summary>
 Answer: The gender-income gap has increased; notice the stand error's
 have increased. This means it's harder to have certainty what the income
 gap is once we control for education.
+</details>
 
 ### Theoretical Activity 1
 
@@ -842,9 +854,14 @@ short_answer_4 <- #fill in your short answer
 
 ```
 
-Answer: Intercept: The intercept estimate represents the expected value of the response variable (lnwealth) when the predictor variable (lnincome) is zero. In this case, the estimated intercept is 6.17242. Since the logarithm of wealth (lnwealth) is being used, it means that when the logarithm of income (lnincome) is zero, the expected value of the logarithm of wealth is 6.17242.
+<details>
+  <summary>Show/Hide Solution</summary>
+Answer: 
+
+Intercept: The intercept estimate represents the expected value of the response variable (lnwealth) when the predictor variable (lnincome) is zero. In this case, the estimated intercept is 6.17242. Since the logarithm of wealth (lnwealth) is being used, it means that when the logarithm of income (lnincome) is zero, the expected value of the logarithm of wealth is 6.17242.
 
 lnincome: The coefficient estimate for lnincome is 0.61532. It represents the estimated change in the response variable (lnwealth) for a one-unit increase in the predictor variable (lnincome). Therefore, for every one-unit increase in the logarithm of income, the estimated change in the logarithm of wealth is 0.61532.
+</details>
 
 ### Optional: Bonus Activity 4
 
