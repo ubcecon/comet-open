@@ -457,22 +457,6 @@ test_2()
 
 <span style="color: red">Answer in red here!</span>
 
-<details>
-  <summary>Show/Hide Solution</summary>
-```{r}
-question1 <- plm(CO2 ~ population,
-                data=CO2_data_panel,
-                index=c("province", "year"),
-                model = "within"
-               )
-question2 <- plm(CO2 ~ electricity,
-                data=CO2_data_panel,
-                index=c("province", "year"),
-                model = "within"
-               ) 
-```
-</details>
-
 #### Exercise 2
 
 The following questions are regarding types of datasets. Type your answers in lowercase with spaces between the words (e.g. you'd write *cross sectional* for cross-sectional data).
@@ -504,16 +488,6 @@ answer_5 <- "X"
 test_5()
 ```
 
-<details>
-  <summary>Show/Hide Solution</summary>
-```{r}
-answer_3 <- "cross sectional"
-answer_4 <- "cross sectional"
-answer_5 <- "unbalanced panel"
-```
-
-</details>
-
 #### Exercise 3
 
 What is "de-meaning"?
@@ -530,14 +504,6 @@ answer_6 <- "X"
 test_6()
 ```
 
-<details>
-  <summary>Show/Hide Solution</summary>
-```{r}
-answer_6 <- "CD"
-```
-
-</details>
-
 #### Exercise 4
 
 Which model is more appropriate for the dataset we are currently using (`CO2_data_panel`)?
@@ -552,16 +518,39 @@ answer_7 <- "X"
 test_7()
 ```
 
-<details>
-  <summary>Show/Hide Solution</summary>
-```{r}
-answer_6 <- "A"
-```
-
-</details>
-
 ## References
 
 -   Cohen, A., and Einav, L. (2003). The Effects of Mandatory Seat Belt Laws on Driving Behavior and Traffic Fatalities. The Review of Economics and Statistics, 85, 828–843
 -   Stock, J.H. and Watson, M.W. (2007). Introduction to Econometrics, 2nd ed. Boston: Addison Wesley
 -   Marina Adshade and the COMET Team (https://comet.arts.ubc.ca/docs/Research/econ490-r/14_Panel_Data.html)
+
+
+## ANSWERS
+
+#### 1
+```{r}
+question1 <- plm(CO2 ~ population,
+                data=CO2_data_panel,
+                index=c("province", "year"),
+                model = "within"
+               )
+question2 <- plm(CO2 ~ electricity,
+                data=CO2_data_panel,
+                index=c("province", "year"),
+                model = "within"
+               ) 
+```
+#### 2
+```{r}
+answer_3 <- "cross sectional"
+answer_4 <- "cross sectional"
+answer_5 <- "unbalanced panel"
+```
+#### 3
+```{r}
+answer_6 <- "CD"
+```
+#### 4
+```{r}
+answer_6 <- "A"
+```

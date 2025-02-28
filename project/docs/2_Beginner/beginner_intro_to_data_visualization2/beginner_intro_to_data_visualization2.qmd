@@ -667,8 +667,7 @@ Try to replicate it yourself and then compare it to the actual code below. Don't
 # your code here
 ```
 
-<details>
-  <summary>Show/Hide Solution</summary>
+#### Confidence bands: answer key
 
 ```{r}
 #| eval: false
@@ -684,7 +683,5 @@ confidence_plot <- ggplot(confidence_data, aes(x = hc, y = adjusted_gdp)) +
      
 confidence_plot
 ```
-
-</details>
 
 We've covered a lot of content in this notebook. For further reading or exploration, we recommend visiting the hyperlinks attached throughout this module, as all of them are valuable resources for deepening your understanding of visualization in R!

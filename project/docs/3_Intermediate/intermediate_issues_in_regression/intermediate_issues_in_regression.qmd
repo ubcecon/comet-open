@@ -417,11 +417,6 @@ where
 
 1. What concern should we have about this regression equation? Explain your intuition.
 
-<details>
-  <summary>Show/Hide Solution</summary>
-These two variables, before tax and after tax income, may be close to co-linear, which will increase the error term.
-</details>
-
 Before we continue, let's reduce the sample size of our data set to 200 observations. We will also revert `gender` into a numeric variable:
 
 ```{r}
@@ -458,11 +453,6 @@ test_2()
 
 3. What do you notice about the characteristics of the estimated regression? Does anything point to your concern being valid?
 
-<details>
-  <summary>Show/Hide Solution</summary>
-  It seems like `income_before_tax` was dropped from the regression. The reason for that is multicollinearity.
-</details>
-
 Now, let's suppose we drop 50 more observations:
 
 ```{r}
@@ -498,11 +488,6 @@ test_4()
 
 5. What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?
 
-<details>
-  <summary>Show/Hide Solution</summary>
-  Similar to 3.
-</details>
-
 6. Next, increase the sample size back to its full size and run the regression once again.
 
 Tested Objects: `reg3`.
@@ -537,11 +522,6 @@ test_6()
 
 7. Did this change eliminate the concern? How do you know?
 
-<details>
-  <summary>Show/Hide Solution</summary>
-This change does not eliminate the concern. Now we see both `income_before_tax` and `income_after_tax` on the regression output. However, only `income_after_tax` is significant. The model is picking up some differences between both variables (likely differences across tax brackets) but it still seems like the collinearity is affecting the model. Having collinear terms in a regression increases standard errors.
-</details>
-
 Heteroskedasticity is another issue that researchers frequently deal with when they estimate regression models. Consider the following regression model:
 
 $$
@@ -556,17 +536,7 @@ where
 
 8. Should we be concerned about heteroskedasticity in this model? If so, what is the potential source of heteroskedasticity, and what do we suspect to be the relationship between the regressor and the error term?
 
-<details>
-  <summary>Show/Hide Solution</summary>
-The distribution of residuals will likely change relative to education. This because the higher the level of education the more additional factors will be required to predict the persons income. For instance, if someone has a 4 year degree what that degree is in will have a large impact on their income; however, there is less variance in income for high school graduates.
-</details>
-
 9. If we suppose that heteroskedasticity is a problem in this regression, what consequences will this have for our regression estimates?
-
-<details>
-  <summary>Show/Hide Solution</summary>
-If we do not use robust standard errors, the standards errors will be understated.
-</details>
 
 Run the regression below, and graph the residuals against the level of schooling.
 
@@ -583,12 +553,6 @@ resiplot + geom_point() + geom_hline(yintercept = 0) + scale_x_discrete(guide = 
 ```
 
 10. Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?
-
-
-<details>
-  <summary>Show/Hide Solution</summary>
-We can see that the residuals are increasing as the level of education increases, as predicted in the previous question. This indicates heteroskedasticity, as the distribution of errors is clearly not constant.
-</details>
 
 11. To test for heteroskedasticity formally, let's perform the White Test. First, store the residuals from the previous regression in `SFS_data`.
 
@@ -657,11 +621,6 @@ test_12()
 
 13.  What does the white test suggest?
 
-<details>
-  <summary>Show/Hide Solution</summary>
-The test suggests the model is heteroskedastic.
-</details>
-
 14. Finish filling in this table:
 
 | Formal Issue Name    | Problem                                                                                  | Meaning                                                            | Test                                                             | Solution                                                                       |
@@ -670,7 +629,31 @@ The test suggests the model is heteroskedastic.
 | Perfect Collinearity | ???                                                                                      | One variable in the regression is a linear function of another variable in the regression | Collinearity test on the model, `ols_vif_tol(model)`              | ???                                                                            |
 | Imperfect Collinearity | The model will have very large standard errors. R may need to omit a variable             | One variable can almost be fully predicted with a linear function of another variable in the model | ???                                                         | Omit one of the collinear variables, try using more data, or consider transformations (e.g., logarithms) |
 
-<details>
-  <summary>Show/Hide Solution</summary>
-Answers are: (A) Heteroskedasticity (B) An explanatory variable can be written as a linear combination of other explanatory variables included in the model (C) Drop one of the variables (D) VIF test.
-</details>
+
+### Solutions
+
+1.  These two variables, before tax and after tax income, may be close to co-linear, which will increase the error term.
+
+2. Coding exercise.
+
+3. It seems like `income_before_tax` was dropped from the regression. The reason for that is multicollinearity.
+
+4. Coding exercise
+
+5. Similar to 3.
+
+6. Coding exercise.
+
+7. This change does not eliminate the concern. Now we see both `income_before_tax` and `income_after_tax` on the regression output. However, only `income_after_tax` is significant. The model is picking up some differences between both variables (likely differences across tax brackets) but it still seems like the collinearity is affecting the model. Having collinear terms in a regression increases standard errors.
+
+8. The distribution of residuals will likely change relative to education. This because the higher the level of education the more additional factors will be required to predict the persons income. For instance, if someone has a 4 year degree what that degree is in will have a large impact on their income; however, there is less variance in income for high school graduates.  
+
+9. If we do not use robust standard errors, the standards errors will be understated.
+
+10. We can see that the residuals are increasing as the level of education increases, as predicted in the previous question. This indicates heteroskedasticity, as the distribution of errors is clearly not constant.
+
+11-12. Coding exercises
+
+13. The test suggests the model is heteroskedastic.
+
+14. Answers are: (A) Heteroskedasticity (B) An explanatory variable can be written as a linear combination of other explanatory variables included in the model (C) Drop one of the variables (D) VIF test.

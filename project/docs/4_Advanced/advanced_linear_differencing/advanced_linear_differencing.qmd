@@ -19,8 +19,9 @@ editor: visual
 
 This notebook will cover:
 
--   Difference-in-differences research when there are more than two groups, and when treatment timing varies.
--   Event studies when treatment is a continuous variable.
+  - Difference-in-differences research when there are more than two groups, and when treatment timing varies.
+  - Event studies when treatment is a continuous variable. 
+
 
 # Setting up
 
@@ -49,9 +50,9 @@ library(plm)
 library(broom)
 ```
 
-The following blocks of code are data generating functions which will simulate the panel-structured data with which we will be working.
+The following blocks of code are data generating functions which will simulate the panel-structured data with which we will be working. 
 
-You do not need to follow how this data is constructed in order to understand the notebook.
+You do not need to follow how this data is constructed in order to understand the notebook. 
 
 ```{r, dgp1, code-fold: true}
 dgp <- function(N, T, a, g, id_var = "id", time_var = "time") {
@@ -154,15 +155,15 @@ dgp_2 <- function(N, T, g, id_var = "id", time_var = "time") {
 
 **To implement a DiD-style analysis when there are multiple treatment groups, multiple control groups, and treatment occurs at multiple different times**
 
-This application of linear differencing extends traditional 2x2 difference-in-differences estimation techniques to situations where there are more than two groups and/or those groups are being treated at multiple different times.
+This application of linear differencing extends traditional 2x2 difference-in-differences estimation techniques to situations where there are more than two groups and/or those groups are being treated at multiple different times. 
 
-In our classic difference-in-differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment".
+In our classic difference-in-differences estimator we only had "pre" and "post" period for only two groups, the "control" and "treatment". 
 
 $$
 y_{it} = \alpha + \gamma_i TREAT_i + \gamma_t POST_t + \beta TREAT_i \times POST_t + u_{it} 
 $$
 
-Where the average treatment effect on the treated (ATT), our outcome of interest, is also equivalent to $\hat{\beta}$
+Where the average treatment effect on the treated (ATT), our outcome of interest, is also equivalent to $\hat{\beta}$ 
 
 $$
 ATT = \hat{\beta} = [\bar{y}{^{Post} _{Treated}} - \bar{y}{^{Pre} _{Treated}}] - [\bar{y}{^{Post} _{Untreated}} - \bar{y}{^{Pre} _{Untreated}}]
@@ -185,15 +186,16 @@ for (grp in 2:3) {
 }
 ```
 
+
 In this example, group 2 is treated at $t=12$ while group 3 is treated at $t=8$. So do we use 12 as our post period or do we use 8 as our post period? Suppose we use 12 as our post period, then group 2 is our treated group. In this case, should we use group 1 as our control, or group 3 from $t = 8 \ \text{to} \ 20$ as our control? The answer to these questions will depend on what our research question is.
 
 ## Variance Weighting: the Bridge from Traditional DiD to Linear Differencing
 
-A hidden facet of traditional difference-in-differences equations is that the effect one finds is implicitly a Variance Weighted Average Treatment effect on Treated (**VWATT**). However, when there are only two groups and one period of treatment, the variance weighting divides out by itself to become $1$. Thus, for simplicity's sake we ignore it during traditional analyses.
+A hidden facet of traditional difference-in-differences equations is that the effect one finds is implicitly a Variance Weighted Average Treatment effect on Treated (**VWATT**). However, when there are only two groups and one period of treatment, the variance weighting divides out by itself to become $1$. Thus, for simplicity's sake we ignore it during traditional analyses. 
 
-Now, consider the example from our above graph: suppose group 3 (first treated) has $n=100$ and $\hat{\beta} = 0.50$, group 2 (second treated) has $n=50$ and $\hat{\beta} = 0.40$. A simple average of the effect would give a coefficient of $0.45$ but that would be misleading because having a different number of observations in each group will (in general) affect the variance in such a way as to make it not simplify to $1$.
+Now, consider the example from our above graph: suppose group 3 (first treated) has $n=100$ and $\hat{\beta} = 0.50$, group 2 (second treated) has $n=50$ and $\hat{\beta} = 0.40$. A simple average of the effect would give a coefficient of $0.45$ but that would be misleading because having a different number of observations in each group will (in general) affect the variance in such a way as to make it not simplify to $1$. 
 
-Recoginizing this is *critical* to understanding the equations which undergird linear differencing.
+Recoginizing this is _critical_ to understanding the equations which undergird linear differencing.
 
 Now, with no further ado, the <u>Linear Differencing Equation</u>
 
@@ -201,17 +203,18 @@ $$
 \hat \beta^{DiD} = \sum_{k \neq U}s_{kU} \hat \beta_{kU} + \sum_{k \neq U} \sum_{k>l} [s^k_{kl} \hat \beta_{kl}^{k} + s^l_{kl} \hat \beta_{kl}^{l}]
 $$
 
-::: callout-note
-Let *k* and *l* be treated groups, where *k* is treated at a point in time earlier than *l*, and *U* is the untreated group. When used as a superscript, this denotes the treatment group to whom the sample variance or coefficient belongs.
+
+::: {.callout-note}
+Let *k* and *l* be treated groups, where *k* is treated at a point in time earlier than *l*, and *U* is the untreated group. When used as a superscript, this denotes the treatment group to whom the sample variance or coefficient belongs. 
 
 $\hat{\beta}_{kU}$ uses *k* as the treated group and *U* as the control group, $\hat{\beta}_{kl}^k$ uses *k* as the treated and pre-treatment *l* as the control group and finally $\hat{\beta}_{kl}^l$ uses *l* as the treated group and post-treatment *k* as the control group.
 
-$s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights.
+$s_{kU}$, $s^k_{kl}$ and $s^l_{kl}$ are variance weights. 
 :::
 
-Where we once had only two groups and two time periods (basically just the first term and $s_{kU}=1$), we are now expanding that to cover three groups over three time periods (although this can be generalized to many groups and many periods).
+Where we once had only two groups and two time periods (basically just the first term and $s_{kU}=1$), we are now expanding that to cover three groups over three time periods (although this can be generalized to many groups and many periods). 
 
-Simply put, our traditional DiD estimator was a truncated version of a more generalized 2x2 estimator which we are now employing.
+Simply put, our traditional DiD estimator was a truncated version of a more generalized 2x2 estimator which we are now employing.  
 
 And the 2x2 estimators we used in our <u>Linear Differencing Equation</u> are:
 
@@ -233,16 +236,20 @@ $$
 \end{equation}
 $$
 
-::: callout-note
-In the context of our example, PRE refers to $0<time<8$ (i.e. up until group 3 is treated), MID to $8<time<12$ (i.e. when group 3 has been treated by group 2 has not been), and POST to $12<time<20$ (i.e. when groups 2 and 3 have both been treated).
+::: {.callout-note}
+
+In the context of our example, PRE refers to $0<time<8$ (i.e. up until group 3 is treated), MID to $8<time<12$ (i.e. when group 3 has been treated by group 2 has not been), and POST to $12<time<20$ (i.e. when groups 2 and 3 have both been treated). 
+
 :::
+ 
 
 Although this equation looks really complicated (and it is), what it essentially means is that our <u>Linear Differencing Equation</u> is a variance weighted average of all possible DiD estimators with staggered treatment.
 
 We'll get into some of the capabilities and limits of linear differencing in the next sections. Suffice to say for now that the coefficient can be difficult to interpret. So, it is important to know what it is you want to estimate for your research question before deciding whether the <u>Linear Differencing Equation</u> is required or if a more traditional DiD would suffice.
 
-::: callout-tip
-## For $n$ treated and one control group there are $n^2$ possible DiD estimators! Can you list all of the ones from our example?
+::: {.callout-tip}
+## For $n$ treated and one control group there are $n^2$ possible DiD estimators! Can you list all of the ones from our example? 
+
 :::
 
 ## A New Common Trends
@@ -263,8 +270,9 @@ $$
 
 The first two $(\hat{\beta}_{kU}$, $\hat{\beta}_{kl}^k)$ should seem familiar as they are the same as the 2x2 DiD we just covered, but the last term $(\hat{\beta}_{kl}^l)$ is different. It involves the counterfactual values, as before, and includes the change in treatment effects of the already treated control group(s).
 
-::: callout-tip
+::: {.callout-tip}
 ## If the CTA holds, all the $[...]$ terms should cancel to zero
+
 :::
 
 ## Average Treatment on Treated
@@ -277,12 +285,15 @@ $$
 
 where, $VWATT$ is the variance weighted average treatment effect on treated, $VWCT$ is the variance weighted common trends and $\Delta ATT$ is the weighted sum of the treatment effects within each group's post-period with respect to another group's treatment timing.
 
-::: callout-important
+
+
+::: {.callout-important}
 The $VWATT$ term is a positively weighted average of $ATTs$ for the treatment groups and post-periods across the 2x2 DiD estimators that make up $\hat{\beta}^{DiD}$.
 
 $VWCT$ generalises the common trends to a setting with timing variation. It is the weighted average of the difference in counterfactual trends between pairs of groups and different time periods.
 
 Since already treated groups act as controls, we need to subtract average changes in their untreated outcomes and their treatment effects which is captured by $\Delta ATT$. If we expect the effect of treatment to not vary over time, then $\Delta ATT = 0$.
+
 :::
 
 If the common trends assumption holds, as it must for a DiD research design to be valid, then $VCWT = 0$.
@@ -348,15 +359,15 @@ print(ATT_2)
 
 # Continuous Treatment
 
-Now lets consider a case where treatment is not just a dummy variable but rather a continuous variable. One example could be the effects of taking Advil (not a sponsor). What's the effect of taking 1mg, 2mg, 3mg, and so forth up to 400mg? If we try to use our old treatment definitions, we get stuck. For example, do we discretise treatment and calculate the *ATT* for each group? What if we have a continuum of treatment? The "trick" to showing causality in this set-up will be aggregating our parameters of interest in order to simplify our estimation such that it resembles an event study.
+Now lets consider a case where treatment is not just a dummy variable but rather a continuous variable. One example could be the effects of taking Advil (not a sponsor). What's the effect of taking 1mg, 2mg, 3mg, and so forth up to 400mg? If we try to use our old treatment definitions, we get stuck. For example, do we discretise treatment and calculate the *ATT* for each group? What if we have a continuum of treatment? The "trick" to showing causality in this set-up will be aggregating our parameters of interest in order to simplify our estimation such that it resembles an event study. 
 
-### Roadmap:
+### Roadmap: 
 
-1)  Formally set-up the situation
-2)  Define our outcomes of interest
-3)  Redefine our two continuous measures of timing into a single event-study time variable
-4)  Redefine our continuous treatment (dosage) into a binary high- or low-dose treatment
-5)  Work through an example
+1) Formally set-up the situation
+2) Define our outcomes of interest
+3) Redefine our two continuous measures of timing into a single event-study time variable
+4) Redefine our continuous treatment (dosage) into a binary high- or low-dose treatment
+5) Work through an example
 
 ## Setting Up
 
@@ -380,9 +391,10 @@ $$
 
 ### Event Study Parameters
 
-Combining a research set up in which treatment is continuous across each *t* and *g* with the fact that changes across any one of *g*, *t*, and *d* could be economically meaningful suggests there could be *N* dose-response functions we need to estimate! This puts us in a sticky situation for untangling causality. The solution? Refefine our two variables for time into a new parameter, *e*, the "event-time" or *time-since-treatment* $e \equiv t - g$.
+Combining a research set up in which treatment is continuous across each *t* and *g* with the fact that changes across any one of *g*, *t*, and *d* could be economically meaningful suggests there could be *N* dose-response functions we need to estimate! This puts us in a sticky situation for untangling causality. The solution? Refefine our two variables for time into a new parameter, *e*, the "event-time" or *time-since-treatment* $e \equiv t - g$. 
 
 Under some fairly innocuous assumptions, event study aggregations that average over treatment dosages can be used to calculate a dose response function. More specifically, let $$ATT^o(g,t) = E[ATT(g,t,d)| G=g, D>0]$$ be the average *ATT* for that group in a given point in time, and the event study *ATT* $$ATT^{es} (e) = E[ATT^o(G, G+e)|G+e \in [2,T], D>0]$$ be the average treatment effect among those that have been exposed for exactly *e* periods, conditional on being observed having participated in the treatment for that number of periods $(G+e \in [2,T])$ and being ever treated $(D>0)$.
+
 
 This is the first redefinition of the problem we talked about: changing timing into being a single variable. That's a start, but it doesn't quite get us where we need to go. Next, it's worth emphasizing that when *D* is binary, $ATT^{es}(e)$ reduces to an event-study coefficient. We'll use this fact to split $ATT^{es}(e)$ into "lower-dose" and "higher-dose" groups by partially aggregating the doses in each group and time period. We can also aggregate over some event-times, which will facilitate reporting dose-response functions.
 
@@ -390,60 +402,66 @@ This is the first redefinition of the problem we talked about: changing timing i
 
 ::: {.callout-tip collapse="true"}
 ## Assumption 1: We have panel data
-
 *The observed data consists of* $\{Y_{i,1}, \ldots, Y_{i,T}, D_i, G_i\}^n_{i=1}$ *which is independently and identically distributed.*
 
 This assumption states that we have panel data.
+
 :::
+
 
 ::: {.callout-tip collapse="true"}
 ## Assumption 2: Some units are never-treated and treatment is continuous
-
-i)  $\mathcal{D}_{+} = [dL,d_U]$ *with* $0<d_L<d_U<\infty$
-ii) $P(D=0) > 0$ *and* $dF_{D|G}(d|g) > 0$ *and* $(g,d) \in (\mathcal{G} \backslash \{\infty\}) \times \mathcal{D}_{+}$,
+i) $\mathcal{D}_{+} = [dL,d_U]$ *with* $0<d_L<d_U<\infty$ 
+ii) $P(D=0) > 0$ *and* $dF_{D|G}(d|g) > 0$ *and* $(g,d) \in (\mathcal{G} \backslash \{\infty\}) \times \mathcal{D}_{+}$, 
 iii) *For all* $g \in (\mathcal{G} \backslash \{\infty\})$ *and* $t=2, \ldots , T$, $E[\Delta Y_t | G=g, D=d]$ *is continuously differentiable in* $d$ *on* $\mathcal{D}_+$.
 
 This assumption states that we have a set of units that are never-treated and that treatment is continuous. If there are no never-treated units, we can restrict attention to periods $t = 1, \ldots , \bar{G}-1$, where $\bar{G} = \text{max}\{G_i : G_i < \infty \}$ is the time of the last group treated.
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Assumption 3: There is no anticipation and treatment is staggered.
-
-i)  *For all* $g \in \mathcal{G}$ *and* $t = 1, \ldots , T$ *with* $t<g$, $Y_{i,t}(g,d) = Y_{i,t}(0)$ *a.s.*
+i) *For all* $g \in \mathcal{G}$ *and* $t = 1, \ldots , T$ *with* $t<g$, $Y_{i,t}(g,d) = Y_{i,t}(0)$ *a.s.* 
 ii) $W_{i,1} = 0$ *a.s. and for* $t = 2, \ldots , T$, $W_{i,t-1} = d$ *implies* $W_{i,t} = d$ *a.s.*
 
 This assumption states that there is no anticipation and that treatment is staggered.
+
+
 :::
 
 ::: {.callout-tip collapse="true"}
 ## Assumption 4: Parallel trends assumption is valid
-
 *For all* $(g,g') \in \mathcal{G}$, $t-=2, \ldots ,T$ *and* $(d,d') \in \mathcal{D} \times \mathcal{D}$, $E[\Delta Y_t(0)|G = g, D = d] = E[\Delta Y_t(0)|G=g', D=d']$
 
 This assumption is the parallel trends assumptions, in the absence of treatment, the average evolution of the untreated potential outcomes is the same across dosage-time groups.
+
 :::
 
 Under these assumptions, it can be shown that:
 
-::: callout-caution
+::: {.callout-caution}
 ## Treatment intensity is unimportant in the context of our $ATT^{es}(e)$ parameter
 
 $ATT^{es}(e) = E[\theta^o(G,G+e)|G+e \in [2,T], D>0$ implies that we can ignore treatment intensity when focusing on the event study type parameters $ATT^{es}(e)$ and therefore use the estimators from staggered DiD setups with binary treatement to estimate these paramaters.
+
 :::
 
-::: callout-caution
+
+::: {.callout-caution}
 ## This is also true with partial aggregation
-
 $ATT^{es}_{d_1,d_2}(e) = E[\theta^o_{d_1,d_2}(G, G+e)|G+e \in [2,T], d_1 \leq D \leq d_2]$ shows that this is still the case when one wants to present event-studies that only partially aggregate across dosages
+
 :::
 
-::: callout-caution
+
+
+::: {.callout-caution}
 ## We can rely on dose-response-curve estimators for two period setups
 
 $ATT^{es}_{e_1,e_2}(d) = E[\tilde{Y}^{e_1, e_2}(G)|G+e_2 \in [2,T], D=d]$ tells us that one can rely on dose-response-curve estimators for two period setups
 :::
 
-::: callout-important
+::: {.callout-important}
 ## For the full proof, see theorem 1 from Callaway, Goodman-Bacon, and Sant’Anna (2024)
 :::
 
@@ -457,13 +475,15 @@ fake_data_3 <- dgp_2(1000, 6, 0)
 plot_avgs(fake_data_3)
 ```
 
-Woah! Look at that spike.
+Woah! Look at that spike. 
 
-Okay, so clearly our treatment is doing *something* (remember, we're treating people in the treated group a dose across a continuum), but we don't necessarily know how much it is doing. It could be that 1mg and 1000mg Advil have the same effect, it could be that there's no effect for those taking less than 100mg but a huge effect on those taking more than 100mg, or that the effect increases continously.
+Okay, so clearly our treatment is doing *something* (remember, we're treating people in the treated group a dose across a continuum), but we don't necessarily know how much it is doing. It could be that 1mg  and 1000mg Advil have the same effect, it could be that there's no effect for those taking less than 100mg but a huge effect on those taking more than 100mg, or that the effect increases continously.
 
 How do we tease that out? We'll go back to our friend the partial dose aggregation effect $ATT^{es}_{d_1,d_2}(e)$.
 
 In the block of code below, take a look at `jump_magnitude` within `fake_data_3` to see the treatment effect on each unit. Can you see how we're defining a high and low dosage?
+
+
 
 ```{r, event_study, code-fold: false}
 sub_data <- subset(fake_data_3, group == 2)
@@ -512,9 +532,11 @@ event_time_labels <- c("event_time_dummy1" = "t = 1",
 
 ```
 
-::: {.callout-tip collapse="TRUE"}
-High dose ($d_2$) has been defined as a dosage above the median, and a low dose ($d_1$) as that which is below the median. We could have defined it as broadly or as narrowly as we like, this was just a convienent middle ground.
+
+::: {.callout-tip collapse=TRUE}
+High dose ($d_2$) has been defined as a dosage above the median, and a low dose ($d_1$) as that which is below the median. We could have defined it as broadly or as narrowly as we like, this was just a convienent middle ground. 
 :::
+
 
 ```{r, results, code-fold: false}
 summary(event_study_1)
@@ -522,11 +544,11 @@ summary(event_study_2)
 print(combined_plot)
 ```
 
-The plot above shows the the event study for both dosage types, and we can extract the $ATT^{es}_{d_1,d_2}(e)$ from the `summary()` table.
+The plot above shows the the event study for both dosage types, and we can extract the $ATT^{es}_{d_1,d_2}(e)$ from the `summary()` table. 
 
-For the low dose group ($d_1$), the immediate effect is \~64.47 in $t=4$, and rises slightly in periods $t=5$ and $t=6$ to settle around \~69. For the high dose group ($d_2$) the immediate effect is \~124.77 in $t=4$ and it also rises slightly over time, setting around \~130 in $t=5$ and $t=6$.
+For the low dose group ($d_1$), the immediate effect is ~64.47 in $t=4$, and rises slightly in periods $t=5$ and $t=6$ to settle around ~69. For the high dose group ($d_2$) the immediate effect is ~124.77 in $t=4$ and it also rises slightly over time, setting around ~130 in $t=5$ and $t=6$. 
 
-In the context of the effect of taking Advil it might be a little hard to intuitively interpret coefficents like this (what does it mean to have a 124 unit change in headaches?), but the specifics aren't important (maybe we're measuring how much Advil is processed by your liver, whatever, it's fake data!). What *is* important is the technique for aggregating continuous treatment effects in order to make them interpretable.
+In the context of the effect of taking Advil it might be a little hard to intuitively interpret coefficents like this (what does it mean to have a 124 unit change in headaches?), but the specifics aren't important (maybe we're measuring how much Advil is processed by your liver, whatever, it's fake data!). What *is* important is the technique for aggregating continuous treatment effects in order to make them interpretable. 
 
 Note, in this case we chose to aggregate over different dose types, however if we had differing event times, we could aggregate over them too. The choice of what to aggregate over will depend on the research question.
 
