@@ -1,7 +1,7 @@
 ---
 title: "Intermediate - Summary Statistics"
-author: COMET Team <br> __Irene Berezin__
-date: 25 February 2025
+author: 'COMET Team <br> __Irene Berezin, Alex Ronczewski__'
+date: 1 March 2025
 description: An introduction how to create summary statistics tables in R using the `gtsummary` package and gives examples of how to create and present effective summary statistics in a research project.
 categories: [econ 326, econ 490, data, summary statistics, regression, analysis, control variables, intermediate, R]
 format: 
