@@ -1,6 +1,17 @@
 ---
-title: GTSummary Summary Tables
-jupyter: ir
+title: "Intermediate - Summary Statistics"
+author: COMET Team <br> __Irene Berezin__
+date: 25 February 2025
+description: An introduction how to create summary statistics tables in R using the `gtsummary` package and gives examples of how to create and present effective summary statistics in a research project.
+categories: [econ 326, econ 490, data, summary statistics, regression, analysis, control variables, intermediate, R]
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 
 
@@ -14,16 +25,18 @@ jupyter: ir
 
 ### Outcomes
 
-By the end of this notebook, you will be able to: - Install and Use the
-GTSummary Package - Use GTSummary to create basic summary tables - Use
-GTSummary to create stratified tables - Use GTSummary to customize the
-tables (Headers, Footnotes, colors and sizes) - Use GTSummary to create
-tables for regression output - Use GTSummary to Create tables for
-Projects in classes like Econ 326 or Econ 490
+By the end of this notebook, you will be able to: 
 
-## Part 1: Using GTSummary
+- Install and Use the `gtsummary` Package 
+- Use `gtsummary` to create basic summary tables 
+- Use `gtsummary` to create stratified tables 
+- Use `gtsummary` to customize the tables (Headers, Footnotes, colors and sizes) 
+- Use `gtsummary` to create tables for regression output 
+- Use `gtsummary` to Create tables for Projects in classes like Econ 326 or Econ 490
 
-Firstly let’s introduce GTSummary: GTSummary is an R package designed to
+## Part 1: Using `gtsummary`
+
+Firstly let’s introduce `gtsummary`: `gtsummary` is an R package designed to
 create publication-ready analytical and summary tables with ease and
 flexibility. It offers a powerful set of tools for data scientists,
 statisticians, and researchers working with R to summarize datasets,
@@ -40,14 +53,11 @@ packages needed for the notebook.
 
 
 ```{r}
-#| vscode: {languageId: r}
+
 #Run this cell to install necessary packages
 install.packages("broom.helpers")
 install.packages("jsonlite")
-install.packages("rlang")
-install.packages("gtsummary") #This is our key GTSummary package which is the topic of this notebook
-install.packages("dplyr") 
-install.packages("tidyverse")
+install.packages("gtsummary") #This is our key gtsummary package which is the topic of this notebook
 install.packages("NHANES")
 install.packages("IRdisplay")
 install.packages("cardx")
@@ -57,21 +67,19 @@ install.packages('webshot2')
 This will run the packages so we can use them for the code below.
 
 ```{r}
-#| vscode: {languageId: r}
+
 library(jsonlite)
 library(gt)
-library(rlang)
-library(gtsummary) #This is our key GTSummary package which is the topic of this notebook
+library(gtsummary) #This is our key gtsummary package which is the topic of this notebook
 library(dplyr)
 library(tidyverse)
 library(NHANES)
-library(dplyr)
 library(IRdisplay)
 ```
 
 This is our dataset which we will be using for the first section of this
-notebook. We have chosen this dataset as it is avaible within R as a
-package and does not have to be installed separately. The NHANES dataset
+notebook. We have chosen this dataset as it is available within R as a
+package and does not have to be installed separately. The `NHANES` dataset
 is a subset of data from the National Health and Nutrition Examination
 Survey, a comprehensive study designed to assess the health and
 nutritional status of adults and children in the United States
@@ -80,7 +88,7 @@ Please run the cell below and see if the head command correctly displays
 the data.
 
 ```{r}
-#| vscode: {languageId: r}
+
 #Check if the data is properly loaded
 data(NHANES)
 head(NHANES, 20)
@@ -88,14 +96,14 @@ head(NHANES, 20)
 
 ### Summary Tables
 
-Here we will make a basic summary table with the varaibles
+Here we will make a basic summary table with the variables
 `Age, BMI, Weight, Race1, Education, Gender` which will show an overview
 of the dataset. Along with this we will have first mean and then in
 brackets standard deviation and for specific variables percent of n
 within each category.
 
 ```{r}
-#| vscode: {languageId: r}
+
 # Load the NHANES data
 data(NHANES)
 
@@ -104,7 +112,7 @@ summary_table <- NHANES %>%
   select(Age, BMI, Weight, Race1, Education, Gender) %>% #Here we select the variables we want on our summary table
   tbl_summary(
     statistic = list(
-      all_continuous() ~ "{mean} ({sd})", #all continous variables will have mean and standard deviation 
+      all_continuous() ~ "{mean} ({sd})", #all continuous variables will have mean and standard deviation 
       all_categorical() ~ "{n} ({p}%)" #all categorical variables will have n and p included
     ),
     digits = all_continuous() ~ 1,
@@ -119,20 +127,20 @@ summary_table
 
 To show a more complex table we can also use the by command to sort by
 if the observation has diabetes. This is called stratifying by group
-varaibles. Here the key function is `by` where by setting it to the
-variable Diabetes we can show the summary statostocs for three different
+variables. Here the key function is `by` where by setting it to the
+variable Diabetes we can show the summary statistics for three different
 groups Overall, No Diabetes and Diagnosed with Diabetes.
 
-We can also use the commmand `add_` to add certain statistics to our
+We can also use the command `add_` to add certain statistics to our
 table for instance here we will use `add_n()` to show how many people in
 the dataset have diabetes. We can use `add_` for different things apart
 from number of observations for instance `add_p` will show p values.
 More information on what can be added can be found at
-https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html under
+[`tbl_summary()` tutorial](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html) under
 the header “{gtsummary} functions to add information.”
 
 ```{r}
-#| vscode: {languageId: r}
+
 #Same as before make a table variable and select variables in the dataset using select(...)
 summary_table2 <- NHANES %>%
   select(Age, BMI, Weight, Race1, Gender, Diabetes) %>%
@@ -161,7 +169,7 @@ the codeblock below where we will create a table with a custom header,
 title and footnotes.
 
 ```{r}
-#| vscode: {languageId: r}
+
 #Same as before but we to focus our code we will start from our output of the stratified table from summary_table2. 
 summary_table3 <- summary_table2 %>%
   modify_header( #This command will modify the header in the table
@@ -180,14 +188,14 @@ summary_table3
 
 We can also change stylistic choices, this is the same table as before
 information wise, but it has been substantially changed visually.
-GTSummary offers many options to change the look of our tables. Below is
+`gtsummary` offers many options to change the look of our tables. Below is
 an example where we will drastically change the look of the table using
 the commands `tab_options` and `tab_style`, you are free to experiment
 and change the code here to see how the colors, borders and labels can
 change.
 
 ```{r}
-#| vscode: {languageId: r}
+
 summary_table4 <- NHANES %>% #create the variable 
   select(Age, BMI, Weight, Race1, Gender, Diabetes) %>% #select variables 
   tbl_summary(
@@ -214,7 +222,7 @@ summary_table4 <- NHANES %>% #create the variable
   ) %>%
   modify_caption("**Table 1. Demographic and Clinical Characteristics**") %>%
   as_gt() %>%
-  gt::tab_options( #Change tab options like font, font size, header styles 
+  tab_options( #Change tab options like font, font size, header styles 
     table.font.name = "Arial",
     table.font.size = 12,
     heading.title.font.size = 16,
@@ -223,31 +231,31 @@ summary_table4 <- NHANES %>% #create the variable
     table.border.bottom.style = "solid",
     column_labels.border.top.style = "solid",
     column_labels.border.bottom.style = "solid",
-    data_row.padding = gt::px(10),
+    data_row.padding = px(10),
     source_notes.font.size = 10,
-    table.width = gt::pct(100)
+    table.width = pct(100)
   ) %>%
-  gt::tab_style( #Change colors of the cells 
+  tab_style( #Change colors of the cells 
     style = list(
-      gt::cell_fill(color = "lightblue"),
-      gt::cell_text(weight = "bold")
+      cell_fill(color = "lightblue"),
+      cell_text(weight = "bold")
     ),
-    locations = gt::cells_column_labels()
+    locations = cells_column_labels()
   ) %>%
-  gt::tab_style( 
-    style = gt::cell_text(color = "navy"),
-    locations = gt::cells_body(
-      columns = gt::vars(stat_0)
+  tab_style( 
+    style = cell_text(color = "navy"),
+    locations = cells_body(
+      columns = vars(stat_0)
     )
   ) %>%
-  gt::tab_style( #Change cell border colors 
-    style = gt::cell_borders(
+  tab_style( #Change cell border colors 
+    style = cell_borders(
       sides = "right",
       color = "grey",
-      weight = gt::px(1)
+      weight = px(1)
     ),
-    locations = gt::cells_body(
-      columns = gt::everything()
+    locations = cells_body(
+      columns = everything()
     )
   )
 
@@ -257,19 +265,19 @@ summary_table4
 
 ### Regression Tables
 
-Apart from summary tables GTSummary can also be used for regression
-analysis. Here we will continue to use the NHANES dataset, and the
+Apart from summary tables `gtsummary` can also be used for regression
+analysis. Here we will continue to use the `NHANES` dataset, and the
 regression formula we will use is:
 
 $$
-\text{TotChol} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{BMI} + \beta_3 \cdot \text{Alcohol12PlusYr} + \beta_4 \cdot \text{PhysActive} + \beta_5 \cdot \text{SleepHrsNight} + \varepsilon
+\texttt{TotChol}_i = \beta_0 + \beta_1 \cdot \texttt{Age}_i + \beta_2 \cdot \texttt{BMI}_i + \beta_3 \cdot \texttt{Alcohol12PlusYr}_i + \beta_4 \cdot \texttt{PhysActive}_i + \beta_5 \cdot \texttt{SleepHrsNight}_i + \varepsilon
 $$
 
 Here we will make a simple table showing our regression results, with
-our beta coefficients, 95%CIs, and p-values.
+our beta coefficients, 95% confidence intervals, and $p$-values.
 
 ```{r}
-#| vscode: {languageId: r}
+
 # Prepare the data
 nhanes_data <- NHANES %>%
   select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>% #Select variables like above
@@ -295,7 +303,8 @@ tbl_summary <- tbl_regression(model,
   modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Changes the caption
 
 # Print the table
-tbl_summary
+tbl_gt <- as_gt(tbl_summary)
+display_html(as_raw_html(tbl_gt))
 ```
 
 Here we see that the regression table is good, but it can be improved,
@@ -307,7 +316,7 @@ and t-values which can show a more complete analysis. We will add them
 using the code below.
 
 ```{r}
-#| vscode: {languageId: r}
+
 # Prepare the data for our model
 nhanes_data <- NHANES %>%
   select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>% #Select Variables 
@@ -339,7 +348,8 @@ tbl_summary2 <- tbl_regression(model,
   modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Like above modify labels for caption
 
 # Print our new table
-tbl_summary2
+tbl_gt2 <- as_gt(tbl_summary2)
+display_html(as_raw_html(tbl_gt2))
 ```
 
 Just like above we can do all kinds of cosmetic changes to our new
@@ -348,7 +358,7 @@ Once again feel free to change fonts or colors and see how the end
 result changes.
 
 ```{r}
-#| vscode: {languageId: r}
+
 # Prepare the data
 nhanes_data <- NHANES %>%
   select(TotChol, Age, BMI, Alcohol12PlusYr, PhysActive, SleepHrsNight) %>%
@@ -387,12 +397,12 @@ tbl_summary3 <- tbl_regression(model,
 # Convert to gt object and apply gt-specific cosmetic modifications
 final_table <- tbl_summary3 %>%
   as_gt() %>% #as_gt allows us to make more customizations
-  gt::opt_stylize(style = 6, color = "blue") %>%
-  gt::tab_style(
+  opt_stylize(style = 6, color = "blue") %>%
+  tab_style(
     style = list(cell_fill(color = "lightgreen"), cell_text(weight = "bold")),
     locations = cells_body(columns = estimate, rows = estimate > 0)
   ) %>%
-  gt::tab_options( #Tab options like fonts, font size, header font, and pixel sizes of cells
+  tab_options( #Tab options like fonts, font size, header font, and pixel sizes of cells
     table.font.name = "Arial",
     table.font.size = 12,
     heading.title.font.size = 16,
@@ -405,20 +415,20 @@ final_table <- tbl_summary3 %>%
     source_notes.font.size = 10,
     table.width = pct(100)
   ) %>%
-  gt::tab_style( #Colors 
+  tab_style( #Colors 
     style = list(
       cell_fill(color = "darkblue"),
       cell_text(color = "white", weight = "bold")
     ),
     locations = cells_column_labels()
   ) %>%
-  gt::tab_style(
+  tab_style(
     style = cell_text(color = "navy"),
     locations = cells_body(
       columns = estimate
     )
   ) %>%
-  gt::tab_style( 
+  tab_style( 
     style = cell_borders(
       sides = "right",
       color = "grey",
@@ -428,7 +438,7 @@ final_table <- tbl_summary3 %>%
       columns = everything()
     )
   ) %>%
-  gt::tab_style( #Fill colors
+  tab_style( #Fill colors
     style = list(
       cell_fill(color = "darkblue"),
       cell_text(color = "white", weight = "bold")
@@ -437,19 +447,19 @@ final_table <- tbl_summary3 %>%
   )
 
 # Print the final table
-final_table
+display_html(as_raw_html(final_table))
 ```
 
-We can also save and export tables using the `gtsave command`. Below we
+We can also save and export tables using the `gtsave` command. Below we
 can save our first table as the file `example_table1.png`
 
 ```{r}
-#| vscode: {languageId: r}
+
 tbl_save <- summary_table #Set variable so the table can be saved
 
 tbl_save %>%
-  as_gt() %>% #Convert as into GTSummary doc
-  gt::gtsave(filename = "example_table1.png") # Save as PNG image using gtsave
+  as_gt() %>% #Convert as into gtsummary doc
+  gtsave(filename = "example_table1.png") # Save as PNG image using gtsave
 ```
 
 likewise you can save as a Word table using the package “flextable” and
@@ -470,8 +480,8 @@ useful if you’d like to pull specific datasets from Statistics Canada
 yourself for future projects.
 
 ```{r}
-#| vscode: {languageId: r}
-census_data <- read_csv("../../../../../docs/3_Intermediate/datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
+
+census_data <- read_csv("project/docs/3_Intermediate/datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
 
 census_data <- census_data %>%
 mutate(across(-geometry, as.double)) %>%
@@ -489,11 +499,11 @@ census district that reported their commute method to StatsCanada in the
 2016 census. The first thing we want to check is that the sum of all
 `_commute` columns adds up to `total_reported_commute`. This will allow
 us to check for missing values, as well as, more importantly, that the
-vectors we picked for our analysis from the cancesus API are indeed the
+vectors we picked for our analysis from the cancensus API are indeed the
 correct ones:
 
 ```{r}
-#| vscode: {languageId: r}
+
 mismatch <- census_data %>%
   mutate(commute_sum = car_commute_driver + car_commute_driven +
            pt_commute + walk_commute + bike_commute + other_commute) %>%
@@ -513,7 +523,7 @@ working from home). Let’s create a summary statistic table using
 `gtsummary` to figure out the scale of the differences.
 
 ```{r}
-#| vscode: {languageId: r}
+
 summary_table <- mismatch %>%
   select(commute_sum, total_reported_commute, mismatch_amount) %>%
   tbl_summary(
@@ -527,7 +537,7 @@ summary_table <- mismatch %>%
     )
   )%>%
     as_gt() %>%
-    gt::as_raw_html() %>% 
+    as_raw_html() %>% 
     display_html()
 
 summary_table
@@ -541,10 +551,10 @@ statistics for all our variables. Recall our research question: We are
 interested in determining if a increase in proportion of cyclists
 commuting to work per capita is correlated with increases in average
 income. Hence, we can exclude non-cycling modes of transport from our
-summary statistic table. We’ll begin by some minor data wranging:
+summary statistic table. We’ll begin by some minor data wrangling:
 
 ```{r}
-#| vscode: {languageId: r}
+
 census_data <- census_data %>%
 mutate(bike_prop = bike_commute / total_reported_commute) %>% #getting the proportion of cyclists
 as_tibble() %>%
@@ -555,7 +565,7 @@ glimpse()
 Lastly, let’s put everything together into a summary statistics table:
 
 ```{r}
-#| vscode: {languageId: r}
+
 summary_table_2 <- census_data|>
   select(population_density, income, education, bike_prop) %>%
   tbl_summary(
@@ -570,7 +580,7 @@ summary_table_2 <- census_data|>
     )
   )|>
     as_gt() %>%
-    gt::as_raw_html() %>% 
+    as_raw_html() %>% 
     display_html()
 
 summary_table_2
@@ -582,8 +592,8 @@ census areas which do not have a bikeway (IE, include a dummy variable
 for presence of bikeways for each census area).
 
 ```{r}
-#| vscode: {languageId: r}
-census_data_bikes <- read_csv('../../../../../docs/3_Intermediate/datasets_intermediate/census_data_bikes.csv')
+
+census_data_bikes <- read_csv('project/docs/3_Intermediate/datasets_intermediate/census_data_bikes.csv')
 
 glimpse(census_data_bikes)
 ```
@@ -592,7 +602,7 @@ We will once again repeat the same process for generating our summary
 statistics table, this time with two columns.
 
 ```{r}
-#| vscode: {languageId: r}
+
 summary_table_3 <- census_data_bikes  %>%
   select(population_density, income, education, bike_prop, has_bike_lane) |> # Include the dummy variable
   tbl_summary(
@@ -614,7 +624,7 @@ summary_table_3 <- census_data_bikes  %>%
     )
   ) %>%
   as_gt() %>%
-  gt::as_raw_html() %>% 
+  as_raw_html() %>% 
   display_html()
 
 summary_table_3
@@ -632,16 +642,16 @@ We now have a completed summary table!
     Census data and geography. v0.4.2.
 -   Additionally, for this notebook we will use the NHANES dataset more
     can be found at
-    https://cran.r-project.org/web/packages/NHANES/NHANES.pdf It is a
+    <https://cran.r-project.org/web/packages/NHANES/NHANES.pdf> It is a
     dataset with information from the US National Health and Nutrition
     Examination Study This dataset is within a package so it is easy to
     install and is also complex enough to run regression later or to
-    show the uses of GTSummary.
+    show the uses of `gtsummary`.
 -   Statistics Canada. (2016). Census Profile, 2016 Census of
     Population. Retrieved February 9, 2025, from
-    https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E
+    <https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E> 
 -   City of Vancouver. (n.d.). Bikeways \[Data set\]. Retrieved February
     9, 2025, from
-    https://vancouver.opendatasoft.com/explore/dataset/bikeways/information/
-    -   Data licensed under the Vancouver Open Government Licence.
+    <https://vancouver.opendatasoft.com/explore/dataset/bikeways/information/> 
+    -   Data licensed under the Vancouver Open Government License.
 

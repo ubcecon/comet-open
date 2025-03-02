@@ -9,3 +9,4 @@ project/_site/
 */*/*/figure-html/
 .Rhistory
 *.DS_Store*
+/_site
