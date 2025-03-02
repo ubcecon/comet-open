@@ -59,12 +59,5 @@ FROM base AS final
 COPY --from=base /usr/local/lib/R /usr/local/lib/R
 COPY --from=base /usr/local/bin /usr/local/bin
 
-
-# Building for AMD64 (Windows/Intel Mac):
-    #docker build -t comet-local:latest .
-
-# Building for ARM64 (Apple Silicon):
-    #docker buildx build --platform linux/arm64 -t comet-local:latest .
-    
-# For both architectures:
-    #docker buildx build --platform linux/amd64,linux/arm64 -t comet-local:latest --push .
+#Command to build 
+#docker build -t base-file:latest -f C:\your\path\to\GitHub\comet-open\meta\building\local_build_test_base.dockerfile .
