@@ -1,6 +1,6 @@
 ---
 title: "Intermediate - Summary Statistics"
-author: 'COMET Team <br> __Irene Berezin, Alex Ronczewski__'
+author: 'COMET Team <br> _Irene Berezin, Alex Ronczewski_'
 date: 1 March 2025
 description: An introduction how to create summary statistics tables in R using the `gtsummary` package and gives examples of how to create and present effective summary statistics in a research project.
 categories: [econ 326, econ 490, data, summary statistics, regression, analysis, control variables, intermediate, R]
@@ -36,32 +36,22 @@ By the end of this notebook, you will be able to:
 
 ## Part 1: Using `gtsummary`
 
-Firstly let’s introduce `gtsummary`: `gtsummary` is an R package designed to
-create publication-ready analytical and summary tables with ease and
-flexibility. It offers a powerful set of tools for data scientists,
-statisticians, and researchers working with R to summarize datasets,
-regression models, and more. It is one of the best packages at this task
-and is a useful tool to use for projects, research or other statistical
-uses.
+Firstly let’s introduce `gtsummary`: `gtsummary` is an R package designed to create publication-ready analytical and summary tables with ease and flexibility. It offers a powerful set of tools for data scientists, statisticians, and researchers working with R to summarize datasets, regression models, and more. It is one of the best packages at this task and is a useful tool to use for projects, research or other statistical uses.
 
 Let’s learn how to use it!
 
-Running the next code block will install necessary packages, you may be
-prompted to choose a CRAN mirror, just choose the closest geographical
-one, example for Vancouver choose US (OR). This will be all of the
-packages needed for the notebook.
+Running the next code block will install necessary packages, you may be prompted to choose a CRAN mirror, just choose the closest geographical one, example for Vancouver choose US (OR). This will be all of the packages needed for the notebook.
 
 
 ```{r}
 
-#Run this cell to install necessary packages
-install.packages("broom.helpers")
-install.packages("jsonlite")
-install.packages("gtsummary") #This is our key gtsummary package which is the topic of this notebook
-install.packages("NHANES")
-install.packages("IRdisplay")
-install.packages("cardx")
-install.packages('webshot2')
+# Uncomment and run this cell to install necessary packages
+
+# install.packages("broom.helpers")
+# install.packages("jsonlite")
+# install.packages("NHANES")
+# install.packages("gtsummary") #This is our key gtsummary package which is the topic of this notebook
+# install.packages("IRdisplay")
 ```
 
 This will run the packages so we can use them for the code below.
@@ -77,12 +67,7 @@ library(NHANES)
 library(IRdisplay)
 ```
 
-This is our dataset which we will be using for the first section of this
-notebook. We have chosen this dataset as it is available within R as a
-package and does not have to be installed separately. The `NHANES` dataset
-is a subset of data from the National Health and Nutrition Examination
-Survey, a comprehensive study designed to assess the health and
-nutritional status of adults and children in the United States
+This is our dataset which we will be using for the first section of this notebook. We have chosen this dataset as it is available within R as a package and does not have to be installed separately. The `NHANES` dataset is a subset of data from the National Health and Nutrition Examination Survey, a comprehensive study designed to assess the health and nutritional status of adults and children in the United States.
 
 Please run the cell below and see if the head command correctly displays
 the data.
@@ -96,11 +81,8 @@ head(NHANES, 20)
 
 ### Summary Tables
 
-Here we will make a basic summary table with the variables
-`Age, BMI, Weight, Race1, Education, Gender` which will show an overview
-of the dataset. Along with this we will have first mean and then in
-brackets standard deviation and for specific variables percent of n
-within each category.
+Here we will make a basic summary table with the variables `Age, BMI, Weight, Race1, Education, Gender` which will show an overview
+of the dataset. Along with this we will have first mean and then in brackets standard deviation and for specific variables percent of n within each category.
 
 ```{r}
 
@@ -125,19 +107,9 @@ summary_table <- NHANES %>%
 summary_table
 ```
 
-To show a more complex table we can also use the by command to sort by
-if the observation has diabetes. This is called stratifying by group
-variables. Here the key function is `by` where by setting it to the
-variable Diabetes we can show the summary statistics for three different
-groups Overall, No Diabetes and Diagnosed with Diabetes.
+To show a more complex table we can also use the by command to sort by if the observation has diabetes. This is called stratifying by group variables. Here the key function is `by` where by setting it to the variable Diabetes we can show the summary statistics for three different groups Overall, No Diabetes and Diagnosed with Diabetes.
 
-We can also use the command `add_` to add certain statistics to our
-table for instance here we will use `add_n()` to show how many people in
-the dataset have diabetes. We can use `add_` for different things apart
-from number of observations for instance `add_p` will show p values.
-More information on what can be added can be found at
-[`tbl_summary()` tutorial](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html) under
-the header “{gtsummary} functions to add information.”
+We can also use the command `add_` to add certain statistics to our table for instance here we will use `add_n()` to show how many people in the dataset have diabetes. We can use `add_` for different things apart from number of observations for instance `add_p` will show p values. More information on what can be added can be found at [`tbl_summary()` tutorial](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html) under the header “{gtsummary} functions to add information.”
 
 ```{r}
 
@@ -163,10 +135,7 @@ summary_table2 <- NHANES %>%
 summary_table2
 ```
 
-We can also make custom headers and footnotes using the command
-`modify_header`, `modify_footnote`and `modify_caption`. This is shown in
-the codeblock below where we will create a table with a custom header,
-title and footnotes.
+We can also make custom headers and footnotes using the command `modify_header`, `modify_footnote`and `modify_caption`. This is shown in the codeblock below where we will create a table with a custom header, title and footnotes.
 
 ```{r}
 
@@ -186,13 +155,7 @@ summary_table3 <- summary_table2 %>%
 summary_table3
 ```
 
-We can also change stylistic choices, this is the same table as before
-information wise, but it has been substantially changed visually.
-`gtsummary` offers many options to change the look of our tables. Below is
-an example where we will drastically change the look of the table using
-the commands `tab_options` and `tab_style`, you are free to experiment
-and change the code here to see how the colors, borders and labels can
-change.
+We can also change stylistic choices, this is the same table as before information wise, but it has been substantially changed visually. `gtsummary` offers many options to change the look of our tables. Below is an example where we will drastically change the look of the table using the commands `tab_options` and `tab_style`, you are free to experiment and change the code here to see how the colors, borders and labels can change.
 
 ```{r}
 
@@ -265,16 +228,13 @@ summary_table4
 
 ### Regression Tables
 
-Apart from summary tables `gtsummary` can also be used for regression
-analysis. Here we will continue to use the `NHANES` dataset, and the
-regression formula we will use is:
+Apart from summary tables `gtsummary` can also be used for regression analysis. Here we will continue to use the `NHANES` dataset, and the regression formula we will use is:
 
 $$
-\texttt{TotChol}_i = \beta_0 + \beta_1 \cdot \texttt{Age}_i + \beta_2 \cdot \texttt{BMI}_i + \beta_3 \cdot \texttt{Alcohol12PlusYr}_i + \beta_4 \cdot \texttt{PhysActive}_i + \beta_5 \cdot \texttt{SleepHrsNight}_i + \varepsilon
+\texttt{TotChol}_i = \beta_0 + \beta_1 \cdot \texttt{Age}_i + \beta_2 \cdot \texttt{BMI}_i + \beta_3 \cdot \texttt{Alcohol12PlusYr}_i + \beta_4 \cdot \texttt{PhysActive}_i + \beta_5 \cdot \texttt{SleepHrsNight}_i + \varepsilon_i
 $$
 
-Here we will make a simple table showing our regression results, with
-our beta coefficients, 95% confidence intervals, and $p$-values.
+Here we will make a simple table showing our regression results, with our beta coefficients, 95% confidence intervals, and $p$-values.
 
 ```{r}
 
@@ -307,13 +267,7 @@ tbl_gt <- as_gt(tbl_summary)
 display_html(as_raw_html(tbl_gt))
 ```
 
-Here we see that the regression table is good, but it can be improved,
-for instance we can change the number of significant figures on the
-coefficient values currently it is three and we can not clearly see the
-result of our regression analysis. Let’s make it 5 for the Beta’s and
-coefficient values. Along with this we are also missing Standard Errors
-and t-values which can show a more complete analysis. We will add them
-using the code below.
+Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values currently it is three and we can not clearly see the result of our regression analysis. Let’s make it 5 for the Beta’s and coefficient values. Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
 
 ```{r}
 
@@ -352,10 +306,7 @@ tbl_gt2 <- as_gt(tbl_summary2)
 display_html(as_raw_html(tbl_gt2))
 ```
 
-Just like above we can do all kinds of cosmetic changes to our new
-regression summary tables; for instance we can change colors or fonts.
-Once again feel free to change fonts or colors and see how the end
-result changes.
+Just like above we can do all kinds of cosmetic changes to our new regression summary tables; for instance we can change colors or fonts. Once again feel free to change fonts or colors and see how the end result changes.
 
 ```{r}
 
@@ -450,8 +401,7 @@ final_table <- tbl_summary3 %>%
 display_html(as_raw_html(final_table))
 ```
 
-We can also save and export tables using the `gtsave` command. Below we
-can save our first table as the file `example_table1.png`
+We can also save and export tables using the `gtsave` command. Below we can save our first table as the file `example_table1.png`
 
 ```{r}
 
@@ -462,9 +412,7 @@ tbl_save %>%
   gtsave(filename = "example_table1.png") # Save as PNG image using gtsave
 ```
 
-likewise you can save as a Word table using the package “flextable” and
-the command `save_as_docx`, and as an Excel file using the package
-“openxlsx” and the command `as_hux_xlsx`.
+likewise you can save as a Word table using the package “flextable” and the command `save_as_docx`, and as an Excel file using the package “openxlsx” and the command `as_hux_xlsx`.
 
 ## Part 2: Example usage for ECON 326 or ECON 490
 
@@ -474,10 +422,7 @@ for the applied sections of Econ 490 and Econ 326. We’ll be using the
 interface that lets you tap directly into census data provided by
 Statistics Canada.
 
-More information about the cancensus API can be found at this
-[link](https://mountainmath.github.io/cancensus/) This is particularly
-useful if you’d like to pull specific datasets from Statistics Canada
-yourself for future projects.
+More information about the cancensus API can be found at this [link](https://mountainmath.github.io/cancensus/) This is particularly useful if you’d like to pull specific datasets from Statistics Canada yourself for future projects.
 
 ```{r}
 
@@ -489,18 +434,7 @@ drop_na()%>%
 glimpse() #minor data cleaning 
 ```
 
-Suppose, for our project, we were interested in determining if a greater
-proportion of people cycling to work is associated with a greater
-income, adjusted for age, education, and population density. Note the
-columns ending in `_commute`. These represent the number of
-walkers/bikers/drivers living within a given census area.
-`total_reported_commute` is the total number of individuals within each
-census district that reported their commute method to StatsCanada in the
-2016 census. The first thing we want to check is that the sum of all
-`_commute` columns adds up to `total_reported_commute`. This will allow
-us to check for missing values, as well as, more importantly, that the
-vectors we picked for our analysis from the cancensus API are indeed the
-correct ones:
+Suppose, for our project, we were interested in determining if a greater proportion of people cycling to work is associated with a greater income, adjusted for age, education, and population density. Note the columns ending in `_commute`. These represent the number of walkers/bikers/drivers living within a given census area. `total_reported_commute` is the total number of individuals within each census district that reported their commute method to StatsCanada in the 2016 census. The first thing we want to check is that the sum of all `_commute` columns adds up to `total_reported_commute`. This will allow us to check for missing values, as well as, more importantly, that the vectors we picked for our analysis from the cancensus API are indeed the correct ones:
 
 ```{r}
 
@@ -516,11 +450,7 @@ mismatch <- census_data %>%
 glimpse(mismatch)
 ```
 
-We see that every row is slightly mismatched: people are either
-reporting more than one type of commute, or are reporting commute types
-that are not collected in the census (example, not commuting at all, or
-working from home). Let’s create a summary statistic table using
-`gtsummary` to figure out the scale of the differences.
+We see that every row is slightly mismatched: people are either reporting more than one type of commute, or are reporting commute types that are not collected in the census (example, not commuting at all, or working from home). Let’s create a summary statistic table using `gtsummary` to figure out the scale of the differences.
 
 ```{r}
 
@@ -543,15 +473,7 @@ summary_table <- mismatch %>%
 summary_table
 ```
 
-Great! We see that the sum of all commute types is about 61 people more
-than the total amount of people who reported their method of commuting
-for each census area. This suggests that individuals are reporting more
-than one type of commute. Lastly, we’ll put together a table of summary
-statistics for all our variables. Recall our research question: We are
-interested in determining if a increase in proportion of cyclists
-commuting to work per capita is correlated with increases in average
-income. Hence, we can exclude non-cycling modes of transport from our
-summary statistic table. We’ll begin by some minor data wrangling:
+Great! We see that the sum of all commute types is about 61 people more than the total amount of people who reported their method of commuting for each census area. This suggests that individuals are reporting more than one type of commute. Lastly, we’ll put together a table of summary statistics for all our variables. Recall our research question: We are interested in determining if a increase in proportion of cyclists commuting to work per capita is correlated with increases in average income. Hence, we can exclude non-cycling modes of transport from our summary statistic table. We’ll begin by some minor data wrangling:
 
 ```{r}
 
@@ -586,10 +508,7 @@ summary_table_2 <- census_data|>
 summary_table_2
 ```
 
-Looks great! Now suppose we wanted to isolate the summary statistics for
-census areas which have a bikeway passing through them and compare with
-census areas which do not have a bikeway (IE, include a dummy variable
-for presence of bikeways for each census area).
+Looks great! Now suppose we wanted to isolate the summary statistics for census areas which have a bikeway passing through them and compare with census areas which do not have a bikeway (IE, include a dummy variable for presence of bikeways for each census area).
 
 ```{r}
 
@@ -598,8 +517,7 @@ census_data_bikes <- read_csv('project/docs/3_Intermediate/datasets_intermediate
 glimpse(census_data_bikes)
 ```
 
-We will once again repeat the same process for generating our summary
-statistics table, this time with two columns.
+We will once again repeat the same process for generating our summary statistics table, this time with two columns.
 
 ```{r}
 
