@@ -10,3 +10,5 @@ project/_site/
 .Rhistory
 *.DS_Store*
 /_site
+
+/.quarto/
