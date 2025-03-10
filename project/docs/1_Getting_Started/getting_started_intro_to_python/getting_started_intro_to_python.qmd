@@ -1,0 +1,341 @@
+---
+title: 0.4 - Introduction to Python
+author: COMET Team <br> _Jane Platt_
+date: TBD
+description: 'This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don''t get overwhelmed! Remember, you can always review this later!'
+categories: [basics, getting started, data types, data structures, introduction, dataframes, variables, operations, functions, Python]
+format:
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: Python 3 (ipykernel)
+        language: python3
+        name: python3
+jupyter: python3
+---
+
+## Outline
+
+### Prerequisites: 
+
+- Introduction to Jupyter
+
+### Learning Objectives
+
+- Learn the basic concepts of variable assignment, functions, and tabs in Python
+- Learn the basics of variables (numbers, texts, and booleans)
+- Import and load data into Jupyter Notebook
+- Access and perform manipulations on data
+
+## Introduction
+
+In this notebook, we will be introducing **Python**, which is a programming language designed for use in data science and analysis.  If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn to program in Python by trying things for yourself.
+
+## Part 1: Manipulating Data
+
+To begin, we'll go over the most basic concepts used in Python. We'll look at how data is stored in objects, what we can do to these objects, and how to work with larger data structures.  
+
+### 1.1: Object Types
+
+As always when learning a new language, it's important to get a good grasp of the different **object types** in Python and how to use them. Whenever we work with Python, we will be manipulating different kinds of information, which is referred to as an "object". In Python, objects can contain both data and functions we can use on our data. These functions are sometimes called **methods**. 
+
+Python has 3 main data types. The **type** of data will determine what kinds of methods and functions we can perform. Therefore, it will be important to keep track of what type of data we are working with!
+
+The three types of data in Python are:
+
+1. **Numbers**, which can either be *integers* (known as `int` in Python) or *floating point numbers* (known as `float` in Python). Integers can only take on the values of integers, and floats can be any real number. The easiest way to tell the difference between these two types of numbers is the presence of a decimal point. Integers do not have decimals, floats do.
+2. **Strings**, which store all text data (known as `str` in Python). For data to be stored as a string, it must be written within quotation marks. Both `" "` and `' '` work!
+3. **Booleans**, which simply denote true or false. They will be useful later on, when we start working with operations.
+4. **Methods**, which are *functions* we can use on our data. 
+
+To figure out what type of object we are working with, we can use the `type()` function. We will see some examples in a bit.
+
+We can take a look at what an object holds, in terms of data and methods, by typing `.` after the object's name and hitting `tab`. This is typically called *tab completion* or *introspection*. Doing this will list out a few different options that you can scroll through. See below:
+
+![Introspection](media/introspection.png)
+
+#### Working with Numbers 
+
+The first thing we can do in Python is basic math. When our variables are numbers (either `int` or `float`), we can easily use Python to add, subtract, and divide numbers (there are many more things Python can do!). Whenever possible, Python will return an integer type for operations between integers, but any operation involving a float will result in a float. 
+
+Python also allows us to do multiple operations in one line. As you would expect, it follows the standard order of operations PEMDAS (parentheses, exponents, multiplication, division, addition, subtraction). 
+
+If we want to use other math functions, such as taking the sine or cosine of a number, we need to use the `math` package. We will look at this more in detail later, but to use a package, we write the package name followed by a `.` and then we can click [TAB] to look through the available functions. So, if we wanted to take sin(2), we would do the following:
+
+```{python}
+import math # don't forget to import the package first!
+
+math.sin(2)
+```
+
+The last mathematical operation we will look at is floor and modulus division. This relates to division concepts we learned when initially going through division: quotients and remainders. Let's say we are dividing `x` by `y`, two numbers.  
+
+- Floor division: `x // y` will return the quotient, or the number of times the divisor goes into the dividend. 
+- Modulus division: `x % y` will return the remainder. 
+
+#### Working with Strings
+
+Some of the arithmetic operations we learned above can also be used for strings. 
+- We can put two strings together by using `+`
+- We can repeat a string `n` times by writing `n*variable`
+
+Note that if we were to try to use `*`, `-`, or `/` with strings, Python would return an error. 
+
+There are a ton of different non-arithmetic operations we can perform on strings. We won't be able to look at the all in this notebook, but again if you want to take a look, simply type a `.` after the variable and press [TAB]. You can then scroll through some of the methods. 
+
+We'll list out a few of the essential methods below. These are ones that you will frequently see when working with textual data.
+
+```{python}
+x = "Good Morning"
+
+#  Again, you don't need to write print() each time. We are only doing this so that you can see each output and compare
+print(x.lower()) # makes everything lower case. don't forget the extra parentheses!!
+print(x.upper()) # makes everything upper case. don't forget the extra parentheses!!
+print(x.count("o")) # counts how many times a particular string appears
+print(x.count("ing"))
+```
+
+The next operation we'll look at involves repeating strings. 
+
+Let's say we have a dataset that contains many dates and the weather, and we want to write a sentence saying "Month Day, Year was X", where "X" would be the weather. We can do this easily with **string formatting**, which allows us to use a generic **placeholder** to replace each individual value of the variable. To do so, we would replace the specific value we are thinking of with the variable name in squiggly brackets `{}` when we are writing out the sentence. Let's take a look at an example.
+
+```{python}
+month = "January"
+day = "24th"
+year = "2025"
+X = "sunny"
+
+# we include f at the beginning for Python to interpolate what is between the `{}`
+sentence = f"{month} {day}, {year} was {X}."
+print(sentence)
+```
+
+We can also use string formatting for calculations. To do so, we'd substitute the calculation we want to do into the `{}`. 
+
+We can do this for basic math as such: 
+
+```{python}
+print(f"{5}**2 = {5**2}")
+```
+
+And we can do this within sentences as well. Let's say we want Canada's 2024 GDP ($2.515 trillion) in billions. Instead of typing out the number, we could just write
+
+```{python}
+GDP = 2.515
+string = f"Canada's GDP was ${GDP * 1_000} billion in 2024"
+print(string)
+```
+
+If we want to reuse a string we created a format for earlier, we can use the method `format`. To do this though, we do **not** put `f` before the string. For example, 
+
+```{python}
+sentence = "{month} {day}, {year} was {X}."
+
+sentence.format(month = "February", day = "28th", year = 2016, X = "rainy")
+```
+
+There's a lot more we can do with string formatting. If you want to learn more, you can find information [here](https://docs.python.org/3/library/string.html). 
+
+#### Working with Booleans
+
+Most of the time, booleans will be created through comparison operations. For example, we might want a variable that evaluates if someone is older than 18. We would thus create a boolean which is `True` if the age of the individual is greater than 18. 
+
+For two variables `x` and `y`, we can do the following comparisons: 
+
+- Greater than: `x > y `
+- Less than: `x < y`
+- Equal to: `x == y`
+- Greater than or equal to: `x >= y`
+- Less than or equal to: `x <= y`
+
+Sometimes, we will prefer to determine if a statement is **not true** or **not false**. This is called **negating** a statement. We can negate a boolean in Python by adding the statement `not` before `True` or `False`. 
+
+We might also want to do multiple comparisons. For example, we might want to look at all individuals who are employed **and** have children, or we might want to individuals with cars **or** bicycles. We can do this in Python using the *mathematical* **ands** and **ors**. This means that
+
+- `a` and `b` are `True` only when **both** `a` **AND** `b` are `True`
+- `a` or `b` is `True` when **at least one** of `a` or `b` is `True`
+
+Using the examples above:
+- The statement "We are studying individuals who are employed *and* have children" means we will only include individuals that are both employed *AND* who have children
+- The statement "We are studying people with cars *or* bicycle" means we will look at everyone who has a car, everyone who has a bicycle, and everyone who has a car and a bicycle. 
+
+We can also process *all* our booleans at once!
+
+To do so, we can use the functions **all** and **any**. These functions will test all the booleans we're working on at the same time.
+
+- `all(bools)` will tell us if all the booleans in `bools` are `True`. If they are all true, Python will return `True`. If even one of them is not true, Python will return `False`. 
+- `any(bools)` will tell us if we have any booleans that are `True`. If even one of our booleans is true, Python will return `True` when running this command.
+
+### 1.2: Collections
+
+Often, when we are working with many different variables, we will need to store all of our objects in a larger, more complex form, called **collections** in Python. Typically, we will store these objects in either a `list[]` or a `tuple()`. These two object types contain *ordered* collections of items.
+
+The main differences between tuples and lists are:
+
+- Tuples are created using parentheses instead of square brackets -- ( ) instead of [ ]. 
+- Tuples are *immutable*, meaning they can't be changed after they are created.
+- Tuples are connected to multiple return values, which we will see later. 
+
+Lists can be converted to tuples by using the `tuple()` function on a list. Tuples can be converted to lists by using the `list()` function.
+
+#### Working with Lists
+
+Let's take a look at some of the main operations we can do with lists.
+
+- Indexing: we can **index** a list called `mylist` by using the command `mylist[i]`, where `i` is an integer. What we are doing here is selecting an element of the **collection** `mylist`. It's important to note that  **Python starts counting at ZERO!** Thus to access the first element of our list, we must write `mylist[0]`.
+   - We can combine indexing with the `type()` function to access the type of a specific entry within a list.
+- Counting: we can determine how many items are in a list using the function `len`. 
+- Containing: we can us the keyword `in` to check if a list contains a specific entry.
+- Reversing: we can reverse the list with `mylist.reverse()`.
+- Sorting: we can sort the list with `mylist.sort()`.
+    - Note that to do this, all of the elements in our list need to be either numbers (integers or floats), or all strings. If our list is all strings, `mylist.sort()` will sort the items in alphabetical order. 
+- Appending: add another element to the end of the list using `mylist.append(element)`.
+    - Note that is we append the list with another list, we add the list itself to the end rather than the numbers or strings in that list. We can *combine* lists instead using `mylist.extend()`. 
+- Range: the `range()` function is one used frequently in three ways: 
+    - `range(n)` goes from $0$ to $n-1$. 
+    - `range(a, n)` goes from $a$ to $n-1$.
+    - `range(a, n, d)` goes from $a$ to $n-1$, at the interval `d`. 
+    We can also save objects as ranges. 
+
+Although Python will let you make lists with multiple object types (e.g. strings and numbers), be warned that you may run into some additional complications. For example, how would you sort a list that has both letters and numbers? Therefore, we suggest being extra careful. 
+
+#### Working with Tuples
+
+As with lists, we can index tuples. We write the function out the same, and remember: **Python starts counting at ZERO!**
+
+#### Lists or Tuples?
+
+Which one should we use? It depends on many factors.
+
+- What types of objects you are storing;
+- Whether we want to reorder elements;
+- Whether we want to add elements later on.
+
+Let's look at an example to understand this. 
+
+Say we have an individual, Jerry, and some information on him: his age, weight, height, and favourite ice cream flavour. In this case, we would want to use a *tuple*, because the order between the elements is meaningless (i.e. we could have put Jerry's height before his weight), and adding more data would require a reinterpretation of the whole data structure (i.e. we don't know what this new element would mean!). 
+
+```{python}
+jerry_2024 = ("Jerry", 2024, 80, 183, "vanilla")
+print(jerry_2024)
+```
+
+However, if we are looking at Jerry's favourite ice cream flavour over his whole life, a *list* would be a lot more useful! Adding a new element at the end, say Jerry's favourite ice cream flavour the next year, would make sense and would not change the meaning of the dataset.
+
+```{python}
+jerry_2023_2025 = ["strawberry", "vanilla", "mint"]
+print(jerry_2023_2025)
+```
+
+Some things might be best as tuples *and* lists! For example, what if we wanted Jerry's age, weight, height, and favourite ice cream flavour *over many years*?
+
+```{python}
+jerry = [(2023, "strawberry"), (2024, "vanilla"), (2025, "mint")]
+print(jerry)
+```
+
+Overall, we suggest *always* using a list unless you *need* to use a tuple. You would need to use a tuple if:
+
+- the order of each element *cannot* change;
+- the actual values of each element *cannot* change;
+- or you want to use the collection as a key in a `dict`, which we will see soon. 
+
+#### `zip` and `enumerate`
+
+`zip` and `enumrate` are two useful functions that combine lists and tuples. 
+
+The `zip` function allows us to make a list of tuples, where each entry is a tuple. This is best understood through an example. 
+
+Let's say we have two lists, one containing years and the other containing GDPs for each year. 
+
+```{python}
+gdp = [2.161, 2.142, 2.515]
+year = [2022, 2023, 2024]
+z = zip(year, gdp)
+# let's see what's inside by converting the zip to a list
+list(z)
+```
+
+Notice now we have a list where each item is a tuple! Each tuple contains one entry from the two collections we passed into the zip function. Note that the first entry from `gdp` is matched with the first entry of `year`, and so forth. We can access an element of the zip and then unpack the resulting tuple directly into variables.
+
+The `enumerate` function assigns an index to each collection we put in the function. See the example below:
+
+```{python}
+e = enumerate(["a", "b", "c"])
+list(e)
+```
+
+See that the first element in the list is the *index* of the second element in the tuple, which is 
+
+#### Associative Collections - Dictionaries
+
+Dictionaries associate keys with values, similarly to how our dictionaries associate words to definitions. To create a dictionary, do the following:
+
+`{key1: value1, key2: value2, key3: value3}`. Note the use of curly brackets here. What is crucial to recall when using dictionaries is that the syntax relies on pairs of keys and values, each separated by commas. They key is typically a string, whereas the value will be anything. 
+
+To find the value of a particular key, we use `d[k]`, where `d` is the dictionary and `k` is the particular key we want to know the value for. We can add new items to the dictionary using `d[new_key] = new_value`.
+
+There are a few common functions we will do with dictionaries.
+
+- `len(dict)` gives us the number of key-value pairs in the dictionary
+- `list(dict.keys())` lists out the keys
+- `list(dict.values())` lists out the values
+- `dict.update(newdict)` updates the dictionary with newdict, replacing any duplicate keys with values from newdict
+- `dict.get(key1)` gets the value associated with the first key. 
+
+## Part 2: Packages
+
+Similarly to R, Python has a host of packages that we can use that contain different functions and tools. Some examples of packages are: 
+
+- pandas, which implements the tools necessary to do scalable data analysis.
+
+- matplotlib, which contains visualization tools.
+
+- requests and urllib, which allow Python to interface with the internet.
+
+We'll be using packages all throughout the Python modules, so it will be important to learn how to install them and how to open them. 
+
+To install a package, we simply run the code `import package`. To access and open the package that we've installed in our session, we run the code `package.function_name`. Let's do this below with the package `sys`, which helps Python work with our computer.
+
+
+```{python}
+import sys
+sys.version # We want to find the Python version our computer is using
+```
+
+Some packages have fairly long names, so Python has allowed us to abbreviate their names to nicknames when importing them to make our code less heavy. For example, we can abbreviate a package name to `p` by writing `import package as p`. Thus, instead of writing `package.function_name`, we can just write `p.function_name`. 
+
+Typically, people use the following nicknames for packages:
+
+- import pandas as pd
+- import numpy as np
+- import matplotlib as mpl
+- import datetime as dt
+
+In theory, you can abbreviate the packages to any nickname you'd like, but for simplicity and comprehensibility, we recommend using the common nicknames listed above. 
+
+## Part 3:  Dealing with Errors and Getting Help
+
+### 5.1. Errors
+
+Sometimes in our analysis we can run into errors in our code. This happens to everyone - don't worry - it's not a reason to panic. Understanding the nature of the error we are confronted with can be a helpful first step to finding a solution. There are two common types of errors:
+
+- **Syntax errors**: This is the most common error type. These errors result from invalid code statements/structures that Python doesn’t understand. Suppose Python speaks English, speaking to it in German or broken English certainly would not work! Here are some examples of common syntax errors: the associated package is not loaded, misspelling of a command as Python is case-sensitive, unmatched/incomplete parenthesis etc. How we handle syntax errors is case-by-case: we can usually solve syntax errors by reading the error message and finding what is often a typo or by looking up the error message on the internet using resources like stack overflow.
+
+- **Semantic errors**: These errors result from valid code that successfully executes but produces unintended outcomes. Again, let us suppose Python speaks English. Although we asked it to hand us an apple in English and Python successfully understood, it somehow handed us a banana! This is not okay! How we handle semantic errors is also case-by-case:  we can usually solve semantic errors by reading the error message and searching it online.
+
+Now that we have all of these terms and tools at our disposal, we can begin to load in data and operate on it using what we’ve learned.
+
+### 5.2. Getting Help
+
+If you are ever running a function and get stuck, are not sure what the function does, or need a refresher on what the inputs are, Python has a way to get help. 
+
+To do this in Jupyter notebooks, we place a `?` after the function name and rn the cell. Depending on how you launched Jupyter, the help text will either be displayed in the cell below or on a new panel at the bottom of the screen that you can exit by hitting the escape key. 
+
+Try this below with the print function:
+
+```{python}
+print?
+```
+
