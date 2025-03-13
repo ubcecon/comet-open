@@ -1,0 +1,540 @@
+---
+title: Encoder-only Architecture for Text Classification
+author: Irene Berezin, Kaiyan Zhang
+date: 10 March 2025 
+format: 
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: "Python 3 (ipykernel)"
+        language: python3
+        name: python3
+---
+
+
+Recall that the chief reason for using machine learning models over traditional, lexicon-based sentiment analysis is that like lexicon-based approaches to text classifcation rely on fixed dictionaries, which results in them missing context, irony, or slang. ML models, especially deep learning models, learn complex patterns from data, making them particularly useful for more modern text, such as social media posts and online discussions.
+
+
+Generally, for text classification tasks, it is faster to use an encoder-only model like BERT, as we don't need to worry about generating some kind of output sequence- all we are doing is classifying text with some pre-defined labels. In other words, our focus is on *understanding* text rather than *generating* text, so it is both faster, and less computationally expensive, to use encoder-only models like BERT.
+
+
+```{python}
+from advanced_encoder_classifier_tests import Tests
+```
+
+## 0. Data Importing and Cleaning
+
+As mentioned, ML-based text classification works the best for nuanced text with lots of slang. Hence, we'll test it on a dataset of recently-scraped *r/UBC* posts.
+
+```bash
+!pip install transformers # you likely don't have this installed.
+!pip install pytorch # you likely don't have this installed.
+!pip install datasets # you likely don't have this installed.
+!pip install evaluate # you likely don't have this installed.
+!pip install sentencepiece # you likely don't have this installed.
+!pip install accelerate # you likely don't have this installed.
+!pip install numpy
+!pip install pandas
+!pip install seaborn
+```
+
+```{python}
+from transformers import AutoTokenizer, AutoModelForMaskedLM
+import torch
+import re
+import pandas as pd
+from transformers import pipeline
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import numpy as np
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
+from datasets import Dataset
+from sklearn.preprocessing import MultiLabelBinarizer
+import os
+from sklearn.preprocessing import MultiLabelBinarizer
+from numpy import array
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from scipy.special import expit
+import ast
+```
+
+```{python}
+tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased") # to break our reddit posts down into tokens
+model = AutoModelForMaskedLM.from_pretrained("google-bert/bert-base-uncased") # our model
+```
+
+The reddit dataset is dated around late February 2025, however, you are free to scrape newer posts locally by `cd`-ing into the currect directory and running `python project/docs/4_Advanced/advanced_encoder_classifier/r_ubc_scraper.py` in your terminal. This will generate a fresh new set of post/comment datasets for our analysis.
+
+```{python}
+# Load the dataset
+reddit_comments = pd.read_csv('Data/r_ubc_comments.csv')
+reddit_posts = pd.read_csv("Data/r_ubc_posts.csv")
+```
+
+```{python}
+# Merging datasets
+reddit_data = reddit_posts.merge(reddit_comments.groupby("post_id")["body"].apply(lambda x: " ".join(x)), left_on="id", right_on ='post_id', how="left")
+reddit_data["full_text"] = reddit_data['title'] + ['    '] + reddit_data["selftext"].fillna('') + ['    '] + reddit_data["body"].fillna('')
+```
+
+```{python}
+# Convert from UTC to detailed month, date, day of week and hour
+reddit_data['created_utc'] = pd.to_datetime(
+    reddit_data['created_utc'],
+    unit='s',  # Timestamp is in seconds
+    utc=True    # Enforce UTC timezone
+)
+
+reddit_data['month'] = reddit_data['created_utc'].dt.month_name()
+reddit_data['date'] = reddit_data['created_utc'].dt.day
+reddit_data['day_of_week'] = reddit_data['created_utc'].dt.day_name()
+reddit_data['hour'] = reddit_data['created_utc'].dt.hour
+
+def clean_text(text):
+    if isinstance(text, str):
+        text = text.lower()
+        text = re.sub(r"http\S+", "", text)
+        text = re.sub(r"[^a-zA-Z0-9\s]", "", text)
+        return text.strip()
+    else:
+        return ""
+
+reddit_data["clean_text"] = reddit_data["full_text"].apply(clean_text)
+```
+
+## 1. Labelling using a pre-trained roBERTa model
+
+Here we used a pre-trained model from hugging face to generate sentiment labels for each posts. Specifically, we'll be using `cardiffnlp/twitter-roberta-base-sentiment-latest`, a model pre-trained on English twitter texts. It classifies emotions into three categories:  0 -> Negative; 1 -> Neutral; 2 -> Positive.  
+
+If you want to work on datasets containing multiple languages, you can use `google-bert/bert-base-multilingual-uncased`, it is a model pretrained on on the top 102 languages with the largest Wikipedia using a masked language modeling (MLM) objective. You can find more information about it on <https://huggingface.co/google-bert/bert-base-multilingual-uncased>.
+
+```{python}
+emotion_classifier = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment-latest", tokenizer="cardiffnlp/twitter-roberta-base-sentiment-latest")
+
+reddit_data["sentiment"] = reddit_data["clean_text"].apply(lambda x: emotion_classifier(x[:512])[0]["label"] if pd.notna(x) else "neutral")
+```
+
+Here we are using another pre-trained model to generate topic labels for each posts. Specfically, we are using `cardiffnlp/tweet-topic-base-multilingual`, a model pre-trained on ~198M multilingual tweets and finedtuned for English, Spanish, Japanese, and Greek. You can find information about its labels on <https://huggingface.co/cardiffnlp/tweet-topic-base-multilingual>.
+
+Unfortunately, there hasn't yet to be a "good" multilingual model for topic classifications for some languages up untill Feburuary 2025, but I believe you can always find something that works for your demand on <https://huggingface.co/models>.
+
+```{python}
+
+MODEL = "cardiffnlp/tweet-topic-base-multilingual"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+
+class_mapping = model.config.id2label
+
+def classify_text(text):
+    tokens = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
+    output = model(**tokens)
+
+    scores = output[0][0].detach().numpy()
+    scores = expit(scores)
+
+    predictions = (scores >= 0.5) * 1
+
+    # Get predicted labels
+    predicted_labels = [class_mapping[i] for i in range(len(predictions)) if predictions[i]]
+
+    return ", ".join(predicted_labels) if predicted_labels else "other"
+
+reddit_data["topic"] = reddit_data["clean_text"].apply(classify_text)
+```
+
+```{python}
+def clean_topics(topic_list):
+    if isinstance(topic_list, list):
+        return [topic.strip() for topic in topic_list]
+    return topic_list
+
+reddit_data["topics"] = reddit_data["topic"].apply(lambda x: x.split(","))
+
+reddit_data["topics"] = reddit_data["topics"].apply(clean_topics)
+```
+
+```{python}
+reddit_data["multi_labels"] = reddit_data.apply(lambda row: row["topics"] + [row["sentiment"]], axis=1)
+
+reddit_data["multi_labels"] = reddit_data["multi_labels"].apply(lambda x: eval(x) if isinstance(x, str) else x)
+
+reddit_data.to_csv('Data/r_reddit_data.csv', index=False)
+```
+
+Since we saved the dataframe as a csv, we are now able to begin from this step by reading the csv file directly.
+
+```{python}
+# Split training and testing data
+# You can start from this step if you don't want to re-generate emotion and topic labels
+reddit_data = pd.read_csv("Data/r_reddit_data.csv")
+reddit_data["multi_labels"] = reddit_data["multi_labels"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+
+train_indices, test_indices = train_test_split(reddit_data.index, test_size=0.2, random_state=114514) # We set seed to ensure reproducible results
+
+train_data = reddit_data.loc[train_indices].reset_index(drop=True)
+test_data = reddit_data.loc[test_indices].reset_index(drop=True)
+
+print(train_data)
+```
+
+We can visualize the share of different labels with a pie chart.
+
+```{python}
+# Print the distribution table of labels
+
+train_data["topics"] = train_data["topics"].apply(lambda x: eval(x) if isinstance(x, str) else x)
+test_data["topics"] = test_data["topics"].apply(lambda x: eval(x) if isinstance(x, str) else x)
+
+train_data["topics"] = train_data["topics"].apply(clean_topics)
+test_data["topics"] = test_data["topics"].apply(clean_topics)
+
+train_exploded = train_data.explode("topics")
+test_exploded = test_data.explode("topics")
+
+train_counts = train_exploded["topics"].value_counts()
+test_counts = test_exploded["topics"].value_counts()
+
+distribution_df = pd.DataFrame({
+    "train_count": train_counts,
+    "test_count": test_counts
+}).fillna(0).astype(int)
+
+distribution_df["train %"] = (distribution_df["train_count"]/distribution_df["train_count"].sum() * 100).round(2)
+distribution_df["test %"] = (distribution_df["test_count"]/distribution_df["test_count"].sum() * 100).round(2)
+
+distribution_df.sort_values(by="train_count", ascending=False, inplace=True)
+
+display(distribution_df)
+```
+
+```{python}
+# Plot the Pie Chart
+train_emotion_counts = pd.Series(train_data["sentiment"]).value_counts()
+test_emotion_counts = pd.Series(test_data["sentiment"]).value_counts()
+
+plt.figure(figsize=(12,8))
+plt.subplot(1,2,1)
+train_emotion_counts.plot.pie(autopct='%1.1f%%', startangle=140, title="Train Set Labels (Emotion)")
+plt.ylabel('')
+
+plt.subplot(1,2,2)
+test_emotion_counts.plot.pie(autopct='%1.1f%%', startangle=140, title="Test Set Labels (Emotion)")
+plt.ylabel('')
+
+plt.show()
+
+plt.figure(figsize=(12, 9))
+distribution_df.plot.bar(y = "train_count", title="Train Set Labels (Topic)")
+plt.ylabel('')
+
+plt.show()
+
+plt.figure(figsize=(12, 9))
+distribution_df.plot.bar(y = "test_count", title="Test Set Labels (Topic)")
+plt.ylabel('')
+
+plt.show()
+```
+
+Then we can preprocess our data by binarizing the unique labels and tokenize our columns for classification.
+
+### Question 1
+
+Out of the options below, which one is not a strength of using encoder only model for classification?
+
+- A) It is relatively cheaper to train.
+- B) It can generate labels itself even if no pre-defined label is attached to training texts.
+- C) It can overcome missing context, irony or slang.
+- D) It works well with multi-label tasks.
+- E) None of the above.
+
+*Enter your answer below as a a string with one of A, B, C, D, E ie. "A"*
+
+```{python}
+answer1 = # Your answer here
+
+Tests.test1(answer1)
+```
+
+## 2. Training Classifiers
+
+### 1. OneVsRestClassifier
+
+This is our first classifying strategy, which consists in fitting one binary classifier per class.
+
+For example, if you want to classify 3 types of fruits, apple, banana and orange with this strategy, you will need to train 3 binary classifiers. The first of these classifiers determines if it is an apple, the second is responsible for determining if it is a banana, and the third is responsible for determining if it is an orange.
+
+The 3 classifiers will then vote for the given new observation, the voting result will be shown as probability. Let's say we have a new observation that we are unsure what type of fruit it is, so we feed this observation to our classifier. The "Apple" classifier claims it's 80% likely an apple, the "Banana" classifier claims it's 10% likely a banana, and the "Orange" classifier claims it's 50% likely an orange. Then we classify based on the highest probability that our new object is an apple.
+
+While it is simple and effective, this strategy has its drawback -- What if there are large amount of labels for us to classify? What if the labels have specific hierarchies? In the first situation, it may take a lot of time to train multiple classifiers for this task; and in the second situation, we could make a lot of mistakes using binary classification. Then we'd better use alternative strategies.
+
+Anyhow, this is a good way to begin encoder classification.
+
+### 2. MultiOutputClassifier
+
+This strategy consists of fitting one classifier per target. This is a simple strategy for extending classifiers that do not natively support multi-target classification.
+
+It is somewhat similar to the *OneVsRest* strategy we just described, but uses a different approach. Let's go back to the fruit classification example, where in the previous setup we trained 3 different classifiers for 3 different types of fruits. Now, let's say that we basically determine which type of fruit it is by looking at the multiple features shared by these fruits (e.g., color, smoothness, and flavor). Then, the *MultiOutput* strategy would train a classifier to specialize in one variable.
+
+You may have noticed that this overcomes the shortcomings of the *OneVsRest* strategy to a certain extent, especially when there are more “labels” than training variables. However, when we have more variables than labels, this strategy is less efficient than the *OneVsRest* strategy. Therefore, we need to be cautious when choosing our strategy.
+
+### 3. ClassifierChain
+
+We are finally coming to our last strategy -- It is to train multi-label model that arranges binary classifiers into a chain.  
+
+I'll stick with the fruit categorization example (because it's simple and straightforward), and assume that we've used a *MultiOutput* strategy, which provides us with 3 classifiers that deal with 3 different features of the fruit. How can we make them work more efficiently? We want them to work in a band, rather than individually! A *ClassifierChain* can also treat the evidence found by the previous classifier as a feature for the next one, thus improving the quality of the classification by sharing common knowledge and "pass on" the evidence chain.
+
+While this strategy sounds smarter than the first two, it has its drawbacks. First, it is more prone to false correlation and over-fitting. Second, it requires more resources to train. Third, when there are fewer covariates, the improvement that this strategy may bring is not significant. Therefore, special care should be taken when deciding to adopt this strategy!
+
+Now that we've finished this short tutorial on 3 different classification strategies, we will show how to train a basic encoder classifier for multi-label task with an example.
+
+### Question 2
+
+Suppose that a hospital is developing a system to automatically classify patient symptoms into multiple diagnostic categories. Each patient might have 0-3 simultaneous conditions from 15 possible diseases. Doctors observe that certain conditions often co-occur (e.g., diabetes and hypertension). Which strategy would BEST leverage these inter-label relationships while maintaining reasonable computational efficiency?
+
+- A) *OneVsRest*
+- B) *MultiOutput*
+- C) *ClassifierChain*
+- D) None of the above
+
+*Enter your answer below as a a string with one of A, B, C, D, ie. "A"*
+
+```{python}
+answer2 = # Your answer here
+
+Tests.test2(answer2)
+```
+
+## 3. Training a Multi-Label Classifier on Reddit Data
+
+Now that we've gone over the various classifying strategies, we'll try and train a new classifier on the labels produced by `cardiffnlp/tweet-topic-base-multilingual`. Specifically, we'll train a bert model on the synthetic labels on the reddit dataset we generated earlier. Training on synthetic data, data generated by other ML models, is a valid technique. In fact, [researchers estimate that new human-generated data for training ML models will run out within the next 2 to 8 years, forcing the use of synthetic data for training](https://arxiv.org/pdf/2211.04325). There are, of course, obvious downsides; in a classification context, the biases present in the classifications of one model will be transferred over to any models trained on the upstream model's classifications. However, for learning purposes, this method works well and is cost-effective, as the code below can easily be modified and reused for human-labeled datasets.
+
+Our workflow will consist of the following:
+
+1) Convert labels into matrices of binary values.
+2) Tokenize our `clean_data` column into tokens for classification.
+3) Define/discuss accuracy, recall, and reate a function for evaluating our model's predictions.
+4) Train and test our model!
+
+We'll accomplish this primarily with the use of two libraries: `skit-learn` and `transformers`. `skit-learn` provides us a convenient way of transforming our labels into binary vectors, while the `transformers` library abstracts most of the training and evaluation into simpler code.
+
+### 3.1 Data-preprocessing
+
+We'll start by doing some simple data preprocessing and setting up our GPU.
+
+<alert>
+You'll probably want a CUDA-compatible GPU for this. Consider google collab for smaller datasets.
+</alert>
+
+```{python}
+os.environ["WANDB_DISABLED"] = "true" # disables annoying API key requirement
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # Best to have a GPU.
+model.to(device)
+
+train_dataset = train_data[['clean_text', 'multi_labels']]
+test_dataset = test_data[['clean_text', 'multi_labels']]# clean_text is our textual input, 'multi_labels' is our list of labels.
+print(type(train_data['multi_labels'].iloc[0]))
+```
+
+Notice that the multi-label column is comprised of lists of labels. Each list corresponds to the series of labels assigned to each reddit post. While this is intuitive for us to understand, it is not so intuitive for our model. So, we'll need to convert it into a format easily interpretable by a computer: a binary vector. Each value in the vector corresponds to the presence of one of the 23 labels in our dataset. Repeating this for all n rows of the dataset, we end up with a matrix of size $700 \times 23$. We'll do this conversion using `sklean`'s [MultiLabelBinarizer](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MultiLabelBinarizer.html) class.
+
+```{python}
+# for example, we can convert this list of sets containing labels into a binary matrix.
+# each set contains labels corresponding to a column in a hypothetical dataset.
+
+mlb = MultiLabelBinarizer()
+mlb.fit_transform([{'sci-fi', 'thriller'}, {'comedy'}])
+```
+
+The first row of the matrix corresponds to the first set of labels, and is interpreted as "`comedy` is absent, `sci-fi` is present, `thriller` is present. Likewise, the second row is interpreted as "`comedy` is present, `sci-fi` is absent, `thriller` is absent."
+
+```{python}
+list(mlb.classes_)
+```
+
+```{python}
+mlb = MultiLabelBinarizer()
+
+train_labels = mlb.fit_transform(train_data['multi_labels'])  #converting training data labels to binary matrix
+test_labels  = mlb.transform(test_data['multi_labels'])  # converting testing data labels to binary matrix
+num_labels = train_labels.shape[1] #.shape[1] gives us the number of entries in each row of the matrix
+print(num_labels)
+print(list(mlb.classes_))
+
+
+train_data = train_data.copy() #creates an independent copy to avoid changing the original dataframe
+test_data  = test_data.copy()
+train_data['labels_encoded'] = list(train_labels) # assigns labels to new column
+test_data['labels_encoded']  = list(test_labels)
+# Converting the pandas DataFrames into HuggingFace Datasets, in order to use the trainer.
+train_dataset = Dataset.from_pandas(train_data[['clean_text', 'labels_encoded']])
+test_dataset  = Dataset.from_pandas(test_data[['clean_text', 'labels_encoded']])
+```
+
+```{python}
+print(array(train_dataset['labels_encoded']))
+print(array(test_dataset['labels_encoded']))
+```
+
+Next, we need to tokenize our text to pass through the model. We define a custom tokenizing function below:
+
+```{python}
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+def tokenize_function(batch):
+    """
+    Given a batch dictionary, tokenizes text using the global tokenizer with:
+         - Truncation: cutting off texts longer than 128 tokens.
+         - Padding: ensuring every text is exactly 128 tokens long.
+    Next it converts each label in "labels_encoded" to a float and adds the processed labels to the tokenized
+    output under the key "labels".
+    """
+    encoding = tokenizer(batch["clean_text"], truncation=True, padding='max_length',max_length=128) #converts raw text into tokens
+    labels = [] #initializing the main empty list of labels
+
+    for label_list in batch["labels_encoded"]: # outer loop: iterates over each list of labels in the batch
+        converted_labels = [] # initializing a inner list of labels for each batch
+        for x in label_list:  # Iterates over each individual label in the current label list
+            converted_labels.append(float(x)) # converts each label to a float and appends it to `converted_labels`
+        labels.append(converted_labels) # appends resulting list to main list of labels
+
+    encoding["labels"] = labels
+    return encoding
+```
+
+Now that our tokenizer function has been written, we can map the function onto the training and testing datasets.
+
+```{python}
+train_dataset = train_dataset.map(tokenize_function, batched=True)
+test_dataset  = test_dataset.map(tokenize_function, batched=True)
+
+train_dataset = train_dataset.remove_columns(["clean_text", "labels_encoded"]) #removing the old columns
+test_dataset  = test_dataset.remove_columns(["clean_text", "labels_encoded"])
+
+train_dataset.set_format("torch") # changes the output format of the dataset so that each sample is returned as PyTorch tensors
+test_dataset.set_format("torch")
+```
+
+Note that we haven't actually done any training yet; All we've done is preprocessed our data to a format that is legible by a model. We can now go ahead and create an instance of a BERT model that we are training from HuggingFace, by specifying our model and the problem type (multi-label classification).
+
+```{python}
+model = BertForSequenceClassification.from_pretrained(
+    'bert-base-uncased',
+    num_labels=num_labels,
+    problem_type="multi_label_classification"
+)
+```
+
+It's one thing to train a model, but how do we go about actually evaluating it's performance? We need a set of concrete metrics. Before diving into writing a evaluation function, let's define some new terminology:
+
+**Accuracy** is defined as the total number of correct predictions over the total number of predictions.
+
+$$\text{Accuracy} = \frac{\text{Total \# of Correct Predictions}}{\text{Total \# of Predictions}}$$
+
+This metric is simple and intuitive, however, as we will see, in scenarios where one class dominates, a high accuracy can be misleading because the model might simply be predicting the majority class most of the time.
+
+**Recall** is proportion of actual positives (binary label equals 1) that were correctly identified.
+
+$$\text{Recall} = \frac{\text{True Positive}}{\text{True Positive + False Positive}}$$
+
+Recall is used primarily in situations where making a false positive is extremely costly. For instance, if we were training a model to pick up on AI-generated text submitted by students on assignments, we'd heavily prioritize maximizing recall, as false positives would have lasting impacts on innocent students.
+
+We'll be evaluating both recall and accuracy.
+
+```{python}
+def compute_metrics(p):
+  """
+  Given a tuple containing an array of logits and an array of labels, compute accuracy and recall by:
+   1) Applying a sigmoid activation function to the logits, to convert them into probabilities
+   2) Converting the resulting probabilities into binary predictions
+   3) Cacliuating resulting accuracy and recall
+  """
+  logits, labels = p
+  probs = 1 / (1 + np.exp(-logits)) # sigmoid activation function
+  preds = (probs >= 0.5).astype(int) # # Threshold at 0.5 to get binary predictions
+  binary_accuracy = np.mean(preds == labels) # binary accuracy
+  true_positives = np.logical_and(preds == 1, labels == 1).sum()
+  total_actual   = (labels == 1).sum()
+  micro_recall = true_positives / total_actual if total_actual > 0 else 0
+
+  return {"binary_accuracy": binary_accuracy, "micro_recall": micro_recall}
+```
+
+Furthermore, we need to specify the training arguments and the trainer. We do this using HuggingFace's `trainer` and `TrainingArguments` classes, which are handy APIs for easily training a model while abstracting away all of the complicated details.
+
+The details here aren't important; you can read more about what each argument does [here](https://huggingface.co/docs/transformers/en/main_classes/trainer) and [here](https://huggingface.co/docs/transformers/v4.49.0/en/main_classes/trainer#transformers.TrainingArguments).
+
+```{python}
+training_args = TrainingArguments(
+    output_dir="./results",
+    evaluation_strategy="epoch",
+    num_train_epochs=3,
+    per_device_train_batch_size=3,
+    per_device_eval_batch_size=3,
+    learning_rate=2e-5,
+    weight_decay=0.01,
+    logging_steps=10,
+    load_best_model_at_end=True,
+    metric_for_best_model="binary_accuracy",
+    save_total_limit=2,
+    save_strategy="epoch"
+)
+
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=test_dataset,
+    compute_metrics=compute_metrics,
+)
+```
+
+Lastly, the easiest part is actually training the model:
+
+```{python}
+# This call will run the full training loop
+trainer.train()
+
+results = trainer.evaluate()
+print(results)
+```
+
+Wow! What a high accuracy, after being trained on just 700 examples! The flaw here is obvious: we are training a BERT classifer on synthetic data generated by a BERT-based model. Furthermore, as we mentioned earlier, our labels are not evenly distributed across the training and evaluation data. Many labels appear in almost every row, while some appear < 10 times.
+
+
+## Test your understanding
+
+1) (easy) Suppose you are given a list of sets like: `[{1,2},{1,2,3},{2,3},{3,4}]`. What will be the resulting binary matrix after running `mlb.fit_transform()`?
+
+ <details>
+  <summary>Hide/Show Solution</summary>
+  <p>
+\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+1 & 1 & 1 & 0 \\
+0 & 1 & 1 & 0 \\
+0 & 0 & 1 & 1
+\end{bmatrix}
+</p>
+</details>
+
+2) (easy) Another method of calculating accuracy is **total accuracy** which is the number rows where each label is correctly classified over the number of total rows. For instance, if a model outputs `[0,0,1]` as it's classification for a given text and the correct answer is `[1,0,1]`, the binary accuracy would be 2/3, while the total accuracy would be 0.
+
+What would you expect to happen to our accuracy score, if we used total accuracy as our accuracy metric instead of binary accuracy?
+
+ <details>
+  <summary>Hide/Show Solution</summary>
+  <p> Our accuracy would be much lower, and we are now checking if each row of the predicted matrix of binary labels is identical to each row of the actual matrix, instead of checking if a given value in the predicted matrix matches the respective value in the actual matrix. </p>
+  </details>
+
+3) (Hard) Head over to kaggle and check out the [jigsaw classification challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/data). Note that you'll need an [api key](https://www.kaggle.com/docs/api) to download the dataset below. Using the classification code above, can you train a BERT model on the dataset?
+
+```{python}
+!kaggle competitions download -c jigsaw-toxic-comment-classification-challenge
+
+# you might need to do !pip install kaggle first!
+```
+
