@@ -37,7 +37,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: site
-          path: artifacts
+          path: |
+            artifacts
+            !artifacts/**/var/log/nginx/**
     
   deploy:
     needs: build
