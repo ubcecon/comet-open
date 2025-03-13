@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt">
+<meta name="dcterms.date" content="2024-05-29">
+<meta name="description" content="In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions.">
+
+<title>COMET - 06 - Conducting Within Group Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" rel="next">
+<link href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html" rel="" target="">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html" rel="" target="">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html" rel="" target="">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html" rel="" target="">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html" rel="" target="">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html" rel="" target="">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html" rel="" target="">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html" rel="" target="">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html" rel="" target="">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html" rel="" target="">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html" rel="" target="">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html" rel="" target="">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html" rel="" target="">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html" rel="" target="">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/" rel="" target=""><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip" rel="" target=""><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip" rel="" target=""><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open" rel="" target="">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#" rel="" target="">
+ <span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html" rel="" target="">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html" rel="" target="">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_research.html">R Notebooks</a></li><li class="breadcrumb-item"><a href="../../../docs/5_Research/econ490-r/06_Within_Group.html">Within Group Analysis (6)</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn to Research</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with R Scripts (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/06_Within_Group.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Within Group Analysis (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pystata Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#key-functions-for-group-analysis" id="toc-key-functions-for-group-analysis" class="nav-link" data-scroll-target="#key-functions-for-group-analysis">6.1 Key Functions for Group Analysis</a>
+  <ul class="collapse">
+  <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange">6.1.1 <code>arrange</code></a></li>
+  <li><a href="#group_by" id="toc-group_by" class="nav-link" data-scroll-target="#group_by">6.1.2 <code>group_by</code></a></li>
+  <li><a href="#group_keys" id="toc-group_keys" class="nav-link" data-scroll-target="#group_keys">6.1.3 <code>group_keys</code></a></li>
+  <li><a href="#ungroup" id="toc-ungroup" class="nav-link" data-scroll-target="#ungroup">6.1.4 <code>ungroup</code></a></li>
+  </ul></li>
+  <li><a href="#generating-variables-for-group-analysis" id="toc-generating-variables-for-group-analysis" class="nav-link" data-scroll-target="#generating-variables-for-group-analysis">6.2 Generating Variables for Group Analysis</a></li>
+  <li><a href="#reshaping-data" id="toc-reshaping-data" class="nav-link" data-scroll-target="#reshaping-data">6.3 Reshaping Data</a></li>
+  <li><a href="#common-mistakes" id="toc-common-mistakes" class="nav-link" data-scroll-target="#common-mistakes">6.4 Common Mistakes</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">6.5 Wrap Up</a></li>
+  <li><a href="#wrap-up-table" id="toc-wrap-up-table" class="nav-link" data-scroll-target="#wrap-up-table">6.6 Wrap-up Table</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="06_Within_Group.ipynb" download="06_Within_Group.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">06 - Conducting Within Group Analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">r</div>
+    <div class="quarto-category">generating variables</div>
+    <div class="quarto-category">dummy variables</div>
+    <div class="quarto-category">ifelse</div>
+    <div class="quarto-category">case when</div>
+    <div class="quarto-category">mutating</div>
+    <div class="quarto-category">naming</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">29 May 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Inspect and clean the variables of a data set.</li>
+<li>Generate basic variables for a variety of purposes.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Use <code>arrange</code>, <code>group_by</code>, <code>group_keys</code>, and <code>ungroup</code> to sort and organize data for specific purposes.</li>
+<li>Generate variables with <code>summarise</code> to analyze patterns within groups of data.</li>
+<li>Reshape data frames using <code>pivot_wider</code> and <code>pivot_longer</code>.</li>
+</ol>
+</section>
+<section id="key-functions-for-group-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="key-functions-for-group-analysis">6.1 Key Functions for Group Analysis</h2>
+<p>When we are working on a particular project, it is often quite important to know how to summarize data for specific groupings, whether of variables or observations meeting specific conditions. In this notebook, we will look at a variety of functions for conducting this group-level analysis. We will rely heavily on the <code>dyplr</code> package, which we have implicitly imported through the <code>tidyverse</code> package. Let’s import these packages and load in our “fake_data” now. Recall that this data set is simulating information of workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(IRdisplay)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../econ490-stata/fake_data.dta"</span>) <span class="co"># change me!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we’ve loaded in our data and already know how to view it, clean it, and generate additional variables for it as needed, we can look at some helpful commands for grouping this data.</p>
+<section id="arrange" class="level3">
+<h3 class="anchored" data-anchor-id="arrange">6.1.1 <code>arrange</code></h3>
+<p>Before grouping data, we may want to order our data set based on the values of a particular variable. The <code>arrange</code> function helps us achieve this. It takes in a data frame and variable and rearranges our data frame in ascending order of the values of that variable, with the option to arrange in descending order requiring a further <code>desc</code> function. As an example, let’s rearrange our entire data set in order of the variable <em>year</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange the data frame by ascending year</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(year)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange the data frame by descending year</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can also pass multiple variable parameters to the <code>arrange</code> function to indicate how we should further sort our data within each year grouping. For instance, including the <em>region</em> variable will further sort each year grouping in order of region.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(year, region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="group_by" class="level3">
+<h3 class="anchored" data-anchor-id="group_by">6.1.2 <code>group_by</code></h3>
+<p>This is one of the most pivotal functions in R. It allows us to group a data frame by the values of a specific variable and perform further operations on those groups. Let’s say that we wanted to group our data set by <em>region</em> and count the number of observations in each region. To accomplish this, we can simply pass this variable as a parameter to our <code>group_by</code> function and further pipe this result into the <code>tally</code> function (which counts the number of observations).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how the <code>group_by</code> function nicely groups the regions in ascending order for us automatically. Unlike with the <code>arrange</code> function, it does not preserve the data set in its entirety. It instead collapses our data set into groups, thus it is important not to redefine our “data” data frame by this <code>group_by</code> if we want to preserve our original data.</p>
+<p>We can also pass multiple arguments to <code>group_by</code>. If we pass both <em>region</em> and <em>treated</em> to our function as inputs, our region groups will be further grouped by observations which are and are not treated. Let’s count the number of treated and untreated observations in each region.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, treated) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, we can pipe a <code>group_by</code> object into another <code>group_by</code> object. In this case, the second <code>group_by</code> will simply overwrite the first. For example, if we wanted to pass our original <em>region</em> <code>group_by</code> into a mere <em>treated</em> <code>group_by</code>, we get as output a data frame counting the total number of observations that are treated and untreated.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(treated) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="group_keys" class="level3">
+<h3 class="anchored" data-anchor-id="group_keys">6.1.3 <code>group_keys</code></h3>
+<p>This function allows us to see the specific groups for a <code>group_by</code> data frame we have created. For instance, if we wanted to see every year in the data, we could group by <em>year</em> and then apply the <code>group_keys</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> <span class="fu">group_keys</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is equivalent to using the <code>unique</code> function directly on a column of our data set. The <code>unique</code> function lists all unique values for a specified list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(fake_data<span class="sc">$</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output is just a list in this case, instead of another data frame as above.</p>
+</section>
+<section id="ungroup" class="level3">
+<h3 class="anchored" data-anchor-id="ungroup">6.1.4 <code>ungroup</code></h3>
+<p>We can even selectively remove grouping variables from a grouped data frame. Say we grouped by <em>region</em> and <em>treated</em> but then wanted to just count how many treated groups there are by <em>region</em>. If this double grouped data frame is defined as A, we can simply use <code>ungroup</code> A to remove the grouping by treatment status.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region, treated) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>(treated) <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We may also be interested in knowing how many groupings we have created. We can remove all grouping variables by leaving the input of <code>ungroup()</code> empty.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="generating-variables-for-group-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="generating-variables-for-group-analysis">6.2 Generating Variables for Group Analysis</h2>
+<p>We have already seen how to redefine and add new variables to a data frame using the <code>df$ &lt;-</code> format. We have also seen how to use the <code>mutate</code> function to add new variables to a data frame. However, we often want to add new variables to grouped data frames to display information about the different groups rather than different observations in the original data frame. That is where <code>summarise</code> comes in.</p>
+<p>The <code>summarise</code> function gives us access to a variety of common functions we can use to generate variables corresponding to groups. For instance, we may want to find the mean earnings of each region. To do this, we can group on <em>region</em> and then add a variable to our grouped data frame which aggregates the mean of the <em>earnings</em> variable for each region group. We must use the <code>summarise</code> function for this, since it gives us access to the earnings of every member of each group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We may want more detailed information about each region. We can pass a series of parameters to <code>summarise</code> and it will generate variables for all of these requests. Let’s say we want the mean and standard deviation of <em>earnings</em> for each group, as well as the range of <em>earnings</em> for each group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings), <span class="at">stdevearnings =</span> <span class="fu">sd</span>(earnings), <span class="at">range =</span> <span class="fu">max</span>(earnings) <span class="sc">-</span> <span class="fu">min</span>(earnings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We may also want to calculate the number of observations in each region as an additional variable. Before, we could simply group by our <em>region</em> variable and then immediately apply the <code>tally</code> function. However, now that we have defined a series of other variables, our data set on which <code>tally</code> operates is different. Watch what happens when we try to use <code>tally</code> after using <code>summarise</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings), <span class="at">stdevearnings =</span> <span class="fu">sd</span>(earnings), <span class="at">range =</span> <span class="fu">max</span>(earnings) <span class="sc">-</span> <span class="fu">min</span>(earnings)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now watch what happens when we try to use <code>tally</code> before using <code>summarise</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tally</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings), <span class="at">stdevearnings =</span> <span class="fu">sd</span>(earnings), <span class="at">range =</span> <span class="fu">max</span>(earnings) <span class="sc">-</span> <span class="fu">min</span>(earnings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the first case, tally does not have the necessary information left in the data frame to count the number of observations in each region. In the second case, tally has shrunk the data frame so much that the functions within <code>summarise</code> do not have the necessary information to make their calculations.</p>
+<p>This is where <code>n</code> comes in. This is a special function used within the <code>summarise</code> variable. It represents the number of observations within each group of a data frame. As such, it is directly paired with <code>group_by</code>, although it can be paired with <code>mutate</code> when we are working with the number of observations in a data set as a whole (i.e.&nbsp;with one group, meaning <code>n</code> represents the position of each observation).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings), <span class="at">stdevearnings =</span> <span class="fu">sd</span>(earnings), <span class="at">range =</span> <span class="fu">max</span>(earnings) <span class="sc">-</span> <span class="fu">min</span>(earnings), <span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The entire process of generating variables for group analysis in this section is similar to collapsing a data set in Stata. Luckily, it can be done more quickly here in R.</p>
+</section>
+<section id="reshaping-data" class="level2">
+<h2 class="anchored" data-anchor-id="reshaping-data">6.3 Reshaping Data</h2>
+<p>Sometimes in our process of data analysis, we want to restructure our data frame. To do this, we can take advantage of a series of functions within the <code>tidyr</code> package that we have imported implicitly through loading in the <code>tidyverse</code> package. These functions allow us to quickly change the format of our data frame without having to redefine all of its columns and rows manually.</p>
+<p>For instance, we often want to transform our data from “wide” (cross-sectional) to “long” (panel) format, or vice versa. Suppose that we wish to make our data set more “cross-sectional” in appearance by dropping the age variable and adding an earnings variable for each year, with the values in these new columns corresponding to the earnings of each person in that year. Effectively, by adding columns, we are making our data set “wider”, so it is no surprise that the function is called <code>pivot_wider</code>.</p>
+<p>It takes the following arguments:</p>
+<ol type="1">
+<li><code>names_from</code>: which columns to get the name of the output columns (in our example, <code>year</code>);</li>
+<li><code>values_from</code>: which columns to get the cell values from (in our example, <code>earnings</code>).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>wide_data <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>age) <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"year"</span>, <span class="at">values_from =</span> <span class="st">"earnings"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wide_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see that the function above took the values from <em>year</em> and generated a new variable for each of them from 1982 to 2012, then supplied the corresponding values from <em>earnings</em> to each of these year variables. When a worker’s information isn’t recorded for a given year (and thus they have no recorded wage), the <em>earnings</em> variable is marked as missing.</p>
+<p>We can pivot more than one variable. Instead of pivoting only the variable <em>year</em>, we can pivot both the variables <em>year</em> and <em>age</em>. We do so by specifying both variables in the <code>values_from</code> argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"year"</span> , <span class="at">values_from =</span> <span class="fu">c</span>(<span class="st">"earnings"</span>,<span class="st">"age"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now suppose we want to work backward and transform this data set back into its original, “longer” shape (just now without the <em>age</em> variable). To do this, we can invoke the complementary <code>pivot_longer</code> function. The arguments we need to specify are:</p>
+<ol type="1">
+<li><code>cols</code>: the name of the columns we want to pivot to longer format (in our case, <code>'1995':'2011'</code>);</li>
+<li><code>names_to</code>: the name of the new column that will be created from the information stored in the column names specified by <code>cols</code> (in our case, <code>"year"</code>);</li>
+<li><code>values_to</code>: the name of the column to create from the data stored in cell values, <code>"earnings"</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> wide_data <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">'1995'</span><span class="sc">:</span><span class="st">'2011'</span>, <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"earnings"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Remember that, when going from long to wide format, we created several missing values every time a worker information for a given year was not available. Now that we transform our data back from wide to long format, we may carry with us all those missing values we had created.We can ask R to automatically exclude them, by adding the option <code>values_drop_na = TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>long_data_short <span class="ot">&lt;-</span> wide_data <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">'1995'</span><span class="sc">:</span><span class="st">'2011'</span>, <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"earnings"</span>, <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data_short)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If this doesn’t seem intuitive or quickly comprehensible, don’t worry. Even many experienced coders struggle with the pivoting/reshaping functionality. With practice, it will become much more digestible!</p>
+</section>
+<section id="common-mistakes" class="level2">
+<h2 class="anchored" data-anchor-id="common-mistakes">6.4 Common Mistakes</h2>
+<p>It is easy to forget that <code>group_by()</code> creates a new data frame with a limited number of variables.</p>
+<p>Suppose we want to compute average earnings by region and treated status. We may try to do something like the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>step1 <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>step2 <span class="ot">&lt;-</span> step1 <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(treated) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This results in an error: the first <code>group_by</code> creates a new data frame that does not contain the variable <em>treated</em> anymore. We can see that also by looking at the error message: <em>column ‘treated’ is not found</em>.</p>
+<p>The right way of doing what we wanted is as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(region, treated) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanearnings =</span> <span class="fu">mean</span>(earnings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When we move from wide to long format, or vice versa, the variables that we <em>do not</em> pivot should remain constant over the variable that we pivot (namely, the variable we use in the <code>names_from</code> argument).</p>
+<p>Consider the example below. It is similar to what we did above but it has a crucial difference; can you spot it?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"year"</span>, <span class="at">values_from =</span> <span class="st">"earnings"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Earlier we dropped the variable <em>age</em>, while now we are keeping it. The variable <em>age</em> now is treated as if it was constant during <em>year</em>, the variable we are using for pivoting the data.</p>
+<p>This is not necessarily a mistake, and in fact R allows us to do the reshape. However, it changes the way in which we interpret <em>age</em>: it is now the age of the worker in their first year of appearance in the dataset.</p>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">6.5 Wrap Up</h2>
+<p>Being able to generate new variables and modify a data set to suit your specific research is pivotal. Now you should hopefully have more confidence in your ability to perform these tasks. Next, we will explore the challenges posed by working with multiple data sets at once.</p>
+</section>
+<section id="wrap-up-table" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up-table">6.6 Wrap-up Table</h2>
+<table class="table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>arrange</code></td>
+<td>It orders observations based on the ascending or descending order of one or more variables.</td>
+</tr>
+<tr class="even">
+<td><code>group_by</code></td>
+<td>It groups observations based on the values of one or more variables. It may be combined with <code>summarise</code> to compute summary statistics by group.</td>
+</tr>
+<tr class="odd">
+<td><code>ungroup</code></td>
+<td>It removes one or more grouping variables.</td>
+</tr>
+<tr class="even">
+<td><code>pivot_wider</code></td>
+<td>It pivots data from long to wide format.</td>
+</tr>
+<tr class="odd">
+<td><code>pivot_longer</code></td>
+<td>It pivots data from wide to long format.</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Creating Variables (5)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="pagination-link">
+        <span class="nav-page-text">Combining Datasets (7)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

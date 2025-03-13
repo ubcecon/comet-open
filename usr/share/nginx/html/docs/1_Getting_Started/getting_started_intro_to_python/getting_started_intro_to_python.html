@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="COMET Team   Jane Platt">
+<meta name="description" content="This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don’t get overwhelmed! Remember, you can always review this later!">
+
+<title>COMET - 0.4 - Introduction to Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html" rel="" target="">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html" rel="" target="">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html" rel="" target="">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html" rel="" target="">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html" rel="" target="">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html" rel="" target="">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html" rel="" target="">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html" rel="" target="">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html" rel="" target="">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html" rel="" target="">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html" rel="" target="">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html" rel="" target="">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html" rel="" target="">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html" rel="" target="">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/" rel="" target=""><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip" rel="" target=""><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip" rel="" target=""><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open" rel="" target="">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#" rel="" target="">
+ <span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html" rel="" target="">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html" rel="" target="">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites:</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#part-1-basic-programming-concepts" id="toc-part-1-basic-programming-concepts" class="nav-link" data-scroll-target="#part-1-basic-programming-concepts">Part 1: Basic Programming Concepts</a>
+  <ul class="collapse">
+  <li><a href="#variable-assignment" id="toc-variable-assignment" class="nav-link" data-scroll-target="#variable-assignment">1.1 Variable Assignment</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments">1.2 Comments</a></li>
+  </ul></li>
+  <li><a href="#part-2-objects-and-types" id="toc-part-2-objects-and-types" class="nav-link" data-scroll-target="#part-2-objects-and-types">Part 2: Objects and Types</a>
+  <ul class="collapse">
+  <li><a href="#numbers" id="toc-numbers" class="nav-link" data-scroll-target="#numbers">2.1. Numbers</a></li>
+  <li><a href="#strings" id="toc-strings" class="nav-link" data-scroll-target="#strings">2.2 Strings</a></li>
+  <li><a href="#booleans" id="toc-booleans" class="nav-link" data-scroll-target="#booleans">2.3 Booleans</a></li>
+  </ul></li>
+  <li><a href="#operations" id="toc-operations" class="nav-link" data-scroll-target="#operations">3. Operations</a>
+  <ul class="collapse">
+  <li><a href="#operations-on-numbers" id="toc-operations-on-numbers" class="nav-link" data-scroll-target="#operations-on-numbers">3.1. Operations on Numbers</a></li>
+  <li><a href="#operations-on-strings" id="toc-operations-on-strings" class="nav-link" data-scroll-target="#operations-on-strings">3.2. Operations on Strings</a></li>
+  <li><a href="#operations-on-booleans" id="toc-operations-on-booleans" class="nav-link" data-scroll-target="#operations-on-booleans">3.3. Operations on Booleans</a></li>
+  </ul></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">3. Packages</a></li>
+  <li><a href="#part-3-dealing-with-errors-and-getting-help" id="toc-part-3-dealing-with-errors-and-getting-help" class="nav-link" data-scroll-target="#part-3-dealing-with-errors-and-getting-help">Part 3: Dealing with Errors and Getting Help</a>
+  <ul class="collapse">
+  <li><a href="#errors" id="toc-errors" class="nav-link" data-scroll-target="#errors">3.1. Errors</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">3.2. Getting Help</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="getting_started_intro_to_python.ipynb" download="getting_started_intro_to_python.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">0.4 - Introduction to Python</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">basics</div>
+    <div class="quarto-category">getting started</div>
+    <div class="quarto-category">data types</div>
+    <div class="quarto-category">data structures</div>
+    <div class="quarto-category">introduction</div>
+    <div class="quarto-category">dataframes</div>
+    <div class="quarto-category">variables</div>
+    <div class="quarto-category">operations</div>
+    <div class="quarto-category">functions</div>
+    <div class="quarto-category">python</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don’t get overwhelmed! Remember, you can always review this later!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>COMET Team <br> <em>Jane Platt</em> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="outline" class="level2">
+<h2 class="anchored" data-anchor-id="outline">Outline</h2>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites:</h3>
+<ul>
+<li>Introduction to Jupyter</li>
+</ul>
+</section>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h3>
+<ul>
+<li>Learn the basic concepts of variable assignment, functions, and tabs in Python</li>
+<li>Learn the basics of variables (numbers, texts, and booleans)</li>
+<li>Import and load data into Jupyter Notebook</li>
+<li>Access and perform manipulations on data</li>
+</ul>
+</section>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this notebook, we will be introducing <strong>Python</strong>, which is a programming language designed for use in data science and analysis. If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don’t be intimidated! Try to play around with the examples and exercises as you work through this notebook; it’s easiest to learn to program in Python by trying things for yourself.</p>
+</section>
+<section id="part-1-basic-programming-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-basic-programming-concepts">Part 1: Basic Programming Concepts</h2>
+<p>To begin, we’ll go over the most basic concepts used in Python. Specifically, we will look at variable assignment and functions. Later we will go over the different things that can go into functions and variables, but it will be important to first grasp how they work.</p>
+<section id="variable-assignment" class="level3">
+<h3 class="anchored" data-anchor-id="variable-assignment">1.1 Variable Assignment</h3>
+<p>Variable assignment is fairly self explanatory: we will assign a value to a variable that we can then use for our analysis.</p>
+<p>To assign a value to a variable, we put the variable name on the left and the value on the right, as such:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>variable <span class="op">=</span> <span class="st">"value"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, Python will remember this assignment for the rest of our Python session (the time we’re running code without closing Python). If you quit and close the session, Python will not remember that we assigned the value <code>value</code> to <code>variable</code>.</p>
+<p>Now if we run <code>variable</code>, it’ll output <code>value</code> just like we told it to!</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we don’t assign a value to our object, Python will return an error. Try it for yourself below.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is because we haven’t <em>defined</em> our variable. When Python reads our code, it reads from right to left. So it will first read the value we picked (originally <code>value</code>), and then the computed value is stored in our object (<code>variable</code>). In the previous case, we didn’t define <code>x</code> (there is no value attached, no equal sign), so Python was not able to interpret what we meant by “x”.</p>
+<p>We can change how we define different variables as much as we would like. For example, if we were to run:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>variable <span class="op">=</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>we’ve now changed our variable to store the value <code>10</code>. Notice that we can change the type of variable we are working with (from string to numeric). Now if we run <code>variable</code>, we will see a different output:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Python only keeps the most recent assignment, so if you change the value your variable holds, Python won’t keep track of what you had put before. That’s why it is useful to keep track of what you’re working on using <strong>comments</strong> within your code.</p>
+</section>
+<section id="comments" class="level3">
+<h3 class="anchored" data-anchor-id="comments">1.2 Comments</h3>
+<p>Comments are a common concept found in all coding languages. These are little notes that we are able to leave in our code that won’t affect our outputs, but that allow us to keep track of what we’ve been doing.</p>
+<p>To leave a comment in Python, just include <code>#</code> at the beginning of your comment. Python ignores everything that comes <em>after</em> a #. See some examples below:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>first_name <span class="op">=</span> <span class="st">"your first name"</span> <span class="co"># Enter your first name here!</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>last_name <span class="op">=</span> <span class="st">"your last name"</span> <span class="co"># Enter your last name here!</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># colour = "pick a colour"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_name <span class="op">+</span> <span class="st">' '</span> <span class="op">+</span> last_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how the comment we left to the right of the first two lines do not affect the code. We are able to print <code>first_name</code> and <code>last_name</code> without any issues. Try printing <code>colour</code>, though.</p>
+<p>print(colour)</p>
+<p>Notice how this doesn’t work? Recall that Python doesn’t read anything to the right of the <code>#</code>. Because we put the <code>#</code> at the beginning of the line, Python did not read the line where we created the variable <code>colour</code>. If we wanted to create this variable, we would have to remove the <code>#</code>. Try doing that and see what pops up when you run <code>print(colour)</code>!</p>
+</section>
+</section>
+<section id="part-2-objects-and-types" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-objects-and-types">Part 2: Objects and Types</h2>
+<p>As always when learning a new language, it’s important to get a good grasp of the different <strong>object types</strong> in Python and how to use them. Whenever we work with Python, we will be manipulating different kinds of information, which is referred to as an “object”. In Python, objects can contain both data and functions we can use on our data. These functions are sometimes called <strong>methods</strong>.</p>
+<p>We can take a look at what an object holds, oth in terms of data and methods, by typing <code>.</code> after the object’s name and hitting <code>tab</code>. This is typically called <em>tab completion</em> or <em>introspection</em>. Doing this will list out a few different options that you can scroll through. See below:</p>
+<p><img src="media/introspection.png" class="img-fluid"></p>
+<p>Try doing this yourself below. Try to find the method <code>split</code>. Once you have found it, you can use the method by adding parentheses after it.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>full_name <span class="op">=</span> <span class="st">"enter your name"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>full_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Can you tell what this method does?</p>
+<p>Another common thing we will want to do with variables and objects is find out their <strong>type</strong>. The <strong>type</strong> of data will determine what kinds of methods and functions we can perform. We will go over each type in depth at a later stage. To figure out what type of object we are working with, we can use the <code>type()</code> function. This is a simple function where the input (what goes in between the parentheses) is the object we want to study. Let’s try below with the variable <code>first_name</code>.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(first_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The variable <code>first_name</code> is a <strong>string</strong> (<code>str</code>). We will look at what that means a bit later.</p>
+<section id="numbers" class="level3">
+<h3 class="anchored" data-anchor-id="numbers">2.1. Numbers</h3>
+<p>The first type of data we will look at is <strong>numbers</strong>. Python has two types of numbers.</p>
+<ol type="1">
+<li>Integers, known as <code>int</code> in Python, can only take the values of integers: <code>{... -157, ..., -1, 0, 14, 267, ...}</code>.</li>
+<li>Floating Point Numbers, known as <code>float</code>, can be any real number, such as <code>-1.5435, 3.14, 12, -10234.4573835</code>.</li>
+</ol>
+<p>The easiest way to tell the difference between these two types of numbers is the presence of a decimal point. Integers do not have decimals, floats do. Below, we will create some <code>int</code> and <code>float</code> variables.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_int <span class="op">=</span> <span class="dv">1</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_float <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>z_int <span class="op">=</span> <span class="dv">123</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>z_float <span class="op">=</span> <span class="fl">1230.5</span>  </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>z_float2 <span class="op">=</span> <span class="fl">1_230.5</span>  <span class="co"># Note that if we want to use commas to separate larger numbers </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># (e.g. to indicate the thousands), we use an underscore _ instead of a comma.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="strings" class="level3">
+<h3 class="anchored" data-anchor-id="strings">2.2 Strings</h3>
+<p>Strings store all text data. For data to be stored as a string, it must be written within quotation marks. For example,</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"this is a string"</span> <span class="co"># quotation marks!</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">'this is also a string'</span> <span class="co"># ' ' also works! </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>this <span class="kw">is</span> <span class="kw">not</span> a string <span class="co"># do you see the syntax warning?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we saw above when learning the <code>type()</code> function, Python identifies strings as <code>str</code>. You can see this again below:</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(first_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="booleans" class="level3">
+<h3 class="anchored" data-anchor-id="booleans">2.3 Booleans</h3>
+<p>Booleans are the last data type we will look at. Booleans simply denote true or false. They will be useful later on, when we start working with operations. For now, let’s create some booleans and see what they look like.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="va">True</span> <span class="co"># notice how we aren't putting True in quotation marks. What do you think would happen if we did?</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="va">False</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="operations" class="level2">
+<h2 class="anchored" data-anchor-id="operations">3. Operations</h2>
+<p>We’ll now take a look at different operations or functions we can run in Python. Many functions are type-dependent, meaning they only work for certain variable types, so we will go through each type and their associated functions.</p>
+<section id="operations-on-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="operations-on-numbers">3.1. Operations on Numbers</h3>
+<section id="python-as-a-calculator" class="level4">
+<h4 class="anchored" data-anchor-id="python-as-a-calculator">Python as a calculator</h4>
+<p>The first thing we can do in Python is basic math. When our variables are numbers (either <code>int</code> or <code>float</code>), we can easily use Python to add, subtract, and divide numbers (there are many more things Python can do!). Let’s give this a try below.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">+</span> b) <span class="co"># We ask Python to print all the answers so we can see everything. </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">-</span> b) <span class="co"># Otherwise, Python would only show us the most recent result.</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">*</span> b)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">/</span> b)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">**</span> b) <span class="co"># Note that Python uses ** for exponentiation. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Did you notice that Python returned an integer for almost every operation? It did however convert the answer to a float for the division operation. Whenever possible, Python will return an integer type for operations between integers, but any operation involving a float will result in a float. See below</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">12.0</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">+</span> b) </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">-</span> b) </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">*</span> b)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">/</span> b)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">**</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Python also allows us to do multiple operations in one line. As you would expect, it follows the standard order of operations PEMDAS (parentheses, exponents, multiplication, division, addition, subtraction). We’ll try this below - what do you think c and d will be? You can check your answers by using the <code>print()</code> function.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a <span class="op">-</span> b <span class="op">/</span> b</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> (a <span class="op">-</span> b) <span class="op">/</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="other-math-functions" class="level4">
+<h4 class="anchored" data-anchor-id="other-math-functions">Other math functions</h4>
+<p>If we want to use other math functions, such as taking the sine or cosine of a number, we need to use the <code>math</code> package. As we learned earlier, to use a package, we write the package name (or our nickname for it) followed by a <code>.</code> and then we can click [TAB] to look through the available functions. So, if we wanted to take sin(2), we would do the following:</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math <span class="co"># don't forget to import the package first!</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>math.sin(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="floor-and-modulus-division" class="level4">
+<h4 class="anchored" data-anchor-id="floor-and-modulus-division">Floor and Modulus Division</h4>
+<p>The last mathematical operation we will look at is floor and modulus division. This relates to division concepts we learned when initially going through division: quotients and remainders. Let’s say we are dividing <code>x</code> by <code>y</code>, two numbers.</p>
+<ul>
+<li>Floor division: <code>x // y</code> will return the quotient, or the number of times the divisor goes into the dividend.</li>
+<li>Modulus division: <code>x % y</code> will return the remainder.</li>
+</ul>
+<p>Let’s try it below. Can you figure out what the operations will return if x is 44 and y is 7?</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">44</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#print(x // y) #uncomment to check your answers</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#print(x % y)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="operations-on-strings" class="level3">
+<h3 class="anchored" data-anchor-id="operations-on-strings">3.2. Operations on Strings</h3>
+<section id="arithmetics" class="level4">
+<h4 class="anchored" data-anchor-id="arithmetics">Arithmetics</h4>
+<p>Some of the arithmetic operations we learned above can also be used for strings. - We can put two strings together by using <code>+</code> - We can repeat a string <code>n</code> times by writing <code>n*variable</code></p>
+<p>Let’s try this below!</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">"Good"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="st">"Morning"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">+</span> y)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">3</span> <span class="op">*</span> x )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that if we were to try to use <code>*</code>, <code>-</code>, or <code>/</code> with strings, Python would return an error. You can see for yourself below.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#x * y # uncomment and run these lines to see the error message</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#x - y </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#x / y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="string-methods-operations" class="level4">
+<h4 class="anchored" data-anchor-id="string-methods-operations">String methods (operations)</h4>
+<p>There are a ton of different operations we can perform on strings. We won’t be able to look at the all in this notebook, but again if you want to take a look, simply type a <code>.</code> after the variable and press [TAB]. You can then scroll through some of the methods.</p>
+<p>We’ll list out a few of the essential methods below. These are ones that you will frequently see when working with textual data.</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">"Good Morning"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Again, you don't need to write print() each time. We are only doing this so that you can see each output and compare</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.lower()) <span class="co"># makes everything lower case. don't forget the extra parentheses!!</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.upper()) <span class="co"># makes everything upper case. don't forget the extra parentheses!!</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.count(<span class="st">"o"</span>)) <span class="co"># counts how many times a particular string appears</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.count(<span class="st">"ing"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="string-formatting" class="level4">
+<h4 class="anchored" data-anchor-id="string-formatting">String Formatting</h4>
+<p>The next operation we’ll look at involves repeating strings.</p>
+<p>Let’s say we have a dataset that contains many dates and the weather, and we want to write a sentence saying “Month Day, Year was X”, where “Month” would be the month, “Day” would be the date, “Year” would be the year and “X” would be the weather. We can do this easily with <strong>string formatting</strong>, which allows us to use a generic <strong>placeholder</strong> to replace each individual value of the variable. To do so, we would replace the specific value we are thinking of with the variable name, in squiggly brackets <code>{}</code>, when we are writing out the sentence. Let’s take a look at an example.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>month <span class="op">=</span> <span class="st">"January"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>day <span class="op">=</span> <span class="st">"24th"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="st">"2025"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> <span class="st">"sunny"</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>month<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>day<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss"> was </span><span class="sc">{</span>X<span class="sc">}</span><span class="ss">."</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>f</code> at the beginning of the string allows Python to interpolate what is between the <code>{}</code>.</p>
+<p>We can also use string formatting for calculations. To do so, we’d substitute the calculation we want to do into the <code>{}</code>.</p>
+<p>We can do this for basic math as such:</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="dv">5</span><span class="sc">}</span><span class="ss">**2 = </span><span class="sc">{</span><span class="dv">5</span><span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And we can do this within sentences as well. Let’s say we want Canada’s 2024 GDP ($2.515 trillion) in billions. Instead of typing out the number, we could just write</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>GDP <span class="op">=</span> <span class="fl">2.515</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>string <span class="op">=</span> <span class="ss">f"Canada's GDP was $</span><span class="sc">{</span>GDP <span class="op">*</span> <span class="dv">1_000</span><span class="sc">}</span><span class="ss"> billion in 2024"</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we want to reuse a string we created a format for earlier, we can use the method <code>format</code>. To do this though, we do <strong>not</strong> put <code>f</code> before the string. For example,</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">"</span><span class="sc">{month}</span><span class="st"> </span><span class="sc">{day}</span><span class="st">, </span><span class="sc">{year}</span><span class="st"> was </span><span class="sc">{X}</span><span class="st">."</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>sentence.<span class="bu">format</span>(month <span class="op">=</span> <span class="st">"February"</span>, day <span class="op">=</span> <span class="st">"28th"</span>, year <span class="op">=</span> <span class="dv">2016</span>, X <span class="op">=</span> <span class="st">"rainy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There’s a lot more we can do with string formatting. If you want to learn more, you can find information <a href="https://docs.python.org/3/library/string.html">here</a>.</p>
+</section>
+</section>
+<section id="operations-on-booleans" class="level3">
+<h3 class="anchored" data-anchor-id="operations-on-booleans">3.3. Operations on Booleans</h3>
+<section id="comparisons" class="level4">
+<h4 class="anchored" data-anchor-id="comparisons">Comparisons</h4>
+<p>Most of the time, booleans will be created through comparison operations. For example, we might want a variable that evaluates if someone is older than 18. We would thus create a boolean which is <code>True</code> if the age of the individual is greater than 18.</p>
+<p>For two variables <code>x</code> and <code>y</code>, we can do the following comparisons:</p>
+<ul>
+<li>Greater than: <code>x &gt; y</code></li>
+<li>Less than: <code>x &lt; y</code></li>
+<li>Equal to: <code>x == y</code></li>
+<li>Greater than or equal to: <code>x &gt;= y</code></li>
+<li>Less than or equal to: <code>x &lt;= y</code></li>
+</ul>
+<p>We’ll try this below with a simple example. Feel free to change the values to see for yourself!</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x &gt; y is"</span>, x <span class="op">&gt;</span> y)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x &lt; y is"</span>, x <span class="op">&lt;</span> y)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"x &lt;= y is"</span>, x <span class="op">&lt;=</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="negation" class="level4">
+<h4 class="anchored" data-anchor-id="negation">Negation</h4>
+<p>Sometimes, we will prefer to determine if a statement is <strong>not true</strong> or <strong>not false</strong>. This is called <strong>negating</strong> a statement. We can negate a boolean in Python by adding the statement <code>not</code> before <code>True</code> or <code>False</code>.</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="kw">not</span> <span class="va">True</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="kw">not</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="multiple-comparisons-using-and-or" class="level4">
+<h4 class="anchored" data-anchor-id="multiple-comparisons-using-and-or">Multiple Comparisons using <strong>and</strong> / <strong>or</strong></h4>
+<p>Sometimes, we will want to do multiple comparisons. For example, we might want to look at all individuals who are employed <strong>and</strong> have children, or we might want to individuals with cars <strong>or</strong> bicycles. We can do this in Python using the <em>mathematical</em> <strong>ands</strong> and <strong>ors</strong>. This means that</p>
+<ul>
+<li><code>a</code> and <code>b</code> are <code>True</code> only when <strong>both</strong> <code>a</code> <strong>AND</strong> <code>b</code> are <code>True</code></li>
+<li><code>a</code> or <code>b</code> is <code>True</code> when <strong>at least one</strong> of <code>a</code> or <code>b</code> is <code>True</code></li>
+</ul>
+<p>Using the examples above: - The statement “We are studying individuals who are employed <em>and</em> have children” means we will only include individuals that are both employed <em>AND</em> who have children - The statement “We are studying people with cars <em>or</em> bicycle” means we will look at everyone who has a car, everyone who has a bicycle, and everyone who has a car and a bicycle.</p>
+<p>Let’s test these out below. Try thinking of the answers yourself before running the code!</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">False</span> <span class="co"># do you think this will be true or false?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">or</span> <span class="va">False</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">False</span> <span class="kw">or</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can chain multiple comparisons!</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># order of operations will still apply</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">and</span> (<span class="va">False</span> <span class="kw">or</span> <span class="va">True</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="all-and-any" class="level4">
+<h4 class="anchored" data-anchor-id="all-and-any"><strong>all</strong> and <strong>any</strong></h4>
+<p>As we saw, we can use <strong>and</strong> and <strong>or</strong> to process two booleans at a time. We can also process <em>all</em> our booleans at once!</p>
+<p>To do so, we can use the functions <strong>all</strong> and <strong>any</strong>. These functions will test all the booleans we’re working on at the same time.</p>
+<ul>
+<li><code>all(bools)</code> will tell us if all the booleans in <code>bools</code> are <code>True</code>. If they are all true, Python will return <code>True</code>. If even one of them is not true, Python will return <code>False</code>.</li>
+<li><code>any(bools)</code> will tell us if we have any booleans that are <code>True</code>. If even one of our booleans is true, Python will return <code>True</code> when running this command.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">3. Packages</h2>
+<p>Similarly to R, Python has a host of packages that we can use that contain different functions and tools. Some examples of packages are:</p>
+<ul>
+<li><p>pandas, which implements the tools necessary to do scalable data analysis.</p></li>
+<li><p>matplotlib, which contains visualization tools.</p></li>
+<li><p>requests and urllib, which allow Python to interface with the internet.</p></li>
+</ul>
+<p>We’ll be using packages all throughout the Python modules, so it will be important to learn how to install them and how to open them.</p>
+<p>To install a package, we simply run the code <code>import package</code>. To access and open the package that we’ve installed in our session, we run the code <code>package.function_name</code>. Let’s do this below with the package <code>sys</code>, which helps Python work with our computer.</p>
+<div class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>sys.version <span class="co"># We want to find the Python version our computer is using</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Some packages have fairly long names, so Python has allowed us to abbreviate their names to nicknames when importing them to make our code less heavy. For example, we can abbreviate a package name to <code>p</code> by writing <code>import package as p</code>. Thus, instead of writing <code>package.function_name</code>, we can just write <code>p.function_name</code>.</p>
+<p>Typically, people use the following nicknames for packages:</p>
+<ul>
+<li><p>import pandas as pd</p></li>
+<li><p>import numpy as np</p></li>
+<li><p>import matplotlib as mpl</p></li>
+<li><p>import datetime as dt</p></li>
+</ul>
+<p>In theory, you can abbreviate the packages to any nickname you’d like, but for simplicity and comprehensibility, we recommend using the common nicknames listed above.</p>
+</section>
+<section id="part-3-dealing-with-errors-and-getting-help" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-dealing-with-errors-and-getting-help">Part 3: Dealing with Errors and Getting Help</h2>
+<section id="errors" class="level3">
+<h3 class="anchored" data-anchor-id="errors">3.1. Errors</h3>
+<p>Sometimes in our analysis we can run into errors in our code. This happens to everyone - don’t worry - it’s not a reason to panic. Understanding the nature of the error we are confronted with can be a helpful first step to finding a solution. There are two common types of errors:</p>
+<ul>
+<li><p><strong>Syntax errors</strong>: This is the most common error type. These errors result from invalid code statements/structures that Python doesn’t understand. Suppose Python speaks English, speaking to it in German or broken English certainly would not work! Here are some examples of common syntax errors: the associated package is not loaded, misspelling of a command as Python is case-sensitive, unmatched/incomplete parenthesis etc. How we handle syntax errors is case-by-case: we can usually solve syntax errors by reading the error message and finding what is often a typo or by looking up the error message on the internet using resources like stack overflow.</p></li>
+<li><p><strong>Semantic errors</strong>: These errors result from valid code that successfully executes but produces unintended outcomes. Again, let us suppose Python speaks English. Although we asked it to hand us an apple in English and Python successfully understood, it somehow handed us a banana! This is not okay! How we handle semantic errors is also case-by-case: we can usually solve semantic errors by reading the error message and searching it online.</p></li>
+</ul>
+<p>Now that we have all of these terms and tools at our disposal, we can begin to load in data and operate on it using what we’ve learned.</p>
+</section>
+<section id="getting-help" class="level3">
+<h3 class="anchored" data-anchor-id="getting-help">3.2. Getting Help</h3>
+<p>If you are ever running a function and get stuck, are not sure what the function does, or need a refresher on what the inputs are, Python has a way to get help.</p>
+<p>To do this in Jupyter notebooks, we place a <code>?</code> after the function name and rn the cell. Depending on how you launched Jupyter, the help text will either be displayed in the cell below or on a new panel at the bottom of the screen that you can exit by hitting the escape key.</p>
+<p>Try this below with the print function:</p>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

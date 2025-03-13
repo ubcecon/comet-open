@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt">
+<meta name="dcterms.date" content="2024-05-29">
+<meta name="description" content="In this notebook, we go over panel data. We look into what it is, how to run regressions with panel data, as well as fixed and random-effects models. We finish by looking at some common mistakes when using panel data.">
+
+<title>COMET - 14 - Panel Data Regressions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" rel="next">
+<link href="../../../docs/5_Research/econ490-r/13_PostReg.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html" rel="" target="">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html" rel="" target="">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html" rel="" target="">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html" rel="" target="">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html" rel="" target="">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html" rel="" target="">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html" rel="" target="">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html" rel="" target="">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html" rel="" target="">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html" rel="" target="">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html" rel="" target="">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html" rel="" target="">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html" rel="" target="">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html" rel="" target="">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/" rel="" target=""><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip" rel="" target=""><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip" rel="" target=""><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open" rel="" target="">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#" rel="" target="">
+ <span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html" rel="" target="">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html" rel="" target="">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_research.html">R Notebooks</a></li><li class="breadcrumb-item"><a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html">Panel Data Regression (14)</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn to Research</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with R Scripts (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/06_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Panel Data Regression (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pystata Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#intro" id="toc-intro" class="nav-link" data-scroll-target="#intro">15.0 Intro</a></li>
+  <li><a href="#what-is-panel-data" id="toc-what-is-panel-data" class="nav-link" data-scroll-target="#what-is-panel-data">14.1 What is Panel Data?</a></li>
+  <li><a href="#preparing-our-data-for-panel-analysis" id="toc-preparing-our-data-for-panel-analysis" class="nav-link" data-scroll-target="#preparing-our-data-for-panel-analysis">14.2 Preparing Our Data for Panel Analysis</a></li>
+  <li><a href="#basic-regressions-with-panel-data" id="toc-basic-regressions-with-panel-data" class="nav-link" data-scroll-target="#basic-regressions-with-panel-data">14.3 Basic Regressions with Panel Data</a>
+  <ul class="collapse">
+  <li><a href="#fixed-effects-models" id="toc-fixed-effects-models" class="nav-link" data-scroll-target="#fixed-effects-models">14.3.1 Fixed-Effects Models</a></li>
+  <li><a href="#random-effects-models" id="toc-random-effects-models" class="nav-link" data-scroll-target="#random-effects-models">14.3.2 Random-Effects Models</a></li>
+  <li><a href="#what-if-we-want-to-control-for-multiple-fixed-effects" id="toc-what-if-we-want-to-control-for-multiple-fixed-effects" class="nav-link" data-scroll-target="#what-if-we-want-to-control-for-multiple-fixed-effects">14.3.3 What if We Want to Control for Multiple Fixed-Effects?</a></li>
+  </ul></li>
+  <li><a href="#creating-new-panel-variables" id="toc-creating-new-panel-variables" class="nav-link" data-scroll-target="#creating-new-panel-variables">15.4 Creating New Panel Variables</a></li>
+  <li><a href="#is-our-panel-data-regression-properly-specified" id="toc-is-our-panel-data-regression-properly-specified" class="nav-link" data-scroll-target="#is-our-panel-data-regression-properly-specified">14.5 Is Our Panel Data Regression Properly Specified?</a>
+  <ul class="collapse">
+  <li><a href="#heteroskedasticity" id="toc-heteroskedasticity" class="nav-link" data-scroll-target="#heteroskedasticity">14.5.1 Heteroskedasticity</a></li>
+  <li><a href="#serial-correlation" id="toc-serial-correlation" class="nav-link" data-scroll-target="#serial-correlation">14.5.2 Serial Correlation</a></li>
+  <li><a href="#granger-causality" id="toc-granger-causality" class="nav-link" data-scroll-target="#granger-causality">14.5.3 Granger Causality</a></li>
+  </ul></li>
+  <li><a href="#how-is-panel-data-helpful" id="toc-how-is-panel-data-helpful" class="nav-link" data-scroll-target="#how-is-panel-data-helpful">14.6 How is Panel Data Helpful?</a></li>
+  <li><a href="#common-mistakes" id="toc-common-mistakes" class="nav-link" data-scroll-target="#common-mistakes">14.7 Common Mistakes</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">14.8 Wrap Up</a></li>
+  <li><a href="#wrap-up-table" id="toc-wrap-up-table" class="nav-link" data-scroll-target="#wrap-up-table">14.9 Wrap-up Table</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="14_Panel_Data.ipynb" download="14_Panel_Data.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">14 - Panel Data Regressions</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">r</div>
+    <div class="quarto-category">panel data</div>
+    <div class="quarto-category">regression</div>
+    <div class="quarto-category">fixed-effects</div>
+    <div class="quarto-category">random-effects</div>
+    <div class="quarto-category">heteroskedasticity</div>
+    <div class="quarto-category">serial correlation</div>
+    <div class="quarto-category">causality</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    In this notebook, we go over panel data. We look into what it is, how to run regressions with panel data, as well as fixed and random-effects models. We finish by looking at some common mistakes when using panel data.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">29 May 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Run OLS Regressions.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Prepare data for time-series analysis.</li>
+<li>Run panel data regressions.</li>
+<li>Create lagged variables.</li>
+<li>Understand and work with fixed-effects.</li>
+<li>Correct for heteroskedasticity and serial correlation.</li>
+</ol>
+</section>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">15.0 Intro</h2>
+<p>This module uses the <a href="https://www.rug.nl/ggdc/productivity/pwt/?lang=en">Penn World Tables</a> which measure income, input, output, and productivity, covering 183 countries between 1950 and 2019. Before beginning this module, download this data in the .dta format.</p>
+</section>
+<section id="what-is-panel-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-panel-data">14.1 What is Panel Data?</h2>
+<p>In economics, we typically have data consisting of many units observed at a particular point in time. This is called cross-sectional data. There may be several different versions of the data set that are collected over time (monthly, annually, etc.), but each version includes an entirely different set of individuals.</p>
+<p>For example, let’s consider a Canadian cross-sectional data set: <em>General Social Survey Cycle 31: Family, 2017</em>. In this data set, the first observation is a 55 year old married woman who lives in Alberta with two children. When the <em>General Social Survey Cycle 25: Family, 2011</em> was collected six years earlier, there were probably similar women surveyed, but it is extremely unlikely that this exact same woman was included in that data set as well. Even if she was included, we would have no way to match her data over the two years of the survey.</p>
+<p>Cross-sectional data allows us to explore variation between individuals at one point in time but does not allow us to explore variation over time for those same individuals.</p>
+<p>Time-series data sets contain observations over several years for only one unit, such as country, state, province, etc. For example, measures of income, output, unemployment, and fertility for Canada from 1960 to 2020 would be considered time-series data. Time-series data allows us to explore variation over time for one individual unit (e.g.&nbsp;Canada), but does not allow us to explore variation between individual units (i.e.&nbsp;multiple countries) at any one point in time.</p>
+<p>Panel data allows us to observe the same unit across multiple time periods. For example, the <a href="https://www.rug.nl/ggdc/productivity/pwt/?lang=en">Penn World Tables</a> is a panel data set that measures income, output, input, and productivity, covering 183 countries from 1950 to the near present. There are also microdata panel data sets that follow the same people over time. One example is the Canadian National Longitudinal Survey of Children and Youth (NLSCY), which followed the same children from 1994 to 2010, surveying them every two years as they progressed from childhood to adulthood.</p>
+<p>Panel data sets allow us to answer questions that we cannot answer with time-series and cross-sectional data. They allow us to simultaneously explore variation over time for individual countries (for example) and variation between individuals at one point in time. This approach is extremely productive for two reasons:</p>
+<ol type="1">
+<li>Panel data sets are large, much larger than if we were to use data collected at one point in time.</li>
+<li>Panel data regressions control for variables that do not change over time and are difficult to measure, such as geography and culture.</li>
+</ol>
+<p>In this sense, panel data sets allow us to answer empirical questions that cannot be answered with other types of data such as cross-sectional or time-series data.</p>
+<p>Before we move forward exploring panel data sets in this module, we should understand the two main types of panel data:</p>
+<ul>
+<li>A <strong>Balanced Panel</strong> is a panel data set in which we observe <em>all</em> units over <em>all</em> included time periods. Suppose we have a data set following the school outcomes of a select group of <span class="math inline">\(N\)</span> children over <span class="math inline">\(T\)</span> years. This is common in studies which investigate the effects of early childhood interventions on relevant outcomes over time. If the panel data set is balanced, we will see <span class="math inline">\(T\)</span> observations for each child corresponding to the <span class="math inline">\(T\)</span> years they have been tracked. As a result, our data set in total will have <span class="math inline">\(n = N*T\)</span> observations.</li>
+<li>An <strong>Unbalanced Panel</strong> is a panel data set in which we do <em>not</em> observe all units over all included time periods. Suppose in our data set tracking select children’s education outcomes over time, and that some children drop out of the study. This panel data set would be an unbalanced panel because it would necessarily have <span class="math inline">\(n &lt; N*T\)</span> observations, since the children who dropped out would not have observations for the years they were no longer in the study.</li>
+</ul>
+<p>We learned the techniques to create a balanced panel in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-r/06_Within_Group.html">Module 6</a>. Essentially, all that is needed is to create a new data set that includes only the years for which there are no missing values.</p>
+</section>
+<section id="preparing-our-data-for-panel-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-our-data-for-panel-analysis">14.2 Preparing Our Data for Panel Analysis</h2>
+<p>The first step in any panel data analysis is to identify which variable is the panel variable and which variable is the time variable. The panel variable is the identifier of the units that are observed over time. The second step is indicating that information to R.</p>
+<p>We are going to use the Penn World Data (discussed above) in this example. In that data set, the panel variable is either <em>country</em> or <em>countrycode</em>, and the time variable is <em>year</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clear the memory from any pre-existing objects</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data (remember to change directory to the location of this data file)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pwt100 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../econ490-r/pwt100.dta"</span>)  <span class="co">#change me!</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get summary of the data</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pwt100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may have noticed that the variable <em>year</em> is an integer (i.e.&nbsp;a number like 2010) and that <em>country</em> and <em>countrycode</em> are character variables (i.e.&nbsp;they are words like “Canada”). Specifying the panel and time variables requires that both of the variables we are using are coded as numeric variables. Moireover, we need to sort our data by the unique identifier (<em>country</em> or <em>countrycode</em> in our case) and tme variable (<em>year</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Order data according to countrycode and year, and call it df</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> pwt100 <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(countrycode, year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have sorted our data, we need to tell R that the data frame <em>df</em> contains panel data. We do so by relying on the package <code>plm</code>, a package containing various tools for Linear Models for Panel data. We load the package <code>plm</code> and use the <code>pdata.frame()</code> function to create a panel data frame. In the argument <code>index</code> of the function <code>pdata.frame()</code> we have to specify the name of the cross-sectional unit identifier (<em>countrycode</em>) and the time variable (<em>year</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and load plm package</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#uncomment to install the package! install.packages("plm")</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert dataframe to panel data format</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> <span class="fu">pdata.frame</span>(df, <span class="at">index=</span><span class="fu">c</span>(<span class="st">"countrycode"</span>, <span class="st">"year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To check that we have correctly converted our data in a panel data frame, we can use the <code>class</code> or the <code>pdim</code> functions. Note that <code>pdim</code> tells us if our data frame is balanced or not, as well as the number of cross-sectional unit identifiers and time periods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(panel_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdim</span>(panel_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="basic-regressions-with-panel-data" class="level2">
+<h2 class="anchored" data-anchor-id="basic-regressions-with-panel-data">14.3 Basic Regressions with Panel Data</h2>
+<p>For now, we are going to focus on the skills we need to run our own panel data regressions. In section 14.6, there are more details about the econometrics of panel data regressions that may help with the understanding of these approaches. Please make sure you understand that theory before beginning your own research.</p>
+<p>Now that we have specified the panel and time variables we are working with, we can begin to run regressions using our panel data. For panel data regressions, we simply replace <code>lm</code> with the command <code>plm</code>. The command <code>plm</code> takes another input, <code>model</code>. We can specify <code>model</code> to be fixed effect, random effect, or a pooled OLS. For now, let’s use a pooled OLS with <code>model="pooling"</code>. More details on the other models will be addressed below.</p>
+<p>Let’s try this out by regressing the natural log of GDP per capita on the natural log of human capital.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the two new variables</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lngdp =</span> <span class="fu">log</span>(rgdpo<span class="sc">/</span>pop), <span class="at">lnhc =</span> <span class="fu">log</span>(hc))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate specification</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"pooling"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The coefficients in a panel regression are interpreted similarly to those in a basic OLS regression. Because we have taken the natural log of our variables, we can interpret the coefficient on each explanatory variable as being a <span class="math inline">\(\beta\)</span> % increase in the dependent variable associated with a 1% increase in the explanatory variable.</p>
+<p>Thus, in the regression results above, a 1% increase in human capital leads to a roughly 2% increase in real GDP per capita. That’s a huge effect, but then again this model is almost certainly misspecified due to omitted variable bias. Namely, we are likely missing a number of explanatory variables that explain variation in both GDP per capita and human capital, such as savings and population growth rates.</p>
+<p>One thing we know is that GDP per capita can be impacted by the individual characteristics of a country that do not change much over time. For example, it is known that distance from the equator has an impact on the standard of living of a country; countries that are closer to the equator are generally poorer than those farther from it. This is a time-invariant characteristic that we might want to control for in our regression. Similarly, we know that GDP per capita could be similarly impacted in many countries by a shock at one point in time. For example, a worldwide global recession would affect the GDP per capita of all countries at a given time such that values of GDP per capita in this time period are uniformly different in all countries from values in other periods. That seems like a time-variant characteristic (time trend) that we might want to control for in our regression. Fortunately, with panel data regressions, we can account for these sources of endogeneity. Let’s look at how panel data helps us do this.</p>
+<section id="fixed-effects-models" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-effects-models">14.3.1 Fixed-Effects Models</h3>
+<p>We refer to shocks that are invariant based on some variable (e.g.&nbsp;household level shocks that don’t vary with year or time-specific shocks that don’t vary with household) as <strong>fixed-effects</strong>. For instance, we can define household fixed-effects, time fixed-effects, and so on. Notice that this is an assumption on the error terms, and as such, when we include fixed-effects to our specification they become part of the model we assume to be true.</p>
+<p>When we ran our regression of log real GDP per capita on log human capital from earlier, we were concerned about omitted variable bias and endogeneity. Specifically, we were concerned about distance from the equator positively impacting both human capital and real GDP per capita, in which case our measure of human capital would be correlated with our error term, preventing us from interpreting our regression result as causal. We are now able to add country fixed-effects to our regression to account for this and come closer to determining the pure effect of human capital on GDP growth. There are two ways to do this. Let’s look at the more obvious one first.</p>
+<p><em>Approach 1</em>: create a series of country dummy variables and include them in the regression. For example, we would have one dummy variable called “Canada” that would be equal to 1 if the country is Canada and 0 if not. We would have dummy variables for all but one of the countries in this data set to avoid perfect collinearity. Rather than define all of these dummies manually and include them in our regression command, we can simply factorize them and R will include them automatically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factorize countrycode</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">countrycode =</span> <span class="fu">factor</span>(countrycode))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can add the factorized version of country codes to our panel linear model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc <span class="sc">+</span> countrycode, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"pooling"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The problem with this approach is that we end up with a huge table containing the coefficients of every country dummy, none of which we care about. We are interested in the relationship between GDP and human capital, not the mean values of GDP for each country relative to the omitted one. Luckily for us, a well-known result is that controlling for fixed-effects is equivalent to adding multiple dummy variables. This leads us into the second approach to including fixed-effects in a regression.</p>
+<p><em>Approach 2</em>: We can alternatively apply fixed affects to the regression by adding <code>model="within"</code> as an option on the regression.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We obtained the same coefficient and standard errors on our explanatory variable using both approaches!</p>
+</section>
+<section id="random-effects-models" class="level3">
+<h3 class="anchored" data-anchor-id="random-effects-models">14.3.2 Random-Effects Models</h3>
+<p>One type of model we can also run is a <strong>random-effects model</strong>. The main difference between a random and fixed-effects model is that, with the random-effects model, differences across countries are assumed to be random. This allows us to treat time-invariant variables such as latitude as control variables. To run a random-effects model, just add <code>model="random"</code> as argument of <code>plm</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"random"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see, with this data and choice of variables, there is little difference in results between all of these models.</p>
+<p>This, however, will not always be the case. The test to determine if you should use the fixed-effects model or the random-effects model is called the Hausman test.</p>
+<p>To run this test in R, we first have to store the fixed-effect and the random-effect models in two different objects, one called <em>fixed</em> and the other called <em>random</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>random <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"random"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we perform the Hausman test by comparing the two objects <em>fixed</em> and <em>random</em> using the function <code>phtest</code>. Remember, the null hypothesis is that the preferred model is random-effects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phtest</span>(fixed, random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can see, the p-values associated with this test suggest that we would reject the null hypothesis (random effect) and that we should adopt a fixed-effects model.</p>
+</section>
+<section id="what-if-we-want-to-control-for-multiple-fixed-effects" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-we-want-to-control-for-multiple-fixed-effects">14.3.3 What if We Want to Control for Multiple Fixed-Effects?</h3>
+<p>Let’s say we have run a panel data regression with fixed-effects, and we think that no more needs to be done to control for factors that are constant across our cross-sectional variables (i.e.&nbsp;countries) at any one point in time (i.e.&nbsp;years). However, for very long series (for example those over 20 years), we will want to check that time dummy variables are not also needed.</p>
+<p>In R, we can easily do it using two functions: the <code>pFtest()</code> and the <code>plmtest()</code>.</p>
+<p>First, let’s save our models with and without time fixed-effects in two objects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No time fixed-effects</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Time fixed-effects</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>fixed_yearfe <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc <span class="sc">+</span> <span class="fu">factor</span>(year), <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have saved both models, we can use the test. <code>pFtest()</code> requires us to use both models as inputs. <code>plmtest()</code> only needs the model without time fixed-effects as input.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: pFtest</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pFtest</span>(fixed_yearfe, fixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: plmtest</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plmtest</span>(fixed, <span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">type=</span>(<span class="st">"bp"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Both tests report a p-value smaller than 0.05, which suggests that we can reject the null hypothesis and need time-fixed-effects in our model.</p>
+</section>
+</section>
+<section id="creating-new-panel-variables" class="level2">
+<h2 class="anchored" data-anchor-id="creating-new-panel-variables">15.4 Creating New Panel Variables</h2>
+<p>Panel data also provides us with a new source of variation: variation over time. This means that we have access to a wide variety of variables we can include. For instance, we can create lags (variables in previous periods) and leads (variables in future periods). Once we have defined our panel data set using the <code>pdata.frame</code> function (which we did earlier), we can create the lags using the <code>dplyr::lag()</code> function and the leads using the <code>dplyr::lead()</code> function.</p>
+<div class="alert alert-block alert-warning">
+<b>Warning:</b> Many other packages have a lag() and a lead() function. To make sure that R knows which function you want to use, specify that the source library is <code>dplyr</code> by writing the functions in their full names: <code>dplyr::lag()</code> and <code>dplyr::lead()</code>. Failing to do so may result in lag() and lead() not to behave as expected.
+</div>
+<p>For example, let’s create a new variable that lags the natural log of GDP per capita by one period.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lag1_lngdp =</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(lngdp,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we wanted to lag this same variable ten periods, we would write it as such:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lag10_lngdp =</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(lngdp,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s inspect the first 50 rows of our data frame to check that we have created lagged variables as expected.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(panel_data[, <span class="fu">c</span>(<span class="st">"lngdp"</span>, <span class="st">"lag1_lngdp"</span>, <span class="st">"lag10_lngdp"</span>)],<span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can include lagged variables directly in our regression if we believe that past values of real GDP per capita influence current levels of real GDP per capita.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc <span class="sc">+</span> lag10_lngdp, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>While we included lags from the previous period and 10 periods back as examples, we can use any period for our lags. In fact, including lag variables as controls for recent periods such as one lag back and two lags back is the most common choice for inclusion of past values of independent variables as controls.</p>
+<p>Finally, these variables are useful if we are trying to measure the growth rate of a variable. Recall that the growth rate of a variable X is just equal to <span class="math inline">\(ln(X_{t}) - ln(X_{t-1})\)</span> where the subscripts indicate time.</p>
+<p>For example, if we want to now include the natural log of the population growth rate in our regression, we can create that new variable by taking the natural log of the population growth rate <span class="math inline">\(ln(pop_{t}) - ln(pop_{t-1})\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create log of population</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>panel_data<span class="sc">$</span>lnpop <span class="ot">&lt;-</span> <span class="fu">log</span>(panel_data<span class="sc">$</span>pop)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the population growth rate</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lnn =</span> lnpop <span class="sc">-</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(lnpop,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another variable that might also be useful is the natural log of the growth rate of GDP per capita.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dlngdp =</span> lngdp <span class="sc">-</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(lngdp,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s put this all together in a regression to see the effect of the growth rate of population on growth rate of GDP per capita, controlling for human capital and the level of GDP per capita in the previous year:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">plm</span>(dlngdp <span class="sc">~</span> lag1_lngdp <span class="sc">+</span> lnn <span class="sc">+</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model =</span> <span class="st">"within"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="is-our-panel-data-regression-properly-specified" class="level2">
+<h2 class="anchored" data-anchor-id="is-our-panel-data-regression-properly-specified">14.5 Is Our Panel Data Regression Properly Specified?</h2>
+<p>While there are the typical concerns with interpreting the coefficients of regressions (i.e.&nbsp;multicollinearity, inferring causality), there are some topics which require special treatment when working with panel data.</p>
+<section id="heteroskedasticity" class="level3">
+<h3 class="anchored" data-anchor-id="heteroskedasticity">14.5.1 Heteroskedasticity</h3>
+<p>As always, when running regressions, we must consider whether our residuals are heteroskedastic (not constant for all values of <span class="math inline">\(X\)</span>). To test our panel data regression for heteroskedasticity in the residuals, we need to calculate a modified Wald statistic. We use the Breusch-Pagan test that can be found in the <code>lmtest</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we have loaded the <code>lmtest</code> package, we can call the Breusch-Pagan test in the <code>bptest()</code> function. The first argument of <code>bptest()</code> is the model we want to test; in our case, it is the specification for log GDP and log human capital. The second argument is the data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(lngdp <span class="sc">~</span> lnhc <span class="sc">+</span> countrycode, <span class="at">data =</span> panel_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The null hypothesis is homoskedasticity (or constant variance of the error term). From the output above, we can see that we reject the null hypothesis and conclude that the residuals in this regression are heteroskedastic.</p>
+<p>We can control for heteroskedasticity in different ways when we use a fixed-effects model. The <code>coeftest()</code> function allows us to estimate several heteroskedasticity-consistent covariance estimators.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate model</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model=</span><span class="st">"within"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show original coefficients</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(fixed)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show heteroskedasticity consistent coefficients</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(fixed, vcovHC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="serial-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="serial-correlation">14.5.2 Serial Correlation</h3>
+<p>In time-series setups where we only observe a single unit over time (no cross-sectional dimension) we might be worried that a linear regression model like</p>
+<p><span class="math display">\[
+Y_t = \alpha + \beta X_t + \varepsilon_t
+\]</span></p>
+<p>can have errors that not only are heteroskedastic (i.e.&nbsp;that depend on observables <span class="math inline">\(X_t\)</span>) but can also be correlated across time. For instance, if <span class="math inline">\(Y_t\)</span> was income, then <span class="math inline">\(\varepsilon_t\)</span> may represent income shocks (including transitory and permanent components). The permanent income shocks are, by definition, very persistent over time. This would mean that <span class="math inline">\(\varepsilon_{t-1}\)</span> affects (and thus is correlated with) shocks in the next period <span class="math inline">\(\varepsilon_t\)</span>. This problem is called serial correlation or autocorrelation, and if it exists, the assumptions of the regression model (i.e.&nbsp;unbiasedness, consistency, etc.) are violated. This can take the form of regressions where a variable is correlated with lagged versions of the same variable.</p>
+<p>To test our panel data regression for serial correlation, we need to run a Breusch-Godfrey/Woolridge test. In R, we can do it easily with <code>pbgtest()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate model</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model=</span><span class="st">"within"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run test</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pbgtest</span>(fixed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The null hypothesis is that there is no serial correlation between residuals. From the output, we see that we cannot reject the null hypothesis and conclude the variables are correlated with lagged versions of themselves. One method for dealing with this serial correlation in panel data regression is by using again the <code>coeftest()</code> function, this time with the Arellano method of computing the covariance matrix. Note that the Arellano method allows a fully general structure with respect to both heteroskedasticity and serial correlation, so that our standard errors would effectively be robust to both threats.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate model</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model=</span><span class="st">"within"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show original coefficients</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(fixed)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show heteroskedasticity and serial correlation consistent coefficients</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(fixed, <span class="fu">vcovHC</span>(fixed, <span class="at">method=</span><span class="st">"arellano"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="granger-causality" class="level3">
+<h3 class="anchored" data-anchor-id="granger-causality">14.5.3 Granger Causality</h3>
+<p>In the regressions that we have been running in this example, we have found that the level of human capital is correlated with the level of GDP per capita. But have we proven that having high human capital causes countries to be wealthier? Or is is possible that wealthier countries can afford to invest in human capital? This is known as the issue of <strong>reverse causality</strong>, and arises when our independent variable determines our dependent variable.</p>
+<p>The Granger Causality test allows use to unpack some of the causality in these regressions. While understanding how this test works is beyond the scope of this notebook, we can look at an example using this data.</p>
+<p>The first thing we need to do is ensure that our panel is balanced. In the Penn World Tables, there are no missing values for real GDP and for population, but there are missing values for human capital. We can balance our panel by simply dropping all of the observations that do not include that measure.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">drop_na</span>(lnhc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we can run the test that is provided by R for Granger Causality: <code>grangertest()</code>. The first input is the model we want to use, the second input is the data, and the optional third input is the number of lags we want to use (by default, R uses only 1 lag).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>granger_test <span class="ot">&lt;-</span> <span class="fu">grangertest</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">order=</span><span class="dv">3</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(granger_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that R gives us two models. In model 1, both previous values of GDP and human capital are included: this is an unrestricted model that includes all Granger-causal terms. In model 2, the Granger-causal terms are omitted and only previous values of GDP are included.</p>
+<p>From our results, we can reject the null hypothesis of lack of Granger causality. The evidence seems to suggest that high levels of human capital cause countries to be wealthier.</p>
+<p>Please speak to your instructor, supervisor, or TA if you need help with this test.</p>
+</section>
+</section>
+<section id="how-is-panel-data-helpful" class="level2">
+<h2 class="anchored" data-anchor-id="how-is-panel-data-helpful">14.6 How is Panel Data Helpful?</h2>
+<p>In typical cross-sectional settings, it is hard to defend the selection on observables assumption (otherwise known as conditional independence). However, panel data allows us to control for unobserved time-invariant heterogeneity.</p>
+<p>Consider the following example. Household income <span class="math inline">\(y_{jt}\)</span> at time <span class="math inline">\(t\)</span> can be split into two components:</p>
+<p><span class="math display">\[
+y_{jt} = e_{jt} + \Psi_{j}
+\]</span></p>
+<p>where <span class="math inline">\(\Psi_{j}\)</span> is a measure of unobserved household-level determinants of income, such as social programs targeted towards certain households.</p>
+<p>Consider what happens when we compute each <span class="math inline">\(j\)</span> household’s average income, average value of <span class="math inline">\(e\)</span>, and average value of <span class="math inline">\(\Psi\)</span> across time <span class="math inline">\(t\)</span> in the data:</p>
+<p><span class="math display">\[
+\bar{y}_{J}= \frac{1}{\sum_{j,t}   \mathbf{1}\{ j = J \}  } \sum_{j,t}  y_{jt} \mathbf{1}\{ j = J \}
+\]</span> <span class="math display">\[
+\bar{e}_{J}= \frac{1}{\sum_{j,t}   \mathbf{1}\{ j = J \}  } \sum_{j,t}  e_{jt} \mathbf{1}\{ j = J \}
+\]</span> <span class="math display">\[
+\bar{\Psi}_{J} =  \Psi_{J}
+\]</span></p>
+<p>Notice that the mean of <span class="math inline">\(\Psi_{j}\)</span> does not change over time for a fixed household <span class="math inline">\(j\)</span>. Hence, we can subtract the two household level means from the original equation to get:</p>
+<p><span class="math display">\[
+y_{jt} - \bar{y}_{j} = e_{jt} - \bar{e}_{j}  + \underbrace{ \Psi_{j} - \bar{\Psi}_{j}  }_\text{equals zero!}
+\]</span></p>
+<p>Therefore, we are able to get rid of the unobserved heterogeneity in household determinants of income via “de-meaning”! This is called a within-group or fixed-effects transformation. If we believe these types of unobserved errors/shocks are creating endogeneity, we can get rid of them using this powerful trick. In some cases, we may alternatively choose to do a first-difference transformation of our regression specification. This entails subtracting the regression in one period not from it’s expectation across time, but from the regression in the previous period. In this case, time-invariant characteristics are similarly removed from the regression since they are constant across all periods <span class="math inline">\(t\)</span>.</p>
+</section>
+<section id="common-mistakes" class="level2">
+<h2 class="anchored" data-anchor-id="common-mistakes">14.7 Common Mistakes</h2>
+<p>One common mistake is not to respect the order set by R in defining the ordering variables. By default, R orders panel data based on a cross-sectional ID first and a time variable second. If we change the order of the indices, then the estimates produced by R will change.</p>
+<p>If we invert the order of the cross-sectional ID (<em>country</em>) and the time variable (<em>year</em>) we may get different results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default order</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model=</span><span class="st">"within"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inverted order</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plm</span>(lngdp <span class="sc">~</span> lnhc, <span class="at">data =</span> panel_data, <span class="at">model=</span><span class="st">"within"</span>, <span class="at">index=</span><span class="fu">c</span>(<span class="st">"year"</span>,<span class="st">"countrycode"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another common mistake happens with the <code>lag()</code> and <code>lead()</code> functions. Since there are several functions with this name, it’s always best to specify to R that we want to use the <code>lag()</code> and <code>lead()</code> functions from the package <code>dplyr</code>.</p>
+<p>See what happens when we forget to specify it: do you see any difference between <em>lag1_lngdp</em> and <em>new_lag1_lngdp</em>?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lag using dplyr::lag</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lag1_lngdp =</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(lngdp,<span class="dv">1</span>))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lag using lag</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>panel_data <span class="ot">&lt;-</span> panel_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">new_lag1_lngdp =</span> <span class="fu">lag</span>(lngdp,<span class="dv">1</span>))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the difference</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(panel_data[, <span class="fu">c</span>(<span class="st">"lngdp"</span>, <span class="st">"lag1_lngdp"</span>, <span class="st">"new_lag1_lngdp"</span>)],<span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">14.8 Wrap Up</h2>
+<p>In this module, we’ve learned how to address linear regression in the case where we have access to two dimensions: cross-sectional variation and time variation. The usefulness of time variation is that it allows us to control for time-invariant components of the error term which may be causing endogeneity. We also investigated different ways for addressing problems such as heteroskedasticity and autocorrelation in our standard errors when working specifically with panel data. In the next module, we will cover a popular research design method: difference-in-differences.</p>
+</section>
+<section id="wrap-up-table" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up-table">14.9 Wrap-up Table</h2>
+<table class="table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pdata.frame</code></td>
+<td>It transforms a data frame in panel data format.</td>
+</tr>
+<tr class="even">
+<td><code>plm</code></td>
+<td>It estimates a linear model with panel data. Use option “within” for Fixed-Effects and “random” for Random-Effects.</td>
+</tr>
+<tr class="odd">
+<td><code>phtest</code></td>
+<td>It performs a test to choose between Fixed-Effects and Random-Effects model.</td>
+</tr>
+<tr class="even">
+<td><code>pFtest</code></td>
+<td>It performs a test to choose whether time fixed-effects are needed.</td>
+</tr>
+<tr class="odd">
+<td><code>dplyr::lag</code></td>
+<td>It creates lag variables.</td>
+</tr>
+<tr class="even">
+<td><code>dplyr::lead</code></td>
+<td>It creates lead variables.</td>
+</tr>
+<tr class="odd">
+<td><code>bptest</code></td>
+<td>It tests for heteroskedasticity.</td>
+</tr>
+<tr class="even">
+<td><code>pbgtest</code></td>
+<td>It tests for serial correlation.</td>
+</tr>
+<tr class="odd">
+<td><code>grangertest</code></td>
+<td>It tests for Granger causality.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a href="https://www.youtube.com/watch?v=SOQvXICIRNY&amp;t=149s">Formatting and managing dates</a> <br> <a href="https://www.youtube.com/watch?v=ik8r4WvrPkc&amp;t=224s">Time-series operators (lags)</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Good Regression Practices (13)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="pagination-link">
+        <span class="nav-page-text">Difference in Differences (15)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

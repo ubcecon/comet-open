@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt">
+<meta name="dcterms.date" content="2024-05-29">
+<meta name="description" content="This notebook goes over the theory surrounding linear regressions, as well as how to implement univariate and multivariate regressions in R. We dig into coefficient interpretation, and we touch upon control variable selection.">
+
+<title>COMET - 10 - Conducting Regression Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" rel="next">
+<link href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html" rel="" target="">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html" rel="" target="">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html" rel="" target="">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html" rel="" target="">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html" rel="" target="">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html" rel="" target="">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html" rel="" target="">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html" rel="" target="">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html" rel="" target="">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html" rel="" target="">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html" rel="" target="">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html" rel="" target="">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html" rel="" target="">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html" rel="" target="">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/" rel="" target=""><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip" rel="" target=""><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip" rel="" target=""><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open" rel="" target="">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#" rel="" target="">
+ <span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html" rel="" target="">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html" rel="" target="">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_research.html">R Notebooks</a></li><li class="breadcrumb-item"><a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html">Conducting Regression Analysis (10)</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn to Research</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with R Scripts (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/06_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Conducting Regression Analysis (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Workflow Guide (17)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_research.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pystata Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting Up (1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Do-files (2)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Essentials (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Locals and Globals (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Opening Datasets (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Variables (6)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Within Group Analysis (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Datasets (8)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Graphs (10)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conducting Regression Analysis (11)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exporting Regression Output (12)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good Regression Practices (14)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data Regression (15)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference in Differences (16)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/17_IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variable Analysis (17)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/5_Research/econ490-pystata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#a-word-of-caution-before-we-begin" id="toc-a-word-of-caution-before-we-begin" class="nav-link" data-scroll-target="#a-word-of-caution-before-we-begin">10.1 A Word of Caution Before We Begin</a></li>
+  <li><a href="#linear-regression-models" id="toc-linear-regression-models" class="nav-link" data-scroll-target="#linear-regression-models">10.2 Linear Regression Models</a></li>
+  <li><a href="#ordinary-least-squares" id="toc-ordinary-least-squares" class="nav-link" data-scroll-target="#ordinary-least-squares">10.3 Ordinary Least Squares</a></li>
+  <li><a href="#ordinary-least-squares-regressions-with-r" id="toc-ordinary-least-squares-regressions-with-r" class="nav-link" data-scroll-target="#ordinary-least-squares-regressions-with-r">10.4 Ordinary Least Squares Regressions with R</a>
+  <ul class="collapse">
+  <li><a href="#univariate-regressions" id="toc-univariate-regressions" class="nav-link" data-scroll-target="#univariate-regressions">10.4.1 Univariate regressions</a></li>
+  <li><a href="#multivariate-regressions" id="toc-multivariate-regressions" class="nav-link" data-scroll-target="#multivariate-regressions">10.4.2 Multivariate Regressions</a></li>
+  <li><a href="#interpreting-coefficients" id="toc-interpreting-coefficients" class="nav-link" data-scroll-target="#interpreting-coefficients">10.4.3 Interpreting Coefficients</a></li>
+  <li><a href="#sample-weights" id="toc-sample-weights" class="nav-link" data-scroll-target="#sample-weights">10.4.4 Sample Weights</a></li>
+  </ul></li>
+  <li><a href="#what-can-we-do-with-ols" id="toc-what-can-we-do-with-ols" class="nav-link" data-scroll-target="#what-can-we-do-with-ols">10.5 What can we do with OLS?</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">10.7 Wrap Up</a></li>
+  <li><a href="#wrap-up-table" id="toc-wrap-up-table" class="nav-link" data-scroll-target="#wrap-up-table">10.7 Wrap-up Table</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="10_Linear_Reg.ipynb" download="10_Linear_Reg.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">10 - Conducting Regression Analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">r</div>
+    <div class="quarto-category">regression</div>
+    <div class="quarto-category">univariate regression</div>
+    <div class="quarto-category">multiple regression</div>
+    <div class="quarto-category">estimates</div>
+    <div class="quarto-category">coefficients</div>
+    <div class="quarto-category">controls</div>
+    <div class="quarto-category">interpretation</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This notebook goes over the theory surrounding linear regressions, as well as how to implement univariate and multivariate regressions in R. We dig into coefficient interpretation, and we touch upon control variable selection.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">29 May 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Econometric approaches to linear regression taught in ECON326 or other introductory econometrics courses.</li>
+<li>Importing data into R.</li>
+<li>Creating new variables in R.</li>
+</ol>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ol type="1">
+<li>Implement the econometric theory for linear regressions learned in ECON326 or other introductory econometrics courses.</li>
+<li>Run simple univariate and multivariate regressions using the command <code>lm()</code>.</li>
+<li>Understand the interpretation of the coefficients in linear regression output.</li>
+<li>Consider the quality of control variables in a proposed model.</li>
+</ol>
+</section>
+<section id="a-word-of-caution-before-we-begin" class="level2">
+<h2 class="anchored" data-anchor-id="a-word-of-caution-before-we-begin">10.1 A Word of Caution Before We Begin</h2>
+<p>Before conducting a regression analysis, a great deal of work must go into understanding the data and investigating the theoretical relationships between variables. The biggest mistake that students make at this stage is not how they run the regression analysis. It is failing to spend enough time preparing data for analysis.</p>
+<p>Here are some common challenges that students run into. Please pay attention to this when conducting your own research project.</p>
+<ul>
+<li>A variable that is qualitative and not ranked cannot be used in an OLS regression without first being transformed into a dummy variable (or a series of dummy variables). Examples of variables that must always be included as dummy variables are sex, race, religiosity, immigration status, and marital status. Examples of variables that are sometimes included as dummy variables are education, income and age.</li>
+<li>You will want to take a good look to see how your variables are coded before you begin running regressions and interpreting the results. Make sure that missing values are coded as “.” and not some value (such as “99”). Also, check that qualitative ranked variables are coded in the way you expect (e.g.&nbsp;higher education is coded with a larger number). If you do not do this, you could misinterpret your results.</li>
+<li>Some samples are not proper representations of the population and must be weighted accordingly (we will deal with this in depth later).</li>
+<li>You should always think about the theoretical relationship between your variables before you start your regression analysis: Does economic theory predict a linear relationship, independence between explanatory terms, or is there possibly an interaction at play?</li>
+</ul>
+</section>
+<section id="linear-regression-models" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regression-models">10.2 Linear Regression Models</h2>
+<p>Understanding how to run a well structured OLS regression and how to interpret the results of that regression are the most important skills for undertaking empirical economic analysis. You have acquired a solid understanding of the theory behind the OLS regression in earlier econometrics courses; keep this in mind throughout your analysis. Here, we will cover the practical side of running regressions and, perhaps more importantly, how to interpret the results.</p>
+<p>An econometric model describes an equation (or set of equations) that impose some structure on how the data was generated. The most natural way to describe statistical information is the mean. Therefore, we typically model the mean of a (dependent) variable and how it can depend on different factors (independent variables or covariates). The easiest way to describe a relationship between a dependent variable, y, and one or more independent variables, x is linearly.</p>
+<p>Suppose we want to know what variables are needed to understand how and why earnings vary between each person in the world. What would be the measures needed to predict everyone’s earnings?</p>
+<p>Some explanatory variables might be:</p>
+<ul>
+<li>Age</li>
+<li>Year (e.g.&nbsp;macroeconomic shocks in that particular year)</li>
+<li>Region (local determinants on earnings)</li>
+<li>Hours worked</li>
+<li>Education</li>
+<li>Labor Market Experience</li>
+<li>Industry / Occupation</li>
+<li>Number of children</li>
+<li>Level of productivity</li>
+<li>Passion for their job</li>
+<li>etc., there are so many factors which can be included!</li>
+</ul>
+<p>For simplicity, let’s assume we want to predict earnings but we only have access to data sets with information regarding people’s age and earnings. If we want to generate a model which predicts the relationship between these two variables, we could create a linear model where the dependent variable (y) is annual earnings, the independent variable (x) is age, the slope (m) is how much an extra year of age affects earnings, and the y-intercept (b) is earnings when age is equal to 0. We would write this relationship as:</p>
+<p><span class="math display">\[
+y = b +mx.
+\]</span></p>
+<p>We only have access to annual earnings and age, so we are unable to observe the rest of the variables (independent variables or covariates <span class="math inline">\(X_{i}\)</span>) that might determine earnings. Even if we do not observe these variables, they still affect earnings. In other words, age does not perfectly predict earnings, so our model above would have some error: the true values for earnings would diverge from what is predicted by the linear model.</p>
+<p>Where <span class="math inline">\(\beta_0\)</span> is the y-intercept, <span class="math inline">\(\beta_1\)</span> is the slope, and <span class="math inline">\(i\)</span> indicates the worker observation in the data, we have:</p>
+<p><span class="math display">\[
+logearnings_{i} =\beta_0 + \beta_1 age_{i}  + u_{i}. \tag{1}
+\]</span></p>
+<p>It’s important to understand what <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> stand for in the linear model. We said above that we typically model the mean of a (dependent) variable and how it can depend on different factors (independent variables or covariates). Therefore, we are in fact modeling the expected value of <em>logearnings</em>, conditional on the value of <em>age</em>. This is called the conditional expectation function, or <strong>CEF</strong>. We assume that it takes the form of:</p>
+<p><span class="math display">\[
+E[logearnings_{i}|age_{i}] =\beta_0 + \beta_1 age_i \tag{2}
+\]</span></p>
+<p>How do equations (1) and (2) relate? If we take the expectation given age on equation (1), we can see that <span class="math display">\[
+E[age_{i}|age_{i}]=age_{i},
+\]</span></p>
+<p>and, this will leave us with <span class="math display">\[
+E[u_{i}|age_{i}]=0.
+\]</span></p>
+<p>If <span class="math inline">\(age=0\)</span>, then <span class="math inline">\(\beta_1 \times age=0\)</span> and <span class="math display">\[
+E[logearnings_{i}|age_{i}=0]=\beta_0
+\]</span></p>
+<p>If <span class="math inline">\(age=1\)</span>, then <span class="math inline">\(\beta_1 \times age=\beta_1\)</span> and <span class="math display">\[
+E[logearnings_{i}|age_{i}=1]=\beta_0+ \beta_1
+\]</span></p>
+<p>Differencing the two equations above gives us the solution,</p>
+<p><span class="math display">\[
+E[logearnings_{i}|age_{i}=1]- E[logearnings_{i}|age_{i}=0]= \beta_1,
+\]</span></p>
+<p>where <span class="math inline">\(β_1\)</span> is the difference in the expected value of <em>logearnings</em> when there is a one unit increase in <em>age</em>. If we choose any two values that differ by 1 unit we will also get <span class="math inline">\(\beta_1\)</span> as the solution (try it yourself!).</p>
+<p>If we know those <span class="math inline">\({\beta_1}s\)</span>, we can know a lot of information about the mean earnings for different set of workers. For instance, we can compute the mean log-earnings of 18 year old workers:</p>
+<p><span class="math display">\[
+E[logearnings_{i} \mid  age_{i}=18] = \beta_0 + \beta_1 \times 18
+\]</span></p>
+<p>This is the intuition that we should follow to interpret the coefficients!</p>
+<p>Consider a slightly more complicated example.</p>
+<p>Let’s assume there are only two regions in this world: region <strong>A</strong> and region <strong>B</strong>. In this world, we’ll make it such that workers in region B earn <span class="math inline">\(\beta_1\)</span> percentage points more than workers in region A on average. We are going to create a dummy variable called <em>region</em> that takes the value of 1 if the worker’s region is B and a value of 0 if the worker’s region is A.</p>
+<p>Furthermore, an extra year of age increases earnings by <span class="math inline">\(\beta_2\)</span> on average. We take the same approach with every explanatory variable on the list above. The empirical economist (us!) only observes a subset of all these variables, which we call the observables or covariates <span class="math inline">\(X_{it}\)</span>. Let’s suppose that the empirical economist only observes the region and age of the workers.</p>
+<p>We could generate log-earnings of worker <span class="math inline">\(i\)</span> as follows.</p>
+<p><span class="math display">\[\begin{align}
+logearnings_{i} &amp;=  \beta_1 \{region_{i}=1\} + \beta_2 age_{i} + \underbrace{ \beta_3 education_{i} + \beta_4 hours_{i} + \dots }_{\text{Unobservable, so we'll call this }u_{i}^*} \\
+&amp;= E[logearnings_{i} \mid region_{i}=0, age_{i}=0] + \beta_1 \{region_{i}=1\} + \beta_2 age_{i} + u_{i}^* - E[logearnings_{i} \mid region_{i}=0, age_{i}=0] \\\\
+&amp;= \beta_0 + \beta_1 \{region_{i}=1\} + \beta_2 age_{i}  + u_{i}
+\end{align}\]</span></p>
+<p>In the second line we did one of the most powerful tricks in all of mathematics: add and subtract the same term! Specifically, we add and subtract the mean earnings for workers who are in region A and have <em>age</em> equal to zero. This term is the interpretation of the constant in our linear model. The re-defined unobservable term <span class="math inline">\(u_i\)</span> is a deviation from such mean, which we expect to be zero on average.</p>
+<p>Be mindful of the interpretation of the coefficients in this new equation. As we have just seen, the constant <span class="math inline">\(\beta_0\)</span> is interpreted as the average earnings of workers living in region A and with <em>age</em> equal to zero: if <span class="math inline">\(age=0\)</span> and <span class="math inline">\({region}_{i}=0\)</span> then <span class="math inline">\(\beta_1 \times \{{region}_{i}=0\} = 0\)</span> and <span class="math inline">\(\beta_2 \times age=0\)</span>. All that remains is <span class="math inline">\(\beta_0\)</span>: <span class="math display">\[
+E[logearnings_{i}|age_{i}=0 \; \text{and} \; {region}_{i}=0]=\beta_0
+\]</span></p>
+<p>But what are the expected earnings of a worker living in region B and with age equal to zero?</p>
+<p>If <span class="math inline">\(age=0\)</span> and <span class="math inline">\({region}_{i}=1\)</span>, then <span class="math inline">\(\beta_1 \times \{{region}_{i}=1\} = \beta_1\)</span> and <span class="math inline">\(\beta_2 \times age=0\)</span>. As a result, we obtain <span class="math display">\[
+E[logearnings_{i}|age_{i}=0 \; \text{and} \; {region}_{i}=1]=\beta_0 + \beta_1
+\]</span></p>
+<p>Therefore, <span class="math inline">\(\beta_1\)</span> is interpreted as the difference in average earnings of workers living in region B compared to workers living in region A.</p>
+<p>Lastly, <span class="math inline">\(\beta_2\)</span> is interpreted as the extra average earnings obtained by individuals with one additional year of age compared to other individuals <strong>living in the same region</strong>. That ‘living in the same region’ portion of the sentence is key. Consider an individual living in region A and with <em>age</em> equal to 1. The expected earnings in that case are <span class="math display">\[
+E[logearnings_{i}|age_{i}=1 \; \text{and} \; {region}_{i}=0]=\beta_0 + \beta_2
+\]</span></p>
+<p>Therefore, <span class="math inline">\(\beta_2\)</span> is equal to the extra average earnings obtained by workers of region A for each one additional year of <em>age</em>: <span class="math display">\[
+\beta_2 = E[logearnings_{i}|age_{i}=1 \; \text{and} \; {region}_{i}=0] - E[logearnings_{i}|age_{i}=0 \; \text{and} \; {region}_{i}=0]
+\]</span></p>
+<p>Using the equations above, try computing the following difference in expected earnings for workers with different age and different region, and check that it is not equal to <span class="math inline">\(\beta_2\)</span>: <span class="math display">\[
+E[logearnings_{i}|age_{i}=1 \; \text{and} \; {region}_{i}=0] - E[logearnings_{i}|age_{i}=0 \; \text{and} \; {region}_{i}=1]
+\]</span></p>
+<p>So far, we have made an assumption at the population level. Remember that to know the CEF, we need to know the true <span class="math inline">\({\beta}s\)</span>, which in turn depend on the joint distribution of the outcome (<span class="math inline">\(Y_i\)</span>) and covariates (<span class="math inline">\(X_i\)</span>). However, in practice, we typically work with a random sample where we compute averages instead of expectations and empirical distributions instead of the true distributions. Fortunately, we can use these in a formula (also known as an estimator!) to obtain a reasonable guess of the true <span class="math inline">\({\beta}s\)</span>. For a given sample, the numbers that are output by the estimator or formula are known as estimates. One of the most powerful estimators out there is the Ordinary Least Squares Estimator (OLS).</p>
+</section>
+<section id="ordinary-least-squares" class="level2">
+<h2 class="anchored" data-anchor-id="ordinary-least-squares">10.3 Ordinary Least Squares</h2>
+<p>If we are given some data set and we have to find the unknown <span class="math inline">\({\beta}s\)</span>, the most common and powerful tool is known as OLS. Continuing with the example above, let all the observations be indexed by <span class="math inline">\(j=1,2,\dots, n\)</span>. Let <span class="math display">\[
+\hat{β_0}, \hat{β_1},\hat{β_2}
+\]</span></p>
+<p>be the estimators of <span class="math display">\[
+β_0, β_1, β_2.
+\]</span></p>
+<p>The formula for the estimators will return some values that will give rise to a sample version of the population model:</p>
+<p><span class="math display">\[
+logearnings_{j} = b_0 + b_1\{region_{j}=1\} + b_2 age_{j}  + \hat{u_{j}},
+\]</span></p>
+<p>where <span class="math inline">\(u_j\)</span> is the true error in the population, and <span class="math inline">\(\hat{u_{j}}\)</span> is called a residual (the sample version of the error given the current estimates). OLS finds the values of <span class="math inline">\({\hat{β}}s\)</span> that minimize the sum of squared residuals. This is given by the following minimization problem: <span class="math display">\[
+\min_{b} \frac{1}{n} \sum_{j}^n \hat{u}_{j}^2
+\]</span></p>
+<p>This expression can also be written as</p>
+<p><span class="math display">\[
+\min_{b} \frac{1}{n} \sum_{j}^n (logearnings_{j} - b_0 - b_1 \{region_{j}=1\} - b_2age_{j} )^2
+\]</span></p>
+<p>OLS is minimizing the squared residuals (the sample version of the error term) given our data. This minimization problem can be solved using calculus, specifically the derivative chain rule. The first order conditions are given by :</p>
+<p><span class="math display">\[\begin{align}
+\frac{1}{n} \sum_{j}^n 1 \times \hat{u}_{j} &amp;= 0  \\
+\frac{1}{n} \sum_{j}^n age_i \times \hat{u}_{j} &amp;= 0  \\
+\frac{1}{n} \sum_{j}^n \{region_i = B\} \times \hat{u}_{j} &amp;= 0
+\end{align}\]</span></p>
+<p>From these first order conditions, we construct the most important restrictions for OLS:</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{j}^n \hat{u}_j = \frac{1}{n} \sum_{j}^n \hat{u}_j \times  age_j=\frac{1}{n} \sum_{j}^n \hat{u}_j\times\{region_j = 1\}=0
+\]</span></p>
+<p>In other words, by construction, the sample version of our error term will be uncorrelated with all the covariates. The constant term works the same way as including a variable equal to 1 in the regression (try it yourself!).</p>
+<p>Notice that the formula for <span class="math inline">\(β_0, β_1, β_2\)</span> (the true values!) is using these conditions, but we replaced expectations with sample averages. This is obviously an infeasible approach since we argued before that we need to know the true joint distribution of the variables to compute such expectations. As a matter of fact, many useful estimators rely on this approach: replace an expectation by a sample average. This is called the sample analogue approach.</p>
+<div class="alert alert-info">
+<strong>Note:</strong> Because this is an optimization problem, all of our variables must be numeric. If a variable is categorical, we must re-code it into a numerical variable. You will understand more about this after completing our next module.
+</div>
+</section>
+<section id="ordinary-least-squares-regressions-with-r" class="level2">
+<h2 class="anchored" data-anchor-id="ordinary-least-squares-regressions-with-r">10.4 Ordinary Least Squares Regressions with R</h2>
+<p>For this module, we will be using the fake data set. Recall that this data is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Clear the memory from any pre-existing objects</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># loading in our packages</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#This includes ggplot2! </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(IRdisplay)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Open the dataset </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"../econ490-stata/fake_data.dta"</span>)  </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># inspecting the data</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(fake_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="univariate-regressions" class="level3">
+<h3 class="anchored" data-anchor-id="univariate-regressions">10.4.1 Univariate regressions</h3>
+<p>To run a linear regression using OLS in R, we use the command <code>lm()</code>. The basic syntax of the command is</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data=</span>dataset_name, dep_varname <span class="sc">~</span> indep_varnames)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Feel free to look at the help file to look at the different options that this command provides.</p>
+<p>Let’s start by creating a new variable that is the natural log of earnings and then run our regression. We are using the log of earnings since earnings has a highly skewed distribution, and applying a log transformation allows us to more normally distribute our earnings variable. This will be helpful for a variety of analytical pursuits.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">log_earnings =</span> <span class="fu">log</span>(earnings)) <span class="co">#the log function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data=</span>fake_data, log_earnings <span class="sc">~</span> age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By default, R includes a constant (which is usually what we want, since this will set residuals to 0 on average). The estimated coefficients are <span class="math inline">\(\hat{\beta}_0 = 10.014\)</span> and <span class="math inline">\(\hat{\beta}_1 = 0.014\)</span>. Notice that we only included one covariate here, which is known as univariate (linear) regression.</p>
+<p>The interpretation of coefficients in a univariate regression is fairly simple. <span class="math inline">\(\hat{\beta}_1\)</span> says that having one extra year of <em>age</em> increases <em>logearnings</em> by <span class="math inline">\(0.014\)</span> on average. In other words, one extra year in age returns 1.4 percentage points higher earnings. Meanwhile, <span class="math inline">\(\hat{\beta}_0\)</span> says that the average log earnings of individuals with a recorded age of 0 is about <span class="math inline">\(10\)</span>. This intercept is not particularly meaningful given that no one in the data set has an age of 0. It is important to note that this often occurs: the <span class="math inline">\(\hat{\beta}_0\)</span> intercept is often not economically meaningful. After all, <span class="math inline">\(\hat{\beta}_0\)</span> is simply an OLS estimate resulting from minimizing the sum of squared residuals.</p>
+<p>Sometimes, we find that our coefficient is negative. This is not a concern. If it was the case that <span class="math inline">\(\hat{\beta}_1 = -0.014\)</span>, this would instead mean that one extra year of <em>age</em> is associated with a <span class="math inline">\(0.014\)</span> decrease in <em>logearnings</em>, or <span class="math inline">\(1.4\)</span> percentage point lower earnings. When interpreting coefficients, the sign is also important. We will look at how to interpret coefficients in a series of cases later.</p>
+</section>
+<section id="multivariate-regressions" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-regressions">10.4.2 Multivariate Regressions</h3>
+<p>The command <code>lm()</code> also allows us to list multiple covariates. When we want to carry out a multivariate regression we write,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data=</span>dataset_name, dep_varname <span class="sc">~</span> indep_varname1 <span class="sc">+</span> indep_varname2 <span class="sc">+</span> ... )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and so on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data=</span>fake_data, log_earnings <span class="sc">~</span> age <span class="sc">+</span> treated )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>How would we interpret the coefficient corresponding to being treated? Consider the following two comparisons:</p>
+<ul>
+<li>Mean <em>logearnings</em> of 18 year old treated workers minus the mean <em>logearnings</em> of 18 year old untreated workers = <span class="math inline">\(\beta_2\)</span>.</li>
+<li>Mean <em>logearnings</em> of 20 year old treated workers minus the mean <em>logearnings</em> of 20 year old untreated workers = <span class="math inline">\(\beta_2\)</span>.</li>
+</ul>
+<p>Therefore, the coefficient gives the increase in <em>logearnings</em> between treated and untreated workers <strong>holding all other characteristics equal</strong>. We economists usually refer to this as <span class="math inline">\(\textit{ceteris paribus}\)</span>.</p>
+<p>To check whether these coefficients are statistically significant, we can use another very helpful function: summary().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(<span class="at">data =</span> fake_data, log_earnings <span class="sc">~</span> age <span class="sc">+</span> treated))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function provides us with standard errors for our beta coefficients, useful in testing whether these coefficients are statistically significantly different from 0. To test this, we set up the hypothesis that a coefficient <span class="math inline">\(\beta\)</span> equals 0, and thus has a mean of 0, then standardize it using the standard error provided:</p>
+<p><span class="math display">\[
+t = \frac{ \hat{\beta} - 0 }{StdErr}
+\]</span></p>
+<p>If the t-statistic is roughly greater than 2 in absolute value, we reject the null hypothesis that there is no effect of the independent variable in question on earnings (<span class="math inline">\(\hat{\beta} = 0\)</span>). This would mean that the data supports the hypothesis that the variable in question has some effect on earnings at a confidence level of 95%.</p>
+<p>An alternative test can be performed using the p-value statistic: if the p-value is less than 0.05, we reject the null hypothesis at 95% confidence level. In either case, when we reject the null hypothesis, we say that the coefficient is statistically significant.</p>
+<p>No matter which of the two approaches we choose, this <code>summary()</code> function expedites the process by giving us our p-value and t-statistic immediately, so that we can reject or fail to reject this null hypothesis immediately.</p>
+<div class="alert alert-info">
+<strong>Note:</strong> Without statistical significance, we cannot reject the null hypothesis and have no choice but to conclude that the coefficient is zero, meaning that the independent variable of interest has no effect on the dependent variable.
+</div>
+<p>Thus, when working with either univariate or multivariate regressions, we must pay attention to two key features of our coefficient estimates:</p>
+<ol type="1">
+<li>the sign of the coefficient (positive or negative), and</li>
+<li>the p-value or t-statistic of the coefficient (checking for statistical significance).</li>
+</ol>
+<p>A subtler but also important point is to always inspect the magnitude of the coefficient. We could find <span class="math inline">\(\hat{\beta}_1 = 0.00005\)</span> in our regression and determine that it is statistically significant. However, this would not change the fact that an extra year of age increases your log earnings by 0.005, which is a very weak effect. Magnitude is always important when seeing whether a relationship is actually large in size, even if it is statistically significant and thus we can be quite sure it’s not 0. Understanding whether the magnitude of a coefficient is economically meaningful typically requires a firm understanding of the economic literature in that area.</p>
+</section>
+<section id="interpreting-coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-coefficients">10.4.3 Interpreting Coefficients</h3>
+<p>While we have explored univariate and multivariate regressions of a log dependent variable and non-log independent variables (known as a log-linear model), the variables in linear regressions can take on many other forms. Each of these forms, whether a transformation of variables or not, influences how we can interpret these <span class="math inline">\(\beta\)</span> coefficient estimates.</p>
+<p>For instance, look at the following regression:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data =</span> fake_data, earnings <span class="sc">~</span> age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is a classic single variable regression with no transformations (e.g.&nbsp;log) applied to the variables. In this regression, a one-unit change in the independent variable leads to a <span class="math inline">\(\beta\)</span> unit change in the dependent variable. As such, we can interpret our coefficients in the following way: an extra year of <em>age</em> increases <em>earnings</em> by 1046.49 on average. The average earnings of individuals with age equal to 0 is 35484, which we have already discussed is not economically meaningful. The incredibly low p-value for the coefficient on age also indicates that this is a statistically significant effect.</p>
+<p>Next, let’s look at the following regression, where a log transformation has now been applied to the independent variable and not the dependent variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">log_age =</span> <span class="fu">log</span>(age)) <span class="co"># creating our log age variable first</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data =</span> fake_data, earnings <span class="sc">~</span> log_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is known as a linear-log regression, since only the independent variable has been transformed. It is a mirror image of the log-linear model we first looked at when we took the log of earnings. In this regression, we can say that a 1 unit increase in <em>logage</em> leads to a 37482 increase in <em>earnings</em>, or that a 1% increase in age leads to an increase in earnings of 374.82. To express this more neatly, a 10% increase in age leads to an increase in earnings of about 3750, or a 100% increase in age (doubling of age) leads to an increase in earnings of about 37500.</p>
+<p>We can even have a log-log regression, wherein both the dependent and independent variables in question have been transformed into log format.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data =</span> fake_data, log_earnings <span class="sc">~</span> log_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When interpreting the coefficients in this regression, we can say that a 1 unit increase in <em>logage</em> leads to a 0.52 unit increase in <em>logearn</em>, or that a 1% increase in age leads to a 0.52% increase in earnings. To express this more neatly, we can also say that a 10% increase in age leads to a 5.2% increase in earnings, or that a 100% increase in age (doubling of age) leads to a 52% increase in earnings.</p>
+<p>Additionally, while we have been looking at log transformations, we can apply other transformations to our variables. Suppose that we believe that age is not linearly related to earnings. Instead, we believe that age may have a quadratic relationship with earnings. We can define another variable for this term and then include it in our regression to create a multivariate regression as follows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> fake_data <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">age_sqr =</span> age<span class="sc">^</span><span class="dv">2</span>) <span class="co"># creating a squared age variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data =</span> fake_data, earnings <span class="sc">~</span> age <span class="sc">+</span> age_sqr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this regression, we get coefficients on both <em>age</em> and <em>agesqr</em>. Since the age variable appears in two places, neither coefficient can individually tell us the effect of age on earnings. Instead, we must take the partial derivative of earnings with respect to age. If our population regression model is</p>
+<p><span class="math display">\[
+earnings_i = \beta_0 + \beta_1age_i + \beta_2age^2_i + \mu_i,
+\]</span></p>
+<p>then the effect of age on earnings is <span class="math inline">\(\beta_1 + 2\beta_2\)</span>, meaning that a one year increase in age leads to a 3109.1 + 2(-27.7) = 3053.7 unit increase in earnings. There are many other types of transformations we can apply to variables in our regression models. This is just one example.</p>
+<p>In all of these examples, our <span class="math inline">\(\beta_0\)</span> intercept coefficient gives us the expected value of our dependent variable when our independent variable equals 0. We can inspect the output of these regressions further, looking at their p-values or t-statistics, to determine whether the coefficients we receive as output are statistically significant.</p>
+<p>Some regressions involve dummy variables and interaction terms. It is critical to understand how to interpret these coefficients, since these terms are quite common. The coefficient on a dummy variable effectively states the difference in the dependent variable between two groups, <em>ceteris paribus</em>, with one of the groups being the base level group left out of the regression entirely. The coefficient on interaction terms, conversely, emphasizes how the relationship between a dependent and independent variable differs between groups, or differs as another variable changes. We’ll look at both dummy variables and interaction terms in regressions in much more depth in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-r/12_Dummy.html">Module 12</a>.</p>
+</section>
+<section id="sample-weights" class="level3">
+<h3 class="anchored" data-anchor-id="sample-weights">10.4.4 Sample Weights</h3>
+<p>The data that is provided to us is often not statistically representative of the population as a whole. This is because the agencies that collect data (like Statistics Canada) often decide to over-sample some segments of the population. They do this to ensure that there is a large enough sample size of subgroups of the population to conduct meaningful statistical analysis of those sub-populations. For example, the population of Indigenous identity in Canada accounts for approximately 5% of the total population. If we took a representative sample of 10,000 Canadians, there would only be 500 people who identified as Indigenous in the sample.</p>
+<p>This creates two problems. The first is that this is not a large enough sample to undertake any meaningful analysis of characteristics of the Indigenous population in Canada. The second is that when the sample is this small, it might be possible for researchers to identify individuals in data. This would be extremely unethical, and Stats Canada works hard to make sure that data remains anonymized.</p>
+<p>To resolve this issue, Statistics Canada over-samples people of Indigenous identity when they collect data. For example, they might survey 1000 people of Indigenous identity so that those people now account for 10% of observations in the sample. This would allow researchers who want to specifically look at the experiences of Indigenous people to conduct reliable research, and maintain the anonymity of the individuals represented by the data.</p>
+<p>When we use this whole sample of 10,000, however, the data is no longer nationally representative since it overstates the share of the population of Indigenous identity - 10% instead of 5%. This sounds like a complex problem to resolve, but the solution is provided by the statistical agency that created the data in the form of “sample weights” that can be used to recreate data that is nationally representative.</p>
+<div class="alert alert-info">
+<strong>Note</strong>: Before applying any weights in your regression, it is important that you read the user guide that comes with your data to see how weights should be applied. There are several options for weights and you should never apply weights without first understanding the intentions of the authors of the data.
+</div>
+<p>Our sample weights will be commonly coded as an additional variable in our data set such as <em>weight_pct</em>, however sometimes this is not the case, and we will need to select the variable ourselves. Please reach out to an instructor, TA, or supervisor if you think this is the case. To include the weights in regression analysis, we can simply include the following option immediately after our independent variable(s) in the <code>lm</code> function:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(<span class="at">data =</span> data, y <span class="sc">~</span> x, <span class="at">weights =</span> weight_pct)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can do that with the variable <em>sample_weight</em> which is provided to us in the “fake_data” data set, re-running the regression of <em>logearnings</em> on <em>age</em> and <em>treated</em> from above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">data =</span> fake_data, log_earnings <span class="sc">~</span> age <span class="sc">+</span> treated, <span class="at">weights =</span> sample_weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Often, after weighting our sample, the coefficients from our regression will change in magnitude. In these cases, there was some sub-sample of the population that was over-represented in the data and skewed the results of the unweighted regression.</p>
+<p>Finally, while this section described the use of weighted regressions, it is important to know that there are many times we might want to apply weights to our sample that have nothing to do with running regressions. For example, if we wanted to calculate the mean of a variable using data from a skewed sample, we would want to make sure to use the weighted mean. While <code>mean</code> is used in R to calculate means, R also has an incredibly useful command called <code>weighted.mean</code> which directly weights observations to calculate the weighted mean. Many packages exist which can calculate the weighted form of numerous other summary statistics.</p>
+</section>
+</section>
+<section id="what-can-we-do-with-ols" class="level2">
+<h2 class="anchored" data-anchor-id="what-can-we-do-with-ols">10.5 What can we do with OLS?</h2>
+<p>Notice that OLS gives us a linear approximation to the conditional mean of some dependent variable, given some observables. We can use this information for prediction: if we had different observables, how would the expected mean differ?We can do this in Stata by using the <code>predict</code> function. The syntax is <code>predict(model)</code>. We first need to save our regression into an object (using the <code>&lt;- lm(...)</code> syntax), and then we can place that object as the <code>model</code> in the <code>predict function</code> to obtain the predicted values of our dependent variable. We can do this with different regressions that have different observables (one might include <em>age</em> as an explanatory variable, while another might include <em>education</em>), and we can compare the predicted values.</p>
+<p>Another thing we can do with OLS is discuss causality: how does manipulating one variable impact a dependent variable on average? To give a causal interpretation to our OLS estimates, we require that, in the population, it holds that <span class="math inline">\(\mathbf{E}[X_i u_i] = 0\)</span>. This is the same as saying that the unobservables are uncorrelated with the independent variables of the equation (remember, this is not testable because we cannot compute the expectations in practice!). If these unobservables are correlated with an independent variable, this means the independent variable can be causing a change in the dependent variable because of a change in an unobservable rather than a change in the independent variable itself. This inhibits our ability to interpret our coefficients with causality and is known as the endogeneity problem.</p>
+<p>We might be tempted to think that we can test this using the sample version <span class="math inline">\(\frac{1}{n} \sum_{j}^n X_i u_i = 0\)</span>, but notice from the first order conditions that this is true by construction! It is by design a circular argument; we are assuming that it holds true when we compute the solution to OLS.</p>
+<p>For instance, looking at the previous regression, if we want to say that the causal effect of being treated is equal to -0.81, it must be the case that treatment is not correlated (in the population sense) with the error term (our unobservables). However, it could be the case that treated workers are the ones that usually perform worse at their job, which would contradict a causal interpretation of our OLS estimates. This brings us to a short discussion of what distinguishes good and bad controls in a regression model:</p>
+<ul>
+<li>Good Controls: To think about good controls, we need to consider which <strong>unobserved</strong> determinants of the outcome are possibly correlated with our variable of interest.</li>
+<li>Bad Controls: It is bad practice to include variables that are themselves outcomes. For instance, consider studying the causal effect of college on earnings. If we include a covariate of working at a high paying job, then we’re blocking part of the causal channel between college and earnings (i.e.&nbsp;you are more likely to have a nice job if you study more years!)</li>
+</ul>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">10.7 Wrap Up</h2>
+<p>In this module we discussed the following concepts:</p>
+<ul>
+<li>Linear Model: an equation that describes how the outcome is generated, and depends on some coefficients <span class="math inline">\(\beta\)</span>.</li>
+<li>Ordinary Least Squares: a method to obtain a good approximation of the true <span class="math inline">\(\beta\)</span> of a linear model from a given sample.</li>
+</ul>
+<p>Notice that there is no such thing as an OLS model. More specifically, notice that we could apply a different method (estimator) to a linear model. For example, consider minimizing the sum of all error terms <span class="math display">\[
+\min_{b} \frac{1}{n} \sum_{i}^n | \hat{u}_j |
+\]</span></p>
+<p>This model is linear but the solution to this problem is not an OLS estimate.</p>
+<p>We also learned how to interpret coefficients in any linear model. <span class="math inline">\(\beta_0\)</span> is the y-intercept of the line in a typical linear regression model. Therefore, it is equal to: <span class="math display">\[
+E[y_{i}|x_{i}=0]=\beta_0.
+\]</span></p>
+<p>It is the expected value of y when x = 0. More precisely, because we have a sample approximation for this true value, it would be the sample mean of y when x = 0.</p>
+<p>In the case of any other beta, <span class="math inline">\(\beta_1\)</span> or <span class="math inline">\(\beta_2\)</span> or <span class="math inline">\(\beta_3\)</span>, <span class="math display">\[
+E[y_{i}|x_{i}=1]- E[y_{i}|x_{i}=0]= \beta
+\]</span></p>
+<p>is going to be the difference between the expected value of y due to a change in x. Therefore, each <span class="math inline">\(\beta\)</span> value tells us the effect that a particular covariate has on y, <span class="math inline">\(ceteris\)</span> <span class="math inline">\(paribus\)</span>. Transformations can also be applied to the variables in question, scaling the interpretation of this <span class="math inline">\(\beta\)</span> coefficient. Overall, these coefficient estimates are values of great importance when we are developing our research!</p>
+</section>
+<section id="wrap-up-table" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up-table">10.7 Wrap-up Table</h2>
+<table class="table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>lm(data=&lt;data&gt;, &lt;model&gt;)</code></td>
+<td>It estimates a linear model using <code>&lt;data&gt;</code> as dataset and <code>&lt;model&gt;</code> as the specification.</td>
+</tr>
+<tr class="even">
+<td><code>predict(model)</code></td>
+<td>It is used to obtain predicted values of the model.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a href="https://www.digitalocean.com/community/tutorials/predict-function-in-r">How the predict function works</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Combining Graphs (9)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="pagination-link">
+        <span class="nav-page-text">Exporting Regression Output (11)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="COMET Team   Avi Woodward-Kelen">
+<meta name="dcterms.date" content="2024-08-24">
+<meta name="description" content="An introduction to estimating causality through the use of synthetic control. Synthetic control is the process by which we create a counterfactual to the unit we actually observed.">
+
+<title>COMET - 3.4 - Advanced - Synthetic Control</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" rel="prev">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html" rel="" target="">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html" rel="" target="">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html" rel="" target="">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html" rel="" target="">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html" rel="" target="">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html" rel="" target="">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html" rel="" target="">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html" rel="" target="">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html" rel="" target="">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html" rel="" target="">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html" rel="" target="">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html" rel="" target="">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html" rel="" target="">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html" rel="" target="">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html" rel="" target="">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html" rel="" target="">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main" rel="" target=""><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/" rel="" target=""><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip" rel="" target=""><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip" rel="" target=""><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open" rel="" target="">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#" rel="" target="">
+ <span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html" rel="" target="">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html" rel="" target="">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/index/index_advanced.html">Advanced Modules</a></li><li class="breadcrumb-item"><a href="../../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html">Synthetic Controls</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><h4>Learn by Skill Level</h4></span>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Started: Introduction to Data, R, and Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to JupyterNotebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 1)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro to Data (Part 2)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_beginner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Beginner: Using R and Data in Applied Econometrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Statistics II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Central Tendency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dispersion and Dependence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Visualization II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_intermediate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intermediate: Econometrics and Modeling Using R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Issues in Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/index/index_geog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geographic Computation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_05_Chisquare/Lab_05_Chisquare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chi-Square Test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_06_Ttest/Lab_06_Ttest.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">t-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_02_ANOVA/Lab_02_ANOVA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Lab_03_Regression/Lab_03_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/3_Intermediate/geog_374/Climate_Disasters/Climate_Disasters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wrangling and Visualizing Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../pages/index/index_advanced.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Modules</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Differences In Differences</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variables I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instrumental Variables II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large Language Model APIs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Differencing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Training LLMS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentiment Analysis Using LLMs (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transcription (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vocalization (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (Python)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Word Embeddings (R)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Synthetic Controls</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  <li><a href="#part-1-what-is-synthetic-control-and-why-use-it" id="toc-part-1-what-is-synthetic-control-and-why-use-it" class="nav-link" data-scroll-target="#part-1-what-is-synthetic-control-and-why-use-it">Part 1: What is Synthetic Control and Why Use It?</a></li>
+  <li><a href="#part-2-synthetic-control-theory-practice" id="toc-part-2-synthetic-control-theory-practice" class="nav-link" data-scroll-target="#part-2-synthetic-control-theory-practice">Part 2: Synthetic Control Theory &amp; Practice</a>
+  <ul class="collapse">
+  <li><a href="#counterfactual-estimation" id="toc-counterfactual-estimation" class="nav-link" data-scroll-target="#counterfactual-estimation">Counterfactual Estimation</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
+  </ul></li>
+  <li><a href="#statistical-inference" id="toc-statistical-inference" class="nav-link" data-scroll-target="#statistical-inference">Statistical Inference</a></li>
+  <li><a href="#part-3-placebo-studies-significance-tests-distribution-and-robustness" id="toc-part-3-placebo-studies-significance-tests-distribution-and-robustness" class="nav-link" data-scroll-target="#part-3-placebo-studies-significance-tests-distribution-and-robustness">Part 3: Placebo Studies, Significance Tests, Distribution, and Robustness</a>
+  <ul class="collapse">
+  <li><a href="#in-time-placebos" id="toc-in-time-placebos" class="nav-link" data-scroll-target="#in-time-placebos">In-time Placebos</a></li>
+  <li><a href="#in-space-placebos" id="toc-in-space-placebos" class="nav-link" data-scroll-target="#in-space-placebos">In-space Placebos</a></li>
+  <li><a href="#robustness-testing-leave-one-out" id="toc-robustness-testing-leave-one-out" class="nav-link" data-scroll-target="#robustness-testing-leave-one-out">Robustness Testing: Leave-one-out</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="advanced_synthetic_control.ipynb" download="advanced_synthetic_control.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">3.4 - Advanced - Synthetic Control</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 425</div>
+    <div class="quarto-category">econ 495</div>
+    <div class="quarto-category">econ 499</div>
+    <div class="quarto-category">synthetic control</div>
+    <div class="quarto-category">regression</div>
+    <div class="quarto-category">ols</div>
+    <div class="quarto-category">causality</div>
+    <div class="quarto-category">p-value</div>
+    <div class="quarto-category">event study</div>
+    <div class="quarto-category">difference in differences</div>
+    <div class="quarto-category">advanced</div>
+    <div class="quarto-category">R</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An introduction to estimating causality through the use of synthetic control. Synthetic control is the process by which we create a counterfactual to the unit we actually observed.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>COMET Team <br> <em>Avi Woodward-Kelen</em> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">24 August 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="outline" class="level2">
+<h2 class="anchored" data-anchor-id="outline">Outline</h2>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Intermediate Econometrics (equivalent to ECON 326)</li>
+<li>Panel Data</li>
+<li>Difference in Differences</li>
+</ul>
+</section>
+<section id="learning-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h3>
+<ul>
+<li>Develop a strong intuition behind the synthetic control method of analysis,</li>
+<li>Develop an understanding of the econometric theory behind synthetic control,</li>
+<li>Be able to use synthetic control to estimate the causal effect of a policy change in case study contexts, and</li>
+<li>Apply methods of inference when sample sizes are very small.</li>
+</ul>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<ul>
+<li><p>Abadie, A., Diamond, A., &amp; Hainmueller, J. (2010). Synthetic Control Methods for Comparative Case Studies: Estimating the Effect of California’s Tobacco Control Program. Journal of the American Statistical Association, 105(490), 493–505. https://doi.org/10.1198/jasa.2009.ap08746</p></li>
+<li><p>Abadie, A., Diamond, A., &amp; Hainmueller, J. (2015). Comparative Politics and the Synthetic Control Method. American Journal of Political Science, 59(2), 495–510. https://doi.org/10.1111/ajps.12116</p></li>
+<li><p>Cunningham, S. (2021). Causal inference: The mixtape. Yale university press. https://mixtape.scunning.com/10-synthetic_control</p></li>
+<li><p>Hainmueller, Jens, 2014, “Replication data for: Comparative Politics and the Synthetic Control Method”, https://doi.org/10.7910/DVN/24714, Harvard Dataverse, V2, UNF:5:AtEF45hDnFLetMIiv9tjpQ== [fileUNF]</p></li>
+<li><p>Mendez, C. (n.d.). <em>Basic synthetic control tutorial</em>. carlos-mendez. https://carlos-mendez.quarto.pub/r-synthetic-control-tutorial/</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("foreign")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("Synth")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("tidyverse")</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("haven")</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("SCtools")</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("skimr")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Synth)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SCtools)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>oecd_data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"datasets/repgermany.dta"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#NB: using foreign::read.dta() instead of read_dta() is strangely important here because portions of the `synth()` package we will be using only accept numerical and character strings, and read_dta() will gives columns a dbl type which is unsupported.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"advanced_synthetic_control_functions.r"</span>) <span class="co">#minor data cleaning</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="part-1-what-is-synthetic-control-and-why-use-it" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-what-is-synthetic-control-and-why-use-it">Part 1: What is Synthetic Control and Why Use It?</h2>
+<p>The purpose of synthetic control is to make comparative case study analyses more rigerous. Three major issues which have traditionally plagued comparative case studies are a) the presence of confounders, b) a lack of a control group which shares parallel trends, and c) the selection of the control group.</p>
+<p>Suppose improvements in vehicle safety design and AI-assisted driving is leading to fewer road fatalities every year. Nevertheless, in order to improve road safety, Vancouver’s city council decides to amend municipal bylaws such that the new speed limit is 30km/h throughout the city.</p>
+<p>Researchers want to know what sort of impact that had, but the trend line for Canada’s national road fatalities is not similar to that of Vancouver’s. Moreover, behavior changes slowly and there’s an element of randomness to the number of people killed in car crashes every year; so even if everything else was held equal there might not be a sharp enough change in the trendline to do a simple comparison with pre-bylaw Vancouver.</p>
+<p>In such a situation, should the researchers compare Vancouver to Burnaby, because that’s the nearest city? Or perhaps we should compare it to Toronto or to Seattle because those cities could arguably have more in common with Vancouver? Thus the concern arises that whatever control group the researchers choose will be abitrary - and potentially misleading.</p>
+<p>How do we get around this? <strong>The essence of synthetic control is to define a “synthetic control group” as the weighted average of all available control units which best approximates the relevant characteristics of the treatment group.</strong> The set of available control units are also called the “donor pool”.</p>
+<p>What does that mean? Suppose the characteristics of a city most relevant to the number of road fatalities are <code>average age of drivers</code>, <code>car ownership per capita</code>, <code>average speed driven</code>, and <code>alcohol consumption per capita</code>. Vancouver might be substantially different from Burnaby, Toronto, and Seattle on all of these metrics - but by assigning each variable and each city a specific weight in your analysis you can often get extremely close to replicating a “Synthetic Vancouver” which is highly representative of the real city.</p>
+<p>For instance, an extremely rudimentary (and arbitrary) version synthetic control would be to assign a weight of 1/4th to Burnaby, 1/2 to Toronto, and 1/4th to Seattle (as well as applying weights to each of the characteristics noted above); and then comparing this rudimentary synthetic Vancouver to real Vancouver. The sophisticated version is to have R run an optimization program which, in a manner analagous to a simple regression, finds the optimal weights for each city and each characteristic by minimizing the distance between real Vancouver and synthetic Vancouver in the pre-treatment period (i.e.&nbsp;before the bylaw change). We then compare how synthetic Vancouver would have faired (based on the earlier weights) to how things actually turned out in Vancouver.</p>
+<p>Some famous examples of synthetic control include the effect of terrorism on GDP in the Basque region of Spain, California’s tobacco control laws, the impact of Texan prison construction on the number of people imprisoned, and the results of German reunification after the Berlin Wall fell - the last of which will be the example we work through together.</p>
+<p><strong>Think Deeper</strong>: What sorts of bias might still creep in?</p>
+</section>
+<section id="part-2-synthetic-control-theory-practice" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-synthetic-control-theory-practice">Part 2: Synthetic Control Theory &amp; Practice</h2>
+<section id="counterfactual-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="counterfactual-estimation">Counterfactual Estimation</h3>
+<p>In a perfect world we would be measuring the true effect of a policy by randomly assigning individuals/cities/countries to control and treatment groups. Then, we would look at the difference in outcomes between units with (1) and without (0) treatment after the intervention has occured.</p>
+<p><span class="math display">\[
+\alpha = Y_{post}(1) - Y_{post}(0)
+\]</span></p>
+<p>but in the context of a case study <span class="math inline">\(Y_{post}(0)\)</span> doesn’t exist! Instead if we want to find the effect we’re going to need some way to estimate what it might have been like.</p>
+<p><span class="math display">\[
+\begin{align*}
+    \hat{\alpha_t} &amp;= Y_{t,post}(1) - \hat{Y}_{t,post}(0) \\
+      &amp;= Y_{1,t}^{real} - Y_{1,t}^{synthetic}
+\end{align*}
+\]</span></p>
+<p>How do we estimate <span class="math inline">\(Y_{1,t}^{synthetic}\)</span>? Well, let:</p>
+<ul>
+<li><span class="math inline">\(Y_{jt}\)</span> be the outcome variable for unit <span class="math inline">\(j\)</span> of <span class="math inline">\(J+1\)</span> units at time <span class="math inline">\(t\)</span></li>
+<li>The treatment group be <span class="math inline">\(j=1\)</span></li>
+<li>Treatment intervention occurs at <span class="math inline">\(T_0\)</span></li>
+<li><span class="math inline">\(\omega_i\)</span> represents the weights for unit <span class="math inline">\(j\)</span></li>
+</ul>
+<p>Then define</p>
+<p><span class="math display">\[
+\hat{Y}_{t,post}(0) \equiv \sum_{j=2}^{J+1}{\omega_i^* Y_{jT}}
+\]</span></p>
+<p>This says that our counterfactual value is the optimally weighted average of all the other units, which raises the question of “how to optimally weight said units?” The answer is by <em>minimizing the distance between the units’ covariates in the pre-treatment period</em> (subject to the restriction that weights must be non-negative and must sum to one).</p>
+<p><span class="math display">\[
+\omega^* = \text{min}_{\{\omega_j\}_{j=1}^{J}} \sum_{t=1}^{T_0}({Y_{1t}}-\sum_{j=2}^{J+1}\omega_jY_{jt})^2 \text{ s.t. } \sum_{j=2}^{J+1} \omega_j = 1, \text{ and } \omega_j \geq 0
+\]</span></p>
+<p>And taking the average of this gives us what is known as the Mean Squared Prediction Error (MSPE).</p>
+<p><span class="math display">\[
+MSPE = \frac{1}{T_0} \sum_{t=1}^{T_0}({Y_{1t}}-\sum_{j=2}^{J+1}\omega_jY_{jt})^2
+\]</span></p>
+<p>The MSPE tells us how good a fit we have between the synthetic control and the treated group during the pre-treatment period; and this will be core to how we build and analyze our model as well as our inference tests.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Extend Your Knowledge: Matrix Algebra and Econometrics
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can (and do) actually minimize the function across multiple observed variables in the pre-treatment period by choosing</p>
+<p><span class="math display">\[
+{\{\omega^*}\} = \text{arg min}_{\vec{W}} ||\vec{X_1} - \vec{X_0}\vec{W}|| = \sqrt{(X_1 - X_0W)'V(X_1 - X_0W)}
+\]</span></p>
+<p>For those who have a background in linear algebra and who want to dig deeper, the following references provide increasingly sophisticated backgrounders on the process</p>
+<ul>
+<li>Cunningham, S. (2021). Causal inference: The mixtape. Yale university press. https://mixtape.scunning.com/10-synthetic_control#formalization</li>
+<li>Abadie, A., Diamond, A., &amp; Hainmueller, J. (2015). Comparative Politics and the Synthetic Control Method. American Journal of Political Science, 59(2), 495–510. https://doi.org/10.1111/ajps.12116</li>
+<li>Abadie, A. (2021). Using Synthetic Controls: Feasibility, Data Requirements, and Methodological Aspects. Journal of Economic Literature, 59(2), 391–425. https://doi.org/10.1257/jel.20191450</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Finally, in the context of synthetic control we will typically estimate the Average Treatment effect on the Treated (ATT) over time.</p>
+<p><span class="math display">\[
+\begin{aligned}
+    ATT_t &amp;= \frac{1}{T_1 - T_0} \sum_{t=T_0+1}^{T_1} \alpha_t \\
+      &amp;= \frac{1}{T_1 - T_0}\sum_{t=T_0+1}^{T_1}({Y_{1t}}-\sum_{j=2}^{J+1}\omega_jY_{jt})
+\end{aligned}
+\]</span></p>
+</section>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
+<p>First things first, let’s take a peek at our data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(oecd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(oecd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(oecd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Where:</p>
+<ul>
+<li><code>gdp</code>: GDP per capita, PPP adjusted in 2002 USD</li>
+<li><code>invest</code>: average investment rate for a given decade</li>
+<li><code>schooling</code>: percentage of secondary school attained in the total population aged 25 and older</li>
+<li><code>industry</code> share of value added to GDP by industrial processes</li>
+<li><code>infrate</code> annual rate of inflation (base year 1995)</li>
+<li><code>trade</code> is an index of openness to international trade, exports + imports as a percentage of GDP</li>
+</ul>
+<p>We have data available from 1960 to 2003, and we will split this into two major sections: <strong>pre-treatment</strong> (1960 to 1990) and <strong>post-treatment</strong> (1990-2003). During the pre-treatment phase we will be establishing our synthetic West Germany, and in the post-treatment we will see how it performs.</p>
+<p>We will <em>also</em> be splitting <strong>pre-treatment</strong> into two periods: a <em>training period</em> (1971 to 1980) during which we find the values of our explainatory variables; and a <em>validation period</em> (1980-1990) in which we optimize the weights based on the explainatory variables found during the previous period.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This is known as the process of cross-validation and it helps prevent us from overfitting our model.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>While cross-validation is not strictly necessary, it is good practice. Moreover, it is sort of confusing to try and figure out both the rationale and the syntax without a little bit of hand-holding. So, we’ll do it together.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Under Tips &amp; Tricks at the bottom of the notebook there is a non-cross-validated (simpler) version of synthetic control
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>I chose to teach synthetic control with cross-validation because</p>
+<ol type="1">
+<li><p>It is a good way to make sure you’re not overfitting the data (which is a real risk in synthetic control studies), and</p></li>
+<li><p>Without a tutorial on how cross-validation works and what it looks like it is quite difficult both to intuit how to do it yourself and to read/understand other people’s code when <em>they</em> are doing it.</p></li>
+</ol>
+<p>The downside is that it makes the creation and display of graphs and tables significantly more complicated, as I think you’ll see if you skip to the bottom of the notebook.</p>
+</div>
+</div>
+</div>
+<p>Order of operations (with cross-validation) is</p>
+<ul>
+<li><code>dataset</code> -&gt; <code>dataprep(training_period)</code>-&gt; <code>synth(training_period)</code></li>
+<li><code>dataset</code> -&gt; <code>dataprep(validation_period)</code> -&gt; <code>synth(training_period &amp; validation_period)</code> -&gt; <code>output (graphs, tables, etc.)</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#although our data is already cleaned we need to put it in a format that the `synth()` package understands, using the `dataprep()` command</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>training_data <span class="ot">&lt;-</span> <span class="fu">dataprep</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">foo =</span> oecd_data, <span class="co">#the dataset to be prepared... don't ask why it's called foo.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictors =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>, <span class="st">"trade"</span>, <span class="st">"infrate"</span>), <span class="co">#predictors of the outcome variable (GDP).  </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependent =</span> <span class="st">"gdp"</span>, <span class="co">#outcome variable we want</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#special.predictors() is used for variables which require special rules (e.g. allows us to choose the time periods and which measure of central tendency to use), or when observations are only present in certain years.</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"industry"</span>, <span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1975</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"invest70"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>           ),</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.variable =</span> <span class="st">"index"</span>, <span class="co">#tells the package which column is the unit of observation. It must be either the numerical value of the column (i.e. `unit.variable = 1` is an acceptable alternative), or the name of the column in string form as I have done.</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">treatment.identifier =</span> <span class="dv">7</span>, <span class="co">#the index value in the dataset for West Germany (our treatment group)</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls.identifier =</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>], <span class="co">#all country indexes other than West Germany </span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.names.variable =</span> <span class="st">"country"</span>, <span class="co">#This is the column in the dataset which contains the names of the units. It must be either the numerical value of the column (i.e. `unit.names.variable = 2` is an acceptable alternative), or the name of the column in string form as I have done. </span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.variable =</span> <span class="st">"year"</span>, <span class="co">#tells the package which column is the time variable. It must be either the numerical value of the column (i.e. `time.variable = 3` is an acceptable alternative), or the name of the column in string form as I have done.</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.predictors.prior =</span> <span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>, <span class="co">#This is the training period! The mean of the predictors() argument above will be calculated over this span.</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.optimize.ssr =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>, <span class="co">#This is the validation period! It is here where we designate the time frame on which we want to optimize weights for the synthetic West Germany. </span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span> <span class="co">#This is the time period we'll be plotting the data for.</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that you’ve prepared the data we’re going to optimize weights for our potential control countries by minimizing the sum of squared residuals (SSR). This is a multivariate optimization problem such as you may be familiar with from calculus… luckily for us, we don’t have to do it by hand! We do it with the <code>synth()</code> command.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>training_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(<span class="at">data.prep.obj =</span> training_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In case it’s not clear (it isn’t) <code>synth()</code> has generated optimized weights, <code>solution.v</code> and <code>solution.w</code>, for the variables and the countries respectively.</p>
+<p>Great. Next, we need to create the dataset for the validation period. Once that is done, we will apply our training model to it - the result of which is our main model.</p>
+<p>This is cross-validation in action! And it may seem like we’re sort of doing the same thing over and over again…because we are (but notice that the years are changing!)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>main_data <span class="ot">&lt;-</span> <span class="fu">dataprep</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">foo =</span> oecd_data,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="st">"industry"</span> ,<span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">1985</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="st">"invest80"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.variable =</span> <span class="st">"index"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls.identifier =</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>],</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.variable =</span> <span class="st">"year"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.predictors.prior =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>, <span class="co">#take explainatory variable averages from the validation period</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.optimize.ssr =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1989</span>, <span class="co">#optimize across the entire pre-treatment period</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#apply training model weights to the main model</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>main_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.prep.obj =</span> main_data,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">custom.v =</span> <span class="fu">as.numeric</span>(training_model<span class="sc">$</span>solution.v) <span class="co">#This is the cross-validation in action! This line specifies that, although we are optimizing across the whole period, we are doing so using weights derived from the training_model rather than the ones from the main model. </span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Okay, phew, that was a lot of work! I hope it wasn’t a waste of time, what if we actually could have just done a DiD between West Germany and the OECD avarage?</p>
+<p>Let’s look at a pretty picture, you’ve earned it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Text.height <span class="ot">&lt;-</span> <span class="dv">23000</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Cex.set <span class="ot">&lt;-</span> .<span class="dv">8</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,main_data<span class="sc">$</span>Y1plot,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">33000</span>),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span><span class="st">"per-capita GDP (PPP, 2002 USD)"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span><span class="st">"year"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs =</span> <span class="st">"i"</span>, <span class="at">yaxs =</span> <span class="st">"i"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">2</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,<span class="fu">aggregate</span>(oecd_data[,<span class="fu">c</span>(<span class="st">"gdp"</span>)],<span class="at">by=</span><span class="fu">list</span>(oecd_data<span class="sc">$</span>year),mean,<span class="at">na.rm=</span>T)[,<span class="dv">2</span>]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"dashed"</span>,<span class="at">lwd=</span><span class="dv">2</span>) <span class="co"># mean 2</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1990</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">"bottomright"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"West Germany"</span>,<span class="st">"rest of the OECD sample"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">lty=</span><span class="fu">c</span>(<span class="st">"solid"</span>,<span class="st">"dashed"</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"black"</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">cex=</span>.<span class="dv">8</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1987</span>,Text.height,<span class="dv">1989</span>,Text.height,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1982.5</span>,Text.height,<span class="st">"reunification"</span>,<span class="at">cex=</span>Cex.set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Oh thank God they aren’t the same! That would have been quite the plot twist, eh?</p>
+<p>Now let’s look at how our synthetic West Germany compares to the real deal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>synthY0 <span class="ot">&lt;-</span> (main_data<span class="sc">$</span>Y0<span class="sc">%*%</span>main_model<span class="sc">$</span>solution.w)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,main_data<span class="sc">$</span>Y1plot,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">33000</span>),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span><span class="st">"per-capita GDP (PPP, 2002 USD)"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span><span class="st">"year"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs =</span> <span class="st">"i"</span>, <span class="at">yaxs =</span> <span class="st">"i"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">2</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,synthY0,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"dashed"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1990</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">"bottomright"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"West Germany"</span>,<span class="st">"synthetic West Germany"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">lty=</span><span class="fu">c</span>(<span class="st">"solid"</span>,<span class="st">"dashed"</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"black"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">cex=</span>.<span class="dv">8</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1987</span>,Text.height,<span class="dv">1989</span>,Text.height,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1982.5</span>,Text.height,<span class="st">"reunification"</span>,<span class="at">cex=</span>Cex.set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that sure looks like common trends to me! They’re practically on top of each other until 1990.</p>
+<p>“But”, you might be asking, “can we do better than the eyeball test?”</p>
+<p>We sure can!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>synth.tables <span class="ot">&lt;-</span> <span class="fu">synth.tab</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">dataprep.res =</span> main_data,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">synth.res =</span> main_model,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">round.digit =</span> <span class="dv">2</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                          )</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>synth.tables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can hopefully see from <code>tab.pred</code>, this function compares the pre-treatment predictor values for the treated unit to the synthetic control unit, and to all the units in the sample<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. <code>tab.w</code> gives us the weights for each country in the donor pool, and <code>tab.v</code> the weights for each variable. Finally, <code>tab.loss</code> gives us the loss function.</p>
+<p>Similarly to DiD analyses, we can also visualize this in terms of the gap that exists between the real and synthetic versions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gap <span class="ot">&lt;-</span> main_data<span class="sc">$</span>Y1<span class="sc">-</span>(main_data<span class="sc">$</span>Y0<span class="sc">%*%</span>main_model<span class="sc">$</span>solution.w) <span class="co"># the difference between the treated unit and the synthetic control at a specific point in time</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,gap,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4500</span>,<span class="dv">4500</span>),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span><span class="fu">c</span>(<span class="st">"gap in per-capita GDP (PPP, 2002 USD)"</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span><span class="st">"year"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs =</span> <span class="st">"i"</span>, <span class="at">yaxs =</span> <span class="st">"i"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">2</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1990</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1987</span>,<span class="dv">1000</span>,<span class="dv">1989</span>,<span class="dv">1000</span>,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1982.5</span>,<span class="dv">1000</span>,<span class="st">"reunification"</span>,<span class="at">cex=</span>Cex.set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+This method of looking at the gaps will become important later when we try to decide whether or not we can assign statistical significance to a post-treatment change.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</div>
+<p>Before we get to that, let’s take a look at the size of the effect of reunification.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ATT_t is the average size of `gap` between 1990 and 2003</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(gap[<span class="dv">31</span><span class="sc">:</span><span class="dv">44</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ouch! West Germans had their per capita GDP reduced by an average of US$1,600 per year after reunification.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#fraction of ATT_t to West German GDP in 1990</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(gap[<span class="dv">31</span><span class="sc">:</span><span class="dv">44</span>, <span class="dv">1</span>]) <span class="sc">/</span> oecd_data<span class="sc">$</span>gdp[oecd_data<span class="sc">$</span>country <span class="sc">==</span> <span class="st">"West Germany"</span> <span class="sc">&amp;</span> oecd_data<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">1990</span>],</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Relative to national income in 1990, that’s an 8% average reduction!</p>
+</section>
+</section>
+<section id="statistical-inference" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-inference">Statistical Inference</h2>
+<p>Okay, so we have our “balance table”, we have our common trends, and we have a large effect size. But how can we know if this is a statistically significant change? Unlike in traditional methods of estimation and inference we cannot easily draw upon the law of large numbers and the central limit theorem to save us. Not to belabor the point but we <em>literally</em> only have two observations per year, neither of which were randomly assigned to treatment or control, and no particularly good reason to think that such events would be independent and identically distributed.</p>
+<p>Recall that to test for significance in a random experiment what we do is randomly assign treatment to untreated units, collect data on the two groups, calculate coefficients, and then collecte those coefficients into a well behaved distribution in order to infer things about said coefficients.</p>
+<p>This is probably where the conceptual framework of synthetic control differs most profoundly from the traditional statistical methods you’re familiar with. To get around these problems we’ll use so-called “placebo studies” which “iteratively apply the synthetic control method to each [country] in the donor pool and obtain a distribution of placebo effects” (Cunningham, 2021).</p>
+<p>Let’s unpack what that means. First and foremost, it means <strong>there will be no confidence intervals and p-values will not reflect how unlikely a result would be to occur under the null hypothesis</strong>. Instead, our efforts will be focused on</p>
+<ol type="a">
+<li><p>trying to falsify our findings, and</p></li>
+<li><p>trying to figure out how extreme the treatment effect on our treated group is, <em>relative to other members of the donor pool</em>.</p></li>
+</ol>
+<p>By doing these two things we will attempt to uncover whether the effect was a statistical fluke or perhaps merely prediction error on the part of the model.</p>
+</section>
+<section id="part-3-placebo-studies-significance-tests-distribution-and-robustness" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-placebo-studies-significance-tests-distribution-and-robustness">Part 3: Placebo Studies, Significance Tests, Distribution, and Robustness</h2>
+<p>At the core of how we will attempt to falsify our findings is the basic assumption that if you found a similarly sized effect in cases where German reunification never happened (i.e.&nbsp;in a different year or in a different country) that this would severely undermine the validity of the supposed effect of German reunification we just found. Working through this process of falsification is what we call “placebo studies”, which can broadly be broken down into “in-time placebos” and “in-space placebos”.</p>
+<section id="in-time-placebos" class="level3">
+<h3 class="anchored" data-anchor-id="in-time-placebos">In-time Placebos</h3>
+<p>Running an in-time placebo is no different than running the original synthetic control model, except that the dates change. For example, how would our model fair if German reunification had taken place 15 years earlier, in 1975?</p>
+<p>As before, we will cross-validate our model by choosing variable means and optimal weights across different time periods. Let the placebo training period be 1960-1964, the placebo validation period be 1965-1975, and the placebo treatment occur in 1975.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data prep for placebo_training model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>placebo_time_training_data <span class="ot">&lt;-</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dataprep</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">foo =</span> oecd_data,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.variable =</span> <span class="st">"index"</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.variable =</span> <span class="st">"year"</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"industry"</span>,<span class="dv">1971</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1960</span>,<span class="dv">1965</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"invest60"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">controls.identifier =</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>],</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.predictors.prior =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1964</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.optimize.ssr =</span> <span class="dv">1965</span><span class="sc">:</span><span class="dv">1975</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1990</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co"># fit placebo_time_training model</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>placebo_time_training_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.prep.obj=</span>placebo_time_training_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data prep for placebo_main model</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>placebo_time_main_data <span class="ot">&lt;-</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dataprep</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">foo =</span> oecd_data,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.variable =</span> <span class="dv">1</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.variable =</span> <span class="dv">3</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"industry"</span> ,<span class="dv">1971</span><span class="sc">:</span><span class="dv">1975</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1975</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"invest70"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">controls.identifier =</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>],</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.predictors.prior =</span> <span class="dv">1965</span><span class="sc">:</span><span class="dv">1975</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.optimize.ssr =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1975</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1990</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co"># fit main model</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>placebo_time_main_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.prep.obj=</span>placebo_time_main_data,</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">custom.v=</span><span class="fu">as.numeric</span>(placebo_time_training_model<span class="sc">$</span>solution.v)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Cex.set <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">1990</span>,placebo_time_main_data<span class="sc">$</span>Y1plot,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">33000</span>),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span><span class="st">"per-capita GDP (PPP, 2002 USD)"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span><span class="st">"year"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs =</span> <span class="st">"i"</span>, <span class="at">yaxs =</span> <span class="st">"i"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">2</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">1990</span>,(placebo_time_main_data<span class="sc">$</span>Y0<span class="sc">%*%</span>placebo_time_main_model<span class="sc">$</span>solution.w),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"dashed"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1975</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">"bottomright"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"West Germany"</span>,<span class="st">"synthetic West Germany"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">lty=</span><span class="fu">c</span>(<span class="st">"solid"</span>,<span class="st">"dashed"</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"black"</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">cex=</span>.<span class="dv">8</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1973</span>,<span class="dv">20000</span>,<span class="fl">1974.5</span>,<span class="dv">20000</span>,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1967.5</span>,<span class="dv">20000</span>,<span class="st">"placebo reunification"</span>,<span class="at">cex=</span>Cex.set)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Okay, good. Just like in the real world, <a href="https://en.wikipedia.org/wiki/1975#Events">nothing happened in 1975</a>. This is a good sign for our model! If an effect is visible, given that nothing should have happened, that would have implied there were factors other than the reunification which caused synthetic West Germany to diverge from West Germany.</p>
+</section>
+<section id="in-space-placebos" class="level3">
+<h3 class="anchored" data-anchor-id="in-space-placebos">In-space Placebos</h3>
+<p>In-space placebo studies are a little more strange to consider, and as I think you’ll see, they are how we try to estimate if the effect of the intervention on our treatment group is extreme relative to other members in the donor pool.</p>
+<p>The center piece of in-space placebos is the amount of prediction error in our treatment unit, our synthetic unit, and the units from the donor pool. This is obtained by repeatedly applying the same process of synthetic control that we did with West Germany to each other unit in the donor pool (i.e.&nbsp;France, Japan, Spain, etc.).</p>
+<p>Thinking back to our earlier discussion of the MSPE, we’re now going to take its square root for each unit (now the RMSPE)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> both before and after the intervention supposedly took place in 1990. By doing so, this gives us a tractable way to measure the magnitude of the gap in our outcome variable between each country and its synthetic counterpart.</p>
+<p>To be clear, a large post-treatment RMSPE does not necessarily indicate a large effect of the intervention if the pre-treatment RMSPE is also large. However, if the post-treatment RMSPE is large <em>and</em> the pre-treatment RMSPE is small, then that is a strong indication that the intervention had an effect.</p>
+<p>Once you’ve calculated the RMSPE in each period, the most straightforward way to decide what constitutes a large or small effect is to take the ratio</p>
+<p><span class="math display">\[
+\frac{RMSPE_{post,j}}{RMSPE_{pre,j}}
+\]</span></p>
+<p>Once that’s done, rank the fractions in descending order (highest to lowest) and let</p>
+<p><span class="math display">\[
+p \equiv \frac{RANK}{TOTAL}
+\]</span></p>
+<p>Lets do this now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dataframe to store the gaps between the actual and synthetic versions of each country in the donor pool</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>storegaps <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">length</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">length</span>(<span class="fu">unique</span>(oecd_data<span class="sc">$</span>index))<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(storegaps) <span class="ot">&lt;-</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>country_index <span class="ot">&lt;-</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#looping over control units from the donor pool</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>]){ <span class="co"># excluding index=7 because that is West Germany</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  placebo_space_training_data <span class="ot">&lt;-</span> <span class="fu">dataprep</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">foo =</span> oecd_data,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictors =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>, <span class="st">"trade"</span>, <span class="st">"infrate"</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependent =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.variable =</span> <span class="st">"index"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.variable =</span> <span class="st">"year"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"industry"</span>, <span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1975</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="st">"invest70"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>           ),</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">treatment.identifier =</span> k, <span class="co">#kth placebo unit being treated</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls.identifier =</span> country_index[<span class="sc">-</span><span class="fu">which</span>(country_index<span class="sc">==</span>k)], <span class="co">#when kth placebo unit is being treated it cannot also be a control</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.predictors.prior =</span> <span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.optimize.ssr =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit.names.variable =</span> <span class="st">"country"</span>,</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>  placebo_space_training_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(<span class="at">data.prep.obj=</span>placebo_space_training_data)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>placebo_space_main_data <span class="ot">&lt;-</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dataprep</span>(</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">foo =</span> oecd_data,</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.variable =</span> <span class="dv">1</span>,</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.variable =</span> <span class="dv">3</span>,</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"industry"</span> ,<span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">1985</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"invest80"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">treatment.identifier =</span> k,</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">controls.identifier =</span> country_index[<span class="sc">-</span><span class="fu">which</span>(country_index<span class="sc">==</span>k)],</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.predictors.prior =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>,</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.optimize.ssr =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1989</span>,</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>placebo_space_main_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>   <span class="at">data.prep.obj=</span>placebo_space_main_data,</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>   <span class="at">custom.v=</span><span class="fu">as.numeric</span>(placebo_space_training_model<span class="sc">$</span>solution.v) <span class="co">#cross-validation</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a> storegaps[,i] <span class="ot">&lt;-</span>  </span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>   placebo_space_main_data<span class="sc">$</span>Y1<span class="sc">-</span></span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>   (placebo_space_main_data<span class="sc">$</span>Y0<span class="sc">%*%</span>placebo_space_main_model<span class="sc">$</span>solution.w)</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a> i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>} <span class="co"># close loop over control units</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>oecd_data <span class="ot">&lt;-</span> oecd_data[<span class="fu">order</span>(oecd_data<span class="sc">$</span>index,oecd_data<span class="sc">$</span>year),] <span class="co">#sorting our primary df</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(storegaps) <span class="ot">&lt;-</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>country)[<span class="sc">-</span><span class="dv">7</span>] <span class="co">#filling columns with donor group names</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>storegaps <span class="ot">&lt;-</span> <span class="fu">cbind</span>(gap,storegaps) <span class="co">#adding &amp; then naming a column for West Germany to the df</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(storegaps)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"West Germany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute ratio of post-reunification RMSPE to pre-reunification RMSPE                                                  </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sqrt</span>(<span class="fu">mean</span>(x<span class="sc">^</span><span class="dv">2</span>))} <span class="co">#function to calculate RMSPE</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>pre_treat <span class="ot">&lt;-</span> <span class="fu">apply</span>(storegaps[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,],<span class="dv">2</span>,rmspe)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>post_treat <span class="ot">&lt;-</span> <span class="fu">apply</span>(storegaps[<span class="dv">31</span><span class="sc">:</span><span class="dv">44</span>,],<span class="dv">2</span>,rmspe)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dotchart</span>(<span class="fu">sort</span>(post_treat<span class="sc">/</span>pre_treat),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab=</span><span class="st">"Post-Period RMSE / Pre-Period RMSE"</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">pch=</span><span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can see, the ratio of post-treatment to pre-treatment RMSPE is quite high for West Germany, and significantly larger than for all other countries, which is another good indication that the reunification had a large effect. With our earlier definition of <span class="math inline">\(p = \frac{RANK}{TOTAL}\)</span> we can now calculate that <span class="math inline">\(p = 1/17 \approx 0.059\)</span>. This <span class="math inline">\(p\)</span>-value <em>not</em> how unlikely it would be to find this result under the null hypothesis - it answers the more subtle question of “if one were to pick a country at random from the sample, what are the chances of obtaining a ratio as high as this one?”</p>
+<p>Relatedly, we can also look at the distribution of the gaps between the actual and synthetic versions of each country in the donor pool. This is a way to see how much of an outlier our actually treated unit is from the placebo treated units.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> This is also known as building a <em>distribution</em> of the placebo effects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Placebo Effect Distribution</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Cex.set <span class="ot">&lt;-</span> .<span class="dv">75</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,gap,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4500</span>,<span class="dv">4500</span>),<span class="at">xlab=</span><span class="st">"year"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">1960</span>,<span class="dv">2003</span>),<span class="at">ylab=</span><span class="st">"Gap in real GDPpc"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"black"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs=</span><span class="st">"i"</span>,<span class="at">yaxs=</span><span class="st">"i"</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add lines for control states</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(storegaps)) { <span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,storegaps[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(storegaps),i],<span class="at">col=</span><span class="st">"gray"</span>) }</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1990</span>,<span class="at">lty=</span><span class="st">"dotted"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="st">"dashed"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">"West Germany"</span>,<span class="st">"control regions"</span>),</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"gray"</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="at">cex=</span>.<span class="dv">8</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1987</span>,<span class="sc">-</span><span class="dv">2500</span>,<span class="dv">1989</span>,<span class="sc">-</span><span class="dv">2500</span>,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1983.5</span>,<span class="sc">-</span><span class="dv">2500</span>,<span class="st">"Reunification"</span>,<span class="at">cex=</span>Cex.set)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1960</span>)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">2003</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Excluding Extreme MSPE Values
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>As noted earlier, some papers make a point of excluding countries whose pre-treatment MSPE is substantially larger than the treated unit. This is a problem in the context of deriving a placebo distribution because - by definition - such units’ pre-treatment trends cannot be adequately modeled. However, this is not an issue when taking ratios of post-treatment to pre-treatment MSPE because our inability to model these units is generally symmetric across both periods.</p>
+<p>As a rule of thumb, a conservative cut-off is 2x the treated unit’s MSPE, a moderate cut-off is 5x the treated unit, and a lenient cut-off is 20x the treated unit. (Abadie et al, 2010)</p>
+<p>Here is a piece of code that will exclude countries whose pre-treatment MSPE is more than 20 times the pre-treatment MSPE of West Germany.</p>
+<p><code>mspe &lt;- function(x){(mean(x^2))} #function to calculate MSPE</code> <code>outliers &lt;- apply(storegaps[1:30,],2,mspe) &gt; 20*mspe(storegaps[1:30,][,1])</code> <code>filtered_storegaps &lt;- storegaps[, !outliers]</code> <code>print(outliers)</code></p>
+<p>I encourage you to experiment with this code and see how it changes the placebo effect distribution graph.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="robustness-testing-leave-one-out" class="level3">
+<h3 class="anchored" data-anchor-id="robustness-testing-leave-one-out">Robustness Testing: Leave-one-out</h3>
+<p>The next step in Placebo Studies is to do a leave-one-out test. This is a form of robustness check where we iteratively remove one country from the control group (starting with the least important) and re-run the model. This will tell us something about how sensitive our synthetic West Germany is to the idiosyncratic features of any particular country within the control group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#refresh ourselves on which countries have a positive weight in synthetic West Germany</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>synth.tables<span class="sc">$</span>tab.w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In decreasing order of importance we have: Austria, the USA, Japan, Switzerland, and the Netherlands.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Leave-one-out distribution of the synthetic control for West Germany</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># loop over leave one outs</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>storegaps <span class="ot">&lt;-</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="cn">NA</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">length</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">5</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(storegaps) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>) <span class="co">#index values for countries with positive weight</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>country <span class="ot">&lt;-</span> <span class="fu">unique</span>(oecd_data<span class="sc">$</span>index)[<span class="sc">-</span><span class="dv">7</span>]</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># data prep for training model</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>omit <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>)[k]  </span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  robustness_training_data <span class="ot">&lt;-</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dataprep</span>(</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">foo =</span> oecd_data,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.variable =</span> <span class="dv">1</span>,</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.variable =</span> <span class="dv">3</span>,</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"industry"</span>,<span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"schooling"</span>   ,<span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1975</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"invest70"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">controls.identifier =</span> country[<span class="sc">-</span><span class="fu">which</span>(country<span class="sc">==</span>omit)],</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.predictors.prior =</span> <span class="dv">1971</span><span class="sc">:</span><span class="dv">1980</span>,</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.optimize.ssr =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>,</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fit training model</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>  robustness_training_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">data.prep.obj=</span>robustness_training_data)</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="co"># data prep for main model</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>robustness_main_data <span class="ot">&lt;-</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dataprep</span>(</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">foo =</span> oecd_data,</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.variable =</span> <span class="dv">1</span>,</span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.variable =</span> <span class="dv">3</span>,</span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"industry"</span> ,<span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">1985</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">"invest80"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">controls.identifier =</span> country[<span class="sc">-</span><span class="fu">which</span>(country<span class="sc">==</span>omit)],</span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.predictors.prior =</span> <span class="dv">1981</span><span class="sc">:</span><span class="dv">1990</span>,</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.optimize.ssr =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1989</span>,</span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.names.variable =</span> <span class="dv">2</span>,</span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fit main model </span></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>  robustness_main_model <span class="ot">&lt;-</span> <span class="fu">synth</span>(</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">data.prep.obj=</span>robustness_main_data,</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">custom.v=</span><span class="fu">as.numeric</span>(robustness_training_model<span class="sc">$</span>solution.v)</span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>  storegaps[,k] <span class="ot">&lt;-</span> (robustness_main_data<span class="sc">$</span>Y0<span class="sc">%*%</span>robustness_main_model<span class="sc">$</span>solution.w)</span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>} <span class="co"># close loop over leave one outs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Text.height <span class="ot">&lt;-</span> <span class="dv">23000</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Cex.set <span class="ot">&lt;-</span> .<span class="dv">8</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,robustness_main_data<span class="sc">$</span>Y1plot,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">33000</span>),<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span><span class="st">"per-capita GDP (PPP, 2002 USD)"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span><span class="st">"year"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxs =</span> <span class="st">"i"</span>, <span class="at">yaxs =</span> <span class="st">"i"</span>,<span class="at">lwd=</span><span class="dv">2</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1990</span>,<span class="at">lty=</span><span class="st">"dotted"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">1987</span>,<span class="dv">23000</span>,<span class="dv">1989</span>,<span class="dv">23000</span>,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">length=</span>.<span class="dv">1</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,storegaps[,i],<span class="at">col=</span><span class="st">"darkgrey"</span>,<span class="at">lty=</span><span class="st">"solid"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,synthY0,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"dashed"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span>,robustness_main_data<span class="sc">$</span>Y1plot,<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="st">"solid"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">1982.5</span>,<span class="dv">23000</span>,<span class="st">"reunification"</span>,<span class="at">cex=</span>.<span class="dv">8</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">"bottomright"</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"West Germany"</span>,</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"synthetic West Germany"</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"synthetic West Germany (leave-one-out)"</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">lty=</span><span class="fu">c</span>(<span class="st">"solid"</span>,<span class="st">"dashed"</span>,<span class="st">"solid"</span>),</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"black"</span>,<span class="st">"darkgrey"</span>)</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>      ,<span class="at">cex=</span>.<span class="dv">8</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="fu">lwdc</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this tutorial, we’ve walked through the process of the synthetic control method <a href="https://doi.org/10.1111/ajps.12116">using Abadie et al.&nbsp;(2015)’s excellent paper</a> on German reunification as a template. If you want to dig into the replication package some more, you can find it <a href="https://doi.org/10.7910/DVN/24714">here</a>.</p>
+<p>In the process of working through this paper we’ve seen how to prepare the data, optimize weights, and cross-validate the model. We’ve also discussed how to assess the statistical significance of the estimated effect using placebo studies and leave-one-out tests.</p>
+<p>To recap, the synthetic control method is a powerful tool for estimating the effects of policy interventions when traditional methods are not feasible. It allows us to construct a counterfactual scenario by combining information from multiple control units, and to estimate the treatment effect by comparing the treated unit to its synthetic counterpart.</p>
+<p>I hope this tutorial has been helpful in understanding the synthetic control method and giving you the confidence to try it out in your 495/499 research paper.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tips &amp; Tricks
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>As I mentioned earlier much of the code gets overcomplicated by the process of cross-validation. You don’t actually <em>need</em> to cross-validate the model with a <code>training_data</code>, a <code>training_model</code>, a <code>main_data</code>, and a <code>main_model</code> each time. You <em>can</em> just run the model on the full pre-treatment period.</p>
+<p>I chose to use cross-validation because</p>
+<ol type="1">
+<li><p>It is a good way to make sure you’re not overfitting the data (which is a real risk in synthetic control studies), and</p></li>
+<li><p>Without a tutorial on how cross-validation works and what it looks like it is quite difficult both to intuit how to do it yourself and to read/understand other people’s code when <em>they</em> are doing it.</p></li>
+</ol>
+<p>The downside is that it makes the creation and display of graphs and tables significantly more complicated. So, let me give a quick run down on how you could simplify the code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prepare the data. Primary difference here is that there's only one block and the years span the entire pre-treatment period </span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dataprep_out <span class="ot">&lt;-</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dataprep</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">foo =</span> oecd_data,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">predictors    =</span> <span class="fu">c</span>(<span class="st">"gdp"</span>,<span class="st">"trade"</span>,<span class="st">"infrate"</span>),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">dependent     =</span> <span class="st">"gdp"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.variable =</span> <span class="st">"index"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">unit.names.variable =</span> <span class="st">"country"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.variable =</span> <span class="st">"year"</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">special.predictors =</span> <span class="fu">list</span>(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"industry"</span> ,<span class="dv">1971</span><span class="sc">:</span><span class="dv">1990</span>, <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"schooling"</span>,<span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1985</span>), <span class="fu">c</span>(<span class="st">"mean"</span>)),</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="st">"invest80"</span> ,<span class="dv">1980</span>, <span class="fu">c</span>(<span class="st">"mean"</span>))</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">treatment.identifier =</span> <span class="dv">7</span>,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">controls.identifier =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">17</span>),</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.predictors.prior =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1990</span>,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.optimize.ssr =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">1989</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">time.plot =</span> <span class="dv">1960</span><span class="sc">:</span><span class="dv">2003</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>synth_out <span class="ot">&lt;-</span> <span class="fu">synth</span>(<span class="at">data.prep.obj=</span>dataprep_out)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the results</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="fu">path.plot</span>(synth_out, dataprep_out, <span class="at">Ylab =</span> <span class="st">"per-capita GDP (PPP, 2002 USD)"</span>, <span class="at">Xlab =</span> <span class="st">"year"</span>, <span class="at">Main =</span> <span class="cn">NA</span>)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a><span class="fu">gaps.plot</span>(synth_out, dataprep_out, <span class="at">Ylab =</span> <span class="st">"Gap in real GDPpc"</span>, <span class="at">Xlab =</span> <span class="st">"year"</span>, <span class="at">Ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4500</span>,<span class="dv">4500</span>), <span class="at">Main =</span> <span class="cn">NA</span>)</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a><span class="co">#placebo studies</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>placebos <span class="ot">&lt;-</span> <span class="fu">generate.placebos</span>(dataprep_out, synth_out, <span class="at">Sigf.ipop =</span> <span class="dv">3</span>)</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_placebos</span>(placebos)</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a><span class="fu">mspe.plot</span>(placebos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li><p>Abadie, A., &amp; Gardeazabal, J. (2003). The Economic Costs of Conflict: A Case Study of the Basque Country. American Economic Review, 93(1), 113–132. https://doi.org/10.1257/000282803321455188</p></li>
+<li><p>Abadie, A. (2021). Using Synthetic Controls: Feasibility, Data Requirements, and Methodological Aspects. Journal of Economic Literature, 59(2), 391–425. https://doi.org/10.1257/jel.20191450</p></li>
+<li><p>Abadie, A., Diamond, A., &amp; Hainmueller, J. (2011). Synth: An R Package for Synthetic Control Methods in Comparative Case Studies. Journal of Statistical Software, 42(13), 1–17. https://doi.org/10.18637/jss.v042.i13</p></li>
+</ul>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Quick counters will notice that there are actually <em>three</em> sub-periods within the pre-treatment period (1960-1971). We’re going to revisit this period when we get to placebo studies, but until then it is yet another way to visually identify whether or not our model does a good job.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The exact years chosen here are somewhat arbitrary, so feel free to experiment with the dates on your own.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>You can think of it as being roughly analagous to a balance table in an RCT.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Taking the square root scales the values and makes it a little easier to interpret.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Recall: it’s a best fit in the pre-treatment period so some amount of gap is to be expected. However, often you will have a handful of donor units whose synthetic versions of themselves are a terrible fit - usually because they’re very unusual in their pre-treatment characteristics, which means no combination of samples from other units in the pool can reproduce the pre-treatment trends. In those cases, it is common to drop those observations from your in-place placebo distribution graph.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Panel Data</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
