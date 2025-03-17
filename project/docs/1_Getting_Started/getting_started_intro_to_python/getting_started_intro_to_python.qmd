@@ -321,17 +321,20 @@ See that the first element in the list is the *index* of the second element in t
 
 Dictionaries associate keys with values, similarly to how our dictionaries associate words to definitions. To create a dictionary, do the following:
 
-`{key1: value1, key2: value2, key3: value3}`. Note the use of curly brackets here. What is crucial to recall when using dictionaries is that the syntax relies on pairs of keys and values, each separated by commas. They key is typically a string, whereas the value will be anything. 
+`example_dictionary = {key1: value1, key2: value2, key3: value3}`. Note the use of curly brackets here. What is crucial to recall when using dictionaries is that the syntax relies on pairs of keys and values, each separated by commas. They key is typically a string, whereas the value will be anything. 
 
 To find the value of a particular key, we use `d[k]`, where `d` is the dictionary and `k` is the particular key we want to know the value for. We can add new items to the dictionary using `d[new_key] = new_value`.
 
 There are a few common functions we will do with dictionaries.
 
+- `update()` adds new key-value pairs to the dictionary, replacing any duplicate keys with values from newdict, or combines two dictionaries
+- `keys()` checks if a key is in the dictionary or loops through keys in the dictionary
+- `values()` checks in a value is in the dictionary or loops through values in the dictionary
+- `items()` loops through the key and value pairs in a dictionary
 - `len(dict)` gives us the number of key-value pairs in the dictionary
-- `list(dict.keys())` lists out the keys
-- `list(dict.values())` lists out the values
-- `dict.update(newdict)` updates the dictionary with newdict, replacing any duplicate keys with values from newdict
-- `dict.get(key1)` gets the value associated with the first key. 
+- `list(dict.keys())` lists out all the keys
+- `list(dict.values())` lists out all the values
+- `get()` gets the value associated with the first key. 
 
 ## Part 2: Flow Control
 
