@@ -32,6 +32,45 @@ jupyter: python3
 
 In this notebook, we will be introducing **Python**, which is a programming language designed for use in data science and analysis.  If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn to program in Python by trying things for yourself.
 
+## Part 0: Basics
+
+This section will go over some Python basics. If you have already coded before, say in Stata or R, then this section will be very straightfoward. If not, don't worry! The point of this section is simply to learn some basic elements of coding get a bit more comfortable with the language.
+
+### 0.1: Variables
+
+In all coding languages, we will often work with **variables**. These variables store information of many different types. For example, as we saw before, they can hold strings, integers, real numbers... 
+
+To create a variable, we need to use an assignment statement: 
+
+```{python}
+new_variable = 1
+```
+
+If we reassign a new value to our variable, the original value will be overwritten and lost. 
+
+```{python}
+new_variable = 10
+```
+
+We can use the variable in the creation of other variables as well!
+
+```{python}
+number_100 = new_variable * new_variable
+```
+
+This also works for strings and is called **concatenating**. See below:
+
+```{python}
+string_var = "Good"
+string_var + "Morning!"
+```
+
+There are some basic rules for naming your variables:
+
+- Spaces are not allowed
+- Only letters, numbers, and underscores are allowed
+- Variable names cannot start with a number
+
 ## Part 1: Manipulating Data
 
 To begin, we'll go over the most basic concepts used in Python. We'll look at how data is stored in objects, what we can do to these objects, and how to work with larger data structures.  
@@ -167,6 +206,16 @@ To do so, we can use the functions **all** and **any**. These functions will tes
 - `all(bools)` will tell us if all the booleans in `bools` are `True`. If they are all true, Python will return `True`. If even one of them is not true, Python will return `False`. 
 - `any(bools)` will tell us if we have any booleans that are `True`. If even one of our booleans is true, Python will return `True` when running this command.
 
+#### Switching between Object Types
+
+Sometimes, we will want to transform our variables from one type to another. 
+
+To convert a variable to a string, we use `str()`.
+
+To convert a variable to an integer, we use `int()`. 
+
+To convert a variable to a float, we use `float()`.
+
 ### 1.2: Collections
 
 Often, when we are working with many different variables, we will need to store all of our objects in a larger, more complex form, called **collections** in Python. Typically, we will store these objects in either a `list[]` or a `tuple()`. These two object types contain *ordered* collections of items.
@@ -284,14 +333,226 @@ There are a few common functions we will do with dictionaries.
 - `dict.update(newdict)` updates the dictionary with newdict, replacing any duplicate keys with values from newdict
 - `dict.get(key1)` gets the value associated with the first key. 
 
-## Part 2: Packages
+## Part 2: Flow Control
+
+Flow control statements tell Python which lines of code to run or not to run and when. To do this, we will use **booleans** which we discussed before. 
+
+In general, flow statements will look like this:
+
+`In this case:`
+`    Do this action`
+
+Typically, to define the case(s), we use our booleans to set a condition, followed by a colon (:). Then, on an indented line, we'd write out the action we want completed. If the condition is evaluated as `True`, Python will execute the action, whereas if the condition is evaluated as `False`, Python will skip the action line. It's important to remember the indentations, because this will determine if the code will crash. If you do not indent the action, Python will assume their is no action to do following the condition, and the flow statement will crash. 
+
+### 2.1: Types of Flow Control Statements 
+
+|Statement  |  Meaning|
+|---------|------------|
+|`if` |run *if* the condition is fulfilled|
+|`elif`| run *if* no previous conditions were met *and* this condition is met (i.e., else if|
+|`else`     |run if no condition is met -- no need to specify a condition|
+|`while`|run *while* the the condition is true|
+|`for`     |run the code in a loop *for* this many times|
+|`try`   |*try* this and run the *except* action if there is an error|
+
+### 2.1.1: `if` statements
+
+The most basic flow control statement we will see is the `if` statement. 
+
+`if` statements begin with a statement that will be evaluated as true or false. **If** the statement is *true*, the Python will do the action, and **if** the statement is *false*, Python will skip this action. 
+
+Let's look at this with a very simple example. For this example, we want to create a statement that evaluates whether someone is a student or not.
+
+```{python}
+student = input('Are you a student? (Yes or No)') # here we are creating a variable student to hold the user's input in a string
+
+if student == 'Yes' or student == 'yes': # we are using an if statement: if the variable student has the input yes
+  print('Good luck in your classes!') # print a response
+```
+
+This statement will only produce an output if the user is a student. If they are not and type anything other than 'yes', the program ends. We can change this though, using what is called an `else` statement.
+
+#### 2.1.2: `else` statements
+
+`else` statements are slightly different from `if` statements. They don't require a condition: this means they run when nothing else works, no matter what. Following the example we did above, we have the block
+
+`if someone is a student:`
+`  perform this action`
+
+We can now add to this an `else` statement
+
+`else:`
+` perform this action`.
+
+What this is doing is telling Python that if the user inputs anything other than 'yes' in the variable `student` (as we defined before), we'd like Python to perform a new action. Let's see it in action!
+
+```{python}
+# we'll use the same code from above 
+student = input('Are you a student? (Yes or No)') # here we are creating a variable student to hold the user's input in a string
+
+if student == 'Yes' or student == 'yes': # we are using an if statement: if the variable student has the input yes
+  print('Good luck in your classes!') # print a response
+else:
+  print('What do you do?')
+```
+
+#### 2.1.3: `elif` statements
+
+Sometimes, we might not want the second condition to be run no matter the input: we might want the second condition to be run *specifically if another condition is satisfied*. In this case, we will want to use an *else if* statement, which is written as `elif` in Python.
+
+The `elif` statement will always come after an `if` statement and before `else` statements. You can include as many `elif` statements as you would like. Combining the three sections before, `elif` statements will look like this:
+
+`if condition A is True:`
+` perform action A`
+`elif condition B is True:`
+` perform action B`
+`else:`
+` perform action C`
+
+Remember, `else` statements do not take conditions!
+
+>**Note**: `elif` statements are read from top to bottom. This means that Python will only evalue the first `elif` statement that is true. All of the following `elif` statements will be **ignored**, even if they are true. This means that only **one** action is executed when using `elif` statements. 
+
+#### 2.1.4: `while` loops
+
+`while` loops are commands that are run repeatedly until a certain statement is evaluated as true. They are run as follows:
+
+`while this condition is True:`
+` do this action`
+
+What Python will do is evaluate the condition, and if the condition is true, it will run the action. Then, Python returns to the condition and evaluates that same condition again, continuining to do the action until the condition is evaluated as false. 
+
+Let's look at an example of this. We'll ask users to guess a number, and loop "guess again" until they get the number right.
+
+```{python}
+# let's set the number to 8
+secret_number = str(8)
+
+guess = input('pick a number from 1 to 10')
+
+# now, we check the users answer!
+while guess != secret_number: # while the guess is not equal to the secret number
+  guess = input('guess again!') # allow the user to change the number 
+
+print('Correct!')
+```
+
+>**Note**: Beware of infinite loops! These arise when the condition in the `while` loop *never* evaluates as False. To stop these loops from running forever, you'll want to interrupt the kernel. Click on **Kernel** and then **Interrupt**  the kernel. 
+
+#### 2.1.5: `for` loops using `range()`
+
+Let's say we want to repeat a loop a specific number of times. One way to do this is using the `while` loops we were discussing before. See below:
+
+```{python}
+# this loop will print out numbers from 0 to 4
+i = 0 # this counts how many loops have been completed 
+
+while i < 5:
+  print(i)
+  i = i + 1 
+```
+
+There is a simpler way to do this, however, using `for` and `range()`, we can do this in a simpler way! In general, this will look like this:
+
+`for i in range(j): `
+` do this action` 
+
+where `i` is a generic variable for counting and `j` is the number of times you want to repeat the action. Remember, **Python starts at zero**, so the starting value of `i` is always 0, and `i` increases by once until it reaches `j`. `i` and `j` are placeholders. You can generall put anything there. Let's look at an example below:
+
+```{python}
+for num in range(4):
+  print(num)
+```
+
+### 2.1.6: `continue`, `break`, `try`, and `except`
+
+Four other flow commands we will work with are:
+
+- `continue`: this immediately restarts the loop
+- `break`: this immediately ends and exits the loop
+- `try`: this is useful when we are running code that may have an error and we want to test the workflow
+- `except`: this is used with `try` to return an output if the `try` statement returns an error
+
+## Part 3: Functions
+
+Functions are another important part of any coding language. We touched upon some basic functions above (like adding two numbers), but here, we will dive into more complex functions that we can use with our data. There are 3 big reasons why we might want to use a function.
+
+1. Reusability: We might have a set of tasks we need to do multiple times. It is easier to write a function to do these tasks and have the function run over the data rather than manually redoing each task.
+2. Organization: It will be useful to keep different operations organized and separated to keep track. 
+3. Sharing: It is easier to share functions than to share each individual step of code. Functions can be run on different datasets, so this allows others to use them.
+
+### 3.1: How to Write a Function
+
+Functions will all follow the same syntax. 
+
+```{python}
+def function_name(inputs):
+    # step 1
+    # step 2
+    # ...
+    return outputs
+```
+
+Here, `def` tells Python that we are defining a new function, and `return` tells Python what to show us. 
+
+Here is a simple example in which we calculate the average of some numbers. Note that we are naming the function `mean`, the inputs will be a list `numbers`, and the function has 3 steps. It will return `answer`. 
+
+```{python}
+def mean(numbers):
+    total = sum(numbers)
+    N = len(numbers)
+    answer = total / N
+
+    return answer
+```
+
+We can then **call** the `mean` function by doing the following:
+
+```{python}
+x = [1, 2, 3, 4]
+avg = mean(numbers)
+```
+
+Here, we are assigning values to `x` which will represent the input, `numbers`, and calling the output `avg`. 
+
+It's important to note that we can have many inputs in a function. 
+Additionally, it will be important to keep track of our *indentations*. This will determine what is and what is not a part of our function. 
+
+### 3.2: Variable Scope
+
+Notice how when we defined the function, the input was `numbers` and the output was `answer`, whereas when we called the function the inputs were `x` and the output `avg`. This has to do with `variable scope`. 
+
+In Python, functions have scopes for variables. This means that regardless what we call the input or the output (which we called `x` and `avg`), the function itself reads the input as `numbers` and the output as `answer`. It also means that the `numbers` and `answer` we refer to in the function **only exist within the function**. See below:
+
+```{python}
+#print(numbers)
+#print(answer)
+```
+
+What this tells us is that if we want to use the output of a function, we need to save it under a new variable. We cannot manipulate `answer` without assigning it to a new variable. For example, we assigned it to `avg`. We don't have to do this - we can still see the output without assigning it to something else. However, if we wanted to use the answer for another operation, we would need to save it. 
+
+This also applies to the other intermediate steps within the function. For example, we can't access `total` and `N` - Python will return an error.
+
+This means that we can reuse names. `total` can be used for both a part of the function, and as the name we assign to the output. 
+
+```{python}
+def mean(numbers):
+    total = sum(numbers)
+    N = len(numbers)
+    answer = total / N
+
+    return answer
+
+y = [10, 11, 15, 523]
+total = mean(y)
+```
+
+## Part 4: Packages
 
 Similarly to R, Python has a host of packages that we can use that contain different functions and tools. Some examples of packages are: 
 
 - pandas, which implements the tools necessary to do scalable data analysis.
-
 - matplotlib, which contains visualization tools.
-
 - requests and urllib, which allow Python to interface with the internet.
 
 We'll be using packages all throughout the Python modules, so it will be important to learn how to install them and how to open them. 
@@ -315,9 +576,9 @@ Typically, people use the following nicknames for packages:
 
 In theory, you can abbreviate the packages to any nickname you'd like, but for simplicity and comprehensibility, we recommend using the common nicknames listed above. 
 
-## Part 3:  Dealing with Errors and Getting Help
+## Part 5:  Dealing with Errors and Getting Help
 
-### 5.1. Errors
+### 5.1: Errors
 
 Sometimes in our analysis we can run into errors in our code. This happens to everyone - don't worry - it's not a reason to panic. Understanding the nature of the error we are confronted with can be a helpful first step to finding a solution. There are two common types of errors:
 
@@ -327,7 +588,7 @@ Sometimes in our analysis we can run into errors in our code. This happens to ev
 
 Now that we have all of these terms and tools at our disposal, we can begin to load in data and operate on it using what we’ve learned.
 
-### 5.2. Getting Help
+### 5.2: Getting Help
 
 If you are ever running a function and get stuck, are not sure what the function does, or need a refresher on what the inputs are, Python has a way to get help. 
 
