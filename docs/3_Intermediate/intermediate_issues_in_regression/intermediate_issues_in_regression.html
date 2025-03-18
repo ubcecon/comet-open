@@ -661,7 +661,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#part-3-exercises" id="toc-part-3-exercises" class="nav-link" data-scroll-target="#part-3-exercises">Part 3: Exercises</a>
   <ul class="collapse">
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intermediate_issues_in_regression.ipynb" download="intermediate_issues_in_regression.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
@@ -1055,6 +1054,12 @@ M_F = \beta_0 + \beta_1 I_{bi} + \beta_2 I_{ai} + \epsilon_i
 <ol type="1">
 <li>What concern should we have about this regression equation? Explain your intuition.</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+These two variables, before tax and after tax income, may be close to co-linear, which will increase the error term.
+</details>
 <p>Before we continue, let’s reduce the sample size of our data set to 200 observations. We will also revert <code>gender</code> into a numeric variable:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
@@ -1075,6 +1080,12 @@ M_F = \beta_0 + \beta_1 I_{bi} + \beta_2 I_{ai} + \epsilon_i
 <ol start="3" type="1">
 <li>What do you notice about the characteristics of the estimated regression? Does anything point to your concern being valid?</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+It seems like <code>income_before_tax</code> was dropped from the regression. The reason for that is multicollinearity.
+</details>
 <p>Now, let’s suppose we drop 50 more observations:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
@@ -1092,8 +1103,16 @@ M_F = \beta_0 + \beta_1 I_{bi} + \beta_2 I_{ai} + \epsilon_i
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">test_4</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
-<li><p>What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?</p></li>
-<li><p>Next, increase the sample size back to its full size and run the regression once again.</p></li>
+<li>What happened to the regression estimates when we dropped 50 observations? Does this point to your concern being valid?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+Similar to 3.
+</details>
+<ol start="6" type="1">
+<li>Next, increase the sample size back to its full size and run the regression once again.</li>
 </ol>
 <p>Tested Objects: <code>reg3</code>.</p>
 <div class="cell question">
@@ -1109,6 +1128,12 @@ M_F = \beta_0 + \beta_1 I_{bi} + \beta_2 I_{ai} + \epsilon_i
 <ol start="7" type="1">
 <li>Did this change eliminate the concern? How do you know?</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+This change does not eliminate the concern. Now we see both <code>income_before_tax</code> and <code>income_after_tax</code> on the regression output. However, only <code>income_after_tax</code> is significant. The model is picking up some differences between both variables (likely differences across tax brackets) but it still seems like the collinearity is affecting the model. Having collinear terms in a regression increases standard errors.
+</details>
 <p>Heteroskedasticity is another issue that researchers frequently deal with when they estimate regression models. Consider the following regression model:</p>
 <p><span class="math display">\[
 I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
@@ -1120,9 +1145,23 @@ I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
 <li><span class="math inline">\(D_i\)</span> is a dummy variable for being female</li>
 </ul>
 <ol start="8" type="1">
-<li><p>Should we be concerned about heteroskedasticity in this model? If so, what is the potential source of heteroskedasticity, and what do we suspect to be the relationship between the regressor and the error term?</p></li>
-<li><p>If we suppose that heteroskedasticity is a problem in this regression, what consequences will this have for our regression estimates?</p></li>
+<li>Should we be concerned about heteroskedasticity in this model? If so, what is the potential source of heteroskedasticity, and what do we suspect to be the relationship between the regressor and the error term?</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+The distribution of residuals will likely change relative to education. This because the higher the level of education the more additional factors will be required to predict the persons income. For instance, if someone has a 4 year degree what that degree is in will have a large impact on their income; however, there is less variance in income for high school graduates.
+</details>
+<ol start="9" type="1">
+<li>If we suppose that heteroskedasticity is a problem in this regression, what consequences will this have for our regression estimates?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+If we do not use robust standard errors, the standards errors will be understated.
+</details>
 <p>Run the regression below, and graph the residuals against the level of schooling.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the regression</span></span>
@@ -1135,8 +1174,16 @@ I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>resiplot <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="10" type="1">
-<li><p>Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?</p></li>
-<li><p>To test for heteroskedasticity formally, let’s perform the White Test. First, store the residuals from the previous regression in <code>SFS_data</code>.</p></li>
+<li>Describe the relationship between education level and the residuals in the graph above. What does the graph tell us about the presence and nature of heteroskedasticity in the regression model?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+We can see that the residuals are increasing as the level of education increases, as predicted in the previous question. This indicates heteroskedasticity, as the distribution of errors is clearly not constant.
+</details>
+<ol start="11" type="1">
+<li>To test for heteroskedasticity formally, let’s perform the White Test. First, store the residuals from the previous regression in <code>SFS_data</code>.</li>
 </ol>
 <p>Tested Objects: <code>SFS_data</code> (checks to see that residuals were added properly).</p>
 <div class="cell question">
@@ -1167,8 +1214,16 @@ I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_12</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" type="1">
-<li><p>What does the white test suggest?</p></li>
-<li><p>Finish filling in this table:</p></li>
+<li>What does the white test suggest?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+The test suggests the model is heteroskedastic.
+</details>
+<ol start="14" type="1">
+<li>Finish filling in this table:</li>
 </ol>
 <table class="table">
 <colgroup>
@@ -1211,26 +1266,12 @@ I_i = \alpha_0 + \alpha_1 E_i + \alpha_2 G_i  + \epsilon_i
 </tr>
 </tbody>
 </table>
-</section>
-<section id="solutions" class="level3">
-<h3 class="anchored" data-anchor-id="solutions">Solutions</h3>
-<ol type="1">
-<li><p>These two variables, before tax and after tax income, may be close to co-linear, which will increase the error term.</p></li>
-<li><p>Coding exercise.</p></li>
-<li><p>It seems like <code>income_before_tax</code> was dropped from the regression. The reason for that is multicollinearity.</p></li>
-<li><p>Coding exercise</p></li>
-<li><p>Similar to 3.</p></li>
-<li><p>Coding exercise.</p></li>
-<li><p>This change does not eliminate the concern. Now we see both <code>income_before_tax</code> and <code>income_after_tax</code> on the regression output. However, only <code>income_after_tax</code> is significant. The model is picking up some differences between both variables (likely differences across tax brackets) but it still seems like the collinearity is affecting the model. Having collinear terms in a regression increases standard errors.</p></li>
-<li><p>The distribution of residuals will likely change relative to education. This because the higher the level of education the more additional factors will be required to predict the persons income. For instance, if someone has a 4 year degree what that degree is in will have a large impact on their income; however, there is less variance in income for high school graduates.</p></li>
-<li><p>If we do not use robust standard errors, the standards errors will be understated.</p></li>
-<li><p>We can see that the residuals are increasing as the level of education increases, as predicted in the previous question. This indicates heteroskedasticity, as the distribution of errors is clearly not constant.</p></li>
-</ol>
-<p>11-12. Coding exercises</p>
-<ol start="13" type="1">
-<li><p>The test suggests the model is heteroskedastic.</p></li>
-<li><p>Answers are: (A) Heteroskedasticity (B) An explanatory variable can be written as a linear combination of other explanatory variables included in the model (C) Drop one of the variables (D) VIF test.</p></li>
-</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+Answers are: (A) Heteroskedasticity (B) An explanatory variable can be written as a linear combination of other explanatory variables included in the model (C) Drop one of the variables (D) VIF test.
+</details>
 
 
 </section>

@@ -664,7 +664,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#part-3-exercises" id="toc-part-3-exercises" class="nav-link" data-scroll-target="#part-3-exercises">Part 3: Exercises</a>
   <ul class="collapse">
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intermediate_multiple_regression.ipynb" download="intermediate_multiple_regression.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
@@ -1100,9 +1099,43 @@ Y_i = \beta_0 + \beta_1 X_{i} + \beta_2 D_{i} + \epsilon_i
 <p>Where <span class="math inline">\(D_i\)</span> is a dummy variable. Recall that Assumption 1 implies that <span class="math inline">\(E[\epsilon_i|D_{i}, X_{i}] = 0\)</span>. Suppose this assumption holds true. Answer the following:</p>
 <ol type="1">
 <li>Compute <span class="math inline">\(E[Y_i|X_i,D_i=1]\)</span> and <span class="math inline">\(E[Y_i|X_i,D_i=0]\)</span></li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+<p><span class="math display">\[
+\begin{align}
+E[Y_i|X_i,D_i=1]&amp;=\beta_{0}+\beta_{1}E[X_{i}|X_{i},D_{i}=1]+\beta_{2} \\
+E[Y_i|X_i,D_i=0]&amp;=\beta_{0}+\beta_{1}E[X_{i}|X_{i},D_{i}=0]
+\end{align}
+\]</span></p>
+</details>
+<ol start="2" type="1">
 <li>What is the difference between these two terms?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+<span class="math display">\[
+\begin{align}
+&amp;E[E[Y_i|X_i,D_i=1]-E[Y_i|X_i,D_i=0]] \\
+&amp;= E[\beta_{1}(E[X_{i}|X_{i},D_{i}=1]-E[X_{i}|X_{i},D_{i}=0])]+\beta_{2} \\
+&amp;= \beta_{1}(E[E[X_{i}|X_{i},D_{i}=1]]-E[E[X_{i}|X_{i},D_{i}=0]])+\beta_{2}\\
+&amp;= \beta_{2}
+\end{align}
+\]</span>
+</details>
+<ol start="3" type="1">
 <li>Interpret what the coefficient <span class="math inline">\(\beta_2\)</span> means in this regression, using your answers in 1 and 2.</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+<span class="math inline">\(\beta_{2}\)</span> is the average difference between outcome <span class="math inline">\(Y_{i}\)</span> of dummy variable <span class="math inline">\(D_{i}\)</span> to be 0 and 1.
+</details>
 <p>4-8. To explore the mechanics of multiple regressions, let’s return to the analysis that we did in Module 1; that is, let’s re-examine the relationship between the gender income gap and education.</p>
 <p>Run a simple regression for the gender income gap (with a single regressor) for each education level. Use <code>income_before_tax</code> as the dependent variable. Then, run a multiple regression for the gender income gap that includes <code>education</code> as a control.</p>
 <p>Tested objects: <code>reg_LESS</code> (simple regression; less than high school), <code>reg_HS</code> (high school diploma), <code>reg_NU</code> (Non-university post-secondary), <code>reg_U</code> (university), <code>reg2</code> (multiple regression).</p>
@@ -1133,19 +1166,56 @@ Y_i = \beta_0 + \beta_1 X_{i} + \beta_2 D_{i} + \epsilon_i
 <span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="9" type="1">
-<li><p>What variable “value” appears to be missing from the multiple regression in the table? How can we interpret the average income for the group associated with that value? Hint: Dummy Variables</p></li>
-<li><p>Compare the coefficient estimates for <code>gender</code> across each of the simple regressions. How does the gender income gap appear to vary across education levels? How should we interpret this variation?</p></li>
-<li><p>Compare the simple regressions’ estimates with those of the multiple regression. How does the multiple regression’s coefficient estimate on <code>gender</code> compare to those estimates in the simple regressions? How can we interpret this? Further, how do we interpret the coefficient estimates on the other regressors in the multiple regression?</p></li>
+<li>What variable “value” appears to be missing from the multiple regression in the table? How can we interpret the average income for the group associated with that value? Hint: Dummy Variables</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+It seems like education “High School” is missing from the multiple regression. This value is represented when all the dummies included in the model equal zero. The average difference in income for male and female earners for this group is 37,638 dollars.
+</details>
+<ol start="10" type="1">
+<li>Compare the coefficient estimates for <code>gender</code> across each of the simple regressions. How does the gender income gap appear to vary across education levels? How should we interpret this variation?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+The gender income gap becomes larger as education increases. The gender-income gap of each level of education may come from gender difference in occupations and position levels: as education increases, males may have higher chance to work in higher positions (e.g.&nbsp;managers), while females may have less opportunity.
+</details>
+<ol start="11" type="1">
+<li>Compare the simple regressions’ estimates with those of the multiple regression. How does the multiple regression’s coefficient estimate on <code>gender</code> compare to those estimates in the simple regressions? How can we interpret this? Further, how do we interpret the coefficient estimates on the other regressors in the multiple regression?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+<p>The coefficient estimate on <code>gender</code> of multiple regression is close to the (weighted) average estimates in the simple regressions. In multiple regression, the coefficient means female-lead households on average earn 37,638 dollars less than male counterpart.</p>
+In multiple regression, the intercept means male-lead households with high school degree earn 84,169 dollars on average. For the coefficient of <code>educationLess than High school</code>, it means if male is the main earner, then the average incomes they will earn are <span class="math inline">\(84,169 + 31,811 = 52,358\)</span> dollars. Then for female with high school degree, the average before-tax income is <span class="math inline">\(84,169-37,638 = 46,531\)</span> dollars. We can interpret coefficient estimates of <code>educationNon-university post-secondary</code> and <code>educationUniversity</code> in a similar way.
+</details>
 <p>Now, consider the multiple regression that we estimated in the previous activity:</p>
 <p><span class="math display">\[
 W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 \]</span></p>
 <p>Note that <span class="math inline">\(Gender_i\)</span> is <code>gender</code> and <span class="math inline">\(S_i\)</span> is <code>education</code>.</p>
 <ol start="12" type="1">
-<li><p>Why might we be skeptical of the argument that <span class="math inline">\(\beta_1\)</span> captures the gender income gap (i.e., the effect of having female as the main earner on household’s income, all else being equal)? What can we do to address these concerns?</p></li>
-<li><p>Suppose that a member of your research team suggests that we should add <code>age</code> as a control in the regression. Do you agree with this group member that this variable would be a good control? Why or why not?</p></li>
+<li>Why might we be skeptical of the argument that <span class="math inline">\(\beta_1\)</span> captures the gender income gap (i.e., the effect of having female as the main earner on household’s income, all else being equal)? What can we do to address these concerns?</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+Because there may be omitted variables that correlate with <span class="math inline">\(Gender\)</span>. Maybe the omitted variables are the true reasons why there is an income gap, but we since do not control these variables, the coefficient estimate of <span class="math inline">\(Gender\)</span> is not correct.
+</details>
+<ol start="13" type="1">
+<li>Suppose that a member of your research team suggests that we should add <code>age</code> as a control in the regression. Do you agree with this group member that this variable would be a good control? Why or why not?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+<code>age</code> is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omits <code>age</code>, the coefficient estimate of <code>gender</code> can be biased.
+</details>
 <p>Now let’s turn back to coding. Let’s first simplify levels of age group using codes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this!</span></span>
@@ -1187,9 +1257,25 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_14</span>() <span class="co">#For reg3 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="15" type="1">
-<li><p>Compare the two regressions in the table above. What happens to the estimated gender income gap when we add age as a control? What might explain this effect?</p></li>
-<li><p>Suppose that one of your fellow researchers argues that <code>employment</code> (employment status) should be added to the multiple regression as a control. That way, they reason, we can account for differences between employed and unemployed workers. Do you agree with their reasoning?</p></li>
-<li><p>Let’s test this argument directly. Add <code>employment</code> as a control to the multiple regression with all previous controls. Estimate this new regression (<code>reg4</code>).</p></li>
+<li>Compare the two regressions in the table above. What happens to the estimated gender income gap when we add age as a control? What might explain this effect?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+After we control age, the estimated gender income gap shrinks. This means some of the income gap may come from difference in age, rather than gender gap.
+<details>
+<ol start="16" type="1">
+<li>Suppose that one of your fellow researchers argues that <code>employment</code> (employment status) should be added to the multiple regression as a control. That way, they reason, we can account for differences between employed and unemployed workers. Do you agree with their reasoning?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+The reasoning is correct.
+</details>
+<ol start="17" type="1">
+<li>Let’s test this argument directly. Add <code>employment</code> as a control to the multiple regression with all previous controls. Estimate this new regression (<code>reg4</code>).</li>
 </ol>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add in the order before, with employment last</span></span>
@@ -1202,14 +1288,28 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <ol start="18" type="1">
 <li>What happens to the gender income gap when we run the regression with <code>employment</code>?</li>
 </ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+When we run regression with <code>employment</code>, the gender income gap shrinks even more, which means <code>employment</code> explains part of the income gap.
+</details>
 <p>Now consider the following scenario. In the middle of your team’s discussion of which controls they should add to the multiple regression (the same one as the previous activity), your roommate bursts into the room and yells “Just add them all!” After a moment of confused silence, the roommate elaborates that it never hurts to add controls as long as they don’t “break” the regression (like <code>employment</code> and <code>agegr</code>). “Data is hard to come by, so we should use as much of it as we can get,” he says.</p>
 <p>Recall: Below are all of the variables in the dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(SFS_data) <span class="co"># run me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="19" type="1">
-<li><p>Do you agree with your roommate’s argument? Why or why not?</p></li>
-<li><p>Let’s back up our argument with regression analysis. Estimate a regression that has the same controls as <code>reg3</code> from the previous activity, but add <code>pasrbuyg</code> as a control as well.</p></li>
+<li>Do you agree with your roommate’s argument? Why or why not?</li>
+</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+The roommate’s reasoning is incorrect, because we could introduce multicollinearity if we add all variables.
+</details>
+<ol start="20" type="1">
+<li>Let’s back up our argument with regression analysis. Estimate a regression that has the same controls as <code>reg3</code> from the previous activity, but add <code>pasrbuyg</code> as a control as well.</li>
 </ol>
 <p>What is “pasrbuyg”?</p>
 <div class="cell">
@@ -1228,52 +1328,26 @@ W_i = \beta_0 + \beta_1 Gender_i + \beta_2 S_i + \epsilon_i
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_20</span>() <span class="co"># For reg5 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="21" type="1">
-<li><p>Does the table above suggest that we should add <code>pasrbuyg</code> as a control?</p></li>
-<li><p>What other variables can be added as controls?</p></li>
+<li>Does the table above suggest that we should add <code>pasrbuyg</code> as a control?</li>
 </ol>
-</section>
-<section id="solutions" class="level3">
-<h3 class="anchored" data-anchor-id="solutions">Solutions</h3>
-<ol type="1">
-<li><p><span class="math display">\[
-\begin{align}
-E[Y_i|X_i,D_i=1]&amp;=\beta_{0}+\beta_{1}E[X_{i}|X_{i},D_{i}=1]+\beta_{2} \\
-E[Y_i|X_i,D_i=0]&amp;=\beta_{0}+\beta_{1}E[X_{i}|X_{i},D_{i}=0]
-\end{align}
-\]</span></p></li>
-<li><p><span class="math display">\[
-\begin{align}
-&amp;E[E[Y_i|X_i,D_i=1]-E[Y_i|X_i,D_i=0]] \\
-&amp;= E[\beta_{1}(E[X_{i}|X_{i},D_{i}=1]-E[X_{i}|X_{i},D_{i}=0])]+\beta_{2} \\
-&amp;= \beta_{1}(E[E[X_{i}|X_{i},D_{i}=1]]-E[E[X_{i}|X_{i},D_{i}=0]])+\beta_{2}\\
-&amp;= \beta_{2}
-\end{align}
-\]</span></p></li>
-<li><p><span class="math inline">\(\beta_{2}\)</span> is the average difference between outcome <span class="math inline">\(Y_{i}\)</span> of dummy variable <span class="math inline">\(D_{i}\)</span> to be 0 and 1.</p></li>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+No, we should not add <code>pasrbuyg</code> as a control, because the estimated coefficients are not significant, and it may have multicollinearity issue with <code>agegr</code>.
+</details>
+<ol start="22" type="1">
+<li>What other variables can be added as controls?</li>
 </ol>
-<p>4-8. Coding exercises</p>
-<ol start="9" type="1">
-<li><p>It seems like education “High School” is missing from the multiple regression. This value is represented when all the dummies included in the model equal zero. The average difference in income for male and female earners for this group is 37,638 dollars.</p></li>
-<li><p>The gender income gap becomes larger as education increases. The gender-income gap of each level of education may come from gender difference in occupations and position levels: as education increases, males may have higher chance to work in higher positions (e.g.&nbsp;managers), while females may have less opportunity.</p></li>
-<li><p>The coefficient estimate on <code>gender</code> of multiple regression is close to the (weighted) average estimates in the simple regressions. In multiple regression, the coefficient means female-lead households on average earn 37,638 dollars less than male counterpart.</p></li>
-</ol>
-<p>In multiple regression, the intercept means male-lead households with high school degree earn 84,169 dollars on average. For the coefficient of <code>educationLess than High school</code>, it means if male is the main earner, then the average incomes they will earn are <span class="math inline">\(84,169 + 31,811 = 52,358\)</span> dollars. Then for female with high school degree, the average before-tax income is <span class="math inline">\(84,169-37,638 = 46,531\)</span> dollars. We can interpret coefficient estimates of <code>educationNon-university post-secondary</code> and <code>educationUniversity</code> in a similar way.</p>
-<ol start="12" type="1">
-<li><p>Because there may be omitted variables that correlate with <span class="math inline">\(Gender\)</span>. Maybe the omitted variables are the true reasons why there is an income gap, but we since do not control these variables, the coefficient estimate of <span class="math inline">\(Gender\)</span> is not correct.</p></li>
-<li><p><code>age</code> is a good control, because age can affect incomes, and age can correlate with gender of main earners. If our regression omits <code>age</code>, the coefficient estimate of <code>gender</code> can be biased.</p></li>
-<li><p>Coding exercise</p></li>
-<li><p>After we control age, the estimated gender income gap shrinks. This means some of the income gap may come from difference in age, rather than gender gap.</p></li>
-<li><p>The reasoning is correct.</p></li>
-<li><p>Coding exercise.</p></li>
-<li><p>When we run regression with <code>employment</code>, the gender income gap shrinks even more, which means <code>employment</code> explains part of the income gap.</p></li>
-<li><p>The roommate’s reasoning is incorrect, because we could introduce multicollinearity if we add all variables.</p></li>
-<li><p>Coding exercise.</p></li>
-<li><p>No, we should not add <code>pasrbuyg</code> as a control, because the estimated coefficients are not significant, and it may have multicollinearity issue with <code>agegr</code>.</p></li>
-<li><p>This is an open question. Just make sure that your variables are included in dataset, and that you have a reasonable explanation as to why add them as controls.</p></li>
-</ol>
+<details>
+<summary>
+Show/Hide Solution
+</summary>
+This is an open question. Just make sure that your variables are included in dataset, and that you have a reasonable explanation as to why add them as controls.
+</details>
 
 
-</section>
+</details></details></section>
 </section>
 
 </main> <!-- /main -->
