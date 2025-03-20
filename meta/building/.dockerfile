@@ -1,5 +1,5 @@
 # Build stage
-FROM --platform=linux/amd64 jlgraves/comet-test:test AS builder
+FROM jlgraves/comet-test:test AS builder
 
 WORKDIR /app
 
