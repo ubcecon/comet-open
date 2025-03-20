@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1.4
 # This file will act as the build stage (stage 1)
-# Date 2025-03-19
+# Date 2025-03-20
 
 # Base image selection with multi-architecture support
 FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app
 
-# Install system dependencies with versions
+# Install system dependencies (Remember to add package numbers later)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     gdebi-core \
