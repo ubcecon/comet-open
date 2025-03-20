@@ -1,10 +1,12 @@
 # Build stage
-FROM jlgraves/comet-test:test AS builder
+FROM --platform=linux/amd64 jlgraves/comet-test:test AS builder
 
 WORKDIR /app
 
 # Copy files from Github
 COPY ./meta/building/renv.lock ./project ./
+# Add this line to copy media directory
+COPY ./media ./media/
 
 RUN mkdir output
 
