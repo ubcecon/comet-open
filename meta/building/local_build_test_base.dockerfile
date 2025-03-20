@@ -47,13 +47,3 @@ RUN R -e "install.packages('remotes')" && \
 
 # Verify Quarto installation
 RUN quarto check
-
-# Final stage
-FROM base AS final
-
-COPY --from=base /usr/local/lib/R /usr/local/lib/R
-COPY --from=base /usr/local/bin /usr/local/bin
-
-# Don't forget to copy media and project files
-COPY ./media ./media/
-COPY ./project ./project/
