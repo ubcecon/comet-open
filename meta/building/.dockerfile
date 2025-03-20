@@ -5,8 +5,6 @@ WORKDIR /app
 
 # Copy files from Github
 COPY ./meta/building/renv.lock ./project ./
-# Add this line to copy media directory
-#COPY ./media ./media/
 
 RUN mkdir output
 
