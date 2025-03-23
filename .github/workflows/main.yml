@@ -52,7 +52,7 @@ jobs:
 
       - name: Remove rendered files
         run: |
-          find source-notebooks/project/docs -type f \( -name "*.html" \) -delete
+          find source-notebooks/project/docs -type f \( -name "*.html" -o -name "*.md" \) -delete
 
       - name: Checkout datasets
         uses: actions/checkout@v3
@@ -65,15 +65,27 @@ jobs:
         id: prep
         run: |
           mkdir -p final-notebooks/docs
-          # Copy notebooks
-          cp -r source-notebooks/project/docs/* final-notebooks/docs/
-          # Copy datasets
-          for dir in 1_Getting_Started 2_Beginner 3_Intermediate 6_Projects; do
-            cp -r datasets/project/docs/$dir/datasets_${dir#*_} final-notebooks/docs/$dir/
-          done
-          cp -r datasets/project/docs/4_Advanced/*/datasets final-notebooks/docs/4_Advanced/
-          cp -r datasets/project/docs/5_Research/*/datasets final-notebooks/docs/5_Research/
           
+          # Copy notebooks while maintaining directory structure
+          rsync -a --include '*/' \
+            --include '*.ipynb' \
+            --include '*.qmd' \
+            --exclude '*' \
+            source-notebooks/project/docs/ final-notebooks/docs/
+
+          # Copy datasets with corrected paths
+          for dir in 1_Getting_Started 2_Beginner 3_Intermediate 4_Advanced 5_Research 6_Projects; do
+            section=$(echo "$dir" | cut -d'_' -f2- | tr '[:upper:]' '[:lower:]')
+            dataset_dir="datasets/project/docs/$dir/datasets_${section}"
+            
+            mkdir -p "final-notebooks/docs/$dir"
+            if [ -d "$dataset_dir" ]; then
+              cp -r "$dataset_dir" "final-notebooks/docs/$dir/"
+            else
+              echo "Warning: Dataset directory not found: $dataset_dir"
+            fi
+          done
+
           echo "dir=$(pwd)/final-notebooks" >> $GITHUB_OUTPUT
 
       - name: Upload notebooks artifact
@@ -82,32 +94,32 @@ jobs:
           name: notebooks
           path: ${{ steps.prep.outputs.dir }}
 
+      - name: Print directory structure
+        run: |
+          echo "Contents of final-notebooks directory:"
+          tree final-notebooks
+
   deploy:
-    needs: [build, prepare-notebooks]
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifacts
-        run: |
-          actions/download-artifact@v4
-          with:
-            name: site
-            path: site-content
-          actions/download-artifact@v4
-          with:
-            name: notebooks
-            path: notebook-content
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Merge content
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site-content
+
+      - name: Print directory structure
         run: |
-          # Keep website content at root
-          cp -r site-content/* ./
-          # Add notebooks to /docs directory
-          cp -r notebook-content/docs ./
+          echo "Contents of site-content directory:"
+          ls -la site-content
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: site-content
           publish_branch: gh-pages
-          force_orphan: true
