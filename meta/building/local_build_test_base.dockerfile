@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1.4
 # Date: 2025-03-23
-ARG BUILDPLATFORM
 FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app
