@@ -1,8 +1,6 @@
 # syntax=docker/dockerfile:1.4
-# This file will act as the build stage (stage 1)
-# Date 2025-03-20
-
-# Base image selection with multi-architecture support
+# Date: 2025-03-23
+ARG BUILDPLATFORM
 FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app

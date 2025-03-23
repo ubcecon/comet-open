@@ -1,5 +1,7 @@
-# Build stage
-FROM --platform=$BUILDPLATFORM jlgraves/comet-test:test AS builder
+# syntax=docker/dockerfile:1.4
+ARG BUILDPLATFORM
+FROM --platform=$BUILDPLATFORM alexr951/testing_comet:test AS builder
+#FROM --platform=$BUILDPLATFORM jlgraves/comet-test:test AS builder (Change after it works for me)
 
 WORKDIR /app
 
@@ -11,8 +13,8 @@ RUN mkdir output
 # Quarto render all our documents
 RUN quarto render --output-dir output
 
-# Final Stage (Added this so it can be ran locally and tested properly)
-FROM nginx:alpine
-COPY --from=builder /app/output /usr/share/nginx/html
+# Final stage
+FROM --platform=$TARGETPLATFORM nginx:alpine  
+COPY --from=builder --chown=nginx:nginx /app/output /usr/share/nginx/html  
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
