@@ -1,5 +1,5 @@
 # Build stage
-FROM jlgraves/comet-test:test AS builder
+FROM --platform=$BUILDPLATFORM jlgraves/comet-test:test AS builder
 
 WORKDIR /app
 
