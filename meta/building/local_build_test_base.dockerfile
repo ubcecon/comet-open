@@ -5,8 +5,9 @@ FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app
 
-# Install system dependencies with versions
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Add cache optimization under WORKDIR /app
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && apt-get install -y --no-install-recommends \
     curl=7.81.0-1ubuntu1.20 \
     gdebi-core=0.9.5.7+nmu6 \
     libgl1=1.4.0-1 \
