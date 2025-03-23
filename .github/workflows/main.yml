@@ -1,3 +1,4 @@
+#Testing the Advanced Task 2025-03-22 
 name: Build and Deploy
 on:
   workflow_dispatch:
@@ -38,27 +39,75 @@ jobs:
           path: ./web-content
           if-no-files-found: error
 
-  deploy:
+  prepare-notebooks:
+    runs-on: ubuntu-latest
     needs: build
+    outputs:
+      prepped-notebooks: ${{ steps.prep.outputs.dir }}
+    steps:
+      - name: Checkout source notebooks
+        uses: actions/checkout@v3
+        with:
+          path: source-notebooks
+
+      - name: Remove rendered files
+        run: |
+          find source-notebooks/project/docs -type f \( -name "*.html" \) -delete
+
+      - name: Checkout datasets
+        uses: actions/checkout@v3
+        with:
+          repository: ubcecon/comet-open
+          ref: test_build_deploy
+          path: datasets
+
+      - name: Organize structure
+        id: prep
+        run: |
+          mkdir -p final-notebooks/docs
+          # Copy notebooks
+          cp -r source-notebooks/project/docs/* final-notebooks/docs/
+          # Copy datasets
+          for dir in 1_Getting_Started 2_Beginner 3_Intermediate 6_Projects; do
+            cp -r datasets/project/docs/$dir/datasets_${dir#*_} final-notebooks/docs/$dir/
+          done
+          cp -r datasets/project/docs/4_Advanced/*/datasets final-notebooks/docs/4_Advanced/
+          cp -r datasets/project/docs/5_Research/*/datasets final-notebooks/docs/5_Research/
+          
+          echo "dir=$(pwd)/final-notebooks" >> $GITHUB_OUTPUT
+
+      - name: Upload notebooks artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: notebooks
+          path: ${{ steps.prep.outputs.dir }}
+
+  deploy:
+    needs: [build, prepare-notebooks]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: site-content
-
-      - name: Print directory structure
         run: |
-          echo "Contents of site-content directory:"
-          ls -la site-content
+          actions/download-artifact@v4
+          with:
+            name: site
+            path: site-content
+          actions/download-artifact@v4
+          with:
+            name: notebooks
+            path: notebook-content
+
+      - name: Merge content
+        run: |
+          # Keep website content at root
+          cp -r site-content/* ./
+          # Add notebooks to /docs directory
+          cp -r notebook-content/docs ./
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: site-content
+          publish_dir: .
           publish_branch: gh-pages
+          force_orphan: true
