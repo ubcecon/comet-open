@@ -66,14 +66,12 @@ jobs:
         run: |
           mkdir -p final-notebooks/docs
           
-          # Copy notebooks while maintaining directory structure
           rsync -a --include '*/' \
             --include '*.ipynb' \
             --include '*.qmd' \
             --exclude '*' \
             source-notebooks/project/docs/ final-notebooks/docs/
 
-          # Copy datasets with corrected paths
           for dir in 1_Getting_Started 2_Beginner 3_Intermediate 4_Advanced 5_Research 6_Projects; do
             section=$(echo "$dir" | cut -d'_' -f2- | tr '[:upper:]' '[:lower:]')
             dataset_dir="datasets/project/docs/$dir/datasets_${section}"
