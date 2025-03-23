@@ -658,6 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#part-3-exercises" id="toc-part-3-exercises" class="nav-link" data-scroll-target="#part-3-exercises">Part 3: Exercises</a>
   <ul class="collapse">
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intermediate_interactions_and_nonlinear_terms.ipynb" download="intermediate_interactions_and_nonlinear_terms.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
@@ -939,13 +940,6 @@ W_i = \beta_1 + \beta_2 F_i + \beta_3 E_i + \beta_4 P_i + \beta_5 F_i\times E_i 
 <ol type="1">
 <li>How should we interpret the coefficients <span class="math inline">\(\beta_5\)</span> and <span class="math inline">\(\beta_6\)</span>? Why might these effects be important to estimate?</li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-<p><span class="math inline">\(\beta_5\)</span> is the difference of ‘value-added’ of education between female-lead household and male-lead household. <span class="math inline">\(\beta_6\)</span> is the difference of province effects between female-lead household and male-lead household.</p>
-These interaction terms provide us with a simple way to describe and study how <em>combinations</em> of our explanatory variables impact our model. With these interaction terms, we can understand how education and geography affect wealth of male-lead and female-lead households differently.
-</details>
 <p>Now, let’s estimate the model and interpret it concretely. (Please follow the order of variables in regression model):</p>
 <pre><code>reg1 &lt;- gender, Education, province
 
@@ -963,27 +957,9 @@ reg0 &lt;- gender, education, province</code></pre>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
-<li>How do we interpret the coefficient estimate on <code>gender:Education</code>? What education level do female-lead households appear to be most discriminated in? How might we explain this intuitively?</li>
+<li><p>How do we interpret the coefficient estimate on <code>gender:Education</code>? What education level do female-lead households appear to be most discriminated in? How might we explain this intuitively?</p></li>
+<li><p>How do you interpret the coefficient estimate on <code>genderFemale:provinceAlberta</code>? (Hint: Write out the average wealth equations for female, male in Alberta, and female in Alberta separately.)</p></li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-<p>It means if the main earner is a female with a university degree, the household accumulates 302,008 dollars less wealth, than the male counterpart. University degree holders are most discriminated, because <span class="math inline">\(|\hat{\beta_5}|\)</span> is higher than <span class="math inline">\(|\hat{\beta_2}|\)</span>.</p>
-One possible explanation is that males with university degree are more likely to become managers or other higher level employees than females. The inequality in incomes lead to the inequality in wealth.
-</details>
-<ol start="5" type="1">
-<li>How do you interpret the coefficient estimate on <code>genderFemale:provinceAlberta</code>? (Hint: Write out the average wealth equations for female, male in Alberta, and female in Alberta separately.)</li>
-</ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-<p>Average wealth for female-lead family: <span class="math inline">\(E[wealth|female]=\beta_{1}+\beta_{2}=455918-87277\)</span></p>
-<p>Average wealth for male-lead family in Alberta: <span class="math inline">\(E[wealth|male,Alberta]=\beta_{1}+\beta_{4,Alberta}=455918+502683\)</span></p>
-<p>Average wealth for female-lead family in Alberta: <span class="math inline">\(E[wealth|female,Alberta]=\beta_{1}+\beta_{2}+\beta_{4,Alberta}+\beta_{6,Alberta}=455918-87277+502683-105798\)</span></p>
-Thus <span class="math inline">\(\beta_{6,Alberta}\)</span> is the difference of wealth when living in Alberta between female-lead household and male-lead household.
-</details>
 <p>Now let’s test whether the returns to education increase if people are entrepreneurs. <code>business</code> is a factor variable which suggests whether the household owns a business. Please add terms to the regression equation that allow us to run this test. Then, estimate this new model. We don’t need <code>province</code> and <code>gender</code> variables in this exercise. For education, please use <code>education</code> variable. And we will continue to study wealth accumulated in households.</p>
 <div class="cell question">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>SFS_data<span class="sc">$</span>business <span class="ot">&lt;-</span> <span class="fu">relevel</span>(SFS_data<span class="sc">$</span>business, <span class="at">ref =</span> <span class="st">"No"</span>) <span class="co"># co not change; makes "not a business owner" the reference level for business</span></span>
@@ -996,12 +972,6 @@ Thus <span class="math inline">\(\beta_{6,Alberta}\)</span> is the difference of
 <ol start="7" type="1">
 <li>Do returns to education increase when people are entrepreneurs? Explain why or why not with reference to the regression estimates.</li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-From the above results of regression, owning a business increases 1.29 million dollars wealth on average. But the estimates of returns to education for being an entrepreneur or not is not significant. Thus we cannot conclude how education will affect the returns of entrepreneurs.
-
 <p>A topic that many labour economists are concerned with, and one that we have discussed before, is the gender-wage gap. In this activity, we will construct a “difference-in-difference” regression to explore this gap using the <code>SFS_data2</code>.</p>
 <p>Suppose that we want to estimate the relationship between age, sex and wages. Within this relationship, we suspect that women earn less than men from the beginning of their working lives, <strong><em>but this gap does not change as workers age</em></strong>.</p>
 <p>Estimate a regression model (with no additional control variables) that estimates this relationship using <code>SFS_data2</code>. We will use <code>income_before_tax</code> variable. Order: list <code>gender</code> before <code>agegr</code>.</p>
@@ -1047,12 +1017,6 @@ From the above results of regression, owning a business increases 1.29 million d
 <ol start="9" type="1">
 <li>What is the relationship between age and wages? Between sex and earnings? Is there a significant wage gap? Why might the regression above not give us the “full picture” of the sex wage gap?</li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-Income before tax of households increase as main earners become older, and the peak arrives at their 50s. Female-lead households generally earn 34,852 dollars less than male-lead households. This regression does not provide us the “full picture” of sex wage gap, because the gender gap may change when people age.
-</details>
 <p>Now, estimate the relationship between wages and age for male-lead households and female-lead households separately, then compare their returns to age. Let’s continue to use <code>income_before_tax</code></p>
 <p>Tested objects: <code>reg3M</code> (for males), <code>reg3F</code> (for females).</p>
 <div class="cell question">
@@ -1068,12 +1032,6 @@ Income before tax of households increase as main earners become older, and the p
 <ol start="12" type="1">
 <li>Do these regression estimates support your argument? Explain.</li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-Yes, these regression estimates support our hypothesis. First of all, for both male-lead and female-lead households, incomes increase as main earners become older, and the peak appears at their 50s. Second, there is a gender-wage gap in which female-lead households earn less. But the gap changes as age changes.
-</details>
 <p>Add one additional term to the multiple regression that accounts for the possibility that the sex wage gap can change as workers age. Please list gender before age.</p>
 <p>Tested Objects: <code>reg4</code>.</p>
 <div class="cell question">
@@ -1086,12 +1044,6 @@ Yes, these regression estimates support our hypothesis. First of all, for both m
 <ol start="14" type="1">
 <li>According to the regression you estimated above, what is the nature of the sex wage gap?</li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-Generally speaking, the gender-income gap increases when workers become older. And the gender-income gap is widest at their 40s.
-</details>
 <p>Now, suppose that a team of researchers is interested in the relationship between the price of a popular children’s chocolate brand (let’s call it “Jumbo Chocolate Egg”) and its demand. The team conducts a series of surveys over a five-year period where they ask 200 households in a Vancouver neighborhood to report how many packs of Jumbo Chocolate Egg they bought in each quarter of the year. The company that produces Jumbo Chocolate Egg is interested in estimating the price elasticity of demand for their chocolate, so they changed the price of a pack of chocolate each quarter over this period. This survey is voluntary - the team went door-to-door to gather the data, and people could refuse to participate.</p>
 <p>After they compile a dataset from the survey responses, the team estimates this model:</p>
 <p><span class="math display">\[
@@ -1100,45 +1052,51 @@ Q_i^2 = \alpha_1 + \alpha_2 ln(P_i) + \alpha_3 H_i + \epsilon_i
 <p><span class="math inline">\(Q_i\)</span> denotes the quantity of chocolate packs that household <span class="math inline">\(i\)</span> purchased in a given quarter of a given year. That is, each quarter for a given household is a separate observation. <span class="math inline">\(P_i\)</span> is the price of the pack of chocolate in the given quarter, and <span class="math inline">\(H_i\)</span> is the household size (in number of people). Note that <span class="math inline">\(\hat{\alpha_2}\)</span> is <em>supposed to be</em> the estimated elasticity of demand.</p>
 <p>You join the team as a research advisor - in other words, you get to criticize their project and get paid doing so. Sounds great, but you have a lot of work ahead.</p>
 <ol start="15" type="1">
-<li>Are there any omitted variables that the team should be worried about when estimating the model? Give 2 examples of such variables if so, and explain how each variable’s omission could affect the estimated elasticity of demand.</li>
+<li><p>Are there any omitted variables that the team should be worried about when estimating the model? Give 2 examples of such variables if so, and explain how each variable’s omission could affect the estimated elasticity of demand.</p></li>
+<li><p>Is there anything wrong with the specification of the regression model? If so, explain how to correct it; if not, explain why the specification is correct.</p></li>
+<li><p>Is there any potential for sample selection bias in this study? Explain by referencing specific aspects of the experiment. What effect might this bias have on the estimated elasticity of demand?</p></li>
+<li><p>A member of your team writes in the research report that “this estimated elasticity of demand tells us about the preferences of consumers around Canada.” Do you have an issue with this statement? Why or why not?</p></li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-<p>There are omitted variables, for example, age of kids and a dummy variable which represents Christmas and New Year. Omitting Christmas and New Year dummy will decrease <span class="math inline">\(|\hat{\alpha}_{2}|\)</span>, because people buy more chocolates during Christmas, even if price of chocolate is high. Controlling Christmas dummy will recover the real elasticity of demand, which is a larger real <span class="math inline">\(|\alpha_{2}|\)</span>.</p>
-When kids are young, they tend to consume more chocolates. Thus parts of the variations of consumption come from ages of kids. Without controlling for ages, the estimated elasticity is not reliable.
-</details>
+</section>
+<section id="solutions" class="level3">
+<h3 class="anchored" data-anchor-id="solutions">Solutions</h3>
+<ol type="1">
+<li><span class="math inline">\(\beta_5\)</span> is the difference of ‘value-added’ of education between female-lead household and male-lead household. <span class="math inline">\(\beta_6\)</span> is the difference of province effects between female-lead household and male-lead household.</li>
+</ol>
+<p>These interaction terms provide us with a simple way to describe and study how <em>combinations</em> of our explanatory variables impact our model. With these interaction terms, we can understand how education and geography affect wealth of male-lead and female-lead households differently.</p>
+<p>2-3. Coding exercises.</p>
+<ol start="4" type="1">
+<li>It means if the main earner is a female with a university degree, the household accumulates 302,008 dollars less wealth, than the male counterpart. University degree holders are most discriminated, because <span class="math inline">\(|\hat{\beta_5}|\)</span> is higher than <span class="math inline">\(|\hat{\beta_2}|\)</span>.</li>
+</ol>
+<p>One possible explanation is that males with university degree are more likely to become managers or other higher level employees than females. The inequality in incomes lead to the inequality in wealth.</p>
+<ol start="5" type="1">
+<li>Average wealth for female-lead family: <span class="math inline">\(E[wealth|female]=\beta_{1}+\beta_{2}=455918-87277\)</span></li>
+</ol>
+<p>Average wealth for male-lead family in Alberta: <span class="math inline">\(E[wealth|male,Alberta]=\beta_{1}+\beta_{4,Alberta}=455918+502683\)</span></p>
+<p>Average wealth for female-lead family in Alberta: <span class="math inline">\(E[wealth|female,Alberta]=\beta_{1}+\beta_{2}+\beta_{4,Alberta}+\beta_{6,Alberta}=455918-87277+502683-105798\)</span></p>
+<p>Thus <span class="math inline">\(\beta_{6,Alberta}\)</span> is the difference of wealth when living in Alberta between female-lead household and male-lead household.</p>
+<ol start="6" type="1">
+<li><p>Coding exercise</p></li>
+<li><p>From the above results of regression, owning a business increases 1.29 million dollars wealth on average. But the estimates of returns to education for being an entrepreneur or not is not significant. Thus we cannot conclude how education will affect the returns of entrepreneurs.</p></li>
+<li><p>Coding exercise.</p></li>
+<li><p>Income before tax of households increase as main earners become older, and the peak arrives at their 50s. Female-lead households generally earn 34,852 dollars less than male-lead households. This regression does not provide us the “full picture” of sex wage gap, because the gender gap may change when people age.</p></li>
+</ol>
+<p>10-11. Coding exercises</p>
+<ol start="12" type="1">
+<li><p>Yes, these regression estimates support our hypothesis. First of all, for both male-lead and female-lead households, incomes increase as main earners become older, and the peak appears at their 50s. Second, there is a gender-wage gap in which female-lead households earn less. But the gap changes as age changes.</p></li>
+<li><p>Coding exercise.</p></li>
+<li><p>Generally speaking, the gender-income gap increases when workers become older. And the gender-income gap is widest at their 40s.</p></li>
+<li><p>There are omitted variables, for example, age of kids and a dummy variable which represents Christmas and New Year. Omitting Christmas and New Year dummy will decrease <span class="math inline">\(|\hat{\alpha}_{2}|\)</span>, because people buy more chocolates during Christmas, even if price of chocolate is high. Controlling Christmas dummy will recover the real elasticity of demand, which is a larger real <span class="math inline">\(|\alpha_{2}|\)</span>.</p></li>
+</ol>
+<p>When kids are young, they tend to consume more chocolates. Thus parts of the variations of consumption come from ages of kids. Without controlling for ages, the estimated elasticity is not reliable.</p>
 <ol start="16" type="1">
-<li>Is there anything wrong with the specification of the regression model? If so, explain how to correct it; if not, explain why the specification is correct.</li>
+<li><p>The dependent variable should be <span class="math inline">\(ln(Q_{i})\)</span> instead of <span class="math inline">\(Q_{i}^{2}\)</span>.</p></li>
+<li><p>There is sample selection bias, because people could refuse to participate. This means people who responded might be households who like Jumbo Chocolate Egg brand, and the estimated elasticity <span class="math inline">\(|\hat{\alpha}_{2}|\)</span> is smaller than the real elasticity among general population.</p></li>
+<li><p>The result cannot represent the whole Canada, because participants were from a single neighborhood in Vancouver.</p></li>
 </ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-The dependent variable should be <span class="math inline">\(ln(Q_{i})\)</span> instead of <span class="math inline">\(Q_{i}^{2}\)</span>.
-</details>
-<ol start="17" type="1">
-<li>Is there any potential for sample selection bias in this study? Explain by referencing specific aspects of the experiment. What effect might this bias have on the estimated elasticity of demand?</li>
-</ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-There is sample selection bias, because people could refuse to participate. This means people who responded might be households who like Jumbo Chocolate Egg brand, and the estimated elasticity <span class="math inline">\(|\hat{\alpha}_{2}|\)</span> is smaller than the real elasticity among general population.
-</details>
-<ol start="18" type="1">
-<li>A member of your team writes in the research report that “this estimated elasticity of demand tells us about the preferences of consumers around Canada.” Do you have an issue with this statement? Why or why not?</li>
-</ol>
-<details>
-<summary>
-Show/Hide Solution
-</summary>
-The result cannot represent the whole Canada, because participants were from a single neighborhood in Vancouver.
-</details>
 
 
-</details></section>
+</section>
 </section>
 
 </main> <!-- /main -->
