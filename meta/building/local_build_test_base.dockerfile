@@ -7,14 +7,14 @@ FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app
 
-# Install system dependencies (Remember to add package numbers later)
+# Install system dependencies with versions
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    gdebi-core \
-    libgl1 \
-    libglx-mesa0 \
-    libxt6 \
-    python3-pip \
+    curl=7.81.0-1ubuntu1.20 \
+    gdebi-core=0.9.5.7+nmu6 \
+    libgl1=1.4.0-1 \
+    libglx-mesa0=23.2.1-1ubuntu3.1~22.04.3 \
+    libxt6=1:1.2.1-1 \
+    python3-pip=22.0.2+dfsg-1ubuntu0.5 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
