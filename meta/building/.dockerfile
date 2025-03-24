@@ -1,5 +1,4 @@
 # syntax=docker/dockerfile:1.4
-ARG BUILDPLATFORM
 FROM --platform=$BUILDPLATFORM alexr951/testing_comet:test AS builder
 #FROM --platform=$BUILDPLATFORM jlgraves/comet-test:test AS builder (Change after it works for me)
 
