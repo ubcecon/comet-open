@@ -544,7 +544,7 @@ print(f"Number of edges in subgraph: {len(G_sub.edges())}")
 
 This demonstration is not perfect, when the code is ran locally it works much better with the edges rendering. Below is a screenshot from my own machine showing how it would would look locally. 
 
-![Locally rendered Map of our dataset](media\example_map.png){width=80% fig-alt="Network"}
+
 
 On this map you can pan, zoom, hover over nodes, and use the box and lasso select tools. 
 
