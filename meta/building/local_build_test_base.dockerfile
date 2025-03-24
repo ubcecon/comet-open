@@ -4,7 +4,7 @@ FROM --platform=$BUILDPLATFORM rocker/r-ver:4.3.1 AS base
 
 WORKDIR /app
 
-# Add cache optimization under WORKDIR /app
+# Add cache optimization under WORKDIR /app and install main packages
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     curl=7.81.0-1ubuntu1.20 \
