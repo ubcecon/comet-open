@@ -1,0 +1,70 @@
+---
+title: 0.4 - Introduction to Python
+author: COMET Team <br> _Jane Platt_
+date: TBD
+description: 'This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don''t get overwhelmed! Remember, you can always review this later!'
+categories: [basics, getting started, data types, data structures, introduction, dataframes, variables, operations, functions, Python]
+format:
+  html: default
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: Python 3 (ipykernel)
+        language: python3
+        name: python3
+jupyter: python3
+---
+
+## Series
+One column
+
+## DataFrames
+Many columns
+
+## Exploring data
+.shape()
+.columns()
+.info()
+.tail()
+.head()
+
+## Reading and writing tabular data
+.read_csv()
+### Access data
+.iloc()
+.loc()
+.iat()
+.at()
+
+## Set values
+You can use iloc, loc, iat, and at
+Creating a new column based on an existing one (show some examples)
+
+## Filtering 
+.drop()
+constellate and get_metadata
+
+Missing values: use .info() & .isna() to check, .dropna() & .fillna() to handle
+
+Conditionals: & (all required to true), | (or, if any are true), ~ (not)
+
+## Indexing a dataframe
+Setting: .set_index()
+Sorting: .sort_index()
+         .sort_values()
+Resetting: .reset_index()
+
+## Merging
+.merge() -- outer join, left outer join, right outer join, suffixes
+
+## Concatenating
+.concat()
+
+## Duplicates and unique values
+.drop_duplicates()
+.unique()
+
+## Vectorized operations
+broadcasting -- .upper(), .lower(), .isaplha(), .startswith(), .split(), .str()
+
+.apply(), .where()
