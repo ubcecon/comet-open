@@ -9,12 +9,13 @@ COPY ./meta/building/renv.lock ./project ./
 
 RUN mkdir output
 
-# Add Homebrew suppression (safe for Windows)
+# Environment configuration
 ENV HOMEBREW_NO_ENV_HINTS=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
+ENV QUARTO_PYTHON=/usr/bin/python3
 
-# Modified Quarto render command with optimizations
-RUN QUARTO_PYTHON=/usr/bin/python3 quarto render --output-dir output --no-cache-refresh
+# Quarto render with validated parameters
+RUN quarto render --output-dir output --cache
 
 # Final stage
 FROM --platform=$TARGETPLATFORM nginx:alpine  
