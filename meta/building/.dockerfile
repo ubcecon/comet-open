@@ -15,15 +15,17 @@ ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 ENV QUARTO_PYTHON=/usr/bin/python3
 ENV QUARTO_EXECUTE_NUM_THREADS=2
 
-# Install compatible dependencies
-RUN python3 -m pip install "jupyter-cache>=0.6" "nbclient>=0.8,<1.0"
+# Install compatible dependencies with version pinning
+RUN python3 -m pip install \
+    "jupyter-core>=5.0" \
+    "nbclient>=0.8,<0.9" \
+    "jupyter-cache>=0.6,<0.7"
 
-# Quarto render with optimized parameters
+# Quarto render with validated parameters
 RUN quarto render --output-dir output \
-    --execute-daemon 300 \
-    --kernel python3 \
+    --execute-daemon 600 \
     --cache
-    
+
 # Final stage
 FROM --platform=$TARGETPLATFORM nginx:alpine  
 COPY --from=builder --chown=nginx:nginx /app/output /usr/share/nginx/html  
