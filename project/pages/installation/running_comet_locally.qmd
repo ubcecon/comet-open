@@ -87,6 +87,9 @@ docker run -d -p 8080:80 comet-local:latest
 
 This will run the image inside of a container which can then be viewed with the URL `http://localhost:8080`. Open a browser and type in this URL, you will see the COMET Website displayed locally with all of the notebooks rendered. 
 
+## 2.0 Mac
+
+This process is more difficult on Mac this is because if you have a Mac with a Silicon chip (M Series Chip) it uses ARM64 Architecture as opposed to AMD64 like Windows. Docker works far better on AMD64 and most image creation on Mac is emulating AMD64 from ARM64 which takes longer and is far more unstable when doing intensive tasks (like rendering hundreds of notebooks with Quarto). This has been tested working on a `Macbook M3 Pro with 18gb of RAM running MacOS Sequoia 15.3` and the build took ~50 minutes to complete.
 
 ## 2.1 Cloning the Github Repository (Mac)
 On Mac, Git can be preinstalled. If it is not yet installed, then we will be following the instructions on the [Official Git Website](https://git-scm.com/downloads/mac). First, we will install [Homebrew](https://brew.sh/). To do this, open a terminal (press `Command` + `Space` and search `Terminal`) and paste in the command below.
@@ -133,6 +136,10 @@ At the top, click on `File -> Clone Repository` and in the URL tab enter https:/
 
 Go to the [Docker Website](https://www.docker.com/). Once there, press `Download Docker Desktop` and select `Download for Mac` for the correct chip archetype (Intel or Apple Silicon). If you are unsure which chip your Mac has, you can check under `About This Mac`. Once downloaded, open the `.dmg` file and drag the Docker icon to your Applications folder. Then open Docker Desktop from your Applications folder. To complete the installation of Docker Desktop, select `Use recommended settings`, then type your password and then wait for Docker to start. You'll see the whale icon in your menu bar when it's ready.
 
+## 2.2 Configuring Docker
+
+In order to build the image we have to change some setting in the Docker app. First open the Docker application and navigate to settings (Gear Icon). Under General: Disable "Use Rosetta for x86/amd64 emulation." Once that is done go to resources for the successful build I had 12GB of Ram, 8 cores of CPU and 4GB of Swap Space allocated, I recommend this, but it might differ from computer to computer. 
+
 ## 2.3 Build COMET Locally
 
 Next, navigate to the folder where you cloned the `comet-open` directory and copy the path to the `comet-open` folder. You can do this by right-clicking on the folder and clicking `copy`. Then, open your Terminal again (`Command` + `Space` and search for Terminal), and change the directory using `cd` to the path to the folder. It should look something like this: 
@@ -149,6 +156,8 @@ git branch
 
 This will list out which branches are available, and there will be a `*` next to the branch that you are on. If you are not already on the main branch, this command will swap you back to it:
 
+**If you have instructions to build on a specific branch for example local_build_dockerfile then simply replace main with the branch name. The command becomes git switch local_build_dockerfile**
+
 ```{bash}
 git switch main
 ```
@@ -156,12 +165,10 @@ git switch main
 Next, run the following command, but **be sure to change the path to YOURS!!! And made sure to set YOUR platform - this should be arm64 or amd64 depending on your Mac.**
 
 ```{bash}
-docker build --platform=linux/amd64 -t comet-local:latest -f /Users/Path/to/your/comet-open/meta/building/.dockerfile .
-
-docker build --platform=linux/amd64 -t comet-local:latest -f meta/building/.dockerfile .
+docker buildx build --platform linux/arm64 -f ./meta/building/.dockerfile -t comet-main:local --load .
 ```
 
-This will build the image for COMET locally. This process will take some time (~10 minutes), so be patient! Once it is completed, you will have a local image of the COMET website called `comet-local` with the tag `latest`. At this point you are almost done
+This will build the image for COMET locally. This process will take a long time (~50 minutes), so be patient! Once it is completed, you will have a local image of the COMET website called `comet-local` with the tag `latest`. At this point you are almost done
 
 Next run the command 
 ```{bash}
