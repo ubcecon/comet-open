@@ -14,8 +14,9 @@ ENV HOMEBREW_NO_ENV_HINTS=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 ENV QUARTO_PYTHON=/usr/bin/python3
 
-# Quarto render with validated parameters
-RUN quarto render --output-dir output --cache
+# Install jupyter-cache and configure execution
+RUN python3 -m pip install jupyter-cache && \
+    quarto render --output-dir output --cache
 
 # Final stage
 FROM --platform=$TARGETPLATFORM nginx:alpine  
