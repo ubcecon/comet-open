@@ -13,17 +13,17 @@ RUN mkdir output
 ENV HOMEBREW_NO_ENV_HINTS=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 ENV QUARTO_PYTHON=/usr/bin/python3
-ENV QUARTO_EXECUTE_NUM_THREADS=2  
+ENV QUARTO_EXECUTE_NUM_THREADS=2
 
-# Install dependencies with explicit versions
-RUN python3 -m pip install jupyter-cache==0.5.0 nbclient==0.10.0
+# Install compatible dependencies
+RUN python3 -m pip install "jupyter-cache>=0.6" "nbclient>=0.8,<1.0"
 
-# Quarto render with kernel specification and no cache
+# Quarto render with optimized parameters
 RUN quarto render --output-dir output \
     --execute-daemon 300 \
     --kernel python3 \
-    --no-cache
-
+    --cache
+    
 # Final stage
 FROM --platform=$TARGETPLATFORM nginx:alpine  
 COPY --from=builder --chown=nginx:nginx /app/output /usr/share/nginx/html  
