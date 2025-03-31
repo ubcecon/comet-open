@@ -1,4 +1,4 @@
-#Testing the Advanced Task 2025-03-29 
+#Building the website with the advanced task 2025-03-31
 name: Build and Deploy
 on:
   workflow_dispatch:
@@ -78,7 +78,6 @@ jobs:
             --exclude '*' \
             source-notebooks/project/docs/ final-notebooks/docs/
   
-
           for dir in 1_Getting_Started 2_Beginner 3_Intermediate 4_Advanced 5_Research 6_Projects; do
             section=$(echo "$dir" | cut -d'_' -f2- | tr '[:upper:]' '[:lower:]')
             dataset_dir="datasets/project/docs/$dir/datasets_${section}"
@@ -93,11 +92,24 @@ jobs:
 
           echo "dir=$(pwd)/final-notebooks" >> $GITHUB_OUTPUT
 
+      - name: Create master ZIP of all notebooks
+        run: |
+          cd final-notebooks
+          zip -r ../all-notebooks.zip docs
+          echo "Created all-notebooks.zip with all notebook categories"
+
       - name: Upload notebooks artifact
         uses: actions/upload-artifact@v4
         with:
           name: notebooks
           path: ${{ steps.prep.outputs.dir }}
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-notebooks-zip
+          path: all-notebooks.zip
+          if-no-files-found: error
 
       - name: Print directory structure
         run: |
