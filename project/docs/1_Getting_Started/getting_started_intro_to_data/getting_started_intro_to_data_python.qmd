@@ -68,3 +68,8 @@ Resetting: .reset_index()
 broadcasting -- .upper(), .lower(), .isaplha(), .startswith(), .split(), .str()
 
 .apply(), .where()
+
+## Group by / aggregate / pivot for summary statistics
+groupby()
+agg()
+.pivot_table()
