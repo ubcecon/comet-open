@@ -3,17 +3,7 @@ title: 0.4 - Introduction to Python
 author: COMET Team <br> _Jane Platt_
 date: TBD
 description: 'This notebook introduces you to the fundamental concepts in Python. It might be a little complex for a start, but it covers basically all of the fundamental syntax you need to know in later notebooks. Don''t get overwhelmed! Remember, you can always review this later!'
-categories:
-  - basics
-  - getting started
-  - data types
-  - data structures
-  - introduction
-  - dataframes
-  - variables
-  - operations
-  - functions
-  - python
+categories: [basics, getting started, data types, data structures, introduction, dataframes, variables, operations, functions, Python]
 format:
   html: default
   ipynb:
@@ -42,198 +32,75 @@ jupyter: python3
 
 In this notebook, we will be introducing **Python**, which is a programming language designed for use in data science and analysis.  If you are familiar with other programming languages, such as R, this will likely be very familiar to you - if this is your first time coding, don't be intimidated!  Try to play around with the examples and exercises as you work through this notebook; it's easiest to learn to program in Python by trying things for yourself.
 
-## Part 1: Basic Programming Concepts
+## Part 0: Basics
 
-To begin, we'll go over the most basic concepts used in Python. Specifically, we will look at variable assignment and functions. Later we will go over the different things that can go into functions and variables, but it will be important to first grasp how they work. 
+This section will go over some Python basics. If you have already coded before, say in Stata or R, then this section will be very straightfoward. If not, don't worry! The point of this section is simply to learn some basic elements of coding get a bit more comfortable with the language.
 
-### 1.1 Variable Assignment
+### 0.1: Variables
 
-Variable assignment is fairly self explanatory: we will assign a value to a variable that we can then use for our analysis.
+In all coding languages, we will often work with **variables**. These variables store information of many different types. For example, as we saw before, they can hold strings, integers, real numbers... 
 
-To assign a value to a variable, we put the variable name on the left and the value on the right, as such: 
-
-```{python}
-variable = "value"
-```
-
-Now, Python will remember this assignment for the rest of our Python session (the time we're running code without closing Python). If you quit and close the session, Python will not remember that we assigned the value `value` to `variable`. 
-
-Now if we run `variable`, it'll output `value` just like we told it to!
+To create a variable, we need to use an assignment statement: 
 
 ```{python}
-variable
+new_variable = 1
 ```
 
-If we don't assign a value to our object, Python will return an error. Try it for yourself below.
+If we reassign a new value to our variable, the original value will be overwritten and lost. 
 
 ```{python}
-x
+new_variable = 10
 ```
 
-This is because we haven't *defined* our variable. When Python reads our code, it reads from right to left. So it will first read the value we picked (originally `value`), and then the computed value is stored in our object (`variable`). In the previous case, we didn't define `x` (there is no value attached, no equal sign), so Python was not able to interpret what we meant by "x". 
-
-We can change how we define different variables as much as we would like. For example, if we were to run:
+We can use the variable in the creation of other variables as well!
 
 ```{python}
-variable = 10
+number_100 = new_variable * new_variable
 ```
 
-we've now changed our variable to store the value `10`. Notice that we can change the type of variable we are working with (from string to numeric). Now if we run `variable`, we will see a different output:
+This also works for strings and is called **concatenating**. See below:
 
 ```{python}
-variable
+string_var = "Good"
+string_var + "Morning!"
 ```
 
-Python only keeps the most recent assignment, so if you change the value your variable holds, Python won't keep track of what you had put before. That's why it is useful to keep track of what you're working on using **comments** within your code. 
+There are some basic rules for naming your variables:
 
-### 1.2 Comments
+- Spaces are not allowed
+- Only letters, numbers, and underscores are allowed
+- Variable names cannot start with a number
 
-Comments are a common concept found in all coding languages. These are little notes that we are able to leave in our code that won't affect our outputs, but that allow us to keep track of what we've been doing. 
+## Part 1: Manipulating Data
 
-To leave a comment in Python, just include `#` at the beginning of your comment. Python ignores everything that comes *after* a #. See some examples below:
+To begin, we'll go over the most basic concepts used in Python. We'll look at how data is stored in objects, what we can do to these objects, and how to work with larger data structures.  
 
-```{python}
-first_name = "your first name" # Enter your first name here!
-last_name = "your last name" # Enter your last name here!
-
-# colour = "pick a colour"
-
-print(first_name + ' ' + last_name)
-```
-
-Notice how the comment we left to the right of the first two lines do not affect the code. We are able to print `first_name` and `last_name` without any issues. Try printing `colour`, though.
-
-print(colour)
-
-Notice how this doesn't work? Recall that Python doesn't read anything to the right of the `#`. Because we put the `#` at the beginning of the line, Python did not read the line where we created the variable `colour`. If we wanted to create this variable, we would have to remove the `#`. Try doing that and see what pops up when you run `print(colour)`!
-
-## Part 2: Objects and Types
+### 1.1: Object Types
 
 As always when learning a new language, it's important to get a good grasp of the different **object types** in Python and how to use them. Whenever we work with Python, we will be manipulating different kinds of information, which is referred to as an "object". In Python, objects can contain both data and functions we can use on our data. These functions are sometimes called **methods**. 
 
-We can take a look at what an object holds, oth in terms of data and methods, by typing `.` after the object's name and hitting `tab`. This is typically called *tab completion* or *introspection*. Doing this will list out a few different options that you can scroll through. See below:
+Python has 3 main data types. The **type** of data will determine what kinds of methods and functions we can perform. Therefore, it will be important to keep track of what type of data we are working with!
 
-![](media/introspection.png)
+The three types of data in Python are:
 
-Try doing this yourself below. Try to find the method `split`. Once you have found it, you can use the method by adding parentheses after it. 
+1. **Numbers**, which can either be *integers* (known as `int` in Python) or *floating point numbers* (known as `float` in Python). Integers can only take on the values of integers, and floats can be any real number. The easiest way to tell the difference between these two types of numbers is the presence of a decimal point. Integers do not have decimals, floats do.
+2. **Strings**, which store all text data (known as `str` in Python). For data to be stored as a string, it must be written within quotation marks. Both `" "` and `' '` work!
+3. **Booleans**, which simply denote true or false. They will be useful later on, when we start working with operations.
+4. **Methods**, which are *functions* we can use on our data. 
 
-```{python}
-full_name = "enter your name"
-full_name
-```
+To figure out what type of object we are working with, we can use the `type()` function. We will see some examples in a bit.
 
-Can you tell what this method does? 
+We can take a look at what an object holds, in terms of data and methods, by typing `.` after the object's name and hitting `tab`. This is typically called *tab completion* or *introspection*. Doing this will list out a few different options that you can scroll through. See below:
 
-Another common thing we will want to do with variables and objects is find out their **type**. The **type** of data will determine what kinds of methods and functions we can perform. We will go over each type in depth at a later stage. To figure out what type of object we are working with, we can use the `type()` function. This is a simple function where the input (what goes in between the parentheses) is the object we want to study. Let's try below with the variable `first_name`. 
+![Introspection](media/introspection.png)
 
-```{python}
-type(first_name)
-```
+#### Working with Numbers 
 
-The variable `first_name` is a **string** (`str`). We will look at what that means a bit later. 
+The first thing we can do in Python is basic math. When our variables are numbers (either `int` or `float`), we can easily use Python to add, subtract, and divide numbers (there are many more things Python can do!). Whenever possible, Python will return an integer type for operations between integers, but any operation involving a float will result in a float. 
 
-### 2.1. Numbers
+Python also allows us to do multiple operations in one line. As you would expect, it follows the standard order of operations PEMDAS (parentheses, exponents, multiplication, division, addition, subtraction). 
 
-The first type of data we will look at is **numbers**. Python has two types of numbers.
-
-1. Integers, known as `int` in Python, can only take the values of integers: `{... -157, ..., -1, 0, 14, 267, ...}`.
-2. Floating Point Numbers, known as `float`, can be any real number, such as `-1.5435, 3.14, 12, -10234.4573835`.
-
-The easiest way to tell the difference between these two types of numbers is the presence of a decimal point. Integers do not have decimals, floats do. Below, we will create some `int` and `float` variables.
-
-```{python}
-x_int = 1 
-x_float = 1.0
-z_int = 123
-z_float = 1230.5  
-z_float2 = 1_230.5  # Note that if we want to use commas to separate larger numbers 
-                    # (e.g. to indicate the thousands), we use an underscore _ instead of a comma.
-```
-
-### 2.2 Strings
-
-Strings store all text data. For data to be stored as a string, it must be written within quotation marks. For example, 
-
-```{python}
-"this is a string" # quotation marks!
-'this is also a string' # ' ' also works! 
-this is not a string # do you see the syntax warning?
-```
-
-As we saw above when learning the `type()` function, Python identifies strings as `str`. You can see this again below: 
-
-```{python}
-type(first_name)
-```
-
-### 2.3 Booleans
-
-Booleans are the last data type we will look at. Booleans simply denote true or false. They will be useful later on, when we start working with operations. For now, let's create some booleans and see what they look like.
-
-```{python}
-x = True # notice how we aren't putting True in quotation marks. What do you think would happen if we did?
-y = False 
-```
-
-```{python}
-type(x)
-```
-
-```{python}
-x
-```
-
-```{python}
-y
-```
-
-## 3. Operations
-
-We'll now take a look at different operations or functions we can run in Python. Many functions are type-dependent, meaning they only work for certain variable types, so we will go through each type and their associated functions.
-
-### 3.1. Operations on Numbers
-
-#### Python as a calculator
-
-The first thing we can do in Python is basic math. When our variables are numbers (either `int` or `float`), we can easily use Python to add, subtract, and divide numbers (there are many more things Python can do!). Let's give this a try below. 
-
-```{python}
-a = 12
-b = 2
-
-print(a + b) # We ask Python to print all the answers so we can see everything. 
-print(a - b) # Otherwise, Python would only show us the most recent result.
-print(a * b)
-print(a / b)
-print(a ** b) # Note that Python uses ** for exponentiation. 
-```
-
-Did you notice that Python returned an integer for almost every operation? It did however convert the answer to a float for the division operation. Whenever possible, Python will return an integer type for operations between integers, but any operation involving a float will result in a float. See below
-
-```{python}
-a = 12.0
-b = 2
-
-print(a + b) 
-print(a - b) 
-print(a * b)
-print(a / b)
-print(a ** b)
-```
-
-Python also allows us to do multiple operations in one line. As you would expect, it follows the standard order of operations PEMDAS (parentheses, exponents, multiplication, division, addition, subtraction). We'll try this below - what do you think c and d will be? You can check your answers by using the `print()` function. 
-
-```{python}
-a = 4
-b = 7
-
-c = a - b / b
-d = (a - b) / b
-```
-
-#### Other math functions
-
-If we want to use other math functions, such as taking the sine or cosine of a number, we need to use the `math` package. As we learned earlier, to use a package, we write the package name (or our nickname for it) followed by a `.` and then we can click [TAB] to look through the available functions. So, if we wanted to take sin(2), we would do the following:
+If we want to use other math functions, such as taking the sine or cosine of a number, we need to use the `math` package. We will look at this more in detail later, but to use a package, we write the package name followed by a `.` and then we can click [TAB] to look through the available functions. So, if we wanted to take sin(2), we would do the following:
 
 ```{python}
 import math # don't forget to import the package first!
@@ -241,52 +108,20 @@ import math # don't forget to import the package first!
 math.sin(2)
 ```
 
-#### Floor and Modulus Division
-
 The last mathematical operation we will look at is floor and modulus division. This relates to division concepts we learned when initially going through division: quotients and remainders. Let's say we are dividing `x` by `y`, two numbers.  
 
 - Floor division: `x // y` will return the quotient, or the number of times the divisor goes into the dividend. 
 - Modulus division: `x % y` will return the remainder. 
 
-Let's try it below. Can you figure out what the operations will return if x is 44 and y is 7? 
-
-```{python}
-x = 44
-y = 7
-
-#print(x // y) #uncomment to check your answers
-#print(x % y)
-```
-
-### 3.2. Operations on Strings
-
-#### Arithmetics
+#### Working with Strings
 
 Some of the arithmetic operations we learned above can also be used for strings. 
 - We can put two strings together by using `+`
 - We can repeat a string `n` times by writing `n*variable`
 
-Let's try this below!
+Note that if we were to try to use `*`, `-`, or `/` with strings, Python would return an error. 
 
-```{python}
-x = "Good"
-y = "Morning"
-
-print(x + y)
-print(3 * x )
-```
-
-Note that if we were to try to use `*`, `-`, or `/` with strings, Python would return an error. You can see for yourself below.
-
-```{python}
-#x * y # uncomment and run these lines to see the error message
-#x - y 
-#x / y
-```
-
-#### String methods (operations)
-
-There are a ton of different operations we can perform on strings. We won't be able to look at the all in this notebook, but again if you want to take a look, simply type a `.` after the variable and press [TAB]. You can then scroll through some of the methods. 
+There are a ton of different non-arithmetic operations we can perform on strings. We won't be able to look at the all in this notebook, but again if you want to take a look, simply type a `.` after the variable and press [TAB]. You can then scroll through some of the methods. 
 
 We'll list out a few of the essential methods below. These are ones that you will frequently see when working with textual data.
 
@@ -300,11 +135,9 @@ print(x.count("o")) # counts how many times a particular string appears
 print(x.count("ing"))
 ```
 
-#### String Formatting
-
 The next operation we'll look at involves repeating strings. 
 
-Let's say we have a dataset that contains many dates and the weather, and we want to write a sentence saying "Month Day, Year was X", where "Month" would be the month, "Day" would be the date, "Year" would be the year and "X" would be the weather. We can do this easily with **string formatting**, which allows us to use a generic **placeholder** to replace each individual value of the variable. To do so, we would replace the specific value we are thinking of with the variable name, in squiggly brackets `{}`, when we are writing out the sentence. Let's take a look at an example.
+Let's say we have a dataset that contains many dates and the weather, and we want to write a sentence saying "Month Day, Year was X", where "X" would be the weather. We can do this easily with **string formatting**, which allows us to use a generic **placeholder** to replace each individual value of the variable. To do so, we would replace the specific value we are thinking of with the variable name in squiggly brackets `{}` when we are writing out the sentence. Let's take a look at an example.
 
 ```{python}
 month = "January"
@@ -312,11 +145,10 @@ day = "24th"
 year = "2025"
 X = "sunny"
 
+# we include f at the beginning for Python to interpolate what is between the `{}`
 sentence = f"{month} {day}, {year} was {X}."
 print(sentence)
 ```
-
-The `f` at the beginning of the string allows Python to interpolate what is between the `{}`. 
 
 We can also use string formatting for calculations. To do so, we'd substitute the calculation we want to do into the `{}`. 
 
@@ -344,9 +176,7 @@ sentence.format(month = "February", day = "28th", year = 2016, X = "rainy")
 
 There's a lot more we can do with string formatting. If you want to learn more, you can find information [here](https://docs.python.org/3/library/string.html). 
 
-### 3.3. Operations on Booleans
-
-#### Comparisons
+#### Working with Booleans
 
 Most of the time, booleans will be created through comparison operations. For example, we might want a variable that evaluates if someone is older than 18. We would thus create a boolean which is `True` if the age of the individual is greater than 18. 
 
@@ -358,29 +188,9 @@ For two variables `x` and `y`, we can do the following comparisons:
 - Greater than or equal to: `x >= y`
 - Less than or equal to: `x <= y`
 
-We'll try this below with a simple example. Feel free to change the values to see for yourself!
-
-```{python}
-x = 1
-y = 2
-
-print("x > y is", x > y)
-print("x < y is", x < y)
-print("x <= y is", x <= y)
-```
-
-#### Negation
-
 Sometimes, we will prefer to determine if a statement is **not true** or **not false**. This is called **negating** a statement. We can negate a boolean in Python by adding the statement `not` before `True` or `False`. 
 
-```{python}
-print(not True)
-print(not False)
-```
-
-#### Multiple Comparisons using **and** / **or**
-
-Sometimes, we will want to do multiple comparisons. For example, we might want to look at all individuals who are employed **and** have children, or we might want to individuals with cars **or** bicycles. We can do this in Python using the *mathematical* **ands** and **ors**. This means that
+We might also want to do multiple comparisons. For example, we might want to look at all individuals who are employed **and** have children, or we might want to individuals with cars **or** bicycles. We can do this in Python using the *mathematical* **ands** and **ors**. This means that
 
 - `a` and `b` are `True` only when **both** `a` **AND** `b` are `True`
 - `a` or `b` is `True` when **at least one** of `a` or `b` is `True`
@@ -389,52 +199,369 @@ Using the examples above:
 - The statement "We are studying individuals who are employed *and* have children" means we will only include individuals that are both employed *AND* who have children
 - The statement "We are studying people with cars *or* bicycle" means we will look at everyone who has a car, everyone who has a bicycle, and everyone who has a car and a bicycle. 
 
-Let's test these out below. Try thinking of the answers yourself before running the code!
-
-```{python}
-True and False # do you think this will be true or false?
-```
-
-```{python}
-True and True
-```
-
-```{python}
-True or False 
-```
-
-```{python}
-False or False
-```
-
-```{python}
-# we can chain multiple comparisons!
-# order of operations will still apply
-True and (False or True) 
-```
-
-#### **all** and **any**
-
-As we saw, we can use **and** and **or** to process two booleans at a time. We can also process *all* our booleans at once!
+We can also process *all* our booleans at once!
 
 To do so, we can use the functions **all** and **any**. These functions will test all the booleans we're working on at the same time.
 
 - `all(bools)` will tell us if all the booleans in `bools` are `True`. If they are all true, Python will return `True`. If even one of them is not true, Python will return `False`. 
 - `any(bools)` will tell us if we have any booleans that are `True`. If even one of our booleans is true, Python will return `True` when running this command.
 
-## 3. Packages
+#### Switching between Object Types
+
+Sometimes, we will want to transform our variables from one type to another. 
+
+To convert a variable to a string, we use `str()`.
+
+To convert a variable to an integer, we use `int()`. 
+
+To convert a variable to a float, we use `float()`.
+
+### 1.2: Collections
+
+Often, when we are working with many different variables, we will need to store all of our objects in a larger, more complex form, called **collections** in Python. Typically, we will store these objects in either a `list[]` or a `tuple()`. These two object types contain *ordered* collections of items.
+
+The main differences between tuples and lists are:
+
+- Tuples are created using parentheses instead of square brackets -- ( ) instead of [ ]. 
+- Tuples are *immutable*, meaning they can't be changed after they are created.
+- Tuples are connected to multiple return values, which we will see later. 
+
+Lists can be converted to tuples by using the `tuple()` function on a list. Tuples can be converted to lists by using the `list()` function.
+
+#### Working with Lists
+
+Let's take a look at some of the main operations we can do with lists.
+
+- Indexing: we can **index** a list called `mylist` by using the command `mylist[i]`, where `i` is an integer. What we are doing here is selecting an element of the **collection** `mylist`. It's important to note that  **Python starts counting at ZERO!** Thus to access the first element of our list, we must write `mylist[0]`.
+   - We can combine indexing with the `type()` function to access the type of a specific entry within a list.
+- Counting: we can determine how many items are in a list using the function `len`. 
+- Containing: we can us the keyword `in` to check if a list contains a specific entry.
+- Reversing: we can reverse the list with `mylist.reverse()`.
+- Sorting: we can sort the list with `mylist.sort()`.
+    - Note that to do this, all of the elements in our list need to be either numbers (integers or floats), or all strings. If our list is all strings, `mylist.sort()` will sort the items in alphabetical order. 
+- Appending: add another element to the end of the list using `mylist.append(element)`.
+    - Note that is we append the list with another list, we add the list itself to the end rather than the numbers or strings in that list. We can *combine* lists instead using `mylist.extend()`. 
+- Range: the `range()` function is one used frequently in three ways: 
+    - `range(n)` goes from $0$ to $n-1$. 
+    - `range(a, n)` goes from $a$ to $n-1$.
+    - `range(a, n, d)` goes from $a$ to $n-1$, at the interval `d`. 
+    We can also save objects as ranges. 
+
+Although Python will let you make lists with multiple object types (e.g. strings and numbers), be warned that you may run into some additional complications. For example, how would you sort a list that has both letters and numbers? Therefore, we suggest being extra careful. 
+
+#### Working with Tuples
+
+As with lists, we can index tuples. We write the function out the same, and remember: **Python starts counting at ZERO!**
+
+#### Lists or Tuples?
+
+Which one should we use? It depends on many factors.
+
+- What types of objects you are storing;
+- Whether we want to reorder elements;
+- Whether we want to add elements later on.
+
+Let's look at an example to understand this. 
+
+Say we have an individual, Jerry, and some information on him: his age, weight, height, and favourite ice cream flavour. In this case, we would want to use a *tuple*, because the order between the elements is meaningless (i.e. we could have put Jerry's height before his weight), and adding more data would require a reinterpretation of the whole data structure (i.e. we don't know what this new element would mean!). 
+
+```{python}
+jerry_2024 = ("Jerry", 2024, 80, 183, "vanilla")
+print(jerry_2024)
+```
+
+However, if we are looking at Jerry's favourite ice cream flavour over his whole life, a *list* would be a lot more useful! Adding a new element at the end, say Jerry's favourite ice cream flavour the next year, would make sense and would not change the meaning of the dataset.
+
+```{python}
+jerry_2023_2025 = ["strawberry", "vanilla", "mint"]
+print(jerry_2023_2025)
+```
+
+Some things might be best as tuples *and* lists! For example, what if we wanted Jerry's age, weight, height, and favourite ice cream flavour *over many years*?
+
+```{python}
+jerry = [(2023, "strawberry"), (2024, "vanilla"), (2025, "mint")]
+print(jerry)
+```
+
+Overall, we suggest *always* using a list unless you *need* to use a tuple. You would need to use a tuple if:
+
+- the order of each element *cannot* change;
+- the actual values of each element *cannot* change;
+- or you want to use the collection as a key in a `dict`, which we will see soon. 
+
+#### `zip` and `enumerate`
+
+`zip` and `enumrate` are two useful functions that combine lists and tuples. 
+
+The `zip` function allows us to make a list of tuples, where each entry is a tuple. This is best understood through an example. 
+
+Let's say we have two lists, one containing years and the other containing GDPs for each year. 
+
+```{python}
+gdp = [2.161, 2.142, 2.515]
+year = [2022, 2023, 2024]
+z = zip(year, gdp)
+# let's see what's inside by converting the zip to a list
+list(z)
+```
+
+Notice now we have a list where each item is a tuple! Each tuple contains one entry from the two collections we passed into the zip function. Note that the first entry from `gdp` is matched with the first entry of `year`, and so forth. We can access an element of the zip and then unpack the resulting tuple directly into variables.
+
+The `enumerate` function assigns an index to each collection we put in the function. See the example below:
+
+```{python}
+e = enumerate(["a", "b", "c"])
+list(e)
+```
+
+See that the first element in the list is the *index* of the second element in the tuple, which is 
+
+#### Associative Collections - Dictionaries
+
+Dictionaries associate keys with values, similarly to how our dictionaries associate words to definitions. To create a dictionary, do the following:
+
+`example_dictionary = {key1: value1, key2: value2, key3: value3}`. Note the use of curly brackets here. What is crucial to recall when using dictionaries is that the syntax relies on pairs of keys and values, each separated by commas. They key is typically a string, whereas the value will be anything. 
+
+To find the value of a particular key, we use `d[k]`, where `d` is the dictionary and `k` is the particular key we want to know the value for. We can add new items to the dictionary using `d[new_key] = new_value`.
+
+There are a few common functions we will do with dictionaries.
+
+- `update()` adds new key-value pairs to the dictionary, replacing any duplicate keys with values from newdict, or combines two dictionaries
+- `keys()` checks if a key is in the dictionary or loops through keys in the dictionary
+- `values()` checks in a value is in the dictionary or loops through values in the dictionary
+- `items()` loops through the key and value pairs in a dictionary
+- `len(dict)` gives us the number of key-value pairs in the dictionary
+- `list(dict.keys())` lists out all the keys
+- `list(dict.values())` lists out all the values
+- `get()` gets the value associated with the first key. 
+
+## Part 2: Flow Control
+
+Flow control statements tell Python which lines of code to run or not to run and when. To do this, we will use **booleans** which we discussed before. 
+
+In general, flow statements will look like this:
+
+`In this case:`
+`    Do this action`
+
+Typically, to define the case(s), we use our booleans to set a condition, followed by a colon (:). Then, on an indented line, we'd write out the action we want completed. If the condition is evaluated as `True`, Python will execute the action, whereas if the condition is evaluated as `False`, Python will skip the action line. It's important to remember the indentations, because this will determine if the code will crash. If you do not indent the action, Python will assume their is no action to do following the condition, and the flow statement will crash. 
+
+### 2.1: Types of Flow Control Statements 
+
+|Statement  |  Meaning|
+|---------|------------|
+|`if` |run *if* the condition is fulfilled|
+|`elif`| run *if* no previous conditions were met *and* this condition is met (i.e., else if|
+|`else`     |run if no condition is met -- no need to specify a condition|
+|`while`|run *while* the the condition is true|
+|`for`     |run the code in a loop *for* this many times|
+|`try`   |*try* this and run the *except* action if there is an error|
+
+### 2.1.1: `if` statements
+
+The most basic flow control statement we will see is the `if` statement. 
+
+`if` statements begin with a statement that will be evaluated as true or false. **If** the statement is *true*, the Python will do the action, and **if** the statement is *false*, Python will skip this action. 
+
+Let's look at this with a very simple example. For this example, we want to create a statement that evaluates whether someone is a student or not.
+
+```{python}
+student = input('Are you a student? (Yes or No)') # here we are creating a variable student to hold the user's input in a string
+
+if student == 'Yes' or student == 'yes': # we are using an if statement: if the variable student has the input yes
+  print('Good luck in your classes!') # print a response
+```
+
+This statement will only produce an output if the user is a student. If they are not and type anything other than 'yes', the program ends. We can change this though, using what is called an `else` statement.
+
+#### 2.1.2: `else` statements
+
+`else` statements are slightly different from `if` statements. They don't require a condition: this means they run when nothing else works, no matter what. Following the example we did above, we have the block
+
+`if someone is a student:`
+`  perform this action`
+
+We can now add to this an `else` statement
+
+`else:`
+` perform this action`.
+
+What this is doing is telling Python that if the user inputs anything other than 'yes' in the variable `student` (as we defined before), we'd like Python to perform a new action. Let's see it in action!
+
+```{python}
+# we'll use the same code from above 
+student = input('Are you a student? (Yes or No)') # here we are creating a variable student to hold the user's input in a string
+
+if student == 'Yes' or student == 'yes': # we are using an if statement: if the variable student has the input yes
+  print('Good luck in your classes!') # print a response
+else:
+  print('What do you do?')
+```
+
+#### 2.1.3: `elif` statements
+
+Sometimes, we might not want the second condition to be run no matter the input: we might want the second condition to be run *specifically if another condition is satisfied*. In this case, we will want to use an *else if* statement, which is written as `elif` in Python.
+
+The `elif` statement will always come after an `if` statement and before `else` statements. You can include as many `elif` statements as you would like. Combining the three sections before, `elif` statements will look like this:
+
+`if condition A is True:`
+` perform action A`
+`elif condition B is True:`
+` perform action B`
+`else:`
+` perform action C`
+
+Remember, `else` statements do not take conditions!
+
+>**Note**: `elif` statements are read from top to bottom. This means that Python will only evalue the first `elif` statement that is true. All of the following `elif` statements will be **ignored**, even if they are true. This means that only **one** action is executed when using `elif` statements. 
+
+#### 2.1.4: `while` loops
+
+`while` loops are commands that are run repeatedly until a certain statement is evaluated as true. They are run as follows:
+
+`while this condition is True:`
+` do this action`
+
+What Python will do is evaluate the condition, and if the condition is true, it will run the action. Then, Python returns to the condition and evaluates that same condition again, continuining to do the action until the condition is evaluated as false. 
+
+Let's look at an example of this. We'll ask users to guess a number, and loop "guess again" until they get the number right.
+
+```{python}
+# let's set the number to 8
+secret_number = str(8)
+
+guess = input('pick a number from 1 to 10')
+
+# now, we check the users answer!
+while guess != secret_number: # while the guess is not equal to the secret number
+  guess = input('guess again!') # allow the user to change the number 
+
+print('Correct!')
+```
+
+>**Note**: Beware of infinite loops! These arise when the condition in the `while` loop *never* evaluates as False. To stop these loops from running forever, you'll want to interrupt the kernel. Click on **Kernel** and then **Interrupt**  the kernel. 
+
+#### 2.1.5: `for` loops using `range()`
+
+Let's say we want to repeat a loop a specific number of times. One way to do this is using the `while` loops we were discussing before. See below:
+
+```{python}
+# this loop will print out numbers from 0 to 4
+i = 0 # this counts how many loops have been completed 
+
+while i < 5:
+  print(i)
+  i = i + 1 
+```
+
+There is a simpler way to do this, however, using `for` and `range()`, we can do this in a simpler way! In general, this will look like this:
+
+`for i in range(j): `
+` do this action` 
+
+where `i` is a generic variable for counting and `j` is the number of times you want to repeat the action. Remember, **Python starts at zero**, so the starting value of `i` is always 0, and `i` increases by once until it reaches `j`. `i` and `j` are placeholders. You can generall put anything there. Let's look at an example below:
+
+```{python}
+for num in range(4):
+  print(num)
+```
+
+### 2.1.6: `continue`, `break`, `try`, and `except`
+
+Four other flow commands we will work with are:
+
+- `continue`: this immediately restarts the loop
+- `break`: this immediately ends and exits the loop
+- `try`: this is useful when we are running code that may have an error and we want to test the workflow
+- `except`: this is used with `try` to return an output if the `try` statement returns an error
+
+## Part 3: Functions
+
+Functions are another important part of any coding language. We touched upon some basic functions above (like adding two numbers), but here, we will dive into more complex functions that we can use with our data. There are 3 big reasons why we might want to use a function.
+
+1. Reusability: We might have a set of tasks we need to do multiple times. It is easier to write a function to do these tasks and have the function run over the data rather than manually redoing each task.
+2. Organization: It will be useful to keep different operations organized and separated to keep track. 
+3. Sharing: It is easier to share functions than to share each individual step of code. Functions can be run on different datasets, so this allows others to use them.
+
+### 3.1: How to Write a Function
+
+Functions will all follow the same syntax. 
+
+```{python}
+def function_name(inputs):
+    # step 1
+    # step 2
+    # ...
+    return outputs
+```
+
+Here, `def` tells Python that we are defining a new function, and `return` tells Python what to show us. 
+
+Here is a simple example in which we calculate the average of some numbers. Note that we are naming the function `mean`, the inputs will be a list `numbers`, and the function has 3 steps. It will return `answer`. 
+
+```{python}
+def mean(numbers):
+    total = sum(numbers)
+    N = len(numbers)
+    answer = total / N
+
+    return answer
+```
+
+We can then **call** the `mean` function by doing the following:
+
+```{python}
+x = [1, 2, 3, 4]
+avg = mean(numbers)
+```
+
+Here, we are assigning values to `x` which will represent the input, `numbers`, and calling the output `avg`. 
+
+It's important to note that we can have many inputs in a function. 
+Additionally, it will be important to keep track of our *indentations*. This will determine what is and what is not a part of our function. 
+
+### 3.2: Variable Scope
+
+Notice how when we defined the function, the input was `numbers` and the output was `answer`, whereas when we called the function the inputs were `x` and the output `avg`. This has to do with `variable scope`. 
+
+In Python, functions have scopes for variables. This means that regardless what we call the input or the output (which we called `x` and `avg`), the function itself reads the input as `numbers` and the output as `answer`. It also means that the `numbers` and `answer` we refer to in the function **only exist within the function**. See below:
+
+```{python}
+#print(numbers)
+#print(answer)
+```
+
+What this tells us is that if we want to use the output of a function, we need to save it under a new variable. We cannot manipulate `answer` without assigning it to a new variable. For example, we assigned it to `avg`. We don't have to do this - we can still see the output without assigning it to something else. However, if we wanted to use the answer for another operation, we would need to save it. 
+
+This also applies to the other intermediate steps within the function. For example, we can't access `total` and `N` - Python will return an error.
+
+This means that we can reuse names. `total` can be used for both a part of the function, and as the name we assign to the output. 
+
+```{python}
+def mean(numbers):
+    total = sum(numbers)
+    N = len(numbers)
+    answer = total / N
+
+    return answer
+
+y = [10, 11, 15, 523]
+total = mean(y)
+```
+
+## Part 4: Packages
 
 Similarly to R, Python has a host of packages that we can use that contain different functions and tools. Some examples of packages are: 
 
 - pandas, which implements the tools necessary to do scalable data analysis.
-
 - matplotlib, which contains visualization tools.
-
 - requests and urllib, which allow Python to interface with the internet.
 
 We'll be using packages all throughout the Python modules, so it will be important to learn how to install them and how to open them. 
 
 To install a package, we simply run the code `import package`. To access and open the package that we've installed in our session, we run the code `package.function_name`. Let's do this below with the package `sys`, which helps Python work with our computer.
+
 
 ```{python}
 import sys
@@ -446,18 +573,15 @@ Some packages have fairly long names, so Python has allowed us to abbreviate the
 Typically, people use the following nicknames for packages:
 
 - import pandas as pd
-
 - import numpy as np
-
 - import matplotlib as mpl
-
 - import datetime as dt
 
 In theory, you can abbreviate the packages to any nickname you'd like, but for simplicity and comprehensibility, we recommend using the common nicknames listed above. 
 
-## Part 3:  Dealing with Errors and Getting Help
+## Part 5:  Dealing with Errors and Getting Help
 
-### 3.1. Errors
+### 5.1: Errors
 
 Sometimes in our analysis we can run into errors in our code. This happens to everyone - don't worry - it's not a reason to panic. Understanding the nature of the error we are confronted with can be a helpful first step to finding a solution. There are two common types of errors:
 
@@ -467,7 +591,7 @@ Sometimes in our analysis we can run into errors in our code. This happens to ev
 
 Now that we have all of these terms and tools at our disposal, we can begin to load in data and operate on it using what we’ve learned.
 
-### 3.2. Getting Help
+### 5.2: Getting Help
 
 If you are ever running a function and get stuck, are not sure what the function does, or need a refresher on what the inputs are, Python has a way to get help. 
 
