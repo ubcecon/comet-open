@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Ronczewski">
+<meta name="dcterms.date" content="2025-01-19">
+<meta name="description" content="This notebook will solve a common error when installing the stata_kernel.">
+
+<title>01.1 - Common Stata_Kernel Error – COMET</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../media/logo_no_tiny_text.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">COMET</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/quickstart.html">
+ <span class="dropdown-text">Quickstart Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_locally.html">
+ <span class="dropdown-text">Install and Use COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Get Started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-skill-level" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Skill Level</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-skill-level">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_getting_started.html">
+ <span class="dropdown-text">Getting Started</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_beginner.html">
+ <span class="dropdown-text">Beginner</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_intermediate.html">
+ <span class="dropdown-text">Intermediate - Econometrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Intermediate - Geospatial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_advanced.html">
+ <span class="dropdown-text">Advanced</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/all.html">
+ <span class="dropdown-text">Browse All</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-by-class" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn By Class</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-by-class">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_226.html">
+ <span class="dropdown-text">Making Sense of Economic Data (ECON 226/227)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_325.html">
+ <span class="dropdown-text">Econometrics I (ECON 325)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_326.html">
+ <span class="dropdown-text">Econometrics II (ECON 326)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_geog.html">
+ <span class="dropdown-text">Statistics in Geography (GEOG 374)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-learn-to-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Learn to Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-learn-to-research">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/index/index_research.html">
+ <span class="dropdown-text">Learn How to Do a Project</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-teach-with-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Teach With COMET</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-teach-with-comet">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/teaching_with_comet.html">
+ <span class="dropdown-text">Learn how to teach with Jupyter and COMET</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/using_comet.html">
+ <span class="dropdown-text">Using COMET in the Classroom</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/dissemination/dissemination.html">
+ <span class="dropdown-text">See COMET presentations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contribute" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Contribute</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contribute">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/installation/installing_for_development.html">
+ <span class="dropdown-text">Install for Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/documentation/writing_self_tests.html">
+ <span class="dropdown-text">Write Self Tests</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-launch-comet" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-play" role="img">
+</i> 
+ <span class="menu-text">Launch COMET</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-launch-comet">    
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks&amp;urlpath=lab%2Ftree%2Fcomet-notebooks%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (with Data)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-cloud-check" role="img">
+</i> 
+ <span class="dropdown-text">Launch on JupyterOpen (lite)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project&amp;urlpath=lab%2Ftree%2Fcomet-project%2F&amp;branch=main"><i class="bi bi-gear" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Syzygy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/"><i class="bi bi-google" role="img">
+</i> 
+ <span class="dropdown-text">Launch on Colab</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">Launch Locally</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open/archive/refs/heads/datasets.zip"><i class="bi bi-clipboard-data" role="img">
+</i> 
+ <span class="dropdown-text">Project Datasets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/ubcecon/comet-open">
+ <span class="dropdown-text">Github Repository</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../#"> 
+<span class="menu-text">|</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/team.html">
+ <span class="dropdown-text">COMET Team</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/copyright.html">
+ <span class="dropdown-text">Copyright Information</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
+  <li><a href="#mac" id="toc-mac" class="nav-link" data-scroll-target="#mac">1.0 Mac</a></li>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">2.0 Windows</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">3. Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="01_1_Stata_Kernel_Error.ipynb" download="01_1_Stata_Kernel_Error.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">01.1 - Common Stata_Kernel Error</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econ 490</div>
+    <div class="quarto-category">stata</div>
+    <div class="quarto-category">setting up</div>
+    <div class="quarto-category">intro</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This notebook will solve a common error when installing the stata_kernel.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alex Ronczewski </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">19 January 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<ol type="1">
+<li>Have installed Stata onto your personal computer.</li>
+<li>Have installed Anaconda Navigator onto your personal computer.</li>
+<li>Have followed the instructions in 01 - Jupyter and Stata.</li>
+</ol>
+</section>
+<section id="outcome" class="level2">
+<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
+<p>The only outcome of this notebook is to fix the error which occurs when you run</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">python</span> <span class="at">-m</span> stata_kernel.install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The correct output is <code>Installing Jupyter kernel spec</code>, if this is the output you see then you do not have an issue and can move on to the next notebook, but if what pops up is <code>Cannot import kernel Installing Jupyter kernel spec</code> then you have an error and stata_kernel will not work. More information about this error can be found on this <a href="https://github.com/kylebarron/stata_kernel/issues/376">Github Post</a>. This is a common issue which arises from the main Stata application/exe being installed in a place where stata_kernel does not expect it.</p>
+<p>This notebook will be a step by step guide for both Mac and Windows to solve this issue. First we will cover Mac (All sections starting with 1.X) and then in the lower section we will cover Windows (Sections starting with 2.X). The steps are very similar, but because of OS differences some steps will be different.</p>
+</section>
+<section id="mac" class="level2">
+<h2 class="anchored" data-anchor-id="mac">1.0 Mac</h2>
+<p>Below we will show steps for Mac if you have a Windows computer scroll down to section <strong>2.0</strong></p>
+<section id="browing-all-files-on-mac" class="level4">
+<h4 class="anchored" data-anchor-id="browing-all-files-on-mac">1.1 Browing all files on Mac</h4>
+<p>In order to follow this guide you must be able to browse all of your files.</p>
+<ol type="1">
+<li>Click anywhere on the desktop to ensure Finder is active in the menu bar.</li>
+<li>Go to the top menu bar and click on “Finder” &gt; “Settings” (or “Preferences” in older macOS versions)</li>
+<li>In the Finder Settings window, select the “General” tab.</li>
+<li>Under the “Show these items on the desktop” section, check the box next to “Hard disks”</li>
+<li>Close the Settings window.</li>
+<li>You may also need to restart your computer for the change to take place</li>
+</ol>
+</section>
+<section id="find-the-path-to-your-stata-app" class="level4">
+<h4 class="anchored" data-anchor-id="find-the-path-to-your-stata-app">1.2 Find the path to your Stata app</h4>
+<ol type="1">
+<li>Open your hard drive icon on your desktop</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_for_stata_kernel_qmd/Macintosh-HD.png" class="img-fluid figure-img"></p>
+<figcaption>Macintosh HD logo on Desktop</figcaption>
+</figure>
+</div>
+<ol start="2" type="1">
+<li>Navigate to our Stata installation</li>
+<li>Write down to path for the Stata Installation it should look similar to <code>/Applications/Stata/StataSE.app/Contents/MacOS/StataSE</code></li>
+<li><strong>Write this path down and save it for later you will need it. Also make sure it is case sensitive as macOS is case sensitive.</strong></li>
+</ol>
+</section>
+<section id="show-hidden-files-and-folders-on-mac" class="level4">
+<h4 class="anchored" data-anchor-id="show-hidden-files-and-folders-on-mac">1.3 Show hidden files and folders on Mac</h4>
+<ol type="1">
+<li>Open Terminal from the Applications &gt; Utilities folder. (Or Command + Space and type in Terminal).</li>
+<li>Type in the following command</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">defaults</span> write com.apple.Finder AppleShowAllFiles YES</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Now restart you computer for the change to take place</li>
+</ol>
+<p>You will now be able to see all folders including the hidden ones like your OS and other things Mac does not by default show the user. Most importantly the /usr/local/opt folder where by default the anaconda3 instalation is.</p>
+<p>More information about this step can be found in this <a href="https://macpaw.com/how-to/access-opt-folder-on-mac">Article</a>.</p>
+<div class="alert alert-info">
+<strong>Note:</strong> Being able to see all files on Mac is needed for this fix, but does have some risks. If you are an inexperienced user then exposing hidden folders system-wide could potentially lead to accidental modifications of important system files if you’re not careful.
+</div>
+<ol start="4" type="1">
+<li>If you wish to disable seeing hidden files after the fix is completed it is simple. After you reach the end of the Mac section and see that stata_kernel now works. Type in the following command into your termianal</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">defaults</span> write com.apple.Finder AppleShowAllFiles NO</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After you type in the command restart your computer, you now will have returned to not being able to see all files.</p>
+</section>
+<section id="navigate-to-your-anaconda3-installation" class="level4">
+<h4 class="anchored" data-anchor-id="navigate-to-your-anaconda3-installation">1.4 Navigate to your Anaconda3 Installation</h4>
+<ol type="1">
+<li>There are all kinds of commands which can be ran in the terminal (Command + Space) to find the path for the Anaconda installation some examples are</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> conda</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info <span class="at">--base</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">whereis</span> conda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>They will show where your Anaconda installation is</p>
+<ol start="2" type="1">
+<li><p>Once you have the path follow it by clicking on Macintosh HD on your desktop and going to it. The path will look similar to <code>/opt/anaconda3/envs/stata_r_env/lib/python3.x/site-packages/stata_kernel</code>. The x in python3 will be the version number of Python.</p></li>
+<li><p>Once inside of the stata_kernel folder open <code>config.py</code> to do this you will need a code editor of some kind. Some free options are Sublime Text, VSCode, Brackets just choose one which is simple and then open the file.<br>
+</p></li>
+<li><p>Once the file is open replace the value of the variable <code>stata_path</code> with your stata path which you wrote down earlier.</p></li>
+</ol>
+<p>The code which you are looking for is on line 84</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stata_path <span class="op">=</span> <span class="vs">r'PASTE YOUR PATH TO STATA FROM EARLIER BETWEEN THE APOSTROPHE’</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="er">        if not stata_path:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.raise_config_error(<span class="st">'stata_path'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After editing it make sure that - <strong>r’ ahead of the apostrophe is intact and don’t change anything else</strong></p>
+<ol start="5" type="1">
+<li>Save and close the file.</li>
+</ol>
+</section>
+<section id="an-alternate-approach-to-finding-your-anaconda3-installation-and-the-config.py-file" class="level4">
+<h4 class="anchored" data-anchor-id="an-alternate-approach-to-finding-your-anaconda3-installation-and-the-config.py-file">1.4.1 An alternate approach to finding your Anaconda3 Installation (and the config.py file)</h4>
+<p>If this did not work you could also search for config.py in spotlight search (Command + Space). This approach can also work, but will depend on how many applications you have installed on your computer as many applications will have a config.py file. If you do this <strong>make sure that it is the correct one for stata_kernel by looking at the red square at the bottom of finder and seeing if it is in the correct path.</strong> The path should look like <code>/opt/anaconda3/envs/stata_r_env/lib/python3.x/site-packages/stata_kernel</code>. Just without the slashes and with nice folder icons.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_for_stata_kernel_qmd/Finder-Show-Path-Bar.jpg" class="img-fluid figure-img"></p>
+<figcaption>Finder File Path on Mac</figcaption>
+</figure>
+</div>
+</section>
+<section id="find-your-.stata_kernel.conf-file-and-edit-it" class="level4">
+<h4 class="anchored" data-anchor-id="find-your-.stata_kernel.conf-file-and-edit-it">1.5 Find your .stata_kernel.conf file and edit it</h4>
+<ol type="1">
+<li>You should be able to find this file using spotlight search (Command + Space), you will again need a code editor to open the file.</li>
+<li>Once inside, change the variable stata_path to be equal to the path to the main Stata installation which you saved earlier</li>
+<li>Line 2 of the file will look like</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">stata_path</span> = YOUR PATH HERE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>This time do not include ’r and apostrophes. Except for the stata_path do not change anything else</strong>.</p>
+</section>
+<section id="seeing-if-it-worked." class="level4">
+<h4 class="anchored" data-anchor-id="seeing-if-it-worked.">1.6 Seeing if it worked.</h4>
+<ol type="1">
+<li>Open Terminal (Command + Space and type in Terminal).</li>
+<li>Type in</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate stata_r_env </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_for_stata_kernel_qmd/env_anaconda.png" class="img-fluid figure-img"></p>
+<figcaption>Environments in Terminal</figcaption>
+</figure>
+</div>
+<p>You will see on the left that you are now in the environment called (stata_r_env) this means it worked. The difference is <strong>the terminal will look different as it a white Mac terminal</strong>.</p>
+<ol start="3" type="1">
+<li>Once that is done type in</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> stata_kernel.install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and the output message should be. <code>Installing Jupyter kernel spec</code>. This means it worked and you are done.</p>
+<ol start="4" type="1">
+<li>If the output is <code>Cannot import kernel, Installing Jupyter kernel spec</code>. Then something went wrong in the process. Look back throught this notebook or look at the Github post referenced earlier.</li>
+<li>If you want to open a local jupyter notebook use the command</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> notebook</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="windows" class="level2">
+<h2 class="anchored" data-anchor-id="windows">2.0 Windows</h2>
+<p>Below is the section for a Windows computer.</p>
+<section id="finding-your-path-to-the-main-stata-installation" class="level4">
+<h4 class="anchored" data-anchor-id="finding-your-path-to-the-main-stata-installation">2.1 Finding your path to the main Stata installation</h4>
+<ol type="1">
+<li>In the file explorer find your path to the .exe file for Stata. The path should look like <code>C:\Program Files\Stata18\Stata-SE64.exe</code>. Write it down and save it for later.</li>
+</ol>
+<p><strong>Importat: Do not type Stata into your windows search and right click on it and select <code>open file location</code> this will not be the correct path.</strong></p>
+<p>The path will most likely be the folder <code>Program Files</code> under your default drive.</p>
+</section>
+<section id="navigate-to-your-anaconda3-installation-1" class="level4">
+<h4 class="anchored" data-anchor-id="navigate-to-your-anaconda3-installation-1">2.2 Navigate to your Anaconda3 Installation</h4>
+<ol type="1">
+<li>Open your file explorer and look for your Anaconda3 installation</li>
+<li>If you are unsure where to look you can run the command below in the anaconda prompt (this can be opened by clicking the windows key and typing in anaconda prompt)</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info <span class="at">--base</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which will have as an output where the Anaconda3 installation is.</p>
+<ol start="3" type="1">
+<li>Inside of the Anaconda path find the path to the stata_kernel, the path should look like <code>D:\Users\USERNAME\anaconda3\envs\stata\Lib\site-packages\stata_kernel</code></li>
+<li>Inside open the config.py file, you can do this using notepad. You do not need any new programs to open this file.</li>
+</ol>
+</section>
+<section id="how-to-open-a-.py-file-using-notepad" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-open-a-.py-file-using-notepad">2.3 How to open a .py file using notepad</h4>
+<ol type="1">
+<li><p>Right-click on the config.py file.</p></li>
+<li><p>Select “Open with” from the context menu.</p></li>
+<li><p>Choose “Notepad” from the list of available programs.</p></li>
+<li><p>If Notepad isn’t listed as an option: Click on “Choose another app” or “More apps”.</p></li>
+<li><p>Scroll down and click on “Notepad” if you see it, or select “Look for another app on this PC”. Navigate to C:and select “notepad.exe”.</p></li>
+</ol>
+</section>
+<section id="editing-the-file-itself" class="level4">
+<h4 class="anchored" data-anchor-id="editing-the-file-itself">2.4 Editing the file itself</h4>
+<ol type="1">
+<li>Once the file is open replace the value of the variable <code>stata_path</code> with your stata path which you wrote down earlier. It should look similar to <code>C:\Program Files\Stata18\Stata-SE64.exe</code></li>
+</ol>
+<p>The code which you are looking for is on line 84</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stata_path <span class="op">=</span> <span class="vs">r'PASTE YOUR PATH TO STATA FROM EARLIER BETWEEN THE APOSTROPHE’</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="er">        if not stata_path:</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.raise_config_error(<span class="st">'stata_path'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After editing it make sure that - <strong>r’ ahead of the apostrophe is intact and don’t change anything else</strong></p>
+<ol start="2" type="1">
+<li>Save and close the file.</li>
+</ol>
+</section>
+<section id="finding-and-editing-the-.stata_kernel.conf" class="level4">
+<h4 class="anchored" data-anchor-id="finding-and-editing-the-.stata_kernel.conf">2.5 Finding and editing the .stata_kernel.conf</h4>
+<ol type="1">
+<li>Under your users directory look for the .stata_kernel.conf, you can also search for it using the search function within file explorer.</li>
+<li>Open the file using notepad the same way as with the config.py file. If you do not remember how to do this you can follow the instructuons in <strong>Section 2.3</strong></li>
+<li>Once inside, change the variable stata_path to be equal to the path to the main Stata installation which you saved earlier Line 2 of the file will look like</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">stata_path</span> = YOUR PATH HERE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>This time do not include ’r and apostrophes. Except for the stata_path do not change anything else</strong>. 4. Save and close the file</p>
+</section>
+<section id="seeing-if-it-worked.-1" class="level4">
+<h4 class="anchored" data-anchor-id="seeing-if-it-worked.-1">2.6 Seeing if it worked.</h4>
+<ol type="1">
+<li>Open Anaconda Prompt.</li>
+<li>Type in</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate stata_r_env </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_for_stata_kernel_qmd/env_anaconda.png" class="img-fluid figure-img"></p>
+<figcaption>Environments in Anaconda Prompt</figcaption>
+</figure>
+</div>
+<p>You will see on the left that you are now in the environment called (stata_r_env) this means it worked.</p>
+<ol start="3" type="1">
+<li>Once that is done type in</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> stata_kernel.install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and the output message should be. <code>Installing Jupyter kernel spec</code>. This means it worked and you are done.</p>
+<ol start="4" type="1">
+<li>If the output is <code>Cannot import kernel, Installing Jupyter kernel spec</code>. Then something went wrong in the process.</li>
+<li>If you want to open a local jupyter notebook use the command</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> notebook</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">3. Conclusion</h2>
+<p>This should solve the common issue of having the <code>Cannot import kernel Installing Jupyter kernel spec</code> error message when trying to install stata_kernel.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"></a>.  <a rel="license" href="https://comet.arts.ubc.ca/pages/copyright.html">See details.</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ The COMET Project and the UBC Vancouver School of Economics are located on the traditional, ancestral and unceded territory of the xʷməθkʷəy̓əm (Musqueam) and Sḵwx̱wú7mesh (Squamish) peoples.
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

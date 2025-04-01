@@ -1,0 +1,16 @@
+{
+  "listing": "/pages/index/index_beginner.html",
+  "items": [
+    "/docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.html",
+    "/docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html",
+    "/docs/2_Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.html",
+    "/docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html",
+    "/docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html",
+    "/docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html",
+    "/docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html",
+    "/docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html",
+    "/docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html",
+    "/docs/2_Beginner/beginner_distributions/beginner_distributions.html",
+    "/docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html"
+  ]
+}

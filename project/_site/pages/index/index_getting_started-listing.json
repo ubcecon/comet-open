@@ -1,0 +1,9 @@
+{
+  "listing": "/pages/index/index_getting_started.html",
+  "items": [
+    "/docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html",
+    "/docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html",
+    "/docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.html",
+    "/docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html"
+  ]
+}

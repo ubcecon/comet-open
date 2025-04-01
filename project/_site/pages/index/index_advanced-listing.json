@@ -1,0 +1,21 @@
+{
+  "listing": "/pages/index/index_advanced.html",
+  "items": [
+    "/docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html",
+    "/docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html",
+    "/docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html",
+    "/docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html",
+    "/docs/4_Advanced/advanced_panel_data/advanced_panel_data.html",
+    "/docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html",
+    "/docs/4_Advanced/advanced_geospatial/advanced_geospatial.html",
+    "/docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html",
+    "/docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html",
+    "/docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html",
+    "/docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html",
+    "/docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html",
+    "/docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.html",
+    "/docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html",
+    "/docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html",
+    "/docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html"
+  ]
+}
