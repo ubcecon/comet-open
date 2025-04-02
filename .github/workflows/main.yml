@@ -9,6 +9,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          lfs: true  # Enable LFS during initial checkout
+      
+      # Add LFS configuration immediately after checkout
+      - name: Configure LFS
+        run: |
+          git lfs install
+          git lfs track "*.zip"
+          git add .gitattributes
+          git commit -m "Track ZIP files with LFS" || echo "No changes to commit"
       
       - name: Lint Quarto Notebooks
         run: |
@@ -116,8 +126,22 @@ jobs:
           echo "Contents of final-notebooks directory:"
           tree final-notebooks
 
+# New job after prepare-notebooks
+  release:
+    needs: prepare-notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: all-notebooks.zip
+          tag_name: notebooks-$(date +%Y%m%d%H%M%S)
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
-    needs: [build, prepare-notebooks]
+    needs: [build, prepare-notebooks, release]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -156,10 +180,8 @@ jobs:
             # Update Colab link
             sed -i 's|https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/|https://colab.research.google.com/github/ubcecon/comet-open/blob/main/|g' site-content/index.html
           
-            # Update Launch Locally link to point to our artifact
-            sed -i 's|https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip|https://ubcecon.github.io/comet-open/artifacts/all-notebooks.zip|g' site-content/index.html
-          else
-            echo "Warning: index.html not found in site content"
+            # Update Launch Locally link to use releases
+            sed -i 's|https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip|https://github.com/ubcecon/comet-open/releases/latest/download/all-notebooks.zip|g' site-content/index.html
           fi
 
       - name: Print directory structure
@@ -175,3 +197,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: site-content
           publish_branch: gh-pages
+          force_orphan: true  # Critical for large file management
+          exclude_assets: '*.zip'  # Exclude ZIP from direct deployment
