@@ -117,22 +117,57 @@ jobs:
           tree final-notebooks
 
   deploy:
-    needs: build
+    needs: [build, prepare-notebooks]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download artifacts
+      - name: Download site artifact
         uses: actions/download-artifact@v4
         with:
           name: site
           path: site-content
 
+      - name: Create artifacts directory
+        run: |
+          mkdir -p site-content/artifacts
+
+      - name: Download notebooks zip artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: all-notebooks-zip
+          path: site-content/artifacts
+
+      - name: Update dropdown links in index.html
+        run: |
+          if [ -f site-content/index.html ]; then
+            echo "Updating links in index.html"
+          
+            # Update JupyterOpen (with Data) link
+            sed -i 's|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
+          
+            # Update JupyterOpen (lite) link
+            sed -i 's|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
+          
+            # Update Syzygy link
+            sed -i 's|https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project|https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
+          
+            # Update Colab link
+            sed -i 's|https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/|https://colab.research.google.com/github/ubcecon/comet-open/blob/main/|g' site-content/index.html
+          
+            # Update Launch Locally link to point to our artifact
+            sed -i 's|https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip|https://ubcecon.github.io/comet-open/artifacts/all-notebooks.zip|g' site-content/index.html
+          else
+            echo "Warning: index.html not found in site content"
+          fi
+
       - name: Print directory structure
         run: |
           echo "Contents of site-content directory:"
           ls -la site-content
+          echo "Contents of artifacts directory:"
+          ls -la site-content/artifacts
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
