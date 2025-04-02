@@ -1,7 +1,7 @@
-#Building the website with the advanced task 2025-03-31
 name: Build and Deploy
 on:
   workflow_dispatch:
+
 
 jobs:
   build:
@@ -9,17 +9,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          lfs: true  # Enable LFS during initial checkout
-      
-      # Add LFS configuration immediately after checkout
-      - name: Configure LFS
-        run: |
-          git lfs install
-          git lfs track "*.zip"
-          git add .gitattributes
-          git commit -m "Track ZIP files with LFS" || echo "No changes to commit"
-      
+     
       - name: Lint Quarto Notebooks
         run: |
           find ./project/docs/ -name "*.qmd" -type f -exec python meta/testing/linter.py {} \; > lint_output.txt
@@ -28,9 +18,11 @@ jobs:
             cat lint_output.txt
           fi
 
+
       - name: Build Docker image
         run: |
           docker build -t my-app-image:latest -f ./meta/building/.dockerfile .
+
 
       - name: Extract web content
         run: |
@@ -38,9 +30,10 @@ jobs:
           docker create --name temp-container my-app-image:latest
           docker cp temp-container:/usr/share/nginx/html/. ./web-content
           docker rm temp-container
-          
+         
           echo "Web content directory contents:"
           ls -la ./web-content
+
 
       - name: Upload files as artifacts
         uses: actions/upload-artifact@v4
@@ -48,6 +41,7 @@ jobs:
           name: site
           path: ./web-content
           if-no-files-found: error
+
 
   prepare-notebooks:
     runs-on: ubuntu-latest
@@ -60,9 +54,11 @@ jobs:
         with:
           path: source-notebooks
 
+
       - name: Remove rendered files
         run: |
           find source-notebooks/project/docs -type f \( -name "*.html" -o -name "*.md" \) -delete
+
 
       - name: Checkout datasets
         uses: actions/checkout@v3
@@ -71,11 +67,12 @@ jobs:
           ref: test_build_deploy
           path: datasets
 
+
       - name: Organize structure
         id: prep
         run: |
           mkdir -p final-notebooks/docs
-            
+           
           rsync -a --include '*/' \
             --include '*.ipynb' \
             --include '*.qmd' \
@@ -87,11 +84,11 @@ jobs:
             --include '*.svg' \
             --exclude '*' \
             source-notebooks/project/docs/ final-notebooks/docs/
-  
+ 
           for dir in 1_Getting_Started 2_Beginner 3_Intermediate 4_Advanced 5_Research 6_Projects; do
             section=$(echo "$dir" | cut -d'_' -f2- | tr '[:upper:]' '[:lower:]')
             dataset_dir="datasets/project/docs/$dir/datasets_${section}"
-            
+           
             mkdir -p "final-notebooks/docs/$dir"
             if [ -d "$dataset_dir" ]; then
               cp -r "$dataset_dir" "final-notebooks/docs/$dir/"
@@ -100,7 +97,9 @@ jobs:
             fi
           done
 
+
           echo "dir=$(pwd)/final-notebooks" >> $GITHUB_OUTPUT
+
 
       - name: Create master ZIP of all notebooks
         run: |
@@ -108,11 +107,13 @@ jobs:
           zip -r ../all-notebooks.zip docs
           echo "Created all-notebooks.zip with all notebook categories"
 
+
       - name: Upload notebooks artifact
         uses: actions/upload-artifact@v4
         with:
           name: notebooks
           path: ${{ steps.prep.outputs.dir }}
+
 
       - name: Upload ZIP artifact
         uses: actions/upload-artifact@v4
@@ -121,75 +122,33 @@ jobs:
           path: all-notebooks.zip
           if-no-files-found: error
 
+
       - name: Print directory structure
         run: |
           echo "Contents of final-notebooks directory:"
           tree final-notebooks
 
-# New job after prepare-notebooks
-  release:
-    needs: prepare-notebooks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: all-notebooks.zip
-          tag_name: notebooks-$(date +%Y%m%d%H%M%S)
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
-    needs: [build, prepare-notebooks, release]
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download site artifact
+
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: site
           path: site-content
 
-      - name: Create artifacts directory
-        run: |
-          mkdir -p site-content/artifacts
-
-      - name: Download notebooks zip artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: all-notebooks-zip
-          path: site-content/artifacts
-
-      - name: Update dropdown links in index.html
-        run: |
-          if [ -f site-content/index.html ]; then
-            echo "Updating links in index.html"
-          
-            # Update JupyterOpen (with Data) link
-            sed -i 's|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-notebooks|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
-          
-            # Update JupyterOpen (lite) link
-            sed -i 's|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project|https://open.jupyter.ubc.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
-          
-            # Update Syzygy link
-            sed -i 's|https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-project|https://ubc.syzygy.ca/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fubcecon%2Fcomet-open|g' site-content/index.html
-          
-            # Update Colab link
-            sed -i 's|https://colab.research.google.com/github/ubcecon/comet-notebooks/blob/main/|https://colab.research.google.com/github/ubcecon/comet-open/blob/main/|g' site-content/index.html
-          
-            # Update Launch Locally link to use releases
-            sed -i 's|https://github.com/ubcecon/comet-notebooks/archive/refs/heads/main.zip|https://github.com/ubcecon/comet-open/releases/latest/download/all-notebooks.zip|g' site-content/index.html
-          fi
 
       - name: Print directory structure
         run: |
           echo "Contents of site-content directory:"
           ls -la site-content
-          echo "Contents of artifacts directory:"
-          ls -la site-content/artifacts
+
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -197,5 +156,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: site-content
           publish_branch: gh-pages
-          force_orphan: true  # Critical for large file management
-          exclude_assets: '*.zip'  # Exclude ZIP from direct deployment
