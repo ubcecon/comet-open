@@ -2,7 +2,7 @@
 **/*-checkpoint*
 *-checkpoint*
 notebook_materials/pwt100.dta
-project/.quarto/
+
 
 .Rproj.user
 *.Rproj
@@ -11,4 +11,4 @@ project/.quarto/
 *.DS_Store*
 
 
-/.quarto/
+
