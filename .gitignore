@@ -3,12 +3,12 @@
 *-checkpoint*
 notebook_materials/pwt100.dta
 project/.quarto/
-project/_site/
+
 .Rproj.user
 *.Rproj
 */*/*/figure-html/
 .Rhistory
 *.DS_Store*
-/_site
+
 
 /.quarto/
