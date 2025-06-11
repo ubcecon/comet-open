@@ -128,6 +128,29 @@ jobs:
           echo "Contents of final-notebooks directory:"
           tree final-notebooks
 
+  sync-notebooks:
+    runs-on: ubuntu-latest
+    needs: prepare-notebooks
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Download prepared notebooks
+      uses: actions/download-artifact@v4
+      with:
+        name: notebooks
+        path: final-notebooks
+
+    - name: Run Notebook Sync
+      uses: BetaHuhn/repo-file-sync-action@v1
+      with:
+        GH_PAT: ${{ secrets.NOTEBOOKS_SYNC_TOKEN }}
+        CONFIG_PATH: .github/sync.yml
+        COMMIT_PREFIX: "🔁 Sync notebooks:"
+        PR_LABELS: |
+          notebook-sync
+          automated        
 
   deploy:
     needs: build
