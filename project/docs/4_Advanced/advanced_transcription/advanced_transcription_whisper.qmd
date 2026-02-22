@@ -3,17 +3,21 @@ title: "4.3.1 - Advanced - Transcription"
 author: COMET Team <br> _Irene Berezin_
 description: This notebook introduces how to use machine learning tools to transcribe and diarize audio files.
 categories: [advanced, python, Whisper, audio transcription, PyTorch, preprocessing, diarization]
-format: 
-    html: default
-    ipynb:
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+  ipynb:
         jupyter:
             kernelspec:
                 display_name: "Python 3 (ipykernel)"
                 language: python3
                 name: python3
 ---
-
-
 ***
 
 

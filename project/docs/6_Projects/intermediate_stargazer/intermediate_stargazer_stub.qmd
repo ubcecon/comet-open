@@ -1,0 +1,10 @@
+---
+title: "2.2 - Intermediate - Working with Stargazer"
+date: January 29, 2025
+description: "This notebook covers how to make neat and easily digestible regression and summary statistics tables in R using the `stargazer` package."
+categories: [econ 326, intermediate, R, regressions, stargazer, tables, results, summary statistics]
+---
+
+<meta http-equiv="refresh" content="0; url=intermediate_stargazer.html">
+
+If you are not redirected automatically, [click here](intermediate_stargazer.html).

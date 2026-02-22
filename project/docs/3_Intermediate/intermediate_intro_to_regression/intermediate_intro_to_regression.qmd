@@ -4,8 +4,14 @@ author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Avi Wo
 date: 25 July 2024
 description: An introduction to simple regression using Jupyter and R, with an emphasis on understanding what regression models are actually doing.  Computation is using OLS.
 categories: [introduction, econ 325, econ 326, simple regression, regression, ols, t-test, dummy variable, pareto distribution, beginner, intermediate, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

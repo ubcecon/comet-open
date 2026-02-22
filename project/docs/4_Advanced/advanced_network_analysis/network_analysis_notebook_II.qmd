@@ -5,8 +5,14 @@ description: This notebook is an continuation of basic network analysis in Pytho
 categories:
   - Python
   - network analysis
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -14,7 +20,6 @@ format:
         language: python3
         name: python3
 ---
-
 This notebook continues in demonstrating more advanced concepts in network analysis pertaining to archeology and provides a hands-on tutorial to using the NetworkX Python library for these applications.
 
 ### 0. Prerequisites

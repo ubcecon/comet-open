@@ -9,8 +9,14 @@ categories:
   - sentiment-analysis
   - LLMs
   - AI
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -18,8 +24,6 @@ format:
         language: python3
         name: python3
 ---
-
-
 ***
 
 Sentiment analysis is a useful tool for gathering a high-level understanding of the emotions expressed in written text. For instance, a finance firm may wish to gather information about market sentiment pertaining to bitcoin. It would do so by first gathering a corpus of tweets and posts from various sources online, and analysing it by comparing posts to a special kind of dictionary, called a *sentiment dictionary*, which contains a list of words and their predetermined sentiment. This process is called *lexicon-based sentiment analysis*. If you'd like to learn more about lexicon-based sentiment analysis, you can consult [this notebook](). 

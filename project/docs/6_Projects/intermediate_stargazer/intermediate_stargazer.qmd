@@ -4,8 +4,14 @@ author: COMET Team <br> _Jane Platt, Alex Haddon, Jonathan Graves_
 date: January 29, 2025
 description: This notebook covers how to make neat and easily digestible regression and summary statistics tables in R using the `stargazer` package. 
 categories: [econ 326, intermediate, R, regressions, stargazer, tables, results, summary statistics]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ## Introduction

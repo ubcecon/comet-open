@@ -14,17 +14,22 @@ categories:
   - operations
   - functions
   - python
+jupyter: python3
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
         display_name: Python 3 (ipykernel)
         language: python3
         name: python3
-jupyter: python3
 ---
-
 ## Outline
 
 ### Prerequisites: 

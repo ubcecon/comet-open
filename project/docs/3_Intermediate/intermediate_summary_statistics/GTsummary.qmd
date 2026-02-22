@@ -4,8 +4,14 @@ author: 'COMET Team <br> _Irene Berezin, Alex Ronczewski_'
 date: 1 March 2025
 description: An introduction how to create summary statistics tables in R using the `gtsummary` package and gives examples of how to create and present effective summary statistics in a research project.
 categories: [econ 326, econ 490, data, summary statistics, regression, analysis, control variables, intermediate, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,8 +19,6 @@ format:
         language: r
         name: ir
 ---
-
-
 ## Outline
 
 ### Prerequisites

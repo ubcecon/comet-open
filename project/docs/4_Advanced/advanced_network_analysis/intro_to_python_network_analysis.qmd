@@ -4,8 +4,14 @@ title: 'Network analysis workshop pre-reading'
 date: 2024-08-30
 description: This is the prereading for the network analysis workshop.
 categories: [python, network analysis]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: python3
         name: python3
 ---
-
 # Network Analysis Workshop Setup
 
 ---

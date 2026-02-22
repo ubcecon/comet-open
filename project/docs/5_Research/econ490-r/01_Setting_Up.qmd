@@ -4,8 +4,14 @@ authors: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to set up Jupyter, add an R Kernel, and connect to COMET. It is the first step to take when embarking on a research project. 
 categories: [econ 490, r, setting up, intro]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Prerequisites 
 
 1. Have Anaconda Navigator installed onto your personal computer.

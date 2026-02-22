@@ -5,19 +5,22 @@ date: 10 August 2023
 description: "This notebook introduces you to some fundamental statistics and basic probability concepts. It is designed to cover introductory statistics material taught in Foundations of Mathematics 12 and ECON 226: Making Sense of Economic Data for students who either haven’t taken these courses or who would like a refresher before going into ECON 325."
 categories: [introduction, beginner, probability, data, descriptive statistics, data visualization, inferential statistics, probability notation, joint-probability, distributions, data types, R, econ 325]
 toc: true
+html-math-method: mathml
 execute:
-  eval: false
-format: 
-  html: default
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
         display_name: R
         language: r
         name: ir
-html-math-method: mathml
 ---
-
 ## Outline
 
 ### Prerequisites:

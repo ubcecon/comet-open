@@ -4,19 +4,24 @@ author: COMET Team <br> _Oliver (Junye) Xu, Colby Chambers, Jonathan Graves, Jas
 date: 12 January 2023
 description: What is a hypothesis?  How do we test it?  This notebook introduces hypothesis testing in two different ways, outlining the connection between them and how we can use this technique to answer economic questions.
 categories: [econ 325, econ 226, econ 227. confidence intervals, hypothesis testing, t-test, type-I error, type-II error, p-value, R, beginner, significance level, critical value]
-format: 
-  html: default
+editor: 
+  markdown: 
+    wrap: 72
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
         display_name: R
         language: r
         name: ir
-editor: 
-  markdown: 
-    wrap: 72
 ---
-
 ## Outline
 
 ### Prerequisites

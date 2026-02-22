@@ -2,15 +2,20 @@
 title: "4.4 - Advanced - Word Embeddings (R)"
 description: This notebook introduces the concept and implementation of word embeddings, as used in AI tools like LLMs, in R.
 categories: [advanced, R, natural language processing, large language models, word embeddings, word2vec, vectors, cosine similarity]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
       kernelspec: 
         display_name: R
         language: R
         name: r
 ---
-
 *R Version*
 
 <div>

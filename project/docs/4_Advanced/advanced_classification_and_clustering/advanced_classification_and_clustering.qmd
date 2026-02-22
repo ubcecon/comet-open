@@ -4,8 +4,14 @@ categories: [advanced, R, k-means clustering, elbow plot, stargazer]
 authors:  COMET Team <br> _Colby Chambers, Jonathan Graves_
 date: 2022-10-18
 description: This notebook introduces the classification and clustering models, especially for economic and sociological datasets.
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ### Prerequisites
 
 * Introduction to Jupyter

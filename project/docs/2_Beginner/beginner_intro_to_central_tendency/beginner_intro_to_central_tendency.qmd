@@ -5,8 +5,14 @@ version: 1.0
 date: 2023-10-13
 description: This notebook is an hands-on introduction to the concepts of Central Tendency at the beginner level using R. It is meant for undergraduates with no or very little prior exposure to university-level statistics. 
 categories: [introduction, beginner, econ 226, econ 227, central tendency, mean, median, mode, skewness, dispersion, R, histogram]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -14,7 +20,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Prerequisites
 
 -   Introduction to Jupyter

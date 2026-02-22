@@ -4,8 +4,14 @@ authors: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to create and use locals and globals.
 categories: [econ 490, pystata, locals, globals, loops, forvalues, foreach, help]
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
         kernelspec:
@@ -13,7 +19,6 @@ format:
             language: python
             name: Python3
 ---
-
 ## Prerequisites 
 
 1.  View the characteristics of any dataset using the command `describe`.
@@ -33,7 +38,7 @@ format:
 
 ```{python}
 import stata_setup
-stata_setup.config('C:\Program Files\Stata18/','se')
+stata_setup.config('D:/Stata', 'se')
 ```
 
 ```{python}

@@ -4,8 +4,14 @@ author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonath
 date: 8 December 2022
 description: An introduction to multiple regression using Jupyter and R, connecting simple to multiple regression.  We also discuss some important concepts, including control variables.
 categories: [econ 326, data, multiple regression, regression, ols, control variables, intermediate, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

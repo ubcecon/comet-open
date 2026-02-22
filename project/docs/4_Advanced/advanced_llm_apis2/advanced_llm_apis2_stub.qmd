@@ -1,0 +1,9 @@
+---
+title: "4.5 - Advanced - LLM APIs 2"
+date: 7 August 2024
+description: "This notebook illustrates how to call different Large Language Models (LLMs) using their API, for the purposes of data analysis or computational use."
+---
+
+<meta http-equiv="refresh" content="0; url=advanced_llm_apis2.html">
+
+If you are not redirected automatically, [click here](advanced_llm_apis2.html).

@@ -4,8 +4,14 @@ author: COMET Team <br> _Sarthak Kwatra, Charlotte White_
 date: July 2023
 description: Let's put it all together!  This notebook is an example of what a "final project" might look like in ECON 326.  It summarizes and uses all many of the empirical skills and R commands present in the other notebooks.  
 categories: [econ 326, regression, projects, R, visualization, data wrangling, data cleaning, multiple regression, homoskedasticity, multicollinearity, Breusch-Pagan test, heteroskedasticity, vif, dummy variable, interaction terms]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ### Prerequisites
 
 * Introduction to Data in R

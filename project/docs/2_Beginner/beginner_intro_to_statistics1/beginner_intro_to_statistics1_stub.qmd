@@ -1,0 +1,10 @@
+---
+title: "1.0.0 - Beginner - Introduction to Statistics"
+date: 10 August 2023
+description: "This notebook introduces you to some fundamental statistics and basic probability concepts. It is designed to cover introductory statistics material taught in Foundations of Mathematics 12 and ECON 226: Making Sense of Economic Data for students who either haven’t taken these courses or who would like a refresher before going into ECON 325."
+categories: [introduction, beginner, probability, data, descriptive statistics, data visualization, inferential statistics, probability notation, joint-probability, distributions, data types, R, econ 325]
+---
+
+<meta http-equiv="refresh" content="0; url=beginner_intro_to_statistics1.html">
+
+If you are not redirected automatically, [click here](beginner_intro_to_statistics1.html).

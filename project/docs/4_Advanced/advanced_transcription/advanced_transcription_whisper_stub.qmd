@@ -1,0 +1,9 @@
+---
+title: "4.3.1 - Advanced - Transcription"
+description: "This notebook introduces how to use machine learning tools to transcribe and diarize audio files."
+categories: [advanced, python, Whisper, audio transcription, PyTorch, preprocessing, diarization]
+---
+
+<meta http-equiv="refresh" content="0; url=advanced_transcription_whisper.html">
+
+If you are not redirected automatically, [click here](advanced_transcription_whisper.html).

@@ -4,8 +4,14 @@ author: COMET Team <br> _Avi Woodward-Kelen_
 date: 24 August 2024
 description: An introduction to estimating causality through the use of synthetic control. Synthetic control is the process by which we create a counterfactual to the unit we actually observed. 
 categories: [econ 425, econ 495, econ 499, synthetic control, regression, ols, causality, p-value, event study, difference in differences, advanced, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,8 +19,6 @@ format:
         language: r
         name: ir
 ---
-
-
 ## Outline
 
 ### Prerequisites

@@ -4,8 +4,14 @@ author: 'COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonat
 date: 8 December 2022
 description: 'How do we specific non-linear models?  Why would we want to do so?  This notebook covers non-linear and interaction models, including marginal effects and related issues.'
 categories: [econ 326, multiple regression, regression, controls, intermediate, R, interaction terms, non-linear terms, polynomial terms, continuous variable]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

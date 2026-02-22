@@ -4,8 +4,14 @@ author: COMET Team <br> _Manas Mridul, Valeria Zolla, Colby Chamber, Colin Grime
 date: 12 January 2023
 description: This notebook introduces you to data in R, primarily using the `tidyverse` set of packages.  It includes basic data curation and cleaning, including table-based inspection and missing data.
 categories: [introduction, getting started, R, data, tidyverse, cleaning, factor variables, dummy variables, importing data]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:

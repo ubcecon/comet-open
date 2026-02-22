@@ -7,8 +7,14 @@ categories:
   - advanced
   - python
   - OpenAI
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -16,7 +22,6 @@ format:
         language: python3
         name: python3
 ---
-
 ## What are LLMs?
 
 Large Language Models (LLMs) are advanced machine learning models designed to understand and generate human-like text based on the data they have been trained on. Examples of popular LLMs include GPT-3.5 from OpenAI and open-source models such as `ollama` or `huggingface`.

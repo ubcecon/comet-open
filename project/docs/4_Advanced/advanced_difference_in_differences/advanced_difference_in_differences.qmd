@@ -2,17 +2,21 @@
 title: '3.1.1 - Advanced - Linear Differencing Models I'
 description: This note introducing difference-in-difference style models, particularly for causal models and inference.
 categories: [advanced, R, difference in differences, t-test, comparison measure estimator, before-after estimator, regression, triple difference estimator, cross-section data, parallel trends]
-format: 
-    html: default
-    ipynb:
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+  ipynb:
         jupyter:
             kernelspec:
                 display_name: R
                 language: r
                 name: ir
 ---
-
-
 This notebook will cover:
 
 1. Difference-in-Differences and when it is appropriate.

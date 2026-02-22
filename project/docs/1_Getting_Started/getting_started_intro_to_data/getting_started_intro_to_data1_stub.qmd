@@ -1,0 +1,10 @@
+---
+title: "0.3.1 - Introduction to Data in R - Part 1"
+date: 12 January 2023
+description: "This notebook introduces you to data in R, primarily using the `tidyverse` set of packages. It includes basic data curation and cleaning, including table-based inspection and missing data."
+categories: [introduction, getting started, R, data, tidyverse, cleaning, factor variables, dummy variables, importing data]
+---
+
+<meta http-equiv="refresh" content="0; url=getting_started_intro_to_data1.html">
+
+If you are not redirected automatically, [click here](getting_started_intro_to_data1.html).

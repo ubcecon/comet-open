@@ -1,0 +1,10 @@
+---
+title: "4.1 - Advanced - Classification and Clustering"
+date: 2022-10-18
+description: "This notebook introduces the classification and clustering models, especially for economic and sociological datasets."
+categories: [advanced, R, k-means clustering, elbow plot, stargazer]
+---
+
+<meta http-equiv="refresh" content="0; url=advanced_classification_and_clustering.html">
+
+If you are not redirected automatically, [click here](advanced_classification_and_clustering.html).

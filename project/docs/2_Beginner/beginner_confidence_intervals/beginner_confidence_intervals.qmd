@@ -4,8 +4,14 @@ author: COMET Team <br> _Anneke Dresselhuis, Colby Chambers, Jonathan Graves_
 date: 12 January 2023
 description: What does it mean to be confident in a statistical estimate?  This notebook is an introduction to confidence, and confidence intervals - especially in the context of the mean value of a variable.
 categories: [econ 325, confidence intervals, beginner, R, confidence level, point estimate, sample mean, t-distribution, normal distribution, sample proportion, chi-square distribution]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites
