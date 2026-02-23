@@ -72,6 +72,7 @@ variable
 If we don't assign a value to our object, Python will return an error. Try it for yourself below.
 
 ```{python}
+#| error: true
 x
 ```
 
@@ -160,8 +161,9 @@ z_float2 = 1_230.5  # Note that if we want to use commas to separate larger numb
 Strings store all text data. For data to be stored as a string, it must be written within quotation marks. For example, 
 
 ```{python}
+#| error: true
 "this is a string" # quotation marks!
-'this is also a string' # ' ' also works! 
+'this is also a string' # ' ' also works!
 this is not a string # do you see the syntax warning?
 ```
 
@@ -481,6 +483,7 @@ To do this in Jupyter notebooks, we place a `?` after the function name and rn t
 Try this below with the print function:
 
 ```{python}
+#| error: true
 print?
 ```
 
