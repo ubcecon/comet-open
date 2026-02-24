@@ -222,7 +222,10 @@ To begin, we are going to load a few packages that are necessary for our analysi
 # !pip install matplotlib
 # !pip install pandas
 
-%pylab inline
+%matplotlib inline
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 matplotlib.style.use('ggplot')
 
 ```
@@ -274,11 +277,12 @@ Now, let's take a look at just two axes, `eggs` and `sausage`.
 ```{python}
 #| tags: []
 # Plot our points
-scatter(dtm_df['eggs'], dtm_df['sausage'])
+plt.scatter(dtm_df['eggs'], dtm_df['sausage'])
 
 # Make the graph look good
-xlim([0,100]), ylim([0,100])
-xlabel('eggs'), ylabel('sausage')
+plt.xlim([0,100]), plt.ylim([0,100])
+plt.xlabel('eggs'), plt.ylabel('sausage')
+plt.show()
 ```
 
 ### Vectors
@@ -838,13 +842,11 @@ embeddings = mds.fit_transform(dist_matrix)
 ```{python}
 #| tags: []
 # Make a pretty graph
-%pylab inline
-matplotlib.style.use('ggplot')
-
-_, ax = subplots(figsize=(10,10))
+_, ax = plt.subplots(figsize=(10,10))
 ax.scatter(embeddings[:,0], embeddings[:,1], alpha=0)
 for i in range(len(vectors)):
     ax.annotate(her_tokens[i], ((embeddings[i,0], embeddings[i,1])))
+plt.show()
 ```
 
 ```{python}
@@ -861,6 +863,7 @@ _, ax = plt.subplots(figsize=(10,10))
 ax.scatter(embeddings[:,0], embeddings[:,1], alpha=0)
 for i in range(len(vectors)):
     ax.annotate(his_tokens[i], ((embeddings[i,0], embeddings[i,1])))
+plt.show()
 ```
 
 > <span style="color:#CC7A00" > What kinds of semantic relationships exist in the diagram above? </p>
