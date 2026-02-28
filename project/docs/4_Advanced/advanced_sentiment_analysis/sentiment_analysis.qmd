@@ -4,16 +4,10 @@ author:  COMET Team <br> _Anneke Dresselhuis, Irene Berezin_
 date: 2024-07-04
 description: This notebook explains how to perform basic sentiment analysis and Reddit web scraping using R.
 categories: [visualization, R]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: default
   ipynb:
-      kernelspec: 
+      kernelspec:
         display_name: R
         language: R
         name: r

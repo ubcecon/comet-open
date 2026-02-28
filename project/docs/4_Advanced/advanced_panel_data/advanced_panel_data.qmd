@@ -4,20 +4,14 @@ author: COMET Team <br> _Jane Platt_
 date: July 26, 2024
 description: This module goes over the theory of panel data analysis as well as how to apply the theory to real-world data. We look into panel regressions, fixed effects, a few other regression topics with panel data. 
 categories: [advanced, R, panel data, regression, fixed effects, random effects, pooling]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: default
   ipynb:
-        jupyter:
-            kernelspec:
-                display_name: R
-                language: r
-                name: ir
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
 This notebook will cover:
 
@@ -66,14 +60,14 @@ library(plm)
 library(fixest)
 
 # Load self-tests
-source('../Advanced/advanced_panel_data/advanced_panel_data_tests.r')
+source('advanced_panel_data_tests.r')
 ```
 
 As mentioned above, we're going to use the dataset created in a previous COMET module. Luckily, this data was saved in the current folder as "CO2_data". Let's import it and take a quick look at what we're working with.
 
 ```{r}
 # Import data
-CO2_data <- read.csv("../Advanced/advanced_panel_data/CO2_data.csv")
+CO2_data <- read.csv("CO2_data.csv")
 
 # Get a quick summary
 glimpse(CO2_data)

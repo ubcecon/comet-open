@@ -4,14 +4,8 @@ author: COMET Team <br> _Emrul Hasan, Jonah Heyl, Shiming Wu, William Co, Jonath
 date: 8 December 2022
 description: What are the key issues with a regression model? This notebook discusses collinearity, heteroskedasticity, and model specification.
 categories: [intermediate, econ 326, multiple regression, regression, multicollinearity, heteroskedasticity, R, vif, robust standard errors, White's test, Breusch-Pagan test, linear probability model]
-execute:
-  eval: true
-  echo: true
-  output: true
-format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+format: 
+  html: default
   ipynb:
     jupyter:
       kernelspec:
@@ -19,6 +13,7 @@ format:
         language: r
         name: ir
 ---
+
 ## Outline
 
 ### Prerequisites

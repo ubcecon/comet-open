@@ -4,14 +4,8 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: In this notebook, we look at within-group analysis. We see how to summarize data for subgroups, how to generate new variables among subgroups, and how to reshape out data. 
 categories: [econ 490, pystata, generating variables, egen, sort, collapse, reshape]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: default
   ipynb:
     jupyter:
         kernelspec:
@@ -19,6 +13,8 @@ format:
             language: python
             name: Python3
 ---
+
+
 ## Prerequisites 
 
 1. Be able to effectively use Stata do-files and generate log-files.
@@ -37,7 +33,7 @@ format:
 
 ```{python}
 import stata_setup
-stata_setup.config('D:/Stata', 'se')
+stata_setup.config('C:\Program Files\Stata18/','se')
 ```
 
 ```{python}

@@ -3,15 +3,9 @@ title: "4.3.1 - Advanced - Transcription"
 author: COMET Team <br> _Irene Berezin_
 description: This notebook introduces how to use machine learning tools to transcribe and diarize audio files.
 categories: [advanced, python, Whisper, audio transcription, PyTorch, preprocessing, diarization]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
-  ipynb:
+    html: default
+    ipynb:
         jupyter:
             kernelspec:
                 display_name: "Python 3 (ipykernel)"
@@ -427,8 +421,8 @@ We'll also need to specify the number of speakers in the audio. If you are unsur
 
 ```{python}
 who_speaks_when = pipeline("audio samples\House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN_POLITICS_resampled.mp3",
-                                      num_speakers=2,  
-                                      min_speakers=2,  
+                                      num_speakers=2,
+                                      min_speakers=2,
                                       max_speakers=2)  #since this code is diarizing the entire audio file, it may take a while to run!
 ```
 
@@ -472,7 +466,7 @@ def rename_speaker(speaker):
         return "Todd"
     # Add more elif conditions if you are using a different audio with more speakers
     else:
-        return speaker  
+        return speaker
 
 # Function to format output for each speaker
 def format_speaker_output(segment, speaker, text):
@@ -481,7 +475,7 @@ def format_speaker_output(segment, speaker, text):
     return formatted_output
 
 audio_file = "audio samples/House_debates_CPC_motion_of_non-confidence_against_Trudeau's_carbon_tax_CANADIAN_POLITICS_resampled.mp3"
-#feel free to try any other audio file 
+#feel free to try any other audio file
 
 
 for segment, _, speaker in who_speaks_when.itertracks(yield_label=True):
@@ -489,7 +483,7 @@ for segment, _, speaker in who_speaks_when.itertracks(yield_label=True):
     text = model.transcribe(waveform.squeeze().numpy())["text"]
     formatted_output = format_speaker_output(segment, speaker, text)
     print(formatted_output)
-    print()  
+    print()
 ```
 
 As we can see, the transcription isn't perfect: Whisper often struggles with last names due to them not being included in the training data. For this reason, it's important to proof-read the resulting output. If you'd like to try out different audio, add your audio to the `audio samples` folder and repeat the process using the correct file path. Additionally, if you'd like to use a different model, a full list can be found [here](https://github.com/openai/whisper).

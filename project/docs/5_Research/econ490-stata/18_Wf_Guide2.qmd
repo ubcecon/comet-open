@@ -148,7 +148,7 @@ global log_dir "${proj_main}/logfiles"              // Log-file path
 Setting up the directory using globals can be very useful. Imagine that in the do-file called `1_build_data.do`, we want to load our data set saved under the file name *fake_data.csv* in the data folder *data* in a sub-directory called *raw*. Instead of defining the full file path of *fake_data.csv*, we can conveniently use our globals as follows:
 
 ```{stata}
-import delimit using ${datadir}/raw/fake_data.csv, clear
+capture noisily import delimit using ${datadir}/raw/fake_data.csv, clear
 ```
 
 where we are telling Stata to go to the folder *raw* within the folder specified by the global *datadir* that we had defined earlier.
@@ -162,21 +162,19 @@ As we saw in [Module 2](https://comet.arts.ubc.ca/docs/Research/econ490-stata/02
 For example, if we wanted to run the do-file that builds the data (`1_build_data.do`) that is stored in the folder indicated by the global `do_dir`, we would use the following command:
 
 ```{stata}
-do "${do_dir}/1_build_data.do"
+capture noisily do "${do_dir}/1_build_data.do"
 ```
 
 In our master do-file, we would include the code for running all the do-files like this:
 
 ```{stata}
-******************
-* Run the do-files
-******************
+// Run the do-files
 
-do "${do_dir}/1_build_data.do"
+capture noisily do "${do_dir}/1_build_data.do"
 
-do "${do_dir}/2_descriptive.do"
+capture noisily do "${do_dir}/2_descriptive.do"
 
-do "${do_dir}/3_results.do"
+capture noisily do "${do_dir}/3_results.do"
 ```
 
 The master do-file simply runs all of the project do-files in the appropriate order. Notice how the naming convention makes it easy to identify the sequence in which we need to run the do-files. File names are descriptive and sequentially numbered. 
@@ -192,8 +190,8 @@ To begin, we need to follow the instructions for our operating system to install
 To see how this works, we can edit the command below to access that directory on our computer. You will need to determine the file path on your computer and edit the example path here. When we run this command, Stata will understand that it should use this directory moving forward. We have also included `dir` so that we can see our folders in that directory. If we have already set up the folders for our project, we will see them there.
 
 ```{stata}
-cd "/Users/fake_user/Library/CloudStorage/OneDrive-UBC"
-dir
+capture noisily cd "/Users/fake_user/Library/CloudStorage/OneDrive-UBC"
+capture noisily dir
 ```
 
 Now whenever we include the file paths in our globals or do-files, we can point to our UBC OneDrive folders, and always have access to the most recent version of our work!
@@ -255,9 +253,9 @@ Most importantly, we should leave comments before and after our code to explain 
 
 ```{stata}
 * Open Raw Data
-import delimit using "${datadir}/raw/fake_data.csv", clear
+capture noisily import delimit using "${datadir}/raw/fake_data.csv", clear
 
-la var birth_year "Year of Birth" // label variable
+capture noisily la var birth_year "Year of Birth" // label variable
 ```
 
 As we move on to writing more complex code, leaving comments will become more helpful.
@@ -267,7 +265,7 @@ As we move on to writing more complex code, leaving comments will become more he
 In Stata, we can split code across multiple lines using three forward slashes `///`. This can be particularly useful when making graphs. Let's see an example to understand why. Imagine we want to create a graph overlaying information for treated workers and untreated workers, such that they are marked with two different colors (we covered in detail how to do this in [Module 9](https://comet.arts.ubc.ca/docs/Research/econ490-stata/09_Stata_Graphs.html). The line of code to do it is:
 
 ```{stata}
-twoway (connected log_earnings year if treated) || (connected log_earnings if !treated), ylabel(#8) xlabel(#10) ytitle("Log-earnings") xtitle("Year") legend( label(1 "Treated") label(2 "Control"))
+capture noisily twoway (connected log_earnings year if treated) || (connected log_earnings if !treated), ylabel(#8) xlabel(#10) ytitle("Log-earnings") xtitle("Year") legend( label(1 "Treated") label(2 "Control"))
 ```
 
 Making a graph has a lot of small components, all clustered together in a single line of code. If we had to go back and change the number of ticks for the x-axis `xlabel(#)`, it is safe to say it might take us a moment to parse through all this code.
@@ -275,7 +273,7 @@ Making a graph has a lot of small components, all clustered together in a single
 Now, let's format this code block using `///` to split it across multiple lines:
 
 ```{stata}
-twoway ///
+capture noisily twoway ///
     (connected log_earnings year if treated) || (connected log_earnings year if !treated) , ///
     ylabel(#8)  xlabel(#10) ///
     ytitle("Log-earnings") xtitle("Year") ///
@@ -292,7 +290,7 @@ Using `///` is a simple step we can take to make code blocks appear neat and leg
 Using indentations in our code and spacing it neatly can improve its readability with little effort. We can use the `tab` button on our keyboard to indent and organize our code. Let's reformat the last example to see this in action.
 
 ```{stata}
-twoway                                              ///
+capture noisily twoway                              ///
     (connected log_earnings year if treated)        ///
     ||                                              ///
     (connected log_earnings year if !treated)       ///
@@ -315,7 +313,7 @@ We might not want to indent our code on such a granular level as shown in the ex
 
 Let's review a final example which combines all the code styling tools we have discussed so far:
 
-```{stata}
+``` stata
 twoway                                              ///
     (connected log_earnings year if treated)        ///     // log earnings, treated vs control group
     ||                                              ///
@@ -391,22 +389,20 @@ These will be discussed in more detail below.
 Let's consider how we might now run our do-files in the master do-file if we are using the `run` settings.
 
 ```{stata}
-******************
-* Run the do-files
-******************
+// Run the do-files
 
 if ${run_build}==1{
-	do "${do_dir}/1_build_data.do"
+	capture noisily do "${do_dir}/1_build_data.do"
 }
 
 
 if ${run_descriptive}==1{
-	do "${do_dir}/2_descriptive.do"
+	capture noisily do "${do_dir}/2_descriptive.do"
 }
 
 
 if ${run_mainresults}==1{
-	do "${do_dir}/3_results.do"
+	capture noisily do "${do_dir}/3_results.do"
 }
 ```
 
@@ -445,13 +441,13 @@ Now let's take a look at the `store_log` settings, which help us automate the pr
 Imagine that all do-files except `0_master.do` include the `log` command in the beginning and end of the file. The `log` command is nested within an `[if]` statement related to the global settings, exactly like we saw earlier.
 
 ```{stata}
-*If log setting is activated, we record a log file in the log folder
+//If log setting is activated, we record a log file in the log folder
 if ${store_log_descriptive}==1 {
 	cap log close
-	log using "${log_dir}/2_descriptive.log", replace
+	capture noisily log using "${log_dir}/2_descriptive.log", replace
 }
 
-*Close log if needed
+//Close log if needed
 if ${store_log_descriptive}==1 {
 	cap log close
 }

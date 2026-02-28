@@ -4746,44 +4746,84 @@ vertical-align: -.125em;
 }</script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
 
+
+
 <script>
+
 (function() {
+
     function updateThemeImages() {
+
         var isDark = document.body.classList.contains('quarto-dark');
+
         var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
 
+
+
         images.forEach(function(img) {
+
             var lightSrc = img.getAttribute('data-light-src');
+
             var darkSrc = img.getAttribute('data-dark-src');
+
             var newSrc = isDark ? darkSrc : lightSrc;
 
+
+
             // Only update if src is different to avoid reload flicker
+
             if (img.getAttribute('src') !== newSrc) {
+
                 img.setAttribute('src', newSrc);
+
             }
+
         });
+
     }
 
+
+
     // Run when DOM is ready
+
     document.addEventListener('DOMContentLoaded', function() {
+
         updateThemeImages();
 
+
+
         // Watch for theme changes on body
+
         var observer = new MutationObserver(function(mutations) {
+
             mutations.forEach(function(mutation) {
+
                 if (mutation.attributeName === 'class') {
+
                     updateThemeImages();
+
                 }
+
             });
+
         });
 
+
+
         observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
     });
 
+
+
     // Also run after full page load
+
     window.addEventListener('load', updateThemeImages);
+
 })();
+
 </script>
+
 
 
 <style type="text/css">#quarto-header {height: 56px !important;min-height: 56px !important;max-height: 56px !important;}.navbar {height: 56px !important;min-height: 56px !important;max-height: 56px !important;padding: 0.5rem 1rem !important;font-size: 1rem !important;line-height: 1.5 !important;}.navbar > .container-fluid {height: 100% !important;padding: 0 !important;}.navbar-brand {height: 40px !important;padding: 0.3125rem 0 !important;margin-right: 1rem !important;font-size: 1.25rem !important;line-height: 1.5 !important;}.navbar-brand img {height: 30px !important;max-height: 30px !important;}.navbar-nav {height: 100% !important;align-items: center !important;}.navbar-nav .nav-item {height: 100% !important;display: flex !important;align-items: center !important;}.navbar-nav .nav-link {padding: 0.5rem !important;font-size: 1rem !important;line-height: 1.5 !important;}.navbar-collapse {height: 100% !important;}body.nav-fixed {padding-top: 56px !important;}#quarto-content {min-height: calc(100vh - 56px) !important;}#quarto-content.quarto-container {min-height: calc(100vh - 56px) !important;}body {font-size: 1rem !important;line-height: 1.5 !important;}</style>
@@ -5087,7 +5127,7 @@ vertical-align: -.125em;
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">2.0 Intro</h2>
-<div id="2d9e0040" class="cell" data-execution_count="1">
+<div id="363a95eb" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">&#39;D:/Stata&#39;</span>, <span class="st">&#39;se&#39;</span>) <span class="co">#Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -5114,7 +5154,7 @@ Notes:
           see help set_maxvar.</code></pre>
 </div>
 </div>
-<div id="53ab99d8" class="cell" data-execution_count="2">
+<div id="ee6b0191" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">&#39;/Applications/Stata/utilities&#39;</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
@@ -5170,7 +5210,7 @@ Notes:
 <h2 class="anchored" data-anchor-id="writing-comments-in-our-code">2.4 Writing Comments in Our Code</h2>
 <p>Writing comments for different parts of our code is a very good practice. It allows us to revisit code we wrote in the past and understand what we were doing. Stata allows for three different types of comments in our do-files.</p>
 <p>The first type of comment requires using asterisks <code>*</code> and works well for a single line of text:</p>
-<div id="10dcb271" class="cell" data-execution_count="3">
+<div id="78fe9e24" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>This <span class="kw">is</span> a Stata comment: nothing <span class="kw">is</span> going to happen here</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5182,7 +5222,7 @@ Notes:
 </div>
 </div>
 <p>The second type of comment requires using slashes <code>//</code> and can be used whenever we want to write a comment next to our code.</p>
-<div id="7fbb6c88" class="cell" data-execution_count="4">
+<div id="b0f443f3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>display <span class="dv">5</span> <span class="op">//</span> This command <span class="kw">is</span> printing the number <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5196,7 +5236,7 @@ Notes:
 </div>
 </div>
 <p>The third type of comment requires using a backlash and asterisk: <code>/*</code>. This is used for a multi-line comment that starts with <code>/*</code> and closes with <code>*/</code>.</p>
-<div id="333c6a1b" class="cell" data-execution_count="5">
+<div id="f34fdca8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>

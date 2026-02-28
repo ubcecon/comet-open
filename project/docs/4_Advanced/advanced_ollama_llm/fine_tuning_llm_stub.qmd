@@ -1,9 +1,0 @@
----
-title: "4.6 - Advanced - Fine-Tuning Large Language Models for Sentiment Analysis"
-date: 29 July 2024
-description: "An introduction to fine-tuning LLMs using BERT, in Python."
----
-
-<meta http-equiv="refresh" content="0; url=fine_tuning_llm.html">
-
-If you are not redirected automatically, [click here](fine_tuning_llm.html).

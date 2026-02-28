@@ -74,7 +74,7 @@ Now let's change the directory to the specific location where we saved the fake_
 Use the space below to do this on your own computer.
 
 ```{stata}
-cd " " 
+capture noisily cd " "
 * type your file path to the folder containing the data between the quotation marks in the line above
 ```
 
@@ -84,12 +84,14 @@ One trick to using `cd` is that we can use periods (.) to move back folders: two
 
 ```{stata}
 cd ..
+* return to the data directory
+cd econ490-stata
 ```
 
 An easier way to change the directory is by typing the `cd` command followed by the folder you want to set as your working directory. In this method, quotation marks are not necessary.
 
 ```{stata}
-cd myfolder
+capture noisily cd myfolder
 
 * Use myfolder as a placeholder for the folder you want to set as your working directory
 ```
@@ -228,7 +230,7 @@ We can save any opened data set in Stata format by writing `save using "some_dir
 Try saving the data we have been working on in a new folder named "cleaned_data".
 
 ```{stata}
-save "insert_directory/dataset_name.dta", replace
+capture noisily save "insert_directory/dataset_name.dta", replace
 ```
 
 We can also save files in different formats with the `export excel` and `export delimited` commands. Look at the help documentation for more details.

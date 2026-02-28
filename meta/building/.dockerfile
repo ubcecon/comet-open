@@ -9,7 +9,6 @@ COPY ./meta/building/renv.lock ./project ./
 RUN mkdir output
 
 # Remove rendered .qmd files (these are rendered locally as self-contained HTML)
-RUN rm -f ./docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
 RUN rm -f ./docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.qmd
 RUN rm -f ./docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd
 RUN rm -f ./docs/1_Getting_Started/getting_started_intro_to_python/getting_started_intro_to_python.qmd
@@ -22,57 +21,33 @@ RUN rm -f ./docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_test
 RUN rm -f ./docs/2_Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd
 RUN rm -f ./docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd
 RUN rm -f ./docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd
-RUN rm -f ./docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
 RUN rm -f ./docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd
 RUN rm -f ./docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd
 RUN rm -f ./docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd
 RUN rm -f ./docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd
-RUN rm -f ./docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd
 RUN rm -f ./docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd
 RUN rm -f ./docs/3_Intermediate/intermediate_summary_statistics/GTsummary.qmd
-RUN rm -f ./docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd
-RUN rm -f ./docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.qmd
 RUN rm -f ./docs/4_Advanced/advanced_geospatial/advanced_geospatial.qmd
 RUN rm -f ./docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.qmd
 RUN rm -f ./docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.qmd
 RUN rm -f ./docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.qmd
 RUN rm -f ./docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.qmd
-RUN rm -f ./docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.qmd
 RUN rm -f ./docs/4_Advanced/advanced_network_analysis/intro_to_python_network_analysis.qmd
 RUN rm -f ./docs/4_Advanced/advanced_network_analysis/network_analysis_notebook.qmd
 RUN rm -f ./docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_II.qmd
-RUN rm -f ./docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.qmd
-RUN rm -f ./docs/4_Advanced/advanced_panel_data/advanced_panel_data.qmd
-RUN rm -f ./docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.qmd
 RUN rm -f ./docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.qmd
-RUN rm -f ./docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.qmd
 RUN rm -f ./docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.qmd
 RUN rm -f ./docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.qmd
-RUN rm -f ./docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.qmd
 RUN rm -f ./docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.qmd
 RUN rm -f ./docs/5_Research/econ490-pystata/02_Working_Dofiles.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/03_Stata_Essentials.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/04_Locals_and_Globals.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/05_Opening_Data_Sets.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/06_Creating_Variables.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/07_Within_Group.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/08_Merge_Append.qmd
 RUN rm -f ./docs/5_Research/econ490-pystata/09_Stata_Graphs.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/10_Combining_Graphs.qmd
 RUN rm -f ./docs/5_Research/econ490-pystata/11_Linear_Reg.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/12_Exporting_Output.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/13_Dummy.qmd
 RUN rm -f ./docs/5_Research/econ490-pystata/14_PostReg.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/15_Panel_Data.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/16_Diff_in_Diff.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/17_IV.qmd
-RUN rm -f ./docs/5_Research/econ490-pystata/18_Wf_Guide2.qmd
 RUN rm -f ./docs/5_Research/econ490-r/01_Setting_Up.qmd
 RUN rm -f ./docs/5_Research/econ490-r/02_Working_Rscripts.qmd
 RUN rm -f ./docs/5_Research/econ490-r/03_R_Essentials.qmd
 RUN rm -f ./docs/5_Research/econ490-r/04_Opening_Data_Sets.qmd
 RUN rm -f ./docs/5_Research/econ490-r/05_Creating_Variables.qmd
-RUN rm -f ./docs/5_Research/econ490-r/06_Within_Group.qmd
 RUN rm -f ./docs/5_Research/econ490-r/07_Combining_Datasets.qmd
 RUN rm -f ./docs/5_Research/econ490-r/08_ggplot_graphs.qmd
 RUN rm -f ./docs/5_Research/econ490-r/09_Combining_Graphs.qmd
@@ -83,7 +58,6 @@ RUN rm -f ./docs/5_Research/econ490-r/13_PostReg.qmd
 RUN rm -f ./docs/5_Research/econ490-r/14_Panel_Data.qmd
 RUN rm -f ./docs/5_Research/econ490-r/15_Diff_in_Diff.qmd
 RUN rm -f ./docs/5_Research/econ490-r/16_IV.qmd
-RUN rm -f ./docs/5_Research/econ490-r/17_Wf_Guide.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/01_Setting_Up.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/02_Working_Dofiles.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/03_Stata_Essentials.qmd
@@ -102,7 +76,6 @@ RUN rm -f ./docs/5_Research/econ490-stata/15_Panel_Data.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/16_Diff_in_Diff.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/17_IV.qmd
 RUN rm -f ./docs/5_Research/econ490-stata/18_Wf_Guide2.qmd
-RUN rm -f ./docs/6_Projects/intermediate_stargazer/intermediate_stargazer.qmd
 RUN rm -f ./docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd
 RUN rm -f ./docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd
 
@@ -110,7 +83,6 @@ RUN rm -f ./docs/6_Projects/projects_example_project_econ326/Projects_Example_Pr
 RUN quarto render --output-dir output
 
 # Copy pre-rendered HTML files
-COPY ./project/docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.html /app/output/docs/1_Getting_Started/getting_started_intro_to_data/
 COPY ./project/docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html /app/output/docs/1_Getting_Started/getting_started_intro_to_data/
 COPY ./project/docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html /app/output/docs/1_Getting_Started/getting_started_intro_to_jupyter/
 COPY ./project/docs/1_Getting_Started/getting_started_intro_to_python/getting_started_intro_to_python.html /app/output/docs/1_Getting_Started/getting_started_intro_to_python/
@@ -123,57 +95,33 @@ COPY ./project/docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_t
 COPY ./project/docs/2_Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.html /app/output/docs/2_Beginner/beginner_intro_to_central_tendency/
 COPY ./project/docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html /app/output/docs/2_Beginner/beginner_intro_to_data_visualization1/
 COPY ./project/docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html /app/output/docs/2_Beginner/beginner_intro_to_data_visualization2/
-COPY ./project/docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.html /app/output/docs/2_Beginner/beginner_intro_to_statistics1/
 COPY ./project/docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html /app/output/docs/2_Beginner/beginner_intro_to_statistics2/
 COPY ./project/docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html /app/output/docs/2_Beginner/beginner_sampling_distributions/
 COPY ./project/docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html /app/output/docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/
 COPY ./project/docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html /app/output/docs/3_Intermediate/intermediate_intro_to_regression/
-COPY ./project/docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html /app/output/docs/3_Intermediate/intermediate_issues_in_regression/
 COPY ./project/docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html /app/output/docs/3_Intermediate/intermediate_multiple_regression/
 COPY ./project/docs/3_Intermediate/intermediate_summary_statistics/GTsummary.html /app/output/docs/3_Intermediate/intermediate_summary_statistics/
-COPY ./project/docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html /app/output/docs/4_Advanced/advanced_classification_and_clustering/
-COPY ./project/docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html /app/output/docs/4_Advanced/advanced_difference_in_differences/
 COPY ./project/docs/4_Advanced/advanced_geospatial/advanced_geospatial.html /app/output/docs/4_Advanced/advanced_geospatial/
 COPY ./project/docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html /app/output/docs/4_Advanced/advanced_geospatial/
 COPY ./project/docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html /app/output/docs/4_Advanced/advanced_instrumental_variables/
 COPY ./project/docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html /app/output/docs/4_Advanced/advanced_instrumental_variables/
 COPY ./project/docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html /app/output/docs/4_Advanced/advanced_linear_differencing/
-COPY ./project/docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html /app/output/docs/4_Advanced/advanced_llm_apis2/
 COPY ./project/docs/4_Advanced/advanced_network_analysis/intro_to_python_network_analysis.html /app/output/docs/4_Advanced/advanced_network_analysis/
 COPY ./project/docs/4_Advanced/advanced_network_analysis/network_analysis_notebook.html /app/output/docs/4_Advanced/advanced_network_analysis/
 COPY ./project/docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_II.html /app/output/docs/4_Advanced/advanced_network_analysis/
-COPY ./project/docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html /app/output/docs/4_Advanced/advanced_ollama_llm/
-COPY ./project/docs/4_Advanced/advanced_panel_data/advanced_panel_data.html /app/output/docs/4_Advanced/advanced_panel_data/
-COPY ./project/docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html /app/output/docs/4_Advanced/advanced_sentiment_analysis/
 COPY ./project/docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html /app/output/docs/4_Advanced/advanced_synthetic_control/
-COPY ./project/docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html /app/output/docs/4_Advanced/advanced_transcription/
 COPY ./project/docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html /app/output/docs/4_Advanced/advanced_vocalization/
 COPY ./project/docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.html /app/output/docs/4_Advanced/advanced_word_embeddings/
-COPY ./project/docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html /app/output/docs/4_Advanced/advanced_word_embeddings/
 COPY ./project/docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html /app/output/docs/5_Research/econ490-pystata/
 COPY ./project/docs/5_Research/econ490-pystata/02_Working_Dofiles.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/03_Stata_Essentials.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/04_Locals_and_Globals.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/05_Opening_Data_Sets.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/06_Creating_Variables.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/07_Within_Group.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/08_Merge_Append.html /app/output/docs/5_Research/econ490-pystata/
 COPY ./project/docs/5_Research/econ490-pystata/09_Stata_Graphs.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/10_Combining_Graphs.html /app/output/docs/5_Research/econ490-pystata/
 COPY ./project/docs/5_Research/econ490-pystata/11_Linear_Reg.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/12_Exporting_Output.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/13_Dummy.html /app/output/docs/5_Research/econ490-pystata/
 COPY ./project/docs/5_Research/econ490-pystata/14_PostReg.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/15_Panel_Data.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/16_Diff_in_Diff.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/17_IV.html /app/output/docs/5_Research/econ490-pystata/
-COPY ./project/docs/5_Research/econ490-pystata/18_Wf_Guide2.html /app/output/docs/5_Research/econ490-pystata/
 COPY ./project/docs/5_Research/econ490-r/01_Setting_Up.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/02_Working_Rscripts.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/03_R_Essentials.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/04_Opening_Data_Sets.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/05_Creating_Variables.html /app/output/docs/5_Research/econ490-r/
-COPY ./project/docs/5_Research/econ490-r/06_Within_Group.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/07_Combining_Datasets.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/08_ggplot_graphs.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/09_Combining_Graphs.html /app/output/docs/5_Research/econ490-r/
@@ -184,7 +132,6 @@ COPY ./project/docs/5_Research/econ490-r/13_PostReg.html /app/output/docs/5_Rese
 COPY ./project/docs/5_Research/econ490-r/14_Panel_Data.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/15_Diff_in_Diff.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-r/16_IV.html /app/output/docs/5_Research/econ490-r/
-COPY ./project/docs/5_Research/econ490-r/17_Wf_Guide.html /app/output/docs/5_Research/econ490-r/
 COPY ./project/docs/5_Research/econ490-stata/01_Setting_Up.html /app/output/docs/5_Research/econ490-stata/
 COPY ./project/docs/5_Research/econ490-stata/02_Working_Dofiles.html /app/output/docs/5_Research/econ490-stata/
 COPY ./project/docs/5_Research/econ490-stata/03_Stata_Essentials.html /app/output/docs/5_Research/econ490-stata/
@@ -203,7 +150,6 @@ COPY ./project/docs/5_Research/econ490-stata/15_Panel_Data.html /app/output/docs
 COPY ./project/docs/5_Research/econ490-stata/16_Diff_in_Diff.html /app/output/docs/5_Research/econ490-stata/
 COPY ./project/docs/5_Research/econ490-stata/17_IV.html /app/output/docs/5_Research/econ490-stata/
 COPY ./project/docs/5_Research/econ490-stata/18_Wf_Guide2.html /app/output/docs/5_Research/econ490-stata/
-COPY ./project/docs/6_Projects/intermediate_stargazer/intermediate_stargazer.html /app/output/docs/6_Projects/intermediate_stargazer/
 COPY ./project/docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.html /app/output/docs/6_Projects/projects_example_project_econ325/
 COPY ./project/docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html /app/output/docs/6_Projects/projects_example_project_econ326/
 

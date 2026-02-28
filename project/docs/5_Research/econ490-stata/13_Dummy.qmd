@@ -75,7 +75,7 @@ As expected, _sex_ is a string variable and is not numeric. We cannot use a stri
 A dummy variable is a numeric variable that takes either the value of 0 or 1 depending on a condition. In this case, we want to create a variable that equals 1 whenever a worker is identified as "female". We have seen how to do this in previous notebooks. Do you remember what to do? 
 
 ```{stata}
-generate female = //fill in the blank!
+generate female = (sex == "F")
 ```
 
 ## 13.2 Interpreting the Coefficient on a Dummy Variable

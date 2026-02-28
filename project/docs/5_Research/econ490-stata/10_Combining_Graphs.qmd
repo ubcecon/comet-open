@@ -68,9 +68,9 @@ Note that because the commands are so long it is clearer for us to break them up
 ```{stata}
 *** Generate graph for Region 1 ***
 
-twoway (connected log_earnings year if region==?? & treated==1)      /// can you think of another way to specify treated vs untreated?
-    (connected log_earnings year if region==?? & treated==0),        ///
-        xline(2002, lpattern(dash))                                 /// 
+twoway (connected log_earnings year if region==1 & treated==1)      /// can you think of another way to specify treated vs untreated?
+    (connected log_earnings year if region==1 & treated==0),        ///
+        xline(2002, lpattern(dash))                                 ///
         ylab(9.5(0.5)11)                                            ///
         ytitle("Log-earnings") xtitle("Year")                       ///
         legend( label(1 "Treated") label(2 "Control"))              ///
@@ -81,8 +81,8 @@ twoway (connected log_earnings year if region==?? & treated==1)      /// can you
 ```{stata}
 *** Generate graph for Region 2 ***
 
-twoway (connected log_earnings year if region==?? & treated) ||      ///
-    (connected log_earnings year if region==?? & !treated),          ///
+twoway (connected log_earnings year if region==2 & treated) ||      ///
+    (connected log_earnings year if region==2 & !treated),          ///
         xline(2002, lpattern(dash))                                 ///
         ylab(9.5(0.5)11)                                            ///
         ytitle("Log-earnings") xtitle("Year")                       ///

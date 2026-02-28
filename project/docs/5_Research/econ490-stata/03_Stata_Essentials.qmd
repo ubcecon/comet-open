@@ -271,13 +271,13 @@ while `counter'<5{
 A common occurrence while working with Stata is encountering various errors. Whenever an error occurs, the program will stop executing and an error message will pop-up. Most commonly occuring errors can be attributed to syntax issues, so we should always verify our code before execution. Below we have provided 3 common errors that may pop up.
 
 ```{stata}
-summarize hello
+capture noisily summarize hello
 ```
 
 We must always verify that the variable you use for a command exists and that you are using its correct spelling. Stata alerts you when you try to execute a command with a non-existing variable.
 
 ```{stata}
-su price if 5 =< mpg =< 25
+capture noisily su price if 5 =< mpg =< 25
 ```
 
 In this example, the error is due to the use of invalid conditional operators. To make use of the greater than or equal to operator, you must use the symbol (mpg >= ) and to use the less than or equal to operator, you use the symbol (mpg <= ). 

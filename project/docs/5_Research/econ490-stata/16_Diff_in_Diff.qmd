@@ -341,7 +341,7 @@ generate logearn = log(earnings)
 keep if year==2002 | year==2003
 
 * Estimate incorrect specification
-areg logearn treated#2003.year i.year sex, absorb(workerid)
+capture noisily areg logearn treated#2003.year i.year sex, absorb(workerid)
 ```
 
 We cannot estimate the specification above because *sex* does not change over time for the same individual. Remember: in diff-in-diff regressions, we can only add covariates that are time varying by nature (e.g. tenure, experience) or are trends based on fixed characteristics (e.g. time dummies interacted with sex).

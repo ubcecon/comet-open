@@ -4,14 +4,8 @@ authors: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to load, view, and clean data. We go over importing and previewing our data, as well as preparing the data for analysis.  
 categories: [econ 490, pystata, directories, import, csv, dta, save, describe, codebook, tabulate]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: default
   ipynb:
     jupyter:
         kernelspec:
@@ -19,6 +13,8 @@ format:
             language: python
             name: Python3
 ---
+
+
 ## Prerequisites
 
 1. Understand how to effectively use Stata do files and know how to generate log files.
@@ -37,7 +33,7 @@ format:
 
 ```{python}
 import stata_setup
-stata_setup.config('D:/Stata', 'se')
+stata_setup.config('C:\Program Files\Stata18/','se')
 ```
 
 ```{python}

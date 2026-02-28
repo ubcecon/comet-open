@@ -82,6 +82,7 @@ missing_data
 To append these three rows to the bottom of our data set, we can simply use the `rbind` function (row bind). This function allows us to bind together data sets vertically, with the data set specified second being placed directly underneath the data set specified first. In this way, we can combine data sets vertically if they share the exact same column names. Try that below!
 
 ```{r}
+#| error: true
 fake_data <- rbind(fake_data, missing_data)
 
 tail(fake_data)

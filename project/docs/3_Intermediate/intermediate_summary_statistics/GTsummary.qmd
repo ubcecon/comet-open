@@ -430,7 +430,7 @@ More information about the cancensus API can be found at this [link](https://mou
 
 ```{r}
 
-census_data <- read_csv("project/docs/3_Intermediate/datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
+census_data <- read_csv("../datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
 
 census_data <- census_data %>%
 mutate(across(-geometry, as.double)) %>%
@@ -516,7 +516,7 @@ Looks great! Now suppose we wanted to isolate the summary statistics for census 
 
 ```{r}
 
-census_data_bikes <- read_csv('project/docs/3_Intermediate/datasets_intermediate/census_data_bikes.csv')
+census_data_bikes <- read_csv('../datasets_intermediate/census_data_bikes.csv')
 
 glimpse(census_data_bikes)
 ```

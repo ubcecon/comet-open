@@ -192,13 +192,13 @@ global outputdirectory C:\project\output\
 We can use the global *datadirectory* to load our data more easily:
 
 ```{stata}
-use "$datadirectory\data.dta", clear
+capture noisily use "$datadirectory\data.dta", clear
 ```
 
 Similarly, once we have finished editing our data, we can store our results in the folder saved within the global *outputdirectory*:
 
 ```{stata}
-save using "$outputdirectory\output.dta", replace
+capture noisily save using "$outputdirectory\output.dta", replace
 ```
 
 ## 4.4 Common Mistakes

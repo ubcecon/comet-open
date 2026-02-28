@@ -4,14 +4,8 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to append and merge data sets. 
 categories: [econ 490, pystata, merge, append, m:m, m:1, 1:m]
-execute:
-  eval: true
-  echo: true
-  output: true
 format:
-  html:
-    embed-resources: true
-    self-contained-math: true
+  html: default
   ipynb:
     jupyter:
         kernelspec:
@@ -19,6 +13,7 @@ format:
             language: python
             name: Python3
 ---
+
 ## Prerequisites 
 
 1. Change your directory so that Stata can find your files.
@@ -32,7 +27,7 @@ format:
 ## 8.0 Intro
 ```{python}
 import stata_setup
-stata_setup.config('D:/Stata', 'se')
+stata_setup.config('C:\Program Files\Stata18/','se')
 ```
 
 ```{python}

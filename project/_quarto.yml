@@ -10,7 +10,6 @@ project:
   - "*.ipynb"
   - "*.r"
   - "!in_progress/*"
-  - "!docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd"
   - "!docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.qmd"
   - "!docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd"
   - "!docs/1_Getting_Started/getting_started_intro_to_python/getting_started_intro_to_python.qmd"
@@ -23,57 +22,33 @@ project:
   - "!docs/2_Beginner/beginner_intro_to_central_tendency/beginner_intro_to_central_tendency.qmd"
   - "!docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd"
   - "!docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.qmd"
-  - "!docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd"
   - "!docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.qmd"
   - "!docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.qmd"
   - "!docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.qmd"
   - "!docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.qmd"
-  - "!docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd"
   - "!docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd"
   - "!docs/3_Intermediate/intermediate_summary_statistics/GTsummary.qmd"
-  - "!docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd"
-  - "!docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.qmd"
   - "!docs/4_Advanced/advanced_geospatial/advanced_geospatial.qmd"
   - "!docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.qmd"
   - "!docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.qmd"
   - "!docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.qmd"
   - "!docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.qmd"
-  - "!docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.qmd"
   - "!docs/4_Advanced/advanced_network_analysis/intro_to_python_network_analysis.qmd"
   - "!docs/4_Advanced/advanced_network_analysis/network_analysis_notebook.qmd"
   - "!docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_II.qmd"
-  - "!docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.qmd"
-  - "!docs/4_Advanced/advanced_panel_data/advanced_panel_data.qmd"
-  - "!docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.qmd"
   - "!docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.qmd"
-  - "!docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.qmd"
   - "!docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.qmd"
   - "!docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.qmd"
-  - "!docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.qmd"
   - "!docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.qmd"
   - "!docs/5_Research/econ490-pystata/02_Working_Dofiles.qmd"
-  - "!docs/5_Research/econ490-pystata/03_Stata_Essentials.qmd"
-  - "!docs/5_Research/econ490-pystata/04_Locals_and_Globals.qmd"
-  - "!docs/5_Research/econ490-pystata/05_Opening_Data_Sets.qmd"
-  - "!docs/5_Research/econ490-pystata/06_Creating_Variables.qmd"
-  - "!docs/5_Research/econ490-pystata/07_Within_Group.qmd"
-  - "!docs/5_Research/econ490-pystata/08_Merge_Append.qmd"
   - "!docs/5_Research/econ490-pystata/09_Stata_Graphs.qmd"
-  - "!docs/5_Research/econ490-pystata/10_Combining_Graphs.qmd"
   - "!docs/5_Research/econ490-pystata/11_Linear_Reg.qmd"
-  - "!docs/5_Research/econ490-pystata/12_Exporting_Output.qmd"
-  - "!docs/5_Research/econ490-pystata/13_Dummy.qmd"
   - "!docs/5_Research/econ490-pystata/14_PostReg.qmd"
-  - "!docs/5_Research/econ490-pystata/15_Panel_Data.qmd"
-  - "!docs/5_Research/econ490-pystata/16_Diff_in_Diff.qmd"
-  - "!docs/5_Research/econ490-pystata/17_IV.qmd"
-  - "!docs/5_Research/econ490-pystata/18_Wf_Guide2.qmd"
   - "!docs/5_Research/econ490-r/01_Setting_Up.qmd"
   - "!docs/5_Research/econ490-r/02_Working_Rscripts.qmd"
   - "!docs/5_Research/econ490-r/03_R_Essentials.qmd"
   - "!docs/5_Research/econ490-r/04_Opening_Data_Sets.qmd"
   - "!docs/5_Research/econ490-r/05_Creating_Variables.qmd"
-  - "!docs/5_Research/econ490-r/06_Within_Group.qmd"
   - "!docs/5_Research/econ490-r/07_Combining_Datasets.qmd"
   - "!docs/5_Research/econ490-r/08_ggplot_graphs.qmd"
   - "!docs/5_Research/econ490-r/09_Combining_Graphs.qmd"
@@ -84,7 +59,6 @@ project:
   - "!docs/5_Research/econ490-r/14_Panel_Data.qmd"
   - "!docs/5_Research/econ490-r/15_Diff_in_Diff.qmd"
   - "!docs/5_Research/econ490-r/16_IV.qmd"
-  - "!docs/5_Research/econ490-r/17_Wf_Guide.qmd"
   - "!docs/5_Research/econ490-stata/01_Setting_Up.qmd"
   - "!docs/5_Research/econ490-stata/02_Working_Dofiles.qmd"
   - "!docs/5_Research/econ490-stata/03_Stata_Essentials.qmd"
@@ -103,7 +77,6 @@ project:
   - "!docs/5_Research/econ490-stata/16_Diff_in_Diff.qmd"
   - "!docs/5_Research/econ490-stata/17_IV.qmd"
   - "!docs/5_Research/econ490-stata/18_Wf_Guide2.qmd"
-  - "!docs/6_Projects/intermediate_stargazer/intermediate_stargazer.qmd"
   - "!docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.qmd"
   - "!docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.qmd"
 
@@ -234,7 +207,7 @@ website:
           - text: "Intro to R"
             file: docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r_stub.qmd
           - text: "Intro to Data (Part 1)"
-            file: docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1_stub.qmd
+            file: docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data1.qmd
           - text: "Intro to Data (Part 2)"
             file: docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2_stub.qmd
 
@@ -244,7 +217,7 @@ website:
           file: pages/index/index_beginner.qmd
           contents:
           - text: Introduction to Statistics I
-            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1_stub.qmd
+            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
           - text: Introduction to Statistics II
             file: docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.qmd
           - text: Central Tendency
@@ -276,7 +249,7 @@ website:
           - text: Multiple Regression
             file: docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.qmd
           - text: Issues in Regression
-            file: docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression_stub.qmd
+            file: docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd
           - text: Interactions
             file: docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms_stub.qmd
           - text: ---
@@ -300,9 +273,9 @@ website:
           file: pages/index/index_advanced.qmd
           contents:
           - text: Classification and Clustering
-            file: docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering_stub.qmd
+            file: docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.qmd
           - text: Differences In Differences
-            file: docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences_stub.qmd
+            file: docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.qmd
           - text: Geospatial I
             file: docs/4_Advanced/advanced_geospatial/advanced_geospatial_stub.qmd
           - text: Geospatial II
@@ -312,23 +285,23 @@ website:
           - text: Instrumental Variables II
             file: docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2_stub.qmd
           - text: Large Language Model APIs (Python)
-            file: docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2_stub.qmd
+            file: docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.qmd
           - text: Linear Differencing
             file: docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing_stub.qmd
           - text: Training LLMS
-            file: docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm_stub.qmd
+            file: docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.qmd
           - text: Sentiment Analysis Using LLMs (Python)
-            file: docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis_stub.qmd
+            file: docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.qmd
           - text: Transcription (Python)
-            file: docs/4_Advanced/advanced_transcription/advanced_transcription_whisper_stub.qmd
+            file: docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.qmd
           - text: Vocalization (Python)
             file: docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft_stub.qmd
           - text: Word Embeddings (Python)
             file: docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version_stub.qmd
           - text: Word Embeddings (R)
-            file: docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version_stub.qmd
+            file: docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.qmd
           - text: Panel Data
-            file: docs/4_Advanced/advanced_panel_data/advanced_panel_data_stub.qmd
+            file: docs/4_Advanced/advanced_panel_data/advanced_panel_data.qmd
           - text: Synthetic Controls
             file: docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control_stub.qmd
 
@@ -343,7 +316,7 @@ website:
           file: pages/index/index_226.qmd
           contents:
           - text: Introduction to Statistics I
-            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1_stub.qmd
+            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
           - text: Introduction to Statistics II
             file: docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.qmd
           - text: Central Tendency
@@ -358,7 +331,7 @@ website:
           file: pages/index/index_325.qmd
           contents:
           - text: Introduction to Statistics I
-            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1_stub.qmd
+            file: docs/2_Beginner/beginner_intro_to_statistics1/beginner_intro_to_statistics1.qmd
           - text: Introduction to Statistics II
             file: docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.qmd
           - text: Central Tendency
@@ -393,7 +366,7 @@ website:
           - text: Multiple Regression
             file: docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.qmd
           - text: Issues in Regression
-            file: docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression_stub.qmd
+            file: docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.qmd
           - text: Interactions and Non-Linear Terms
             file: docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms_stub.qmd
           - text: Example Project (326)
@@ -477,7 +450,7 @@ website:
             - text: "Creating Variables (5)"
               file: docs/5_Research/econ490-r/05_Creating_Variables_stub.qmd
             - text: "Within Group Analysis (6)" 
-              file: docs/5_Research/econ490-r/06_Within_Group_stub.qmd
+              file: docs/5_Research/econ490-r/06_Within_Group.qmd
             - text: "Combining Datasets (7)"
               file: docs/5_Research/econ490-r/07_Combining_Datasets_stub.qmd
             - text: "Creating Meaningful Visuals (8)"
@@ -499,7 +472,7 @@ website:
             - text: "Instrumental Variable Analysis (16)"
               file: docs/5_Research/econ490-stata/17_IV_stub.qmd
             - text: "R Workflow Guide (17)"
-              file: docs/5_Research/econ490-stata/18_Wf_Guide2_stub.qmd
+              file: docs/5_Research/econ490-r/17_Wf_Guide.qmd
         - text: "---"
         - section: "Pystata Notebooks"
           file: pages/index/index_research.qmd
@@ -509,37 +482,37 @@ website:
             - text: "Working with Do-files (2)"
               file: docs/5_Research/econ490-pystata/02_Working_Dofiles_stub.qmd
             - text: "STATA Essentials (3)"
-              file: docs/5_Research/econ490-pystata/03_Stata_Essentials_stub.qmd
+              file: docs/5_Research/econ490-pystata/03_Stata_Essentials.qmd
             - text: "Locals and Globals (4)"
-              file: docs/5_Research/econ490-pystata/04_Locals_and_Globals_stub.qmd
+              file: docs/5_Research/econ490-pystata/04_Locals_and_Globals.qmd
             - text: "Opening Datasets (5)"
-              file: docs/5_Research/econ490-pystata/05_Opening_Data_Sets_stub.qmd
+              file: docs/5_Research/econ490-pystata/05_Opening_Data_Sets.qmd
             - text: "Creating Variables (6)"
-              file: docs/5_Research/econ490-pystata/06_Creating_Variables_stub.qmd
+              file: docs/5_Research/econ490-pystata/06_Creating_Variables.qmd
             - text: "Within Group Analysis (7)"
-              file: docs/5_Research/econ490-pystata/07_Within_Group_stub.qmd
+              file: docs/5_Research/econ490-pystata/07_Within_Group.qmd
             - text: "Combining Datasets (8)"
-              file: docs/5_Research/econ490-pystata/08_Merge_Append_stub.qmd
+              file: docs/5_Research/econ490-pystata/08_Merge_Append.qmd
             - text: "Creating Meaningful Visuals (9)"
               file: docs/5_Research/econ490-pystata/09_Stata_Graphs_stub.qmd
             - text: "Combining Graphs (10)"
-              file: docs/5_Research/econ490-pystata/10_Combining_Graphs_stub.qmd
+              file: docs/5_Research/econ490-pystata/10_Combining_Graphs.qmd
             - text: "Conducting Regression Analysis (11)"
               file: docs/5_Research/econ490-pystata/11_Linear_Reg_stub.qmd
             - text: "Exporting Regression Output (12)"
-              file: docs/5_Research/econ490-pystata/12_Exporting_Output_stub.qmd
+              file: docs/5_Research/econ490-pystata/12_Exporting_Output.qmd
             - text: "Dummy Variables and Interactions (13)"
-              file: docs/5_Research/econ490-pystata/13_Dummy_stub.qmd
+              file: docs/5_Research/econ490-pystata/13_Dummy.qmd
             - text: "Good Regression Practices (14)"
               file: docs/5_Research/econ490-pystata/14_PostReg_stub.qmd
             - text: "Panel Data Regression (15)"
-              file: docs/5_Research/econ490-pystata/15_Panel_Data_stub.qmd
+              file: docs/5_Research/econ490-pystata/15_Panel_Data.qmd
             - text: "Difference in Differences (16)"
-              file: docs/5_Research/econ490-pystata/16_Diff_in_Diff_stub.qmd
+              file: docs/5_Research/econ490-pystata/16_Diff_in_Diff.qmd
             - text: "Instrumental Variable Analysis (17)"
-              file: docs/5_Research/econ490-pystata/17_IV_stub.qmd
+              file: docs/5_Research/econ490-pystata/17_IV.qmd
             - text: "STATA Workflow Guide (18)"
-              file: docs/5_Research/econ490-pystata/18_Wf_Guide2_stub.qmd
+              file: docs/5_Research/econ490-pystata/18_Wf_Guide2.qmd
 
 
 
