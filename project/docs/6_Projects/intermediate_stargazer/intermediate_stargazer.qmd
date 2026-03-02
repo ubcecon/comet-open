@@ -172,7 +172,7 @@ Remember that homoskedasticity, or constant variance, is an underlying assumptio
 
 ```{r}
 # The initial regression that we ran
-mlr_1 <- lm(CO2 ~ gdp + population + electricity, data = CO2_data)
+mlr_1 <- lm(CO2 ~ gdp + population + electricity, data = co2_df)
 
 # Obtain robust standard errors
 robust_se <- sqrt(diag(vcovHC(mlr_1, type = "HC1")))  # "HC1" is one of the robust variance estimators
