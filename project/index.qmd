@@ -29,7 +29,7 @@ nocite: |
 ---
 
 # Welcome to COMET! {.test}
-![](media/single_loop.gif){width="300" fig-align="center"}
+![](media/single_loop.gif){width="300" fig-align="center" .hero-logo}
 
 ::: {.callout-warning}
 ## Spring 2025 Update

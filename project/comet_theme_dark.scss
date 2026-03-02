@@ -52,6 +52,11 @@ $card-border-color: rgba(255, 255, 255, 0.1);
 
 /*-- scss:rules --*/
 
+// Clip hero logo GIF to circle so white canvas corners don't show on dark bg
+.hero-logo {
+    border-radius: 50%;
+}
+
 // Code cell output text color
 .cell-output pre,
 .cell-output code {
