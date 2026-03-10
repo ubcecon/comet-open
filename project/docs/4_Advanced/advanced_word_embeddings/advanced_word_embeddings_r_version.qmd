@@ -5,7 +5,8 @@ categories: [advanced, R, natural language processing, large language models, wo
 format: 
   html: default
   ipynb:
-      kernelspec: 
+    jupyter:
+      kernelspec:
         display_name: R
         language: R
         name: r

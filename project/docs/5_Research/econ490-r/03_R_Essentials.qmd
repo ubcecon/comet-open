@@ -4,8 +4,14 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook dives into a few essentials commands in R, including types of data, how to explore our data, and some basic functions. 
 categories: [econ 490, r, vectors, matrices, lists, data frames, objects, variables, operations, functions]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Prerequisites 
 
 1. Understand how to effectively use R scripts or create Jupyter cells.

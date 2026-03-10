@@ -4,12 +4,22 @@ author: "COMET Team <br> _Uddhav Kalra, Avi Woodward-Kelen_"
 date: 2024-06-04
 description: This notebook introduces students to linear differencing, focusing on techniques of difference-in-differences with variation in treatment timing, and event-studies with a continuous treatment.
 categories: [advanced, R, linear differencing, difference in differences, continuous treatment, treatment timing]
+editor: visual
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
   html:
-    code-fold: show
-editor: visual
+    embed-resources: true
+    self-contained-math: true
+  ipynb:
+    jupyter:
+      kernelspec:
+        display_name: R
+        language: r
+        name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

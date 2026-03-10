@@ -4,8 +4,14 @@ authors: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to create and use locals and globals.
 categories: [econ 490, stata, locals, globals, loops, forvalues, foreach, help]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
       syntax-definitions: 
       - stata.xml
@@ -14,7 +20,6 @@ format:
         language: Stata
         name: stata
 ---
-
 ## Prerequisites
 
 1.  View the characteristics of any dataset using the command `describe`.
@@ -187,13 +192,13 @@ global outputdirectory C:\project\output\
 We can use the global *datadirectory* to load our data more easily:
 
 ```{stata}
-use "$datadirectory\data.dta", clear
+capture noisily use "$datadirectory\data.dta", clear
 ```
 
 Similarly, once we have finished editing our data, we can store our results in the folder saved within the global *outputdirectory*:
 
 ```{stata}
-save using "$outputdirectory\output.dta", replace
+capture noisily save using "$outputdirectory\output.dta", replace
 ```
 
 ## 4.4 Common Mistakes

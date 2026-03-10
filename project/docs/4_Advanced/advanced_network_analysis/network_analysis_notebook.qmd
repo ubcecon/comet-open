@@ -5,8 +5,14 @@ description: This notebook is an introduction to basic network analysis in Pytho
 categories:
   - Python
   - network analysis
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -14,7 +20,6 @@ format:
         language: python3
         name: python3
 ---
-
 This notebook introduces key concepts in network analysis pertaining to archeology and provides a hands-on tutorial to using the NetworkX Python library.
 
 ## 0. Prerequisites
@@ -442,7 +447,7 @@ Importantly, the nodes in the first dataset are categorized by time period. We w
 We can import datasets in python using pandas' `read_` function. In our case, both network and location datasets are stored in excel files. We can thus use the `read_excel` function.
 
 ```{python}
-df_edges = pd.read_excel("vistorian_network.xls") #loading in dataset
+df_edges = pd.read_excel("network_analysis_datasets/vistorian_network.xls") #loading in dataset
 
 G_directed = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION", create_using=nx.DiGraph()) #creating a graph object
 G = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION")
@@ -453,7 +458,7 @@ G = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_L
 We could just plot this network right away, but this wouldn't convey good information, as the nodes in our dataset represent real places. Instead, let's bind each node to it's respective geographical location using the `geopandas` library.
 
 ```{python}
-df_pos = pd.read_excel("vistorian_locations.xls", index_col=0)
+df_pos = pd.read_excel("network_analysis_datasets/vistorian_locations.xls", index_col=0)
  # loading in coordinates of nodes; index_col specifies that the first column (with index 0) in the Excel sheet should be used as the row labels for the DataFrame
 
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326') 
@@ -1118,8 +1123,8 @@ Lastly, let's clean up our centrality graphs by putting them together into one g
 
 ```{python}
 #Bring in our data
-df_edges = pd.read_excel("vistorian_network.xls")
-df_pos = pd.read_excel("vistorian_locations.xls", index_col=0)
+df_edges = pd.read_excel("network_analysis_datasets/vistorian_network.xls")
+df_pos = pd.read_excel("network_analysis_datasets/vistorian_locations.xls", index_col=0)
 
 #Define the graph
 G_directed = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION", create_using=nx.DiGraph())

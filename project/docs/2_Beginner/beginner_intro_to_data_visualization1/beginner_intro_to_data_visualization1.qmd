@@ -4,8 +4,14 @@ author: COMET Team <br> _Anneke Dresselhuis, Jonathan Graves_
 date: 12 January 2023
 description: How do we make visualizations of data?  This notebook uses the `ggplot` packages to help create impactful data visualizations using R.  We will also discuss the rationale and principles of effective data design.
 categories: [econ 325, visualization, ggplot, R, beginner, scatter plot, line plot, bar plot, histogram, exporting, raster image, vector image]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

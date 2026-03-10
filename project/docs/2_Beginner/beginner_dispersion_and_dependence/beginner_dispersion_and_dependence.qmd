@@ -4,8 +4,14 @@ author: COMET Team <br> _Oliver (Junye) Xu, Anneke Dresselhuis, Jonathan Graves_
 date: 12 January 2023
 description: In this notebook we explore how data is spread out, and what that means for its interpretation.  This includes both how individual values may vary, and how values may _co-vary_ with one another.
 categories: [econ 325, central tendency, descriptive statistics, variance, covariance, standard deviation, correlation, beginner, R, interquartile range, beginner]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

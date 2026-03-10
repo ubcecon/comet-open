@@ -4,8 +4,14 @@ author: COMET Team <br> _Colby Grimes, Colby Chamber, Jonathan Graves, Manas Mri
 date: 9 July 2023
 description: An introduction to analyzing data using tidyverse and dplyr in R including workflows for loading, merging, cleaning and visualizing data. 
 categories: [introduction, getting started, R, data, tidyverse, data cleaning, tables, data wrangling, missing values, merging data]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

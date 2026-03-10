@@ -4,8 +4,14 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook covers how to write and work with Stata do-files. We go over how to create a do-file, commenting, and generating log-files. 
 categories: [econ 490, pystata, do-files, commenting, delimiters, log-files]
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
         kernelspec:
@@ -13,7 +19,6 @@ format:
             language: python
             name: Python3
 ---
-
 ## Prerequisites 
 
 1. Connect Stata on your personal computer to JupyterLab.
@@ -29,7 +34,7 @@ format:
 
 ```{python}
 import stata_setup
-stata_setup.config('C:\Applications\Stata18/','se') #Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac
+stata_setup.config('D:/Stata', 'se') #Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac
 ```
 
 ```{python}

@@ -4,16 +4,15 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook is here to help us organize our files when conducting large-scale research. We talk about workflow management, coding style, and cloud storage. 
 categories: [econ 490, r, workflow, master, organization, scripts, commenting, OneDrive]
-format: 
+format:
   html: default
   ipynb:
-    jupyter: 
+    jupyter:
       kernelspec:
         display_name: R
         language: r
         name: ir
 ---
-
 ## Prerequisites
 
 1. Knowledge of the content of the previous modules: opening data sets, creating graphs, regression analysis. 

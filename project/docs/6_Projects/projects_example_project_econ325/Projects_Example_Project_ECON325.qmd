@@ -4,8 +4,14 @@ author: COMET Team <br> _Shiming Wu, Rathin Dharani, Jonathan Graves_
 date: 12 January 2023
 description: Let's put it all together!  This notebook is an example of what a "final project" might look like in ECON 325.  It summarizes and uses all of the empirical skills and R commands present in the other notebooks.  
 categories: [econ 325, regression, hypothesis testing, projects, t-test, visualization, summary statistics, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 # Outline
 
 If you are reviewing the materials from ECON 325, or self-studying it, this is a good self-test to see if you understand all of the material. After completing this course, you should be able to:

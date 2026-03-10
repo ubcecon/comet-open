@@ -18,11 +18,9 @@ format:
         language: python3
         name: python3
 ---
-
-
 ***
 
-Sentiment analysis is a useful tool for gathering a high-level understanding of the emotions expressed in written text. For instance, a finance firm may wish to gather information about market sentiment pertaining to bitcoin. It would do so by first gathering a corpus of tweets and posts from various sources online, and analysing it by comparing posts to a special kind of dictionary, called a *sentiment dictionary*, which contains a list of words and their predetermined sentiment. This process is called *lexicon-based sentiment analysis*. If you'd like to learn more about lexicon-based sentiment analysis, you can consult [this notebook](). 
+Sentiment analysis is a useful tool for gathering a high-level understanding of the emotions expressed in written text. For instance, a finance firm may wish to gather information about market sentiment pertaining to bitcoin. It would do so by first gathering a corpus of tweets and posts from various sources online, and analysing it by comparing posts to a special kind of dictionary, called a *sentiment dictionary*, which contains a list of words and their predetermined sentiment. This process is called *lexicon-based sentiment analysis*. If you'd like to learn more about lexicon-based sentiment analysis, you can consult the sentiment analysis notebook.
 
 The issue with lexicon-based sentiment analysis, is that especially in modern times, it can be inaccurate: Dictionary based sentiment analysis is *context ignorant*, meaning that it struggles with things such as sarcasm and irony, as well as mixed emotions $^{[1]}$. Additionally, language is constantly changing: for instance, the term "bad" is traditionally associated with negative sentiment, but often holds a different, positive connotation on the internet. 
 
@@ -60,7 +58,7 @@ LLMs are a subset of a wider class of models called **natural language processin
 
 Sure, giving ChatGPT a prompt and watching it produce an output is interesting, but have you ever wondered *how* it can do that? In this section, we introduce the basic mechanisms behind large language models powered by generative transformers (GPTs). What makes models such as ChatGPT, Gemini, and LLama so much better than older NLP models is the use of a **transformer architecture** (the "T" in ChatGPT), which allows them to *understand* prompts and generate human-like text. The transformer architecture is a type of neural network that is able to learn context and meaning of a given input text by tracking relationships within the input text $^{[5]}$. 
 
-**1) Vector embedding of input text:** First, the model converts each word in the input sequence into a vector representation known as a token embedding. We won't go into detail as to how this is done; for that, you can consult the [notebook on vector embeddings here.]()
+**1) Vector embedding of input text:** First, the model converts each word in the input sequence into a vector representation known as a token embedding. We won't go into detail as to how this is done; for that, you can consult the notebook on vector embeddings.
 Additionally, since transformers do not inherently understand the order of tokens, positional encodings are added, which allow the model to understand where each word is relative to other words in the input text. 
 
 **2) Attention Mechanism:** First outlined in the landmark research paper "Attention is all you need"$^{[6]}$ by Google in 2017, the attention mechanism or attention block allows the model to focus in on different parts of the input text and calculate how much *attention* it should pay to every word by comparing it to each other word in the input text. The result is a weighted combination of words' value vectors, reflecting their relevance. This allows the model to prioritize important words and capture meaningful relationships in the sequence, effectively understanding the context and meaning of a text $^{[7]}$ $^{[8]}$. For instance, in the phrase "*The quick brown fox jumps over the lazy...*", the attention mechanism would allow the model to place more emphasis on the words "fox", 'quick" and "brown", and less emphasis on the word "the".

@@ -4,8 +4,14 @@ author: ""
 date: 24 June 2024
 description: This notebook explores geospatial analysis with vector data in R in more detail. We go over file types, choosing a CRS, as well as an application with real world data. 
 categories: [advanced, geospatial, vector, R, S2, trade, distance, CRS, shapefile]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

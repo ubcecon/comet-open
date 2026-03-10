@@ -4,8 +4,14 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: This notebook explains how to set up Jupyter, add a PyStata Kernel, and connect to COMET. It is the first step to take when embarking on a research project. 
 categories: [econ 490, pystata, setting up, intro]
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
         kernelspec:
@@ -13,7 +19,6 @@ format:
             language: python
             name: Python3
 ---
-
 ## Prerequisites
 
 1. Have installed Stata onto your personal computer.
@@ -148,7 +153,7 @@ In your notebook, begin by creating a new cell and typing the following two line
 ```bash
 import stata_setup
 
-stata_setup.config('C:\Program Files\Stata18/','se')
+stata_setup.config('D:/Stata', 'se')
 ```
 
 The stata_setup.config() function is used to locate STATA through Jupyter. This function has two arguments: the first one is Stata’s installation path and the second one is the edition to use. *UBC offers students free access to the Stata SE edition, so make sure your Stata version is Stata SE.* If you have a different path to Stata, replace the provided path with your absolute path (Ex. `C:\Desktop\Stata18/'`).  This path should be the one you wrote down above, in Step 1.3.

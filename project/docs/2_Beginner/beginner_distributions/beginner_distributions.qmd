@@ -4,8 +4,14 @@ author: COMET Team <br> _Valeria Zolla, Colby Chambers, Jonathan Graves_
 date: 12 January 2023
 description: This notebook introduces the idea of a statistical distribution, including its properties and some commonly used functions associated with it.  We also discuss the shape of distributions, and some common examples.
 categories: [econ 325, pdf, cdf, uniform distribution, normal distribution, t-distribution, probability, beginner, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Outline
 
 ### Prerequisites

@@ -5,8 +5,14 @@ description: This notebook is an continuation of basic network analysis in Pytho
 categories:
   - Python
   - network analysis
+execute:
+  eval: true
+  echo: true
+  output: true
 format:
-  html: default
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -14,7 +20,6 @@ format:
         language: python3
         name: python3
 ---
-
 This notebook continues in demonstrating more advanced concepts in network analysis pertaining to archeology and provides a hands-on tutorial to using the NetworkX Python library for these applications.
 
 ### 0. Prerequisites
@@ -64,11 +69,11 @@ We are using the same dataset from the first notebook, just with different appli
 ```{python}
 
 # Load data and create our graph
-df_edges = pd.read_excel("vistorian_network.xls")
+df_edges = pd.read_excel("network_analysis_datasets/vistorian_network.xls")
 G = nx.from_pandas_edgelist(df_edges, source="SOURCE_LOCATION", target="TARGET_LOCATION")
 
 # Load and process location data
-df_pos = pd.read_excel("vistorian_locations.xls", index_col=0)
+df_pos = pd.read_excel("network_analysis_datasets/vistorian_locations.xls", index_col=0)
 gdf_pos = gpd.GeoDataFrame(df_pos, geometry=gpd.points_from_xy(df_pos['LONGITUDE'], df_pos['LATITUDE']), crs='EPSG:4326')
 gdf_pos = gdf_pos.to_crs('EPSG:3857')
 

@@ -4,8 +4,14 @@ author: Marina Adshade, Paul Corcuera, Giulia Lo Forte, Jane Platt
 date: 2024-05-29
 description: In this notebook, we go over how to create variables. We look into how creating dummy variables works, as well as how to create variables using mathematical expressions. 
 categories: [econ 490, r, generating variables, dummy variables, ifelse, case when, mutating, naming]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,7 +19,6 @@ format:
         language: r
         name: ir
 ---
-
 ## Prerequisites
 
 1. Import data sets in .csv and .dta format.

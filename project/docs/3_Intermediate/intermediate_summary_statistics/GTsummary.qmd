@@ -4,8 +4,14 @@ author: 'COMET Team <br> _Irene Berezin, Alex Ronczewski_'
 date: 1 March 2025
 description: An introduction how to create summary statistics tables in R using the `gtsummary` package and gives examples of how to create and present effective summary statistics in a research project.
 categories: [econ 326, econ 490, data, summary statistics, regression, analysis, control variables, intermediate, R]
-format: 
-  html: default
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
   ipynb:
     jupyter:
       kernelspec:
@@ -13,8 +19,6 @@ format:
         language: r
         name: ir
 ---
-
-
 ## Outline
 
 ### Prerequisites
@@ -51,7 +55,6 @@ Running the next code block will install necessary packages, you may be prompted
 # install.packages("jsonlite")
 # install.packages("NHANES")
 # install.packages("gtsummary") #This is our key gtsummary package which is the topic of this notebook
-# install.packages("IRdisplay")
 ```
 
 This will run the packages so we can use them for the code below.
@@ -64,7 +67,6 @@ library(gtsummary) #This is our key gtsummary package which is the topic of this
 library(dplyr)
 library(tidyverse)
 library(NHANES)
-library(IRdisplay)
 ```
 
 This is our dataset which we will be using for the first section of this notebook. We have chosen this dataset as it is available within R as a package and does not have to be installed separately. The `NHANES` dataset is a subset of data from the National Health and Nutrition Examination Survey, a comprehensive study designed to assess the health and nutritional status of adults and children in the United States.
@@ -263,8 +265,7 @@ tbl_summary <- tbl_regression(model,
   modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Changes the caption
 
 # Print the table
-tbl_gt <- as_gt(tbl_summary)
-display_html(as_raw_html(tbl_gt))
+tbl_summary
 ```
 
 Here we see that the regression table is good, but it can be improved, for instance we can change the number of significant figures on the coefficient values currently it is three and we can not clearly see the result of our regression analysis. Let’s make it 5 for the Beta’s and coefficient values. Along with this we are also missing Standard Errors and t-values which can show a more complete analysis. We will add them using the code below.
@@ -302,8 +303,7 @@ tbl_summary2 <- tbl_regression(model,
   modify_caption("**Table 1. Linear Regression Model Predicting Total Cholesterol**") #Like above modify labels for caption
 
 # Print our new table
-tbl_gt2 <- as_gt(tbl_summary2)
-display_html(as_raw_html(tbl_gt2))
+tbl_summary2
 ```
 
 Just like above we can do all kinds of cosmetic changes to our new regression summary tables; for instance we can change colors or fonts. Once again feel free to change fonts or colors and see how the end result changes.
@@ -398,7 +398,7 @@ final_table <- tbl_summary3 %>%
   )
 
 # Print the final table
-display_html(as_raw_html(final_table))
+final_table
 ```
 
 We can also save and export tables using the `gtsave` command. Below we can save our first table as the file `example_table1.png`
@@ -426,7 +426,7 @@ More information about the cancensus API can be found at this [link](https://mou
 
 ```{r}
 
-census_data <- read_csv("project/docs/3_Intermediate/datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
+census_data <- read_csv("../datasets_intermediate/census_data.csv") #reading in the data, check out the github repository to see how to generate this yourself!
 
 census_data <- census_data %>%
 mutate(across(-geometry, as.double)) %>%
@@ -465,10 +465,7 @@ summary_table <- mismatch %>%
       total_reported_commute ~ "Reported Commute",
       mismatch_amount ~ "Mismatch Amount"
     )
-  )%>%
-    as_gt() %>%
-    as_raw_html() %>% 
-    display_html()
+  )
 
 summary_table
 ```
@@ -500,10 +497,7 @@ summary_table_2 <- census_data|>
       education ~ "Education Level",
       bike_prop ~ "Proportion of Bikers"
     )
-  )|>
-    as_gt() %>%
-    as_raw_html() %>% 
-    display_html()
+  )
 
 summary_table_2
 ```
@@ -512,7 +506,7 @@ Looks great! Now suppose we wanted to isolate the summary statistics for census 
 
 ```{r}
 
-census_data_bikes <- read_csv('project/docs/3_Intermediate/datasets_intermediate/census_data_bikes.csv')
+census_data_bikes <- read_csv('../datasets_intermediate/census_data_bikes.csv')
 
 glimpse(census_data_bikes)
 ```
@@ -540,10 +534,7 @@ summary_table_3 <- census_data_bikes  %>%
       stat_1 ~ "Bike Lanes: No",  
       stat_2 ~ "Bike Lanes: Yes"  
     )
-  ) %>%
-  as_gt() %>%
-  as_raw_html() %>% 
-  display_html()
+  )
 
 summary_table_3
 ```

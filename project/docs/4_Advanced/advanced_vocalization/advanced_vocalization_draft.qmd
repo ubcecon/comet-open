@@ -3,17 +3,21 @@ title: "4.3.2 - Advanced - Vocalization"
 authors: COMET Team <br> _Siena Serikawa, Irene Berezin_
 description: This notebook demonstrates how to produce human-like speech from text input in a programmatic fashion, using Python.
 categories: [advanced, python, vocalization, text-to-speech, gTTS, mozilla TTS, Microsoft Azure text-to-speech]
-format: 
-    html: default
-    ipynb:
+execute:
+  eval: true
+  echo: true
+  output: true
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+  ipynb:
         jupyter:
             kernelspec:
                 display_name: "Python 3 (ipykernel)"
                 language: python3
                 name: python3
 ---
-
-
 ## Outline
 ***
 
