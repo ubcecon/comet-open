@@ -82,6 +82,12 @@ RUN rm -f ./docs/6_Projects/projects_example_project_econ326/Projects_Example_Pr
 # Quarto render all our documents
 RUN quarto render --output-dir output
 
+# Strip the compromised polyfill.io shim that Quarto <1.4 injects into MathJax pages.
+# polyfill.io was taken over by a malicious operator (2024 supply-chain attack); the
+# shim is unnecessary for MathJax 3 on modern browsers. Version-independent safety net.
+RUN find /app/output -name '*.html' -exec \
+    sed -i 's#<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>##g' {} +
+
 # Copy pre-rendered HTML files
 COPY ./project/docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html /app/output/docs/1_Getting_Started/getting_started_intro_to_data/
 COPY ./project/docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html /app/output/docs/1_Getting_Started/getting_started_intro_to_jupyter/
