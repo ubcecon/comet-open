@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jonathan Graves">
-<meta name="dcterms.date" content="2026-02-24">
+<meta name="dcterms.date" content="2026-06-01">
 
 <title>COMET - Teaching with Jupyter and COMET</title>
 <style>
@@ -91,10 +91,12 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -116,6 +118,45 @@ div.csl-indent {
   }
 }</script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+<script>
+(function() {
+    function updateThemeImages() {
+        var isDark = document.body.classList.contains('quarto-dark');
+        var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
+
+        images.forEach(function(img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+            var newSrc = isDark ? darkSrc : lightSrc;
+
+            // Only update if src is different to avoid reload flicker
+            if (img.getAttribute('src') !== newSrc) {
+                img.setAttribute('src', newSrc);
+            }
+        });
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeImages();
+
+        // Watch for theme changes on body
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateThemeImages();
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also run after full page load
+    window.addEventListener('load', updateThemeImages);
+})();
+</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -327,6 +368,7 @@ div.csl-indent {
   </li>
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -382,7 +424,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">24 February 2026</p>
+      <p class="date">1 June 2026</p>
     </div>
   </div>
   
@@ -415,7 +457,7 @@ Want the Basics?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Just looking for a quick overview of how Jupyter notebooks work? Try out <a href="../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html">getting started</a> introduction to Jupyter notebook, then come back here.</p>
+<p>Just looking for a quick overview of how Jupyter notebooks work? Try out <a href="../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.qmd">getting started</a> introduction to Jupyter notebook, then come back here.</p>
 </div>
 </div>
 <p>As most of our experience is in post-secondary education, this guide is intended for educators teaching students at the university level. However, it is probably also suitable for upper-year high school students, with sufficient experience<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
@@ -632,7 +674,7 @@ Want the Basics?
 <p>When in the classroom, we recommend following-up the notebook with a formative or summative assessment using the same skills, but in a new setting or in a more sophisticated way.</p>
 <ul>
 <li>For example, you could assign students a pre-reading of <a href="../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html">classification and clustering</a> before class. In the class, you could then introduce a new dataset and have them explore it using clustering methods.</li>
-<li>Many of our COMET notebooks, especially the <a href="../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html">intermediate ones</a> are built with this structure, where one “Part” of the notebook can be turned into the classroom part of the flipped classroom.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
+<li>Many of our COMET notebooks, especially the <a href="../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd">intermediate ones</a> are built with this structure, where one “Part” of the notebook can be turned into the classroom part of the flipped classroom.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
 </ul>
 </section>
 </div>
@@ -650,7 +692,7 @@ Want the Basics?
 </ul>
 <p>It is often effective to design your notebooks so that they have several identifiable “tasks” or stopping points, where you can bring the workshop back together.</p>
 <ul>
-<li>Many of our COMET notebooks, especially the <a href="../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html">intermediate ones</a> are built with this structure.</li>
+<li>Many of our COMET notebooks, especially the <a href="../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.qmd">intermediate ones</a> are built with this structure.</li>
 <li>Make sure you build in time for students to introduce themselves to one another, if this is their first time meeting.</li>
 </ul>
 </section>
@@ -673,8 +715,8 @@ Want the Basics?
 <p>It is easier than you might expect to develop notebooks for teaching. Some of our favourite examples are:</p>
 <ul>
 <li><a href="../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version.qmd">Word Embeddings</a>: an advanced, workshop-style, <code>.ipynb</code> format notebook.</li>
-<li><a href="../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html">Visualization</a>: a basic, lecture-style, introduction with time for experimentation.</li>
-<li><a href="../docs/5_Research/econ490-stata/12_Exporting_Output.html">Exporting Output</a>: a flipped-classroom style book or workshop for STATA output.</li>
+<li><a href="../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.qmd">Visualization</a>: a basic, lecture-style, introduction with time for experimentation.</li>
+<li><a href="../docs/5_Research/econ490-stata/12_Exporting_Output.qmd">Exporting Output</a>: a flipped-classroom style book or workshop for STATA output.</li>
 </ul>
 <p>Poke around and see some more!</p>
 <section id="sec-rise" class="level3" data-number="3.1">
@@ -802,6 +844,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

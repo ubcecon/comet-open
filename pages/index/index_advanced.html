@@ -39,10 +39,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -95,7 +97,46 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+(function() {
+    function updateThemeImages() {
+        var isDark = document.body.classList.contains('quarto-dark');
+        var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
+
+        images.forEach(function(img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+            var newSrc = isDark ? darkSrc : lightSrc;
+
+            // Only update if src is different to avoid reload flicker
+            if (img.getAttribute('src') !== newSrc) {
+                img.setAttribute('src', newSrc);
+            }
+        });
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeImages();
+
+        // Watch for theme changes on body
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateThemeImages();
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also run after full page load
+    window.addEventListener('load', updateThemeImages);
+})();
+</script>
+
+  
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
@@ -307,6 +348,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -343,13 +385,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to JupyterNotebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to R</span></a>
   </div>
 </li>
@@ -361,7 +403,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to Data (Part 2)</span></a>
   </div>
 </li>
@@ -385,61 +427,61 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Statistics II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Central Tendency</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dispersion and Dependence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Confidence Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Hypothesis Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_distributions/beginner_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sampling Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Simple Regression</span></a>
   </div>
 </li>
@@ -457,13 +499,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Simple Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multiple Regression</span></a>
   </div>
 </li>
@@ -475,7 +517,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactions</span></a>
   </div>
 </li>
@@ -542,25 +584,25 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geospatial I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geospatial II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variables I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variables II</span></a>
   </div>
 </li>
@@ -572,7 +614,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Linear Differencing</span></a>
   </div>
 </li>
@@ -596,7 +638,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Vocalization (Python)</span></a>
   </div>
 </li>
@@ -620,7 +662,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Synthetic Controls</span></a>
   </div>
 </li>
@@ -632,7 +674,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(19)</span></div><div class="category" data-category="2SLS">2SLS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="AI">AI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="CRS">CRS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="LLMs">LLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Microsoft Azure text-to-speech">Microsoft Azure text-to-speech <span class="quarto-category-count">(1)</span></div><div class="category" data-category="OpenAI">OpenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PyTorch">PyTorch <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(11)</span></div><div class="category" data-category="S2">S2 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Whisper">Whisper <span class="quarto-category-count">(1)</span></div><div class="category" data-category="advanced">advanced <span class="quarto-category-count">(14)</span></div><div class="category" data-category="audio transcription">audio transcription <span class="quarto-category-count">(1)</span></div><div class="category" data-category="before-after estimator">before-after estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="causality">causality <span class="quarto-category-count">(3)</span></div><div class="category" data-category="comparison measure estimator">comparison measure estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="continuous treatment">continuous treatment <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cosine similarity">cosine similarity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cross-section data">cross-section data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="diarization">diarization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="difference in differences">difference in differences <span class="quarto-category-count">(3)</span></div><div class="category" data-category="distance">distance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 425">econ 425 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 495">econ 495 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 499">econ 499 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="elbow plot">elbow plot <span class="quarto-category-count">(1)</span></div><div class="category" data-category="event study">event study <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fine-tuning">fine-tuning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fixed effects">fixed effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="gTTS">gTTS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(2)</span></div><div class="category" data-category="hedonic">hedonic <span class="quarto-category-count">(1)</span></div><div class="category" data-category="instrumental variables">instrumental variables <span class="quarto-category-count">(2)</span></div><div class="category" data-category="k-means clustering">k-means clustering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="large language models">large language models <span class="quarto-category-count">(2)</span></div><div class="category" data-category="linear differencing">linear differencing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mozilla TTS">mozilla TTS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="natural language processing">natural language processing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="network analysis">network analysis <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ols">ols <span class="quarto-category-count">(1)</span></div><div class="category" data-category="p-value">p-value <span class="quarto-category-count">(1)</span></div><div class="category" data-category="panel data">panel data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="parallel trends">parallel trends <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pooling">pooling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="preprocessing">preprocessing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pricing">pricing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="python">python <span class="quarto-category-count">(6)</span></div><div class="category" data-category="random effects">random effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(5)</span></div><div class="category" data-category="sentiment-analysis">sentiment-analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="shapefile">shapefile <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stargazer">stargazer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="synthetic control">synthetic control <span class="quarto-category-count">(1)</span></div><div class="category" data-category="t-test">t-test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="text-to-speech">text-to-speech <span class="quarto-category-count">(1)</span></div><div class="category" data-category="trade">trade <span class="quarto-category-count">(1)</span></div><div class="category" data-category="treatment timing">treatment timing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="triple difference estimator">triple difference estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vector">vector <span class="quarto-category-count">(2)</span></div><div class="category" data-category="vectors">vectors <span class="quarto-category-count">(2)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vocalization">vocalization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="word embeddings">word embeddings <span class="quarto-category-count">(2)</span></div><div class="category" data-category="word2vec">word2vec <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(19)</span></div><div class="category" data-category="2SLS">2SLS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="AI">AI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="CRS">CRS <span class="quarto-category-count">(2)</span></div><div class="category" data-category="LLMs">LLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Microsoft Azure text-to-speech">Microsoft Azure text-to-speech <span class="quarto-category-count">(1)</span></div><div class="category" data-category="OpenAI">OpenAI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="PyTorch">PyTorch <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(11)</span></div><div class="category" data-category="S2">S2 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Whisper">Whisper <span class="quarto-category-count">(1)</span></div><div class="category" data-category="advanced">advanced <span class="quarto-category-count">(14)</span></div><div class="category" data-category="audio transcription">audio transcription <span class="quarto-category-count">(1)</span></div><div class="category" data-category="before-after estimator">before-after estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="causality">causality <span class="quarto-category-count">(3)</span></div><div class="category" data-category="comparison measure estimator">comparison measure estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="continuous treatment">continuous treatment <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cosine similarity">cosine similarity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cross-section data">cross-section data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="diarization">diarization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="difference in differences">difference in differences <span class="quarto-category-count">(3)</span></div><div class="category" data-category="distance">distance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 425">econ 425 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 495">econ 495 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 499">econ 499 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="elbow plot">elbow plot <span class="quarto-category-count">(1)</span></div><div class="category" data-category="event study">event study <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fine-tuning">fine-tuning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fixed effects">fixed effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="gTTS">gTTS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(2)</span></div><div class="category" data-category="hedonic">hedonic <span class="quarto-category-count">(1)</span></div><div class="category" data-category="instrumental variables">instrumental variables <span class="quarto-category-count">(2)</span></div><div class="category" data-category="k-means clustering">k-means clustering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="large language models">large language models <span class="quarto-category-count">(2)</span></div><div class="category" data-category="linear differencing">linear differencing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mozilla TTS">mozilla TTS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="natural language processing">natural language processing <span class="quarto-category-count">(2)</span></div><div class="category" data-category="network analysis">network analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ols">ols <span class="quarto-category-count">(1)</span></div><div class="category" data-category="p-value">p-value <span class="quarto-category-count">(1)</span></div><div class="category" data-category="panel data">panel data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="parallel trends">parallel trends <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pooling">pooling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="preprocessing">preprocessing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pricing">pricing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="python">python <span class="quarto-category-count">(6)</span></div><div class="category" data-category="random effects">random effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(5)</span></div><div class="category" data-category="sentiment-analysis">sentiment-analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="shapefile">shapefile <span class="quarto-category-count">(2)</span></div><div class="category" data-category="stargazer">stargazer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="synthetic control">synthetic control <span class="quarto-category-count">(1)</span></div><div class="category" data-category="t-test">t-test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="text-to-speech">text-to-speech <span class="quarto-category-count">(1)</span></div><div class="category" data-category="trade">trade <span class="quarto-category-count">(1)</span></div><div class="category" data-category="treatment timing">treatment timing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="triple difference estimator">triple difference estimator <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vector">vector <span class="quarto-category-count">(2)</span></div><div class="category" data-category="vectors">vectors <span class="quarto-category-count">(2)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vocalization">vocalization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="word embeddings">word embeddings <span class="quarto-category-count">(2)</span></div><div class="category" data-category="word2vec">word2vec <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
@@ -676,7 +718,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="advanced,R,difference in differences,t-test,comparison measure estimator,before-after estimator,regression,triple difference estimator,cross-section data,parallel trends" data-listing-file-modified-sort="1771957370523" data-listing-reading-time-sort="37">
+<div class="g-col-1" data-index="0" data-categories="advanced,R,difference in differences,t-test,comparison measure estimator,before-after estimator,regression,triple difference estimator,cross-section data,parallel trends" data-listing-file-modified-sort="1780356853698" data-listing-reading-time-sort="37">
 <a href="../../docs/4_Advanced/advanced_difference_in_differences/advanced_difference_in_differences.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -693,8 +735,8 @@ This note introducing difference-in-difference style models, particularly for ca
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="advanced,R,linear differencing,difference in differences,continuous treatment,treatment timing" data-listing-date-sort="1717459200000" data-listing-file-modified-sort="1771957370529" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
-<a href="../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="1" data-categories="advanced,R,linear differencing,difference in differences,continuous treatment,treatment timing" data-listing-date-sort="1717459200000" data-listing-file-modified-sort="1780356853720" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -715,8 +757,8 @@ This notebook introduces students to linear differencing, focusing on techniques
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="advanced,R,instrumental variables,causality,2SLS,regression" data-listing-date-sort="1717977600000" data-listing-file-modified-sort="1771957370528" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26">
-<a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="2" data-categories="advanced,R,instrumental variables,causality,2SLS,regression" data-listing-date-sort="1717977600000" data-listing-file-modified-sort="1780356853711" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -737,8 +779,8 @@ An introduction to estimating causal effects with instrumental variables on Jupy
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="advanced,R,instrumental variables,causality,2SLS,regression" data-listing-date-sort="1717372800000" data-listing-file-modified-sort="1771957370528" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21">
-<a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="3" data-categories="advanced,R,instrumental variables,causality,2SLS,regression" data-listing-date-sort="1717372800000" data-listing-file-modified-sort="1780356853713" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -759,7 +801,7 @@ An introduction to estimating causal effects with instrumental variables on Jupy
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="advanced,R,panel data,regression,fixed effects,random effects,pooling" data-listing-date-sort="1721952000000" data-listing-file-modified-sort="1771957370581" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
+<div class="g-col-1" data-index="4" data-categories="advanced,R,panel data,regression,fixed effects,random effects,pooling" data-listing-date-sort="1721952000000" data-listing-file-modified-sort="1780356853867" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
 <a href="../../docs/4_Advanced/advanced_panel_data/advanced_panel_data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -781,8 +823,8 @@ This module goes over the theory of panel data analysis as well as how to apply 
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="econ 425,econ 495,econ 499,synthetic control,regression,ols,causality,p-value,event study,difference in differences,advanced,R" data-listing-date-sort="1724457600000" data-listing-file-modified-sort="1771957370582" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="32">
-<a href="../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="5" data-categories="econ 425,econ 495,econ 499,synthetic control,regression,ols,causality,p-value,event study,difference in differences,advanced,R" data-listing-date-sort="1724457600000" data-listing-file-modified-sort="1780356853869" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -803,8 +845,8 @@ An introduction to estimating causality through the use of synthetic control. Sy
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="advanced,geospatial,vector,R,hedonic,pricing,shapefile,CRS" data-listing-date-sort="1719187200000" data-listing-file-modified-sort="1771957370523" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18">
-<a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="6" data-categories="advanced,geospatial,vector,R,hedonic,pricing,shapefile,CRS" data-listing-date-sort="1719187200000" data-listing-file-modified-sort="1780356853707" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -825,8 +867,8 @@ This notebook introduces geospatial analysis with vector data in R. We go over b
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="advanced,geospatial,vector,R,S2,trade,distance,CRS,shapefile" data-listing-date-sort="1719187200000" data-listing-file-modified-sort="1771957370523" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19">
-<a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="7" data-categories="advanced,geospatial,vector,R,S2,trade,distance,CRS,shapefile" data-listing-date-sort="1719187200000" data-listing-file-modified-sort="1780356853704" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -847,7 +889,7 @@ This notebook explores geospatial analysis with vector data in R in more detail.
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="advanced,R,k-means clustering,elbow plot,stargazer" data-listing-date-sort="1666051200000" data-listing-file-modified-sort="1771957370523" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
+<div class="g-col-1" data-index="8" data-categories="advanced,R,k-means clustering,elbow plot,stargazer" data-listing-date-sort="1666051200000" data-listing-file-modified-sort="1780356853698" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
 <a href="../../docs/4_Advanced/advanced_classification_and_clustering/advanced_classification_and_clustering.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -869,7 +911,7 @@ This notebook introduces the classification and clustering models, especially fo
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="visualization,R" data-listing-date-sort="1720051200000" data-listing-file-modified-sort="1771957370582" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17">
+<div class="g-col-1" data-index="9" data-categories="visualization,R" data-listing-date-sort="1720051200000" data-listing-file-modified-sort="1780356853868" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17">
 <a href="../../docs/4_Advanced/advanced_sentiment_analysis/sentiment_analysis.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -891,7 +933,7 @@ This notebook explains how to perform basic sentiment analysis and Reddit web sc
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="advanced,python,Whisper,audio transcription,PyTorch,preprocessing,diarization" data-listing-file-modified-sort="1771957370582" data-listing-reading-time-sort="21">
+<div class="g-col-1" data-index="10" data-categories="advanced,python,Whisper,audio transcription,PyTorch,preprocessing,diarization" data-listing-file-modified-sort="1780356853870" data-listing-reading-time-sort="21">
 <a href="../../docs/4_Advanced/advanced_transcription/advanced_transcription_whisper.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -908,8 +950,8 @@ This notebook introduces how to use machine learning tools to transcribe and dia
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="advanced,python,vocalization,text-to-speech,gTTS,mozilla TTS,Microsoft Azure text-to-speech" data-listing-file-modified-sort="1771957370729" data-listing-reading-time-sort="11">
-<a href="../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="11" data-categories="advanced,python,vocalization,text-to-speech,gTTS,mozilla TTS,Microsoft Azure text-to-speech" data-listing-file-modified-sort="1780356854058" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -925,7 +967,7 @@ This notebook demonstrates how to produce human-like speech from text input in a
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="advanced,python,natural language processing,large language models,word embeddings,word2vec,vectors,cosine similarity" data-listing-file-modified-sort="1771957370757" data-listing-reading-time-sort="1">
+<div class="g-col-1" data-index="12" data-categories="advanced,python,natural language processing,large language models,word embeddings,word2vec,vectors,cosine similarity" data-listing-file-modified-sort="1780356854083" data-listing-reading-time-sort="1">
 <a href="../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_python_version_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -942,7 +984,7 @@ This notebook introduces the concept and implementation of word embeddings, as u
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="advanced,R,natural language processing,large language models,word embeddings,word2vec,vectors,cosine similarity" data-listing-file-modified-sort="1771957370757" data-listing-reading-time-sort="33">
+<div class="g-col-1" data-index="13" data-categories="advanced,R,natural language processing,large language models,word embeddings,word2vec,vectors,cosine similarity" data-listing-file-modified-sort="1780356854083" data-listing-reading-time-sort="33">
 <a href="../../docs/4_Advanced/advanced_word_embeddings/advanced_word_embeddings_r_version.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -959,7 +1001,7 @@ This notebook introduces the concept and implementation of word embeddings, as u
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="advanced,python,OpenAI" data-listing-date-sort="1722988800000" data-listing-file-modified-sort="1771957370566" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="g-col-1" data-index="14" data-categories="advanced,python,OpenAI" data-listing-date-sort="1722988800000" data-listing-file-modified-sort="1780356853750" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <a href="../../docs/4_Advanced/advanced_llm_apis2/advanced_llm_apis2.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -981,7 +1023,7 @@ This notebook illustrates how to call different Large Language Models (LLMs) usi
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="python,fine-tuning,sentiment-analysis,LLMs,AI" data-listing-date-sort="1722211200000" data-listing-file-modified-sort="1771957370578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="30">
+<div class="g-col-1" data-index="15" data-categories="python,fine-tuning,sentiment-analysis,LLMs,AI" data-listing-date-sort="1722211200000" data-listing-file-modified-sort="1780356853863" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="30">
 <a href="../../docs/4_Advanced/advanced_ollama_llm/fine_tuning_llm.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1003,8 +1045,8 @@ An introduction to fine-tuning LLMs using BERT, in Python.
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="python,network analysis" data-listing-date-sort="1724976000000" data-listing-file-modified-sort="1771957370567" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
-<a href="../../docs/4_Advanced/advanced_network_analysis/intro_to_python_network_analysis.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="16" data-categories="python,network analysis" data-listing-date-sort="1724976000000" data-listing-file-modified-sort="1780356853753" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_network_analysis/intro_to_python_network_analysis_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -1025,8 +1067,8 @@ This is the prereading for the network analysis workshop.
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="17" data-categories="Python,network analysis" data-listing-date-sort="1728086400000" data-listing-file-modified-sort="1771957370576" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="48">
-<a href="../../docs/4_Advanced/advanced_network_analysis/network_analysis_notebook.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="17" data-listing-date-sort="1728086400000" data-listing-file-modified-sort="1780356853862" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -1047,8 +1089,8 @@ This notebook is an introduction to basic network analysis in Python.
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="18" data-categories="Python,network analysis" data-listing-date-sort="1728086400000" data-listing-file-modified-sort="1771957370576" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
-<a href="../../docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_II.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="18" data-listing-date-sort="1728086400000" data-listing-file-modified-sort="1780356853862" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<a href="../../docs/4_Advanced/advanced_network_analysis/network_analysis_notebook_II_stub.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img data-src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
@@ -1103,6 +1145,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

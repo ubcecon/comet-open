@@ -72,10 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -98,7 +100,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+(function() {
+    function updateThemeImages() {
+        var isDark = document.body.classList.contains('quarto-dark');
+        var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
+
+        images.forEach(function(img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+            var newSrc = isDark ? darkSrc : lightSrc;
+
+            // Only update if src is different to avoid reload flicker
+            if (img.getAttribute('src') !== newSrc) {
+                img.setAttribute('src', newSrc);
+            }
+        });
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeImages();
+
+        // Watch for theme changes on body
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateThemeImages();
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also run after full page load
+    window.addEventListener('load', updateThemeImages);
+})();
+</script>
+
+  
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../../../styles.css">
@@ -310,6 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -346,13 +388,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_jupyter/getting_started_intro_to_jupyter_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to JupyterNotebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_r/getting_started_intro_to_r_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to R</span></a>
   </div>
 </li>
@@ -364,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/1_Getting_Started/getting_started_intro_to_data/getting_started_intro_to_data2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to Data (Part 2)</span></a>
   </div>
 </li>
@@ -388,61 +430,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Statistics II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Central Tendency</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dispersion and Dependence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Confidence Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Hypothesis Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_distributions/beginner_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sampling Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Simple Regression</span></a>
   </div>
 </li>
@@ -460,13 +502,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Simple Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multiple Regression</span></a>
   </div>
 </li>
@@ -478,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactions</span></a>
   </div>
 </li>
@@ -545,25 +587,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geospatial I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_geospatial/advanced_geospatial_2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geospatial II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables1_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variables I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_instrumental_variables/advanced_instrumental_variables2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variables II</span></a>
   </div>
 </li>
@@ -575,7 +617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_linear_differencing/advanced_linear_differencing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Linear Differencing</span></a>
   </div>
 </li>
@@ -599,7 +641,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_vocalization/advanced_vocalization_draft_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Vocalization (Python)</span></a>
   </div>
 </li>
@@ -623,7 +665,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../docs/4_Advanced/advanced_synthetic_control/advanced_synthetic_control_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Synthetic Controls</span></a>
   </div>
 </li>
@@ -978,6 +1020,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

@@ -67,17 +67,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
 <link href="../../../docs/5_Research/econ490-pystata/04_Locals_and_Globals.html" rel="next">
-<link href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" rel="prev">
+<link href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles_stub.html" rel="prev">
 <link href="../../../media/comet_favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -99,6 +101,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
+
+<script>
+(function() {
+    function updateThemeImages() {
+        var isDark = document.body.classList.contains('quarto-dark');
+        var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
+
+        images.forEach(function(img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+            var newSrc = isDark ? darkSrc : lightSrc;
+
+            // Only update if src is different to avoid reload flicker
+            if (img.getAttribute('src') !== newSrc) {
+                img.setAttribute('src', newSrc);
+            }
+        });
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeImages();
+
+        // Watch for theme changes on body
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateThemeImages();
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also run after full page load
+    window.addEventListener('load', updateThemeImages);
+})();
+</script>
 
 
 <link rel="stylesheet" href="../../../styles.css">
@@ -310,6 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -346,110 +388,110 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/01_Setting_Up_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Setting Up (1)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/02_Working_Dofiles_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Working with Do-files (2)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/03_Stata_Essentials_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">STATA Essentials (3)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/04_Locals_and_Globals_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Locals and Globals (4)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/05_Opening_Data_Sets_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opening Datasets (5)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/06_Creating_Variables_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Creating Variables (6)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/07_Within_Group_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Within Group Analysis (7)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/08_Merge_Append_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Combining Datasets (8)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/09_Stata_Graphs_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/10_Combining_Graphs_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Combining Graphs (10)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/11_Linear_Reg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conducting Regression Analysis (11)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/12_Exporting_Output_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exporting Regression Output (12)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/13_Dummy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/13_Dummy_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dummy Variables and Interactions (13)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/14_PostReg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good Regression Practices (14)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/15_Panel_Data_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Panel Data Regression (15)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/16_Diff_in_Diff_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Difference in Differences (16)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/17_IV_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">R Workflow Guide (17)</span></a>
+  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2_stub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STATA Workflow Guide (18)</span></a>
   </div>
 </li>
       </ul>
@@ -466,31 +508,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/01_Setting_Up_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Setting Up (1)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/02_Working_Rscripts_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Working with R Scripts (2)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/03_R_Essentials_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">R Essentials (3)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/04_Opening_Data_Sets_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Opening Datasets (4)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/05_Creating_Variables_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Creating Variables (5)</span></a>
   </div>
 </li>
@@ -502,67 +544,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/07_Combining_Datasets_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Combining Datasets (7)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/08_ggplot_graphs_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Creating Meaningful Visuals (8)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/09_Combining_Graphs_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Combining Graphs (9)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/10_Linear_Reg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conducting Regression Analysis (10)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/11_Exporting_Output_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exporting Regression Output (11)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/12_Dummy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/12_Dummy_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dummy Variables and Interactions (12)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/13_PostReg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/13_PostReg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good Regression Practices (13)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/14_Panel_Data_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Panel Data Regression (14)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/15_Diff_in_Diff_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Difference in Differences (15)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/17_IV.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-stata/17_IV_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instrumental Variable Analysis (16)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-stata/18_Wf_Guide2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-r/17_Wf_Guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">R Workflow Guide (17)</span></a>
   </div>
 </li>
@@ -580,13 +622,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-pystata/01_Setting_Up_PyStata_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Setting Up (1)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Working with Do-files (2)</span></a>
   </div>
 </li>
@@ -628,7 +670,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-pystata/09_Stata_Graphs_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Creating Meaningful Visuals (9)</span></a>
   </div>
 </li>
@@ -640,7 +682,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-pystata/11_Linear_Reg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conducting Regression Analysis (11)</span></a>
   </div>
 </li>
@@ -658,7 +700,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../docs/5_Research/econ490-pystata/14_PostReg_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good Regression Practices (14)</span></a>
   </div>
 </li>
@@ -1117,6 +1159,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1346,7 +1503,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles.html" class="pagination-link">
+      <a href="../../../docs/5_Research/econ490-pystata/02_Working_Dofiles_stub.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Working with Do-files (2)</span>
       </a>          
   </div>

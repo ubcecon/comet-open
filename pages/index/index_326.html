@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" rel="next">
+<link href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.html" rel="next">
 <link href="../../media/comet_favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-listing/list.min.js"></script>
 <script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
@@ -39,10 +39,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -94,7 +96,46 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <meta name="keywords" content="economics, econometrics, R, data, machine learning, UBC, COMET, geog 374, econ 325, econ 326, learning, teaching, learn r, r help, help, tutorial, r tutorial for beginners,learning statistics with r, learn r programming, learn statistics, linear regression, r machine learning, learn machine learning, university of british columbia, british columbia, r programming for beginners, r language tutorial, r tutorial for beginners, economic data, econometrics tutoring, economics help for students, economics homework help, oer resources for teachers, open educational resources for teachers, educational resource, oer project, oer materials, oer resources, learn economics online, learn econometrics, teach yourself economics, teach yourself econometrics, econometrics basics for beginners">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+(function() {
+    function updateThemeImages() {
+        var isDark = document.body.classList.contains('quarto-dark');
+        var images = document.querySelectorAll('img[data-light-src][data-dark-src]');
+
+        images.forEach(function(img) {
+            var lightSrc = img.getAttribute('data-light-src');
+            var darkSrc = img.getAttribute('data-dark-src');
+            var newSrc = isDark ? darkSrc : lightSrc;
+
+            // Only update if src is different to avoid reload flicker
+            if (img.getAttribute('src') !== newSrc) {
+                img.setAttribute('src', newSrc);
+            }
+        });
+    }
+
+    // Run when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThemeImages();
+
+        // Watch for theme changes on body
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    updateThemeImages();
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also run after full page load
+    window.addEventListener('load', updateThemeImages);
+})();
+</script>
+
+  
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
@@ -306,6 +347,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -348,25 +390,25 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of Basic Statistics using R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Central Tendency</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Confidence Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Hypothesis Testing</span></a>
   </div>
 </li>
@@ -390,67 +432,67 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of Basic Statistics using R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_central_tendency/beginner_central_tendency_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Central Tendency</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_dispersion_and_dependence/beginner_dispersion_and_dependence_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dispersion and Dependence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_confidence_intervals/beginner_confidence_intervals_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Confidence Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_hypothesis_testing/beginner_hypothesis_testing_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Hypothesis Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization1/beginner_intro_to_data_visualization1_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_data_visualization2/beginner_intro_to_data_visualization2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Visualization II</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_distributions/beginner_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_distributions/beginner_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_sampling_distributions/beginner_sampling_distributions_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sampling Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/6_Projects/projects_example_project_econ325/Projects_Example_Project_ECON325_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Example Project (325)</span></a>
   </div>
 </li>
@@ -468,19 +510,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Review of Basic Statistics using R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multiple Regression</span></a>
   </div>
 </li>
@@ -492,13 +534,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactions and Non-Linear Terms</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326_stub.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Example Project (326)</span></a>
   </div>
 </li>
@@ -553,7 +595,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#modules" id="toc-modules" class="nav-link active" data-scroll-target="#modules">Modules</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/ubcecon/comet-open/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Breusch-Pagan test">Breusch-Pagan test <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(6)</span></div><div class="category" data-category="White's test">White's test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="beginner">beginner <span class="quarto-category-count">(2)</span></div><div class="category" data-category="continuous variable">continuous variable <span class="quarto-category-count">(1)</span></div><div class="category" data-category="control variables">control variables <span class="quarto-category-count">(1)</span></div><div class="category" data-category="controls">controls <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data">data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data cleaning">data cleaning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data wrangling">data wrangling <span class="quarto-category-count">(2)</span></div><div class="category" data-category="descriptive statistics">descriptive statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dummy variable">dummy variable <span class="quarto-category-count">(2)</span></div><div class="category" data-category="econ 226">econ 226 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 227">econ 227 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 325">econ 325 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 326">econ 326 <span class="quarto-category-count">(5)</span></div><div class="category" data-category="heteroskedasticity">heteroskedasticity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="homoskedasticity">homoskedasticity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="importing data">importing data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="inferential statistics">inferential statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="interaction terms">interaction terms <span class="quarto-category-count">(2)</span></div><div class="category" data-category="intermediate">intermediate <span class="quarto-category-count">(4)</span></div><div class="category" data-category="introduction">introduction <span class="quarto-category-count">(2)</span></div><div class="category" data-category="linear probability model">linear probability model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multicollinearity">multicollinearity <span class="quarto-category-count">(2)</span></div><div class="category" data-category="multiple regression">multiple regression <span class="quarto-category-count">(4)</span></div><div class="category" data-category="non-linear terms">non-linear terms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ols">ols <span class="quarto-category-count">(2)</span></div><div class="category" data-category="pareto distribution">pareto distribution <span class="quarto-category-count">(1)</span></div><div class="category" data-category="polynomial terms">polynomial terms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="projects">projects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(5)</span></div><div class="category" data-category="review">review <span class="quarto-category-count">(1)</span></div><div class="category" data-category="robust standard errors">robust standard errors <span class="quarto-category-count">(1)</span></div><div class="category" data-category="simple regression">simple regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="t-test">t-test <span class="quarto-category-count">(2)</span></div><div class="category" data-category="vif">vif <span class="quarto-category-count">(2)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Breusch-Pagan test">Breusch-Pagan test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="White's test">White's test <span class="quarto-category-count">(1)</span></div><div class="category" data-category="econ 326">econ 326 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="heteroskedasticity">heteroskedasticity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="intermediate">intermediate <span class="quarto-category-count">(1)</span></div><div class="category" data-category="linear probability model">linear probability model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multicollinearity">multicollinearity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multiple regression">multiple regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="robust standard errors">robust standard errors <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vif">vif <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
@@ -602,130 +644,20 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </div>
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="introduction,review,econ 226,econ 227,descriptive statistics,beginner,importing data,data wrangling,t-test,inferential statistics,R" data-listing-date-sort="1683504000000" data-listing-file-modified-sort="1771957370506" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
-<a href="../../docs/2_Beginner/beginner_intro_to_statistics2/beginner_intro_to_statistics2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title" data-anchor-id="modules">
-1.0.1 - Beginner - Introduction to Statistics using R
-</h5>
-<div class="card-text listing-description">
-This notebook is an introduction to basic statistics using Jupyter and R, and some fundamental data analysis. It is a high-level review of the most important applied tools…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-8 May 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="introduction,econ 325,econ 326,simple regression,regression,ols,t-test,dummy variable,pareto distribution,beginner,intermediate,R" data-listing-date-sort="1721865600000" data-listing-file-modified-sort="1771957370522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="32">
-<a href="../../docs/3_Intermediate/intermediate_intro_to_regression/intermediate_intro_to_regression.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-2.1 - Intermediate - Introduction to Regression
-</h5>
-<div class="card-text listing-description">
-An introduction to simple regression using Jupyter and R, with an emphasis on understanding what regression models are actually doing. Computation is using OLS.
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-25 Jul 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="econ 326,data,multiple regression,regression,ols,control variables,intermediate,R" data-listing-date-sort="1670457600000" data-listing-file-modified-sort="1771957370522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29">
-<a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-2.2 - Intermediate - Multiple Regression
-</h5>
-<div class="card-text listing-description">
-An introduction to multiple regression using Jupyter and R, connecting simple to multiple regression. We also discuss some important concepts, including control variables.
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-8 Dec 2022
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="intermediate,econ 326,multiple regression,regression,multicollinearity,heteroskedasticity,R,vif,robust standard errors,White" s="" test,breusch-pagan="" test,linear="" probability="" model'="" data-listing-date-sort="1670457600000" data-listing-file-modified-sort="1771957370522" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
+<div class="g-col-1" data-index="0" data-categories="intermediate,econ 326,multiple regression,regression,multicollinearity,heteroskedasticity,R,vif,robust standard errors,White" s="" test,breusch-pagan="" test,linear="" probability="" model'="" data-listing-date-sort="1670457600000" data-listing-file-modified-sort="1780356853692" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
 <a href="../../docs/3_Intermediate/intermediate_issues_in_regression/intermediate_issues_in_regression.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">2.4 - Intermediate - Issues in Regression</h5>
+<h5 class="no-anchor card-title listing-title" data-anchor-id="modules">2.4 - Intermediate - Issues in Regression</h5>
 <div class="card-text listing-description delink">What are the key issues with a regression model? This notebook discusses collinearity, heteroskedasticity, and model specification.</div>
 <div class="card-attribution card-text-small end">
 <div class="listing-date">`8 Dec 2022`{=html}</div>
 </div>
 </div>
 </div></a></div>
-<div class="g-col-1" data-index="4" data-categories="econ 326,multiple regression,regression,controls,intermediate,R,interaction terms,non-linear terms,polynomial terms,continuous variable" data-listing-date-sort="1670457600000" data-listing-file-modified-sort="1771957370521" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
-<a href="../../docs/3_Intermediate/intermediate_interactions_and_nonlinear_terms/intermediate_interactions_and_nonlinear_terms.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-2.5 - Intermediate - Interactions and Non-linear Terms
-</h5>
-<div class="card-text listing-description">
-How do we specific non-linear models? Why would we want to do so? This notebook covers non-linear and interaction models, including marginal effects and related issues.
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-8 Dec 2022
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-categories="econ 326,regression,projects,R,visualization,data wrangling,data cleaning,multiple regression,homoskedasticity,multicollinearity,Breusch-Pagan test,heteroskedasticity,vif,dummy variable,interaction terms" data-listing-date-sort="1688169600000" data-listing-file-modified-sort="1771957372208" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19">
-<a href="../../docs/6_Projects/projects_example_project_econ326/Projects_Example_Project_ECON326.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="placeholder_images/placeholder.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Projects - Example Project for ECON 326
-</h5>
-<div class="card-text listing-description">
-Let’s put it all together! This notebook is an example of what a “final project” might look like in ECON 326. It summarizes and uses all many of the empirical skills and R…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-1 Jul 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
@@ -757,6 +689,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -988,7 +1035,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression.html" class="pagination-link">
+      <a href="../../docs/3_Intermediate/intermediate_multiple_regression/intermediate_multiple_regression_stub.html" class="pagination-link">
         <span class="nav-page-text">Multiple Regression</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
