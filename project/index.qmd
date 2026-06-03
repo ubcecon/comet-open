@@ -32,14 +32,14 @@ nocite: |
 ![](media/single_loop.gif){width="300" fig-align="center" .hero-logo}
 
 ::: {.callout-warning}
-## Spring 2025 Update
+## Summer 2026 Update
 
-We have recently updated and fixed several notebooks and other issues on the website.
+We have recently migrated the COMET project to open-source hosting, here on GitHub.
 
-* If you have an old version of the GitHub project on your Jupyter account, you should delete it and load the new version.
-* Links to the website may not be working currently.
+* You can still use the old URL at [comet.arts.ubc.ca](https://comet.arts.ubc.ca) but be aware that deep links may not work properly.
+* We recommend updating all your links to point to the new [ubcecon.github.io/comet-open/](https://ubcecon.github.io/comet-open/) address.
 
-(_Last Update_: 2024-01-03)
+(_Last Update_: 2026-06-03)
 :::
 
 
