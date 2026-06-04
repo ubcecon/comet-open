@@ -1,5 +1,5 @@
 # Build stage
-FROM jlgraves/comet-test:test AS builder
+FROM alexr951/comet-base:safe AS builder
 
 WORKDIR /app
 
