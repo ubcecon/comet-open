@@ -1,0 +1,22 @@
+# Python requirements for the ECON 490 PyStata notebooks
+#
+# These notebooks drive a local Stata installation from Python via PyStata.
+# The `pystata` package itself is NOT on PyPI, it ships *inside* your Stata
+# installation (e.g. D:/Stata/utilities/pystata). `stata_setup` is the small
+# helper that puts that bundled pystata on the Python path.
+#
+# Install with:  pip install -r requirements.txt
+#
+# You ALSO need, outside of pip:
+#   * Stata SE 18 or 19 installed locally, with a valid license
+#   * Quarto >= 1.5  (https://quarto.org) to render the .qmd files
+#   * A Jupyter Python kernel registered (ipykernel, included below)
+
+stata_setup>=0.1.3      # locates the Stata-bundled pystata package
+numpy>=1.23             # pystata dependency
+pandas>=1.5             # pystata dependency
+ipython>=8.0            # provides the %%stata cell magic
+jupyter                 # quarto uses the jupyter engine to execute cells
+ipykernel               # the python3 kernel quarto launches
+nbformat                # quarto/jupyter notebook handling
+nbclient                # quarto/jupyter notebook execution
