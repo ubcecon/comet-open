@@ -83,12 +83,7 @@ Total .qmd notebooks in `project/docs/`: **96**
 
 ## 7. econ490-pystata (18 notebooks)
 
-- 01_Setting_Up_PyStata — **PRE-RENDERED**
-- 02_Working_Dofiles — **PRE-RENDERED**
-- 09_Stata_Graphs — **PRE-RENDERED**
-- 11_Linear_Reg — **PRE-RENDERED**
-- 14_PostReg — **PRE-RENDERED**
-- 03 through 08, 10, 12, 13, 15-18 — REGULAR
+- 01 through 18 — **ALL PRE-RENDERED**
 
 ## 8. Projects (3 notebooks)
 
@@ -98,8 +93,8 @@ Total .qmd notebooks in `project/docs/`: **96**
 
 ## Overall Totals
 
-- **PRE-RENDERED**: 69
-- **REGULAR**: 27
+- **PRE-RENDERED**: 82
+- **REGULAR**: 14
 - **Total**: 96
 
 ## Excluded Notebooks (4)
