@@ -1,12 +1,13 @@
 # Python requirements for the ECON 490 PyStata notebooks
-#
+
 # These notebooks drive a local Stata installation from Python via PyStata.
 # The `pystata` package itself is NOT on PyPI, it ships *inside* your Stata
 # installation (e.g. D:/Stata/utilities/pystata). `stata_setup` is the small
-# helper that puts that bundled pystata on the Python path.
-#
+# helper that puts that bundled pystata on the Python path. 
+# You can get Stata for free from UBC (https://isit.arts.ubc.ca/news/stata-18-available-now/)
+
 # Install with:  pip install -r requirements.txt
-#
+
 # You ALSO need, outside of pip:
 #   * Stata SE 18 or 19 installed locally, with a valid license
 #   * Quarto >= 1.5  (https://quarto.org) to render the .qmd files
