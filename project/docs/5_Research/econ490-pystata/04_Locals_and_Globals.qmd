@@ -38,6 +38,7 @@ format:
 ## 4.0 Intro
 
 ```{python}
+#| output: false
 import stata_setup
 stata_setup.config('D:/Stata', 'se') #Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac
 ```

@@ -5150,38 +5150,15 @@ vertical-align: -.125em;
 </section>
 <section id="intro" class="level2">
 <h2 class="anchored" data-anchor-id="intro">18.0 Intro</h2>
-<div id="7e631f87" class="cell" data-execution_count="1">
+<div id="eea2fd06" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">&#39;D:/Stata&#39;</span>, <span class="st">&#39;se&#39;</span>) <span class="co">#Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  ___  ____  ____  ____  ____ ®
- /__    /   ____/   /   ____/      StataNow 19.5
-___/   /   /___/   /   /___/       SE—Standard Edition
-
- Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
-                                   StataCorp
-                                   4905 Lakeway Drive
-                                   College Station, Texas 77845 USA
-                                   800-782-8272        https://www.stata.com
-                                   979-696-4600        service@stata.com
-
-Stata license: Unlimited-user network, expiring 19 Aug 2026
-Serial number: 401909301439
-  Licensed to: Alex Ronczewski
-               UBC
-
-Notes:
-      1. Unicode is supported; see help unicode_advice.
-      2. Maximum number of variables is set to 5,000 but can be increased;
-          see help set_maxvar.</code></pre>
 </div>
-</div>
-<div id="af64589a" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">&#39;/Applications/Stata/utilities&#39;</span>) <span class="co">## make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">&#39;se&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7fa0aac9" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">&#39;/Applications/Stata/utilities&#39;</span>) <span class="co">## make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">&#39;se&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-block alert-info">
 Significant credit for the content of the module must go to Asjad Naqvi and this very useful post on <a href="https://medium.com/the-stata-guide/the-stata-workflow-guide-52418ce35006">The Stata Guide on Medium</a>.
@@ -5247,17 +5224,17 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <section id="compiling-do-files-with-the-master-do-file" class="level3">
 <h3 class="anchored" data-anchor-id="compiling-do-files-with-the-master-do-file">18.3.1 Compiling Do-Files with the Master Do-File</h3>
 <p>We can think of the master do-file, <code>0_master.do</code>, as a “compiler”: it runs all, or some, of the do-files for everything in our project. This master do-file file should be structured something like this:</p>
-<div id="e43308fd" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Project info <span class="op">*/</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    clear</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Directory settings: paths to folders, defined <span class="im">as</span> <span class="bu">globals</span> <span class="op">*/</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Project settings: such <span class="im">as</span> <span class="kw">global</span> variables <span class="kw">and</span> other macros <span class="op">*/</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Run the do<span class="op">-</span>files: runs <span class="bu">all</span> of the do<span class="op">-</span>files <span class="cf">for</span> the project <span class="op">*/</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e00f2031" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Project info <span class="op">*/</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    clear</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Directory settings: paths to folders, defined <span class="im">as</span> <span class="bu">globals</span> <span class="op">*/</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Project settings: such <span class="im">as</span> <span class="kw">global</span> variables <span class="kw">and</span> other macros <span class="op">*/</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">/*</span> Run the do<span class="op">-</span>files: runs <span class="bu">all</span> of the do<span class="op">-</span>files <span class="cf">for</span> the project <span class="op">*/</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 .     /* Project info */
@@ -5292,21 +5269,21 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <li>Each sub-directory’s path has its own global; for example, the path to the data folder is called <em>data</em>. Note that we don’t need to specify the full file path for each sub-directory, as it would be already included in the main folder. For example, for the data folder, we can simply use <code>${proj_main}/data</code>.</li>
 </ul>
 <p>Here is an example. Be sure to edit this information for your own project!</p>
-<div id="1eff341a" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">*********************</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Directory Settings</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="op">*********************</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> proj_name <span class="st">&quot;Fake Project&quot;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> proj_main <span class="st">&quot;$file_path/projects/$</span><span class="sc">{proj_name}</span><span class="st">&quot;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> datadir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/data&quot;</span>                  <span class="op">//</span> Raw Files <span class="kw">and</span> Output <span class="im">from</span> those</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> figdir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/figures&quot;</span>                <span class="op">//</span> Figure path</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> tabledir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/tables&quot;</span>               <span class="op">//</span> Tables Path</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> do_dir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/do_files&quot;</span>                <span class="op">//</span> Do<span class="op">-</span>files path</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> log_dir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/logfiles&quot;</span>              <span class="op">//</span> Log<span class="op">-</span><span class="bu">file</span> path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="46c90dbe" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">*********************</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Directory Settings</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">*********************</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> proj_name <span class="st">&quot;Fake Project&quot;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> proj_main <span class="st">&quot;$file_path/projects/$</span><span class="sc">{proj_name}</span><span class="st">&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> datadir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/data&quot;</span>                  <span class="op">//</span> Raw Files <span class="kw">and</span> Output <span class="im">from</span> those</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> figdir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/figures&quot;</span>                <span class="op">//</span> Figure path</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> tabledir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/tables&quot;</span>               <span class="op">//</span> Tables Path</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> do_dir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/do_files&quot;</span>                <span class="op">//</span> Do<span class="op">-</span>files path</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> log_dir <span class="st">&quot;$</span><span class="sc">{proj_main}</span><span class="st">/logfiles&quot;</span>              <span class="op">//</span> Log<span class="op">-</span><span class="bu">file</span> path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5334,9 +5311,9 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 </div>
 </div>
 <p>Setting up the directory using globals can be very useful. Imagine that in the do-file called <code>1_build_data.do</code>, we want to load our data set saved under the file name <em>fake_data.csv</em> in the data folder <em>data</em> in a sub-directory called <em>raw</em>. Instead of defining the full file path of <em>fake_data.csv</em>, we can conveniently use our globals as follows:</p>
-<div id="8859f53d" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="im">import</span> delimit using ${datadir}<span class="op">/</span>raw<span class="op">/</span>fake_data.csv, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="186de3e7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="im">import</span> delimit using ${datadir}<span class="op">/</span>raw<span class="op">/</span>fake_data.csv, clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>invalid &#39;Project&#39; </code></pre>
 </div>
@@ -5348,25 +5325,25 @@ Significant credit for the content of the module must go to Asjad Naqvi and this
 <p>The final component of the master do-file is the running of the do-files. Here, we go over a simple example without using the project settings. The optional approach with those settings is further below.</p>
 <p>As we saw in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/02_Working_Dofiles.html">Module 2</a>, we run a do-file by using the command <code>do</code> followed by the file path of the appropriate do-file.</p>
 <p>For example, if we wanted to run the do-file that builds the data (<code>1_build_data.do</code>) that is stored in the folder indicated by the global <code>do_dir</code>, we would use the following command:</p>
-<div id="4474a49a" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4b244741" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>file /projects/Fake Project/do_files/1_build_data.do not found</code></pre>
 </div>
 </div>
 <p>In our master do-file, we would include the code for running all the do-files like this:</p>
-<div id="8f33a193" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/2_descriptive.do&quot;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/3_results.do&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2c8a8dc8" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/2_descriptive.do&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/3_results.do&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . ******************
@@ -5395,11 +5372,11 @@ file /projects/Fake Project/do_files/3_results.do not found
 <p><a href="https://lthub.ubc.ca/guides/microsoft-onedrive-student-guide/">UBC Microsoft OneDrive</a> is a secure file-hosting service that allows us to store, share, and synchronize files and folders from any connected devices. You can learn how to store files on this service from the link provided above, but here we are going to cover how to access these files directly from Stata on any computer.</p>
 <p>To begin, we need to follow the instructions for our operating system to install the Microsoft OneDrive application on any computer that we want to work on. Once we have complete this process, we will see a new folder in our computer directory which contains all of the files in our OneDrive folder.</p>
 <p>To see how this works, we can edit the command below to access that directory on our computer. You will need to determine the file path on your computer and edit the example path here. When we run this command, Stata will understand that it should use this directory moving forward. We have also included <code>dir</code> so that we can see our folders in that directory. If we have already set up the folders for our project, we will see them there.</p>
-<div id="37e5b5dc" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>capture noisily cd <span class="st">&quot;/Users/fake_user/Library/CloudStorage/OneDrive-UBC&quot;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="bu">dir</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="94b2641c" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>capture noisily cd <span class="st">&quot;/Users/fake_user/Library/CloudStorage/OneDrive-UBC&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="bu">dir</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5407,72 +5384,69 @@ file /projects/Fake Project/do_files/3_results.do not found
 unable to change to /Users/fake_user/Library/CloudStorage/OneDrive-UBC
 
 . capture noisily dir
-  &lt;dir&gt;   6/08/26 16:45  .                 
-  &lt;dir&gt;   6/08/26 16:45  ..                
+  &lt;dir&gt;   6/10/26 17:21  .                 
+  &lt;dir&gt;   6/10/26 17:21  ..                
 2541.3k   2/27/26 15:57  01_Setting_Up_PyStata.html
    8.1k   2/27/26 13:12  01_Setting_Up_PyStata.qmd
    0.5k   2/27/26 13:12  01_Setting_Up_PyStata_stub.qmd
-2428.3k   2/27/26 15:59  02_Working_Dofiles.html
-   9.1k   2/27/26 13:12  02_Working_Dofiles.qmd
+2427.4k   6/10/26 17:08  02_Working_Dofiles.html
+   9.1k   6/10/26 16:54  02_Working_Dofiles.qmd
    0.4k   2/27/26 13:12  02_Working_Dofiles_stub.qmd
-3142.8k   6/08/26 16:37  03_Stata_Essentials.html
-  16.1k   6/08/26 16:32  03_Stata_Essentials.qmd
-   0.4k   6/08/26 16:32  03_Stata_Essentials_stub.qmd
-2379.9k   6/08/26 16:37  04_Locals_and_Globals.html
-  12.0k   6/08/26 16:32  04_Locals_and_Globals.qmd
-   0.4k   6/08/26 16:32  04_Locals_and_Globals_stub.qmd
-2387.4k   6/08/26 16:38  05_Opening_Data_Sets.html
-  15.6k   6/08/26 16:32  05_Opening_Data_Sets.qmd
-   0.5k   6/08/26 16:32  05_Opening_Data_Sets_stub.qmd
-2374.8k   6/08/26 16:39  06_Creating_Variables.html
-  13.2k   6/08/26 16:32  06_Creating_Variables.qmd
-   0.5k   6/08/26 16:32  06_Creating_Variables_stub.qmd
-2494.3k   6/08/26 16:39  07_Within_Group.html
-  17.1k   6/08/26 16:32  07_Within_Group.qmd
-   0.5k   6/08/26 16:32  07_Within_Group_stub.qmd
-2373.8k   6/08/26 16:40  08_Merge_Append.html
-  10.6k   6/08/26 16:32  08_Merge_Append.qmd
-   0.3k   6/08/26 16:32  08_Merge_Append_stub.qmd
-3334.1k   2/27/26 16:04  09_Stata_Graphs.html
-  15.8k   2/27/26 13:12  09_Stata_Graphs.qmd
+3141.6k   6/10/26 17:09  03_Stata_Essentials.html
+  16.1k   6/10/26 16:54  03_Stata_Essentials.qmd
+   0.4k   6/08/26 16:59  03_Stata_Essentials_stub.qmd
+2379.0k   6/10/26 17:09  04_Locals_and_Globals.html
+  12.0k   6/10/26 16:54  04_Locals_and_Globals.qmd
+   0.4k   6/08/26 16:59  04_Locals_and_Globals_stub.qmd
+2386.5k   6/10/26 17:10  05_Opening_Data_Sets.html
+  15.6k   6/10/26 16:54  05_Opening_Data_Sets.qmd
+   0.5k   6/08/26 16:59  05_Opening_Data_Sets_stub.qmd
+2373.9k   6/10/26 17:11  06_Creating_Variables.html
+  13.2k   6/10/26 16:54  06_Creating_Variables.qmd
+   0.5k   6/08/26 16:59  06_Creating_Variables_stub.qmd
+2493.3k   6/10/26 17:11  07_Within_Group.html
+  17.1k   6/10/26 16:54  07_Within_Group.qmd
+   0.5k   6/08/26 16:59  07_Within_Group_stub.qmd
+2372.9k   6/10/26 17:12  08_Merge_Append.html
+  10.6k   6/10/26 16:54  08_Merge_Append.qmd
+   0.3k   6/08/26 16:59  08_Merge_Append_stub.qmd
+3333.2k   6/10/26 17:13  09_Stata_Graphs.html
+  15.9k   6/10/26 16:54  09_Stata_Graphs.qmd
    0.5k   2/27/26 13:12  09_Stata_Graphs_stub.qmd
-2646.1k   6/08/26 16:41  10_Combining_Graphs.html
-   8.3k   6/08/26 16:32  10_Combining_Graphs.qmd
-   0.4k   6/08/26 16:32  10_Combining_Graphs_stub.qmd
-3780.0k   2/27/26 16:06  11_Linear_Reg.html
-  35.0k   2/27/26 13:12  11_Linear_Reg.qmd 
+2645.2k   6/10/26 17:14  10_Combining_Graphs.html
+   8.4k   6/10/26 16:54  10_Combining_Graphs.qmd
+   0.4k   6/08/26 16:59  10_Combining_Graphs_stub.qmd
+3779.1k   6/10/26 17:15  11_Linear_Reg.html
+  35.0k   6/10/26 16:54  11_Linear_Reg.qmd 
    0.6k   2/27/26 13:12  11_Linear_Reg_stub.qmd
-  84.7k   6/08/26 16:41  12_Exporting_Output.html
-   8.8k   6/08/26 16:32  12_Exporting_Output.qmd
-  13.9k   6/08/26 16:41  12_Exporting_Output.quarto_ipynb
-  &lt;dir&gt;   6/08/26 16:41  12_Exporting_Output_files
-   0.5k   6/08/26 16:32  12_Exporting_Output_stub.qmd
-3775.3k   6/08/26 16:42  13_Dummy.html     
-  19.1k   6/08/26 16:32  13_Dummy.qmd      
-   0.5k   6/08/26 16:32  13_Dummy_stub.qmd 
-  27.7M   2/27/26 16:10  14_PostReg.html   
-  18.5k   2/27/26 13:12  14_PostReg.qmd    
+3812.1k   6/10/26 17:16  12_Exporting_Output.html
+   8.8k   6/10/26 16:54  12_Exporting_Output.qmd
+   0.5k   6/08/26 16:59  12_Exporting_Output_stub.qmd
+3774.4k   6/10/26 17:17  13_Dummy.html     
+  19.1k   6/10/26 16:54  13_Dummy.qmd      
+   0.5k   6/08/26 16:59  13_Dummy_stub.qmd 
+  27.7M   6/10/26 17:18  14_PostReg.html   
+  18.6k   6/10/26 16:54  14_PostReg.qmd    
    0.5k   2/27/26 13:12  14_PostReg_stub.qmd
-3827.0k   6/08/26 16:43  15_Panel_Data.html
-  28.6k   6/08/26 16:32  15_Panel_Data.qmd 
-   0.6k   6/08/26 16:32  15_Panel_Data_stub.qmd
-  11.4M   6/08/26 16:45  16_Diff_in_Diff.html
-  25.6k   6/08/26 16:32  16_Diff_in_Diff.qmd
-   0.6k   6/08/26 16:32  16_Diff_in_Diff_stub.qmd
-3750.4k   6/08/26 16:35  17_IV.html        
-   9.1k   6/08/26 16:32  17_IV.qmd         
-   0.5k   6/08/26 16:32  17_IV_stub.qmd    
-  26.6k   6/08/26 16:32  18_Wf_Guide2.qmd  
-  37.2k   6/08/26 16:45  18_Wf_Guide2.quarto_ipynb
-   0.5k   6/08/26 16:32  18_Wf_Guide2_stub.qmd
-6690.7k   6/08/26 16:38  fake_data.csv     
+3826.1k   6/10/26 17:19  15_Panel_Data.html
+  28.7k   6/10/26 16:54  15_Panel_Data.qmd 
+   0.6k   6/08/26 16:59  15_Panel_Data_stub.qmd
+  11.4M   6/10/26 17:20  16_Diff_in_Diff.html
+  25.6k   6/10/26 16:54  16_Diff_in_Diff.qmd
+   0.6k   6/08/26 16:59  16_Diff_in_Diff_stub.qmd
+3749.5k   6/10/26 16:56  17_IV.html        
+   9.1k   6/10/26 16:54  17_IV.qmd         
+   0.5k   6/08/26 16:59  17_IV_stub.qmd    
+2555.5k   6/08/26 16:45  18_Wf_Guide2.html 
+  26.6k   6/10/26 16:54  18_Wf_Guide2.qmd  
+  37.3k   6/10/26 17:21  18_Wf_Guide2.quarto_ipynb
+   0.5k   6/08/26 16:59  18_Wf_Guide2_stub.qmd
+6690.7k   6/10/26 17:10  fake_data.csv     
 3786.3k   9/15/24 17:16  fake_data.dta     
-  26.3k   6/08/26 16:44  graph1.jpg        
   &lt;dir&gt;  12/21/25 20:27  img               
 3371.7k   2/27/26 15:12  pwt100.dta        
    1.4k   9/15/24 17:16  README.md         
-   1.1k   6/08/26 15:05  requirements.txt  
-   7.5k   6/08/26 16:41  table.docx        
+   1.1k   6/10/26 16:35  requirements.txt  
 
 . </code></pre>
 </div>
@@ -5492,16 +5466,16 @@ unable to change to /Users/fake_user/Library/CloudStorage/OneDrive-UBC
 <h3 class="anchored" data-anchor-id="commenting">18.4.1 Commenting</h3>
 <p>Leaving comments will not only help us remember what we have done, but it will help our group members, TAs, instructors, and supervisors understand our thought process.</p>
 <p>There are three ways to comment in a Stata do-file:</p>
-<div id="2096fdca" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> comments on individual lines</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> comments on individual lines <span class="kw">and</span> after some code</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>comments on multiple lines</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>like a <span class="st">&quot;code block&quot;</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cb9fddd5" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> comments on individual lines</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> comments on individual lines <span class="kw">and</span> after some code</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>comments on multiple lines</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>like a <span class="st">&quot;code block&quot;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . * comments on individual lines
@@ -5516,11 +5490,11 @@ unable to change to /Users/fake_user/Library/CloudStorage/OneDrive-UBC
 </div>
 </div>
 <p>We can also use a series of asterisks <code>*</code> to format our do file and partition your code. In the <code>0_master.do</code> example we saw earlier, the directory settings were highlighted as such. See the example again below:</p>
-<div id="e3e39b79" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="op">********************</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Directory Settings</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="op">********************</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="483aa743" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="op">********************</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Directory Settings</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="op">********************</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . ********************
@@ -5531,19 +5505,19 @@ unable to change to /Users/fake_user/Library/CloudStorage/OneDrive-UBC
 </div>
 <p>Formatting do-files in this manner creates visual bookmarks and highlights different sections of our script.</p>
 <p>Another use for comments is to “comment out” code that we might be testing or might need later. Use an asterisk to comment out a line:</p>
-<div id="0e7d3b70" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>gen log_earnings <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="88a477c3" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>gen log_earnings <span class="op">=</span> log(earnings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or comment out a block of code:</p>
-<div id="593601c0" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>label variable workerid <span class="st">&quot;ID&quot;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>la var treated <span class="st">&quot;Treatment Dummy&quot;</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>la var earnings <span class="st">&quot;Earnings&quot;</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>la var year <span class="st">&quot;Calendar Year&quot;</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3a943e65" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">/*</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>label variable workerid <span class="st">&quot;ID&quot;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>la var treated <span class="st">&quot;Treatment Dummy&quot;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>la var earnings <span class="st">&quot;Earnings&quot;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>la var year <span class="st">&quot;Calendar Year&quot;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="op">*/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . /*
@@ -5556,12 +5530,12 @@ unable to change to /Users/fake_user/Library/CloudStorage/OneDrive-UBC
 </div>
 </div>
 <p>Most importantly, we should leave comments before and after our code to explain what we did!</p>
-<div id="2fcab709" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Open Raw Data</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="im">import</span> delimit using <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/raw/fake_data.csv&quot;</span>, clear</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>capture noisily la var birth_year <span class="st">&quot;Year of Birth&quot;</span> <span class="op">//</span> label variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="506f8e90" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Open Raw Data</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>capture noisily <span class="im">import</span> delimit using <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/raw/fake_data.csv&quot;</span>, clear</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>capture noisily la var birth_year <span class="st">&quot;Year of Birth&quot;</span> <span class="op">//</span> label variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . * Open Raw Data
@@ -5580,22 +5554,22 @@ no variables defined
 <section id="splitting-the-code-across-lines" class="level3">
 <h3 class="anchored" data-anchor-id="splitting-the-code-across-lines">18.4.2 Splitting the Code Across Lines</h3>
 <p>In Stata, we can split code across multiple lines using three forward slashes <code>///</code>. This can be particularly useful when making graphs. Let’s see an example to understand why. Imagine we want to create a graph overlaying information for treated workers and untreated workers, such that they are marked with two different colors (we covered in detail how to do this in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>. The line of code to do it is:</p>
-<div id="d32cb1cc" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings <span class="cf">if</span> <span class="op">!</span>treated), ylabel(<span class="co">#8) xlabel(#10) ytitle(&quot;Log-earnings&quot;) xtitle(&quot;Year&quot;) legend( label(1 &quot;Treated&quot;) label(2 &quot;Control&quot;))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6b2b45b3" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings <span class="cf">if</span> <span class="op">!</span>treated), ylabel(<span class="co">#8) xlabel(#10) ytitle(&quot;Log-earnings&quot;) xtitle(&quot;Year&quot;) legend( label(1 &quot;Treated&quot;) label(2 &quot;Control&quot;))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>treated not found</code></pre>
 </div>
 </div>
 <p>Making a graph has a lot of small components, all clustered together in a single line of code. If we had to go back and change the number of ticks for the x-axis <code>xlabel(#)</code>, it is safe to say it might take us a moment to parse through all this code.</p>
 <p>Now, let’s format this code block using <code>///</code> to split it across multiple lines:</p>
-<div id="bd479b7b" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway <span class="op">///</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated) , <span class="op">///</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    ylabel(<span class="co">#8)  xlabel(#10) ///</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>) <span class="op">///</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8e001f31" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway <span class="op">///</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated) <span class="op">||</span> (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated) , <span class="op">///</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    ylabel(<span class="co">#8)  xlabel(#10) ///</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>) <span class="op">///</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . capture noisily twoway ///
@@ -5615,21 +5589,21 @@ treated not found
 <section id="indent-and-space-our-code" class="level3">
 <h3 class="anchored" data-anchor-id="indent-and-space-our-code">18.4.3 Indent and Space our Code</h3>
 <p>Using indentations in our code and spacing it neatly can improve its readability with little effort. We can use the <code>tab</code> button on our keyboard to indent and organize our code. Let’s reformat the last example to see this in action.</p>
-<div id="2d699afa" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway                                              <span class="op">///</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">||</span>                                              <span class="op">///</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated)       <span class="op">///</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        ,                                           <span class="op">///</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        ylabel(<span class="co">#8)                                  ///</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        xlabel(<span class="co">#10)                                 ///</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>)                      <span class="op">///</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        xtitle(<span class="st">&quot;Year&quot;</span>)                              <span class="op">///</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        legend(                                     <span class="op">///</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>)                      <span class="op">///</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>)                      <span class="op">///</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a20aec34" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway                                              <span class="op">///</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">||</span>                                              <span class="op">///</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated)       <span class="op">///</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        ,                                           <span class="op">///</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        ylabel(<span class="co">#8)                                  ///</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        xlabel(<span class="co">#10)                                 ///</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>)                      <span class="op">///</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        xtitle(<span class="st">&quot;Year&quot;</span>)                              <span class="op">///</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        legend(                                     <span class="op">///</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>)                      <span class="op">///</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>)                      <span class="op">///</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . capture noisily twoway                                              ///
@@ -5656,21 +5630,21 @@ treated not found
 <section id="putting-it-all-together" class="level3">
 <h3 class="anchored" data-anchor-id="putting-it-all-together">18.4.4 Putting it All Together</h3>
 <p>Let’s review a final example which combines all the code styling tools we have discussed so far:</p>
-<div id="32d46075" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway                                              <span class="op">///</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span>     <span class="op">//</span> log earnings, treated vs control group</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">||</span>                                              <span class="op">///</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated)       <span class="op">///</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        ,                                           <span class="op">///</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        ylabel(<span class="co">#8)                                  ///     // label ticks</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        xlabel(<span class="co">#10)                                 ///</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>)                      <span class="op">///</span>     <span class="op">//</span> axis titles</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        xtitle(<span class="st">&quot;Year&quot;</span>)                              <span class="op">///</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        legend(                                     <span class="op">///</span>     <span class="op">//</span> legend labels</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>)                      <span class="op">///</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>)                      <span class="op">///</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="eedfa396" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>capture noisily twoway                                              <span class="op">///</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> treated)        <span class="op">///</span>     <span class="op">//</span> log earnings, treated vs control group</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">||</span>                                              <span class="op">///</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> <span class="op">!</span>treated)       <span class="op">///</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        ,                                           <span class="op">///</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        ylabel(<span class="co">#8)                                  ///     // label ticks</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        xlabel(<span class="co">#10)                                 ///</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>)                      <span class="op">///</span>     <span class="op">//</span> axis titles</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        xtitle(<span class="st">&quot;Year&quot;</span>)                              <span class="op">///</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        legend(                                     <span class="op">///</span>     <span class="op">//</span> legend labels</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>)                      <span class="op">///</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>            label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>)                      <span class="op">///</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . capture noisily twoway                                              ///
@@ -5707,28 +5681,28 @@ treated not found
 <li><em>Store</em> globals that will switch on and off the creation of log-files (<code>store_log_build</code>, etc.).</li>
 </ol>
 <p>These process settings will look like this:</p>
-<div id="7d769e9f" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="op">*******************</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Project Settings:</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="op">*******************</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>Step <span class="dv">1</span>: Build intermediate <span class="kw">and</span> final data <span class="bu">set</span> <span class="im">from</span> raw data</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_build <span class="op">=</span> <span class="dv">1</span>                <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip build step<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run build.do</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_build <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="er">*Step 2: Run descriptive analysis</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_descriptive <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_descriptive <span class="op">=</span> <span class="dv">1</span>    <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="er">*Step 3: Run main results </span>(e.g. regressions)</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_mainresults <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run</span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_mainresults <span class="op">=</span> <span class="dv">1</span>    <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e30c0354" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="op">*******************</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Project Settings:</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="op">*******************</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>Step <span class="dv">1</span>: Build intermediate <span class="kw">and</span> final data <span class="bu">set</span> <span class="im">from</span> raw data</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_build <span class="op">=</span> <span class="dv">1</span>                <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip build step<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run build.do</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_build <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="er">*Step 2: Run descriptive analysis</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_descriptive <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_descriptive <span class="op">=</span> <span class="dv">1</span>    <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="er">*Step 3: Run main results </span>(e.g. regressions)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> run_mainresults <span class="op">=</span> <span class="dv">1</span>          <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> skip<span class="op">;</span> <span class="dv">1</span> <span class="op">=</span> run</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> store_log_mainresults <span class="op">=</span> <span class="dv">1</span>    <span class="op">//</span> <span class="dv">0</span> <span class="op">=</span> don<span class="st">&#39;t save log file; 1 = save log file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . *******************
@@ -5779,25 +5753,25 @@ treated not found
 <section id="run-settings" class="level3">
 <h3 class="anchored" data-anchor-id="run-settings">18.5.2 <em>run</em> settings</h3>
 <p>Let’s consider how we might now run our do-files in the master do-file if we are using the <code>run</code> settings.</p>
-<div id="085d4c3b" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">1</span>{</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_descriptive}<span class="op">==</span><span class="dv">1</span>{</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/2_descriptive.do&quot;</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_mainresults}<span class="op">==</span><span class="dv">1</span>{</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/3_results.do&quot;</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f128fe54" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> Run the do<span class="op">-</span>files</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="op">******************</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">1</span>{</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/1_build_data.do&quot;</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_descriptive}<span class="op">==</span><span class="dv">1</span>{</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/2_descriptive.do&quot;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_mainresults}<span class="op">==</span><span class="dv">1</span>{</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    capture noisily do <span class="st">&quot;$</span><span class="sc">{do_dir}</span><span class="st">/3_results.do&quot;</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . ******************
@@ -5831,11 +5805,11 @@ file /projects/Fake Project/do_files/3_results.do not found
 <p>There’s one missing piece in this story. The comments in the settings say that assigning a value of <code>0</code> to a global skips that action. You may have noticed, however, that the <code>[if]</code> statement would return as FALSE for any value of <code>global run_build</code> as long as it is not equal to 1.</p>
 <p>We could set <code>global run_build = 8</code> and Stata would still return the statement <code>${run_build}==1</code> as FALSE. The question remains: when does <code>0</code> become relevant?</p>
 <p>To understand this, we have to think of our master do-file as a very long script that links all the other do-files together. Let’s consider a scenario where we want to skip the build step. This means our script begins with <code>2_descriptive.do</code>; however, <code>2_descriptive.do</code> includes commands to work with the data set we opened in <code>1_build_data.do</code>. Note that we don’t open the data set in the beginning of each do-file over and over again. This means we need to add a condition in the beginning of the <code>2_descriptive.do</code> script where we open the correct data set in the event we skip the first step.</p>
-<div id="f01b75b8" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> {</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta&quot;</span>, clear</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="768612da" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> {</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta&quot;</span>, clear</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . if ${run_build}==0 {
@@ -5847,11 +5821,11 @@ file /projects/Fake Project/do_files/3_results.do not found
 </div>
 <p>This clearly defines a situation where, if we skip the build data step, then we load the correct data set in Stata to run <code>2_descriptive.do</code> .</p>
 <p>Similarly, if we were to skip the first two steps, then we would have to load the correct data set to run the results (i.e. step 3). We include the following command in the beginning of <code>3_results.do</code> to address this problem.</p>
-<div id="afe83236" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span> ${run_descriptive}<span class="op">==</span><span class="dv">0</span> {</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta&quot;</span>, clear</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4fa05a2c" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${run_build}<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span> ${run_descriptive}<span class="op">==</span><span class="dv">0</span> {</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    use <span class="st">&quot;$</span><span class="sc">{datadir}</span><span class="st">/final/main_data.dta&quot;</span>, clear</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . if ${run_build}==0 &amp; ${run_descriptive}==0 {
@@ -5867,18 +5841,18 @@ file /projects/Fake Project/do_files/3_results.do not found
 <h3 class="anchored" data-anchor-id="store_log-settings">18.5.3 <em>store_log</em> settings</h3>
 <p>Now let’s take a look at the <code>store_log</code> settings, which help us automate the process of storing log-files.</p>
 <p>Imagine that all do-files except <code>0_master.do</code> include the <code>log</code> command in the beginning and end of the file. The <code>log</code> command is nested within an <code>[if]</code> statement related to the global settings, exactly like we saw earlier.</p>
-<div id="0273b571" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>If log setting <span class="kw">is</span> activated, we record a log <span class="bu">file</span> <span class="kw">in</span> the log folder</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${store_log_descriptive}<span class="op">==</span><span class="dv">1</span> {</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    cap log close</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    capture noisily log using <span class="st">&quot;$</span><span class="sc">{log_dir}</span><span class="st">/2_descriptive.log&quot;</span>, replace</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>Close log <span class="cf">if</span> needed</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${store_log_descriptive}<span class="op">==</span><span class="dv">1</span> {</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    cap log close</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b045c345" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>If log setting <span class="kw">is</span> activated, we record a log <span class="bu">file</span> <span class="kw">in</span> the log folder</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${store_log_descriptive}<span class="op">==</span><span class="dv">1</span> {</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    cap log close</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    capture noisily log using <span class="st">&quot;$</span><span class="sc">{log_dir}</span><span class="st">/2_descriptive.log&quot;</span>, replace</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>Close log <span class="cf">if</span> needed</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> ${store_log_descriptive}<span class="op">==</span><span class="dv">1</span> {</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    cap log close</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . *If log setting is activated, we record a log file in the log folder

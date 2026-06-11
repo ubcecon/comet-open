@@ -5130,43 +5130,20 @@ vertical-align: -.125em;
 <strong>Note:</strong> The best approach to completing this module is to copy and paste these commands into a do-file in Stata. Because Stata produces graphs in a separate window, Jupyter Notebooks will not produce a graph that we can see when we execute the commands on this page. The most we can do is export image files to a directory on our computer. We will see these commands whenever a graph is produced below.
 </div>
 <p>We’ll continue working with the fake data set we have been using as we work on developing our research skills. Recall that this data set is simulating information for workers in the years 1982-2012 in a fake country where a training program was introduced in 2003 to boost their earnings.</p>
-<div id="9d7531bb" class="cell" data-execution_count="1">
+<div id="b1cd9e74" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> stata_setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stata_setup.config(<span class="st">&#39;D:/Stata&#39;</span>, <span class="st">&#39;se&#39;</span>) <span class="co">#Remember to CHANGE THIS to your own path by running display c(sysdir_stata) on the stata app, particularly if you are on a Mac</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  ___  ____  ____  ____  ____ ®
- /__    /   ____/   /   ____/      StataNow 19.5
-___/   /   /___/   /   /___/       SE—Standard Edition
-
- Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
-                                   StataCorp
-                                   4905 Lakeway Drive
-                                   College Station, Texas 77845 USA
-                                   800-782-8272        https://www.stata.com
-                                   979-696-4600        service@stata.com
-
-Stata license: Unlimited-user network, expiring 19 Aug 2026
-Serial number: 401909301439
-  Licensed to: Alex Ronczewski
-               UBC
-
-Notes:
-      1. Unicode is supported; see help unicode_advice.
-      2. Maximum number of variables is set to 5,000 but can be increased;
-          see help set_maxvar.</code></pre>
 </div>
+<div id="0189ab90" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">&#39;/Applications/Stata/utilities&#39;</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">&#39;se&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="75c8b998" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> sys</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> sys.path.append(<span class="st">&#39;/Applications/Stata/utilities&#39;</span>) <span class="co"># make sure this is the same as what you set up in Module 01, Section 1.3: Setting Up the STATA Path</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pystata <span class="im">import</span> config</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> config.init(<span class="st">&#39;se&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="b37d9c97" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>use fake_data, clear </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="387f46ec" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>use fake_data, clear </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5180,15 +5157,15 @@ Notes:
 <section id="example-1" class="level2">
 <h2 class="anchored" data-anchor-id="example-1">10.1 Example 1</h2>
 <p>For this example, we want to generate two graphs with the same schema (they are the same type of graph and use the same variables as their x and y axis) and combine them using the <code>graph combine</code> command. Let’s begin by setting up the data. We are going to first generate a new variable that shows the logarithm of workers’ earnings. As explained in previous modules, collapsing data is irreversible; therefore, we can <code>preserve</code> the data set before we collapse it. Then, once we don’t want to use the collapsed version of the data set anymore, we can <code>restore</code> it back to the original data set we preserved. Therefore, we are going to preserve our data set and then collapse it by variables <code>treated</code> and <code>year</code>. This way our data has two unique identifiers, <code>treated</code> and <code>year</code>.</p>
-<div id="815ce210" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>generate log_earnings <span class="op">=</span> log(earnings)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>label var log_earnings <span class="st">&quot;Log-earnings&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>preserve</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>collapse (mean) log_earnings, by(region treated year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="739db74c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>generate log_earnings <span class="op">=</span> log(earnings)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>label var log_earnings <span class="st">&quot;Log-earnings&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>preserve</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>collapse (mean) log_earnings, by(region treated year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5207,19 +5184,19 @@ Notes:
 </div>
 <p>Now that we have our data prepared, we can start generating the two graphs and combining them using the <code>graph combine</code> command. We want these graphs to compare log-earnings between the control and treated groups in regions 1 and 2. To do this, we can create one graph that compares log-earnings between control and treated groups in region 1 and another that does the same comparison for region 2.</p>
 <p>Note that because the commands are so long it is clearer for us to break them up and run them using <code>///</code>. We can’t execute multi-line commands in the Command Window; so we will need to include them in a do-file. Note that we also indent the lines to make it easier to read the complete command.</p>
-<div id="5e803b84" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">1</span> <span class="op">***</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">1</span>)      <span class="op">///</span> can you think of another way to specify treated vs untreated?</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">0</span>),        <span class="op">///</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        xline(<span class="dv">2002</span>, lpattern(dash))                                 <span class="op">///</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        ylab(<span class="fl">9.5</span>(<span class="fl">0.5</span>)<span class="dv">11</span>)                                            <span class="op">///</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)                       <span class="op">///</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))              <span class="op">///</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        aspectratio(<span class="dv">1</span>)                                              <span class="op">///</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        title(<span class="st">&quot;Region 1&quot;</span>) name(<span class="st">&quot;R1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3fec18e7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">1</span> <span class="op">***</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">1</span>)      <span class="op">///</span> can you think of another way to specify treated vs untreated?</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span> treated<span class="op">==</span><span class="dv">0</span>),        <span class="op">///</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        xline(<span class="dv">2002</span>, lpattern(dash))                                 <span class="op">///</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        ylab(<span class="fl">9.5</span>(<span class="fl">0.5</span>)<span class="dv">11</span>)                                            <span class="op">///</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)                       <span class="op">///</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))              <span class="op">///</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        aspectratio(<span class="dv">1</span>)                                              <span class="op">///</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        title(<span class="st">&quot;Region 1&quot;</span>) name(<span class="st">&quot;R1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5561,19 +5538,19 @@ Notes:
 </div>
 </div>
 </div>
-<div id="4d16042a" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">2</span> <span class="op">***</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;</span> treated) <span class="op">||</span>      <span class="op">///</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;</span> <span class="op">!</span>treated),          <span class="op">///</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        xline(<span class="dv">2002</span>, lpattern(dash))                                 <span class="op">///</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        ylab(<span class="fl">9.5</span>(<span class="fl">0.5</span>)<span class="dv">11</span>)                                            <span class="op">///</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)                       <span class="op">///</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))              <span class="op">///</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        aspectratio(<span class="dv">1</span>)                                              <span class="op">///</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        title(<span class="st">&quot;Region 2&quot;</span>) name(<span class="st">&quot;R2&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="abb52116" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Generate graph <span class="cf">for</span> Region <span class="dv">2</span> <span class="op">***</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;</span> treated) <span class="op">||</span>      <span class="op">///</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">2</span> <span class="op">&amp;</span> <span class="op">!</span>treated),          <span class="op">///</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        xline(<span class="dv">2002</span>, lpattern(dash))                                 <span class="op">///</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        ylab(<span class="fl">9.5</span>(<span class="fl">0.5</span>)<span class="dv">11</span>)                                            <span class="op">///</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)                       <span class="op">///</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        legend( label(<span class="dv">1</span> <span class="st">&quot;Treated&quot;</span>) label(<span class="dv">2</span> <span class="st">&quot;Control&quot;</span>))              <span class="op">///</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        aspectratio(<span class="dv">1</span>)                                              <span class="op">///</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        title(<span class="st">&quot;Region 2&quot;</span>) name(<span class="st">&quot;R2&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -5916,14 +5893,14 @@ Notes:
 </div>
 <p>We added a number of options here to make the graphs look appealing. You can learn more about these options in <a href="https://comet.arts.ubc.ca/docs/Research/econ490-pystata/09_Stata_Graphs.html">Module 9</a>.</p>
 <p>Now let’s see what it looks like when we combine these graphs together into one panel. The syntax for <code>graph combine</code> goes as follows: <code>graph combine name_of_graph1 name_of_graph2 ..., [options]</code>, where the <code>[options]</code> describe how we want to position our graphs. More information can be found by running <code>help graph combine</code> in the Stata Command Cindow.</p>
-<div id="2dbb1fd4" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Combine graphs <span class="op">***</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>graph combine R1 R2, cols(<span class="dv">2</span>) title(<span class="st">&quot;Panel A: Log-earnings by Region&quot;</span>) saving(panel_a, replace)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>graph export graph10.jpg, <span class="im">as</span>(jpg) replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="110ffb74" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> Combine graphs <span class="op">***</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>graph combine R1 R2, cols(<span class="dv">2</span>) title(<span class="st">&quot;Panel A: Log-earnings by Region&quot;</span>) saving(panel_a, replace)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>graph export graph10.jpg, <span class="im">as</span>(jpg) replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -6681,10 +6658,10 @@ file graph10.jpg written in JPEG format
 <section id="example-2" class="level2">
 <h2 class="anchored" data-anchor-id="example-2">10.2 Example 2</h2>
 <p>For this example, we want to combine graphs that do not follow the same schema. Let’s say we are interested in seeing if there is any relationship between the distribution of earnings (<em>log_earnings</em>) and how worker’s earnings change over time in region 1. Which graphs do you think would best present this information?</p>
-<div id="7b48baf2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>restore       <span class="op">//</span> do you remember what restore does?        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="af121b3c" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>restore       <span class="op">//</span> do you remember what restore does?        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -6693,12 +6670,12 @@ file graph10.jpg written in JPEG format
 . </code></pre>
 </div>
 </div>
-<div id="6e9ce440" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>histogram log_earnings <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>,   <span class="op">///</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    aspectratio(<span class="dv">1</span>)                     <span class="op">///</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">&quot;histogram1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f1dfcdd2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>histogram log_earnings <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>,   <span class="op">///</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    aspectratio(<span class="dv">1</span>)                     <span class="op">///</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">&quot;histogram1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -7088,12 +7065,12 @@ file graph10.jpg written in JPEG format
 </div>
 </div>
 <p>Let’s create our second graph.</p>
-<div id="7962607f" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>preserve              </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>collapse (mean) log_earnings, by(region year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8803a206" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>preserve              </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>collapse (mean) log_earnings, by(region year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -7105,13 +7082,13 @@ file graph10.jpg written in JPEG format
 . </code></pre>
 </div>
 </div>
-<div id="9bfc1e33" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>), <span class="op">///</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)        <span class="op">///</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    aspectratio(<span class="dv">1</span>)                               <span class="op">///</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">&quot;plot1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c841a6b7" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>twoway (connected log_earnings year <span class="cf">if</span> region<span class="op">==</span><span class="dv">1</span>), <span class="op">///</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    ytitle(<span class="st">&quot;Log-earnings&quot;</span>) xtitle(<span class="st">&quot;Year&quot;</span>)        <span class="op">///</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    aspectratio(<span class="dv">1</span>)                               <span class="op">///</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    name(<span class="st">&quot;plot1&quot;</span>, replace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
@@ -7477,12 +7454,12 @@ file graph10.jpg written in JPEG format
 </div>
 </div>
 <p>Now we combine <code>histogram1</code> with <code>plot1</code>.</p>
-<div id="40e26a0a" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>graph combine histogram1 plot1, cols(<span class="dv">2</span>) title(<span class="st">&quot;Region 1&quot;</span>) name(newcombine, replace)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>graph export graph10.jpg, <span class="im">as</span>(jpg) replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0b97349a" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>stata</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>graph combine histogram1 plot1, cols(<span class="dv">2</span>) title(<span class="st">&quot;Region 1&quot;</span>) name(newcombine, replace)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>graph export graph10.jpg, <span class="im">as</span>(jpg) replace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 . 
